@@ -9,7 +9,9 @@ local function main()
 	require 'w3x2txt'
 
 	--±£´æÂ·¾¶
-	root_dir	= fs
+	root_dir	= fs.get(fs.DIR_EXE):remove_filename():remove_filename()
+	print(root_dir)
+do return end
 	input_dir	= root_dir / 'input'
 	output_dir	= root_dir / 'output'
 	meta_dir	= root_dir / 'meta'
