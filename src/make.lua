@@ -1,21 +1,19 @@
 local function main()
 	
 	--添加require搜寻路径
-	package.path = package.path .. ';' .. '..\\src\\?.lua'
-	package.cpath = package.cpath .. ';' .. '..\\build\\?.dll'
+	package.path = package.path .. ';' .. arg[2] .. '\\src\\?.lua'
+	package.cpath = package.cpath .. ';' .. arg[2] .. '\\build\\?.dll'
 	require 'luabind'
 	require 'filesystem'
 	require 'utility'
 	require 'w3x2txt'
 
 	--保存路径
-	root_dir	= fs.get(fs.DIR_EXE):remove_filename():remove_filename()
-	print(root_dir)
-do return end
+	root_dir	= fs.path(arg[2])
 	input_dir	= root_dir / 'input'
 	output_dir	= root_dir / 'output'
-	meta_dir	= root_dir / 'meta'
-	txt_dir		= txt_dir / 'txt'
+	meta_path	= root_dir / 'meta'
+	txt_dir		= root_dir / 'txt'
 
 	fs.create_directories(txt_dir)
 	fs.create_directories(output_dir)
@@ -63,4 +61,5 @@ do return end
 
 end
 
+print(arg[2])
 main()
