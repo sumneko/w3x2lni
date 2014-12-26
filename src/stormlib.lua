@@ -8,6 +8,7 @@ function mt:__pairs()
 	ff:start(self.handle)
 	return function ()
 		if not ff:next() then
+			ff:close()
 			return nil
 		end
 		return ff:current()
