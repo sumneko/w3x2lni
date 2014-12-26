@@ -1,14 +1,14 @@
 local function main()
 	
-	--Ìí¼ÓrequireËÑÑ°Â·¾¶
+	--æ·»åŠ requireæœå¯»è·¯å¾„
 	package.path = package.path .. ';' .. arg[2] .. '\\src\\?.lua'
 	package.cpath = package.cpath .. ';' .. arg[2] .. '\\build\\?.dll'
 	require 'luabind'
 	require 'filesystem'
 	require 'utility'
 	require 'w3x2txt'
-
-	--±£´æÂ·¾¶
+	
+	--ä¿å­˜è·¯å¾„
 	root_dir	= fs.path(arg[2])
 	input_dir	= root_dir / 'input'
 	output_dir	= root_dir / 'output'
@@ -18,7 +18,7 @@ local function main()
 	fs.create_directories(txt_dir)
 	fs.create_directories(output_dir)
 
-	--¶ÁÈ¡meta±í
+	--è¯»å–metaè¡¨
 	w3x2txt.readMeta(meta_path / 'abilitybuffmetadata.slk')
 	w3x2txt.readMeta(meta_path / 'abilitymetadata.slk')
 	w3x2txt.readMeta(meta_path / 'destructablemetadata.slk')
@@ -28,10 +28,10 @@ local function main()
 	w3x2txt.readMeta(meta_path / 'upgradeeffectmetadata.slk')
 	w3x2txt.readMeta(meta_path / 'upgrademetadata.slk')
 
-	--¶ÁÈ¡º¯Êı
+	--è¯»å–å‡½æ•°
 	w3x2txt.readTriggerData(meta_path / 'TriggerData.txt')
 
-	--×ª»»¶ş½øÖÆÎÄ¼şµ½txt
+	--è½¬æ¢äºŒè¿›åˆ¶æ–‡ä»¶åˆ°txt
 	w3x2txt.obj2txt(input_dir / 'war3map.w3u', txt_dir / 'war3map.w3u.txt', false)
 	w3x2txt.obj2txt(input_dir / 'war3map.w3t', txt_dir / 'war3map.w3t.txt', false)
 	w3x2txt.obj2txt(input_dir / 'war3map.w3b', txt_dir / 'war3map.w3b.txt', false)
@@ -44,7 +44,7 @@ local function main()
 	w3x2txt.wtg2txt(input_dir / 'war3map.wtg', txt_dir / 'war3map.wtg.txt')
 	w3x2txt.wct2txt(input_dir / 'war3map.wct', txt_dir / 'war3map.wct.txt')
 
-	--×ª»»txtµ½¶ş½øÖÆÎÄ¼ş
+	--è½¬æ¢txtåˆ°äºŒè¿›åˆ¶æ–‡ä»¶
 	w3x2txt.txt2obj(txt_dir / 'war3map.w3u.txt', output_dir / 'war3map.w3u', false)
 	w3x2txt.txt2obj(txt_dir / 'war3map.w3t.txt', output_dir / 'war3map.w3t', false)
 	w3x2txt.txt2obj(txt_dir / 'war3map.w3b.txt', output_dir / 'war3map.w3b', false)
@@ -57,7 +57,7 @@ local function main()
 	w3x2txt.txt2wtg(txt_dir / 'war3map.wtg.txt', output_dir / 'war3map.wtg')
 	w3x2txt.txt2wct(txt_dir / 'war3map.wct.txt', output_dir / 'war3map.wct')
 	
-	print('[Íê±Ï]: ÓÃÊ± ' .. os.clock() .. ' Ãë') 
+	print('[å®Œæ¯•]: ç”¨æ—¶ ' .. os.clock() .. ' ç§’') 
 
 end
 

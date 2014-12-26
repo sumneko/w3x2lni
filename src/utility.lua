@@ -1,6 +1,7 @@
 
 require 'ar_stormlib'
 require 'sys'
+require 'i18n'
 
 local stormlib = ar.stormlib
 local mpq_meta =  { __index = {} }
@@ -112,4 +113,15 @@ function sys.spawn(command_line, current_dir, wait)
 	p:close()
 	p = nil	
 	return false
+end
+
+local i18n_cm = i18n.conv_method((2 << 16) | string.byte("?", 1))
+
+local stdio_print = print
+function print(...)
+	local tbl = {}
+	for i, v in ipairs(table.pack(...)) do
+		table.insert(tbl, i18n.utf8_to_ansi(tostring(v), i18n_cm))
+	end
+	stdio_print(table.unpack(tbl))
 end
