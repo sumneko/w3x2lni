@@ -7,8 +7,10 @@ local function main()
 	require 'filesystem'
 	require 'utility'
 	require 'w3x2txt'
+	local stormlib = require 'stormlib'
 	
 	--保存路径
+	map_path	= fs.path(arg[1])
 	root_dir	= fs.path(arg[2])
 	input_dir	= root_dir / 'input'
 	output_dir	= root_dir / 'output'
@@ -16,7 +18,14 @@ local function main()
 	txt_dir		= root_dir / 'txt'
 
 	fs.create_directories(txt_dir)
+	fs.create_directories(input_dir)
 	fs.create_directories(output_dir)
+
+	local map = stormlib(map_path)
+	for name in pairs(map) do
+		map:extract(name, input_dir / name)
+	end
+	map:close()
 
 	--读取meta表
 	w3x2txt.readMeta(meta_path / 'abilitybuffmetadata.slk')
