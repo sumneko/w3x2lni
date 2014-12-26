@@ -382,7 +382,7 @@
 		function w3x2txt.readTriggerData(file_name_in)
 			local content	= io.load(file_name_in)
 			if not content then
-				print('文件无效:' .. file_name_in)
+				print('文件无效:' .. file_name_in:string())
 				return
 			end
 
@@ -459,7 +459,7 @@
 		function w3x2txt.wtg2txt(file_name_in, file_name_out)
 			local content	= io.load(file_name_in)
 			if not content then
-				print('文件无效:' .. file_name_in)
+				print('文件无效:' .. file_name_in:string())
 				return
 			end
 
@@ -776,7 +776,7 @@
 		function w3x2txt.txt2wtg(file_name_in, file_name_out)
 			local content	= io.load(file_name_in)
 			if not content then
-				print('文件无效:' .. file_name_in)
+				print('文件无效:' .. file_name_in:string())
 				return
 			end
 
@@ -1118,7 +1118,7 @@
 		function w3x2txt.wct2txt(file_name_in, file_name_out)
 			local content	= io.load(file_name_in)
 			if not content then
-				print('文件无效:' .. file_name_in)
+				print('文件无效:' .. file_name_in:string())
 				return
 			end
 
@@ -1180,7 +1180,7 @@
 		function w3x2txt.txt2wct(file_name_in, file_name_out)
 			local content	= io.load(file_name_in)
 			if not content then
-				print('文件无效:' .. file_name_in)
+				print('文件无效:' .. file_name_in:string())
 				return
 			end
 
@@ -1226,7 +1226,7 @@
 		function w3x2txt.w3i2txt(file_name_in, file_name_out)
 			local content	= io.load(file_name_in)
 			if not content then
-				print('文件无效:' .. file_name_in)
+				print('文件无效:' .. file_name_in:string())
 				return
 			end
 
@@ -1612,7 +1612,7 @@
 		function w3x2txt.txt2w3i(file_name_in, file_name_out)
 			local content	= io.load(file_name_in)
 			if not content then
-				print('文件无效:' .. file_name_in)
+				print('文件无效:' .. file_name_in:string())
 				return
 			end
 
@@ -1796,7 +1796,7 @@
 		function w3x2txt.read_wts(file_name_in)
 			local content	= io.load(file_name_in)
 			if not content then
-				print('文件无效:' .. file_name_in)
+				print('文件无效:' .. file_name_in:string())
 				return
 			end
 
