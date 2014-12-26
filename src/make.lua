@@ -6,7 +6,7 @@ local function main()
 	require 'luabind'
 	require 'filesystem'
 	require 'utility'
-	require 'w3x2txt'
+	local w3x2txt = require 'w3x2txt'
 	local stormlib = require 'stormlib'
 	
 	--保存路径
@@ -28,17 +28,17 @@ local function main()
 	map:close()
 
 	--读取meta表
-	w3x2txt.readMeta(meta_path / 'abilitybuffmetadata.slk')
-	w3x2txt.readMeta(meta_path / 'abilitymetadata.slk')
-	w3x2txt.readMeta(meta_path / 'destructablemetadata.slk')
-	w3x2txt.readMeta(meta_path / 'doodadmetadata.slk')
-	w3x2txt.readMeta(meta_path / 'miscmetadata.slk')
-	w3x2txt.readMeta(meta_path / 'unitmetadata.slk')
-	w3x2txt.readMeta(meta_path / 'upgradeeffectmetadata.slk')
-	w3x2txt.readMeta(meta_path / 'upgrademetadata.slk')
+	w3x2txt.read_metadata(meta_path / 'abilitybuffmetadata.slk')
+	w3x2txt.read_metadata(meta_path / 'abilitymetadata.slk')
+	w3x2txt.read_metadata(meta_path / 'destructablemetadata.slk')
+	w3x2txt.read_metadata(meta_path / 'doodadmetadata.slk')
+	w3x2txt.read_metadata(meta_path / 'miscmetadata.slk')
+	w3x2txt.read_metadata(meta_path / 'unitmetadata.slk')
+	w3x2txt.read_metadata(meta_path / 'upgradeeffectmetadata.slk')
+	w3x2txt.read_metadata(meta_path / 'upgrademetadata.slk')
 
 	--读取函数
-	w3x2txt.readTriggerData(meta_path / 'TriggerData.txt')
+	w3x2txt.read_triggerdata(meta_path / 'TriggerData.txt')
 
 	--转换二进制文件到txt
 	w3x2txt.obj2txt(input_dir / 'war3map.w3u', txt_dir / 'war3map.w3u.txt', false)
@@ -70,5 +70,4 @@ local function main()
 
 end
 
-print(arg[2])
 main()
