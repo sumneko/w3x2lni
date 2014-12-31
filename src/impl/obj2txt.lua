@@ -1,20 +1,3 @@
-local index
-
---string.pack/string.unpack的参数
-local data_type_format	= {}
-data_type_format[0]	= 'l'	--4字节有符号整数
-data_type_format[1] = 'f'	--4字节无符号浮点
-data_type_format[2] = 'f'	--4字节有符号浮点
-data_type_format[3] = 'z'	--以\0结尾的字符串
-
-setmetatable(data_type_format,
-	{
-		__index	= function(_, i)
-			print(i, ('%x'):format(index - 2))
-		end
-	}
-)
-
 local function value2txt(meta_list, value, id)
 	local type	= meta_list[id].type
 	if type == 'real' or type == 'unreal' then
@@ -30,8 +13,23 @@ local function obj2txt(self, file_name_in, file_name_out, has_level)
 		return
 	end
 
-	index = 1
-	
+	local index = 1
+
+	--string.pack/string.unpack的参数
+	local data_type_format	= {}
+	data_type_format[0]	= 'l'	--4字节有符号整数
+	data_type_format[1] = 'f'	--4字节无符号浮点
+	data_type_format[2] = 'f'	--4字节有符号浮点
+	data_type_format[3] = 'z'	--以\0结尾的字符串
+
+	setmetatable(data_type_format,
+		{
+			__index	= function(_, i)
+				print(i, ('%x'):format(index - 2))
+			end
+		}
+	)
+
 	local len	= #content
 	local lines	= {}
 
@@ -60,7 +58,9 @@ local function obj2txt(self, file_name_in, file_name_out, has_level)
 
 		table.insert(chunks, chunk)
 
-		funcs.next	= funcs.readObj
+		if chunk.obj_count > 0 then
+			funcs.next	= funcs.readObj
+		end
 	end
 
 	--解析物体

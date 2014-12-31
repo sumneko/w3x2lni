@@ -1,6 +1,6 @@
 local function read_triggerdata(self, file_name_in)
 	local function_state = {}
-	w3x2txt.function_state = function_state
+	self.function_state	= function_state
 
 	local content	= io.load(file_name_in)
 	if not content then
