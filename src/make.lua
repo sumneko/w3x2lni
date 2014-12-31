@@ -38,7 +38,7 @@ local function main()
 	w3x2txt.read_metadata(meta_path / 'upgrademetadata.slk')
 
 	--读取函数
-	w3x2txt.read_triggerdata = w3x2txt.read_triggerdata(meta_path / 'TriggerData.txt')
+	w3x2txt.read_triggerdata(meta_path / 'TriggerData.txt')
 
 	--转换二进制文件到txt
 	w3x2txt.obj2txt(input_dir / 'war3map.w3u', txt_dir / 'war3map.w3u.txt', false)
