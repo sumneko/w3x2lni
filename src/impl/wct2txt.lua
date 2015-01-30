@@ -56,7 +56,7 @@ local function wct2txt(self, file_name_in, file_name_out)
 		table.insert(lines, ('########\r\n%s\r\n########'):format(trigger.content))
 	end
 
-	io.save(file_name_out, table.concat(lines, '\r\n'):convert_wts())
+	io.save(file_name_out, table.concat(lines, '\r\n'):convert_wts() .. '\r\n')
 	
 end
 

@@ -310,7 +310,7 @@ local function wtg2txt(self, file_name_in, file_name_out)
 		
 	end
 
-	io.save(file_name_out, table.concat(lines, '\r\n'):convert_wts(true))
+	io.save(file_name_out, table.concat(lines, '\r\n'):convert_wts(true) .. '\r\n')
 
 	--io.save(file_name_out, table.concat(lines, '\r\n'))	--貌似wtg文件写入文本会出错
 end

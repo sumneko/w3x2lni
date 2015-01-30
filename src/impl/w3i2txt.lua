@@ -380,7 +380,7 @@ local function w3i2txt(self, file_name_in, file_name_out)
 		end
 	end
 
-	io.save(file_name_out, table.concat(lines, '\r\n'):convert_wts())
+	io.save(file_name_out, table.concat(lines, '\r\n'):convert_wts() .. '\r\n')
 
 end
 
