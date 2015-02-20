@@ -14,6 +14,7 @@ local function main()
 	input_dir	= root_dir / 'input'
 	output_dir	= root_dir / 'output'
 	meta_path	= root_dir / 'meta'
+	user_meta_path	= meta_path / 'user'
 	txt_dir		= root_dir / 'txt'
 
 	fs.create_directories(txt_dir)
@@ -41,6 +42,7 @@ local function main()
 
 	--读取函数
 	w3x2txt.read_triggerdata(meta_path / 'TriggerData.txt')
+	w3x2txt.read_triggerdata(user_meta_path / 'TriggerData.txt')
 
 	if arg[2] then
 		--转换二进制文件到txt
