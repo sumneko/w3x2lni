@@ -26,6 +26,10 @@ function mt.__index:import(path_in_archive, import_file_path)
 end
 
 function mt.__index:extract(path_in_archive, extract_file_path)
+	local dir = extract_file_path:parent_path()
+	if not fs.exists(dir) then
+		fs.create_directories(dir)
+	end
 	return ar.stormlib.extract_file(self.handle, extract_file_path, path_in_archive)
 end
 

@@ -15,9 +15,7 @@ local function main()
 	output_dir	= root_dir / 'output'
 	meta_path	= root_dir / 'meta'
 	user_meta_path	= meta_path / 'user'
-	txt_dir		= root_dir / 'txt'
 
-	fs.create_directories(txt_dir)
 	fs.create_directories(input_dir)
 	fs.create_directories(output_dir)
 
@@ -46,30 +44,30 @@ local function main()
 
 	if arg[2] then
 		--转换二进制文件到txt
-		w3x2txt.obj2txt(input_dir / 'war3map.w3u', txt_dir / 'war3map.w3u.txt', false)
-		w3x2txt.obj2txt(input_dir / 'war3map.w3t', txt_dir / 'war3map.w3t.txt', false)
-		w3x2txt.obj2txt(input_dir / 'war3map.w3b', txt_dir / 'war3map.w3b.txt', false)
-		w3x2txt.obj2txt(input_dir / 'war3map.w3d', txt_dir / 'war3map.w3d.txt', true)
-		w3x2txt.obj2txt(input_dir / 'war3map.w3a', txt_dir / 'war3map.w3a.txt', true)
-		w3x2txt.obj2txt(input_dir / 'war3map.w3h', txt_dir / 'war3map.w3h.txt', false)
-		w3x2txt.obj2txt(input_dir / 'war3map.w3q', txt_dir / 'war3map.w3q.txt', true)
+		w3x2txt.obj2txt(input_dir / 'war3map.w3u', input_dir / 'war3map.w3u.txt', false)
+		w3x2txt.obj2txt(input_dir / 'war3map.w3t', input_dir / 'war3map.w3t.txt', false)
+		w3x2txt.obj2txt(input_dir / 'war3map.w3b', input_dir / 'war3map.w3b.txt', false)
+		w3x2txt.obj2txt(input_dir / 'war3map.w3d', input_dir / 'war3map.w3d.txt', true)
+		w3x2txt.obj2txt(input_dir / 'war3map.w3a', input_dir / 'war3map.w3a.txt', true)
+		w3x2txt.obj2txt(input_dir / 'war3map.w3h', input_dir / 'war3map.w3h.txt', false)
+		w3x2txt.obj2txt(input_dir / 'war3map.w3q', input_dir / 'war3map.w3q.txt', true)
 
-		w3x2txt.w3i2txt(input_dir / 'war3map.w3i', txt_dir / 'war3map.w3i.txt')
-		w3x2txt.wtg2txt(input_dir / 'war3map.wtg', txt_dir / 'war3map.wtg.txt')
-		w3x2txt.wct2txt(input_dir / 'war3map.wct', txt_dir / 'war3map.wct.txt')
+		w3x2txt.w3i2txt(input_dir / 'war3map.w3i', input_dir / 'war3map.w3i.txt')
+		w3x2txt.wtg2txt(input_dir / 'war3map.wtg', input_dir / 'war3map.wtg.txt')
+		w3x2txt.wct2txt(input_dir / 'war3map.wct', input_dir / 'war3map.wct.txt')
 	else
 		--转换txt到二进制文件
-		w3x2txt.txt2obj(txt_dir / 'war3map.w3u.txt', output_dir / 'war3map.w3u', false)
-		w3x2txt.txt2obj(txt_dir / 'war3map.w3t.txt', output_dir / 'war3map.w3t', false)
-		w3x2txt.txt2obj(txt_dir / 'war3map.w3b.txt', output_dir / 'war3map.w3b', false)
-		w3x2txt.txt2obj(txt_dir / 'war3map.w3d.txt', output_dir / 'war3map.w3d', true)
-		w3x2txt.txt2obj(txt_dir / 'war3map.w3a.txt', output_dir / 'war3map.w3a', true)
-		w3x2txt.txt2obj(txt_dir / 'war3map.w3h.txt', output_dir / 'war3map.w3h', false)
-		w3x2txt.txt2obj(txt_dir / 'war3map.w3q.txt', output_dir / 'war3map.w3q', true)
+		w3x2txt.txt2obj(input_dir / 'war3map.w3u.txt', output_dir / 'war3map.w3u', false)
+		w3x2txt.txt2obj(input_dir / 'war3map.w3t.txt', output_dir / 'war3map.w3t', false)
+		w3x2txt.txt2obj(input_dir / 'war3map.w3b.txt', output_dir / 'war3map.w3b', false)
+		w3x2txt.txt2obj(input_dir / 'war3map.w3d.txt', output_dir / 'war3map.w3d', true)
+		w3x2txt.txt2obj(input_dir / 'war3map.w3a.txt', output_dir / 'war3map.w3a', true)
+		w3x2txt.txt2obj(input_dir / 'war3map.w3h.txt', output_dir / 'war3map.w3h', false)
+		w3x2txt.txt2obj(input_dir / 'war3map.w3q.txt', output_dir / 'war3map.w3q', true)
 
-		w3x2txt.txt2w3i(txt_dir / 'war3map.w3i.txt', output_dir / 'war3map.w3i')
-		w3x2txt.txt2wtg(txt_dir / 'war3map.wtg.txt', output_dir / 'war3map.wtg')
-		w3x2txt.txt2wct(txt_dir / 'war3map.wct.txt', output_dir / 'war3map.wct')
+		w3x2txt.txt2w3i(input_dir / 'war3map.w3i.txt', output_dir / 'war3map.w3i')
+		w3x2txt.txt2wtg(input_dir / 'war3map.wtg.txt', output_dir / 'war3map.wtg')
+		w3x2txt.txt2wct(input_dir / 'war3map.wct.txt', output_dir / 'war3map.wct')
 	end
 	
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
