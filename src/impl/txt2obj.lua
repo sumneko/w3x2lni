@@ -128,10 +128,6 @@ local function txt2obj(self, file_name_in, file_name_out, has_level)
 			data.value, data.type	= txt2value(self.meta_list, data.value, data.id)
 			data.value	= data_type_format[data.type]:pack(data.value)
 
-			if data.type == 3 then
-				data.value	= data.value:gsub('@@n', '\r\n'):gsub('@@t', '\t')
-			end
-
 			table.insert(datas, data)
 
 			return true

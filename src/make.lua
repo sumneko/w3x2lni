@@ -42,6 +42,9 @@ local function main()
 	w3x2txt.read_triggerdata(meta_path / 'TriggerData.txt')
 	w3x2txt.read_triggerdata(user_meta_path / 'TriggerData.txt')
 
+	--读取字符串
+	w3x2txt.read_wts(input_dir / 'war3map.wts')
+
 	if arg[2] then
 		--转换二进制文件到txt
 		w3x2txt.obj2txt(input_dir / 'war3map.w3u', input_dir / 'war3map.w3u.txt', false)
@@ -55,6 +58,9 @@ local function main()
 		w3x2txt.w3i2txt(input_dir / 'war3map.w3i', input_dir / 'war3map.w3i.txt')
 		w3x2txt.wtg2txt(input_dir / 'war3map.wtg', input_dir / 'war3map.wtg.txt')
 		w3x2txt.wct2txt(input_dir / 'war3map.wct', input_dir / 'war3map.wct.txt')
+
+		--将wts写入脚本
+		w3x2txt.convert_j(input_dir / 'war3map.j', input_dir / 'war3map.j')
 	else
 		--转换txt到二进制文件
 		w3x2txt.txt2obj(input_dir / 'war3map.w3u.txt', output_dir / 'war3map.w3u', false)
@@ -64,14 +70,17 @@ local function main()
 		w3x2txt.txt2obj(input_dir / 'war3map.w3a.txt', output_dir / 'war3map.w3a', true)
 		w3x2txt.txt2obj(input_dir / 'war3map.w3h.txt', output_dir / 'war3map.w3h', false)
 		w3x2txt.txt2obj(input_dir / 'war3map.w3q.txt', output_dir / 'war3map.w3q', true)
-
+--[[
 		w3x2txt.txt2w3i(input_dir / 'war3map.w3i.txt', output_dir / 'war3map.w3i')
 		w3x2txt.txt2wtg(input_dir / 'war3map.wtg.txt', output_dir / 'war3map.wtg')
 		w3x2txt.txt2wct(input_dir / 'war3map.wct.txt', output_dir / 'war3map.wct')
+--]]
 	end
+
+	--刷新字符串
+	w3x2txt.fresh_wts(input_dir / 'war3map.wts')
 	
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
-
 end
 
 main()

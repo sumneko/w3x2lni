@@ -74,16 +74,16 @@ local function txt2w3i(self, file_name_in, file_name_out)
 	push 'c1lz' (readValue(3, 1))
 	
 	--载入界面
-	push 'z' (readValue():gsub('@@n', '\r\n'):gsub('@@t', '\t'))
-	push 'z' (readValue():gsub('@@n', '\r\n'):gsub('@@t', '\t'))
-	push 'z' (readValue():gsub('@@n', '\r\n'):gsub('@@t', '\t'))
+	push 'z' (readValue())
+	push 'z' (readValue())
+	push 'z' (readValue())
 	
 	push 'lz' (readValue(2))
 	
 	--序幕界面
-	push 'z' (readValue():gsub('@@n', '\r\n'):gsub('@@t', '\t'))
-	push 'z' (readValue():gsub('@@n', '\r\n'):gsub('@@t', '\t'))
-	push 'z' (readValue():gsub('@@n', '\r\n'):gsub('@@t', '\t'))
+	push 'z' (readValue())
+	push 'z' (readValue())
+	push 'z' (readValue())
 	
 	--迷雾
 	push 'lfff' (readValue(4))

@@ -87,11 +87,11 @@ end
 local stdio_print = print
 local i18n_cm = i18n.conv_method((2 << 16) | string.byte("?", 1))
 
-function utf8_to_ansi(s)
+function string.to_ansi(s)
 	return i18n.utf8_to_ansi(s, i18n_cm)
 end
 
-function ansi_to_utf8(s)
+function string.to_utf8(s)
 	return i18n.ansi_to_utf8(s, i18n_cm)
 end
 
@@ -101,4 +101,19 @@ function print(...)
 		table.insert(tbl, i18n.utf8_to_ansi(tostring(v), i18n_cm))
 	end
 	stdio_print(table.unpack(tbl))
+end
+
+function string.create_lines(tab)
+	local lines = {}
+	local tabs = ('\t'):rep(tab or 0)
+	
+	local function push(self, mo)
+		local line = tabs .. mo
+		table.insert(self, line)
+		return function(...)
+			self[#self] = line:format(...)
+		end
+	end
+
+	return setmetatable(lines, {__call = push})
 end

@@ -155,7 +155,7 @@ local function txt2wtg(self, file_name_in, file_name_out)
 
 						--类型
 						arg.type	= tonumber(arg_args:match '%[%s*([%-%d]+)%s*%]')
-						arg.value	= value:gsub('@@n', '\r\n'):gsub('@@t', '\t')
+						arg.value	= value
 						arg.has_child	= arg_args:match '[%*%#]'
 
 						--有子数据
@@ -201,7 +201,7 @@ local function txt2wtg(self, file_name_in, file_name_out)
 				--读取触发器参数
 				local name, s	= line:match '^(.-)%=(.-)$'
 				if name then
-					trigger[name]	= s:gsub('@@n', '\r\n'):gsub('@@t', '\t')
+					trigger[name]	= s
 
 					goto continue
 				end

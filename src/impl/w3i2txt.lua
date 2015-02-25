@@ -220,8 +220,8 @@ local function w3i2txt(self, file_name_in, file_name_out)
 	push '编辑器版本=%s'	(chunk.editor_ver)
 	push '地图名称=%s'	(chunk.map_name)
 	push '作者名字=%s'	(chunk.author)
-	push '地图描述=%s'	(chunk.des:gsub('\r\n', '@@n'):gsub('\r', '@@n'):gsub('\n', '@@n'):gsub('\t', '@@t'))
-	push '推荐玩家=%s'	(chunk.player_rec:gsub('\r\n', '@@n'):gsub('\r', '@@n'):gsub('\n', '@@n'):gsub('\t', '@@t'))
+	push '地图描述=%s'	(chunk.des)
+	push '推荐玩家=%s'	(chunk.player_rec)
 	push '镜头范围=%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f'	(
 		chunk.camera_bound_1,
 		chunk.camera_bound_2,
@@ -268,16 +268,16 @@ local function w3i2txt(self, file_name_in, file_name_out)
 	
 	push '载入图序号=%d'		(chunk.loading_screen_id)
 	push '自定义载入图=%s'	(chunk.loading_screen_path)
-	push '载入界面文本=%s'	(chunk.loading_screen_text:gsub('\r\n', '@@n'):gsub('\r', '@@n'):gsub('\n', '@@n'):gsub('\t', '@@t'))
-	push '载入界面标题=%s'	(chunk.loading_screen_title:gsub('\r\n', '@@n'):gsub('\r', '@@n'):gsub('\n', '@@n'):gsub('\t', '@@t'))
-	push '载入界面子标题=%s'	(chunk.loading_screen_subtitle:gsub('\r\n', '@@n'):gsub('\r', '@@n'):gsub('\n', '@@n'):gsub('\t', '@@t'))
+	push '载入界面文本=%s'	(chunk.loading_screen_text)
+	push '载入界面标题=%s'	(chunk.loading_screen_title)
+	push '载入界面子标题=%s'	(chunk.loading_screen_subtitle)
 
 	push '使用游戏数据设置=%d'	(chunk.game_data_set)
 
 	push '自定义序幕图=%s'	(chunk.prologue_screen_path)
-	push '序幕界面文本=%s'	(chunk.prologue_screen_text:gsub('\r\n', '@@n'):gsub('\r', '@@n'):gsub('\n', '@@n'):gsub('\t', '@@t'))
-	push '序幕界面标题=%s'	(chunk.prologue_screen_title:gsub('\r\n', '@@n'):gsub('\r', '@@n'):gsub('\n', '@@n'):gsub('\t', '@@t'))
-	push '序幕界面子标题=%s'	(chunk.prologue_screen_subtitle:gsub('\r\n', '@@n'):gsub('\r', '@@n'):gsub('\n', '@@n'):gsub('\t', '@@t'))
+	push '序幕界面文本=%s'	(chunk.prologue_screen_text)
+	push '序幕界面标题=%s'	(chunk.prologue_screen_title)
+	push '序幕界面子标题=%s'	(chunk.prologue_screen_subtitle)
 
 	push '地形迷雾=%d'		(chunk.terrain_fog)
 	push '迷雾z轴起点=%.4f'	(chunk.fog_start_z)

@@ -1,11 +1,3 @@
-local function value2txt(meta_list, value, id)
-	local type	= meta_list[id].type
-	if type == 'real' or type == 'unreal' then
-		value = ('%.4f'):format(value)
-	end
-	return value
-end
-		
 local function obj2txt(self, file_name_in, file_name_out, has_level)
 	local content	= io.load(file_name_in)
 	if not content then
@@ -14,21 +6,6 @@ local function obj2txt(self, file_name_in, file_name_out, has_level)
 	end
 
 	local index = 1
-
-	--string.pack/string.unpack的参数
-	local data_type_format	= {}
-	data_type_format[0]	= 'l'	--4字节有符号整数
-	data_type_format[1] = 'f'	--4字节无符号浮点
-	data_type_format[2] = 'f'	--4字节有符号浮点
-	data_type_format[3] = 'z'	--以\0结尾的字符串
-
-	setmetatable(data_type_format,
-		{
-			__index	= function(_, i)
-				print(i, ('%x'):format(index - 2))
-			end
-		}
-	)
 
 	local len	= #content
 	local lines	= {}
@@ -100,15 +77,22 @@ local function obj2txt(self, file_name_in, file_name_out, has_level)
 			end
 		end
 		
-		data.value, index	= data_type_format[data.type]:unpack(content, index)
-		data.value	= value2txt(self.meta_list, data.value, data.id)
-		if data.type == 3 then
-			data.value	= data.value:gsub('\r\n', '@@n'):gsub('\r', '@@n'):gsub('\n', '@@n'):gsub('\t', '@@t')
-		end
+		data.value, index	= self.data_type_format[data.type]:unpack(content, index)
+		data.value	= self.value2txt(data.value, data.id)
+
 		index	= index + 4	--忽略掉后面4位的标识符
 
 		table.insert(datas, data)
-
+		if data.level then
+			if not datas[data.id] then
+				datas[data.id] = {}
+				table.insert(datas, data)
+			end
+			datas[data.id][data.level] = data
+		else
+			table.insert(datas, data)
+		end
+		
 		--检查是否将这个obj中的数据读完了
 		if #datas == obj.data_count then
 			--检查是否将这个chunk中的数据读完了
@@ -129,36 +113,84 @@ local function obj2txt(self, file_name_in, file_name_out, has_level)
 	until index >= len or not funcs.next
 
 	--转换文本
-	--版本
-	table.insert(lines, ('%s=%s'):format('VERSION', ver))
-	for _, chunk in ipairs(chunks) do
-		--chunk标记
-		table.insert(lines, '[CHUNK]')
-		for _, obj in ipairs(chunk.objs) do
-			--obj的id
-			if obj.id == obj.origin_id then
-				table.insert(lines, ('[%s]'):format(obj.id))
-			else
-				table.insert(lines, ('[%s:%s]'):format(obj.id, obj.origin_id))
-			end
-			for _, data in ipairs(obj.datas) do
-				--数据项
-				local line = {}
-				--数据id
-				table.insert(line, data.id)
-				--数据等级
-				if data.level then
-					table.insert(line, ('[%d]'):format(data.level))
+	local output = [[
+return
+{
+%s
+}
+]]
+
+	--转换块
+	local function insert_chunks(chunks)
+		
+		local function insert_chunk(chunk)
+
+			local function insert_obj(obj)
+
+				local lines = string.create_lines(3)
+				
+				--obj的id
+				if obj.id ~= obj.origin_id then
+					lines '_id="%s"' (obj.origin_id)
 				end
-				table.insert(line, '=')
-				--数据值
-				table.insert(line, data.value)
-				table.insert(lines, table.concat(line))
+
+				--先排序
+				table.sort(obj.datas,
+					function(data1, data2)
+						return data1.id < data2.id
+					end
+				)
+				
+				for _, data in ipairs(obj.datas) do
+					if data.level then
+					else
+						--数据项
+						local line = string.create_lines()
+						--数据id
+						line ('["' .. data.id .. '"]')
+						--数据等级
+						if data.level then
+							line '[%d]' (data.level)
+						end
+						line '='
+						--数据值
+						line(tostring(data.value))
+
+						lines(table.concat(line))
+					end
+				end
+
+				return table.concat(lines, ',\r\n')
 			end
+		
+			local values = string.create_lines(2)
+
+			--先排序
+			table.sort(chunk.objs,
+				function(obj1, obj2)
+					return obj1.id < obj2.id
+				end
+			)
+			
+			for _, obj in ipairs(chunk.objs) do
+				values '["%s"]={\r\n%s' (obj.id, insert_obj(obj))
+				values '}'
+			end
+			return table.concat(values, ',\r\n')
 		end
+	
+		local values = string.create_lines(1)
+		
+		values '%s=%s' ('["VERSION"]', ver)
+		values '["ORIGIN"]={\r\n%s' (insert_chunk(chunks[1]))
+		values '}'
+		values '["CUSTOM"]={\r\n%s' (insert_chunk(chunks[2]))
+		values '}'
+
+		return table.concat(values, ',\r\n')
 	end
 
-	io.save(file_name_out, table.concat(lines, '\r\n'):convert_wts() .. '\r\n')
+	io.save(file_name_out, output:format(insert_chunks(chunks)):convert_wts() .. '\r\n')
 
 end
 

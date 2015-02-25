@@ -266,7 +266,7 @@ local function wtg2txt(self, file_name_in, file_name_out)
 						('\t'):rep(tab),
 						arg.type,
 						(arg.insert_index == 1 or arg.insert_call == 1) and '*' or '',
-						arg.value:gsub('\r\n', '@@n'):gsub('\r', '@@n'):gsub('\n', '@@n'):gsub('\t', '@@t')
+						arg.value
 					))
 				end
 			end
@@ -288,7 +288,7 @@ local function wtg2txt(self, file_name_in, file_name_out)
 		table.insert(lines, '【Trigger】')
 		for _, trigger in ipairs(chunk.triggers) do
 			table.insert(lines, ('<%s>'):format(trigger.name))
-			table.insert(lines, ('描述=%s'):format(trigger.des:gsub('\r\n', '@@n'):gsub('\r', '@@n'):gsub('\n', '@@n'):gsub('\t', '@@t')))
+			table.insert(lines, ('描述=%s'):format(trigger.des))
 			table.insert(lines, ('类型=%s'):format(trigger.type))
 			table.insert(lines, ('允许=%s'):format(trigger.enable))
 			table.insert(lines, ('自定义代码=%s'):format(trigger.wct))
