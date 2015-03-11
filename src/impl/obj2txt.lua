@@ -110,11 +110,6 @@ return
 
 				local lines = string.create_lines(3)
 				
-				--obj的id
-				if obj.id ~= obj.origin_id then
-					lines '_id="%s"' (obj.origin_id)
-				end
-
 				--先排序
 				table.sort(obj.datas,
 					function(data1, data2)
@@ -163,21 +158,26 @@ return
 			)
 			
 			for _, obj in ipairs(chunk.objs) do
-				values '%s={\r\n%s' (obj.id, insert_obj(obj))
-				values '}'
+				--obj的id
+				local id = obj.id
+				if obj.id ~= obj.origin_id then
+					id = id .. '_' .. obj.origin_id
+				end
+				values '%s={\r\n%s' (id, insert_obj(obj))
+				values '},'
 			end
-			return table.concat(values, ',\r\n')
+			return table.concat(values, '\r\n')
 		end
 	
 		local values = string.create_lines(1)
 		
-		values '%s=%s' ('VERSION', ver)
+		values '%s=%s,' ('VERSION', ver)
 		values 'ORIGIN={\r\n%s' (insert_chunk(chunks[1]))
-		values '}'
+		values '},'
 		values 'CUSTOM={\r\n%s' (insert_chunk(chunks[2]))
-		values '}'
+		values '},'
 
-		return table.concat(values, ',\r\n')
+		return table.concat(values, '\r\n')
 	end
 
 	io.save(file_name_out, output:format(insert_chunks(chunks)):convert_wts() .. '\r\n')

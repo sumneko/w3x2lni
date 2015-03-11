@@ -108,3 +108,37 @@ function string.create_lines(tab)
 
 	return setmetatable(lines, {__call = push})
 end
+
+function table.hash_to_array(t)
+	--将key保存在数组中
+	local nt = {}
+	for key in pairs(t) do
+		table.insert(nt, key)
+	end
+
+	for i = 1, #nt do
+		t[i] = nt[i]
+	end
+
+	table.sort(t)
+
+	--添加遍历的元方法
+	local mt = getmetatable(t)
+	if not mt then
+		mt = {}
+		setmetatable(t, mt)
+	end
+
+	local function __pairs(t, key)
+		key = (key or 0) + 1
+		if t[key] then
+			return key, t[key], t[t[key]]
+		end
+	end
+
+	function mt.__pairs(t)
+		return __pairs, t, nil
+	end
+
+	return #t
+end
