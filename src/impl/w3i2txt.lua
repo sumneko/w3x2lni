@@ -206,181 +206,196 @@ local function w3i2txt(self, file_name_in, file_name_out)
 	end
 
 	--转换txt文件
-	local lines	= {}
-
-	local function push(format)
-		return function (...)
-			table.insert(lines, format:format(...))
+	local function child_table(chunk, format, ver_name, count, tab)
+		local lines = string.create_lines(tab or 2)
+		if type(count) == 'table' then
+			for i, v in ipairs(count) do
+				lines ('[%d]=' .. format) (i, chunk[ver_name .. v])
+			end
+		else
+			for i = 1, count do
+				lines ('[%d]=' .. format) (i, chunk[ver_name .. i])
+			end
 		end
+
+		return table.concat(lines, ',\r\n')
 	end
+	
+	local lines = string.create_lines(1)
 
 	--文件头
-	push 'VERSION=%s'	(chunk.file_ver)
-	push '地图版本=%s'	(chunk.map_ver)
-	push '编辑器版本=%s'	(chunk.editor_ver)
-	push '地图名称=%s'	(chunk.map_name)
-	push '作者名字=%s'	(chunk.author)
-	push '地图描述=%s'	(chunk.des)
-	push '推荐玩家=%s'	(chunk.player_rec)
-	push '镜头范围=%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f'	(
-		chunk.camera_bound_1,
-		chunk.camera_bound_2,
-		chunk.camera_bound_3,
-		chunk.camera_bound_4,
-		chunk.camera_bound_5,
-		chunk.camera_bound_6,
-		chunk.camera_bound_7,
-		chunk.camera_bound_8
-	)
-	push '镜头范围扩充=%d,%d,%d,%d'	(
-		chunk.camera_complement_1,
-		chunk.camera_complement_2,
-		chunk.camera_complement_3,
-		chunk.camera_complement_4
-	)
-	push '地图宽度=%d'	(chunk.map_width)
-	push '地图长度=%d'	(chunk.map_height)
+	lines '{\'VERSION\',%s}'	(chunk.file_ver)
+	lines '{\'地图版本\',%d}'	(chunk.map_ver)
+	lines '{\'编辑器版本\',%d}'	(chunk.editor_ver)
+	lines '{\'地图名称\',%q}'	(chunk.map_name)
+	lines '{\'作者名字\',%q}'	(chunk.author)
+	lines '{\'地图描述\',%q}'	(chunk.des)
+	lines '{\'推荐玩家\',%q}'	(chunk.player_rec)
+
+	--镜头范围
+	lines '{\'镜头范围\',{\r\n%s' (child_table(chunk, '%.4f', 'camera_bound_', 8))
+	lines '}}'
+
+	--镜头范围扩充
+	lines '{\'镜头范围扩充\',{\r\n%s' (child_table(chunk, '%d', 'camera_complement_', 4))
+	lines '}}'
+
+	lines '{\'地图宽度\',%d}'	(chunk.map_width)
+	lines '{\'地图长度\',%d}'	(chunk.map_height)
 	
-	push '关闭预览图=%d'		(chunk.map_flag >> 0 & 1)
-	push '自定义结盟优先权=%d'	(chunk.map_flag >> 1 & 1)
-	push '对战地图=%d'		(chunk.map_flag >> 2 & 1)
-	push '大型地图=%d'		(chunk.map_flag >> 3 & 1)
-	push '迷雾区域显示地形=%d'	(chunk.map_flag >> 4 & 1)
-	push '自定义玩家分组=%d'	(chunk.map_flag >> 5 & 1)
-	push '自定义队伍=%d'		(chunk.map_flag >> 6 & 1)
-	push '自定义科技树=%d'	(chunk.map_flag >> 7 & 1)
-	push '自定义技能=%d'		(chunk.map_flag >> 8 & 1)
-	push '自定义升级=%d'		(chunk.map_flag >> 9 & 1)
-	push '地图菜单标记=%d'	(chunk.map_flag >> 10 & 1)
-	push '地形悬崖显示水波=%d'	(chunk.map_flag >> 11 & 1)
-	push '地形起伏显示水波=%d'	(chunk.map_flag >> 12 & 1)
-	push '未知1=%d'			(chunk.map_flag >> 13 & 1)
-	push '未知2=%d'			(chunk.map_flag >> 14 & 1)
-	push '未知3=%d'			(chunk.map_flag >> 15 & 1)
-	push '未知4=%d'			(chunk.map_flag >> 16 & 1)
-	push '未知5=%d'			(chunk.map_flag >> 17 & 1)
-	push '未知6=%d'			(chunk.map_flag >> 18 & 1)
-	push '未知7=%d'			(chunk.map_flag >> 19 & 1)
-	push '未知8=%d'			(chunk.map_flag >> 20 & 1)
-	push '未知9=%d'			(chunk.map_flag >> 21 & 1)
+	lines '{\'关闭预览图\',%d}'		(chunk.map_flag >> 0 & 1)
+	lines '{\'自定义结盟优先权\',%d}'	(chunk.map_flag >> 1 & 1)
+	lines '{\'对战地图\',%d}'		(chunk.map_flag >> 2 & 1)
+	lines '{\'大型地图\',%d}'		(chunk.map_flag >> 3 & 1)
+	lines '{\'迷雾区域显示地形\',%d}'	(chunk.map_flag >> 4 & 1)
+	lines '{\'自定义玩家分组\',%d}'	(chunk.map_flag >> 5 & 1)
+	lines '{\'自定义队伍\',%d}'		(chunk.map_flag >> 6 & 1)
+	lines '{\'自定义科技树\',%d}'	(chunk.map_flag >> 7 & 1)
+	lines '{\'自定义技能\',%d}'		(chunk.map_flag >> 8 & 1)
+	lines '{\'自定义升级\',%d}'		(chunk.map_flag >> 9 & 1)
+	lines '{\'地图菜单标记\',%d}'	(chunk.map_flag >> 10 & 1)
+	lines '{\'地形悬崖显示水波\',%d}'	(chunk.map_flag >> 11 & 1)
+	lines '{\'地形起伏显示水波\',%d}'	(chunk.map_flag >> 12 & 1)
+	lines '{\'未知1\',%d}'			(chunk.map_flag >> 13 & 1)
+	lines '{\'未知2\',%d}'			(chunk.map_flag >> 14 & 1)
+	lines '{\'未知3\',%d}'			(chunk.map_flag >> 15 & 1)
+	lines '{\'未知4\',%d}'			(chunk.map_flag >> 16 & 1)
+	lines '{\'未知5\',%d}'			(chunk.map_flag >> 17 & 1)
+	lines '{\'未知6\',%d}'			(chunk.map_flag >> 18 & 1)
+	lines '{\'未知7\',%d}'			(chunk.map_flag >> 19 & 1)
+	lines '{\'未知8\',%d}'			(chunk.map_flag >> 20 & 1)
+	lines '{\'未知9\',%d}'			(chunk.map_flag >> 21 & 1)
 
-	push '地形类型=%s'		(chunk.map_main_ground_type)
+	lines '{\'地形类型\',%q}'		(chunk.map_main_ground_type)
 	
-	push '载入图序号=%d'		(chunk.loading_screen_id)
-	push '自定义载入图=%s'	(chunk.loading_screen_path)
-	push '载入界面文本=%s'	(chunk.loading_screen_text)
-	push '载入界面标题=%s'	(chunk.loading_screen_title)
-	push '载入界面子标题=%s'	(chunk.loading_screen_subtitle)
+	lines '{\'载入图序号\',%d}'		(chunk.loading_screen_id)
+	lines '{\'自定义载入图\',%q}'	(chunk.loading_screen_path)
+	lines '{\'载入界面文本\',%q}'	(chunk.loading_screen_text)
+	lines '{\'载入界面标题\',%q}'	(chunk.loading_screen_title)
+	lines '{\'载入界面子标题\',%q}'	(chunk.loading_screen_subtitle)
 
-	push '使用游戏数据设置=%d'	(chunk.game_data_set)
+	lines '{\'使用游戏数据设置\',%d}'	(chunk.game_data_set)
 
-	push '自定义序幕图=%s'	(chunk.prologue_screen_path)
-	push '序幕界面文本=%s'	(chunk.prologue_screen_text)
-	push '序幕界面标题=%s'	(chunk.prologue_screen_title)
-	push '序幕界面子标题=%s'	(chunk.prologue_screen_subtitle)
+	lines '{\'自定义序幕图\',%q}'	(chunk.prologue_screen_path)
+	lines '{\'序幕界面文本\',%q}'	(chunk.prologue_screen_text)
+	lines '{\'序幕界面标题\',%q}'	(chunk.prologue_screen_title)
+	lines '{\'序幕界面子标题\',%q}'	(chunk.prologue_screen_subtitle)
 
-	push '地形迷雾=%d'		(chunk.terrain_fog)
-	push '迷雾z轴起点=%.4f'	(chunk.fog_start_z)
-	push '迷雾z轴终点=%.4f'	(chunk.fog_end_z)
-	push '迷雾密度=%.4f'		(chunk.fog_density)
-	push '迷雾颜色=%d,%d,%d,%d'	(
-		chunk.fog_red,
-		chunk.fog_green,
-		chunk.fog_blue,
-		chunk.fog_alpha
-	)
+	lines '{\'地形迷雾\',%d}'		(chunk.terrain_fog)
+	lines '{\'迷雾z轴起点\',%.4f}'	(chunk.fog_start_z)
+	lines '{\'迷雾z轴终点\',%.4f}'	(chunk.fog_end_z)
+	lines '{\'迷雾密度\',%.4f}'		(chunk.fog_density)
 
-	push '全局天气=%s'	(chunk.weather_id)
-	push '环境音效=%s'	(chunk.sound_environment)
-	push '环境光照=%s'	(chunk.light_environment)
+	--迷雾颜色
+	lines '{\'迷雾颜色\',{\r\n%s' (child_table(chunk, '%d', 'fog_', {'red', 'green', 'blue', 'alpha'}))
+	lines '}}'
 
-	push '水面颜色=%d,%d,%d,%d'	(
-		chunk.water_red,
-		chunk.water_green,
-		chunk.water_blue,
-		chunk.water_alpha
-	)
+	lines '{\'全局天气\',%q}'	(chunk.weather_id)
+	lines '{\'环境音效\',%q}'	(chunk.sound_environment)
+	lines '{\'环境光照\',%q}'	(chunk.light_environment)
+
+	--水面颜色
+	lines '{\'水面颜色\',{\r\n%s' (child_table(chunk, '%d', 'water_', {'red', 'green', 'blue', 'alpha'}))
+	lines '}}'
 
 	--玩家
-	push '玩家数量=%d'	(chunk.player_count)
+	lines '{\'玩家数量\',%d}'	(chunk.player_count)
 	for _, player in ipairs(chunk.players) do
-		push '玩家=%d'			(player.id)
-		push '类型=%d'			(player.type)
-		push '种族=%d'			(player.race)
-		push '修正出生点=%d'		(player.start_position)
-		push '名字=%s'			(player.name)
-		push '出生点=%.4f,%.4f'	(player.start_x, player.start_y)
-		push '低结盟优先权标记=%d'	(player.ally_low_flag)
-		push '高结盟优先权标记=%d'	(player.ally_high_flag)			
+		local function f()
+			local lines = string.create_lines(2)
+			
+			lines '{\'玩家\',%d}'			(player.id)
+			lines '{\'类型\',%d}'			(player.type)
+			lines '{\'种族\',%d}'			(player.race)
+			lines '{\'修正出生点\',%d}'		(player.start_position)
+			lines '{\'名字\',%q}'			(player.name)
+			--出生点
+			lines '{\'出生点\',{\r\n%s' (child_table(player, '%.4f', 'start_', {'x', 'y'}, 3))
+			lines '}}'
+			lines '{\'低结盟优先权标记\',%d}'	(player.ally_low_flag)
+			lines '{\'高结盟优先权标记\',%d}'	(player.ally_high_flag)
+
+			return table.concat(lines, ',\r\n')
+		end
+
+		lines '{\'玩家%d\',{\r\n%s' (player.id, f())
+		lines '}}'
 	end
 
 	--队伍
-	push '队伍数量=%d'	(chunk.force_count)
+	lines '{\'队伍数量\',%d}'	(chunk.force_count)
 	for _, force in ipairs(chunk.forces) do
-		push '结盟=%d'			(force.force_flag >> 0 & 1)
-		push '结盟胜利=%d'		(force.force_flag >> 1 & 1)
-		push '共享视野=%d'		(force.force_flag >> 2 & 1)
-		push '共享单位控制=%d'	(force.force_flag >> 3 & 1)
-		push '共享高级单位设置=%d'	(force.force_flag >> 4 & 1)
+		lines '{\'结盟\',%d}'			(force.force_flag >> 0 & 1)
+		lines '{\'结盟胜利\',%d}'		(force.force_flag >> 1 & 1)
+		lines '{\'共享视野\',%d}'		(force.force_flag >> 2 & 1)
+		lines '{\'共享单位控制\',%d}'	(force.force_flag >> 3 & 1)
+		lines '{\'共享高级单位设置\',%d}'	(force.force_flag >> 4 & 1)
 
-		push '玩家列表=%d'		(force.player_flag)
-		push '队伍名称=%s'		(force.name)
+		lines '{\'玩家列表\',%d}'		(force.player_flag)
+		lines '{\'队伍名称\',%q}'		(force.name)
 	end
 
 	--升级
-	push '升级数量=%d'	(chunk.upgrade_count)
+	lines '{\'升级数量\',%d}'	(chunk.upgrade_count)
 	for _, upgrades in ipairs(chunk.upgrades) do
-		push '玩家列表=%d'	(upgrade.player_flag)
-		push 'ID=%s'		(upgrade.id)
-		push '等级=%d'		(upgrade.level)
-		push '可用性=%d'		(upgrade.available)
+		lines '{\'玩家列表\',%d}'	(upgrade.player_flag)
+		lines '{\'ID\',%s}'		(upgrade.id)
+		lines '{\'等级\',%d}'		(upgrade.level)
+		lines '{\'可用性\',%d}'		(upgrade.available)
 	end
 
 	--科技
-	push '科技数量=%d'	(chunk.tech_count)
+	lines '{\'科技数量\',%d}'	(chunk.tech_count)
 	for _, tech in ipairs(chunk.techs) do
-		push '玩家列表=%d'	(tech.player_flag)
-		push 'ID=%s'		(tech.id)
+		lines '{\'玩家列表\',%d}'	(tech.player_flag)
+		lines '{\'ID\',%s}'		(tech.id)
 	end
 
 	--随机组
-	push '随机组数量=%d'	(chunk.group_count)
+	lines '{\'随机组数量\',%d}'	(chunk.group_count)
 	for _, group in ipairs(chunk.groups) do
-		push '随机组=%d'		(group.id)
-		push '随机组名称=%s'	(group.name)
+		lines '{\'随机组\',%d}'		(group.id)
+		lines '{\'随机组名称\',%s}'	(group.name)
 
-		push '位置数量=%d'	(group.position_count)
+		lines '{\'位置数量\',%d}'	(group.position_count)
 		for _, type in ipairs(group.positions) do
-			push '位置类型=%d'	(type)
+			lines '{\'位置类型\',%d}'	(type)
 		end
 
-		push '设置数=%d'		(group.line_count)
+		lines '{\'设置数\',%d}'		(group.line_count)
 		for _, line in ipairs(group.lines) do
-			push '几率=%d'	(line.chance)
+			lines '{\'几率\',%d}'	(line.chance)
 			for _, id in ipairs(line.ids) do
-				push 'ID=%s'	(id)
+				lines '{\'ID\',%s}'	(id)
 			end
 		end
 	end
 
 	--物品列表
-	push '物品列表数量=%d'	(chunk.random_item_count)
+	lines '{\'物品列表数量\',%d}'	(chunk.random_item_count)
 	for _, random_item in ipairs(chunk.random_items) do
-		push '物品列表=%d'		(random_item.id)
-		push '物品列表名称=%s'	(random_item.name)
+		lines '{\'物品列表\',%d}'		(random_item.id)
+		lines '{\'物品列表名称\',%s}'	(random_item.name)
 
-		push '物品设置数量=%d'	(random_item.set_count)
+		lines '{\'物品设置数量\',%d}'	(random_item.set_count)
 		for _, set in ipairs(random_item.sets) do
 
-			push '物品数量=%d'	(set.item_count)
+			lines '{\'物品数量\',%d}'	(set.item_count)
 			for _, item in ipairs(set.items) do
-				push '几率=%d'	(item.chance)
-				push 'ID=%s'	(item.id)
+				lines '{\'几率\',%d}'	(item.chance)
+				lines '{\'ID\',%s}'	(item.id)
 			end
 		end
 	end
 
-	io.save(file_name_out, table.concat(lines, '\r\n'):convert_wts() .. '\r\n')
+	local out_put = [[
+return
+{
+%s
+}
+]]
+
+	io.save(file_name_out, out_put:format(table.concat(lines, ',\r\n'):convert_wts()))
 
 end
 

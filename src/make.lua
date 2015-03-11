@@ -56,11 +56,11 @@ local function main()
 		w3x2txt.obj2txt(input_dir / 'war3map.w3h', input_dir / 'war3map.w3h.txt', false)
 		w3x2txt.obj2txt(input_dir / 'war3map.w3q', input_dir / 'war3map.w3q.txt', true)
 
---[[
+
 		w3x2txt.w3i2txt(input_dir / 'war3map.w3i', input_dir / 'war3map.w3i.txt')
-		w3x2txt.wtg2txt(input_dir / 'war3map.wtg', input_dir / 'war3map.wtg.txt')
-		w3x2txt.wct2txt(input_dir / 'war3map.wct', input_dir / 'war3map.wct.txt')
---]]
+		--w3x2txt.wtg2txt(input_dir / 'war3map.wtg', input_dir / 'war3map.wtg.txt')
+		--w3x2txt.wct2txt(input_dir / 'war3map.wct', input_dir / 'war3map.wct.txt')
+
 		--将wts写入脚本
 		w3x2txt.convert_j(input_dir / 'war3map.j', input_dir / 'war3map.j')
 	else
@@ -72,11 +72,11 @@ local function main()
 		w3x2txt.txt2obj(input_dir / 'war3map.w3a.txt', output_dir / 'war3map.w3a', true)
 		w3x2txt.txt2obj(input_dir / 'war3map.w3h.txt', output_dir / 'war3map.w3h', false)
 		w3x2txt.txt2obj(input_dir / 'war3map.w3q.txt', output_dir / 'war3map.w3q', true)
---[[
+
 		w3x2txt.txt2w3i(input_dir / 'war3map.w3i.txt', output_dir / 'war3map.w3i')
-		w3x2txt.txt2wtg(input_dir / 'war3map.wtg.txt', output_dir / 'war3map.wtg')
-		w3x2txt.txt2wct(input_dir / 'war3map.wct.txt', output_dir / 'war3map.wct')
---]]
+		--w3x2txt.txt2wtg(input_dir / 'war3map.wtg.txt', output_dir / 'war3map.wtg')
+		--w3x2txt.txt2wct(input_dir / 'war3map.wct.txt', output_dir / 'war3map.wct')
+
 	end
 
 	--刷新字符串

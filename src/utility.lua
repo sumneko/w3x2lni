@@ -142,3 +142,11 @@ function table.hash_to_array(t)
 
 	return #t
 end
+
+function string.set_len(s, len)
+	if #s > len then
+		return s:sub(1, len)
+	else
+		return s .. ('\0'):rep(len - #s)
+	end
+end
