@@ -22,7 +22,10 @@ local function obj2txt(self, file_name_in, file_name_out, has_level)
 	function funcs.readHead()
 		ver, index	= ('l'):unpack(content, index)
 
-		funcs.next	= funcs.readChunk
+		--分为原始数据与用户数据2块
+		for i = 1, 2 do
+			funcs.readChunk()
+		end
 	end
 
 	--解析块
@@ -35,8 +38,8 @@ local function obj2txt(self, file_name_in, file_name_out, has_level)
 
 		table.insert(chunks, chunk)
 
-		if chunk.obj_count > 0 then
-			funcs.next	= funcs.readObj
+		for i = 1, chunk.obj_count do
+			funcs.readObj()
 		end
 	end
 
@@ -52,16 +55,10 @@ local function obj2txt(self, file_name_in, file_name_out, has_level)
 
 		table.insert(objs, obj)
 
-		if obj.data_count > 0 then
-			funcs.next	= funcs.readData
-		else
-			--检查是否将这个chunk中的数据读完了
-			if #objs == chunk.obj_count then
-				funcs.next	= funcs.readChunk
-				return
-			end
-			funcs.next	= funcs.readObj
+		for i = 1, obj.data_count do
+			funcs.readData()
 		end
+
 	end
 
 	--解析数据
@@ -92,25 +89,9 @@ local function obj2txt(self, file_name_in, file_name_out, has_level)
 		else
 			table.insert(datas, data)
 		end
-		
-		--检查是否将这个obj中的数据读完了
-		if #datas == obj.data_count then
-			--检查是否将这个chunk中的数据读完了
-			if #objs == chunk.obj_count then
-				funcs.next	= funcs.readChunk
-				return
-			end
-			funcs.next	= funcs.readObj
-			return
-		end
 	end
-
-	funcs.next	= funcs.readHead
-
 	--开始解析
-	repeat
-		funcs.next()
-	until index >= len or not funcs.next
+	funcs.readHead()
 
 	--转换文本
 	local output = [[
@@ -147,7 +128,7 @@ return
 						--数据项
 						local line = string.create_lines()
 						--数据id
-						line ('["' .. data.id .. '"]')
+						line (data.id)
 						--数据等级
 						if data.level then
 							line '[%d]' (data.level)
@@ -173,7 +154,7 @@ return
 			)
 			
 			for _, obj in ipairs(chunk.objs) do
-				values '["%s"]={\r\n%s' (obj.id, insert_obj(obj))
+				values '%s={\r\n%s' (obj.id, insert_obj(obj))
 				values '}'
 			end
 			return table.concat(values, ',\r\n')
@@ -181,10 +162,10 @@ return
 	
 		local values = string.create_lines(1)
 		
-		values '%s=%s' ('["VERSION"]', ver)
-		values '["ORIGIN"]={\r\n%s' (insert_chunk(chunks[1]))
+		values '%s=%s' ('VERSION', ver)
+		values 'ORIGIN={\r\n%s' (insert_chunk(chunks[1]))
 		values '}'
-		values '["CUSTOM"]={\r\n%s' (insert_chunk(chunks[2]))
+		values 'CUSTOM={\r\n%s' (insert_chunk(chunks[2]))
 		values '}'
 
 		return table.concat(values, ',\r\n')

@@ -5,7 +5,7 @@ local function convert_j(self, file_name_in, file_name_out)
 		return
 	end
 
-	io.save(file_name_out, content:convert_wts())
+	io.save(file_name_out, content:convert_wts(false, true))
 
 end
 

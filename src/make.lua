@@ -6,11 +6,12 @@ local function main()
 	require 'luabind'
 	require 'filesystem'
 	require 'utility'
+	require 'localization'
 	local w3x2txt = require 'w3x2txt'
 	local stormlib = require 'stormlib'
 	
 	--保存路径
-	root_dir	= fs.path(arg[1])
+	root_dir	= fs.path(ansi_to_utf8(arg[1]))
 	input_dir	= root_dir / 'input'
 	output_dir	= root_dir / 'output'
 	meta_path	= root_dir / 'meta'
@@ -20,7 +21,7 @@ local function main()
 	fs.create_directories(output_dir)
 
 	if arg[2] then
-		map_path	= fs.path(arg[2])
+		map_path	= fs.path(ansi_to_utf8(arg[2]))
 		local map = stormlib(map_path)
 		for name in pairs(map) do
 			map:extract(name, input_dir / name)
@@ -55,10 +56,11 @@ local function main()
 		w3x2txt.obj2txt(input_dir / 'war3map.w3h', input_dir / 'war3map.w3h.txt', false)
 		w3x2txt.obj2txt(input_dir / 'war3map.w3q', input_dir / 'war3map.w3q.txt', true)
 
+--[[
 		w3x2txt.w3i2txt(input_dir / 'war3map.w3i', input_dir / 'war3map.w3i.txt')
 		w3x2txt.wtg2txt(input_dir / 'war3map.wtg', input_dir / 'war3map.wtg.txt')
 		w3x2txt.wct2txt(input_dir / 'war3map.wct', input_dir / 'war3map.wct.txt')
-
+--]]
 		--将wts写入脚本
 		w3x2txt.convert_j(input_dir / 'war3map.j', input_dir / 'war3map.j')
 	else

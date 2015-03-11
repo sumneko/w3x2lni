@@ -1,6 +1,6 @@
 local w3x2txt = {}
 
-function string.convert_wts(s, only_short)
+function string.convert_wts(s, only_short, read_only)
 	--return s
 	return s:gsub('TRIGSTR_(%d+)',
 		function(i)
@@ -12,7 +12,8 @@ function string.convert_wts(s, only_short)
 			if only_short and #s > 256 then
 				return
 			end
-			w3x2txt.wts_strings[i].converted	= true
+
+			w3x2txt.wts_strings[i].converted	= not read_only
 			return s
 		end
 	)
