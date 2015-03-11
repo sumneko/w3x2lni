@@ -79,17 +79,17 @@ local function obj2txt(self, file_name_in, file_name_out, has_level)
 
 		index	= index + 4	--忽略掉后面4位的标识符
 
-		table.insert(datas, data)
 		if data.level then
 			if not datas[data.id] then
-				datas[data.id] = {}
-				table.insert(datas, data)
+				datas[data.id] = {id = data.id, level = true}
+				table.insert(datas, datas[data.id])
 			end
-			datas[data.id][data.level] = data
+			table.insert(datas[data.id], data)
 		else
 			table.insert(datas, data)
 		end
 	end
+	
 	--开始解析
 	funcs.readHead()
 
@@ -124,15 +124,24 @@ return
 				
 				for _, data in ipairs(obj.datas) do
 					if data.level then
+						local function insert_levels(data)
+							local lines = string.create_lines(4)
+
+							for lv, data in ipairs(data) do
+								lines '[%d]=%s' (lv, tostring(data.value))
+							end
+
+							return table.concat(lines, ',\r\n')
+						end
+						
+						lines '%s={\r\n%s' (data.id, insert_levels(data))
+						lines '}'
+						
 					else
 						--数据项
 						local line = string.create_lines()
 						--数据id
 						line (data.id)
-						--数据等级
-						if data.level then
-							line '[%d]' (data.level)
-						end
 						line '='
 						--数据值
 						line(tostring(data.value))
