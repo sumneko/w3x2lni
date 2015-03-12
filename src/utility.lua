@@ -97,6 +97,7 @@ end
 function string.create_lines(tab)
 	local lines = {}
 	local tabs = ('\t'):rep(tab or 0)
+	lines.tab = tab or 0
 	
 	local function push(self, mo)
 		local line = tabs .. mo

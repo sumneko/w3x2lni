@@ -17,6 +17,10 @@ local function main()
 	meta_path	= root_dir / 'meta'
 	user_meta_path	= meta_path / 'user'
 
+	--清空输入输出目录
+	fs.remove_all(input_dir)
+	fs.remove_all(output_dir)
+
 	fs.create_directories(input_dir)
 	fs.create_directories(output_dir)
 
@@ -58,7 +62,7 @@ local function main()
 
 
 		w3x2txt.w3i2txt(input_dir / 'war3map.w3i', input_dir / 'war3map.w3i.txt')
-		--w3x2txt.wtg2txt(input_dir / 'war3map.wtg', input_dir / 'war3map.wtg.txt')
+		w3x2txt.wtg2txt(input_dir / 'war3map.wtg', input_dir / 'war3map.wtg.txt')
 		--w3x2txt.wct2txt(input_dir / 'war3map.wct', input_dir / 'war3map.wct.txt')
 
 		--将wts写入脚本
@@ -74,7 +78,7 @@ local function main()
 		w3x2txt.txt2obj(input_dir / 'war3map.w3q.txt', output_dir / 'war3map.w3q', true)
 
 		w3x2txt.txt2w3i(input_dir / 'war3map.w3i.txt', output_dir / 'war3map.w3i')
-		--w3x2txt.txt2wtg(input_dir / 'war3map.wtg.txt', output_dir / 'war3map.wtg')
+		w3x2txt.txt2wtg(input_dir / 'war3map.wtg.txt', output_dir / 'war3map.wtg')
 		--w3x2txt.txt2wct(input_dir / 'war3map.wct.txt', output_dir / 'war3map.wct')
 
 	end
