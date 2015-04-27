@@ -17,22 +17,6 @@ local function main()
 	meta_path	= root_dir / 'meta'
 	user_meta_path	= meta_path / 'user'
 
-	--清空输入输出目录
-	fs.remove_all(input_dir)
-	fs.remove_all(output_dir)
-
-	fs.create_directories(input_dir)
-	fs.create_directories(output_dir)
-
-	if arg[2] then
-		map_path	= fs.path(ansi_to_utf8(arg[2]))
-		local map = stormlib(map_path)
-		for name in pairs(map) do
-			map:extract(name, input_dir / name)
-		end
-		map:close()
-	end
-
 	--读取meta表
 	w3x2txt.read_metadata(meta_path / 'abilitybuffmetadata.slk')
 	w3x2txt.read_metadata(meta_path / 'abilitymetadata.slk')
@@ -51,6 +35,19 @@ local function main()
 	w3x2txt.read_wts(input_dir / 'war3map.wts')
 
 	if arg[2] then
+
+		--清空输入输出目录
+		fs.remove_all(input_dir)
+		fs.create_directories(input_dir)
+
+		--拆解地图
+		map_path	= fs.path(ansi_to_utf8(arg[2]))
+		local map = stormlib(map_path)
+		for name in pairs(map) do
+			map:extract(name, input_dir / name)
+		end
+		map:close()
+		
 		--转换二进制文件到txt
 		w3x2txt.obj2txt(input_dir / 'war3map.w3u', input_dir / 'war3map.w3u.txt', false)
 		w3x2txt.obj2txt(input_dir / 'war3map.w3t', input_dir / 'war3map.w3t.txt', false)
@@ -62,12 +59,17 @@ local function main()
 
 
 		w3x2txt.w3i2txt(input_dir / 'war3map.w3i', input_dir / 'war3map.w3i.txt')
-		w3x2txt.wtg2txt(input_dir / 'war3map.wtg', input_dir / 'war3map.wtg.txt')
+		--w3x2txt.wtg2txt(input_dir / 'war3map.wtg', input_dir / 'war3map.wtg.txt')
 		--w3x2txt.wct2txt(input_dir / 'war3map.wct', input_dir / 'war3map.wct.txt')
 
 		--将wts写入脚本
 		w3x2txt.convert_j(input_dir / 'war3map.j', input_dir / 'war3map.j')
 	else
+
+		--清空输入输出目录
+		fs.remove_all(output_dir)
+		fs.create_directories(output_dir)
+		
 		--转换txt到二进制文件
 		w3x2txt.txt2obj(input_dir / 'war3map.w3u.txt', output_dir / 'war3map.w3u', false)
 		w3x2txt.txt2obj(input_dir / 'war3map.w3t.txt', output_dir / 'war3map.w3t', false)
@@ -78,7 +80,7 @@ local function main()
 		w3x2txt.txt2obj(input_dir / 'war3map.w3q.txt', output_dir / 'war3map.w3q', true)
 
 		w3x2txt.txt2w3i(input_dir / 'war3map.w3i.txt', output_dir / 'war3map.w3i')
-		w3x2txt.txt2wtg(input_dir / 'war3map.wtg.txt', output_dir / 'war3map.wtg')
+		--w3x2txt.txt2wtg(input_dir / 'war3map.wtg.txt', output_dir / 'war3map.wtg')
 		--w3x2txt.txt2wct(input_dir / 'war3map.wct.txt', output_dir / 'war3map.wct')
 
 	end
