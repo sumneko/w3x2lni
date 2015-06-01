@@ -122,7 +122,7 @@ local function txt2obj(self, file_name_in, file_name_out, has_level)
 				end
 
 			end
-			table.insert(hexs, pos, ('c4c4l'):pack(_id or id, id, count))
+			table.insert(hexs, pos, ('c4c4l'):pack(_id or id, _id and id or '\0\0\0\0', count))
 		end
 	end
 
