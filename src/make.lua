@@ -31,9 +31,6 @@ local function main()
 	w3x2txt.read_triggerdata(meta_path / 'TriggerData.txt')
 	w3x2txt.read_triggerdata(user_meta_path / 'TriggerData.txt')
 
-	--读取字符串
-	w3x2txt.read_wts(input_dir / 'war3map.wts')
-
 	if arg[2] then
 
 		--清空输入输出目录
@@ -47,6 +44,9 @@ local function main()
 			map:extract(name, input_dir / name)
 		end
 		map:close()
+
+		--读取字符串
+		w3x2txt.read_wts(input_dir / 'war3map.wts')
 		
 		--转换二进制文件到txt
 		w3x2txt.obj2txt(input_dir / 'war3map.w3u', input_dir / 'war3map.w3u.txt', false)
