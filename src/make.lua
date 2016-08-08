@@ -64,6 +64,8 @@ local function main()
 
 		--将wts写入脚本
 		w3x2txt.convert_j(input_dir / 'war3map.j', input_dir / 'war3map.j')
+		--刷新字符串
+		w3x2txt.fresh_wts(input_dir / 'war3map.wts')
 	else
 
 		--清空输入输出目录
@@ -84,9 +86,6 @@ local function main()
 		--w3x2txt.txt2wct(input_dir / 'war3map.wct.txt', output_dir / 'war3map.wct')
 
 	end
-
-	--刷新字符串
-	w3x2txt.fresh_wts(input_dir / 'war3map.wts')
 	
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
 end
