@@ -13,5 +13,9 @@ end
 local real_io_open = io.open
 
 function io.open(path, ...)
-	return real_io_open(utf8_to_ansi(path), ...)
+	return real_io_open(utf8_to_ansi(path:string()), ...)
 end
+
+string.utf8_to_ansi = utf8_to_ansi
+
+string.ansi_to_utf8 = ansi_to_utf8

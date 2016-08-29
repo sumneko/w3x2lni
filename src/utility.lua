@@ -1,8 +1,58 @@
+require 'ar_stormlib'
 require 'sys'
 require 'i18n'
 
+local stormlib = ar.stormlib
+local mpq_meta =  { __index = {} }
+
+function mpq_meta.__index:import(path_in_archive, import_file_path)
+	return stormlib.add_file_ex(
+			self.handle,
+			import_file_path,
+			path_in_archive,
+			stormlib.MPQ_FILE_COMPRESS | stormlib.MPQ_FILE_REPLACEEXISTING,
+			stormlib.MPQ_COMPRESSION_ZLIB,
+			stormlib.MPQ_COMPRESSION_ZLIB)
+end
+
+function mpq_meta.__index:extract(path_in_archive, extract_file_path)
+	return stormlib.extract_file(self.handle, extract_file_path, path_in_archive)
+end
+
+function mpq_meta.__index:close()
+	stormlib.close_archive(self.handle)
+end
+
+function mpq_meta.__index:remove(path_in_archive)
+	return stormlib.remove_file(self.handle, path_in_archive, 0)
+end
+
+function mpq_meta.__index:rename(path_in_archive, new_name)
+	return stormlib.rename_file(self.handle, path_in_archive, new_name)
+end
+
+function mpq_meta.__index:has(path_in_archive)
+	return stormlib.has_file(self.handle, path_in_archive)
+end
+
+function mpq_open(path)
+	local h = stormlib.open_archive(path, 0, 0)
+	if not h then
+		return nil
+	end
+	return setmetatable({handle = h}, mpq_meta)
+end
+
+function mpq_create(path, max_file_count)
+	local h = stormlib.create_archive(path, 0, max_file_count or 1)
+	if not h then
+		return nil
+	end
+	return setmetatable({handle = h}, mpq_meta)
+end
+
 function io.load(file_path)
-	local f, e = io.open(file_path:string(), "rb")
+	local f, e = io.open(file_path, "rb")
 
 	if f then
 		local content	= f:read 'a'
@@ -14,7 +64,7 @@ function io.load(file_path)
 end
 
 function io.save(file_path, content)
-	local f, e = io.open(file_path:string(), "wb")
+	local f, e = io.open(file_path, "wb")
 
 	if f then
 		f:write(content)
@@ -23,6 +73,12 @@ function io.save(file_path, content)
 	else
 		return false, e
 	end
+end
+
+local real_io_lines = io.lines
+
+function io.lines(path)
+	return real_io_lines(path:utf8_to_ansi())
 end
 
 function io.lines2(path)
