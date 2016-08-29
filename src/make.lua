@@ -16,20 +16,20 @@ local w3x_dir  = root_dir / 'w3x'
 local meta_dir = root_dir / 'meta'
 
 local function read_meta()
-	w3x2txt.read_metadata(meta_dir / 'abilitybuffmetadata.slk')
-	w3x2txt.read_metadata(meta_dir / 'abilitymetadata.slk')
-	w3x2txt.read_metadata(meta_dir / 'destructablemetadata.slk')
-	w3x2txt.read_metadata(meta_dir / 'doodadmetadata.slk')
-	w3x2txt.read_metadata(meta_dir / 'miscmetadata.slk')
-	w3x2txt.read_metadata(meta_dir / 'unitmetadata.slk')
-	w3x2txt.read_metadata(meta_dir / 'upgradeeffectmetadata.slk')
-	w3x2txt.read_metadata(meta_dir / 'upgrademetadata.slk')
+	w3x2txt:read_metadata(meta_dir / 'abilitybuffmetadata.slk')
+	w3x2txt:read_metadata(meta_dir / 'abilitymetadata.slk')
+	w3x2txt:read_metadata(meta_dir / 'destructablemetadata.slk')
+	w3x2txt:read_metadata(meta_dir / 'doodadmetadata.slk')
+	w3x2txt:read_metadata(meta_dir / 'miscmetadata.slk')
+	w3x2txt:read_metadata(meta_dir / 'unitmetadata.slk')
+	w3x2txt:read_metadata(meta_dir / 'upgradeeffectmetadata.slk')
+	w3x2txt:read_metadata(meta_dir / 'upgrademetadata.slk')
 end
 
 local function init_lni()
 	lni:set_marco('TableSearcher', 'lni\\')
 
-	return setmetatable({}, {__index = function(self, name)
+	return setmetatable({}, { __index = function(self, name)
 		local data = lni:packager(name, io.load)
 		self[name] = data
 		return data
@@ -46,31 +46,16 @@ local function main()
 	-- 读取meta表
 	read_meta()
 	
-	-- 初始化lni
-	local lni = init_lni()
-	
 	if mode == "w3x2lni" then
 		
 	end
 
 	if mode == "lni2w3x" then
-		
+		-- 初始化lni
+		local lni = init_lni()
 	end
 do return end
 	if arg[2] then
-
-		--清空输入输出目录
-		--fs.remove_all(input_dir)
-		fs.create_directories(input_dir)
-
-		--拆解地图
-		map_path	= fs.path(ansi_to_utf8(arg[2]))
-		local map = stormlib(map_path)
-		for name in pairs(map) do
-			map:extract(name, input_dir / name)
-		end
-		map:close()
-
 		--读取字符串
 		w3x2txt.read_wts(input_dir / 'war3map.wts')
 		

@@ -75,7 +75,7 @@ local function obj2txt(self, file_name_in, file_name_out, has_level)
 		end
 		
 		data.value, index	= self.data_type_format[data.type]:unpack(content, index)
-		data.value	= self.value2txt(data.value, data.id)
+		data.value	= self:format_value(data.value, data.id)
 
 		index	= index + 4	--忽略掉后面4位的标识符
 
