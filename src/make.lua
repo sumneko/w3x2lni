@@ -51,14 +51,14 @@ local function main()
 		w3x2txt:read_wts(w3x_dir / 'war3map.wts')
 		
 		--转换二进制文件到txt
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3u', w3x_dir / 'war3map.w3u.ini', false)
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3t', w3x_dir / 'war3map.w3t.ini', false)
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3b', w3x_dir / 'war3map.w3b.ini', false)
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3d', w3x_dir / 'war3map.w3d.ini', true)
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3a', w3x_dir / 'war3map.w3a.ini', true)
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3h', w3x_dir / 'war3map.w3h.ini', false)
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3q', w3x_dir / 'war3map.w3q.ini', true)
-		w3x2txt:w3i2lni(w3x_dir / 'war3map.w3i', w3x_dir / 'war3map.w3i.ini')
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3u', lni_dir / 'war3map.w3u.ini', false)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3t', lni_dir / 'war3map.w3t.ini', false)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3b', lni_dir / 'war3map.w3b.ini', false)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3d', lni_dir / 'war3map.w3d.ini', true)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3a', lni_dir / 'war3map.w3a.ini', true)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3h', lni_dir / 'war3map.w3h.ini', false)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3q', lni_dir / 'war3map.w3q.ini', true)
+		--w3x2txt:w3i2lni(w3x_dir / 'war3map.w3i', lni_dir / 'war3map.w3i.ini')
 
 		--刷新字符串
 		w3x2txt:fresh_wts(w3x_dir / 'war3map.wts')

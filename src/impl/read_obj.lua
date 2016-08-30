@@ -29,15 +29,16 @@ function mt:read_obj()
 	end
 	local count = self:unpack 'l'
 	for i = 1, count do
-		local data = read_data(self)
-		local name = data.name
+		local name, level, value = self:read_data()
 		if not tbl[name] then
 			tbl[name] = {}
+			tbl[name]['name'] = name
 		end
-		table.insert(tbl[name], data)
+		tbl[name][level] = value
 	end
 	for name, list in pairs(tbl) do
 		table.insert(obj, list)
+		obj[name] = list
 	end
 	return obj
 end
@@ -49,39 +50,36 @@ local pack_format = {
 	[3] = 'z',
 }
 
-function mt:format_value(type)
-	local format = pack_format[type]
-	local value = self:unpack(format)
-	if type == 0 then
-		return value
-	elseif type == 1 or type == 2 then
-		return ('%.4f'):format(value)
-	else
-		return ('%q'):format(value)
-	end
-end
-
 function mt:read_data()
 	local data = {}
-	local name = self:unpack 'l'
-	local value_type = self:unpack 'c4'
+	local name = self:unpack 'c4'
+	local value_type = self:unpack 'l'
+	local value_format = pack_format[value_type]
+	local level = 1
 
 	--是否包含等级信息
 	if self.has_level then
-		local level = self:unpack 'l'
-		if level ~= 0 then
-			data['level'] = level
+		local this_level = self:unpack 'l'
+		if this_level ~= 0 then
+			level = this_level
 		end
 		-- 扔掉一个整数
 		self:unpack 'l'
 	end
 
-	data.value = self:format_value(value_type)
-
+	local value = self:unpack(value_format)
+	if value_format == 'l' then
+		value = value
+	elseif value_format == 'f' then
+		value = ('%.4f'):format(value)
+	else
+		value = ('%q'):format(value)
+	end
+	
 	-- 扔掉一个整数
 	self:unpack 'l'
 	
-	return data
+	return name, level, value
 end
 
 local function read_obj(content, has_level)

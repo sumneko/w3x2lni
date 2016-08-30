@@ -143,9 +143,10 @@ end
 local stdio_print = print
 
 function print(...)
-	local tbl = {}
-	for _, v in ipairs(table.pack(...)) do
-		table.insert(tbl, utf8_to_ansi(tostring(v)))
+	local tbl = {...}
+	local count = select('#', ...)
+	for i = 1, count do
+		tbl[i] = utf8_to_ansi(tostring(tbl[i]))
 	end
 	stdio_print(table.unpack(tbl))
 end
