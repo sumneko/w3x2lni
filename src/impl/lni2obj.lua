@@ -1,20 +1,5 @@
 local index
 
---string.pack/string.unpack的参数
-local data_type_format	= {}
-data_type_format[0]	= 'l'	--4字节有符号整数
-data_type_format[1] = 'f'	--4字节无符号浮点
-data_type_format[2] = 'f'	--4字节有符号浮点
-data_type_format[3] = 'z'	--以\0结尾的字符串
-
-setmetatable(data_type_format,
-	{
-		__index	= function(_, i)
-			print(i, ('%x'):format(index - 2))
-		end
-	}
-)
-
 local value_type = {
 	int			= 'int',
 	bool		= 'int',

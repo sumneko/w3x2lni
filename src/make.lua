@@ -47,7 +47,21 @@ local function main()
 	read_meta()
 	
 	if mode == "w3x2lni" then
+		--读取字符串
+		w3x2txt:read_wts(w3x_dir / 'war3map.wts')
 		
+		--转换二进制文件到txt
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3u', w3x_dir / 'war3map.w3u.ini', false)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3t', w3x_dir / 'war3map.w3t.ini', false)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3b', w3x_dir / 'war3map.w3b.ini', false)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3d', w3x_dir / 'war3map.w3d.ini', true)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3a', w3x_dir / 'war3map.w3a.ini', true)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3h', w3x_dir / 'war3map.w3h.ini', false)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3q', w3x_dir / 'war3map.w3q.ini', true)
+		w3x2txt:w3i2lni(w3x_dir / 'war3map.w3i', w3x_dir / 'war3map.w3i.ini')
+
+		--刷新字符串
+		w3x2txt:fresh_wts(w3x_dir / 'war3map.wts')
 	end
 
 	if mode == "lni2w3x" then
@@ -56,22 +70,7 @@ local function main()
 	end
 do return end
 	if arg[2] then
-		--读取字符串
-		w3x2txt.read_wts(input_dir / 'war3map.wts')
 		
-		--转换二进制文件到txt
-		w3x2txt.obj2txt(input_dir / 'war3map.w3u', input_dir / 'war3map.w3u.txt', false)
-		w3x2txt.obj2txt(input_dir / 'war3map.w3t', input_dir / 'war3map.w3t.txt', false)
-		w3x2txt.obj2txt(input_dir / 'war3map.w3b', input_dir / 'war3map.w3b.txt', false)
-		w3x2txt.obj2txt(input_dir / 'war3map.w3d', input_dir / 'war3map.w3d.txt', true)
-		w3x2txt.obj2txt(input_dir / 'war3map.w3a', input_dir / 'war3map.w3a.txt', true)
-		w3x2txt.obj2txt(input_dir / 'war3map.w3h', input_dir / 'war3map.w3h.txt', false)
-		w3x2txt.obj2txt(input_dir / 'war3map.w3q', input_dir / 'war3map.w3q.txt', true)
-
-		w3x2txt.w3i2txt(input_dir / 'war3map.w3i', input_dir / 'war3map.w3i.txt')
-
-		--刷新字符串
-		w3x2txt.fresh_wts(input_dir / 'war3map.wts')
 	else
 
 		--清空输入输出目录
