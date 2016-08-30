@@ -15,28 +15,23 @@ function mt:add_chunk(chunk)
 end
 
 function mt:add_obj(obj)
-	local max_level = 1
-	if self.has_level then
-		max_level = obj['alev'][1]
-	end
 	self:add_line '["%s"]' (obj['user_id'])
 	self:add_line '%s = %q' ('origin_id', obj['origin_id'])
-	self:add_line '%s = %d' ('max_level', max_level)
 	for i = 1, #obj do
-		self:add_data(obj[i], max_level)
+		self:add_data(obj[i])
 	end
 end
 
-function mt:add_data(data, max_level)
+function mt:add_data(data)
 	local name = data.name
-	for i = 1, max_level do
-		if data[i] == nil then
-			data[i] = 'nil'
-		end
-	end
-	if max_level == 1 then
+	if data.max_level == 0 then
 		self:add_line '%q = %s' (name, data[1])
 	else
+		for i = 1, data.max_level do
+			if data[i] == nil then
+				data[i] = 'nil'
+			end
+		end
 		self:add_line '%q = {%s}' (name, table.concat(data, ', '))
 	end
 end
@@ -48,9 +43,10 @@ function mt:add_line(format)
 	end
 end
 
-local function convert_lni(data)
+local function convert_lni(data, has_level)
 	local self = setmetatable({}, mt)
 	self.lines = {}
+	self.has_level = has_level
 
 	self:add_head(data)
 	self:add_chunk(data[1])
@@ -68,7 +64,7 @@ local function obj2txt(self, file_name_in, file_name_out, has_level)
 	print('读取obj:', file_name_in:string())
 	local data = read_obj(content, has_level)
 
-	local content = convert_lni(data)
+	local content = convert_lni(data, has_level)
 	--content = self:convert_wts(content)
 
 	io.save(file_name_out, content)

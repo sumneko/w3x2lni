@@ -22,7 +22,6 @@ end
 
 function mt:read_obj()
 	local obj = {}
-	local tbl = {}
 	obj['origin_id'], obj['user_id'] = self:unpack 'c4c4'
 	if obj['user_id'] == '\0\0\0\0' then
 		obj['user_id']	= obj['origin_id']
@@ -30,15 +29,21 @@ function mt:read_obj()
 	local count = self:unpack 'l'
 	for i = 1, count do
 		local name, level, value = self:read_data()
-		if not tbl[name] then
-			tbl[name] = {}
-			tbl[name]['name'] = name
+		if not obj[name] then
+			obj[name] = {
+				['name']      = name,
+				['max_level'] = 0,
+			}
+			table.insert(obj, obj[name])
 		end
-		tbl[name][level] = value
-	end
-	for name, list in pairs(tbl) do
-		table.insert(obj, list)
-		obj[name] = list
+		if level then
+			obj[name][level] = value
+			if level > obj[name]['max_level'] then
+				obj[name]['max_level'] = level
+			end
+		else
+			obj[name][1] = value
+		end
 	end
 	return obj
 end
@@ -55,7 +60,7 @@ function mt:read_data()
 	local name = self:unpack 'c4'
 	local value_type = self:unpack 'l'
 	local value_format = pack_format[value_type]
-	local level = 1
+	local level
 
 	--是否包含等级信息
 	if self.has_level then
