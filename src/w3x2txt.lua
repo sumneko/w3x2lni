@@ -2,7 +2,7 @@ local mt = {}
 
 function mt:convert_wts(str, only_short, read_only)
 	return str:gsub('TRIGSTR_(%d+)', function(i)
-		local str_data = w3x2txt.wts_strings[i]
+		local str_data = self.wts_strings[i]
 		if not str_data then
 			return
 		end

@@ -3,6 +3,27 @@ local read_obj = require 'impl.read_obj'
 local mt = {}
 mt.__index = mt
 
+local function format_value(value)
+	local tp = type(value)
+	if tp == 'number' then
+		if math.type(value) == 'integer' then
+			return ('%d'):format(value)
+		else
+			return ('%.4f'):format(value)
+		end
+	else
+		return ('%q'):format(tostring(value))
+	end
+end
+
+local function format_name(name)
+	if name:match '^[%w%_]+$' then
+		return name
+	else
+		return ('%q'):format(name)
+	end
+end
+
 function mt:add_head(data)
 	self:add_line '["头"]'
 	self:add_line '"版本" = %s' (data['版本'])
@@ -23,16 +44,22 @@ function mt:add_obj(obj)
 end
 
 function mt:add_data(data)
-	local name = data.name
+	local name = format_name(data.name)
 	if data.max_level == 0 then
-		self:add_line '%q = %s' (name, data[1])
+		self:add_line '%s = %s' (name, format_value(data[1]))
 	else
+		local is_string
 		for i = 1, data.max_level do
-			if data[i] == nil then
-				data[i] = 'nil'
+			if type(data[i]) == 'string' then
+				is_string = true
 			end
+			data[i] = format_value(data[i])
 		end
-		self:add_line '%q = {%s}' (name, table.concat(data, ', '))
+		if is_string then
+			self:add_line '%s = {\n%s,\n}' (name, table.concat(data, ',\n'))
+		else
+			self:add_line '%s = {%s}' (name, table.concat(data, ', '))
+		end
 	end
 end
 
@@ -65,7 +92,7 @@ local function obj2txt(self, file_name_in, file_name_out, has_level)
 	local data = read_obj(content, has_level)
 
 	local content = convert_lni(data, has_level)
-	--content = self:convert_wts(content)
+	content = self:convert_wts(content)
 
 	io.save(file_name_out, content)
 end

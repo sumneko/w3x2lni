@@ -74,11 +74,11 @@ function mt:read_data()
 
 	local value = self:unpack(value_format)
 	if value_format == 'l' then
-		value = value
+		value = math.tointeger(value)
 	elseif value_format == 'f' then
-		value = ('%.4f'):format(value)
+		value = tonumber(value)
 	else
-		value = ('%q'):format(value)
+		value = tostring(value)
 	end
 	
 	-- 扔掉一个整数

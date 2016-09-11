@@ -61,7 +61,7 @@ local function main()
 		--w3x2txt:w3i2lni(w3x_dir / 'war3map.w3i', lni_dir / 'war3map.w3i.ini')
 
 		--刷新字符串
-		w3x2txt:fresh_wts(w3x_dir / 'war3map.wts')
+		w3x2txt:fresh_wts(lni_dir / 'war3map.wts')
 	end
 
 	if mode == "lni2w3x" then
