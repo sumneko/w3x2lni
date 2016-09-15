@@ -11,6 +11,8 @@ local function format_value(value)
 		else
 			return ('%.4f'):format(value)
 		end
+	elseif tp == 'nil' then
+		return 'nil'
 	else
 		return ('%q'):format(tostring(value))
 	end
