@@ -69,7 +69,7 @@ end
 
 function mt:add_data(data)
 	local name = format_name(data.name, self.meta)
-	if data.max_level == 0 then
+	if data.max_level <= 1 then
 		self:add_line '%s = %s' (name, format_value(data[1]))
 	else
 		local is_string
