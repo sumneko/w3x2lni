@@ -3,7 +3,7 @@ local read_obj = require 'impl.read_obj'
 local mt = {}
 mt.__index = mt
 
-local function format_value(value)
+local function format_value(self, value)
 	local tp = type(value)
 	if tp == 'number' then
 		if math.type(value) == 'integer' then
@@ -14,12 +14,17 @@ local function format_value(value)
 	elseif tp == 'nil' then
 		return 'nil'
 	else
-		return ('%q'):format(tostring(value))
+		value = self:convert_wts(value)
+		if value:match '[\n\r]' then
+			return ('[[\n%s\n]]'):format(value)
+		else
+			return ('%q'):format(value)
+		end
 	end
 end
 
-local function format_name(name, meta)
-	local meta = meta[name]
+local function format_name(self, name)
+	local meta = self.meta[name]
 	local name = meta.field
 	local data = meta.data
 	if data and data ~= 0 then
@@ -32,9 +37,9 @@ local function format_name(name, meta)
 	end
 end
 
-local function get_comment(name, meta, editstring)
-	local name = meta[name].displayName
-	local comment = editstring[name] or name
+local function get_comment(self, name)
+	local name = self.meta[name].displayName
+	local comment = self.editstring[name] or name
 	return comment
 end
 
@@ -63,7 +68,7 @@ function mt:add_obj(obj)
 	local names = {}
 	local datas = {}
 	for i = 1, #obj do
-		local name = format_name(obj[i].name, self.meta)
+		local name = format_name(self, obj[i].name)
 		table.insert(names, name)
 		datas[name] = obj[i]
 	end
@@ -74,17 +79,17 @@ function mt:add_obj(obj)
 end
 
 function mt:add_data(data)
-	local name = format_name(data.name, self.meta)
-	self:add_line '-- %s' (get_comment(data.name, self.meta, self.editstring))
+	local name = format_name(self, data.name)
+	self:add_line '-- %s' (get_comment(self, data.name))
 	if data.max_level <= 1 then
-		self:add_line '%s = %s' (name, format_value(data[1]))
+		self:add_line '%s = %s' (name, format_value(self, data[1]))
 	else
 		local is_string
 		for i = 1, data.max_level do
 			if type(data[i]) == 'string' then
 				is_string = true
 			end
-			data[i] = format_value(data[i])
+			data[i] = format_value(self, data[i])
 		end
 		if is_string then
 			self:add_line '%s = {\n%s,\n}' (name, table.concat(data, ',\n'))
@@ -101,18 +106,23 @@ function mt:add_line(format)
 	end
 end
 
-local function convert_lni(data, has_level, meta, editstring)
-	local self = setmetatable({}, mt)
-	self.lines = {}
-	self.has_level = has_level
-	self.meta = meta
-	self.editstring = editstring
+function mt:convert_wts(content)
+	return self.self:convert_wts(content)
+end
 
-	self:add_head(data)
-	self:add_chunk(data[1])
-	self:add_chunk(data[2])
+local function convert_lni(self, data, has_level)
+	local tbl = setmetatable({}, mt)
+	tbl.lines = {}
+	tbl.self = self
+	tbl.has_level = has_level
+	tbl.meta = self.meta
+	tbl.editstring = self.editstring
 
-	return table.concat(self.lines, '\n')
+	tbl:add_head(data)
+	tbl:add_chunk(data[1])
+	tbl:add_chunk(data[2])
+
+	return table.concat(tbl.lines, '\n')
 end
 
 local function obj2txt(self, file_name_in, file_name_out, has_level)
@@ -124,8 +134,7 @@ local function obj2txt(self, file_name_in, file_name_out, has_level)
 	print('读取obj:', file_name_in:string())
 	local data = read_obj(content, has_level)
 
-	local content = convert_lni(data, has_level, self.meta, self.editstring)
-	content = self:convert_wts(content)
+	local content = convert_lni(self, data, has_level)
 
 	io.save(file_name_out, content)
 end
