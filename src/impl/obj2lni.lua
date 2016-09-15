@@ -36,16 +36,32 @@ function mt:add_head(data)
 end
 
 function mt:add_chunk(chunk)
+	local names = {}
+	local objs = {}
 	for i = 1, #chunk do
-		self:add_obj(chunk[i])
+		local name = chunk[i].user_id
+		table.insert(names, name)
+		objs[name] = chunk[i]
+	end
+	table.sort(names)
+	for i = 1, #names do
+		self:add_obj(objs[names[i]])
 	end
 end
 
 function mt:add_obj(obj)
 	self:add_line '["%s"]' (obj['user_id'])
 	self:add_line '%s = %q' ('_id', obj['origin_id'])
+	local names = {}
+	local datas = {}
 	for i = 1, #obj do
-		self:add_data(obj[i])
+		local name = format_name(obj[i].name, self.meta)
+		table.insert(names, name)
+		datas[name] = obj[i]
+	end
+	table.sort(names)
+	for i = 1, #names do
+		self:add_data(datas[names[i]])
 	end
 end
 
