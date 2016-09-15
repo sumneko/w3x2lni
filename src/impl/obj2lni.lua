@@ -32,6 +32,12 @@ local function format_name(name, meta)
 	end
 end
 
+local function get_comment(name, meta, editstring)
+	local name = meta[name].displayName
+	local comment = editstring[name] or name
+	return comment
+end
+
 function mt:add_head(data)
 	self:add_line '["头"]'
 	self:add_line '"版本" = %s' (data['版本'])
@@ -69,6 +75,7 @@ end
 
 function mt:add_data(data)
 	local name = format_name(data.name, self.meta)
+	self:add_line '-- %s' (get_comment(data.name, self.meta, self.editstring))
 	if data.max_level <= 1 then
 		self:add_line '%s = %s' (name, format_value(data[1]))
 	else
@@ -94,11 +101,12 @@ function mt:add_line(format)
 	end
 end
 
-local function convert_lni(data, has_level, meta)
+local function convert_lni(data, has_level, meta, editstring)
 	local self = setmetatable({}, mt)
 	self.lines = {}
 	self.has_level = has_level
 	self.meta = meta
+	self.editstring = editstring
 
 	self:add_head(data)
 	self:add_chunk(data[1])
@@ -116,7 +124,7 @@ local function obj2txt(self, file_name_in, file_name_out, has_level)
 	print('读取obj:', file_name_in:string())
 	local data = read_obj(content, has_level)
 
-	local content = convert_lni(data, has_level, self.meta)
+	local content = convert_lni(data, has_level, self.meta, self.editstring)
 	content = self:convert_wts(content)
 
 	io.save(file_name_out, content)

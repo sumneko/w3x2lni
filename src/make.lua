@@ -24,6 +24,8 @@ local function read_meta()
 	w3x2txt:read_metadata(meta_dir / 'unitmetadata.slk')
 	w3x2txt:read_metadata(meta_dir / 'upgradeeffectmetadata.slk')
 	w3x2txt:read_metadata(meta_dir / 'upgrademetadata.slk')
+
+	w3x2txt:read_editstring(meta_dir / 'WorldEditStrings.txt')
 end
 
 local function init_lni()

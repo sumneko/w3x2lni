@@ -37,6 +37,7 @@ local function main()
 		'read_wts', 'fresh_wts',
 		'obj2lni', 'lni2obj',
 		'read_metadata',
+		'read_editstring',
 	}
 	
 	for _, name in ipairs(convertors) do
