@@ -15,15 +15,6 @@ function mt:convert_wts(str, only_short, read_only)
 	end)
 end
 
-mt.meta_list = setmetatable({}, { __index = function(self, id)
-	local value = 'string'
-	if id:sub(-1) == '\0' then
-		value = self[('z'):unpack(id)]
-	end
-	self[id] = value
-	return value
-end})
-
 local value_type = {
 	['int']          = 0,
 	['bool']         = 0,

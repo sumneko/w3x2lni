@@ -45,7 +45,7 @@ local function main()
 
 	-- 读取meta表
 	read_meta()
-	
+
 	if mode == "w3x2lni" then
 		--读取字符串
 		w3x2txt:read_wts(w3x_dir / 'war3map.wts')

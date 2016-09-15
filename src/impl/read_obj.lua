@@ -57,7 +57,7 @@ local pack_format = {
 
 function mt:read_data()
 	local data = {}
-	local name = self:unpack 'c4'
+	local name = ('%s'):format(self:unpack 'c4')
 	local value_type = self:unpack 'l'
 	local value_format = pack_format[value_type]
 	local level
