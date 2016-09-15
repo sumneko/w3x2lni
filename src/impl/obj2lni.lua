@@ -3,7 +3,7 @@ local read_obj = require 'impl.read_obj'
 local mt = {}
 mt.__index = mt
 
-local function format_value(self, value)
+function mt:format_value(value)
 	local tp = type(value)
 	if tp == 'number' then
 		if math.type(value) == 'integer' then
@@ -23,7 +23,7 @@ local function format_value(self, value)
 	end
 end
 
-local function format_name(self, name)
+function mt:format_name(name)
 	local meta = self.meta[name]
 	local name = meta.field
 	local data = meta.data
@@ -37,7 +37,7 @@ local function format_name(self, name)
 	end
 end
 
-local function get_comment(self, name)
+function mt:get_comment(name)
 	local name = self.meta[name].displayName
 	local comment = self.editstring[name] or name
 	return comment
@@ -63,12 +63,13 @@ function mt:add_chunk(chunk)
 end
 
 function mt:add_obj(obj)
+	self:add_line ''
 	self:add_line '["%s"]' (obj['user_id'])
 	self:add_line '%s = %q' ('_id', obj['origin_id'])
 	local names = {}
 	local datas = {}
 	for i = 1, #obj do
-		local name = format_name(self, obj[i].name)
+		local name = self:format_name(obj[i].name)
 		table.insert(names, name)
 		datas[name] = obj[i]
 	end
@@ -79,17 +80,17 @@ function mt:add_obj(obj)
 end
 
 function mt:add_data(data)
-	local name = format_name(self, data.name)
-	self:add_line '-- %s' (get_comment(self, data.name))
+	local name = self:format_name(data.name)
+	self:add_line '-- %s' (self:get_comment(data.name))
 	if data.max_level <= 1 then
-		self:add_line '%s = %s' (name, format_value(self, data[1]))
+		self:add_line '%s = %s' (name, self:format_value(data[1]))
 	else
 		local is_string
 		for i = 1, data.max_level do
 			if type(data[i]) == 'string' then
 				is_string = true
 			end
-			data[i] = format_value(self, data[i])
+			data[i] = self:format_value(data[i])
 		end
 		if is_string then
 			self:add_line '%s = {\n%s,\n}' (name, table.concat(data, ',\n'))
