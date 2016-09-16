@@ -47,13 +47,13 @@ local function main()
 		lni:set_marco('TableSearcher', '')
 
 		--转换lni到二进制文件
-		w3x2txt:lni2obj(lni_dir / 'war3map.w3u', w3x_dir / 'war3map2.w3u', false)
-		w3x2txt:lni2obj(lni_dir / 'war3map.w3t', w3x_dir / 'war3map2.w3t', false)
-		w3x2txt:lni2obj(lni_dir / 'war3map.w3b', w3x_dir / 'war3map2.w3b', false)
-		w3x2txt:lni2obj(lni_dir / 'war3map.w3d', w3x_dir / 'war3map2.w3d', true)
-		w3x2txt:lni2obj(lni_dir / 'war3map.w3a', w3x_dir / 'war3map2.w3a', true)
-		w3x2txt:lni2obj(lni_dir / 'war3map.w3h', w3x_dir / 'war3map2.w3h', false)
-		w3x2txt:lni2obj(lni_dir / 'war3map.w3q', w3x_dir / 'war3map2.w3q', true)
+		w3x2txt:lni2obj(lni_dir / 'war3map.w3u', w3x_dir / 'war3map2.w3u', meta_dir / 'unitmetadata.slk', false)
+		w3x2txt:lni2obj(lni_dir / 'war3map.w3t', w3x_dir / 'war3map2.w3t', meta_dir / 'unitmetadata.slk', false)
+		w3x2txt:lni2obj(lni_dir / 'war3map.w3b', w3x_dir / 'war3map2.w3b', meta_dir / 'destructablemetadata.slk', false)
+		w3x2txt:lni2obj(lni_dir / 'war3map.w3d', w3x_dir / 'war3map2.w3d', meta_dir / 'doodadmetadata.slk', true)
+		w3x2txt:lni2obj(lni_dir / 'war3map.w3a', w3x_dir / 'war3map2.w3a', meta_dir / 'abilitymetadata.slk', true)
+		w3x2txt:lni2obj(lni_dir / 'war3map.w3h', w3x_dir / 'war3map2.w3h', meta_dir / 'abilitybuffmetadata.slk', false)
+		w3x2txt:lni2obj(lni_dir / 'war3map.w3q', w3x_dir / 'war3map2.w3q', meta_dir / 'upgrademetadata.slk', true)
 	end
 	
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 

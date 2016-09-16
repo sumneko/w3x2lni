@@ -62,6 +62,7 @@ local function read_slk(file_name)
 
 	-- 组装成table
     local tbl = {}
+	local list = {}
 	for y, id in pairs(data[1]) do
         if id ~= 'ID' then
             tbl[id] = {}
@@ -69,9 +70,10 @@ local function read_slk(file_name)
                 local key = list[1] or x
                 tbl[id][key] = list[y]
             end
+			table.insert(list, id)
         end
 	end
-    return tbl
+    return tbl, list
 end
 
 return read_slk

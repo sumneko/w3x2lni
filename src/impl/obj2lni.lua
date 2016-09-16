@@ -29,7 +29,7 @@ function mt:format_name(name)
 	local name  = meta['field']
 	local num   = meta['data']
 	if num and num ~= 0 then
-		name = name .. ('ABCDEF'):sub(num, num)
+		name = name .. string.char(('A'):byte() + num - 1)
 	end
 	if meta['_has_index'] then
 		name = name .. ':' .. (meta['index'] + 1)
