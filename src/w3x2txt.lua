@@ -1,5 +1,8 @@
 local mt = {}
 
+mt.wts_strings = {}
+mt.dir = {}
+
 function mt:convert_wts(str, only_short, read_only)
 	return str:gsub('TRIGSTR_(%d+)', function(i)
 		local str_data = self.wts_strings[i]
@@ -13,6 +16,10 @@ function mt:convert_wts(str, only_short, read_only)
 		str_data.converted = not read_only
 		return text
 	end)
+end
+
+function mt:set_dir(name, dir)
+	self.dir[name] = dir
 end
 
 local value_type = {
@@ -36,6 +43,7 @@ local function main()
 	local convertors = {
 		'read_wts', 'fresh_wts',
 		'obj2lni', 'lni2obj',
+		'read_metadata',
 		'read_editstring',
 	}
 	
@@ -46,8 +54,6 @@ local function main()
 			return func(self, ...)
 		end
 	end
-
-	mt.wts_strings = {}
 end
 
 main()

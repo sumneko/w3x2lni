@@ -49,7 +49,7 @@ end
 function mt:key2id_isenable(meta)
     local extension = self.extension
     if extension == '.w3u' then
-        if meta['useHero'] == 1 or meta['useUnit'] == 1 or meta['useBuilding'] == 1 then
+        if meta['useHero'] == 1 or meta['useUnit'] == 1 or meta['useBuilding'] == 1 or meta['useCreep'] == 1 then
             return true
         else
             return false
@@ -90,7 +90,16 @@ function mt:key2id_add(id, meta, public, private)
     end
 end
 
-function mt:key2id(key)
+function mt:key2id_skill(skill)
+    if self.extension ~= '.w3a' then
+        return skill
+    end
+    if not self.ability then
+        self.ability = read_metadata()
+    end
+end
+
+function mt:key2id(skill, key)
     local tbl = self.key_id_tbl
     if not self.key_id_tbl then
         tbl = {}
@@ -101,14 +110,22 @@ function mt:key2id(key)
             self:key2id_add(id, meta, tbl.public, tbl.private)
         end
     end
-    return ''
+    local skill = self:key2id_skill(skill)
+    if tbl.private[skill] and tbl.private[skill][key] then
+        return tbl.private[skill][key]
+    end
+    if tbl.public[key] then
+        return tbl.public[key]
+    end
+    print('错误:', 'key2id失败', skill, key)
+    return nil
 end
 
 function mt:sort_obj(obj)
     local names = {}
     for key in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
-            table.insert(names, self:key2id(key))
+            table.insert(names, self:key2id(obj['_id'], key))
         end
     end
     table.sort(names)
@@ -134,6 +151,7 @@ function mt:add_obj(id, obj)
         self:add 'c4' (id)
     end
     local names = self:sort_obj(obj)
+    
 end
 
 local function convert_lni(self, data, meta, has_level, extension)
@@ -156,15 +174,15 @@ local function load(filename)
     return io.load(fs.path(filename))
 end
 
-local function lni2obj(self, file_name_in, file_name_out, meta_path, has_level)
-    print('读取lni:', file_name_in:string())
-    local data = lni:packager(file_name_in:string(), load)
+local function lni2obj(self, file_name_in, file_name_out, file_name_meta, has_level)
+    print('读取lni:', file_name_in)
+    local data = lni:packager((self.dir['lni'] / file_name_in):string(), load)
 
-    local meta = read_metadata(meta_path)
+    local meta = self:read_metadata(file_name_meta)
 
     local content = convert_lni(self, data, meta, has_level, fs.extension(file_name_out))
 
-    io.save(file_name_out, content)
+    io.save(self.dir['w3x'] / file_name_out, content)
 end
 
 return lni2obj

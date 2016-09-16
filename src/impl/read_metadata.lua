@@ -17,8 +17,8 @@ function mt:__pairs()
 	end, self, nil
 end
 
-local function read_metadata(file_name)
-	local tbl, list = read_slk(file_name)
+local function read_metadata(self, file_name)
+	local tbl, list = read_slk(self.dir['meta'] / file_name)
 	if not tbl then
 		return
 	end

@@ -1,5 +1,5 @@
 local function read_wts(self, file_name_in)
-	local content = io.load(file_name_in)
+	local content = io.load(self.dir['w3x'] / file_name_in)
 	if not content then
 		print('文件无效:' .. file_name_in:string())
 		return

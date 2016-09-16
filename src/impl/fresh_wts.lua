@@ -7,7 +7,7 @@ local function fresh_wts(self, file_name_out)
 		end
 	end
 
-	io.save(file_name_out, table.concat(lines, '\r\n\r\n'))
+	io.save(self.dir['lni'] / file_name_out, table.concat(lines, '\r\n\r\n'))
 
 end
 
