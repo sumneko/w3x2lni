@@ -53,7 +53,6 @@ end
 
 function io.load(file_path)
 	local f, e = io.open(file_path, "rb")
-
 	if f then
 		local content	= f:read 'a'
 		f:close()

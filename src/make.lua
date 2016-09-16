@@ -28,16 +28,6 @@ local function read_meta()
 	w3x2txt:read_editstring(meta_dir / 'WorldEditStrings.txt')
 end
 
-local function init_lni()
-	lni:set_marco('TableSearcher', 'lni\\')
-
-	return setmetatable({}, { __index = function(self, name)
-		local data = lni:packager(name, io.load)
-		self[name] = data
-		return data
-	end})
-end
-
 local function main()
 	local mode = arg[2]
 	
@@ -52,44 +42,31 @@ local function main()
 		--读取字符串
 		w3x2txt:read_wts(w3x_dir / 'war3map.wts')
 		
-		--转换二进制文件到txt
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3u', lni_dir / 'war3map.w3u.ini', false)
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3t', lni_dir / 'war3map.w3t.ini', false)
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3b', lni_dir / 'war3map.w3b.ini', false)
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3d', lni_dir / 'war3map.w3d.ini', true)
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3a', lni_dir / 'war3map.w3a.ini', true)
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3h', lni_dir / 'war3map.w3h.ini', false)
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3q', lni_dir / 'war3map.w3q.ini', true)
-		--w3x2txt:w3i2lni(w3x_dir / 'war3map.w3i', lni_dir / 'war3map.w3i.ini')
+		--转换二进制文件到lni
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3u', lni_dir / 'war3map.w3u', false)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3t', lni_dir / 'war3map.w3t', false)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3b', lni_dir / 'war3map.w3b', false)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3d', lni_dir / 'war3map.w3d', true)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3a', lni_dir / 'war3map.w3a', true)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3h', lni_dir / 'war3map.w3h', false)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3q', lni_dir / 'war3map.w3q', true)
 
 		--刷新字符串
 		w3x2txt:fresh_wts(lni_dir / 'war3map.wts')
 	end
 
 	if mode == "lni2w3x" then
-		-- 初始化lni
-		local lni = init_lni()
-	end
-do return end
-	if arg[2] then
-		
-	else
+		-- 初始化lni解析器
+		lni:set_marco('TableSearcher', '')
 
-		--清空输入输出目录
-		fs.remove_all(output_dir)
-		fs.create_directories(output_dir)
-		
-		--转换txt到二进制文件
-		w3x2txt.txt2obj(input_dir / 'war3map.w3u.txt', output_dir / 'war3map.w3u', false)
-		w3x2txt.txt2obj(input_dir / 'war3map.w3t.txt', output_dir / 'war3map.w3t', false)
-		w3x2txt.txt2obj(input_dir / 'war3map.w3b.txt', output_dir / 'war3map.w3b', false)
-		w3x2txt.txt2obj(input_dir / 'war3map.w3d.txt', output_dir / 'war3map.w3d', true)
-		w3x2txt.txt2obj(input_dir / 'war3map.w3a.txt', output_dir / 'war3map.w3a', true)
-		w3x2txt.txt2obj(input_dir / 'war3map.w3h.txt', output_dir / 'war3map.w3h', false)
-		w3x2txt.txt2obj(input_dir / 'war3map.w3q.txt', output_dir / 'war3map.w3q', true)
-
-		w3x2txt.txt2w3i(input_dir / 'war3map.w3i.txt', output_dir / 'war3map.w3i')
-
+		--转换lni到二进制文件
+		w3x2txt:lni2obj(lni_dir / 'war3map.w3u', w3x_dir / 'war3map2.w3u', false)
+		w3x2txt:lni2obj(lni_dir / 'war3map.w3t', w3x_dir / 'war3map2.w3t', false)
+		w3x2txt:lni2obj(lni_dir / 'war3map.w3b', w3x_dir / 'war3map2.w3b', false)
+		w3x2txt:lni2obj(lni_dir / 'war3map.w3d', w3x_dir / 'war3map2.w3d', true)
+		w3x2txt:lni2obj(lni_dir / 'war3map.w3a', w3x_dir / 'war3map2.w3a', true)
+		w3x2txt:lni2obj(lni_dir / 'war3map.w3h', w3x_dir / 'war3map2.w3h', false)
+		w3x2txt:lni2obj(lni_dir / 'war3map.w3q', w3x_dir / 'war3map2.w3q', true)
 	end
 	
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 

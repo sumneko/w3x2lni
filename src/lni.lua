@@ -132,7 +132,12 @@ function mt:dostringer(str, keyval, sep, hero)
 	return dostring(str, setmetatable({hero = hero}, {__index = keyval}))
 end
 function mt:searcher(name, callback)
-	for _, path in ipairs(split(marco[name .. 'Searcher'], ';')) do
+	local searcher = marco[name .. 'Searcher']
+	if searcher == '' then
+		callback('')
+		return
+	end
+	for _, path in ipairs(split(searcher, ';')) do
 		local fullpath = path: gsub('%$(.-)%$', function(v) return marco[v] or '' end)
 		callback(fullpath)
 	end

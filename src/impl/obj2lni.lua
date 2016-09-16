@@ -137,7 +137,7 @@ local function obj2txt(self, file_name_in, file_name_out, has_level)
 
 	local content = convert_lni(self, data, has_level)
 
-	io.save(file_name_out, content)
+	io.save(fs.path(file_name_out:string() .. '.ini'), content)
 end
 
 return obj2txt
