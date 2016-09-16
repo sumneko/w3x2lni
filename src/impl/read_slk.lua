@@ -64,7 +64,7 @@ local function read_slk(file_name)
     local tbl = {}
 	local list = {}
 	for y, id in pairs(data[1]) do
-        if id ~= 'ID' then
+        if y ~= 1 then
             tbl[id] = {}
             for x, list in pairs(data) do
                 local key = list[1] or x

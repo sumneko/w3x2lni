@@ -48,7 +48,7 @@ local function main()
 
 	if mode == "lni2w3x" then
 		-- 初始化lni解析器
-		lni:set_marco('TableSearcher', '')
+		lni:set_marco('TableSearcher', lni_dir:string() .. '/')
 
 		--转换lni到二进制文件
 		w3x2txt:lni2obj('war3map.w3u', 'war3map2.w3u', 'unitmetadata.slk', false)

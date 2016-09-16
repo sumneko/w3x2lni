@@ -1,4 +1,5 @@
 local lni = require 'lni'
+local read_slk = require 'impl.read_slk'
 local read_metadata = require 'impl.read_metadata'
 
 local mt = {}
@@ -81,7 +82,7 @@ function mt:key2id_add(id, meta, public, private)
     if not skill then
         self:key2id_addtable(public, name, id)
     else
-        for skl in skill:gmatch '[^%,]+' do
+        for skl in skill:gmatch '%w+' do
             if not private[skl] then
                 private[skl] = {}
             end
@@ -95,11 +96,12 @@ function mt:key2id_skill(skill)
         return skill
     end
     if not self.ability then
-        self.ability = read_metadata()
+        self.ability = read_slk(self.self.dir['meta'] / 'abilitydata.slk')
     end
+    return self.ability[skill]['code']
 end
 
-function mt:key2id(skill, key)
+function mt:key2id_get(skill, key)
     local tbl = self.key_id_tbl
     if not self.key_id_tbl then
         tbl = {}
@@ -110,14 +112,26 @@ function mt:key2id(skill, key)
             self:key2id_add(id, meta, tbl.public, tbl.private)
         end
     end
-    local skill = self:key2id_skill(skill)
     if tbl.private[skill] and tbl.private[skill][key] then
         return tbl.private[skill][key]
     end
     if tbl.public[key] then
         return tbl.public[key]
     end
-    print('错误:', 'key2id失败', skill, key)
+    return nil
+end
+
+function mt:key2id(skill, key)
+    local id = self:key2id_get(skill, key)
+    if id then
+        return id
+    end
+    local code = self:key2id_skill(skill)
+    local id = self:key2id_get(code, key)
+    if id then
+        return id
+    end
+    print('错误:', 'key2id失败', skill, code, key)
     return nil
 end
 
@@ -176,11 +190,11 @@ end
 
 local function lni2obj(self, file_name_in, file_name_out, file_name_meta, has_level)
     print('读取lni:', file_name_in)
-    local data = lni:packager((self.dir['lni'] / file_name_in):string(), load)
+    local data = lni:packager(file_name_in, load)
 
     local meta = self:read_metadata(file_name_meta)
 
-    local content = convert_lni(self, data, meta, has_level, fs.extension(file_name_out))
+    local content = convert_lni(self, data, meta, has_level, fs.extension(fs.path(file_name_out)))
 
     io.save(self.dir['w3x'] / file_name_out, content)
 end
