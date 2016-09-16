@@ -25,17 +25,16 @@ function mt:format_value(value)
 end
 
 function mt:format_name(name)
-	local meta = self.meta[name]
-	local name = meta['field']
-	local num = meta['data']
+	local meta  = self.meta[name]
+	local name  = meta['field']
+	local num   = meta['data']
 	if num and num ~= 0 then
 		name = name .. ('ABCDEF'):sub(num, num)
 	end
-	if name:match '^[%w%_]+$' then
-		return name
-	else
-		return ('%q'):format(name)
+	if meta['_has_index'] then
+		name = name .. ':' .. (meta['index'] + 1)
 	end
+	return name
 end
 
 function mt:get_comment(name)
@@ -89,6 +88,9 @@ end
 
 function mt:add_data(data)
 	local name = self:format_name(data.name)
+	if name:match '[^%w%_]' then
+		name = ('%q'):format(name)
+	end
 	self:add '-- %s' (self:get_comment(data.name))
 	if data.max_level <= 1 then
 		self:add '%s = %s' (name, self:format_value(data[1]))
