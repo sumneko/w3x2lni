@@ -29,7 +29,7 @@ function mt:format_name(name)
 	local name = meta['field']
 	local num = meta['data']
 	if num and num ~= 0 then
-		name = name .. num
+		name = name .. ('ABCDEF'):sub(num, num)
 	end
 	if name:match '^[%w%_]+$' then
 		return name
