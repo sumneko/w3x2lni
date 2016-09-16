@@ -1,4 +1,5 @@
 local read_obj = require 'impl.read_obj'
+local read_metadata = require 'impl.read_metadata'
 
 local mt = {}
 mt.__index = mt
@@ -25,10 +26,10 @@ end
 
 function mt:format_name(name)
 	local meta = self.meta[name]
-	local name = meta.field
-	local data = meta.data
-	if data and data ~= 0 then
-		name = name .. data
+	local name = meta['field']
+	local num = meta['data']
+	if num and num ~= 0 then
+		name = name .. num
 	end
 	if name:match '^[%w%_]+$' then
 		return name
@@ -43,9 +44,16 @@ function mt:get_comment(name)
 	return comment
 end
 
+function mt:add(format)
+	table.insert(self.lines, format)
+	return function(...)
+		self.lines[#self.lines] = format:format(...)
+	end
+end
+
 function mt:add_head(data)
-	self:add_line '["头"]'
-	self:add_line '"版本" = %s' (data['版本'])
+	self:add '["头"]'
+	self:add '"版本" = %s' (data['版本'])
 end
 
 function mt:add_chunk(chunk)
@@ -63,9 +71,9 @@ function mt:add_chunk(chunk)
 end
 
 function mt:add_obj(obj)
-	self:add_line ''
-	self:add_line '["%s"]' (obj['user_id'])
-	self:add_line '%s = %q' ('_id', obj['origin_id'])
+	self:add ''
+	self:add '["%s"]' (obj['user_id'])
+	self:add '%s = %q' ('_id', obj['origin_id'])
 	local names = {}
 	local datas = {}
 	for i = 1, #obj do
@@ -81,9 +89,9 @@ end
 
 function mt:add_data(data)
 	local name = self:format_name(data.name)
-	self:add_line '-- %s' (self:get_comment(data.name))
+	self:add '-- %s' (self:get_comment(data.name))
 	if data.max_level <= 1 then
-		self:add_line '%s = %s' (name, self:format_value(data[1]))
+		self:add '%s = %s' (name, self:format_value(data[1]))
 	else
 		local is_string
 		for i = 1, data.max_level do
@@ -93,17 +101,10 @@ function mt:add_data(data)
 			data[i] = self:format_value(data[i])
 		end
 		if is_string then
-			self:add_line '%s = {\n%s,\n}' (name, table.concat(data, ',\n'))
+			self:add '%s = {\n%s,\n}' (name, table.concat(data, ',\n'))
 		else
-			self:add_line '%s = {%s}' (name, table.concat(data, ', '))
+			self:add '%s = {%s}' (name, table.concat(data, ', '))
 		end
-	end
-end
-
-function mt:add_line(format)
-	table.insert(self.lines, format)
-	return function(...)
-		self.lines[#self.lines] = format:format(...)
 	end
 end
 
@@ -111,12 +112,12 @@ function mt:convert_wts(content)
 	return self.self:convert_wts(content)
 end
 
-local function convert_lni(self, data, has_level)
+local function convert_lni(self, data, meta, has_level)
 	local tbl = setmetatable({}, mt)
 	tbl.lines = {}
 	tbl.self = self
+	tbl.meta = meta
 	tbl.has_level = has_level
-	tbl.meta = self.meta
 	tbl.editstring = self.editstring
 
 	tbl:add_head(data)
@@ -126,7 +127,7 @@ local function convert_lni(self, data, has_level)
 	return table.concat(tbl.lines, '\n')
 end
 
-local function obj2txt(self, file_name_in, file_name_out, has_level)
+local function obj2txt(self, file_name_in, file_name_out, meta_path, has_level)
 	local content = io.load(file_name_in)
 	if not content then
 		print('文件无效:' .. file_name_in:string())
@@ -135,7 +136,9 @@ local function obj2txt(self, file_name_in, file_name_out, has_level)
 	print('读取obj:', file_name_in:string())
 	local data = read_obj(content, has_level)
 
-	local content = convert_lni(self, data, has_level)
+	local meta = read_metadata(meta_path)
+
+	local content = convert_lni(self, data, meta, has_level)
 
 	io.save(fs.path(file_name_out:string() .. '.ini'), content)
 end

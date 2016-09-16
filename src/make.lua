@@ -15,19 +15,6 @@ local lni_dir  = root_dir / 'lni'
 local w3x_dir  = root_dir / 'w3x'
 local meta_dir = root_dir / 'meta'
 
-local function read_meta()
-	w3x2txt:read_metadata(meta_dir / 'abilitybuffmetadata.slk')
-	w3x2txt:read_metadata(meta_dir / 'abilitymetadata.slk')
-	w3x2txt:read_metadata(meta_dir / 'destructablemetadata.slk')
-	w3x2txt:read_metadata(meta_dir / 'doodadmetadata.slk')
-	w3x2txt:read_metadata(meta_dir / 'miscmetadata.slk')
-	w3x2txt:read_metadata(meta_dir / 'unitmetadata.slk')
-	w3x2txt:read_metadata(meta_dir / 'upgradeeffectmetadata.slk')
-	w3x2txt:read_metadata(meta_dir / 'upgrademetadata.slk')
-
-	w3x2txt:read_editstring(meta_dir / 'WorldEditStrings.txt')
-end
-
 local function main()
 	local mode = arg[2]
 	
@@ -35,21 +22,21 @@ local function main()
 	fs.create_directory(lni_dir)
 	fs.create_directory(w3x_dir)
 
-	-- 读取meta表
-	read_meta()
-
 	if mode == "w3x2lni" then
 		--读取字符串
 		w3x2txt:read_wts(w3x_dir / 'war3map.wts')
+
+		--读取编辑器文本
+		w3x2txt:read_editstring(meta_dir / 'WorldEditStrings.txt')
 		
 		--转换二进制文件到lni
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3u', lni_dir / 'war3map.w3u', false)
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3t', lni_dir / 'war3map.w3t', false)
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3b', lni_dir / 'war3map.w3b', false)
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3d', lni_dir / 'war3map.w3d', true)
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3a', lni_dir / 'war3map.w3a', true)
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3h', lni_dir / 'war3map.w3h', false)
-		w3x2txt:obj2lni(w3x_dir / 'war3map.w3q', lni_dir / 'war3map.w3q', true)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3u', lni_dir / 'war3map.w3u', meta_dir / 'unitmetadata.slk', false)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3t', lni_dir / 'war3map.w3t', meta_dir / 'unitmetadata.slk', false)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3b', lni_dir / 'war3map.w3b', meta_dir / 'destructablemetadata.slk', false)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3d', lni_dir / 'war3map.w3d', meta_dir / 'doodadmetadata.slk', true)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3a', lni_dir / 'war3map.w3a', meta_dir / 'abilitymetadata.slk', true)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3h', lni_dir / 'war3map.w3h', meta_dir / 'abilitybuffmetadata.slk', false)
+		w3x2txt:obj2lni(w3x_dir / 'war3map.w3q', lni_dir / 'war3map.w3q', meta_dir / 'upgrademetadata.slk', true)
 
 		--刷新字符串
 		w3x2txt:fresh_wts(lni_dir / 'war3map.wts')
