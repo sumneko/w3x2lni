@@ -1,6 +1,5 @@
 local lni = require 'lni'
 local read_slk = require 'impl.read_slk'
-local read_metadata = require 'impl.read_metadata'
 
 local mt = {}
 mt.__index = mt
@@ -137,13 +136,16 @@ end
 
 function mt:sort_obj(obj)
     local names = {}
-    for key in pairs(obj) do
+    local new_obj = {}
+    for key, data in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
-            table.insert(names, self:key2id(obj['_id'], key))
+            local id = self:key2id(obj['_id'], key)
+            table.insert(names, id)
+            new_obj[id] = data
         end
     end
     table.sort(names)
-    return names
+    return names, new_obj
 end
 
 function mt:add_head(data)
@@ -164,16 +166,36 @@ function mt:add_obj(id, obj)
     else
         self:add 'c4' (id)
     end
-    local names = self:sort_obj(obj)
-    
+    local names, new_obj = self:sort_obj(obj)
+    self:add 'l' (#names)
+    for i = 1, #names do
+        self:add_data(names[i], new_obj[names[i]])
+    end
 end
 
-local function convert_lni(self, data, meta, has_level, extension)
+function mt:add_data(name, data)
+    local meta = self.meta
+    self:add 'c4' (name .. ('\0'):rep(4 - #name))
+    if not meta[name] then
+        print(name)
+    end
+    if meta[name]['repeat'] and meta[name]['repeat'] > 0 then
+        if type(data) ~= 'table' then
+            data = {data}
+        end
+    else
+        if type(data) == 'table' then
+            print('不应该有等级的数据', name)
+        end
+    end
+end
+
+local function convert_lni(self, data, meta, extension)
     local tbl = setmetatable({}, mt)
     tbl.hexs = {}
     tbl.self = self
     tbl.meta = meta
-    tbl.has_level = has_level
+    tbl.has_level = meta.has_level
     tbl.extension = extension
 
     local origin_id, user_id = tbl:sort_chunk(data)
@@ -188,13 +210,13 @@ local function load(filename)
     return io.load(fs.path(filename))
 end
 
-local function lni2obj(self, file_name_in, file_name_out, file_name_meta, has_level)
+local function lni2obj(self, file_name_in, file_name_out, file_name_meta)
     print('读取lni:', file_name_in)
     local data = lni:packager(file_name_in, load)
 
     local meta = self:read_metadata(file_name_meta)
 
-    local content = convert_lni(self, data, meta, has_level, fs.extension(fs.path(file_name_out)))
+    local content = convert_lni(self, data, meta, fs.extension(fs.path(file_name_out)))
 
     io.save(self.dir['w3x'] / file_name_out, content)
 end

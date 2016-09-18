@@ -43,6 +43,7 @@ local function main()
 	local convertors = {
 		'read_wts', 'fresh_wts',
 		'obj2lni', 'lni2obj',
+		'read_obj',
 		'read_metadata',
 		'read_editstring',
 	}

@@ -87,27 +87,22 @@ function mt:read_data()
 	return name, level, value
 end
 
-local function read_obj(content, has_level)
-	local index      = 1
-	local data       = {}
-	local self       = setmetatable({}, mt)
+local function read_obj(self, content, meta)
+	local index   = 1
+	local data    = {}
+	local tbl     = setmetatable({}, mt)
 	
-	self.content     = content
-	self.has_level   = has_level
-	self.index       = index
-	self.pack_format = {
-		[0] = 'l',
-		[1] = 'f',
-		[2] = 'f',
-		[3] = 'z',
-	}
+	tbl.content   = content
+	tbl.has_level = meta._has_level
+	tbl.index     = index
+	tbl.meta      = meta
 
 	-- 版本号
-	data['版本'] = self:read_version()
+	data['版本'] = tbl:read_version()
 	-- 默认数据
-	data[1] = self:read_chunk()
+	data[1] = tbl:read_chunk()
 	-- 自定义数据
-	data[2] = self:read_chunk()
+	data[2] = tbl:read_chunk()
 
 	return data
 end

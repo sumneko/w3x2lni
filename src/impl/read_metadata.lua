@@ -44,6 +44,12 @@ local function read_metadata(self, file_name)
 			v['_has_index'] = true
 		end
 	end
+	for k, v in pairs(meta) do
+		if v['repeat'] then
+			meta._has_level = true
+			break
+		end
+	end
 	return meta
 end
 

@@ -1,6 +1,3 @@
-local read_obj = require 'impl.read_obj'
-local read_metadata = require 'impl.read_metadata'
-
 local mt = {}
 mt.__index = mt
 
@@ -114,12 +111,12 @@ function mt:convert_wts(content)
 	return self.self:convert_wts(content)
 end
 
-local function convert_lni(self, data, meta, has_level)
+local function convert_lni(self, data, meta)
 	local tbl = setmetatable({}, mt)
 	tbl.lines = {}
 	tbl.self = self
 	tbl.meta = meta
-	tbl.has_level = has_level
+	tbl.has_level = meta.has_level
 	tbl.editstring = self.editstring
 
 	tbl:add_head(data)
@@ -129,18 +126,19 @@ local function convert_lni(self, data, meta, has_level)
 	return table.concat(tbl.lines, '\n')
 end
 
-local function obj2txt(self, file_name_in, file_name_out, file_name_meta, has_level)
+local function obj2txt(self, file_name_in, file_name_out, file_name_meta)
 	local content = io.load(self.dir['w3x'] / file_name_in)
 	if not content then
 		print('文件无效:' .. file_name_in)
 		return
 	end
-	print('读取obj:', file_name_in)
-	local data = read_obj(content, has_level)
-
+	
 	local meta = self:read_metadata(file_name_meta)
+	
+	print('读取obj:', file_name_in)
+	local data = self:read_obj(content, meta)
 
-	local content = convert_lni(self, data, meta, has_level)
+	local content = convert_lni(self, data, meta)
 
 	io.save(self.dir['w3x'] / (file_name_out .. '.ini'), content)
 end

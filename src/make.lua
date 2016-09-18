@@ -34,13 +34,13 @@ local function main()
 		w3x2txt:read_editstring('WorldEditStrings.txt')
 		
 		--转换二进制文件到lni
-		w3x2txt:obj2lni('war3map.w3u', 'war3map.w3u', 'unitmetadata.slk', false)
-		w3x2txt:obj2lni('war3map.w3t', 'war3map.w3t', 'unitmetadata.slk', false)
-		w3x2txt:obj2lni('war3map.w3b', 'war3map.w3b', 'destructablemetadata.slk', false)
-		w3x2txt:obj2lni('war3map.w3d', 'war3map.w3d', 'doodadmetadata.slk', true)
-		w3x2txt:obj2lni('war3map.w3a', 'war3map.w3a', 'abilitymetadata.slk', true)
-		w3x2txt:obj2lni('war3map.w3h', 'war3map.w3h', 'abilitybuffmetadata.slk', false)
-		w3x2txt:obj2lni('war3map.w3q', 'war3map.w3q', 'upgrademetadata.slk', true)
+		w3x2txt:obj2lni('war3map.w3u', 'war3map.w3u', 'unitmetadata.slk')
+		w3x2txt:obj2lni('war3map.w3t', 'war3map.w3t', 'unitmetadata.slk')
+		w3x2txt:obj2lni('war3map.w3b', 'war3map.w3b', 'destructablemetadata.slk')
+		w3x2txt:obj2lni('war3map.w3d', 'war3map.w3d', 'doodadmetadata.slk')
+		w3x2txt:obj2lni('war3map.w3a', 'war3map.w3a', 'abilitymetadata.slk')
+		w3x2txt:obj2lni('war3map.w3h', 'war3map.w3h', 'abilitybuffmetadata.slk')
+		w3x2txt:obj2lni('war3map.w3q', 'war3map.w3q', 'upgrademetadata.slk')
 
 		--刷新字符串
 		w3x2txt:fresh_wts('war3map.wts')
@@ -51,13 +51,13 @@ local function main()
 		lni:set_marco('TableSearcher', lni_dir:string() .. '/')
 
 		--转换lni到二进制文件
-		w3x2txt:lni2obj('war3map.w3u', 'war3map2.w3u', 'unitmetadata.slk', false)
-		w3x2txt:lni2obj('war3map.w3t', 'war3map2.w3t', 'unitmetadata.slk', false)
-		w3x2txt:lni2obj('war3map.w3b', 'war3map2.w3b', 'destructablemetadata.slk', false)
-		w3x2txt:lni2obj('war3map.w3d', 'war3map2.w3d', 'doodadmetadata.slk', true)
-		w3x2txt:lni2obj('war3map.w3a', 'war3map2.w3a', 'abilitymetadata.slk', true)
-		w3x2txt:lni2obj('war3map.w3h', 'war3map2.w3h', 'abilitybuffmetadata.slk', false)
-		w3x2txt:lni2obj('war3map.w3q', 'war3map2.w3q', 'upgrademetadata.slk', true)
+		w3x2txt:lni2obj('war3map.w3u', 'war3map2.w3u', 'unitmetadata.slk')
+		w3x2txt:lni2obj('war3map.w3t', 'war3map2.w3t', 'unitmetadata.slk')
+		w3x2txt:lni2obj('war3map.w3b', 'war3map2.w3b', 'destructablemetadata.slk')
+		w3x2txt:lni2obj('war3map.w3d', 'war3map2.w3d', 'doodadmetadata.slk')
+		w3x2txt:lni2obj('war3map.w3a', 'war3map2.w3a', 'abilitymetadata.slk')
+		w3x2txt:lni2obj('war3map.w3h', 'war3map2.w3h', 'abilitybuffmetadata.slk')
+		w3x2txt:lni2obj('war3map.w3q', 'war3map2.w3q', 'upgrademetadata.slk')
 	end
 	
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
