@@ -148,6 +148,40 @@ function mt:sort_obj(obj)
     return names, new_obj
 end
 
+local key_type = {
+	int			= 0,
+	bool		= 0,
+	deathType	= 0,
+	attackBits	= 0,
+	teamColor	= 0,
+	fullFlags	= 0,
+	channelType	= 0,
+	channelFlags= 0,
+	stackFlags	= 0,
+	silenceFlags= 0,
+	spellDetail	= 0,
+	real		= 1,
+	unreal		= 2,
+}
+
+function mt:get_key_type(key)
+    local meta = self.meta
+    local type = meta[key]['type']
+    local format = key_type[type] or 3
+    return format
+end
+
+local pack_format = {
+	[0] = 'l',
+	[1] = 'f',
+	[2] = 'f',
+	[3] = 'z',
+}
+
+function mt:get_key_format(key)
+    return pack_format[self:get_key_type(key)]
+end
+
 function mt:add_head(data)
     self:add 'l' (data['头']['版本'])
 end
@@ -162,7 +196,7 @@ end
 function mt:add_obj(id, obj)
     self:add 'c4' (obj['_id'])
     if id == obj['_id'] then
-        self:add '\0\0\0\0'
+        self:add 'l' (0)
     else
         self:add 'c4' (id)
     end
@@ -174,12 +208,9 @@ function mt:add_obj(id, obj)
 end
 
 function mt:add_data(name, data)
-    local meta = self.meta
-    self:add 'c4' (name .. ('\0'):rep(4 - #name))
-    if not meta[name] then
-        print(name)
-    end
-    if meta[name]['repeat'] and meta[name]['repeat'] > 0 then
+    local meta = self.meta[name]
+    self:add 'c4l' (name .. ('\0'):rep(4 - #name), self:get_key_type(name))
+    if meta['repeat'] and meta['repeat'] > 0 then
         if type(data) ~= 'table' then
             data = {data}
         end
@@ -187,6 +218,27 @@ function mt:add_data(name, data)
         if type(data) == 'table' then
             print('不应该有等级的数据', name)
         end
+    end
+    if type(data) == 'table' then
+        for lv = 1, #data do
+            local value = data[lv]
+            if value ~= nil then
+                if has_level then
+                    self:add 'l' (lv)
+                    self:add 'l' (meta['data'] or 0)
+                end
+                self:add(self:get_key_format(name))(value)
+                self:add 'l' (0)
+            end
+        end
+    else
+        local value = data
+        if has_level then
+            self:add 'l' (0)
+            self:add 'l' (meta['data'] or 0)
+        end
+        self:add(self:get_key_format(name))(value)
+        self:add 'l' (0)
     end
 end
 
