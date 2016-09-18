@@ -140,7 +140,7 @@ local function obj2txt(self, file_name_in, file_name_out, file_name_meta)
 
 	local content = convert_lni(self, data, meta)
 
-	io.save(self.dir['w3x'] / (file_name_out .. '.ini'), content)
+	io.save(self.dir['lni'] / (file_name_out .. '.ini'), content)
 end
 
 return obj2txt
