@@ -137,15 +137,25 @@ end
 function mt:sort_obj(obj)
     local names = {}
     local new_obj = {}
+    local count = 0
     for key, data in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
             local id = self:key2id(obj['_id'], key)
             table.insert(names, id)
             new_obj[id] = data
+            if type(data) == 'table' then
+                for i = 1, #data do
+                    if data[i] ~= nil then
+                        count = count + 1
+                    end
+                end
+            else
+                count = count + 1
+            end
         end
     end
     table.sort(names)
-    return names, new_obj
+    return names, new_obj, count
 end
 
 local key_type = {
@@ -186,7 +196,7 @@ function mt:add_head(data)
     self:add 'l' (data['头']['版本'])
 end
 
-function mt:add_chunk(data, id)
+function mt:add_chunk(id, data)
     self:add 'l' (#id)
     for i = 1, #id do
         self:add_obj(id[i], data[id[i]])
@@ -196,12 +206,12 @@ end
 function mt:add_obj(id, obj)
     self:add 'c4' (obj['_id'])
     if id == obj['_id'] then
-        self:add 'l' (0)
+        self:add 'c4' '\0\0\0\0'
     else
         self:add 'c4' (id)
     end
-    local names, new_obj = self:sort_obj(obj)
-    self:add 'l' (#names)
+    local names, new_obj, count = self:sort_obj(obj)
+    self:add 'l' (count)
     for i = 1, #names do
         self:add_data(names[i], new_obj[names[i]])
     end
@@ -209,37 +219,36 @@ end
 
 function mt:add_data(name, data)
     local meta = self.meta[name]
-    self:add 'c4l' (name .. ('\0'):rep(4 - #name), self:get_key_type(name))
     if meta['repeat'] and meta['repeat'] > 0 then
         if type(data) ~= 'table' then
             data = {data}
         end
     else
         if type(data) == 'table' then
-            print('不应该有等级的数据', name)
+            print('错误:', '不应该有等级的数据', name)
         end
     end
     if type(data) == 'table' then
-        for lv = 1, #data do
-            local value = data[lv]
-            if value ~= nil then
-                if has_level then
-                    self:add 'l' (lv)
-                    self:add 'l' (meta['data'] or 0)
-                end
-                self:add(self:get_key_format(name))(value)
-                self:add 'l' (0)
-            end
+        for level = 1, #data do
+            self:add_value(name, data[level], level)
         end
     else
-        local value = data
-        if has_level then
-            self:add 'l' (0)
-            self:add 'l' (meta['data'] or 0)
-        end
-        self:add(self:get_key_format(name))(value)
-        self:add 'l' (0)
+        self:add_value(name, data, 0)
     end
+end
+
+function mt:add_value(name, value, level)
+    if value == nil then
+        return
+    end
+    local meta = self.meta[name]
+    self:add 'c4l' (name .. ('\0'):rep(4 - #name), self:get_key_type(name))
+    if self.has_level then
+        self:add 'l' (level)
+        self:add 'l' (meta['data'] or 0)
+    end
+    self:add(self:get_key_format(name))(value)
+    self:add 'c4' '\0\0\0\0'
 end
 
 local function convert_lni(self, data, meta, extension)
@@ -247,13 +256,13 @@ local function convert_lni(self, data, meta, extension)
     tbl.hexs = {}
     tbl.self = self
     tbl.meta = meta
-    tbl.has_level = meta.has_level
+    tbl.has_level = meta._has_level
     tbl.extension = extension
 
     local origin_id, user_id = tbl:sort_chunk(data)
     tbl:add_head(data)
-    tbl:add_chunk(data, origin_id)
-    tbl:add_chunk(data, user_id)
+    tbl:add_chunk(origin_id, data)
+    tbl:add_chunk(user_id, data)
 
     return table.concat(tbl.hexs)
 end

@@ -116,7 +116,7 @@ local function convert_lni(self, data, meta)
 	tbl.lines = {}
 	tbl.self = self
 	tbl.meta = meta
-	tbl.has_level = meta.has_level
+	tbl.has_level = meta._has_level
 	tbl.editstring = self.editstring
 
 	tbl:add_head(data)
