@@ -14,7 +14,6 @@ local root_dir = fs.path(arg[1])
 local lni_dir  = root_dir / 'lni'
 local w3x_dir  = root_dir / 'w3x'
 local meta_dir = root_dir / 'meta'
-local temp_dir = root_dir / 'temp'
 
 local function main()
 	local mode = arg[2]
@@ -26,7 +25,6 @@ local function main()
 	w3x2txt:set_dir('w3x', w3x_dir)
 	w3x2txt:set_dir('lni', lni_dir)
 	w3x2txt:set_dir('meta', meta_dir)
-	w3x2txt:set_dir('temp', temp_dir)
 
 	if mode == "w3x2lni" then
 		--读取字符串
