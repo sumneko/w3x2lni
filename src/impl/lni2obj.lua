@@ -200,6 +200,13 @@ function mt:get_key_format(key)
     return pack_format[self:get_key_type(key)]
 end
 
+function mt:format_value(value)
+    if type(value) == 'string' then
+        value = value:gsub('\n$', '')
+    end
+    return value
+end
+
 function mt:add_head(data)
     self:add 'l' (data['头']['版本'])
 end
@@ -255,7 +262,7 @@ function mt:add_value(name, value, level)
         self:add 'l' (level)
         self:add 'l' (meta['data'] or 0)
     end
-    self:add(self:get_key_format(name))(value)
+    self:add(self:get_key_format(name))(self:format_value(value))
     self:add 'c4' '\0\0\0\0'
 end
 
