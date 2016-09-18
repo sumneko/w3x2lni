@@ -1,11 +1,16 @@
 local lni = require 'lni'
 local read_slk = require 'impl.read_slk'
 
+local table_insert = table.insert
+local table_sort   = table.sort
+local table_concat = table.concat
+local string_char  = string.char
+
 local mt = {}
 mt.__index = mt
 
 function mt:add(format)
-    table.insert(self.hexs, format)
+    table_insert(self.hexs, format)
     return function(...)
         self.hexs[#self.hexs] = (format):pack(...)
     end
@@ -17,14 +22,14 @@ function mt:sort_chunk(data)
     for id, obj in pairs(data) do
         if obj['_id'] then
             if obj['_id'] == id then
-                table.insert(origin, id)
+                table_insert(origin, id)
             else
-                table.insert(user, id)
+                table_insert(user, id)
             end
         end
     end
-    table.sort(origin)
-    table.sort(user)
+    table_sort(origin)
+    table_sort(user)
     return origin, user
 end
 
@@ -73,7 +78,7 @@ function mt:key2id_add(id, meta, public, private)
     local num   = meta['data']
     local skill = meta['useSpecific']
     if num and num ~= 0 then
-        name = name .. string.char(('A'):byte() + num - 1)
+        name = name .. string_char(('A'):byte() + num - 1)
     end
     if meta['_has_index'] then
         name = name .. ':' .. (meta['index'] + 1)
@@ -141,7 +146,7 @@ function mt:sort_obj(obj)
     for key, data in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
             local id = self:key2id(obj['_id'], key)
-            table.insert(names, id)
+            table_insert(names, id)
             new_obj[id] = data
             if type(data) == 'table' then
                 for i = 1, #data do
@@ -154,7 +159,7 @@ function mt:sort_obj(obj)
             end
         end
     end
-    table.sort(names)
+    table_sort(names)
     return names, new_obj, count
 end
 
@@ -264,7 +269,7 @@ local function convert_lni(self, data, meta, extension)
     tbl:add_chunk(origin_id, data)
     tbl:add_chunk(user_id, data)
 
-    return table.concat(tbl.hexs)
+    return table_concat(tbl.hexs)
 end
 
 local function load(filename)

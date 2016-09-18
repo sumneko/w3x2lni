@@ -1,3 +1,5 @@
+local table_insert = table.insert
+
 local function read_wts(self, file_name_in)
 	local content = io.load(self.dir['w3x'] / file_name_in)
 	if not content then
@@ -12,7 +14,7 @@ local function read_wts(self, file_name_in)
 			index	= i,
 			text	= s,
 		}
-		table.insert(self.wts_strings, t)
+		table_insert(self.wts_strings, t)
 		self.wts_strings[('%03d'):format(i)] = t	--这里的索引是字符串
 	end
 end

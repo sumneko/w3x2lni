@@ -1,3 +1,6 @@
+local table_insert = table.insert
+local table_remove = table.remove
+
 local function read_triggerdata(self, file_name_in)
 	local function_state
 	if self.function_state then
@@ -59,15 +62,15 @@ local function read_triggerdata(self, file_name_in)
 			for arg in args:gmatch '[^%,]+' do
 				--排除部分参数
 				if not tonumber(arg) and arg ~= 'nothing' then
-					table.insert(state.args, arg)
+					table_insert(state.args, arg)
 				end
 			end
 			--类型为调用时,去掉第一个返回值
 			if funcs.trigger_type == 3 then
-				table.remove(state.args, 1)
+				table_remove(state.args, 1)
 			end
 
-			table.insert(funcs.states, state)
+			table_insert(funcs.states, state)
 			funcs.states[state.name]	= state
 		end,
 	}

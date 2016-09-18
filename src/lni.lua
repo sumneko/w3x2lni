@@ -1,6 +1,9 @@
+local table_insert = table.insert
+local math_tointeger = math.tointeger
+local string_dump = string.dump
 local mt = {}
 local marco = {}
-local function split(str, p) local rt = {} str:gsub('[^'..p..']+', function (w) table.insert(rt, w) end) return rt end
+local function split(str, p) local rt = {} str:gsub('[^'..p..']+', function (w) table_insert(rt, w) end) return rt end
 function mt:loader(code, ac, default)
 	if code:sub(1, 3) == '\xEF\xBB\xBF' then code = code:sub(4) end
 	local function dostring(ln, str, env) return assert(load(str, '=line<' .. ln .. '>', 't', env))() end
@@ -105,14 +108,14 @@ function mt:dostringer(str, keyval, sep, hero)
 	end
 	local env = setmetatable(keyval, {__index = _G})
 	local function setfenv(f)
-		return load(string.dump(f), '=(load)', nil, env)
+		return load(string_dump(f), '=(load)', nil, env)
 	end
 	local function dostring(str, env)
 		return str
 	end
 	local function format(n, env)
 		if type(n) == 'number' then
-			return math.tointeger(n) or ('%.1f'):format(n)
+			return math_tointeger(n) or ('%.1f'):format(n)
 		end
 		if type(n) == 'string' then
 			return dostring(n, env)

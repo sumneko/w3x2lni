@@ -1,6 +1,8 @@
 require "i18n"
 
-local cm = i18n.conv_method((2 << 16) | string.byte("?", 1))
+local string_byte = string.byte
+
+local cm = i18n.conv_method((2 << 16) | string_byte("?", 1))
 
 function utf8_to_ansi(str)
 	return i18n.utf8_to_ansi(str, cm)

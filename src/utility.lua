@@ -2,6 +2,10 @@ require 'ar_stormlib'
 require 'sys'
 require 'i18n'
 
+local table_unpack = table.unpack
+local table_insert = table.insert
+local table_sort   = table.sort
+
 local stormlib = ar.stormlib
 local mpq_meta =  { __index = {} }
 
@@ -147,7 +151,7 @@ function print(...)
 	for i = 1, count do
 		tbl[i] = utf8_to_ansi(tostring(tbl[i]))
 	end
-	stdio_print(table.unpack(tbl))
+	stdio_print(table_unpack(tbl))
 end
 
 function string.create_lines(tab)
@@ -157,7 +161,7 @@ function string.create_lines(tab)
 	
 	local function push(self, mo)
 		local line = tabs .. mo
-		table.insert(self, line)
+		table_insert(self, line)
 		return function(...)
 			self[#self] = line:format(...)
 		end
@@ -170,14 +174,14 @@ function table.hash_to_array(t)
 	--将key保存在数组中
 	local nt = {}
 	for key in pairs(t) do
-		table.insert(nt, key)
+		table_insert(nt, key)
 	end
 
 	for i = 1, #nt do
 		t[i] = nt[i]
 	end
 
-	table.sort(t)
+	table_sort(t)
 
 	--添加遍历的元方法
 	local mt = getmetatable(t)

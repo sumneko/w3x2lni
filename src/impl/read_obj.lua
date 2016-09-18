@@ -1,10 +1,15 @@
+local table_remove = table.remove
+local table_unpack = table.unpack
+local table_insert = table.insert
+local math_tointeger = math.tointeger
+
 local mt = {}
 mt.__index = mt
 
 function mt:unpack(str)
 	local returns = {str:unpack(self.content, self.index)}
-	self.index = table.remove(returns)
-	return table.unpack(returns)
+	self.index = table_remove(returns)
+	return table_unpack(returns)
 end
 
 function mt:read_version()
@@ -34,7 +39,7 @@ function mt:read_obj()
 				['name']      = name,
 				['max_level'] = 0,
 			}
-			table.insert(obj, obj[name])
+			table_insert(obj, obj[name])
 		end
 		if level then
 			obj[name][level] = value
@@ -74,7 +79,7 @@ function mt:read_data()
 
 	local value = self:unpack(value_format)
 	if value_format == 'l' then
-		value = math.tointeger(value)
+		value = math_tointeger(value)
 	elseif value_format == 'f' then
 		value = tonumber(value)
 	else

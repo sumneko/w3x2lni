@@ -1,3 +1,5 @@
+local table_insert = table.insert
+
 local mt = {}
 setmetatable(mt, mt)
 mt._parsers = {}
@@ -6,7 +8,7 @@ mt.__index = mt
 
 function mt:__newindex(key, value)
     if key == 'parser' then
-        table.insert(self._parsers, value)
+        table_insert(self._parsers, value)
         return
     end
     rawset(self, key, value)

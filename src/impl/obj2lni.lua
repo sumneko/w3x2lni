@@ -1,10 +1,16 @@
+local table_insert = table.insert
+local table_sort   = table.sort
+local table_concat = table.concat
+local math_type    = math.type
+local string_char  = string.char
+
 local mt = {}
 mt.__index = mt
 
 function mt:format_value(value)
 	local tp = type(value)
 	if tp == 'number' then
-		if math.type(value) == 'integer' then
+		if math_type(value) == 'integer' then
 			return ('%d'):format(value)
 		else
 			return ('%.4f'):format(value)
@@ -26,7 +32,7 @@ function mt:format_name(name)
 	local name  = meta['field']
 	local num   = meta['data']
 	if num and num ~= 0 then
-		name = name .. string.char(('A'):byte() + num - 1)
+		name = name .. string_char(('A'):byte() + num - 1)
 	end
 	if meta['_has_index'] then
 		name = name .. ':' .. (meta['index'] + 1)
@@ -41,7 +47,7 @@ function mt:get_comment(name)
 end
 
 function mt:add(format)
-	table.insert(self.lines, format)
+	table_insert(self.lines, format)
 	return function(...)
 		self.lines[#self.lines] = format:format(...)
 	end
@@ -57,10 +63,10 @@ function mt:add_chunk(chunk)
 	local objs = {}
 	for i = 1, #chunk do
 		local name = chunk[i].user_id
-		table.insert(names, name)
+		table_insert(names, name)
 		objs[name] = chunk[i]
 	end
-	table.sort(names)
+	table_sort(names)
 	for i = 1, #names do
 		self:add_obj(objs[names[i]])
 	end
@@ -74,10 +80,10 @@ function mt:add_obj(obj)
 	local datas = {}
 	for i = 1, #obj do
 		local name = self:format_name(obj[i].name)
-		table.insert(names, name)
+		table_insert(names, name)
 		datas[name] = obj[i]
 	end
-	table.sort(names)
+	table_sort(names)
 	for i = 1, #names do
 		self:add_data(datas[names[i]])
 	end
@@ -100,9 +106,9 @@ function mt:add_data(data)
 			data[i] = self:format_value(data[i])
 		end
 		if is_string then
-			self:add '%s = {\n%s,\n}' (name, table.concat(data, ',\n'))
+			self:add '%s = {\n%s,\n}' (name, table_concat(data, ',\n'))
 		else
-			self:add '%s = {%s}' (name, table.concat(data, ', '))
+			self:add '%s = {%s}' (name, table_concat(data, ', '))
 		end
 	end
 end
@@ -123,7 +129,7 @@ local function convert_lni(self, data, meta)
 	tbl:add_chunk(data[1])
 	tbl:add_chunk(data[2])
 
-	return table.concat(tbl.lines, '\n')
+	return table_concat(tbl.lines, '\n')
 end
 
 local function obj2txt(self, file_name_in, file_name_out, file_name_meta)

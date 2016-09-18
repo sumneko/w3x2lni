@@ -1,3 +1,5 @@
+local table_insert = table.insert
+
 local mt = {}
 mt.__index = mt
 
@@ -23,7 +25,7 @@ end
 function mt:read_line(line)
 	local strs = {}
 	for str in line:gmatch '[^;]+' do
-		table.insert(strs, str)
+		table_insert(strs, str)
 	end
 	if strs[1] ~= 'C' then
 		return
@@ -70,7 +72,7 @@ local function read_slk(file_name)
                 local key = list[1] or x
                 tbl[id][key] = list[y]
             end
-			table.insert(list, id)
+			table_insert(list, id)
         end
 	end
     return tbl, list
