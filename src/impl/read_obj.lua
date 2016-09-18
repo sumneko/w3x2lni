@@ -2,6 +2,7 @@ local table_remove = table.remove
 local table_unpack = table.unpack
 local table_insert = table.insert
 local math_tointeger = math.tointeger
+local setmetatable = setmetatable
 
 local mt = {}
 mt.__index = mt

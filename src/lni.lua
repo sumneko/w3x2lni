@@ -1,6 +1,12 @@
 local table_insert = table.insert
 local math_tointeger = math.tointeger
 local string_dump = string.dump
+local type = type
+local assert = assert
+local load = load
+local pairs = pairs
+local ipairs = ipairs
+local setmetatable = setmetatable
 local mt = {}
 local marco = {}
 local function split(str, p) local rt = {} str:gsub('[^'..p..']+', function (w) table_insert(rt, w) end) return rt end

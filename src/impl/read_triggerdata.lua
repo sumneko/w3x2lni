@@ -1,5 +1,6 @@
 local table_insert = table.insert
 local table_remove = table.remove
+local ipairs = ipairs
 
 local function read_triggerdata(self, file_name_in)
 	local function_state

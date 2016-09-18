@@ -1,5 +1,6 @@
 local table_insert = table.insert
 local table_concat = table.concat
+local ipairs = ipairs
 
 local function fresh_wts(self, file_name_out)
 

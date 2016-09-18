@@ -5,6 +5,9 @@ local table_insert = table.insert
 local table_sort   = table.sort
 local table_concat = table.concat
 local string_char  = string.char
+local type = type
+local pairs = pairs
+local setmetatable = setmetatable
 
 local mt = {}
 mt.__index = mt

@@ -1,4 +1,6 @@
 local table_insert = table.insert
+local pairs = pairs
+local setmetatable = setmetatable
 
 local mt = {}
 mt.__index = mt

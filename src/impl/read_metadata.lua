@@ -1,5 +1,8 @@
 local read_slk = require 'impl.read_slk'
 
+local pairs = pairs
+local setmetatable = setmetatable
+
 local mt = {}
 mt.__index = mt
 

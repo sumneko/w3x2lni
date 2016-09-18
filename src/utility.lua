@@ -5,6 +5,8 @@ require 'i18n'
 local table_unpack = table.unpack
 local table_insert = table.insert
 local table_sort   = table.sort
+local pairs = pairs
+local setmetatable = setmetatable
 
 local stormlib = ar.stormlib
 local mpq_meta =  { __index = {} }

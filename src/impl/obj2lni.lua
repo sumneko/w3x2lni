@@ -3,6 +3,8 @@ local table_sort   = table.sort
 local table_concat = table.concat
 local math_type    = math.type
 local string_char  = string.char
+local type = type
+local setmetatable = setmetatable
 
 local mt = {}
 mt.__index = mt
