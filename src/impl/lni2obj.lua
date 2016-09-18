@@ -270,7 +270,7 @@ local function lni2obj(self, file_name_in, file_name_out, file_name_meta)
 
     local content = convert_lni(self, data, meta, fs.extension(fs.path(file_name_out)))
 
-    io.save(self.dir['w3x'] / file_name_out, content)
+    io.save(self.dir['temp'] / file_name_out, content)
 end
 
 return lni2obj
