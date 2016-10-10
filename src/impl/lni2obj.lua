@@ -286,19 +286,19 @@ local function load(filename)
     return io.load(fs.path(filename))
 end
 
-local function lni2obj(self, file_name_in, file_name_out, file_name_meta)
-    print('读取lni:', file_name_in)
-    local data = lni:packager(file_name_in, load)
+local function lni2obj(self, file_name)
+    print('读取lni:', file_name)
+    local data = lni:packager(file_name, load)
     if not next(data) then
-		print('文件无效:' .. file_name_in)
+		print('文件无效:' .. file_name)
         return
     end
     
-    local meta = self:read_metadata(file_name_meta)
+    local meta = self:read_metadata(self.metadata[file_name])
 
-    local content = convert_lni(self, data, meta, fs.extension(fs.path(file_name_out)))
+    local content = convert_lni(self, data, meta, fs.extension(fs.path(file_name)))
 
-    io.save(self.dir['w3x'] / file_name_out, content)
+    io.save(self.dir['w3x'] / file_name, content)
 end
 
 return lni2obj

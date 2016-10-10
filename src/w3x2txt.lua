@@ -1,8 +1,6 @@
 local mt = {}
 
 mt.wts_strings = {}
-mt.dir = {}
-
 function mt:convert_wts(str, only_short, read_only)
 	return str:gsub('TRIGSTR_(%d+)', function(i)
 		local str_data = self.wts_strings[i]
@@ -18,25 +16,15 @@ function mt:convert_wts(str, only_short, read_only)
 	end)
 end
 
+mt.dir = {}
 function mt:set_dir(name, dir)
 	self.dir[name] = dir
 end
 
-local value_type = {
-	['int']          = 0,
-	['bool']         = 0,
-	['deathType']    = 0,
-	['attackBits']   = 0,
-	['teamColor']    = 0,
-	['fullFlags']    = 0,
-	['channelType']  = 0,
-	['channelFlags'] = 0,
-	['stackFlags']   = 0,
-	['silenceFlags'] = 0,
-	['spellDetail']  = 0,
-	['real']         = 1,
-	['unreal']       = 2,
-}
+mt.metadata = {}
+function mt:set_metadata(name, metadata)
+	self.metadata[name] = metadata
+end
 
 local function main()
 	-- 加载脚本

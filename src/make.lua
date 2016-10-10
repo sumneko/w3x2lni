@@ -15,8 +15,21 @@ local lni_dir  = root_dir / 'lni'
 local w3x_dir  = root_dir / 'w3x'
 local meta_dir = root_dir / 'meta'
 
+local function read_config()
+	lni:set_marco('TableSearcher', root_dir:string() .. '/')
+	local config = lni:packager('config', function(filename)
+		return io.load(fs.path(filename))
+	end)
+
+	for file_name, meta_name in pairs(config['metadata']) do
+		w3x2txt:set_metadata(file_name, meta_name)
+	end
+end
+
 local function main()
 	local mode = arg[2]
+	
+	read_config()
 	
 	-- 创建目录
 	fs.create_directory(lni_dir)
@@ -34,13 +47,13 @@ local function main()
 		w3x2txt:read_editstring('WorldEditStrings.txt')
 		
 		--转换二进制文件到lni
-		w3x2txt:obj2lni('war3map.w3u', 'war3map.w3u', 'unitmetadata.slk')
-		w3x2txt:obj2lni('war3map.w3t', 'war3map.w3t', 'unitmetadata.slk')
-		w3x2txt:obj2lni('war3map.w3b', 'war3map.w3b', 'destructablemetadata.slk')
-		w3x2txt:obj2lni('war3map.w3d', 'war3map.w3d', 'doodadmetadata.slk')
-		w3x2txt:obj2lni('war3map.w3a', 'war3map.w3a', 'abilitymetadata.slk')
-		w3x2txt:obj2lni('war3map.w3h', 'war3map.w3h', 'abilitybuffmetadata.slk')
-		w3x2txt:obj2lni('war3map.w3q', 'war3map.w3q', 'upgrademetadata.slk')
+		w3x2txt:obj2lni 'war3map.w3u'
+		w3x2txt:obj2lni 'war3map.w3t'
+		w3x2txt:obj2lni 'war3map.w3b'
+		w3x2txt:obj2lni 'war3map.w3d'
+		w3x2txt:obj2lni 'war3map.w3a'
+		w3x2txt:obj2lni 'war3map.w3h'
+		w3x2txt:obj2lni 'war3map.w3q'
 
 		--刷新字符串
 		w3x2txt:fresh_wts('war3map.wts')
@@ -51,13 +64,13 @@ local function main()
 		lni:set_marco('TableSearcher', lni_dir:string() .. '/')
 
 		--转换lni到二进制文件
-		w3x2txt:lni2obj('war3map.w3u', 'war3map.w3u', 'unitmetadata.slk')
-		w3x2txt:lni2obj('war3map.w3t', 'war3map.w3t', 'unitmetadata.slk')
-		w3x2txt:lni2obj('war3map.w3b', 'war3map.w3b', 'destructablemetadata.slk')
-		w3x2txt:lni2obj('war3map.w3d', 'war3map.w3d', 'doodadmetadata.slk')
-		w3x2txt:lni2obj('war3map.w3a', 'war3map.w3a', 'abilitymetadata.slk')
-		w3x2txt:lni2obj('war3map.w3h', 'war3map.w3h', 'abilitybuffmetadata.slk')
-		w3x2txt:lni2obj('war3map.w3q', 'war3map.w3q', 'upgrademetadata.slk')
+		w3x2txt:lni2obj 'war3map.w3u'
+		w3x2txt:lni2obj 'war3map.w3t'
+		w3x2txt:lni2obj 'war3map.w3b'
+		w3x2txt:lni2obj 'war3map.w3d'
+		w3x2txt:lni2obj 'war3map.w3a'
+		w3x2txt:lni2obj 'war3map.w3h'
+		w3x2txt:lni2obj 'war3map.w3q'
 	end
 	
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 

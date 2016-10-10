@@ -134,21 +134,21 @@ local function convert_lni(self, data, meta)
 	return table_concat(tbl.lines, '\n')
 end
 
-local function obj2txt(self, file_name_in, file_name_out, file_name_meta)
-	local content = io.load(self.dir['w3x'] / file_name_in)
+local function obj2txt(self, file_name)
+	local content = io.load(self.dir['w3x'] / file_name)
 	if not content then
-		print('文件无效:' .. file_name_in)
+		print('文件无效:' .. file_name)
 		return
 	end
 	
-	local meta = self:read_metadata(file_name_meta)
+	local meta = self:read_metadata(self.metadata[file_name])
 	
-	print('读取obj:', file_name_in)
+	print('读取obj:', file_name)
 	local data = self:read_obj(content, meta)
 
 	local content = convert_lni(self, data, meta)
 
-	io.save(self.dir['lni'] / (file_name_out .. '.ini'), content)
+	io.save(self.dir['lni'] / (file_name .. '.ini'), content)
 end
 
 return obj2txt
