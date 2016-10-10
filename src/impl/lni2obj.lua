@@ -289,7 +289,11 @@ end
 local function lni2obj(self, file_name_in, file_name_out, file_name_meta)
     print('读取lni:', file_name_in)
     local data = lni:packager(file_name_in, load)
-
+    if not next(data) then
+		print('文件无效:' .. file_name_in)
+        return
+    end
+    
     local meta = self:read_metadata(file_name_meta)
 
     local content = convert_lni(self, data, meta, fs.extension(fs.path(file_name_out)))
