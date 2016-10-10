@@ -4,3 +4,4 @@
 /w3x/
 *.w3x
 temp/
+.vscode/
