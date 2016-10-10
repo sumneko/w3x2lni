@@ -36,105 +36,15 @@ function mt:sort_chunk(data)
     return origin, user
 end
 
-local function key2id_isignore(id1, id2)
-    -- 闪电之球技能有2个DataA
-    if id1 == 'Idam' and id2 == 'Idic' then
-        return true
-    end
-    return false
-end
-
-function mt:key2id_addtable(tbl, name, id)
-    if tbl[name] then
-        if not key2id_isignore(id, tbl[name]) then
-            print('错误:', 'id重复', id, tbl[name], name, skl)
-        end
-        return
-    end
-    tbl[name] = id
-end
-
-function mt:key2id_isenable(meta)
-    local extension = self.extension
-    if extension == '.w3u' then
-        if meta['useHero'] == 1 or meta['useUnit'] == 1 or meta['useBuilding'] == 1 or meta['useCreep'] == 1 then
-            return true
-        else
-            return false
-        end
-    end
-    if extension == '.w3t' then
-        if meta['useItem'] == 1 then
-            return true
-        else
-            return false
-        end
-    end
-    return true
-end
-
-function mt:key2id_add(id, meta, public, private)
-    if not self:key2id_isenable(meta) then
-        return
-    end
-    local name  = meta['field']
-    local num   = meta['data']
-    local skill = meta['useSpecific']
-    if num and num ~= 0 then
-        name = name .. string_char(('A'):byte() + num - 1)
-    end
-    if meta['_has_index'] then
-        name = name .. ':' .. (meta['index'] + 1)
-    end
-    if not skill then
-        self:key2id_addtable(public, name, id)
-    else
-        for skl in skill:gmatch '%w+' do
-            if not private[skl] then
-                private[skl] = {}
-            end
-            self:key2id_addtable(private[skl], name, id)
-        end
-    end
-end
-
-function mt:key2id_skill(skill)
-    if self.extension ~= '.w3a' then
-        return skill
-    end
-    if not self.ability then
-        self.ability = read_slk(self.self.dir['meta'] / 'abilitydata.slk')
-    end
-    return self.ability[skill]['code']
-end
-
-function mt:key2id_get(skill, key)
-    local tbl = self.key_id_tbl
-    if not self.key_id_tbl then
-        tbl = {}
-        tbl.public = {}
-        tbl.private = {}
-        self.key_id_tbl = tbl
-        for id, meta in pairs(self.meta) do
-            self:key2id_add(id, meta, tbl.public, tbl.private)
-        end
-    end
-    if tbl.private[skill] and tbl.private[skill][key] then
-        return tbl.private[skill][key]
-    end
-    if tbl.public[key] then
-        return tbl.public[key]
-    end
-    return nil
-end
-
 function mt:key2id(skill, key)
-    local id = self:key2id_get(skill, key)
-    if id then
-        return id
+    local code = skill
+    if self.extension == '.w3a' then
+        if not self.ability then
+            self.ability = read_slk(self.self.dir['meta'] / 'abilitydata.slk')
+        end
+        code = self.ability[skill]['code']
     end
-    local code = self:key2id_skill(skill)
-    local id = self:key2id_get(code, key)
+    local id = (self.key[skill] and self.key[skill][key]) or (self.key[code] and self.key[code][key]) or self.key['public'][key]
     if id then
         return id
     end
@@ -266,11 +176,12 @@ function mt:add_value(name, value, level)
     self:add 'c4' '\0\0\0\0'
 end
 
-local function convert_lni(self, data, meta, extension)
+local function convert_lni(self, data, meta, key, extension)
     local tbl = setmetatable({}, mt)
     tbl.hexs = {}
     tbl.self = self
     tbl.meta = meta
+    tbl.key = key
     tbl.has_level = meta._has_level
     tbl.extension = extension
 
@@ -287,16 +198,20 @@ local function load(filename)
 end
 
 local function lni2obj(self, file_name)
+	lni:set_marco('TableSearcher', self.dir['lni']:string() .. '/')
     print('读取lni:', file_name)
     local data = lni:packager(file_name, load)
     if not next(data) then
 		print('文件无效:' .. file_name)
         return
     end
+
+    lni:set_marco('TableSearcher', self.dir['meta']:string() .. '/')
+    local key = lni:packager(file_name, load)
     
     local meta = self:read_metadata(self.metadata[file_name])
 
-    local content = convert_lni(self, data, meta, fs.extension(fs.path(file_name)))
+    local content = convert_lni(self, data, meta, key, fs.extension(fs.path(file_name)))
 
     io.save(self.dir['w3x'] / file_name, content)
 end

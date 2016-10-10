@@ -60,9 +60,6 @@ local function main()
 	end
 
 	if mode == "lni2w3x" then
-		-- 初始化lni解析器
-		lni:set_marco('TableSearcher', lni_dir:string() .. '/')
-
 		--转换lni到二进制文件
 		w3x2txt:lni2obj 'war3map.w3u'
 		w3x2txt:lni2obj 'war3map.w3t'
