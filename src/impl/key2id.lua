@@ -84,9 +84,9 @@ end
 
 function mt:add_public(public)
     local names = sort_table(public)
-    self:add '["default"]'
+    self:add '["public"]'
     for _, name in ipairs(names) do
-        self:add '\'%s\' = \'%s\'' (public[name], name)
+        self:add '\'%s\' = \'%s\'' (name, public[name])
     end
 end
 
@@ -98,7 +98,7 @@ function mt:add_private(private)
         self:add '["%s"]' (name)
         local names = sort_table(data)
         for _, name in ipairs(names) do
-            self:add '\'%s\' = \'%s\'' (data[name], name)
+            self:add '\'%s\' = \'%s\'' (name, data[name])
         end
     end
 end
