@@ -34,6 +34,7 @@ local function main()
 		'read_obj',
 		'read_metadata',
 		'read_editstring',
+		'key2id',
 	}
 	
 	for _, name in ipairs(convertors) do

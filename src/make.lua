@@ -72,6 +72,16 @@ local function main()
 		w3x2txt:lni2obj 'war3map.w3h'
 		w3x2txt:lni2obj 'war3map.w3q'
 	end
+
+	if mode == "key2id" then
+		w3x2txt:key2id 'war3map.w3u'
+		w3x2txt:key2id 'war3map.w3t'
+		w3x2txt:key2id 'war3map.w3b'
+		w3x2txt:key2id 'war3map.w3d'
+		w3x2txt:key2id 'war3map.w3a'
+		w3x2txt:key2id 'war3map.w3h'
+		w3x2txt:key2id 'war3map.w3q'
+	end
 	
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
 end
