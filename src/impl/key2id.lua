@@ -99,14 +99,15 @@ local function add_private(tbl, private)
 end
 
 local function copy_code(private, ability)
-    for skill, data in pairs(private) do
-        if ability[skill] then
-            local code = ability[skill]['code']
-            if code ~= skill and private[code] then
-                for k, v in pairs(private[code]) do
-                    if not data[k] then
-                        data[k] = v
-                    end
+    for skill, data in pairs(ability) do
+        local code = data['code']
+        if skill ~= code and private[code] then
+            if not private[skill] then
+                private[skill] = {}
+            end
+            for k, v in pairs(private[code]) do
+                if not private[skill][k] then
+                    private[skill][k] = v
                 end
             end
         end
