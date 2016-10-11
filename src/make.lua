@@ -20,7 +20,7 @@ local config
 local function read_config()
 	local config_str = io.load(root_dir / 'config.ini')
 	config = lni:loader(config_str, 'config')
-	
+
 	for file_name, meta_name in pairs(config['metadata']) do
 		w3x2txt:set_metadata(file_name, meta_name)
 	end
@@ -37,6 +37,110 @@ local function dir_scan(dir, callback)
 	end
 end
 
+local function w3x2lni()
+	--读取字符串
+	local content = io.load(w3x_dir / 'war3map.wts')
+	local wts
+	if content then
+		wts = w3x2txt:read_wts(content)
+		w3x2txt:set_wts(wts)
+	end
+
+	--读取编辑器文本
+	local editstring
+	local ini = w3x2txt:read_ini(meta_dir / 'WorldEditStrings.txt')
+	if ini then
+		editstring = ini['WorldEditStrings']
+	end
+	
+	--转换二进制文件到lni
+	for file_name, meta in pairs(config['metadata']) do
+		local content = io.load(w3x_dir / file_name)
+		if content then
+			print('正在转换:' .. file_name)
+			local metadata = w3x2txt:read_metadata(meta)
+			local data = w3x2txt:read_obj(content, metadata)
+			local content = w3x2txt:obj2lni(data, metadata, editstring)
+			io.save(lni_dir / (file_name .. '.ini'), content)
+		else
+			print('文件无效:' .. file_name)
+		end
+	end
+
+	--刷新字符串
+	if wts then
+		local content = w3x2txt:fresh_wts(wts)
+		io.save(lni_dir / 'war3map.wts', content)
+	end
+end
+
+local function lni2w3x()
+	for file_name, meta in pairs(config['metadata']) do
+		local lni_str = io.load(lni_dir / (file_name .. '.ini'))
+		if lni_str then
+			print('正在转换:', file_name)
+			local data = lni:loader(lni_str, file_name)
+			local key_str = io.load(meta_dir / (file_name .. '.ini'))
+			local key = lni:loader(key_str, file_name)
+			local metadata = w3x2txt:read_metadata(meta)
+			local content = w3x2txt:lni2obj(data, metadata, key)
+			io.save(w3x_dir / file_name, content)
+		else
+			print('文件无效:' .. file_name)
+		end
+	end
+end
+
+local function key2id()
+	for file_name, meta in pairs(config['metadata']) do
+		local metadata = w3x2txt:read_metadata(meta)
+		local content = w3x2txt:key2id(file_name, metadata)
+		io.save(meta_dir / (file_name .. '.ini'), content)
+	end
+end
+
+local function export()
+	if not arg[3] then
+		print('请将地图拖动到bat中!')
+		return
+	end
+	local map_path = fs.path(arg[3])
+	local temp_dir = root_dir / 'temp'
+
+	-- 将原来的目录改名后删除(否则之后创建同名目录时可能拒绝访问)
+	if fs.exists(w3x_dir) then
+		fs.rename(w3x_dir, temp_dir)
+		fs.remove_all(temp_dir)
+	end
+	fs.create_directories(w3x_dir)
+
+	-- 解压地图
+	local map = mpq_open(map_path)
+	if not map then
+		print('地图打开失败')
+		return
+	end
+	
+	local clock = os.clock()
+	local success, failed = 0, 0
+	for name in pairs(map) do
+		local path = w3x_dir / name
+		local dir = path:parent_path()
+		fs.create_directories(dir)
+		if map:extract(name, path) then
+			success = success + 1
+		else
+			failed = failed + 1
+			print('文件导出失败', name)
+		end
+		if os.clock() - clock >= 0.5 then
+			clock = os.clock()
+			print('正在导出', '成功:', success, '失败:', failed)
+		end
+	end
+	print('导出完毕', '成功:', success, '失败:', failed)
+end
+
 local function main()
 	local mode = arg[2]
 	
@@ -51,107 +155,19 @@ local function main()
 	w3x2txt:set_dir('meta', meta_dir)
 
 	if mode == "w3x2lni" then
-		--读取字符串
-		local content = io.load(w3x_dir / 'war3map.wts')
-		local wts
-		if content then
-			wts = w3x2txt:read_wts(content)
-			w3x2txt:set_wts(wts)
-		end
-
-		--读取编辑器文本
-		local editstring
-		local ini = w3x2txt:read_ini(meta_dir / 'WorldEditStrings.txt')
-		if ini then
-			editstring = ini['WorldEditStrings']
-		end
-		
-		--转换二进制文件到lni
-		for file_name, meta in pairs(config['metadata']) do
-			local content = io.load(w3x_dir / file_name)
-			if content then
-				print('正在转换:' .. file_name)
-				local metadata = w3x2txt:read_metadata(meta)
-				local data = w3x2txt:read_obj(content, metadata)
-				local content = w3x2txt:obj2lni(data, metadata, editstring)
-				io.save(lni_dir / (file_name .. '.ini'), content)
-			else
-				print('文件无效:' .. file_name)
-			end
-		end
-
-		--刷新字符串
-		if wts then
-			local content = w3x2txt:fresh_wts(wts)
-			io.save(lni_dir / 'war3map.wts', content)
-		end
+		w3x2lni()
 	end
 
 	if mode == "lni2w3x" then
-		for file_name, meta in pairs(config['metadata']) do
-			local lni_str = io.load(lni_dir / (file_name .. '.ini'))
-			if lni_str then
-				print('正在转换:', file_name)
-				local data = lni:loader(lni_str, file_name)
-				local key_str = io.load(meta_dir / (file_name .. '.ini'))
-				local key = lni:loader(key_str, file_name)
-				local metadata = w3x2txt:read_metadata(meta)
-				local content = w3x2txt:lni2obj(data, metadata, key)
-				io.save(w3x_dir / file_name, content)
-			else
-				print('文件无效:' .. file_name)
-			end
-		end
+		lni2w3x()
 	end
 
 	if mode == "key2id" then
-		for file_name, meta in pairs(config['metadata']) do
-			local metadata = w3x2txt:read_metadata(meta)
-			local content = w3x2txt:key2id(file_name, metadata)
-			io.save(meta_dir / (file_name .. '.ini'), content)
-		end
+		key2id()
 	end
 
 	if mode == 'export' then
-		if not arg[3] then
-			print('请将地图拖动到bat中!')
-			return
-		end
-		local map_path = fs.path(arg[3])
-		local temp_dir = root_dir / 'temp'
-
-		-- 将原来的目录改名后删除(否则之后创建同名目录时可能拒绝访问)
-		if fs.exists(w3x_dir) then
-			fs.rename(w3x_dir, temp_dir)
-			fs.remove_all(temp_dir)
-		end
-		fs.create_directories(w3x_dir)
-
-		-- 解压地图
-		local map = mpq_open(map_path)
-		if not map then
-			print('地图打开失败')
-			return
-		end
-		
-		local clock = os.clock()
-		local success, failed = 0, 0
-		for name in pairs(map) do
-			local path = w3x_dir / name
-			local dir = path:parent_path()
-			fs.create_directories(dir)
-			if map:extract(name, path) then
-				success = success + 1
-			else
-				failed = failed + 1
-				print('文件导出失败', name)
-			end
-			if os.clock() - clock >= 0.5 then
-				clock = os.clock()
-				print('正在导出', '成功:', success, '失败:', failed)
-			end
-		end
-		print('导出完毕', '成功:', success, '失败:', failed)
+		export()
 	end
 	
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
