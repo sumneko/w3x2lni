@@ -155,11 +155,31 @@ local function pack()
 	end)
 	local map_path = root_dir / map_name
 	fs.remove(map_path)
-	local map = w3x2txt:create_map(map_path, #listfile)
+	local content = io.load(w3x_dir / 'war3map.w3i')
+	local w3i = w3x2txt:read_w3i(content)
+	local map = w3x2txt:create_map(map_path, #listfile, w3i)
 	if not map then
 		print('地图创建失败')
 		return
 	end
+	local clock = os.clock()
+	local success, failed = 0, 0
+	local parent_dir_len = #w3x_dir:string()
+	for i = 1, #listfile do
+		local path = listfile[i]
+		local name = path:string():sub(parent_dir_len+2)
+		if map:import(name, path) then
+			success = success + 1
+		else
+			failed = failed + 1
+			print('文件导入失败', name)
+		end
+		if os.clock() - clock >= 0.5 then
+			clock = os.clock()
+			print('正在导入', '成功:', success, '失败:', failed)
+		end
+	end
+	print('导入完毕', '成功:', success, '失败:', failed)
 end
 
 local function main()
