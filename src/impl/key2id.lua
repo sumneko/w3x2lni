@@ -2,6 +2,8 @@ local string_char = string.char
 local table_insert = table.insert
 local table_sort = table.sort
 
+local read_slk = require 'impl.read_slk'
+
 local mt = {}
 
 local function isignore(id1, id2)
@@ -66,13 +68,6 @@ function mt:add_data(id, meta, public, private)
     end
 end
 
-function mt:add(format)
-	table_insert(self.lines, format)
-	return function(...)
-		self.lines[#self.lines] = format:format(...)
-	end
-end
-
 local function sort_table(tbl)
     local names = {}
     for k in pairs(tbl) do
@@ -82,49 +77,75 @@ local function sort_table(tbl)
     return names
 end
 
-function mt:add_public(public)
+local function add_public(tbl, public)
     local names = sort_table(public)
-    self:add '["public"]'
+    tbl[#tbl+1] = '["public"]'
     for _, name in ipairs(names) do
-        self:add '\'%s\' = \'%s\'' (name, public[name])
+        tbl[#tbl+1] = ('\'%s\' = \'%s\''):format(name, public[name])
     end
 end
 
-function mt:add_private(private)
+local function add_private(tbl, private)
     local names = sort_table(private)
     for _, name in ipairs(names) do
         local data = private[name]
-        self:add ''
-        self:add '["%s"]' (name)
+        tbl[#tbl+1] = ''
+        tbl[#tbl+1] = ('["%s"]'):format(name)
         local names = sort_table(data)
         for _, name in ipairs(names) do
-            self:add '\'%s\' = \'%s\'' (name, data[name])
+            tbl[#tbl+1] = ('\'%s\' = \'%s\''):format(name, data[name])
         end
     end
 end
 
-local function convert_list(metadata, extension)
-    local self = setmetatable({}, { __index = mt })
-    self.extension = extension
-    self.lines = {}
+local function copy_code(private, ability)
+    for skill, data in pairs(private) do
+        if ability[skill] then
+            local code = ability[skill]['code']
+            if code ~= skill and private[code] then
+                for k, v in pairs(private[code]) do
+                    if not data[k] then
+                        data[k] = v
+                    end
+                end
+            end
+        end
+    end
+end
+
+local function read_list(self, metadata, extension)
+    local tbl = setmetatable({}, { __index = mt })
+    tbl.extension = extension
+    tbl.lines = {}
 
     local public = {}
     local private = {}
 
     for id, meta in pairs(metadata) do
-        self:add_data(id, meta, public, private)
+        tbl:add_data(id, meta, public, private)
     end
+    if extension == '.w3a' then
+        local ability = read_slk(self.dir['meta'] / 'abilitydata.slk')
+        copy_code(private, ability)
+    end
+    return public, private
+end
 
-    self:add_public(public)
-    self:add_private(private)
+local function convert_list(public, private)
+    local tbl = {}
 
-    return table.concat(self.lines, '\n') .. '\n'
+    add_public(tbl, public)
+    add_private(tbl, private)
+
+    return table.concat(tbl, '\n') .. '\n'
 end
 
 return function (self, file_name)
     local meta = self:read_metadata(self.metadata[file_name])
 
-    local list = convert_list(meta, fs.extension(fs.path(file_name)))
+    local public, private = read_list(self, meta, fs.extension(fs.path(file_name)))
 
-    io.save(self.dir['meta'] / (file_name .. '.ini'), list)
+    local content = convert_list(public, private)
+
+    io.save(self.dir['meta'] / (file_name .. '.ini'), content)
 end
