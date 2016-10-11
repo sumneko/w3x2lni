@@ -142,7 +142,18 @@ local function unpack()
 end
 
 local function pack()
-	
+	local map_name = 'temp.w3x'
+	local listfile = {}
+	dir_scan(w3x_dir, function(path)
+		listfile[#listfile+1] = path
+	end)
+	local map_path = root_dir / map_name
+	fs.remove(map_path)
+	local map = w3x2txt:create_map(map_path, #listfile)
+	if not map then
+		print('地图创建失败')
+		return
+	end
 end
 
 local function main()

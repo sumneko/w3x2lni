@@ -40,6 +40,7 @@ local function main()
 		'read_obj', 'read_ini',
 		'read_metadata',
 		'key2id',
+		'create_map',
 	}
 	
 	for _, name in ipairs(convertors) do
