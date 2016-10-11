@@ -113,19 +113,24 @@ local function unpack()
 	local map_path = fs.path(arg[3])
 	local temp_dir = root_dir / 'temp'
 
-	-- 将原来的目录改名后删除(否则之后创建同名目录时可能拒绝访问)
-	if fs.exists(w3x_dir) then
-		fs.rename(w3x_dir, temp_dir)
-		fs.remove_all(temp_dir)
-	end
-	fs.create_directories(w3x_dir)
-
 	-- 解压地图
 	local map = mpq_open(map_path)
 	if not map then
 		print('地图打开失败')
 		return
 	end
+
+	if not map:has '(listfile)' then
+		print('不支持没有文件列表(listfile)的地图')
+		return
+	end
+
+	-- 将原来的目录改名后删除(否则之后创建同名目录时可能拒绝访问)
+	if fs.exists(w3x_dir) then
+		fs.rename(w3x_dir, temp_dir)
+		fs.remove_all(temp_dir)
+	end
+	fs.create_directories(w3x_dir)
 	
 	local clock = os.clock()
 	local success, failed = 0, 0

@@ -45,7 +45,7 @@ function mpq_meta:__pairs()
 	local temp_path = fs.path('temp' .. os.time())
 	if not self:extract('(listfile)', temp_path) then
 		print('(listfile)导出失败', temp_path:string())
-		return
+		return next, {}
 	end
 	local content = io.load(temp_path)
 	fs.remove(temp_path)
