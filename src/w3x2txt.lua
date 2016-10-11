@@ -37,7 +37,9 @@ local function main()
 	local convertors = {
 		'read_wts', 'fresh_wts',
 		'obj2lni', 'lni2obj',
+		'w3i2lni',
 		'read_obj', 'read_ini',
+		'read_w3i',
 		'read_metadata',
 		'key2id',
 		'create_map',

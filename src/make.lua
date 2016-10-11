@@ -67,6 +67,12 @@ local function w3x2lni()
 		end
 	end
 
+	--转换其他文件
+	local content = io.load(w3x_dir / 'war3map.w3i')
+	local w3i = w3x2txt:read_w3i(content)
+	local content = w3x2txt:w3i2lni(w3i)
+	io.save(lni_dir / 'war3map.w3i.ini', content)
+
 	--刷新字符串
 	if wts then
 		local content = w3x2txt:fresh_wts(wts)
