@@ -188,7 +188,7 @@ local function pack()
 	fs.remove(map_path)
 	local w3i_str = io.load(w3x_dir / 'war3map.w3i')
 	local w3i = w3x2txt:read_w3i(w3i_str)
-	local map_str = w3x2txt:create_map(mpq_str, w3i)
+	local map_str = w3x2txt:mpq2map(mpq_str, w3i)
 	io.save(map_path, map_str)
 end
 
