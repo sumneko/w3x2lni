@@ -141,12 +141,8 @@ local function convert_list(public, private)
     return table.concat(tbl, '\n') .. '\n'
 end
 
-return function (self, file_name)
-    local meta = self:read_metadata(self.metadata[file_name])
+return function (self, file_name, metadata)
+    local public, private = read_list(self, metadata, fs.extension(fs.path(file_name)))
 
-    local public, private = read_list(self, meta, fs.extension(fs.path(file_name)))
-
-    local content = convert_list(public, private)
-
-    io.save(self.dir['meta'] / (file_name .. '.ini'), content)
+    return convert_list(public, private)
 end

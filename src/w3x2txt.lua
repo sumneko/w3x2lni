@@ -1,9 +1,15 @@
 local mt = {}
 
-mt.wts_strings = {}
+local wts_strings
+function mt:set_wts(wts)
+	wts_strings = wts
+end
 function mt:convert_wts(str, only_short, read_only)
+	if not wts_strings then
+		return str
+	end
 	return str:gsub('TRIGSTR_(%d+)', function(i)
-		local str_data = self.wts_strings[i]
+		local str_data = wts_strings[i]
 		if not str_data then
 			return
 		end
@@ -31,9 +37,8 @@ local function main()
 	local convertors = {
 		'read_wts', 'fresh_wts',
 		'obj2lni', 'lni2obj',
-		'read_obj',
+		'read_obj', 'read_ini',
 		'read_metadata',
-		'read_editstring',
 		'key2id',
 	}
 	

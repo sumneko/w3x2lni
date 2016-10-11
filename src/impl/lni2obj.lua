@@ -165,7 +165,7 @@ function mt:add_value(name, value, level)
     self:add('c4', '\0\0\0\0')
 end
 
-local function convert_lni(self, data, meta, key)
+return function (self, data, meta, key)
     local tbl = setmetatable({}, mt)
     tbl.hexs = {}
     tbl.self = self
@@ -180,28 +180,3 @@ local function convert_lni(self, data, meta, key)
 
     return table_concat(tbl.hexs)
 end
-
-local function load(filename)
-    return io.load(fs.path(filename))
-end
-
-local function lni2obj(self, file_name)
-	lni:set_marco('TableSearcher', self.dir['lni']:string() .. '/')
-    print('读取lni:', file_name)
-    local data = lni:packager(file_name, load)
-    if not next(data) then
-		print('文件无效:' .. file_name)
-        return
-    end
-
-    lni:set_marco('TableSearcher', self.dir['meta']:string() .. '/')
-    local key = lni:packager(file_name, load)
-    
-    local meta = self:read_metadata(self.metadata[file_name])
-
-    local content = convert_lni(self, data, meta, key)
-
-    io.save(self.dir['w3x'] / file_name, content)
-end
-
-return lni2obj

@@ -116,13 +116,13 @@ function mt:convert_wts(content)
 	return self.self:convert_wts(content)
 end
 
-local function convert_lni(self, data, meta)
+return function (self, data, meta, editstring)
 	local tbl = setmetatable({}, mt)
 	tbl.lines = {}
 	tbl.self = self
 	tbl.meta = meta
 	tbl.has_level = meta._has_level
-	tbl.editstring = self.editstring
+	tbl.editstring = editstring or {}
 
 	tbl:add_head(data)
 	tbl:add_chunk(data[1])
@@ -130,22 +130,3 @@ local function convert_lni(self, data, meta)
 
 	return table_concat(tbl.lines, '\n')
 end
-
-local function obj2txt(self, file_name)
-	local content = io.load(self.dir['w3x'] / file_name)
-	if not content then
-		print('文件无效:' .. file_name)
-		return
-	end
-	
-	local meta = self:read_metadata(self.metadata[file_name])
-	
-	print('读取obj:', file_name)
-	local data = self:read_obj(content, meta)
-
-	local content = convert_lni(self, data, meta)
-
-	io.save(self.dir['lni'] / (file_name .. '.ini'), content)
-end
-
-return obj2txt

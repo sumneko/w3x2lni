@@ -15,9 +15,15 @@ local lni_dir  = root_dir / 'lni'
 local w3x_dir  = root_dir / 'w3x'
 local meta_dir = root_dir / 'meta'
 
+local config
+
+local function load(filename)
+    return io.load(fs.path(filename))
+end
+
 local function read_config()
 	lni:set_marco('TableSearcher', root_dir:string() .. '/')
-	local config = lni:packager('config', function(filename)
+		config = lni:packager('config', function(filename)
 		return io.load(fs.path(filename))
 	end)
 
@@ -41,43 +47,64 @@ local function main()
 
 	if mode == "w3x2lni" then
 		--读取字符串
-		w3x2txt:read_wts('war3map.wts')
+		local content = io.load(w3x_dir / 'war3map.wts')
+		local wts
+		if content then
+			wts = w3x2txt:read_wts(content)
+			w3x2txt:set_wts(wts)
+		end
 
 		--读取编辑器文本
-		w3x2txt:read_editstring('WorldEditStrings.txt')
+		local editstring
+		local ini = w3x2txt:read_ini(meta_dir / 'WorldEditStrings.txt')
+		if ini then
+			editstring = ini['WorldEditStrings']
+		end
 		
 		--转换二进制文件到lni
-		w3x2txt:obj2lni 'war3map.w3u'
-		w3x2txt:obj2lni 'war3map.w3t'
-		w3x2txt:obj2lni 'war3map.w3b'
-		w3x2txt:obj2lni 'war3map.w3d'
-		w3x2txt:obj2lni 'war3map.w3a'
-		w3x2txt:obj2lni 'war3map.w3h'
-		w3x2txt:obj2lni 'war3map.w3q'
+		for file_name, meta in pairs(config['metadata']) do
+			local content = io.load(w3x_dir / file_name)
+			if content then
+				print('正在转换:' .. file_name)
+				local metadata = w3x2txt:read_metadata(meta)
+				local data = w3x2txt:read_obj(content, metadata)
+				local content = w3x2txt:obj2lni(data, metadata, editstring)
+				io.save(lni_dir / (file_name .. '.ini'), content)
+			else
+				print('文件无效:' .. file_name)
+			end
+		end
 
 		--刷新字符串
-		w3x2txt:fresh_wts('war3map.wts')
+		if wts then
+			local content = w3x2txt:fresh_wts(wts)
+			io.save(lni_dir / 'war3map.wts', content)
+		end
 	end
 
 	if mode == "lni2w3x" then
-		--转换lni到二进制文件
-		w3x2txt:lni2obj 'war3map.w3u'
-		w3x2txt:lni2obj 'war3map.w3t'
-		w3x2txt:lni2obj 'war3map.w3b'
-		w3x2txt:lni2obj 'war3map.w3d'
-		w3x2txt:lni2obj 'war3map.w3a'
-		w3x2txt:lni2obj 'war3map.w3h'
-		w3x2txt:lni2obj 'war3map.w3q'
+		for file_name, meta in pairs(config['metadata']) do
+			lni:set_marco('TableSearcher', lni_dir:string() .. '/')
+			local data = lni:packager(file_name, load)
+			if next(data) then
+				print('正在转换:', file_name)
+				lni:set_marco('TableSearcher', meta_dir:string() .. '/')
+				local key = lni:packager(file_name, load)
+				local metadata = w3x2txt:read_metadata(meta)
+				local content = w3x2txt:lni2obj(data, metadata, key)
+				io.save(w3x_dir / file_name, content)
+			else
+				print('文件无效:' .. file_name)
+			end
+		end
 	end
 
 	if mode == "key2id" then
-		w3x2txt:key2id 'war3map.w3u'
-		w3x2txt:key2id 'war3map.w3t'
-		w3x2txt:key2id 'war3map.w3b'
-		w3x2txt:key2id 'war3map.w3d'
-		w3x2txt:key2id 'war3map.w3a'
-		w3x2txt:key2id 'war3map.w3h'
-		w3x2txt:key2id 'war3map.w3q'
+		for file_name, meta in pairs(config['metadata']) do
+			local metadata = w3x2txt:read_metadata(meta)
+			local content = w3x2txt:key2id(file_name, metadata)
+			io.save(meta_dir / (file_name .. '.ini'), content)
+		end
 	end
 	
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 

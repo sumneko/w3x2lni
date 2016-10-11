@@ -62,7 +62,7 @@ function mt:parser(line)
     end
 end
 
-local function read_ini(file_name)
+return function (_, file_name)
 	local content = io.load(file_name)
 	if not content then
 		print('文件无效:' .. file_name:string())
@@ -78,5 +78,3 @@ local function read_ini(file_name)
 
     return self.ini
 end
-
-return read_ini
