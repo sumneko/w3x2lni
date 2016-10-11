@@ -1,5 +1,4 @@
 local lni = require 'lni'
-local read_slk = require 'impl.read_slk'
 
 local table_insert = table.insert
 local table_sort   = table.sort
@@ -12,11 +11,8 @@ local setmetatable = setmetatable
 local mt = {}
 mt.__index = mt
 
-function mt:add(format)
-    table_insert(self.hexs, format)
-    return function(...)
-        self.hexs[#self.hexs] = (format):pack(...)
-    end
+function mt:add(format, ...)
+    self.hexs[#self.hexs+1] = (format):pack(...)
 end
 
 function mt:sort_chunk(data)
@@ -37,18 +33,11 @@ function mt:sort_chunk(data)
 end
 
 function mt:key2id(skill, key)
-    local code = skill
-    if self.extension == '.w3a' then
-        if not self.ability then
-            self.ability = read_slk(self.self.dir['meta'] / 'abilitydata.slk')
-        end
-        code = self.ability[skill]['code']
-    end
-    local id = (self.key[skill] and self.key[skill][key]) or (self.key[code] and self.key[code][key]) or self.key['public'][key]
+    local id = self.key[skill] and self.key[skill][key] or self.key['public'][key]
     if id then
         return id
     end
-    print('错误:', 'key2id失败', skill, code, key)
+    print('错误:', 'key2id失败', skill, key)
     return nil
 end
 
@@ -118,25 +107,25 @@ function mt:format_value(value)
 end
 
 function mt:add_head(data)
-    self:add 'l' (data['头']['版本'])
+    self:add('l', data['头']['版本'])
 end
 
 function mt:add_chunk(id, data)
-    self:add 'l' (#id)
+    self:add('l', #id)
     for i = 1, #id do
         self:add_obj(id[i], data[id[i]])
     end
 end
 
 function mt:add_obj(id, obj)
-    self:add 'c4' (obj['_id'])
+    self:add('c4', obj['_id'])
     if id == obj['_id'] then
-        self:add 'c4' '\0\0\0\0'
+        self:add('c4', '\0\0\0\0')
     else
-        self:add 'c4' (id)
+        self:add('c4', id)
     end
     local names, new_obj, count = self:sort_obj(obj)
-    self:add 'l' (count)
+    self:add('l', count)
     for i = 1, #names do
         self:add_data(names[i], new_obj[names[i]])
     end
@@ -167,23 +156,22 @@ function mt:add_value(name, value, level)
         return
     end
     local meta = self.meta[name]
-    self:add 'c4l' (name .. ('\0'):rep(4 - #name), self:get_key_type(name))
+    self:add('c4l', name .. ('\0'):rep(4 - #name), self:get_key_type(name))
     if self.has_level then
-        self:add 'l' (level)
-        self:add 'l' (meta['data'] or 0)
+        self:add('l', level)
+        self:add('l', meta['data'] or 0)
     end
-    self:add(self:get_key_format(name))(self:format_value(value))
-    self:add 'c4' '\0\0\0\0'
+    self:add(self:get_key_format(name), self:format_value(value))
+    self:add('c4', '\0\0\0\0')
 end
 
-local function convert_lni(self, data, meta, key, extension)
+local function convert_lni(self, data, meta, key)
     local tbl = setmetatable({}, mt)
     tbl.hexs = {}
     tbl.self = self
     tbl.meta = meta
     tbl.key = key
     tbl.has_level = meta._has_level
-    tbl.extension = extension
 
     local origin_id, user_id = tbl:sort_chunk(data)
     tbl:add_head(data)
@@ -211,7 +199,7 @@ local function lni2obj(self, file_name)
     
     local meta = self:read_metadata(self.metadata[file_name])
 
-    local content = convert_lni(self, data, meta, key, fs.extension(fs.path(file_name)))
+    local content = convert_lni(self, data, meta, key)
 
     io.save(self.dir['w3x'] / file_name, content)
 end
