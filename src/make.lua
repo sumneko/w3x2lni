@@ -155,10 +155,8 @@ local function pack()
 	end)
 	local map_path = root_dir / map_name
 	fs.remove(map_path)
-	local content = io.load(w3x_dir / 'war3map.w3i')
-	local w3i = w3x2txt:read_w3i(content)
-	local map = w3x2txt:create_map(map_path, #listfile, w3i)
-	if not map then
+	local mpq = mpq_create(map_path, #listfile+8)
+	if not mpq then
 		print('地图创建失败')
 		return
 	end
@@ -168,7 +166,7 @@ local function pack()
 	for i = 1, #listfile do
 		local path = listfile[i]
 		local name = path:string():sub(parent_dir_len+2)
-		if map:import(name, path) then
+		if mpq:import(name, path) then
 			success = success + 1
 		else
 			failed = failed + 1
@@ -180,6 +178,13 @@ local function pack()
 		end
 	end
 	print('导入完毕', '成功:', success, '失败:', failed)
+	mpq:close()
+	local mpq_str = io.load(map_path)
+	fs.remove(map_path)
+	local w3i_str = io.load(w3x_dir / 'war3map.w3i')
+	local w3i = w3x2txt:read_w3i(w3i_str)
+	local map_str = w3x2txt:create_map(mpq_str, w3i)
+	io.save(map_path, map_str)
 end
 
 local function main()

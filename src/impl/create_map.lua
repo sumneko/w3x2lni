@@ -22,7 +22,7 @@ function mt:add_playercount()
     self:add('l', 23333)
 end
 
-local function convert_mpq_to_map(content, w3i)
+return function (self, content, w3i)
     local tbl = setmetatable({}, mt)
 
     tbl.hexs = {}
@@ -35,17 +35,4 @@ local function convert_mpq_to_map(content, w3i)
     
     local head = table.concat(tbl.hexs)
     return head .. string.rep('\0', 512 - #head) .. content
-end
-
-return function (self, map_path, max_file_count, w3i)
-    local mpq = mpq_create(map_path, max_file_count+8)
-    if not mpq then
-        return nil
-    end
-    mpq:close()
-    local file = io.load(map_path)
-    fs.remove(map_path)
-    local content = convert_mpq_to_map(file, w3i)
-    io.save(map_path, content)
-    return mpq_open(map_path)
 end
