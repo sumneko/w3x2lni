@@ -1,3 +1,3 @@
 @echo off
-"%~dp0build\lua.exe" "%~dp0src\make.lua" "lni2w3x" "%~dp0\"
+"%~dp0build\lua.exe" "%~dp0src\make.lua" "%~dp0\" "lni2w3x"
 pause
