@@ -41,6 +41,20 @@ function mpq_meta.__index:has(path_in_archive)
 	return stormlib.has_file(self.handle, path_in_archive)
 end
 
+function mpq_meta:__pairs()
+	local temp_path = fs.path 'temp'
+	if not self:extract('(listfile)', temp_path) then
+		print('(listfile)导出失败')
+		return
+	end
+	local content = io.load(temp_path)
+	fs.remove(temp_path)
+	if content:sub(1, 3) == '\xEF\xBB\xBF' then
+		content = content:sub(4)
+	end
+	return content:gmatch '[^\n\r]+'
+end
+
 function mpq_open(path)
 	local h = stormlib.open_archive(path, 0, 0)
 	if not h then
@@ -154,62 +168,4 @@ function print(...)
 		tbl[i] = utf8_to_ansi(tostring(tbl[i]))
 	end
 	stdio_print(table_unpack(tbl))
-end
-
-function string.create_lines(tab)
-	local lines = {}
-	local tabs = ('\t'):rep(tab or 0)
-	lines.tab = tab or 0
-	
-	local function push(self, mo)
-		local line = tabs .. mo
-		table_insert(self, line)
-		return function(...)
-			self[#self] = line:format(...)
-		end
-	end
-
-	return setmetatable(lines, {__call = push})
-end
-
-function table.hash_to_array(t)
-	--将key保存在数组中
-	local nt = {}
-	for key in pairs(t) do
-		table_insert(nt, key)
-	end
-
-	for i = 1, #nt do
-		t[i] = nt[i]
-	end
-
-	table_sort(t)
-
-	--添加遍历的元方法
-	local mt = getmetatable(t)
-	if not mt then
-		mt = {}
-		setmetatable(t, mt)
-	end
-
-	local function __pairs(t, key)
-		key = (key or 0) + 1
-		if t[key] then
-			return key, t[key], t[t[key]]
-		end
-	end
-
-	function mt.__pairs(t)
-		return __pairs, t, nil
-	end
-
-	return #t
-end
-
-function string.set_len(s, len)
-	if #s > len then
-		return s:sub(1, len)
-	else
-		return s .. ('\0'):rep(len - #s)
-	end
 end

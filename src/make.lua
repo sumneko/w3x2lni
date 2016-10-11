@@ -32,6 +32,17 @@ local function read_config()
 	end
 end
 
+local function dir_scan(dir, callback)
+	for full_path in dir:list_directory() do
+		if fs.is_directory(full_path) then
+			-- 递归处理
+			dir_scan(full_path, callback)
+		else
+			callback(full_path)
+		end
+	end
+end
+
 local function main()
 	local mode = arg[2]
 	
@@ -105,6 +116,48 @@ local function main()
 			local content = w3x2txt:key2id(file_name, metadata)
 			io.save(meta_dir / (file_name .. '.ini'), content)
 		end
+	end
+
+	if mode == 'export' then
+		if not arg[3] then
+			print('请将地图拖动到bat中!')
+			return
+		end
+		local map_path = fs.path(arg[3])
+		local temp_dir = root_dir / 'temp'
+
+		-- 将原来的目录改名后删除(否则之后创建同名目录时可能拒绝访问)
+		if fs.exists(w3x_dir) then
+			fs.rename(w3x_dir, temp_dir)
+			fs.remove_all(temp_dir)
+		end
+		fs.create_directories(w3x_dir)
+
+		-- 解压地图
+		local map = mpq_open(map_path)
+		if not map then
+			print('地图打开失败')
+			return
+		end
+		
+		local clock = os.clock()
+		local success, failed = 0, 0
+		for name in pairs(map) do
+			local path = w3x_dir / name
+			local dir = path:parent_path()
+			fs.create_directories(dir)
+			if map:extract(name, path) then
+				success = success + 1
+			else
+				failed = failed + 1
+				print('文件导出失败', name)
+			end
+			if os.clock() - clock >= 0.5 then
+				clock = os.clock()
+				print('正在导出', '成功:', success, '失败:', failed)
+			end
+		end
+		print('导出完毕', '成功:', success, '失败:', failed)
 	end
 	
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
