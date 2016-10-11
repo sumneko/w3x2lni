@@ -17,16 +17,10 @@ local meta_dir = root_dir / 'meta'
 
 local config
 
-local function load(filename)
-    return io.load(fs.path(filename))
-end
-
 local function read_config()
-	lni:set_marco('TableSearcher', root_dir:string() .. '/')
-		config = lni:packager('config', function(filename)
-		return io.load(fs.path(filename))
-	end)
-
+	local config_str = io.load(root_dir / 'config.ini')
+	config = lni:loader(config_str, 'config')
+	
 	for file_name, meta_name in pairs(config['metadata']) do
 		w3x2txt:set_metadata(file_name, meta_name)
 	end
@@ -95,12 +89,12 @@ local function main()
 
 	if mode == "lni2w3x" then
 		for file_name, meta in pairs(config['metadata']) do
-			lni:set_marco('TableSearcher', lni_dir:string() .. '/')
-			local data = lni:packager(file_name, load)
-			if next(data) then
+			local lni_str = io.load(lni_dir / (file_name .. '.ini'))
+			if lni_str then
 				print('正在转换:', file_name)
-				lni:set_marco('TableSearcher', meta_dir:string() .. '/')
-				local key = lni:packager(file_name, load)
+				local data = lni:loader(lni_str, file_name)
+				local key_str = io.load(meta_dir / (file_name .. '.ini'))
+				local key = lni:loader(key_str, file_name)
 				local metadata = w3x2txt:read_metadata(meta)
 				local content = w3x2txt:lni2obj(data, metadata, key)
 				io.save(w3x_dir / file_name, content)
