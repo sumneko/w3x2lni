@@ -3,14 +3,18 @@ local table_unpack = table.unpack
 local table_insert = table.insert
 local math_tointeger = math.tointeger
 local setmetatable = setmetatable
+local select = select
 
 local mt = {}
 mt.__index = mt
 
+function mt:set_index(...)
+	self.index = select(-1, ...)
+	return ...
+end
+
 function mt:unpack(str)
-	local returns = {str:unpack(self.content, self.index)}
-	self.index = table_remove(returns)
-	return table_unpack(returns)
+	return self:set_index(str:unpack(self.content, self.index))
 end
 
 function mt:read_version()
