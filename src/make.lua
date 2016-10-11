@@ -1,5 +1,5 @@
-package.path = package.path .. ';' .. arg[1] .. '\\src\\?.lua'
-package.cpath = package.cpath .. ';' .. arg[1] .. '\\build\\?.dll'
+package.path = package.path .. ';' .. arg[2] .. '\\src\\?.lua'
+package.cpath = package.cpath .. ';' .. arg[2] .. '\\build\\?.dll'
 
 require 'luabind'
 require 'filesystem'
@@ -10,7 +10,7 @@ local w3x2txt  = require 'w3x2txt'
 local stormlib = require 'stormlib'
 local lni      = require 'lni'
 
-local root_dir = fs.path(arg[1])
+local root_dir = fs.path(arg[2])
 local lni_dir  = root_dir / 'lni'
 local w3x_dir  = root_dir / 'w3x'
 local meta_dir = root_dir / 'meta'
@@ -99,7 +99,7 @@ local function key2id()
 	end
 end
 
-local function export()
+local function unpack()
 	if not arg[3] then
 		print('请将地图拖动到bat中!')
 		return
@@ -141,8 +141,12 @@ local function export()
 	print('导出完毕', '成功:', success, '失败:', failed)
 end
 
+local function pack()
+
+end
+
 local function main()
-	local mode = arg[2]
+	local mode = arg[1]
 	
 	read_config()
 	
@@ -166,8 +170,12 @@ local function main()
 		key2id()
 	end
 
-	if mode == 'export' then
-		export()
+	if mode == 'unpack' then
+		unpack()
+	end
+
+	if mode == 'pack' then
+		pack()
 	end
 	
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
