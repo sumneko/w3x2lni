@@ -48,16 +48,13 @@ function mt:get_comment(name)
 	return comment
 end
 
-function mt:add(format)
-	table_insert(self.lines, format)
-	return function(...)
-		self.lines[#self.lines] = format:format(...)
-	end
+function mt:add(format, ...)
+	self.lines[#self.lines+1] = format:format(...)
 end
 
 function mt:add_head(data)
 	self:add '["头"]'
-	self:add '"版本" = %s' (data['版本'])
+	self:add('"版本" = %s', data['版本'])
 end
 
 function mt:add_chunk(chunk)
@@ -76,8 +73,8 @@ end
 
 function mt:add_obj(obj)
 	self:add ''
-	self:add '["%s"]' (obj['user_id'])
-	self:add '%s = %q' ('_id', obj['origin_id'])
+	self:add('["%s"]', obj['user_id'])
+	self:add('%s = %q', '_id', obj['origin_id'])
 	local names = {}
 	local datas = {}
 	for i = 1, #obj do
@@ -96,9 +93,9 @@ function mt:add_data(data)
 	if name:match '[^%w%_]' then
 		name = ('%q'):format(name)
 	end
-	self:add '-- %s' (self:get_comment(data.name))
+	self:add('-- %s', self:get_comment(data.name))
 	if data.max_level <= 1 then
-		self:add '%s = %s' (name, self:format_value(data[1]))
+		self:add('%s = %s', name, self:format_value(data[1]))
 	else
 		local is_string
 		for i = 1, data.max_level do
@@ -108,9 +105,9 @@ function mt:add_data(data)
 			data[i] = self:format_value(data[i])
 		end
 		if is_string then
-			self:add '%s = {\n%s,\n}' (name, table_concat(data, ',\n'))
+			self:add('%s = {\n%s,\n}', name, table_concat(data, ',\n'))
 		else
-			self:add '%s = {%s}' (name, table_concat(data, ', '))
+			self:add('%s = {%s}', name, table_concat(data, ', '))
 		end
 	end
 end
