@@ -12,10 +12,8 @@ function mt:unpack(str)
 	return self:set_index(str:unpack(self.content, self.index))
 end
 
-function mt:read_head()
-    local chunk = {}
-
-    -- 展示数据
+function mt:add_head(chunk)
+    -- 地图数据
 	chunk.file_ver,		--文件版本
 	chunk.map_ver,		--地图版本(保存次数)
 	chunk.editor_ver,	--编辑器版本
@@ -53,8 +51,8 @@ function mt:read_head()
     -- 载入图
 	chunk.loading_screen_id,	    --ID(-1表示导入载入图)
 	chunk.loading_screen_path,	    --路径
-	chunk.loading_screen_text,	    --面文本
-	chunk.loading_screen_title,	    --面标题
+	chunk.loading_screen_text,	    --文本
+	chunk.loading_screen_title,	    --标题
 	chunk.loading_screen_subtitle	--子标题
     = self:unpack 'lzzzz'
 
@@ -69,7 +67,7 @@ function mt:read_head()
     = self:unpack 'zzzz'
 
     -- 迷雾
-	chunk.terrain_fog,	--迷雾类型
+	chunk.terrain_fog,	--类型
 	chunk.fog_start_z,	--开始z轴
 	chunk.fog_end_z,	--结束z轴
 	chunk.fog_density,	--密度
@@ -91,19 +89,17 @@ function mt:read_head()
 	chunk.water_blue,	--蓝色
 	chunk.water_alpha	--透明
 	= self:unpack 'BBBB'
-
-    return chunk
 end
 
 return function (self, content)
     local index = 1
-    local data  = {}
     local tbl   = setmetatable({}, mt)
+    local data  = {}
 
     tbl.content = content
     tbl.index   = index
 
-    data['头'] = tbl:read_head()
+    tbl:add_head(data)
     
     return data
 end

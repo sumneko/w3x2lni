@@ -8,8 +8,7 @@ function mt:add(format, ...)
 end
 
 function mt:add_head(chunk)
-    self:add('["头"]')
-
+    self:add('["地图"]')
     self:add('\'文件版本\' = %s', chunk.file_ver)
 	self:add('\'地图版本\' = %d', chunk.map_ver)
 	self:add('\'编辑器版本\' = %d', chunk.editor_ver)
@@ -18,6 +17,8 @@ function mt:add_head(chunk)
 	self:add('\'地图描述\' = %q', chunk.des)
 	self:add('\'推荐玩家\' = %q', chunk.player_rec)
 
+    self:add ''
+    self:add('["镜头"]')
 	self:add('\'镜头范围\' = {')
     for i = 1, 8 do
         self:add('[%d] = %.4f', i, chunk['camera_bound_' .. i])
@@ -25,9 +26,15 @@ function mt:add_head(chunk)
 	self:add '}'
 	self:add('\'镜头范围扩充\' = {%d, %d, %d, %d}', chunk.camera_complement_1, chunk.camera_complement_2, chunk.camera_complement_3, chunk.camera_complement_4)
 
+    self:add ''
+    self:add('["地形"]')
 	self:add('\'地图宽度\' = %d', chunk.map_width)
 	self:add('\'地图长度\' = %d', chunk.map_height)
+    self:add('\'地形类型\' = %q', chunk.map_main_ground_type)
 	
+    self:add ''
+    self:add('["选项"]')
+    self:add('\'使用的游戏数据设置\' = %d', chunk.game_data_set)
 	self:add('\'关闭预览图\' = %d', chunk.map_flag >> 0 & 1)
 	self:add('\'自定义结盟优先权\' = %d', chunk.map_flag >> 1 & 1)
 	self:add('\'对战地图\' = %d', chunk.map_flag >> 2 & 1)
@@ -50,33 +57,35 @@ function mt:add_head(chunk)
 	self:add('\'未知7\' = %d', chunk.map_flag >> 19 & 1)
 	self:add('\'未知8\' = %d', chunk.map_flag >> 20 & 1)
 	self:add('\'未知9\' = %d', chunk.map_flag >> 21 & 1)
-
-	self:add('\'地形类型\' = %q', chunk.map_main_ground_type)
 	
-	self:add('\'载入图序号\' = %d', chunk.loading_screen_id)
-	self:add('\'自定义载入图\' = %q', chunk.loading_screen_path)
-	self:add('\'载入界面文本\' = %q', chunk.loading_screen_text)
-	self:add('\'载入界面标题\' = %q', chunk.loading_screen_title)
-	self:add('\'载入界面子标题\' = %q', chunk.loading_screen_subtitle)
+	self:add ''
+    self:add('["载入图"]')
+	self:add('\'序号\' = %d', chunk.loading_screen_id)
+	self:add('\'路径\' = %q', chunk.loading_screen_path)
+	self:add('\'文本\' = %q', chunk.loading_screen_text)
+	self:add('\'标题\' = %q', chunk.loading_screen_title)
+	self:add('\'子标题\' = %q', chunk.loading_screen_subtitle)
 
-	self:add('\'使用游戏数据设置\' = %d', chunk.game_data_set)
+	self:add ''
+    self:add('["战役"]')
+	self:add('\'路径\' = %q', chunk.prologue_screen_path)
+	self:add('\'文本\' = %q', chunk.prologue_screen_text)
+	self:add('\'标题\' = %q', chunk.prologue_screen_title)
+	self:add('\'子标题\' = %q', chunk.prologue_screen_subtitle)
 
-	self:add('\'自定义序幕图\' = %q', chunk.prologue_screen_path)
-	self:add('\'序幕界面文本\' = %q', chunk.prologue_screen_text)
-	self:add('\'序幕界面标题\' = %q', chunk.prologue_screen_title)
-	self:add('\'序幕界面子标题\' = %q', chunk.prologue_screen_subtitle)
+    self:add ''
+    self:add('["迷雾"]')
+	self:add('\'类型\' = %d', chunk.terrain_fog)
+	self:add('\'z轴起点\' = %.4f', chunk.fog_start_z)
+	self:add('\'z轴终点\' = %.4f', chunk.fog_end_z)
+	self:add('\'密度\' = %.4f', chunk.fog_density)
+	self:add('\'颜色\' = {%d, %d, %d, %d}', chunk.fog_red, chunk.fog_green, chunk.fog_blue, chunk.fog_alpha)
 
-	self:add('\'地形迷雾\' = %d', chunk.terrain_fog)
-	self:add('\'迷雾z轴起点\' = %.4f', chunk.fog_start_z)
-	self:add('\'迷雾z轴终点\' = %.4f', chunk.fog_end_z)
-	self:add('\'迷雾密度\' = %.4f', chunk.fog_density)
-
-	--迷雾颜色
-	self:add('\'迷雾颜色\' = {%d, %d, %d, %d}', chunk.fog_red, chunk.fog_green, chunk.fog_blue, chunk.fog_alpha)
-
-	self:add('\'全局天气\' = %q', chunk.weather_id)
-	self:add('\'环境音效\' = %q', chunk.sound_environment)
-	self:add('\'环境光照\' = %q', chunk.light_environment)
+    self:add ''
+    self:add('["环境"]')
+	self:add('\'天气\' = %q', chunk.weather_id)
+	self:add('\'音效\' = %q', chunk.sound_environment)
+	self:add('\'光照\' = %q', chunk.light_environment)
 
 	--水面颜色
 	self:add('\'水面颜色\' = {%d, %d, %d, %d}', chunk.water_red, chunk.water_green, chunk.water_blue, chunk.water_alpha)
@@ -89,7 +98,7 @@ return function (self, data)
 	tbl.lines = {}
 	tbl.self = self
 
-    tbl:add_head(data['头'])
+    tbl:add_head(data)
 
 	return table_concat(tbl.lines, '\n')
 end
