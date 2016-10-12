@@ -168,8 +168,7 @@ local function get_listfile(map_path)
 	return listfile
 end
 
-local function import_files(map_path, listfile, input_path)
-	local map = mpq_open(map_path)
+local function import_files(map, listfile, input_path)
 	local clock = os.clock()
 	local success, failed = 0, 0
 	for i = 1, #listfile do
@@ -190,43 +189,21 @@ local function import_files(map_path, listfile, input_path)
 	map:close()
 end
 
-local function import_listfile(map_path, listfile)
-	local map = mpq_open(map_path)
-	local temp_path = root_dir / 'temp'
-	io.save(temp_path, table.concat(listfile, '\n'))
-	if not map:import('(listfile)', temp_path) then
-		print('文件列表(listfile)导入失败')
-	end
-	fs.remove(temp_path)
-	map:close()
-end
-
-local function mpq2map(map_path, w3i_path)
-	local mpq_str = io.load(map_path)
-	local w3i_str = io.load(w3i_path)
-	local w3i = w3x2txt:read_w3i(w3i_str)
-	local map_str = w3x2txt:mpq2map(mpq_str, w3i)
-	io.save(map_path, map_str)
-end
-
 local function pack()
 	local map_name = 'temp.w3x'
 	local map_path = root_dir / map_name
 
 	local listfile = get_listfile(map_path)
+	local w3i_str = io.load(w3x_dir / 'war3map.w3i')
+	local w3i = w3x2txt:read_w3i(w3i_str)
 
-	fs.remove(map_path)
-	local mpq = mpq_create(map_path, #listfile+8)
-	if not mpq then
-		print('地图创建失败')
+	local map = w3x2txt:create_map(map_path, #listfile+8, w3i)
+	if not map then
+		print '地图创建失败'
 		return
 	end
-	mpq:close()
 
-	mpq2map(map_path, w3x_dir / 'war3map.w3i')
-
-	import_files(map_path, listfile, w3x_dir)
-	import_listfile(map_path, listfile)
+	import_files(map, listfile, w3x_dir)
 end
 
 local function main()

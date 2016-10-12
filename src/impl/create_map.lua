@@ -22,7 +22,7 @@ function mt:add_playercount()
     self:add('l', 23333)
 end
 
-return function (self, content, w3i)
+local function get_head(w3i)
     local tbl = setmetatable({}, mt)
 
     tbl.hexs = {}
@@ -34,5 +34,10 @@ return function (self, content, w3i)
     tbl:add_playercount()
     
     local head = table.concat(tbl.hexs)
-    return head .. string.rep('\0', 512 - #head) .. content
+    return head .. string.rep('\0', 512 - #head)
+end
+
+return function (self, map_path, file_count, w3i)
+    io.save(map_path, get_head(w3i))
+    return mpq_create(map_path, file_count)
 end
