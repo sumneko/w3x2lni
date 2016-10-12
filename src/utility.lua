@@ -41,6 +41,10 @@ function mpq_meta.__index:has(path_in_archive)
 	return stormlib.has_file(self.handle, path_in_archive)
 end
 
+function mpq_meta.__index:add_listfile(listfile)
+	return stormlib.add_list_file(self.handle, listfile:utf8_to_ansi())
+end
+
 function mpq_meta:__pairs()
 	local temp_path = fs.path('temp' .. os.time())
 	if not self:extract('(listfile)', temp_path) then

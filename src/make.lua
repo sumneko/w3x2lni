@@ -169,13 +169,13 @@ local function get_listfile(map_path)
 end
 
 local function import_files(map_path, listfile, input_path)
-	local mpq = mpq_open(map_path)
+	local map = mpq_open(map_path)
 	local clock = os.clock()
 	local success, failed = 0, 0
 	for i = 1, #listfile do
 		local name = listfile[i]
 		local path = input_path / name
-		if mpq:import(name, path) then
+		if map:import(name, path) then
 			success = success + 1
 		else
 			failed = failed + 1
@@ -187,18 +187,18 @@ local function import_files(map_path, listfile, input_path)
 		end
 	end
 	print('导入完毕', '成功:', success, '失败:', failed)
-	mpq:close()
+	map:close()
 end
 
 local function import_listfile(map_path, listfile)
-	local mpq = mpq_open(map_path)
+	local map = mpq_open(map_path)
 	local temp_path = root_dir / 'temp'
 	io.save(temp_path, table.concat(listfile, '\n'))
-	if not mpq:import('(listfile)', temp_path) then
+	if not map:import('(listfile)', temp_path) then
 		print('文件列表(listfile)导入失败')
 	end
 	fs.remove(temp_path)
-	mpq:close()
+	map:close()
 end
 
 local function mpq2map(map_path, w3i_path)
