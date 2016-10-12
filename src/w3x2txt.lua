@@ -38,7 +38,6 @@ local function main()
 		'read_wts', 'fresh_wts',
 		'obj2lni', 'lni2obj',
 		'w3i2lni',
-		'mpq2map',
 		'read_obj', 'read_ini',
 		'read_w3i',
 		'read_metadata',

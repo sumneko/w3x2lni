@@ -9,6 +9,7 @@ require 'localization'
 local w3x2txt  = require 'w3x2txt'
 local stormlib = require 'stormlib'
 local lni      = require 'lni'
+local create_map = require 'create_map'
 
 local root_dir = fs.path(arg[1])
 local lni_dir  = root_dir / 'lni'
@@ -168,8 +169,7 @@ local function get_listfile(map_path)
 	return listfile
 end
 
-local function import_files(map_path, listfile, input_path)
-	local map = mpq_open(map_path)
+local function import_files(map, listfile, input_path)
 	local clock = os.clock()
 	local success, failed = 0, 0
 	for i = 1, #listfile do
@@ -187,26 +187,6 @@ local function import_files(map_path, listfile, input_path)
 		end
 	end
 	print('导入完毕', '成功:', success, '失败:', failed)
-	map:close()
-end
-
-local function import_listfile(map_path, listfile)
-	local map = mpq_open(map_path)
-	local temp_path = root_dir / 'temp'
-	io.save(temp_path, table.concat(listfile, '\n'))
-	if not map:import('(listfile)', temp_path) then
-		print('文件列表(listfile)导入失败')
-	end
-	fs.remove(temp_path)
-	map:close()
-end
-
-local function mpq2map(map_path, w3i_path)
-	local mpq_str = io.load(map_path)
-	local w3i_str = io.load(w3i_path)
-	local w3i = w3x2txt:read_w3i(w3i_str)
-	local map_str = w3x2txt:mpq2map(mpq_str, w3i)
-	io.save(map_path, map_str)
 end
 
 local function pack()
@@ -214,19 +194,18 @@ local function pack()
 	local map_path = root_dir / map_name
 
 	local listfile = get_listfile(map_path)
-
 	fs.remove(map_path)
+
+	local w3i = w3x2txt:read_w3i(io.load(w3x_dir / 'war3map.w3i'))
+	io.save(map_path, create_map(w3i))
+
 	local mpq = mpq_create(map_path, #listfile+8)
 	if not mpq then
 		print('地图创建失败')
 		return
 	end
+	import_files(mpq, listfile, w3x_dir)
 	mpq:close()
-
-	mpq2map(map_path, w3x_dir / 'war3map.w3i')
-
-	import_files(map_path, listfile, w3x_dir)
-	import_listfile(map_path, listfile)
 end
 
 local function main()

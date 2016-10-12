@@ -22,17 +22,13 @@ function mt:add_playercount()
     self:add('l', 23333)
 end
 
-return function (self, content, w3i)
+return function (w3i)
     local tbl = setmetatable({}, mt)
-
     tbl.hexs = {}
     tbl.w3i  = w3i
-
     tbl:add_head()
     tbl:add_name()
     tbl:add_flag()
     tbl:add_playercount()
-    
-    local head = table.concat(tbl.hexs)
-    return head .. string.rep('\0', 512 - #head) .. content
+    return table.concat(tbl.hexs)
 end
