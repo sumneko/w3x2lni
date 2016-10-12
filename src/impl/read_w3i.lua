@@ -92,6 +92,9 @@ function mt:add_head(chunk)
 end
 
 return function (self, content)
+    if not content then
+        return nil
+    end
     local index = 1
     local tbl   = setmetatable({}, mt)
     local data  = {}

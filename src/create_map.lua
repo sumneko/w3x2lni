@@ -22,28 +22,19 @@ function mt:add_playercount()
     self:add('l', 23333)
 end
 
-local function get_head(w3i)
-    local tbl = setmetatable({}, mt)
-
-    tbl.hexs = {}
-    tbl.w3i  = w3i
-
-    tbl:add_head()
-    tbl:add_name()
-    tbl:add_flag()
-    tbl:add_playercount()
-    
-    local head = table.concat(tbl.hexs)
-    return head .. string.rep('\0', 512 - #head)
-end
-
-return function (self, map_path, file_count, w3i)
+return function (w3i)
     if not w3i then
         w3i = {
             map_name = '只是另一张魔兽争霸III地图',
             map_flag = 0,
         }
     end
-    io.save(map_path, get_head(w3i))
-    return mpq_create(map_path, file_count)
+    local tbl = setmetatable({}, mt)
+    tbl.hexs = {}
+    tbl.w3i  = w3i
+    tbl:add_head()
+    tbl:add_name()
+    tbl:add_flag()
+    tbl:add_playercount()
+    return table.concat(tbl.hexs)
 end
