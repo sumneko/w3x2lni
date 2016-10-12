@@ -154,23 +154,29 @@ end
 
 local function pack()
 	local map_name = 'temp.w3x'
+	local map_path = root_dir / map_name
+
+	-- 分析目录里的文件
+	local parent_dir_len = #w3x_dir:string()
 	local listfile = {}
 	dir_scan(w3x_dir, function(path)
-		listfile[#listfile+1] = path
+		listfile[#listfile+1] = path:string():sub(parent_dir_len+2)
 	end)
-	local map_path = root_dir / map_name
+
+	-- 创建mpq
 	fs.remove(map_path)
 	local mpq = mpq_create(map_path, #listfile+8)
 	if not mpq then
 		print('地图创建失败')
 		return
 	end
+
+	-- 导入w3x目录里的文件
 	local clock = os.clock()
 	local success, failed = 0, 0
-	local parent_dir_len = #w3x_dir:string()
 	for i = 1, #listfile do
-		local path = listfile[i]
-		local name = path:string():sub(parent_dir_len+2)
+		local name = listfile[i]
+		local path = w3x_dir / name
 		if mpq:import(name, path) then
 			success = success + 1
 		else
@@ -183,7 +189,19 @@ local function pack()
 		end
 	end
 	print('导入完毕', '成功:', success, '失败:', failed)
+
+	-- 导入(listfile)
+	local temp_path = root_dir / 'temp'
+	fs.remove(temp_path)
+	io.save(temp_path, table.concat(listfile, '\n'))
+	if not mpq:import('(listfile)', temp_path) then
+		print('文件列表(listfile)导入失败')
+	end
+	fs.remove(temp_path)
+	
 	mpq:close()
+	
+	-- 将mpq转换成地图
 	local mpq_str = io.load(map_path)
 	fs.remove(map_path)
 	local w3i_str = io.load(w3x_dir / 'war3map.w3i')
