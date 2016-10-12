@@ -194,8 +194,13 @@ local function pack()
 	local map_path = root_dir / map_name
 
 	local listfile = get_listfile(map_path)
+	local w3i
 	local w3i_str = io.load(w3x_dir / 'war3map.w3i')
-	local w3i = w3x2txt:read_w3i(w3i_str)
+	if w3i_str then
+		w3i = w3x2txt:read_w3i(w3i_str)
+	else
+		print '没有找到 war3map.w3i'
+	end
 
 	local map = w3x2txt:create_map(map_path, #listfile+8, w3i)
 	if not map then

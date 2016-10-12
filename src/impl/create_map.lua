@@ -38,6 +38,12 @@ local function get_head(w3i)
 end
 
 return function (self, map_path, file_count, w3i)
+    if not w3i then
+        w3i = {
+            map_name = '只是另一张魔兽争霸III地图',
+            map_flag = 0,
+        }
+    end
     io.save(map_path, get_head(w3i))
     return mpq_create(map_path, file_count)
 end
