@@ -19,7 +19,7 @@ function mt:add_flag()
 end
 
 function mt:add_playercount()
-    self:add('l', 23333)
+    self:add('l', self.w3i.player_count)
 end
 
 return function (w3i)
@@ -27,6 +27,7 @@ return function (w3i)
         w3i = {
             map_name = '只是另一张魔兽争霸III地图',
             map_flag = 0,
+            player_count = 2333,
         }
     end
     local tbl = setmetatable({}, mt)

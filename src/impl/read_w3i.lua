@@ -89,6 +89,25 @@ function mt:add_head(chunk)
 	chunk.water_blue,	--蓝色
 	chunk.water_alpha	--透明
 	= self:unpack 'BBBB'
+
+	-- 玩家
+	chunk.player_count = self:unpack 'l'
+	chunk.players = {}
+	for i = 1, chunk.player_count do
+		local player	= {}
+		chunk.players[i] = player
+
+		player.id,
+		player.type,			--玩家类型(1玩家,2电脑,3野怪,4可营救)
+		player.race,			--玩家种族
+		player.start_position,	--修正出生点
+		player.name,
+		player.start_x,
+		player.start_y,
+		player.ally_low_flag,	--低结盟优先权标记
+		player.ally_high_flag	--高结盟优先权标记
+		= self:unpack 'llllzffll'
+	end
 end
 
 return function (self, content)
