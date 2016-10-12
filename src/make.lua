@@ -105,6 +105,29 @@ local function key2id()
 	end
 end
 
+local function extract_files(map_path, output_path)
+	local map = mpq_open(map_path)
+	local clock = os.clock()
+	local success, failed = 0, 0
+	for name in pairs(map) do
+		local path = output_path / name
+		local dir = path:parent_path()
+		fs.create_directories(dir)
+		if map:extract(name, path) then
+			success = success + 1
+		else
+			failed = failed + 1
+			print('文件导出失败', name)
+		end
+		if os.clock() - clock >= 0.5 then
+			clock = os.clock()
+			print('正在导出', '成功:', success, '失败:', failed)
+		end
+	end
+	print('导出完毕', '成功:', success, '失败:', failed)
+	map:close()
+end
+
 local function unpack()
 	if not arg[3] then
 		print('请将地图拖动到bat中!')
@@ -124,6 +147,7 @@ local function unpack()
 		print('不支持没有文件列表(listfile)的地图')
 		return
 	end
+	mpq:close()
 
 	-- 将原来的目录改名后删除(否则之后创建同名目录时可能拒绝访问)
 	if fs.exists(w3x_dir) then
@@ -132,51 +156,25 @@ local function unpack()
 	end
 	fs.create_directories(w3x_dir)
 	
-	local clock = os.clock()
-	local success, failed = 0, 0
-	for name in pairs(map) do
-		local path = w3x_dir / name
-		local dir = path:parent_path()
-		fs.create_directories(dir)
-		if map:extract(name, path) then
-			success = success + 1
-		else
-			failed = failed + 1
-			print('文件导出失败', name)
-		end
-		if os.clock() - clock >= 0.5 then
-			clock = os.clock()
-			print('正在导出', '成功:', success, '失败:', failed)
-		end
-	end
-	print('导出完毕', '成功:', success, '失败:', failed)
+	extract_files(map_path, w3x_dir)
 end
 
-local function pack()
-	local map_name = 'temp.w3x'
-	local map_path = root_dir / map_name
-
-	-- 分析目录里的文件
+local function get_listfile(map_path)
 	local parent_dir_len = #w3x_dir:string()
 	local listfile = {}
 	dir_scan(w3x_dir, function(path)
 		listfile[#listfile+1] = path:string():sub(parent_dir_len+2)
 	end)
+	return listfile
+end
 
-	-- 创建mpq
-	fs.remove(map_path)
-	local mpq = mpq_create(map_path, #listfile+8)
-	if not mpq then
-		print('地图创建失败')
-		return
-	end
-
-	-- 导入w3x目录里的文件
+local function import_files(map_path, listfile, input_path)
+	local mpq = mpq_open(map_path)
 	local clock = os.clock()
 	local success, failed = 0, 0
 	for i = 1, #listfile do
 		local name = listfile[i]
-		local path = w3x_dir / name
+		local path = input_path / name
 		if mpq:import(name, path) then
 			success = success + 1
 		else
@@ -189,25 +187,46 @@ local function pack()
 		end
 	end
 	print('导入完毕', '成功:', success, '失败:', failed)
+	mpq:close()
+end
 
-	-- 导入(listfile)
+local function import_listfile(map_path, listfile)
+	local mpq = mpq_open(map_path)
 	local temp_path = root_dir / 'temp'
-	fs.remove(temp_path)
 	io.save(temp_path, table.concat(listfile, '\n'))
 	if not mpq:import('(listfile)', temp_path) then
 		print('文件列表(listfile)导入失败')
 	end
 	fs.remove(temp_path)
-	
 	mpq:close()
-	
-	-- 将mpq转换成地图
+end
+
+local function mpq2map(map_path, w3i_path)
 	local mpq_str = io.load(map_path)
-	fs.remove(map_path)
-	local w3i_str = io.load(w3x_dir / 'war3map.w3i')
+	local w3i_str = io.load(w3i_path)
 	local w3i = w3x2txt:read_w3i(w3i_str)
 	local map_str = w3x2txt:mpq2map(mpq_str, w3i)
 	io.save(map_path, map_str)
+end
+
+local function pack()
+	local map_name = 'temp.w3x'
+	local map_path = root_dir / map_name
+
+	local listfile = get_listfile(map_path)
+
+	fs.remove(map_path)
+	local mpq = mpq_create(map_path, #listfile+8)
+	if not mpq then
+		print('地图创建失败')
+		return
+	end
+	mpq:close()
+
+	mpq2map(map_path, w3x_dir / 'war3map.w3i')
+
+	import_files(map_path, listfile, w3x_dir)
+	import_listfile(map_path, listfile)
 end
 
 local function main()
