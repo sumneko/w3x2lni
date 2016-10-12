@@ -190,12 +190,20 @@ local function import_files(map, listfile, input_path)
 end
 
 local function import_imp(map, listfile)
+	local imp_ignore = {}
+	for _, name in ipairs(config['pack']['impignore']) do
+		imp_ignore[name:lower()] = true
+	end
+
 	local temp_path = root_dir / 'temp'
 	local imp = {}
 	for _, name in ipairs(listfile) do
-		imp[#imp+1] = ('z'):pack(name)
+		if not imp_ignore[name:lower()] then
+			imp[#imp+1] = ('z'):pack(name)
+		end
 	end
 	table.insert(imp, 1, ('ll'):pack(1, #imp))
+	
 	io.save(temp_path, table.concat(imp, '\r'))
 	if not map:import('war3map.imp', temp_path) then
 		print('war3map.imp导入失败')
