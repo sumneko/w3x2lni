@@ -189,6 +189,20 @@ local function import_files(map, listfile, input_path)
 	print('导入完毕', '成功:', success, '失败:', failed)
 end
 
+local function import_imp(map, listfile)
+	local temp_path = root_dir / 'temp'
+	local imp = {}
+	for _, name in ipairs(listfile) do
+		imp[#imp+1] = ('z'):pack(name)
+	end
+	table.insert(imp, 1, ('ll'):pack(1, #imp))
+	io.save(temp_path, table.concat(imp, '\r'))
+	if not map:import('war3map.imp', temp_path) then
+		print('war3map.imp导入失败')
+	end
+	fs.remove(temp_path)
+end
+
 local function pack()
 	local map_name = 'temp.w3x'
 	local map_path = root_dir / map_name
@@ -199,13 +213,14 @@ local function pack()
 	local w3i = w3x2txt:read_w3i(io.load(w3x_dir / 'war3map.w3i'))
 	io.save(map_path, create_map(w3i))
 
-	local mpq = mpq_create(map_path, #listfile+8)
-	if not mpq then
+	local map = mpq_create(map_path, #listfile+8)
+	if not map then
 		print('地图创建失败')
 		return
 	end
-	import_files(mpq, listfile, w3x_dir)
-	mpq:close()
+	import_files(map, listfile, w3x_dir)
+	import_imp(map, listfile)
+	map:close()
 end
 
 local function main()
