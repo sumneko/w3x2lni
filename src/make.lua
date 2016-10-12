@@ -147,7 +147,7 @@ local function unpack()
 		print('不支持没有文件列表(listfile)的地图')
 		return
 	end
-	mpq:close()
+	map:close()
 
 	-- 将原来的目录改名后删除(否则之后创建同名目录时可能拒绝访问)
 	if fs.exists(w3x_dir) then
