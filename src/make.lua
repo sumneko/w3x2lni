@@ -167,6 +167,7 @@ local function main()
 		map_file:save(input_dir:parent_path() / map_name)
 	else
 		local output_dir = root_dir / uni.a2u(fs.basename(input_path))
+		create_dir(output_dir)
 		unpack(input_path, function(filename)
 			return output_dir
 		end)
