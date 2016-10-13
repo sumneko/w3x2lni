@@ -98,77 +98,9 @@ local function format_computed(str, hero, level, env, fmt)
 		fmt = fmt,
 	}, fmter)
 end
-function mt:loader(code, file, ac, default, enum)
-	if code:sub(1, 3) == '\xEF\xBB\xBF' then code = code:sub(4) end
-	local env = nil
-	local multi_table = nil
-	local multi_string = nil
-	file = file or '...'
-	ac = ac or {}
-	default = table_copy(default)
-	enum = table_copy(enum)
-	for ln, line in ipairs(split(code, '\n')) do
-		line = trim(line)
-		if multi_string then
-			multi_string = multi_string .. '\n' .. line
-			if line:sub(-2) == ']]' then
-				dostring(file, ln, multi_string, env)
-				multi_string = nil
-			end
-		elseif multi_table then
-			multi_table = multi_table .. '\n' .. line
-			if line:sub(-1) == '}' then
-				dostring(file, ln, multi_table, env)
-				multi_table = nil
-			end
-		else
-			if line:sub(1,1) == '[' then
-				local name = line:sub(3,-3)
-				if name == 'default' then
-					env = default
-				elseif name == 'enum' then
-					env = enum
-				else
-					local computed = {}
-					local mt = {}
-					function mt:__index(k)
-						if k == 'computed' then
-							return computed
-						end
-						return enum[k]
-					end
-					function mt:__newindex(k, v)
-						if k == 'computed' then
-							for _, l in ipairs(split(v, '\n')) do
-								local k, v = complie_computed(trim(l), self)
-								if k then
-									computed[k] = v
-								end
-							end
-							return
-						end
-						rawset(self, k, v)
-					end
-					env = setmetatable(table_copy(default), mt)
-					ac[name] = env
-				end
-			elseif line:sub(1,2) == '--' then
-			elseif line:sub(-2) == '[[' then
-				multi_string = line
-			elseif line:sub(-1) == '{' then
-				multi_table = line
-			elseif line:sub(1,1) == [[']] then
-				dostring(file, ln, line:gsub([[^('.-')]], '_ENV[%1]'), env)
-			elseif line:sub(1, 1) == [["]] then
-				dostring(file, ln, line:gsub([[^(".-")]], '_ENV[%1]'), env)
-			elseif line:find([[^%d]]) ~= nil then
-				dostring(file, ln, line:gsub([[^(%d+)]], '_ENV[%1]'), env)
-			else
-				dostring(file, ln, line, env)
-			end
-		end
-	end
-	return ac, default, enum
+local lni = require 'lni-c'
+function mt:loader(...)
+	return lni(...)
 end
 function mt:normalize_then_unpack(abil)
 	local spell = {}
