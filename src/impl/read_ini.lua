@@ -1,64 +1,28 @@
-local table_insert = table.insert
-local setmetatable = setmetatable
-local ipairs = ipairs
+local current_chunk
 
-local mt = {}
-setmetatable(mt, mt)
-mt._parsers = {}
-
-mt.__index = mt
-
-function mt:__newindex(key, value)
-    if key == 'parser' then
-        table_insert(self._parsers, value)
+local function parse(ini, line)
+    if #line == 0 then
         return
     end
-    rawset(self, key, value)
-end
-
-function mt:__call(line)
-    for _, parser in ipairs(self._parsers) do
-        local suc, new_line = parser(self, line)
-        if suc then
-            return
-        else
-            line = new_line or line
-        end
-    end
-end
-
-function mt:parser(line)
-    if #line == 0 then
-        return true
-    end
-end
-
-function mt:parser(line)
     if line:sub(1, 2) == '//' then
-        return true
+        return
     end
-end
-
-function mt:parser(line)
     local chunk_name = line:match '%[(.-)%]'
     if chunk_name then
-        self.current_chunk = chunk_name
-        if not self.ini[chunk_name] then
-            self.ini[chunk_name] = {}
+        current_chunk = chunk_name
+        if not ini[chunk_name] then
+            ini[chunk_name] = {}
         end
-        return true
+        return
     end
-end
-
-function mt:parser(line)
-    if not self.current_chunk then
-        return true
+    if not current_chunk then
+        return
     end
     line = line:gsub('%c+', '')
     local key, value = line:match '^%s*(.-)%s*%=%s*(.-)%s*$'
     if key and value then
-        self.ini[self.current_chunk][key] = value
-        return true
+        ini[current_chunk][key] = value
+        return
     end
 end
 
@@ -68,13 +32,10 @@ return function (_, file_name)
 		print('文件无效:' .. file_name:string())
 		return
 	end
-
-    local self = setmetatable({}, mt)
-    self.ini = {}
-    
+    current_chunk = nil
+    local ini = {}
 	for line in io.lines2(file_name) do
-        self(line)
+        parse(ini, line)
     end
-
-    return self.ini
+    return ini
 end
