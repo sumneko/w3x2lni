@@ -1,4 +1,5 @@
 local stormlib = require 'stormlib'
+local create_map = require 'create_map'
 local lni = require 'lni'
 
 local mt = {}
@@ -137,6 +138,16 @@ function mt:unpack(map_path, get_output_dir)
 	
 	local files, paths = self:extract_files(map_path, get_output_dir)
 	self:w3x2lni(files, paths)
+end
+
+function mt:create_map(w3i)
+	return create_map(self.config, self:read_w3i(w3i))
+end
+
+function mt:init(root_dir)
+	self:set_dir('root', root_dir)
+	self:set_dir('meta', root_dir / 'meta')
+	self:read_config()
 end
 
 local function main()
