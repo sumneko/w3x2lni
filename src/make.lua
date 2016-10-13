@@ -154,10 +154,10 @@ local function unpack(map_path, output_path)
 	extract_files(map_path, output_path)
 end
 
-local function get_listfile(map_path)
-	local parent_dir_len = #w3x_dir:string()
+local function get_listfile(input_path)
+	local parent_dir_len = #input_path:string()
 	local listfile = {}
-	dir_scan(w3x_dir, function(path)
+	dir_scan(input_path, function(path)
 		listfile[#listfile+1] = path:string():sub(parent_dir_len+2)
 	end)
 	return listfile
@@ -205,14 +205,11 @@ local function import_imp(map, listfile)
 	fs.remove(temp_path)
 end
 
-local function pack()
-	local map_name = 'temp.w3x'
-	local map_path = root_dir / map_name
-
-	local listfile = get_listfile(map_path)
+local function pack(map_path, input_path)
+	local listfile = get_listfile(input_path)
 	fs.remove(map_path)
 
-	local w3i = w3x2txt:read_w3i(io.load(w3x_dir / 'war3map.w3i'))
+	local w3i = w3x2txt:read_w3i(io.load(input_path / 'war3map.w3i'))
 	io.save(map_path, create_map(w3i))
 
 	local map = stormlib.create(map_path, #listfile+8)
@@ -220,7 +217,7 @@ local function pack()
 		print('地图创建失败')
 		return
 	end
-	import_files(map, listfile, w3x_dir)
+	import_files(map, listfile, input_path)
 	import_imp(map, listfile)
 	map:close()
 end
@@ -261,7 +258,14 @@ local function main()
 	end
 
 	if mode == 'pack' then
-		pack()
+		if not arg[3] then
+			print('请将文件夹拖动到bat中!')
+			return
+		end
+		local input_path = fs.path(uni.a2u(arg[3]))
+		local map_name = 'new_' .. input_path:filename():string() .. '.w3x'
+		local map_path = input_path:parent_path() / map_name
+		pack(map_path, input_path)
 	end
 	
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
