@@ -65,6 +65,7 @@ local function w3x2lni(files, paths)
 			local content = w3x2txt:convert_wts(content, wts)
 			io.save(paths[name]:parent_path() / (name .. '.ini'), content)
 		elseif name == 'war3map.w3i' then
+			io.save(paths[name], file)
 			local content = file
 			local w3i = w3x2txt:read_w3i(content)
 			local content = w3x2txt:w3i2lni(w3i)
