@@ -11,7 +11,7 @@ local stormlib = require 'stormlib'
 local lni      = require 'lni'
 local create_map = require 'create_map'
 
-local root_dir = fs.path(arg[1])
+local root_dir = fs.path(arg[1]:ansi_to_utf8())
 local lni_dir  = root_dir / 'lni'
 local w3x_dir  = root_dir / 'w3x'
 local meta_dir = root_dir / 'meta'
@@ -134,7 +134,7 @@ local function unpack()
 		print('请将地图拖动到bat中!')
 		return
 	end
-	local map_path = fs.path(arg[3])
+	local map_path = fs.path(arg[3]:ansi_to_utf8())
 	local temp_dir = root_dir / 'temp'
 
 	-- 解压地图
@@ -203,7 +203,7 @@ local function import_imp(map, listfile)
 		end
 	end
 	table.insert(imp, 1, ('ll'):pack(1, #imp))
-	
+
 	io.save(temp_path, table.concat(imp, '\r'))
 	if not map:import('war3map.imp', temp_path) then
 		print('war3map.imp导入失败')
