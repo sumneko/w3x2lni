@@ -86,8 +86,6 @@ local function extract_files(map_path, get_output_dir)
 	local files = {}
 	local paths = {}
 	local map = stormlib.open(map_path)
-	local clock = os.clock()
-	local success, failed = 0, 0
 	for name in pairs(map) do
 		local output_dir = get_output_dir(name)
 		if output_dir then
@@ -97,18 +95,9 @@ local function extract_files(map_path, get_output_dir)
 			if buf then
 				files[name] = buf
 				paths[name] = path
-				success = success + 1
-			else
-				failed = failed + 1
-				print('文件导出失败', name)
-			end
-			if os.clock() - clock >= 0.5 then
-				clock = os.clock()
-				print('正在导出', '成功:', success, '失败:', failed)
 			end
 		end
 	end
-	print('导出完毕', '成功:', success, '失败:', failed)
 	map:close()
 	return files, paths
 end
