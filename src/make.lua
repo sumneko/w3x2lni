@@ -11,8 +11,6 @@ local lni      = require 'lni'
 local create_map = require 'create_map'
 
 local root_dir = fs.path(uni.a2u(arg[1]))
-local lni_dir  = root_dir / 'lni'
-local w3x_dir  = root_dir / 'w3x'
 local meta_dir = root_dir / 'meta'
 local temp_dir = root_dir / 'temp'
 
@@ -98,14 +96,6 @@ local function lni2w3x(input_path, output_path)
 		else
 			print('文件无效:' .. file_name)
 		end
-	end
-end
-
-local function key2id()
-	for file_name, meta in pairs(config['metadata']) do
-		local metadata = w3x2txt:read_metadata(meta)
-		local content = w3x2txt:key2id(file_name, metadata)
-		io.save(meta_dir / (file_name .. '.ini'), content)
 	end
 end
 
@@ -233,38 +223,24 @@ local function pack(map_path, input_path)
 end
 
 local function main()
-	local mode = arg[2]
-	
-	read_config()
-	
-	-- 创建目录
-	fs.create_directory(lni_dir)
-	fs.create_directory(w3x_dir)
-
-	w3x2txt:set_dir('w3x', w3x_dir)
-	w3x2txt:set_dir('lni', lni_dir)
-	w3x2txt:set_dir('meta', meta_dir)
-
-	if mode == "key2id" then
-		key2id()
+	if not arg[2] then
+		print('请将地图或文件夹拖动到bat中!')
+		return
 	end
 
-	if mode == 'pack_unpack' then
-		if not arg[3] then
-			print('请将地图或文件夹拖动到bat中!')
-			return
-		end
-		local input_path = fs.path(uni.a2u(arg[3]))
-		if fs.is_directory(input_path) then
-			local map_name = 'new_' .. input_path:filename():string() .. '.w3x'
-			local map_path = input_path:parent_path() / map_name
-			lni2w3x(input_path, input_path)
-			pack(map_path, input_path)
-		else
-			local output_path = root_dir / fs.basename(input_path)
-			unpack(input_path, output_path)
-			w3x2lni(output_path, output_path)
-		end
+	read_config()
+	w3x2txt:set_dir('meta', meta_dir)
+	
+	local input_path = fs.path(uni.a2u(arg[2]))
+	if fs.is_directory(input_path) then
+		local map_name = 'new_' .. input_path:filename():string() .. '.w3x'
+		local map_path = input_path:parent_path() / map_name
+		lni2w3x(input_path, input_path)
+		pack(map_path, input_path)
+	else
+		local output_path = root_dir / fs.basename(input_path)
+		unpack(input_path, output_path)
+		w3x2lni(output_path, output_path)
 	end
 	
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
