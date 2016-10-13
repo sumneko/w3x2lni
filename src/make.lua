@@ -238,7 +238,7 @@ local function main()
 		lni2w3x(input_path, input_path)
 		pack(map_path, input_path)
 	else
-		local output_path = root_dir / fs.basename(input_path)
+		local output_path = root_dir / uni.a2u(fs.basename(input_path))
 		unpack(input_path, output_path)
 		w3x2lni(output_path, output_path)
 	end
