@@ -62,21 +62,24 @@ function mt:get_listfile(config)
 	return listfile, files
 end
 
-function mt:import_files(map, listfile, files)
+function mt:import_files(map, listfile, files, on_save)
 	local clock = os.clock()
 	local success, failed = 0, 0
 	for i = 1, #listfile do
 		local name = listfile[i]
-		if map:save_file(name, files[name]) then
-			success = success + 1
-		else
-			failed = failed + 1
-			print('文件导入失败', name)
-		end
-		if os.clock() - clock >= 0.5 then
-			clock = os.clock()
-			print('正在导入', '成功:', success, '失败:', failed)
-		end
+        local name, content = on_save(name, files[name])
+        if content then
+            if map:save_file(name, content) then
+                success = success + 1
+            else
+                failed = failed + 1
+                print('文件导入失败', name)
+            end
+            if os.clock() - clock >= 0.5 then
+                clock = os.clock()
+                print('正在导入', '成功:', success, '失败:', failed)
+            end
+        end
 	end
 	print('导入完毕', '成功:', success, '失败:', failed)
 end
@@ -99,7 +102,7 @@ function mt:import_imp(map, listfile)
 	end
 end
 
-function mt:save(map_path)
+function mt:save(map_path, on_save)
     local listfile, files = self:get_listfile(config)
 
     io.save(map_path, table.concat(self.hexs))
@@ -110,7 +113,7 @@ function mt:save(map_path)
 		return nil
 	end
 
-	self:import_files(map, listfile, files)
+	self:import_files(map, listfile, files, on_save)
 	self:import_imp(map, listfile)
 
     map:close()

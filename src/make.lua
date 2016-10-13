@@ -41,6 +41,21 @@ local function create_dir(dir)
 	fs.create_directories(dir)
 end
 
+local function lni2w3x(name, file)
+	if name:sub(-4) == '.ini' and config['metadata'][name:sub(1, -5)] then
+		print('正在转换:', name)
+		local data = lni:loader(file, name)
+		local key = lni:loader(io.load(meta_dir / name), name)
+		local metadata = w3x2txt:read_metadata(config['metadata'][name:sub(1, -5)])
+		local content = w3x2txt:lni2obj(data, metadata, key)
+		return name:sub(1, -5), content
+	elseif name == 'war3map.w3i' then
+		return name, file
+	else
+		return name, file
+	end
+end
+
 local function w3x2lni(files, paths)
 	--读取编辑器文本
 	local editstring
@@ -121,24 +136,6 @@ local function unpack(map_path, get_output_dir)
 	w3x2lni(files, paths)
 end
 
-local function lni2w3x(input_path, output_dir)
-	for file_name, meta in pairs(config['metadata']) do
-		local lni_str = io.load(input_path / (file_name .. '.ini'))
-		if lni_str then
-			print('正在转换:', file_name)
-			local data = lni:loader(lni_str, file_name)
-			local key_str = io.load(meta_dir / (file_name .. '.ini'))
-			local key = lni:loader(key_str, file_name)
-			local metadata = w3x2txt:read_metadata(meta)
-			local content = w3x2txt:lni2obj(data, metadata, key)
-			io.save(output_dir / file_name, content)
-			fs.remove(input_path / (file_name .. '.ini'))
-		else
-			print('文件无效:' .. file_name)
-		end
-	end
-end
-
 local function main()
 	if not arg[2] then
 		print('请将地图或文件夹拖动到bat中!')
@@ -154,7 +151,7 @@ local function main()
 		local map_name = input_dir:filename():string() .. '.w3x'
 		local map_file = create_map(config, w3x2txt:read_w3i(io.load(input_dir / 'war3map.w3i')))
 		map_file:add_dir(input_dir)
-		map_file:save(input_dir:parent_path() / map_name)
+		map_file:save(input_dir:parent_path() / map_name, lni2w3x)
 	else
 		local output_dir = root_dir / uni.a2u(fs.basename(input_path))
 		create_dir(output_dir)
