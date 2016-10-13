@@ -175,7 +175,7 @@ local function import_files(map, listfile, input_path)
 	for i = 1, #listfile do
 		local name = listfile[i]
 		local path = input_path / name
-		if map:import(name, path) then
+		if map:add_file(name, path) then
 			success = success + 1
 		else
 			failed = failed + 1
@@ -205,7 +205,7 @@ local function import_imp(map, listfile)
 	table.insert(imp, 1, ('ll'):pack(1, #imp))
 
 	io.save(temp_path, table.concat(imp, '\r'))
-	if not map:import('war3map.imp', temp_path) then
+	if not map:add_file('war3map.imp', temp_path) then
 		print('war3map.imp导入失败')
 	end
 	fs.remove(temp_path)
@@ -221,7 +221,7 @@ local function pack()
 	local w3i = w3x2txt:read_w3i(io.load(w3x_dir / 'war3map.w3i'))
 	io.save(map_path, create_map(w3i))
 
-	local map = mpq_create(map_path, #listfile+8)
+	local map = stormlib.create(map_path, #listfile+8)
 	if not map then
 		print('地图创建失败')
 		return

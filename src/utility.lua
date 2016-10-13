@@ -1,4 +1,3 @@
-require 'ar_stormlib'
 require 'sys'
 require 'i18n'
 
@@ -7,73 +6,6 @@ local table_insert = table.insert
 local table_sort   = table.sort
 local pairs = pairs
 local setmetatable = setmetatable
-
-local stormlib = ar.stormlib
-local mpq_meta =  { __index = {} }
-
-function mpq_meta.__index:import(path_in_archive, import_file_path)
-	return stormlib.add_file_ex(
-			self.handle,
-			import_file_path,
-			path_in_archive,
-			stormlib.MPQ_FILE_COMPRESS | stormlib.MPQ_FILE_REPLACEEXISTING,
-			stormlib.MPQ_COMPRESSION_ZLIB,
-			stormlib.MPQ_COMPRESSION_ZLIB)
-end
-
-function mpq_meta.__index:extract(path_in_archive, extract_file_path)
-	return stormlib.extract_file(self.handle, extract_file_path, path_in_archive)
-end
-
-function mpq_meta.__index:close()
-	stormlib.close_archive(self.handle)
-end
-
-function mpq_meta.__index:remove(path_in_archive)
-	return stormlib.remove_file(self.handle, path_in_archive, 0)
-end
-
-function mpq_meta.__index:rename(path_in_archive, new_name)
-	return stormlib.rename_file(self.handle, path_in_archive, new_name)
-end
-
-function mpq_meta.__index:has(path_in_archive)
-	return stormlib.has_file(self.handle, path_in_archive)
-end
-
-function mpq_meta.__index:add_listfile(listfile)
-	return stormlib.add_list_file(self.handle, listfile:utf8_to_ansi())
-end
-
-function mpq_meta:__pairs()
-	local temp_path = fs.path('temp' .. os.time())
-	if not self:extract('(listfile)', temp_path) then
-		print('(listfile)导出失败', temp_path:string())
-		return next, {}
-	end
-	local content = io.load(temp_path)
-	fs.remove(temp_path)
-	if content:sub(1, 3) == '\xEF\xBB\xBF' then
-		content = content:sub(4)
-	end
-	return content:gmatch '[^\n\r]+'
-end
-
-function mpq_open(path)
-	local h = stormlib.open_archive(path, 0, 0)
-	if not h then
-		return nil
-	end
-	return setmetatable({handle = h}, mpq_meta)
-end
-
-function mpq_create(path, max_file_count)
-	local h = stormlib.create_archive(path, 0, max_file_count or 1)
-	if not h then
-		return nil
-	end
-	return setmetatable({handle = h}, mpq_meta)
-end
 
 function io.load(file_path)
 	local f, e = io.open(file_path, "rb")
