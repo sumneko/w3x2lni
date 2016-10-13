@@ -41,9 +41,9 @@ return {
     w2u = w2u,
     w2a = w2a,
     u2a = function (input)
-        return u2w(w2a(input))
+        return w2a(u2w(input))
     end,
     a2u = function (input)
-        return a2w(w2u(input))
+        return w2u(a2w(input))
     end,
 }

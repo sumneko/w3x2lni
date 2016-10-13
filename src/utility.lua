@@ -1,11 +1,17 @@
 require 'sys'
-require 'i18n'
+local uni = require 'unicode'
 
 local table_unpack = table.unpack
 local table_insert = table.insert
 local table_sort   = table.sort
 local pairs = pairs
 local setmetatable = setmetatable
+
+local real_io_open = io.open
+
+function io.open(path, ...)
+	return real_io_open(uni.u2a(path:string()), ...)
+end
 
 function io.load(file_path)
 	local f, e = io.open(file_path, "rb")
@@ -33,7 +39,7 @@ end
 local real_io_lines = io.lines
 
 function io.lines(path)
-	return real_io_lines(path:utf8_to_ansi())
+	return real_io_lines(uni.u2a(path))
 end
 
 function io.lines2(path)
@@ -101,7 +107,7 @@ function print(...)
 	local tbl = {...}
 	local count = select('#', ...)
 	for i = 1, count do
-		tbl[i] = utf8_to_ansi(tostring(tbl[i]))
+		tbl[i] = uni.u2a(tostring(tbl[i]))
 	end
 	stdio_print(table_unpack(tbl))
 end
