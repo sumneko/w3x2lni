@@ -1,4 +1,3 @@
-require 'sys'
 local uni = require 'unicode'
 
 local table_unpack = table.unpack
@@ -81,24 +80,6 @@ function io.lines2(path)
             return line
         end
     end
-end
-
-function sys.spawn(command_line, current_dir, wait)
-	local p = sys.process()
-	if not p:create(nil, command_line, current_dir) then
-		return false
-	end
-
-	if wait then
-		local exit_code = p:wait()
-		p:close()
-		p = nil
-		return exit_code == 0
-	end
-	
-	p:close()
-	p = nil	
-	return false
 end
 
 local stdio_print = print
