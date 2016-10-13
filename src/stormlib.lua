@@ -14,12 +14,29 @@ ffi.cdef[[
     	unsigned long dwRawChunkSize; // Size of raw data chunk
     	unsigned long dwMaxFileCount; // File limit for the MPQ
 	};
+	struct SFILE_FIND_DATA {
+		char          cFileName[1024]; // Full name of the found file
+		char*         szPlainName;     // Plain name of the found file
+		unsigned long dwHashIndex;     // Hash table index for the file (HAH_ENTRY_FREE if no hash table)
+		unsigned long dwBlockIndex;    // Block table index for the file
+		unsigned long dwFileSize;      // File size in bytes
+		unsigned long dwFileFlags;     // MPQ file flags
+		unsigned long dwCompSize;      // Compressed file size
+		unsigned long dwFileTimeLo;    // Low 32-bits of the file time (0 if not present)
+		unsigned long dwFileTimeHi;    // High 32-bits of the file time (0 if not present)
+		unsigned int  lcLocale;        // Locale version
+	};
+
 	bool SFileCreateArchive2(const wchar_t* szMpqName, struct SFILE_CREATE_MPQ* pCreateInfo, uint32_t* phMpq);
 	bool SFileOpenArchive(const wchar_t* szMpqName, unsigned long dwPriority, unsigned long dwFlags, uint32_t* phMpq);
 	bool SFileCloseArchive(uint32_t hMpq);
 	bool SFileAddFileEx(uint32_t hMpq, const wchar_t* szFileName, const char* szArchivedName, unsigned long dwFlags, unsigned long dwCompression, unsigned long dwCompressionNext);
 	bool SFileExtractFile(uint32_t hMpq, const char* szToExtract, const wchar_t* szExtracted, unsigned long dwSearchScope);
-	bool SFileHasFile(uint32_t hMpq, const char * szFileName);
+	bool SFileHasFile(uint32_t hMpq, const char* szFileName);
+
+	uint32_t SListFileFindFirstFile(uint32_t hMpq, const char* szListFile, const char* szMask, struct SFILE_FIND_DATA* lpFindFileData);
+	bool SListFileFindNextFile(uint32_t hFind, struct SFILE_FIND_DATA* lpFindFileData);
+	bool SListFileFindClose(uint32_t hFind);
 	
 	unsigned long GetLastError();
 	int MessageBoxA(void* hWnd, const char* lpText, const char* lpCaption, unsigned int uType);
@@ -69,7 +86,22 @@ function mt:has_file(name)
 end
 
 function mt:__pairs()
-	return next, {}
+	if self.handle == 0 then
+		return next, {}
+	end
+	local info = ffi.new('struct SFILE_FIND_DATA')
+	local finder = stormlib.SListFileFindFirstFile(self.handle, nil, '*', info)
+	if finder == 0 then
+		return next, {}
+	end
+	return function()
+		local name = ffi.string(info.cFileName)
+		if name == '' then
+			return nil
+		end
+		stormlib.SListFileFindNextFile(finder, info)
+		return name
+	end
 end
 
 local m = {}
