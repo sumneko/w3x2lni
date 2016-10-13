@@ -14,18 +14,6 @@ ffi.cdef[[
     	unsigned long dwRawChunkSize; // Size of raw data chunk
     	unsigned long dwMaxFileCount; // File limit for the MPQ
 	};
-	struct SFILE_FIND_DATA {
-		char          cFileName[1024]; // Full name of the found file
-		char*         szPlainName;     // Plain name of the found file
-		unsigned long dwHashIndex;     // Hash table index for the file (HAH_ENTRY_FREE if no hash table)
-		unsigned long dwBlockIndex;    // Block table index for the file
-		unsigned long dwFileSize;      // File size in bytes
-		unsigned long dwFileFlags;     // MPQ file flags
-		unsigned long dwCompSize;      // Compressed file size
-		unsigned long dwFileTimeLo;    // Low 32-bits of the file time (0 if not present)
-		unsigned long dwFileTimeHi;    // High 32-bits of the file time (0 if not present)
-		unsigned int  lcLocale;        // Locale version
-	};
 
 	bool SFileCreateArchive2(const wchar_t* szMpqName, struct SFILE_CREATE_MPQ* pCreateInfo, uint32_t* phMpq);
 	bool SFileOpenArchive(const wchar_t* szMpqName, unsigned long dwPriority, unsigned long dwFlags, uint32_t* phMpq);
@@ -33,11 +21,13 @@ ffi.cdef[[
 	bool SFileAddFileEx(uint32_t hMpq, const wchar_t* szFileName, const char* szArchivedName, unsigned long dwFlags, unsigned long dwCompression, unsigned long dwCompressionNext);
 	bool SFileExtractFile(uint32_t hMpq, const char* szToExtract, const wchar_t* szExtracted, unsigned long dwSearchScope);
 	bool SFileHasFile(uint32_t hMpq, const char* szFileName);
-
-	uint32_t SListFileFindFirstFile(uint32_t hMpq, const char* szListFile, const char* szMask, struct SFILE_FIND_DATA* lpFindFileData);
-	bool SListFileFindNextFile(uint32_t hFind, struct SFILE_FIND_DATA* lpFindFileData);
-	bool SListFileFindClose(uint32_t hFind);
+	bool SFileSetMaxFileCount(uint32_t hMpq, unsigned long dwMaxFileCount);
 	
+	bool SFileOpenFileEx(uint32_t hMpq, const char* szFileName, unsigned long dwSearchScope, uint32_t* phFile);
+	bool SFileReadFile(uint32_t hFile, void* lpBuffer, unsigned long dwToRead, unsigned long* pdwRead, void* lpOverlapped);
+	unsigned long SFileGetFileSize(uint32_t hFile, unsigned long* pdwFileSizeHigh);
+	bool SFileCloseFile(uint32_t hFile);
+
 	unsigned long GetLastError();
 	int MessageBoxA(void* hWnd, const char* lpText, const char* lpCaption, unsigned int uType);
 ]]
@@ -45,10 +35,45 @@ ffi.cdef[[
 local uni = require 'unicode'
 local stormlib = ffi.load('stormlib')
 
-local mt = {}
-mt.__index = mt
+local file = {}
+file.__index = file
 
-function mt:close()
+function file:close()
+	if self.handle == 0 then
+		return
+	end
+	stormlib.SFileCloseFile(self.handle)
+	self.handle = 0
+end
+
+function file:size()
+	if self.handle == 0 then
+		return 0
+	end
+	local size_hi = ffi.new('unsigned long[1]', 0)
+	local size_lo = stormlib.SFileGetFileSize(self.handle, size_hi)
+	return size_lo | (size_hi[0] << 32)
+end
+
+function file:read(n)
+	if self.handle == 0 then
+		return nil
+	end
+	if not n then
+		n = self:size()
+	end
+	local buf = ffi.new('char[?]', n)
+	local pread = ffi.new('unsigned long[1]', 0)
+	if not stormlib.SFileReadFile(self.handle, buf, n, pread, nil) then
+		return nil
+	end
+	return ffi.string(buf, pread[0])
+end
+
+local archive = {}
+archive.__index = archive
+
+function archive:close()
 	if self.handle == 0 then
 		return
 	end
@@ -56,7 +81,7 @@ function mt:close()
 	self.handle = 0
 end
 
-function mt:add_file(name, path)
+function archive:add_file(name, path)
 	if self.handle == 0 then
 		return false
 	end
@@ -68,7 +93,7 @@ function mt:add_file(name, path)
 			)
 end
 
-function mt:extract(name, path)
+function archive:extract(name, path)
 	if self.handle == 0 then
 		return false
 	end
@@ -78,21 +103,43 @@ function mt:extract(name, path)
 			)
 end
 
-function mt:has_file(name)
+function archive:has_file(name)
 	if self.handle == 0 then
 		return false
 	end
 	return stormlib.SFileHasFile(self.handle, name)
 end
 
-function mt:__pairs()
-	local temp_path = fs.path('temp' .. os.time())
-	if not self:extract('(listfile)', temp_path) then
-		print('(listfile)导出失败', temp_path:string())
+function archive:open_file(name)
+	if self.handle == 0 then
+		return nil
+	end
+	local phandle = ffi.new('uint32_t[1]', 0)
+	if not stormlib.SFileOpenFileEx(self.handle, name, 0, phandle) then
+		return nil
+	end
+	return setmetatable({ handle = phandle[0] }, file)
+end
+
+function archive:load_file(name)
+	if self.handle == 0 then
+		return nil
+	end
+	local file = self:open_file(name)
+	if not file then
+		return nil
+	end
+	local content = file:read()
+	file:close()
+	return content
+end
+
+function archive:__pairs()
+	local content = self:load_file('(listfile)')
+	if not content then
+		print('(listfile)导出失败')
 		return
 	end
-	local content = io.load(temp_path)
-	fs.remove(temp_path)
 	if content:sub(1, 3) == '\xEF\xBB\xBF' then
 		content = content:sub(4)
 	end
@@ -100,13 +147,16 @@ function mt:__pairs()
 end
 
 local m = {}
-function m.open(path)
+function m.open(path, filecount)
 	local wpath = uni.u2w(path:string())
 	local phandle = ffi.new('uint32_t[1]', 0)
 	if not stormlib.SFileOpenArchive(wpath, 0, 0, phandle) then
 		return nil
 	end
-	return setmetatable({ handle = phandle[0] }, mt)
+	if filecount then
+		stormlib.SFileSetMaxFileCount(phandle[0], filecount)
+	end
+	return setmetatable({ handle = phandle[0] }, archive)
 end
 function m.create(path, filecount)
 	local wpath = uni.u2w(path:string())
@@ -127,7 +177,7 @@ function m.create(path, filecount)
 	if not stormlib.SFileCreateArchive2(wpath, info, phandle) then
 		return nil
 	end
-	return setmetatable({ handle = phandle[0] }, mt)
+	return setmetatable({ handle = phandle[0] }, archive)
 end
 function m.messagebox(text, caption)
 	ffi.C.MessageBoxA(nil, text, caption, 0)
