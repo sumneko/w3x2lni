@@ -1,24 +1,24 @@
 local mt = {}
 
-local wts_strings
-function mt:set_wts(wts)
-	wts_strings = wts
-end
-function mt:convert_wts(str, only_short, read_only)
-	if not wts_strings then
-		return str
+function mt:convert_wts(content, wts, only_short, read_only)
+	if not wts then
+		return content
 	end
-	return str:gsub('TRIGSTR_(%d+)', function(i)
-		local str_data = wts_strings[i]
+	return content:gsub([=[['"]TRIGSTR_(%d+)['"]]=], function(i)
+		local str_data = wts[i]
 		if not str_data then
 			return
 		end
-		local text = ('%q'):format(str_data.text):sub(2, -2)
+		local text = str_data.text
 		if only_short and #text > 256 then
 			return
 		end
 		str_data.converted = not read_only
-		return text
+		if text:match '[\n\r]' then
+			return ('[[\n%s\n]]'):format(text)
+		else
+			return ('%q'):format(text)
+		end
 	end)
 end
 

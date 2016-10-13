@@ -44,7 +44,6 @@ local function w3x2lni()
 	local wts
 	if content then
 		wts = w3x2txt:read_wts(content)
-		w3x2txt:set_wts(wts)
 	end
 
 	--读取编辑器文本
@@ -62,6 +61,7 @@ local function w3x2lni()
 			local metadata = w3x2txt:read_metadata(meta)
 			local data = w3x2txt:read_obj(content, metadata)
 			local content = w3x2txt:obj2lni(data, metadata, editstring)
+			local content = w3x2txt:convert_wts(content, wts)
 			io.save(lni_dir / (file_name .. '.ini'), content)
 		else
 			print('文件无效:' .. file_name)

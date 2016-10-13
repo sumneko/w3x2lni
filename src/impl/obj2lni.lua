@@ -20,7 +20,6 @@ function mt:format_value(value)
 	elseif tp == 'nil' then
 		return 'nil'
 	else
-		value = self:convert_wts(value)
 		if value:match '[\n\r]' then
 			return ('[[\n%s\n]]'):format(value)
 		else
