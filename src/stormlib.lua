@@ -23,22 +23,46 @@ ffi.cdef[[
 	bool SFileHasFile(uint32_t hMpq, const char* szFileName);
 	bool SFileSetMaxFileCount(uint32_t hMpq, unsigned long dwMaxFileCount);
 	
+	bool SFileCreateFile(uint32_t hMpq, const char* szArchivedName, unsigned long long FileTime, unsigned long dwFileSize, unsigned long lcLocale, unsigned long dwFlags, uint32_t* phFile);
+	bool SFileWriteFile(uint32_t hFile, const void* pvData, unsigned long dwSize, unsigned long dwCompression);
+	bool SFileFinishFile(uint32_t hFile);
 	bool SFileOpenFileEx(uint32_t hMpq, const char* szFileName, unsigned long dwSearchScope, uint32_t* phFile);
 	bool SFileReadFile(uint32_t hFile, void* lpBuffer, unsigned long dwToRead, unsigned long* pdwRead, void* lpOverlapped);
 	unsigned long SFileGetFileSize(uint32_t hFile, unsigned long* pdwFileSizeHigh);
 	bool SFileCloseFile(uint32_t hFile);
+
+	unsigned long SFileGetLocale();
 
 	unsigned long GetLastError();
 	int MessageBoxA(void* hWnd, const char* lpText, const char* lpCaption, unsigned int uType);
 ]]
 
 local uni = require 'unicode'
+local current_filetime = require 'current_filetime'
 local stormlib = ffi.load('stormlib')
 
-local file = {}
-file.__index = file
+local wfile = {}
+wfile.__index = wfile
 
-function file:close()
+function wfile:close()
+	if self.handle == 0 then
+		return
+	end
+	stormlib.SFileFinishFile(self.handle)
+	self.handle = 0
+end
+
+function wfile:write(buf)
+	if self.handle == 0 then
+		return false
+	end
+	return stormlib.SFileWriteFile(self.handle, buf, #buf, 0x02)
+end
+
+local rfile = {}
+rfile.__index = rfile
+
+function rfile:close()
 	if self.handle == 0 then
 		return
 	end
@@ -46,7 +70,7 @@ function file:close()
 	self.handle = 0
 end
 
-function file:size()
+function rfile:size()
 	if self.handle == 0 then
 		return 0
 	end
@@ -55,7 +79,7 @@ function file:size()
 	return size_lo | (size_hi[0] << 32)
 end
 
-function file:read(n)
+function rfile:read(n)
 	if self.handle == 0 then
 		return nil
 	end
@@ -118,7 +142,21 @@ function archive:open_file(name)
 	if not stormlib.SFileOpenFileEx(self.handle, name, 0, phandle) then
 		return nil
 	end
-	return setmetatable({ handle = phandle[0] }, file)
+	return setmetatable({ handle = phandle[0] }, rfile)
+end
+
+function archive:create_file(name, size, filetime)
+	if self.handle == 0 then
+		return nil
+	end
+	if not filetime then
+		filetime = current_filetime()
+	end
+	local phandle = ffi.new('uint32_t[1]', 0)
+	if not stormlib.SFileCreateFile(self.handle, name, filetime, size, stormlib.SFileGetLocale(), 0x00000200 | 0x80000000, phandle) then
+		return nil
+	end
+	return setmetatable({ handle = phandle[0] }, wfile)
 end
 
 function archive:load_file(name)
@@ -132,6 +170,19 @@ function archive:load_file(name)
 	local content = file:read()
 	file:close()
 	return content
+end
+
+function archive:save_file(name, buf, filetime)
+	if self.handle == 0 then
+		return false
+	end
+	local file = self:create_file(name, #buf, filetime)
+	if not file then
+		return false
+	end
+	file:write(buf)
+	file:close()
+	return true
 end
 
 function archive:__pairs()
