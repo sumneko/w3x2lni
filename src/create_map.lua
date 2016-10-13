@@ -37,8 +37,19 @@ function mt:add_playercount()
     self:add('l', self.w3i.player_count)
 end
 
-function mt:add_dir(dir)
-    table_insert(self.dirs, dir)
+function mt:add_input(input)
+    if fs.is_directory(input) then
+        if #self.w3xs > 0 then
+            return false
+        end
+        table_insert(self.dirs, input)
+    else
+        if #self.dirs > 0 then
+            return false
+        end
+        table_insert(self.w3xs, input)
+    end
+    return true
 end
 
 function mt:get_listfile()
@@ -102,11 +113,30 @@ function mt:import_imp(map, listfile)
 	end
 end
 
-function mt:save(map_path, on_save)
-    local listfile, files = self:get_listfile()
+function mt:save_map(map_path, on_save)
+    local w3i = {
+        map_name = '只是另一张魔兽争霸III地图',
+        map_flag = 0,
+        player_count = 2333,
+    }
+    for _, dir in ipairs(self.dirs) do
+        if fs.exists(dir / 'war3map.w3i') then
+            w3i = self.w3x2txt:read_w3i(io.load(dir / 'war3map.w3i'))
+            break
+        end
+    end
+
+    self.hexs = {}
+    self.w3i  = w3i
+
+    self:add_head()
+    self:add_name()
+    self:add_flag()
+    self:add_playercount()
 
     io.save(map_path, table.concat(self.hexs))
     
+    local listfile, files = self:get_listfile()
     local map = stormlib.create(map_path, #listfile+8)
 	if not map then
 		print('地图创建失败,可能是文件被占用了')
@@ -116,27 +146,42 @@ function mt:save(map_path, on_save)
 	self:import_files(map, listfile, files, on_save)
 	self:import_imp(map, listfile)
 
-    map:close()
-    return true
+    return map
 end
 
-return function (config, w3i)
-    if not w3i then
-        w3i = {
-            map_name = '只是另一张魔兽争霸III地图',
-            map_flag = 0,
-            player_count = 2333,
-        }
-    end
-    local tbl = setmetatable({}, mt)
-    tbl.hexs = {}
-    tbl.w3i  = w3i
-    tbl.dirs = {}
-    tbl.config = config
+function mt:unpack(on_save)
+    local map_path = self.w3xs[1]
+    -- 解压地图
+	local map = stormlib.open(map_path)
+	if not map then
+		print('地图打开失败')
+		return
+	end
 
-    tbl:add_head()
-    tbl:add_name()
-    tbl:add_flag()
-    tbl:add_playercount()
-    return tbl
+	if not map:has_file '(listfile)' then
+		print('不支持没有文件列表(listfile)的地图')
+		return
+	end
+	map:close()
+	
+	local files, paths = self.w3x2txt:extract_files(map_path, on_save)
+	self.w3x2txt:w3x2lni(files, paths)
+end
+
+function mt:save(map_path, on_save)
+    if #self.dirs > 0 then
+        return self:save_map(map_path, on_save)
+    elseif #self.w3xs > 0 then
+        return self:unpack(on_save)
+    end
+    return false
+end
+
+return function (w3x2txt)
+    local self = setmetatable({}, mt)
+    self.dirs = {}
+    self.w3xs = {}
+    self.config = w3x2txt.config
+    self.w3x2txt = w3x2txt
+    return self
 end

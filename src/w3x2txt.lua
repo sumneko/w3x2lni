@@ -2,6 +2,18 @@ local stormlib = require 'stormlib'
 local create_map = require 'create_map'
 local lni = require 'lni'
 
+local count = 0
+local function remove_then_create_dir(dir)
+	-- 将原来的目录改名后删除(否则之后创建同名目录时可能拒绝访问)
+	count = count + 1
+	local temp_dir = fs.path('temp' .. count .. os.time())
+	if fs.exists(dir) then
+		fs.rename(dir, temp_dir)
+		fs.remove_all(temp_dir)
+	end
+	fs.create_directories(dir)
+end
+
 local mt = {}
 
 function mt:convert_wts(content, wts, only_short, read_only)
@@ -105,10 +117,15 @@ end
 function mt:extract_files(map_path, get_output_dir)
 	local files = {}
 	local paths = {}
+	local dirs = {}
 	local map = stormlib.open(map_path)
 	for name in pairs(map) do
 		local output_dir = get_output_dir(name)
 		if output_dir then
+			if not dirs[output_dir:string()] then
+				dirs[output_dir:string()] = true
+				remove_then_create_dir(output_dir)
+			end
 			local path = output_dir / name
 			fs.create_directories(path:parent_path())
 			local buf = map:load_file(name, path)
@@ -122,26 +139,8 @@ function mt:extract_files(map_path, get_output_dir)
 	return files, paths
 end
 
-function mt:unpack(map_path, get_output_dir)
-	-- 解压地图
-	local map = stormlib.open(map_path)
-	if not map then
-		print('地图打开失败')
-		return
-	end
-
-	if not map:has_file '(listfile)' then
-		print('不支持没有文件列表(listfile)的地图')
-		return
-	end
-	map:close()
-	
-	local files, paths = self:extract_files(map_path, get_output_dir)
-	self:w3x2lni(files, paths)
-end
-
-function mt:create_map(w3i)
-	return create_map(self.config, self:read_w3i(w3i))
+function mt:create_map()
+	return create_map(self)
 end
 
 function mt:init(root_dir)
