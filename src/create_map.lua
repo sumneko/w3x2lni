@@ -41,7 +41,7 @@ function mt:add_dir(dir)
     table_insert(self.dirs, dir)
 end
 
-function mt:get_listfile(config)
+function mt:get_listfile()
     local files = {}
     local listfile = {}
 	local pack_ignore = {}
@@ -103,7 +103,7 @@ function mt:import_imp(map, listfile)
 end
 
 function mt:save(map_path, on_save)
-    local listfile, files = self:get_listfile(config)
+    local listfile, files = self:get_listfile()
 
     io.save(map_path, table.concat(self.hexs))
     
