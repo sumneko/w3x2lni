@@ -155,10 +155,18 @@ local function unpack(map_path, output_path)
 end
 
 local function get_listfile(input_path)
+	local pack_ignore = {}
+	for _, name in ipairs(config['pack']['packignore']) do
+		pack_ignore[name:lower()] = true
+	end
+
 	local parent_dir_len = #input_path:string()
 	local listfile = {}
 	dir_scan(input_path, function(path)
-		listfile[#listfile+1] = path:string():sub(parent_dir_len+2)
+		local name = path:string():sub(parent_dir_len+2)
+		if not pack_ignore[name:lower()] then
+			listfile[#listfile+1] = name
+		end
 	end)
 	return listfile
 end
