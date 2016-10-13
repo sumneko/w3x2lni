@@ -15,9 +15,11 @@ ffi.cdef[[
     	unsigned long dwMaxFileCount; // File limit for the MPQ
 	};
 	bool SFileCreateArchive2(const wchar_t* szMpqName, struct SFILE_CREATE_MPQ* pCreateInfo, uint32_t* phMpq);
+	bool SFileOpenArchive(const wchar_t* szMpqName, unsigned long dwPriority, unsigned long dwFlags, uint32_t* phMpq);
 	bool SFileCloseArchive(uint32_t hMpq);
 	bool SFileAddFileEx(uint32_t hMpq, const wchar_t* szFileName, const char* szArchivedName, unsigned long dwFlags, unsigned long dwCompression, unsigned long dwCompressionNext);
 	bool SFileExtractFile(uint32_t hMpq, const char* szToExtract, const wchar_t* szExtracted, unsigned long dwSearchScope);
+	bool SFileHasFile(uint32_t hMpq, const char * szFileName);
 	
 	unsigned long GetLastError();
 	int MessageBoxA(void* hWnd, const char* lpText, const char* lpCaption, unsigned int uType);
@@ -59,7 +61,26 @@ function mt:extract(name, path)
 			)
 end
 
+function mt:has_file(name)
+	if self.handle == 0 then
+		return false
+	end
+	return stormlib.SFileHasFile(self.handle, name)
+end
+
+function mt:__pairs()
+	return next, {}
+end
+
 local m = {}
+function m.open(path)
+	local wpath = uni.u2w(path:string())
+	local phandle = ffi.new('uint32_t[1]', 0)
+	if not stormlib.SFileOpenArchive(wpath, 0, 0, phandle) then
+		return nil
+	end
+	return setmetatable({ handle = phandle[0] }, mt)
+end
 function m.create(path, filecount)
 	local wpath = uni.u2w(path:string())
 	local phandle = ffi.new('uint32_t[1]', 0)

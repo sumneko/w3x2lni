@@ -108,7 +108,7 @@ local function key2id()
 end
 
 local function extract_files(map_path, output_path)
-	local map = mpq_open(map_path)
+	local map = stormlib.open(map_path)
 	local clock = os.clock()
 	local success, failed = 0, 0
 	for name in pairs(map) do
@@ -139,13 +139,13 @@ local function unpack()
 	local temp_dir = root_dir / 'temp'
 
 	-- 解压地图
-	local map = mpq_open(map_path)
+	local map = stormlib.open(map_path)
 	if not map then
 		print('地图打开失败')
 		return
 	end
 
-	if not map:has '(listfile)' then
+	if not map:has_file '(listfile)' then
 		print('不支持没有文件列表(listfile)的地图')
 		return
 	end
