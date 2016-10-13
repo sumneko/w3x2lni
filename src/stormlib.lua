@@ -33,6 +33,7 @@ ffi.cdef[[
 	bool SFileAddFileEx(uint32_t hMpq, const wchar_t* szFileName, const char* szArchivedName, unsigned long dwFlags, unsigned long dwCompression, unsigned long dwCompressionNext);
 	bool SFileExtractFile(uint32_t hMpq, const char* szToExtract, const wchar_t* szExtracted, unsigned long dwSearchScope);
 	bool SFileHasFile(uint32_t hMpq, const char* szFileName);
+	bool SFileSetMaxFileCount(uint32_t hMpq, unsigned long dwMaxFileCount);
 
 	uint32_t SListFileFindFirstFile(uint32_t hMpq, const char* szListFile, const char* szMask, struct SFILE_FIND_DATA* lpFindFileData);
 	bool SListFileFindNextFile(uint32_t hFind, struct SFILE_FIND_DATA* lpFindFileData);
@@ -100,11 +101,14 @@ function mt:__pairs()
 end
 
 local m = {}
-function m.open(path)
+function m.open(path, filecount)
 	local wpath = uni.u2w(path:string())
 	local phandle = ffi.new('uint32_t[1]', 0)
 	if not stormlib.SFileOpenArchive(wpath, 0, 0, phandle) then
 		return nil
+	end
+	if filecount then
+		stormlib.SFileSetMaxFileCount(phandle[0], filecount)
 	end
 	return setmetatable({ handle = phandle[0] }, mt)
 end
