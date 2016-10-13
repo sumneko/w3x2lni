@@ -4,14 +4,13 @@ package.cpath = package.cpath .. ';' .. arg[1] .. '\\build\\?.dll'
 require 'luabind'
 require 'filesystem'
 require 'utility'
-require 'localization'
-
+local uni      = require 'unicode'
 local w3x2txt  = require 'w3x2txt'
 local stormlib = require 'stormlib'
 local lni      = require 'lni'
 local create_map = require 'create_map'
 
-local root_dir = fs.path(arg[1]:ansi_to_utf8())
+local root_dir = fs.path(uni.a2u(arg[1]))
 local lni_dir  = root_dir / 'lni'
 local w3x_dir  = root_dir / 'w3x'
 local meta_dir = root_dir / 'meta'
@@ -135,7 +134,7 @@ local function unpack()
 		print('请将地图拖动到bat中!')
 		return
 	end
-	local map_path = fs.path(arg[3]:ansi_to_utf8())
+	local map_path = fs.path(uni.a2u(arg[3]))
 	local temp_dir = root_dir / 'temp'
 
 	-- 解压地图
