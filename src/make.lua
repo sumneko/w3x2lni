@@ -23,7 +23,7 @@ local function main()
 		local map_file = w3x2txt:create_map()
 		map_file:add_input(input_path)
 		map_file:save(input_path:parent_path() / map_name, function(name, file)
-			return w3x2txt:lni2w3x(name, file)
+			return name, file
 		end)
 	else
 		local output_dir = root_dir / input_path:stem()

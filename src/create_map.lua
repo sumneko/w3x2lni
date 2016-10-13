@@ -80,15 +80,18 @@ function mt:import_files(map, listfile, files, on_save)
 		local name = listfile[i]
         local name, content = on_save(name, files[name])
         if content then
-            if map:save_file(name, content) then
-                success = success + 1
-            else
-                failed = failed + 1
-                print('文件导入失败', name)
-            end
-            if os.clock() - clock >= 0.5 then
-                clock = os.clock()
-                print('正在导入', '成功:', success, '失败:', failed)
+            local name, content = self.w3x2txt:lni2w3x(name, content)
+            if content then
+                if map:save_file(name, content) then
+                    success = success + 1
+                else
+                    failed = failed + 1
+                    print('文件导入失败', name)
+                end
+                if os.clock() - clock >= 0.5 then
+                    clock = os.clock()
+                    print('正在导入', '成功:', success, '失败:', failed)
+                end
             end
         end
 	end
