@@ -149,7 +149,9 @@ function mt:save_map(map_path, on_save)
 	self:import_files(map, listfile, files, on_save)
 	self:import_imp(map, listfile)
 
-    return map
+    map:close()
+    
+    return true
 end
 
 function mt:unpack(on_save)
