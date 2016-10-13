@@ -1,7 +1,6 @@
-/test/
-/log/
-/lni/
-/w3x/
+/*/
+!/build/
+!/meta/
+!/src/
+src/.vscode/
 *.w3x
-temp/
-.vscode/

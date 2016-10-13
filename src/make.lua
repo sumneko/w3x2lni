@@ -14,6 +14,7 @@ local root_dir = fs.path(uni.a2u(arg[1]))
 local lni_dir  = root_dir / 'lni'
 local w3x_dir  = root_dir / 'w3x'
 local meta_dir = root_dir / 'meta'
+local temp_dir = root_dir / 'temp'
 
 local config
 
@@ -129,14 +130,7 @@ local function extract_files(map_path, output_path)
 	map:close()
 end
 
-local function unpack()
-	if not arg[3] then
-		print('请将地图拖动到bat中!')
-		return
-	end
-	local map_path = fs.path(uni.a2u(arg[3]))
-	local temp_dir = root_dir / 'temp'
-
+local function unpack(map_path, output_path)
 	-- 解压地图
 	local map = stormlib.open(map_path)
 	if not map then
@@ -151,13 +145,13 @@ local function unpack()
 	map:close()
 
 	-- 将原来的目录改名后删除(否则之后创建同名目录时可能拒绝访问)
-	if fs.exists(w3x_dir) then
-		fs.rename(w3x_dir, temp_dir)
+	if fs.exists(output_path) then
+		fs.rename(output_path, temp_dir)
 		fs.remove_all(temp_dir)
 	end
-	fs.create_directories(w3x_dir)
+	fs.create_directories(output_path)
 	
-	extract_files(map_path, w3x_dir)
+	extract_files(map_path, output_path)
 end
 
 local function get_listfile(map_path)
@@ -257,7 +251,13 @@ local function main()
 	end
 
 	if mode == 'unpack' then
-		unpack()
+		if not arg[3] then
+			print('请将地图拖动到bat中!')
+			return
+		end
+		local map_path = fs.path(uni.a2u(arg[3]))
+		local output_path = root_dir / fs.basename(map_path)
+		unpack(map_path, output_path)
 	end
 
 	if mode == 'pack' then
