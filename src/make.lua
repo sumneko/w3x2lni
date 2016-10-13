@@ -38,9 +38,9 @@ local function dir_scan(dir, callback)
 	end
 end
 
-local function w3x2lni()
+local function w3x2lni(input_path, output_path)
 	--读取字符串
-	local content = io.load(w3x_dir / 'war3map.wts')
+	local content = io.load(input_path / 'war3map.wts')
 	local wts
 	if content then
 		wts = w3x2txt:read_wts(content)
@@ -55,36 +55,37 @@ local function w3x2lni()
 	
 	--转换二进制文件到lni
 	for file_name, meta in pairs(config['metadata']) do
-		local content = io.load(w3x_dir / file_name)
+		local content = io.load(input_path / file_name)
 		if content then
 			print('正在转换:' .. file_name)
 			local metadata = w3x2txt:read_metadata(meta)
 			local data = w3x2txt:read_obj(content, metadata)
 			local content = w3x2txt:obj2lni(data, metadata, editstring)
 			local content = w3x2txt:convert_wts(content, wts)
-			io.save(lni_dir / (file_name .. '.ini'), content)
+			io.save(output_path / (file_name .. '.ini'), content)
+			fs.remove(input_path / file_name)
 		else
 			print('文件无效:' .. file_name)
 		end
 	end
 
 	--转换其他文件
-	local content = io.load(w3x_dir / 'war3map.w3i')
+	local content = io.load(input_path / 'war3map.w3i')
 	local w3i = w3x2txt:read_w3i(content)
 	local content = w3x2txt:w3i2lni(w3i)
 	local content = w3x2txt:convert_wts(content, wts)
-	io.save(lni_dir / 'war3map.w3i.ini', content)
+	io.save(output_path / 'war3map.w3i.ini', content)
 
 	--刷新字符串
 	if wts then
 		local content = w3x2txt:fresh_wts(wts)
-		io.save(lni_dir / 'war3map.wts', content)
+		io.save(output_path / 'war3map.wts', content)
 	end
 end
 
-local function lni2w3x()
+local function lni2w3x(input_path, output_path)
 	for file_name, meta in pairs(config['metadata']) do
-		local lni_str = io.load(lni_dir / (file_name .. '.ini'))
+		local lni_str = io.load(input_path / (file_name .. '.ini'))
 		if lni_str then
 			print('正在转换:', file_name)
 			local data = lni:loader(lni_str, file_name)
@@ -92,7 +93,8 @@ local function lni2w3x()
 			local key = lni:loader(key_str, file_name)
 			local metadata = w3x2txt:read_metadata(meta)
 			local content = w3x2txt:lni2obj(data, metadata, key)
-			io.save(w3x_dir / file_name, content)
+			io.save(output_path / file_name, content)
+			fs.remove(input_path / (file_name .. '.ini'))
 		else
 			print('文件无效:' .. file_name)
 		end
@@ -243,37 +245,26 @@ local function main()
 	w3x2txt:set_dir('lni', lni_dir)
 	w3x2txt:set_dir('meta', meta_dir)
 
-	if mode == "w3x2lni" then
-		w3x2lni()
-	end
-
-	if mode == "lni2w3x" then
-		lni2w3x()
-	end
-
 	if mode == "key2id" then
 		key2id()
 	end
 
-	if mode == 'unpack' then
+	if mode == 'pack_unpack' then
 		if not arg[3] then
-			print('请将地图拖动到bat中!')
-			return
-		end
-		local map_path = fs.path(uni.a2u(arg[3]))
-		local output_path = root_dir / fs.basename(map_path)
-		unpack(map_path, output_path)
-	end
-
-	if mode == 'pack' then
-		if not arg[3] then
-			print('请将文件夹拖动到bat中!')
+			print('请将地图或文件夹拖动到bat中!')
 			return
 		end
 		local input_path = fs.path(uni.a2u(arg[3]))
-		local map_name = 'new_' .. input_path:filename():string() .. '.w3x'
-		local map_path = input_path:parent_path() / map_name
-		pack(map_path, input_path)
+		if fs.is_directory(input_path) then
+			local map_name = 'new_' .. input_path:filename():string() .. '.w3x'
+			local map_path = input_path:parent_path() / map_name
+			lni2w3x(input_path, input_path)
+			pack(map_path, input_path)
+		else
+			local output_path = root_dir / fs.basename(input_path)
+			unpack(input_path, output_path)
+			w3x2lni(output_path, output_path)
+		end
 	end
 	
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
