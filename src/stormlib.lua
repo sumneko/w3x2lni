@@ -86,22 +86,17 @@ function mt:has_file(name)
 end
 
 function mt:__pairs()
-	if self.handle == 0 then
-		return next, {}
+	local temp_path = fs.path('temp' .. os.time())
+	if not self:extract('(listfile)', temp_path) then
+		print('(listfile)导出失败', temp_path:string())
+		return
 	end
-	local info = ffi.new('struct SFILE_FIND_DATA')
-	local finder = stormlib.SListFileFindFirstFile(self.handle, nil, '*', info)
-	if finder == 0 then
-		return next, {}
+	local content = io.load(temp_path)
+	fs.remove(temp_path)
+	if content:sub(1, 3) == '\xEF\xBB\xBF' then
+		content = content:sub(4)
 	end
-	return function()
-		local name = ffi.string(info.cFileName)
-		if name == '' then
-			return nil
-		end
-		stormlib.SListFileFindNextFile(finder, info)
-		return name
-	end
+	return content:gmatch '[^\n\r]+'
 end
 
 local m = {}
