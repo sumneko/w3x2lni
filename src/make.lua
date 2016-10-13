@@ -36,11 +36,28 @@ local function dir_scan(dir, callback)
 	end
 end
 
-local function w3x2lni(input_path, output_path)
+local count = 0
+local function get_temp_path()
+	count = count + 1
+	return root_dir / ('temp' .. count .. os.time())
+end
+
+local function create_dir(dir)
+	-- 将原来的目录改名后删除(否则之后创建同名目录时可能拒绝访问)
+	local temp_dir = get_temp_path()
+	if fs.exists(dir) then
+		fs.rename(dir, temp_dir)
+		fs.remove_all(temp_dir)
+	end
+	fs.create_directories(dir)
+end
+
+local function w3x2lni(file_path)
 	--读取字符串
-	local content = io.load(input_path / 'war3map.wts')
 	local wts
-	if content then
+	local file_name = 'war3map.wts'
+	if file_path[file_name] then
+		local content = io.load(file_path[file_name])
 		wts = w3x2txt:read_wts(content)
 	end
 
@@ -53,76 +70,67 @@ local function w3x2lni(input_path, output_path)
 	
 	--转换二进制文件到lni
 	for file_name, meta in pairs(config['metadata']) do
-		local content = io.load(input_path / file_name)
-		if content then
+		if file_path[file_name] then
+			local content = io.load(file_path[file_name])
 			print('正在转换:' .. file_name)
 			local metadata = w3x2txt:read_metadata(meta)
 			local data = w3x2txt:read_obj(content, metadata)
 			local content = w3x2txt:obj2lni(data, metadata, editstring)
 			local content = w3x2txt:convert_wts(content, wts)
-			io.save(output_path / (file_name .. '.ini'), content)
-			fs.remove(input_path / file_name)
+			io.save(file_path[file_name]:parent_path() / (file_name .. '.ini'), content)
+			fs.remove(file_path[file_name])
 		else
 			print('文件无效:' .. file_name)
 		end
 	end
 
 	--转换其他文件
-	local content = io.load(input_path / 'war3map.w3i')
-	local w3i = w3x2txt:read_w3i(content)
-	local content = w3x2txt:w3i2lni(w3i)
-	local content = w3x2txt:convert_wts(content, wts)
-	io.save(output_path / 'war3map.w3i.ini', content)
+	local file_name = 'war3map.w3i'
+	if file_path[file_name] then
+		local content = io.load(file_path[file_name])
+		local w3i = w3x2txt:read_w3i(content)
+		local content = w3x2txt:w3i2lni(w3i)
+		local content = w3x2txt:convert_wts(content, wts)
+		io.save(file_path[file_name]:parent_path() / 'war3map.w3i.ini', content)
+	end
 
 	--刷新字符串
 	if wts then
 		local content = w3x2txt:fresh_wts(wts)
-		io.save(output_path / 'war3map.wts', content)
+		io.save(file_path['war3map.wts'], content)
 	end
 end
 
-local function lni2w3x(input_path, output_path)
-	for file_name, meta in pairs(config['metadata']) do
-		local lni_str = io.load(input_path / (file_name .. '.ini'))
-		if lni_str then
-			print('正在转换:', file_name)
-			local data = lni:loader(lni_str, file_name)
-			local key_str = io.load(meta_dir / (file_name .. '.ini'))
-			local key = lni:loader(key_str, file_name)
-			local metadata = w3x2txt:read_metadata(meta)
-			local content = w3x2txt:lni2obj(data, metadata, key)
-			io.save(output_path / file_name, content)
-			fs.remove(input_path / (file_name .. '.ini'))
-		else
-			print('文件无效:' .. file_name)
-		end
-	end
-end
-
-local function extract_files(map_path, output_path)
+local function extract_files(map_path, get_output_dir)
+	local file_path = {}
 	local map = stormlib.open(map_path)
 	local clock = os.clock()
 	local success, failed = 0, 0
 	for name in pairs(map) do
-		local path = output_path / name
-		local dir = path:parent_path()
-		fs.create_directories(dir)
-		if map:extract(name, path) then
-			success = success + 1
-		else
-			failed = failed + 1
-			print('文件导出失败', name)
-		end
-		if os.clock() - clock >= 0.5 then
-			clock = os.clock()
-			print('正在导出', '成功:', success, '失败:', failed)
+		local output_dir = get_output_dir(name)
+		if output_dir then
+			local path = output_dir / name
+			local dir = path:parent_path()
+			fs.create_directories(dir)
+			if map:extract(name, path) then
+				file_path[name] = path
+				success = success + 1
+			else
+				failed = failed + 1
+				print('文件导出失败', name)
+			end
+			if os.clock() - clock >= 0.5 then
+				clock = os.clock()
+				print('正在导出', '成功:', success, '失败:', failed)
+			end
 		end
 	end
 	print('导出完毕', '成功:', success, '失败:', failed)
 	map:close()
+	return file_path
 end
 
-local function unpack(map_path, output_path)
+local function unpack(map_path, get_output_dir)
 	-- 解压地图
 	local map = stormlib.open(map_path)
 	if not map then
@@ -135,15 +143,27 @@ local function unpack(map_path, output_path)
 		return
 	end
 	map:close()
-
-	-- 将原来的目录改名后删除(否则之后创建同名目录时可能拒绝访问)
-	if fs.exists(output_path) then
-		fs.rename(output_path, temp_dir)
-		fs.remove_all(temp_dir)
-	end
-	fs.create_directories(output_path)
 	
-	extract_files(map_path, output_path)
+	local file_path = extract_files(map_path, get_output_dir)
+	w3x2lni(file_path)
+end
+
+local function lni2w3x(input_path, output_dir)
+	for file_name, meta in pairs(config['metadata']) do
+		local lni_str = io.load(input_path / (file_name .. '.ini'))
+		if lni_str then
+			print('正在转换:', file_name)
+			local data = lni:loader(lni_str, file_name)
+			local key_str = io.load(meta_dir / (file_name .. '.ini'))
+			local key = lni:loader(key_str, file_name)
+			local metadata = w3x2txt:read_metadata(meta)
+			local content = w3x2txt:lni2obj(data, metadata, key)
+			io.save(output_dir / file_name, content)
+			fs.remove(input_path / (file_name .. '.ini'))
+		else
+			print('文件无效:' .. file_name)
+		end
+	end
 end
 
 local function get_listfile(input_path)
@@ -238,9 +258,10 @@ local function main()
 		lni2w3x(input_path, input_path)
 		pack(map_path, input_path)
 	else
-		local output_path = root_dir / uni.a2u(fs.basename(input_path))
-		unpack(input_path, output_path)
-		w3x2lni(output_path, output_path)
+		local output_dir = root_dir / uni.a2u(fs.basename(input_path))
+		unpack(input_path, function(filename)
+			return output_dir
+		end)
 	end
 	
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
