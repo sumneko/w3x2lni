@@ -6,8 +6,6 @@ require 'filesystem'
 require 'utility'
 local uni      = require 'unicode'
 local w3x2txt  = require 'w3x2txt'
-local stormlib = require 'stormlib'
-local lni      = require 'lni'
 local create_map = require 'create_map'
 
 local root_dir = fs.path(uni.a2u(arg[1]))
@@ -46,7 +44,7 @@ local function main()
 			return w3x2txt:lni2w3x(name, file)
 		end)
 	else
-		local output_dir = root_dir / uni.a2u(fs.basename(input_path))
+		local output_dir = root_dir / input_path:stem()
 		create_dir(output_dir)
 		w3x2txt:unpack(input_path, function(filename)
 			return output_dir
