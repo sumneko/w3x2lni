@@ -4,9 +4,9 @@ local lni = require 'lni'
 
 local function remove_then_create_dir(dir)
 	if fs.exists(dir) then
-		fs.remove_all(dir)
+		task(fs.remove_all, dir)
 	end
-	fs.create_directories(dir)
+	task(fs.create_directories, dir)
 end
 
 local mt = {}
