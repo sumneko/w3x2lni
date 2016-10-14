@@ -166,10 +166,12 @@ function mt:save_map(map_path, on_save)
     self:add_flag()
     self:add_playercount()
 
-    io.save(map_path, table.concat(self.hexs))
+    local temp_path = fs.path 'temp'
+
+    io.save(temp_path, table.concat(self.hexs))
     
     local listfile, files = self:get_listfile()
-    local map = stormlib.create(map_path, #listfile+8)
+    local map = stormlib.create(temp_path, #listfile+8)
 	if not map then
 		print('地图创建失败,可能是文件被占用了')
 		return nil
@@ -179,6 +181,7 @@ function mt:save_map(map_path, on_save)
 	self:import_imp(map, listfile)
 
     map:close()
+    fs.rename(temp_path, map_path)
     
     return true
 end
