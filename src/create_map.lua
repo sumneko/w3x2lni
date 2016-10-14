@@ -54,6 +54,7 @@ end
 
 function mt:get_listfile()
     local files = {}
+    local dirs = {}
     local listfile = {}
 	local pack_ignore = {}
 	for _, name in ipairs(self.config['pack']['packignore']) do
@@ -69,6 +70,7 @@ function mt:get_listfile()
             if not pack_ignore[name:lower()] then
                 listfile[#listfile+1] = name
                 files[name] = io.load(path)
+                dirs[name] = dir
                 if files[name] then
                     success = success + 1
                 else
@@ -91,15 +93,15 @@ function mt:get_listfile()
     else
 	    print('读取完毕', '成功:', success, '失败:', failed)
     end
-	return listfile, files
+	return listfile, files, dirs
 end
 
-function mt:import_files(map, listfile, files, on_save)
+function mt:import_files(map, listfile, files, dirs, on_save)
 	local clock = os.clock()
 	local success, failed = 0, 0
 	for i = 1, #listfile do
 		local name = listfile[i]
-        local name, content = on_save(name, files[name])
+        local name, content = on_save(name, files[name], dirs[name])
         if content then
             local name, content = self.w3x2txt:lni2w3x(name, content)
             if content then
@@ -170,14 +172,14 @@ function mt:save_map(map_path, on_save)
 
     io.save(temp_path, table.concat(self.hexs))
     
-    local listfile, files = self:get_listfile()
+    local listfile, files, dirs = self:get_listfile()
     local map = stormlib.create(temp_path, #listfile+8)
 	if not map then
 		print('地图创建失败,可能是文件被占用了')
 		return nil
 	end
 
-	self:import_files(map, listfile, files, on_save)
+	self:import_files(map, listfile, files, dirs, on_save)
 	self:import_imp(map, listfile)
 
     map:close()

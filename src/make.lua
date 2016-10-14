@@ -22,7 +22,7 @@ local function main()
 		local map_name = input_path:filename():string() .. '.w3x'
 		local map_file = w3x2txt:create_map()
 		map_file:add_input(input_path)
-		map_file:save(input_path:parent_path() / map_name, function(name, file)
+		map_file:save(input_path:parent_path() / map_name, function(name, file, dir)
 			return name, file
 		end)
 	else
