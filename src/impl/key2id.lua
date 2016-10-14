@@ -79,9 +79,13 @@ end
 
 local function add_public(tbl, public)
     local names = sort_table(public)
-    tbl[#tbl+1] = '["public"]'
+    tbl[#tbl+1] = '[public]'
     for _, name in ipairs(names) do
-        tbl[#tbl+1] = ('\'%s\' = \'%s\''):format(name, public[name])
+        if name:find('[^_%w]') then
+            tbl[#tbl+1] = ('\'%s\' = %s'):format(name, public[name])
+        else
+            tbl[#tbl+1] = ('%s = %s'):format(name, public[name])
+        end
     end
 end
 
@@ -90,10 +94,14 @@ local function add_private(tbl, private)
     for _, name in ipairs(names) do
         local data = private[name]
         tbl[#tbl+1] = ''
-        tbl[#tbl+1] = ('["%s"]'):format(name)
+        tbl[#tbl+1] = ('[%s]'):format(name)
         local names = sort_table(data)
         for _, name in ipairs(names) do
-            tbl[#tbl+1] = ('\'%s\' = \'%s\''):format(name, data[name])
+            if name:find('[^_%w]') then
+                tbl[#tbl+1] = ('\'%s\' = %s'):format(name, data[name])
+            else
+                tbl[#tbl+1] = ('%s = %s'):format(name, data[name])
+            end
         end
     end
 end
