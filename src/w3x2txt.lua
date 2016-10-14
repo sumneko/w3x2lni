@@ -2,14 +2,9 @@ local stormlib = require 'stormlib'
 local create_map = require 'create_map'
 local lni = require 'lni'
 
-local count = 0
 local function remove_then_create_dir(dir)
-	-- 将原来的目录改名后删除(否则之后创建同名目录时可能拒绝访问)
-	count = count + 1
-	local temp_dir = fs.path('temp' .. count .. os.time())
 	if fs.exists(dir) then
-		fs.rename(dir, temp_dir)
-		fs.remove_all(temp_dir)
+		fs.remove_all(dir)
 	end
 	fs.create_directories(dir)
 end
