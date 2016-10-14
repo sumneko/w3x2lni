@@ -60,6 +60,8 @@ function mt:get_listfile()
 		pack_ignore[name:lower()] = true
 	end
     
+	local clock = os.clock()
+	local success, failed = 0, 0
     for _, dir in ipairs(self.dirs) do
         local dir_len = #dir:string()
         dir_scan(dir, function(path)
@@ -67,8 +69,27 @@ function mt:get_listfile()
             if not pack_ignore[name:lower()] then
                 listfile[#listfile+1] = name
                 files[name] = io.load(path)
+                if files[name] then
+                    success = success + 1
+                else
+                    failed = failed + 1
+                    print('文件读取失败', name)
+                end
+                if os.clock() - clock >= 0.5 then
+                    clock = os.clock()
+                    if failed == 0 then
+                        print('正在读取', '成功:', success)
+                    else
+                        print('正在读取', '成功:', success, '失败:', failed)
+                    end
+                end
             end
         end)
+    end
+    if failed == 0 then
+        print('读取完毕', '成功:', success)
+    else
+	    print('读取完毕', '成功:', success, '失败:', failed)
     end
 	return listfile, files
 end
@@ -90,12 +111,20 @@ function mt:import_files(map, listfile, files, on_save)
                 end
                 if os.clock() - clock >= 0.5 then
                     clock = os.clock()
-                    print('正在导入', '成功:', success, '失败:', failed)
+                    if failed == 0 then
+                        print('正在导入', '成功:', success)
+                    else
+                        print('正在导入', '成功:', success, '失败:', failed)
+                    end
                 end
             end
         end
 	end
-	print('导入完毕', '成功:', success, '失败:', failed)
+    if failed == 0 then
+        print('导入完毕', '成功:', success)
+    else
+	    print('导入完毕', '成功:', success, '失败:', failed)
+    end
 end
 
 function mt:import_imp(map, listfile)

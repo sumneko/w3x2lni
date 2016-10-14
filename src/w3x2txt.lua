@@ -85,7 +85,25 @@ function mt:w3x2lni(files, paths)
 	if files['war3map.wts'] then
 		wts = self:read_wts(files['war3map.wts'])
 	end
-
+	
+	local clock = os.clock()
+	local success, failed = 0, 0
+	local function save(path, content)
+		if io.save(path, content) then
+			success = success + 1
+		else
+			failed = failed + 1
+			print('文件导出失败', name)
+		end
+		if os.clock() - clock >= 0.5 then
+			clock = os.clock()
+			if failed == 0 then
+				print('正在导出', '成功:', success)
+			else
+				print('正在导出', '成功:', success, '失败:', failed)
+			end
+		end
+	end
 	for name, file in pairs(files) do
 		if self.config['metadata'][name] then
 			local content = file
@@ -94,19 +112,26 @@ function mt:w3x2lni(files, paths)
 			local data = self:read_obj(content, metadata)
 			local content = self:obj2lni(data, metadata, editstring)
 			local content = self:convert_wts(content, wts)
-			io.save(paths[name]:parent_path() / (name .. '.ini'), content)
+			save(paths[name]:parent_path() / (name .. '.ini'), content)
 		elseif name == 'war3map.w3i' then
-			io.save(paths[name], file)
+			save(paths[name], file)
 			local content = file
 			local w3i = self:read_w3i(content)
 			local content = self:w3i2lni(w3i)
 			local content = self:convert_wts(content, wts)
-			io.save(paths['war3map.w3i']:parent_path() / 'war3map.w3i.ini', content)
+			save(paths['war3map.w3i']:parent_path() / 'war3map.w3i.ini', content)
 		elseif name == 'war3map.wts' then
 		else
-			io.save(paths[name], file)
+			save(paths[name], file)
 		end
 	end
+	
+	if failed == 0 then
+		print('导出完毕', '成功:', success)
+	else
+		print('导出完毕', '成功:', success, '失败:', failed)
+	end
+
 	--刷新字符串
 	if wts then
 		local content = self:fresh_wts(wts)
@@ -119,6 +144,8 @@ function mt:extract_files(map_path, get_output_dir)
 	local paths = {}
 	local dirs = {}
 	local map = stormlib.open(map_path)
+	local clock = os.clock()
+	local success, failed = 0, 0
 	for name in pairs(map) do
 		local output_dir = get_output_dir(name)
 		if output_dir then
@@ -132,9 +159,26 @@ function mt:extract_files(map_path, get_output_dir)
 			if buf then
 				files[name] = buf
 				paths[name] = path
+				success = success + 1
+			else
+				failed = failed + 1
+				print('文件读取失败', name)
+			end
+			if os.clock() - clock >= 0.5 then
+				clock = os.clock()
+				if failed == 0 then
+					print('正在读取', '成功:', success)
+				else
+					print('正在读取', '成功:', success, '失败:', failed)
+				end
 			end
 		end
 	end
+    if failed == 0 then
+        print('读取完毕', '成功:', success)
+    else
+	    print('读取完毕', '成功:', success, '失败:', failed)
+    end
 	map:close()
 	return files, paths
 end
