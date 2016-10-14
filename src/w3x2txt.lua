@@ -147,15 +147,15 @@ function mt:extract_files(map_path, get_output_dir)
 	local clock = os.clock()
 	local success, failed = 0, 0
 	for name in pairs(map) do
-		local output_dir = get_output_dir(name)
-		if output_dir then
+		local new_name, output_dir = get_output_dir(name)
+		if new_name and output_dir then
 			if not dirs[output_dir:string()] then
 				dirs[output_dir:string()] = true
 				remove_then_create_dir(output_dir)
 			end
-			local path = output_dir / name
+			local path = output_dir / new_name
 			fs.create_directories(path:parent_path())
-			local buf = map:load_file(name, path)
+			local buf = map:load_file(name)
 			if buf then
 				files[name] = buf
 				paths[name] = path
