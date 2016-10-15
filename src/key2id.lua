@@ -1,5 +1,7 @@
-package.path = package.path .. ';' .. arg[1] .. '\\src\\?.lua'
-package.cpath = package.cpath .. ';' .. arg[1] .. '\\build\\?.dll'
+(function()
+	local exepath = package.cpath:sub(1, package.cpath:find(';')-6)
+	package.path = package.path .. ';' .. exepath .. '..\\src\\?.lua'
+end)()
 
 require 'luabind'
 require 'filesystem'
@@ -8,12 +10,11 @@ local uni      = require 'unicode'
 local w3x2txt  = require 'w3x2txt'
 local lni      = require 'lni'
 
-local root_dir = fs.path(uni.a2u(arg[1]))
-local meta_dir = root_dir / 'meta'
-local temp_dir = root_dir / 'temp'
+local rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename()
+local meta_dir = rootpath / 'meta'
 
 local function read_config()
-	local config_str = io.load(root_dir / 'config.ini')
+	local config_str = io.load(rootpath / 'config.ini')
 	config = lni:loader(config_str, 'config')
 
 	for file_name, meta_name in pairs(config['metadata']) do

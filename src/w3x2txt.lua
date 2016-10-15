@@ -183,9 +183,10 @@ function mt:create_map()
 	return create_map(self)
 end
 
-function mt:init(root_dir)
-	self:set_dir('root', root_dir)
-	self:set_dir('meta', root_dir / 'meta')
+function mt:init()
+	local rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename()
+	self:set_dir('root', rootpath)
+	self:set_dir('meta', rootpath / 'meta')
 	self:read_config()
 end
 

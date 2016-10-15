@@ -1,5 +1,7 @@
-package.path = package.path .. ';' .. arg[1] .. '\\src\\?.lua'
-package.cpath = package.cpath .. ';' .. arg[1] .. '\\build\\?.dll'
+(function()
+	local exepath = package.cpath:sub(1, package.cpath:find(';')-6)
+	package.path = package.path .. ';' .. exepath .. '..\\src\\?.lua'
+end)()
 
 require 'luabind'
 require 'filesystem'
@@ -7,17 +9,15 @@ require 'utility'
 local uni      = require 'unicode'
 local w3x2txt  = require 'w3x2txt'
 
-local root_dir = fs.path(uni.a2u(arg[1]))
-
 local function main()
-	if not arg[2] then
+	if not arg[1] then
 		print('请将地图或文件夹拖动到bat中!')
 		return
 	end
 
-	w3x2txt:init(root_dir)
+	w3x2txt:init()
 	
-	local input_path = fs.path(uni.a2u(arg[2]))
+	local input_path = fs.path(uni.a2u(arg[1]))
 	if fs.is_directory(input_path) then
 		local map_name = input_path:filename():string() .. '.w3x'
 		local map_file = w3x2txt:create_map()
@@ -26,7 +26,7 @@ local function main()
 			return name, file
 		end)
 	else
-		local output_dir = root_dir / input_path:stem()
+		local output_dir = input_path:parent_path() / input_path:stem()
 		local map_file = w3x2txt:create_map()
 		map_file:add_input(input_path)
 		map_file:save(_, function(name)
