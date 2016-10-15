@@ -101,9 +101,13 @@ function mt:add_data(data)
 			if type(data[i]) == 'string' then
 				is_string = true
 			end
-			data[i] = self:format_value(data[i])
+			if data.max_level >= 10 then
+				data[i] = ('%d = %s'):format(i, self:format_value(data[i]))
+			else
+				data[i] = self:format_value(data[i])
+			end
 		end
-		if is_string then
+		if is_string or data.max_level >= 10 then
 			self:add('%s = {\n%s,\n}', name, table_concat(data, ',\n'))
 		else
 			self:add('%s = {%s}', name, table_concat(data, ', '))
