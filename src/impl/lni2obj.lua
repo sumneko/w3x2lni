@@ -51,10 +51,8 @@ function mt:sort_obj(obj)
             table_insert(names, id)
             new_obj[id] = data
             if type(data) == 'table' then
-                for i = 1, #data do
-                    if data[i] ~= nil then
-                        count = count + 1
-                    end
+                for _ in pairs(data) do
+                    count = count + 1
                 end
             else
                 count = count + 1
@@ -143,7 +141,13 @@ function mt:add_data(name, data)
         end
     end
     if type(data) == 'table' then
-        for level = 1, #data do
+        local max_level = 0
+        for level in pairs(data) do
+            if level > max_level then
+                max_level = level
+            end
+        end
+        for level = 1, max_level do
             self:add_value(name, data[level], level)
         end
     else
