@@ -142,6 +142,7 @@ function mt:extract_files(map_path, get_output_dir)
 	local clock = os.clock()
 	local success, failed = 0, 0
 	for name in pairs(map) do
+		name = name:lower()
 		local new_name, output_dir = get_output_dir(name)
 		if new_name and output_dir then
 			if not dirs[output_dir:string()] then
