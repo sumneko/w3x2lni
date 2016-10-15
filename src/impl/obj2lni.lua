@@ -21,7 +21,7 @@ function mt:format_value(value)
 		return 'nil'
 	else
 		if value:match '[\n\r]' then
-			return ('[[\n%s\n]]'):format(value)
+			return ('[[\r\n%s\r\n]]'):format(value)
 		else
 			return ('%q'):format(value)
 		end
@@ -108,7 +108,7 @@ function mt:add_data(data)
 			end
 		end
 		if is_string or data.max_level >= 10 then
-			self:add('%s = {\n%s,\n}', name, table_concat(data, ',\n'))
+			self:add('%s = {\r\n%s,\r\n}', name, table_concat(data, ',\r\n'))
 		else
 			self:add('%s = {%s}', name, table_concat(data, ', '))
 		end
@@ -131,5 +131,5 @@ return function (self, data, meta, editstring)
 	tbl:add_chunk(data[1])
 	tbl:add_chunk(data[2])
 
-	return table_concat(tbl.lines, '\n')
+	return table_concat(tbl.lines, '\r\n')
 end

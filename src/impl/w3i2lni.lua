@@ -232,5 +232,5 @@ return function (self, data)
     tbl:add_randomgroup(data)
     tbl:add_randomitem(data)
 
-    return table_concat(tbl.lines, '\n')
+    return table_concat(tbl.lines, '\r\n')
 end
