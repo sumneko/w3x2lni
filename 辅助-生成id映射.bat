@@ -1,3 +1,3 @@
 @echo off
-"%~dp0build\lua.exe" "%~dp0src\key2id.lua" "%~dp0\"
+"%~dp0build\lua.exe" "%~dp0src\key2id.lua"
 pause
