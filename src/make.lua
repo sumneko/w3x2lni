@@ -22,16 +22,24 @@ local function main()
 		local map_name = input_path:filename():string() .. '.w3x'
 		local map_file = w3x2txt:create_map()
 		map_file:add_input(input_path)
-		map_file:save(input_path:parent_path() / map_name, function(name, file, dir)
+		function map_file:on_lni(name, lni)
+			return lni
+		end
+		function map_file:on_save(name, file, dir)
 			return name, file
-		end)
+		end
+		map_file:save(input_path:parent_path() / map_name)
 	else
 		local output_dir = input_path:parent_path() / input_path:stem()
 		local map_file = w3x2txt:create_map()
 		map_file:add_input(input_path)
-		map_file:save(_, function(name)
+		function map_file:on_lni(name, lni)
+			return lni
+		end
+		function map_file:on_save(name)
 			return name, output_dir
-		end)
+		end
+		map_file:save(output_dir)
 	end
 	
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
