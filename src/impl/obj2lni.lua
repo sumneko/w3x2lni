@@ -52,8 +52,8 @@ function mt:add(format, ...)
 end
 
 function mt:add_head(data)
-	self:add '["头"]'
-	self:add('"版本" = %s', data['版本'])
+	self:add '[头]'
+	self:add('版本 = %s', data['版本'])
 end
 
 function mt:add_chunk(chunk)
@@ -72,7 +72,7 @@ end
 
 function mt:add_obj(obj)
 	self:add ''
-	self:add('["%s"]', obj['user_id'])
+	self:add('[%s]', obj['user_id'])
 	self:add('%s = %q', '_id', obj['origin_id'])
 	local names = {}
 	local datas = {}
