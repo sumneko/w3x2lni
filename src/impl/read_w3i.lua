@@ -12,6 +12,10 @@ function mt:unpack(str)
 	return self:set_index(str:unpack(self.content, self.index))
 end
 
+function mt:is_finish()
+	return ('I1'):unpack(self.content, self.index) == 0xFF
+end
+
 function mt:add_head(data)
     -- 地图数据
 	data.file_ver,		--文件版本
@@ -131,6 +135,9 @@ function mt:add_force(data)
 end
 
 function mt:add_upgrade(data)
+	if self:is_finish() then
+		return
+	end
 	data.upgrade_count = self:unpack 'l'
 	data.upgrades	= {}
 	for i = 1, data.upgrade_count do
@@ -146,6 +153,9 @@ function mt:add_upgrade(data)
 end
 
 function mt:add_tech(data)
+	if self:is_finish() then
+		return
+	end
 	data.tech_count = self:unpack 'l'
 	data.techs	= {}
 	for i = 1, data.tech_count do
@@ -159,6 +169,9 @@ function mt:add_tech(data)
 end
 
 function mt:add_randomgroup(data)
+	if self:is_finish() then
+		return
+	end
 	data.group_count = self:unpack 'l'
 	data.groups = {}
 	for i = 1, data.group_count do
@@ -197,6 +210,9 @@ function mt:add_randomgroup(data)
 end
 
 function mt:add_randomitem(data)
+	if self:is_finish() then
+		return
+	end
 	data.random_item_count = self:unpack 'l'
 	data.random_items = {}
 

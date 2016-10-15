@@ -148,6 +148,9 @@ function mt:add_force(data)
 end
 
 function mt:add_upgrade(data)
+    if not data.upgrades then
+        return
+    end
     for i, upgrade in ipairs(data.upgrades) do
         self:add ''
         self:add('[升级%d]', i)
@@ -159,6 +162,9 @@ function mt:add_upgrade(data)
 end
 
 function mt:add_tech(data)
+    if not data.techs then
+        return
+    end
     for i, tech in ipairs(data.techs) do
         self:add ''
         self:add('[科技%d]', i)
@@ -168,6 +174,9 @@ function mt:add_tech(data)
 end
 
 function mt:add_randomgroup(data)
+    if not data.groups then
+        return
+    end
     for i, group in ipairs(data.groups) do
         self:add ''
         self:add('[随机组%d]', i)
@@ -190,6 +199,9 @@ function mt:add_randomgroup(data)
 end
 
 function mt:add_randomitem(data)
+    if not data.random_items then
+        return
+    end
     for i, random_item in ipairs(data.random_items) do
         self:add ''
         self:add('[物品列表%d]', i)
