@@ -113,7 +113,7 @@ function mt:w3x2lni(files, paths)
 			local content = file
 			local w3i = self:read_w3i(content)
 			local content = self:w3i2lni(w3i)
-			local content = self:convert_wts(content, wts)
+			local content = self:convert_wts(content, wts, false, true)
 			save(paths['war3map.w3i']:parent_path() / 'war3map.w3i.ini', content)
 		elseif name == 'war3map.wts' then
 		else
