@@ -65,56 +65,54 @@ function mt:add_chunk(chunk)
 		return
 	end
 	local names = {}
-	local objs = {}
-	for i = 1, #chunk do
-		local name = chunk[i].user_id
+	for name, obj in pairs(chunk) do
 		table_insert(names, name)
-		objs[name] = chunk[i]
 	end
 	table_sort(names)
 	for i = 1, #names do
-		self:add_obj(objs[names[i]])
+		self:add_obj(chunk[names[i]])
 	end
 end
 
 function mt:add_obj(obj)
 	self:add ''
-	self:add('[%s]', obj['user_id'])
-	self:add('%s = %q', '_id', obj['origin_id'])
+	self:add('[%s]', obj['_user_id'])
+	self:add('%s = %q', '_id', obj['_origin_id'])
 	local names = {}
 	local datas = {}
-	for i = 1, #obj do
-		local name = self:format_name(obj[i].name)
-		table_insert(names, name)
-		datas[name] = obj[i]
+	for name, data in pairs(obj) do
+		if name:sub(1, 1) ~= '_' then
+			local name = self:format_name(name)
+			table_insert(names, name)
+			datas[name] = data
+		end
 	end
 	table_sort(names)
 	for i = 1, #names do
-		self:add_data(datas[names[i]])
+		self:add_data(names[i], datas[names[i]])
 	end
 end
 
-function mt:add_data(data)
-	local name = self:format_name(data.name)
+function mt:add_data(name, data)
 	if name:match '[^%w%_]' then
 		name = ('%q'):format(name)
 	end
 	self:add('-- %s', self:get_comment(data.name))
-	if data.max_level <= 1 then
+	if data._max_level <= 1 then
 		self:add('%s = %s', name, self:format_value(data[1]))
 	else
 		local is_string
-		for i = 1, data.max_level do
+		for i = 1, data._max_level do
 			if type(data[i]) == 'string' then
 				is_string = true
 			end
-			if data.max_level >= 10 then
+			if data._max_level >= 10 then
 				data[i] = ('%d = %s'):format(i, self:format_value(data[i]))
 			else
 				data[i] = self:format_value(data[i])
 			end
 		end
-		if is_string or data.max_level >= 10 then
+		if is_string or data._max_level >= 10 then
 			self:add('%s = {\r\n%s,\r\n}', name, table_concat(data, ',\r\n'))
 		else
 			self:add('%s = {%s}', name, table_concat(data, ', '))

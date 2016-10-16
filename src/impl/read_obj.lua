@@ -25,16 +25,17 @@ function mt:read_chunk()
 	local chunk = {}
 	local count = self:unpack 'l'
 	for i = 1, count do
-		chunk[i] = self:read_obj()
+		local name, obj = self:read_obj()
+		chunk[name] = obj
 	end
 	return chunk
 end
 
 function mt:read_obj()
 	local obj = {}
-	obj['origin_id'], obj['user_id'] = self:unpack 'c4c4'
-	if obj['user_id'] == '\0\0\0\0' then
-		obj['user_id'] = obj['origin_id']
+	obj['_origin_id'], obj['_user_id'] = self:unpack 'c4c4'
+	if obj['_user_id'] == '\0\0\0\0' then
+		obj['_user_id'] = obj['_origin_id']
 	end
 	local count = self:unpack 'l'
 	for i = 1, count do
@@ -42,20 +43,19 @@ function mt:read_obj()
 		if not obj[name] then
 			obj[name] = {
 				['name']      = name,
-				['max_level'] = 0,
+				['_max_level'] = 0,
 			}
-			table_insert(obj, obj[name])
 		end
 		if level then
 			obj[name][level] = value
-			if level > obj[name]['max_level'] then
-				obj[name]['max_level'] = level
+			if level > obj[name]['_max_level'] then
+				obj[name]['_max_level'] = level
 			end
 		else
 			obj[name][1] = value
 		end
 	end
-	return obj
+	return obj['_user_id'], obj
 end
 
 local pack_format = {
@@ -97,7 +97,7 @@ function mt:read_data()
 	return name, level, value
 end
 
-local function read_obj(self, content, meta)
+return function (self, content, meta)
 	local index   = 1
 	local data    = {}
 	local tbl     = setmetatable({}, mt)
@@ -116,5 +116,3 @@ local function read_obj(self, content, meta)
 
 	return data
 end
-
-return read_obj
