@@ -10,24 +10,24 @@ local uni      = require 'unicode'
 local w3x2txt  = require 'w3x2txt'
 local lni      = require 'lni'
 local read_slk = require 'read_slk'
+local read_metadata = require 'read_metadata'
 local create_template = require 'create_template'
 
 local rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename()
 local meta_dir = rootpath / 'meta'
+local template_dir = rootpath / 'template'
 
 local function main()
 	w3x2txt:init()
 
 	-- 生成key2id
     for file_name, meta in pairs(w3x2txt.config['metadata']) do
-		local metadata = w3x2txt:read_metadata(meta)
+		local metadata = read_metadata(meta_dir / meta)
 		local content = w3x2txt:key2id(file_name, metadata)
 		io.save(meta_dir / (file_name .. '.ini'), content)
 	end
 
 	-- 生成模板lni
-	local template_dir = rootpath / 'template'
-	local meta_dir = rootpath / 'meta'
 	fs.create_directories(template_dir)
 	for file_name, meta in pairs(w3x2txt.config['template']) do
 		local template = create_template(file_name, w3x2txt.config['metadata'][file_name])
