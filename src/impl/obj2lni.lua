@@ -20,6 +20,7 @@ function mt:format_value(value)
 	elseif tp == 'nil' then
 		return 'nil'
 	else
+		value = self:get_editstring(value)
 		if value:match '[\n\r]' then
 			return ('[[\r\n%s\r\n]]'):format(value)
 		else
@@ -41,12 +42,16 @@ function mt:format_name(name)
 	return name
 end
 
+function mt:get_editstring(name)
+	while self.editstring[name] do
+		name = self.editstring[name]
+	end
+	return name
+end
+
 function mt:get_comment(name)
 	local comment = self.meta[name].displayName
-	while self.editstring[comment] do
-		comment = self.editstring[comment]
-	end
-	return comment
+	return self:get_editstring(comment)
 end
 
 function mt:add(format, ...)
