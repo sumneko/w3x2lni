@@ -2,7 +2,7 @@ local string_char = string.char
 local table_insert = table.insert
 local table_sort = table.sort
 
-local read_slk = require 'impl.read_slk'
+local read_slk = require 'read_slk'
 
 local mt = {}
 
