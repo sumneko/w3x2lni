@@ -25,7 +25,7 @@ end
 function mt:add_txt(txt)
     for id, data in pairs(txt) do
         if self.txt[id] then
-            for k, v in pairs(txt) do
+            for k, v in pairs(data) do
                 self.txt[id][k] = v
             end
         else
