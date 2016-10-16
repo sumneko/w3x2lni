@@ -11,6 +11,7 @@ local w3x2txt  = require 'w3x2txt'
 local lni      = require 'lni'
 local read_slk = require 'read_slk'
 local read_metadata = require 'read_metadata'
+local read_txt = require 'read_txt'
 local create_template = require 'create_template'
 
 local rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename()
@@ -30,7 +31,7 @@ local function main()
 
 	--读取编辑器文本
 	local editstring
-	local ini = w3x2txt:read_ini(meta_dir / 'WorldEditStrings.txt')
+	local ini = read_txt(meta_dir / 'WorldEditStrings.txt')
 	if ini then
 		editstring = ini['WorldEditStrings']
 	end
@@ -40,6 +41,9 @@ local function main()
 	for file_name, meta in pairs(w3x2txt.config['metadata']) do
 		print('正在生成模板', file_name)
 		local template = create_template(file_name)
+
+		template:set_option('discard_useless_data', true)
+
 		local slk = w3x2txt.config['template']['slk'][file_name]
 		if type(slk) == 'table' then
 			for i = 1, #slk do
@@ -48,6 +52,16 @@ local function main()
 		else
 			template:add_slk(read_slk(meta_dir / slk))
 		end
+
+		local txt = w3x2txt.config['template']['txt'][file_name]
+		if type(txt) == 'table' then
+			for i = 1, #txt do
+				template:add_txt(read_txt(meta_dir / txt[i]))
+			end
+		elseif txt then
+			template:add_txt(read_txt(meta_dir / txt))
+		end
+
 		local key = lni:loader(io.load(meta_dir / (file_name .. '.ini')), name)
 		local data = template:save(key)
 		local metadata = read_metadata(meta_dir / w3x2txt.config['metadata'][file_name])

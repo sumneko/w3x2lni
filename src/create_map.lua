@@ -1,6 +1,7 @@
 local stormlib = require 'stormlib'
 local lni = require 'lni'
 local read_metadata = require 'read_metadata'
+local read_txt = require 'read_txt'
 
 local table_insert = table.insert
 
@@ -269,7 +270,7 @@ end
 function mt:w3x2lni(files, paths)
 	--读取编辑器文本
 	local editstring
-	local ini = self.w3x2txt:read_ini(self.dir['meta'] / 'WorldEditStrings.txt')
+	local ini = read_txt(self.dir['meta'] / 'WorldEditStrings.txt')
 	if ini then
 		editstring = ini['WorldEditStrings']
 	end

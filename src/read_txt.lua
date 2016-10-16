@@ -1,6 +1,6 @@
 local current_chunk
 
-local function parse(ini, line)
+local function parse(txt, line)
     if #line == 0 then
         return
     end
@@ -10,8 +10,8 @@ local function parse(ini, line)
     local chunk_name = line:match '%[(.-)%]'
     if chunk_name then
         current_chunk = chunk_name
-        if not ini[chunk_name] then
-            ini[chunk_name] = {}
+        if not txt[chunk_name] then
+            txt[chunk_name] = {}
         end
         return
     end
@@ -21,21 +21,21 @@ local function parse(ini, line)
     line = line:gsub('%c+', '')
     local key, value = line:match '^%s*(.-)%s*%=%s*(.-)%s*$'
     if key and value then
-        ini[current_chunk][key] = value
+        txt[current_chunk][key] = value
         return
     end
 end
 
-return function (_, file_name)
+return function (file_name)
 	local content = io.load(file_name)
 	if not content then
 		print('文件无效:' .. file_name:string())
 		return
 	end
     current_chunk = nil
-    local ini = {}
+    local txt = {}
 	for line in io.lines2(file_name) do
-        parse(ini, line)
+        parse(txt, line)
     end
-    return ini
+    return txt
 end

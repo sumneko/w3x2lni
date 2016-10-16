@@ -63,7 +63,7 @@ local function main()
 		'read_wts', 'fresh_wts',
 		'obj2lni', 'lni2obj',
 		'w3i2lni',
-		'read_obj', 'read_ini',
+		'read_obj',
 		'read_w3i',
 		'key2id',
 	}

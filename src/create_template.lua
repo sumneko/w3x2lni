@@ -5,8 +5,26 @@ local table_insert = table.insert
 local mt = {}
 mt.__index = mt
 
+function mt:set_option(option, value)
+    if option == 'discard_useless_data' then
+        self.discard_useless_data = value
+    end
+end
+
 function mt:add_slk(slk)
     table_insert(self.slk, slk)
+end
+
+function mt:add_txt(txt)
+    for id, data in pairs(txt) do
+        if self.txt[id] then
+            for k, v in pairs(txt) do
+                self.txt[id][k] = v
+            end
+        else
+            self.txt[id] = data
+        end
+    end
 end
 
 function mt:key2id(skill, key)
@@ -31,29 +49,33 @@ function mt:read_obj(obj, skill, data)
         obj = {}
         obj['_origin_id'], obj['_user_id'] = skill, skill
     end
-    local max_level = data['levels']
     for name, value in pairs(data) do
-        local name, level, value = self:read_data(skill, name, value)
-        if name then
-            if not obj[name] then
-                obj[name] = {
-                    ['name']      = name,
-                    ['_max_level'] = 0,
-                }
-            end
-            if level then
-                if max_level >= level then
-                    obj[name][level] = value
-                    if level > obj[name]['_max_level'] then
-                        obj[name]['_max_level'] = level
-                    end
-                end
-            else
-                obj[name][1] = value
-            end
-        end
+        self:pack_data(obj, data['levels'], self:read_data(skill, name, value))
     end
     return obj
+end
+
+function mt:pack_data(obj, max_level, name, level, value)
+    if not name then
+        return
+    end
+    if not obj[name] then
+        obj[name] = {
+            ['name']      = name,
+            ['_max_level'] = 0,
+        }
+    end
+    if not level then
+        obj[name][1] = value
+        return
+    end
+    if self.discard_useless_data and max_level < level then
+        return
+    end
+    obj[name][level] = value
+    if level > obj[name]['_max_level'] then
+        obj[name]['_max_level'] = level
+    end
 end
 
 function mt:read_data(skill, name, value)
@@ -90,6 +112,7 @@ end
 return function (name)
     local self = setmetatable({}, mt)
     self.slk = {}
+    self.txt = {}
     
     return self
 end
