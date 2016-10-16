@@ -37,15 +37,16 @@ local function main()
 
 	-- 生成模板lni
 	fs.create_directories(template_dir)
-	for file_name, meta in pairs(w3x2txt.config['template']['slk']) do
+	for file_name, meta in pairs(w3x2txt.config['metadata']) do
 		print('正在生成模板', file_name)
-		local template = create_template(file_name, w3x2txt.config['metadata'][file_name])
-		if type(meta) == 'table' then
-			for i = 1, #meta do
-				template:add_meta(read_slk(meta_dir / meta[i]))
+		local template = create_template(file_name)
+		local slk = w3x2txt.config['template']['slk'][file_name]
+		if type(slk) == 'table' then
+			for i = 1, #slk do
+				template:add_slk(read_slk(meta_dir / slk[i]))
 			end
 		else
-			template:add_meta(read_slk(meta_dir / meta))
+			template:add_slk(read_slk(meta_dir / slk))
 		end
 		local key = lni:loader(io.load(meta_dir / (file_name .. '.ini')), name)
 		local data = template:save(key)

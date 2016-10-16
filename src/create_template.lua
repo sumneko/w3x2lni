@@ -5,21 +5,8 @@ local table_insert = table.insert
 local mt = {}
 mt.__index = mt
 
-function mt:add_meta(slk)
-    if not self.slk then
-        self.slk = slk
-        return
-    end
-    for name, value in pairs(slk) do
-        local dest = self.slk[name]
-        if not dest then
-            self.slk[name] = value
-        else
-            for k, v in pairs(value) do
-                dest[k] = v
-            end
-        end
-    end
+function mt:add_slk(slk)
+    table_insert(self.slk, slk)
 end
 
 function mt:key2id(skill, key)
@@ -30,20 +17,20 @@ function mt:key2id(skill, key)
     return nil
 end
 
-function mt:read_chunk(slk)
-    local lni = {}
+function mt:read_chunk(lni, slk)
     if not slk then
-        return lni
+        return
     end
     for name, value in pairs(slk) do
-        lni[#lni+1] = self:read_obj(name, value)
+        lni[name] = self:read_obj(lni[name], name, value)
     end
-    return lni
 end
 
-function mt:read_obj(skill, data)
-    local obj = {}
-    obj['origin_id'], obj['user_id'] = skill, skill
+function mt:read_obj(obj, skill, data)
+    if not obj then
+        obj = {}
+        obj['_origin_id'], obj['_user_id'] = skill, skill
+    end
     local max_level = data['levels']
     for name, value in pairs(data) do
         local name, level, value = self:read_data(skill, name, value)
@@ -51,15 +38,14 @@ function mt:read_obj(skill, data)
             if not obj[name] then
                 obj[name] = {
                     ['name']      = name,
-                    ['max_level'] = 0,
+                    ['_max_level'] = 0,
                 }
-                table_insert(obj, obj[name])
             end
             if level then
                 if max_level >= level then
                     obj[name][level] = value
-                    if level > obj[name]['max_level'] then
-                        obj[name]['max_level'] = level
+                    if level > obj[name]['_max_level'] then
+                        obj[name]['_max_level'] = level
                     end
                 end
             else
@@ -94,11 +80,17 @@ function mt:save(key)
     local data = {}
 
     -- 默认数据
-    data[1] = self:read_chunk(self.slk)
+    data[1] = {}
+    for _, slk in ipairs(self.slk) do
+        self:read_chunk(data[1], slk)
+    end
 
     return data
 end
 
-return function (name, meta)
-    return setmetatable({}, mt)
+return function (name)
+    local self = setmetatable({}, mt)
+    self.slk = {}
+    
+    return self
 end
