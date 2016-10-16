@@ -89,9 +89,6 @@ function mt:pack_data(obj, max_level, name, value, level)
         obj[name][1] = value
         return
     end
-    if not max_level then
-        print(obj['_user_id'], name, value, level)
-    end
     if self.discard_useless_data and max_level < level then
         return
     end
@@ -166,7 +163,6 @@ function mt:read_txt_data(skill, name, value, max_level, txt)
                 value = txt[old_name]
                 txt[old_name] = nil
                 tbl[i] = self:read_txt_data(skill, name..i, value, max_level, txt)[1]
-                print(skill, name..i, value, max_level, table_unpack(tbl[i]))
             end
             return tbl
         end
