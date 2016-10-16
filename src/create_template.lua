@@ -93,12 +93,8 @@ function mt:save(key)
 
     local data = {}
 
-    -- 版本号
-    data['版本'] = 0
     -- 默认数据
     data[1] = self:read_chunk(self.slk)
-    -- 自定义数据
-    data[2] = {}
 
     return data
 end

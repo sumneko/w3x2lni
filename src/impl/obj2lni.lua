@@ -54,11 +54,16 @@ function mt:add(format, ...)
 end
 
 function mt:add_head(data)
-	self:add '[头]'
-	self:add('版本 = %s', data['版本'])
+	if data['版本'] then
+		self:add '[头]'
+		self:add('版本 = %s', data['版本'])
+	end
 end
 
 function mt:add_chunk(chunk)
+	if not chunk then
+		return
+	end
 	local names = {}
 	local objs = {}
 	for i = 1, #chunk do
