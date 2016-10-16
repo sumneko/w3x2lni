@@ -42,8 +42,10 @@ function mt:format_name(name)
 end
 
 function mt:get_comment(name)
-	local name = self.meta[name].displayName
-	local comment = self.editstring[name] or name
+	local comment = self.meta[name].displayName
+	while self.editstring[comment] do
+		comment = self.editstring[comment]
+	end
 	return comment
 end
 

@@ -2,6 +2,7 @@
 !/build/
 !/meta/
 !/src/
+!/template/
 src/.vscode/
 *.w3x
 temp
