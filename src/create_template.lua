@@ -66,7 +66,7 @@ function mt:read_obj(obj, skill, data)
     local txt = self.txt[skill]
     if txt then
         for name, value in pairs(txt) do
-            local data = self:read_txt_data(skill, name, value, max_level)
+            local data = self:read_txt_data(skill, name, value, max_level, txt)
             for i = 1, #data do
                 self:pack_data(obj, max_level, table_unpack(data[i]))
             end
@@ -122,7 +122,7 @@ function mt:read_slk_data(skill, name, value)
     return id, value, level
 end
 
-function mt:read_txt_data(skill, name, value, max_level)
+function mt:read_txt_data(skill, name, value, max_level, txt)
     local data = {}
     if type(name) ~= 'string' then
         return nil
@@ -140,16 +140,35 @@ function mt:read_txt_data(skill, name, value, max_level)
     elseif value == '_' then
         value = ''
     end
-    if not id and type(value) == 'string' and value:find ',' then
-        local id = self:key2id(skill, name .. ':1')
-        if id then
-            local t = {}
-            for value in value:gmatch '[^,]+' do
-                local count = #t+1
-                local id = self:key2id(skill, name .. ':' .. count)
-                t[count] = {id, tonumber(value) or value, level}
+    if not id then
+        if type(value) == 'string' and value:find ',' then
+            local id = self:key2id(skill, name .. ':1')
+            if id then
+                local tbl = {}
+                for value in value:gmatch '[^,]+' do
+                    local count = #tbl+1
+                    local id = self:key2id(skill, name .. ':' .. count)
+                    tbl[count] = {id, tonumber(value) or value, level}
+                end
+                return tbl
             end
-            return t
+        end
+        if name:sub(-5) == 'count' and self:key2id(skill, name:sub(1, -6)) then
+            local name = name:sub(1, -6)
+            local tbl = {}
+            for i = 1, value do
+                local old_name
+                if i > 1 then
+                    old_name = name .. (i-1)
+                else
+                    old_name = name
+                end
+                value = txt[old_name]
+                txt[old_name] = nil
+                tbl[i] = self:read_txt_data(skill, name..i, value, max_level, txt)[1]
+                print(skill, name..i, value, max_level, table_unpack(tbl[i]))
+            end
+            return tbl
         end
     end
     return {{id, value, level}}
