@@ -38,7 +38,7 @@ function mt:read_obj()
 	end
 	local count = self:unpack 'l'
 	for i = 1, count do
-		local name, level, value = self:read_data()
+		local name, value, level = self:read_data()
 		if not obj[name] then
 			obj[name] = {
 				['name']      = name,
@@ -93,7 +93,7 @@ function mt:read_data()
 	-- 扔掉一个整数
 	self:unpack 'l'
 	
-	return name, level, value
+	return name, value, level
 end
 
 return function (self, content, meta)

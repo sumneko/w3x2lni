@@ -43,6 +43,7 @@ local function main()
 		local template = create_template(file_name)
 
 		template:set_option('discard_useless_data', true)
+		template:set_option('max_level_key', w3x2txt.config['key']['max_level'][file_name])
 
 		local slk = w3x2txt.config['template']['slk'][file_name]
 		if type(slk) == 'table' then

@@ -8,6 +8,8 @@ mt.__index = mt
 function mt:set_option(option, value)
     if option == 'discard_useless_data' then
         self.discard_useless_data = value
+    elseif option == 'max_level_key' then
+        self.max_level_key = value
     end
 end
 
@@ -49,13 +51,23 @@ function mt:read_obj(obj, skill, data)
         obj = {}
         obj['_origin_id'], obj['_user_id'] = skill, skill
     end
+    local max_level
+    if self.max_level_key then
+        max_level = data[self.max_level_key]
+    end
     for name, value in pairs(data) do
-        self:pack_data(obj, data['levels'], self:read_data(skill, name, value))
+        self:pack_data(obj, max_level, self:read_slk_data(skill, name, value))
+    end
+    local txt = self.txt[skill]
+    if txt then
+        for name, value in pairs(txt) do
+            self:pack_data(obj, max_level, self:read_txt_data(skill, name, value, max_level))
+        end
     end
     return obj
 end
 
-function mt:pack_data(obj, max_level, name, level, value)
+function mt:pack_data(obj, max_level, name, value, level)
     if not name then
         return
     end
@@ -78,7 +90,7 @@ function mt:pack_data(obj, max_level, name, level, value)
     end
 end
 
-function mt:read_data(skill, name, value)
+function mt:read_slk_data(skill, name, value)
     local data = {}
     if type(name) ~= 'string' then
         return nil
@@ -93,7 +105,27 @@ function mt:read_data(skill, name, value)
     elseif value == '_' then
         value = ''
     end
-    return id, level, value
+    return id, value, level
+end
+
+function mt:read_txt_data(skill, name, value, max_level)
+    local data = {}
+    if type(name) ~= 'string' then
+        return nil
+    end
+    if max_level then
+        local level = tonumber(name:sub(-1))
+        if level then
+            name = name:sub(1, -2)
+        end
+    end
+    local id = self:key2id(skill, name)
+    if value == '-' or value == ' -' then
+        value = 0
+    elseif value == '_' then
+        value = ''
+    end
+    return id, value, level
 end
 
 function mt:save(key)
@@ -111,6 +143,7 @@ end
 
 return function (name)
     local self = setmetatable({}, mt)
+
     self.slk = {}
     self.txt = {}
     
