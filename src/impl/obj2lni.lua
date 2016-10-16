@@ -59,19 +59,18 @@ function mt:add(format, ...)
 end
 
 function mt:add_head(data)
-	if data['版本'] then
+	if data['_版本'] then
 		self:add '[头]'
-		self:add('版本 = %s', data['版本'])
+		self:add('版本 = %s', data['_版本'])
 	end
 end
 
 function mt:add_chunk(chunk)
-	if not chunk then
-		return
-	end
 	local names = {}
 	for name, obj in pairs(chunk) do
-		table_insert(names, name)
+		if name:sub(1, 1) ~= '_' then
+			table_insert(names, name)
+		end
 	end
 	table_sort(names)
 	for i = 1, #names do
@@ -138,8 +137,7 @@ return function (self, data, meta, editstring)
 	tbl.editstring = editstring or {}
 
 	tbl:add_head(data)
-	tbl:add_chunk(data[1])
-	tbl:add_chunk(data[2])
+	tbl:add_chunk(data)
 
 	return table_concat(tbl.lines, '\r\n')
 end

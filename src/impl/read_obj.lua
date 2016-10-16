@@ -21,8 +21,7 @@ function mt:read_version()
 	return self:unpack 'l'
 end
 
-function mt:read_chunk()
-	local chunk = {}
+function mt:read_chunk(chunk)
 	local count = self:unpack 'l'
 	for i = 1, count do
 		local name, obj = self:read_obj()
@@ -108,11 +107,11 @@ return function (self, content, meta)
 	tbl.meta      = meta
 
 	-- 版本号
-	data['版本'] = tbl:read_version()
+	data['_版本'] = tbl:read_version()
 	-- 默认数据
-	data[1] = tbl:read_chunk()
+	tbl:read_chunk(data)
 	-- 自定义数据
-	data[2] = tbl:read_chunk()
+	tbl:read_chunk(data)
 
 	return data
 end

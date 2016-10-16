@@ -80,9 +80,8 @@ function mt:save(key)
     local data = {}
 
     -- 默认数据
-    data[1] = {}
     for _, slk in ipairs(self.slk) do
-        self:read_chunk(data[1], slk)
+        self:read_chunk(data, slk)
     end
 
     return data
