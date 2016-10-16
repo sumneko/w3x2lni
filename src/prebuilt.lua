@@ -37,7 +37,7 @@ local function main()
 
 	-- 生成模板lni
 	fs.create_directories(template_dir)
-	for file_name, meta in pairs(w3x2txt.config['template']) do
+	for file_name, meta in pairs(w3x2txt.config['template']['slk']) do
 		print('正在生成模板', file_name)
 		local template = create_template(file_name, w3x2txt.config['metadata'][file_name])
 		if type(meta) == 'table' then
