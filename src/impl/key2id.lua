@@ -146,7 +146,7 @@ local function convert_list(public, private)
     add_public(tbl, public)
     add_private(tbl, private)
 
-    return table.concat(tbl, '\n') .. '\n'
+    return table.concat(tbl, '\r\n') .. '\r\n'
 end
 
 return function (self, file_name, metadata)
