@@ -65,7 +65,6 @@ local function main()
 		'w3i2lni',
 		'read_obj', 'read_ini',
 		'read_w3i',
-		'read_metadata',
 		'key2id',
 	}
 	

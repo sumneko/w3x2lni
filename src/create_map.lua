@@ -1,5 +1,6 @@
 local stormlib = require 'stormlib'
 local lni = require 'lni'
+local read_metadata = require 'read_metadata'
 
 local table_insert = table.insert
 
@@ -113,7 +114,7 @@ function mt:lni2w3x(name, file)
             data = self:on_lni(new_name, data)
         end
 		local key = lni:loader(io.load(self.dir['meta'] / name), name)
-		local metadata = self.w3x2txt:read_metadata(self.config['metadata'][name:sub(1, -5)])
+		local metadata = read_metadata(self.dir['meta'] / self.config['metadata'][name:sub(1, -5)])
 		local content = self.w3x2txt:lni2obj(data, metadata, key)
 		return new_name, content
 	elseif name == 'war3map.w3i.ini' then
@@ -301,7 +302,7 @@ function mt:w3x2lni(files, paths)
 		if self.config['metadata'][name] then
 			local content = file
 			print('正在转换:' .. name)
-			local metadata = self.w3x2txt:read_metadata(self.config['metadata'][name])
+			local metadata = read_metadata(self.dir['meta'] / self.config['metadata'][name])
 			local data = self.w3x2txt:read_obj(content, metadata)
             if self.on_lni then
                 data = self:on_lni(name, data)
