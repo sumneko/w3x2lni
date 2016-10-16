@@ -137,7 +137,7 @@ function mt:add_data(name, data)
         end
     else
         if type(data) == 'table' then
-            print('错误:', '不应该有等级的数据', name)
+            data = data[1]
         end
     end
     if type(data) == 'table' then
