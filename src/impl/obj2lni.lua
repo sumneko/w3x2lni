@@ -4,6 +4,7 @@ local table_concat = table.concat
 local math_type    = math.type
 local string_char  = string.char
 local type = type
+local pairs = pairs
 local setmetatable = setmetatable
 
 local mt = {}

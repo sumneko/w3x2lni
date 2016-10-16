@@ -1,6 +1,11 @@
 local w3x2txt = require 'w3x2txt'
 
 local table_insert = table.insert
+local table_unpack = table.unpack
+local type = type
+local tonumber = tonumber
+local pairs = pairs
+local ipairs = ipairs
 
 local mt = {}
 mt.__index = mt
@@ -61,7 +66,10 @@ function mt:read_obj(obj, skill, data)
     local txt = self.txt[skill]
     if txt then
         for name, value in pairs(txt) do
-            self:pack_data(obj, max_level, self:read_txt_data(skill, name, value, max_level))
+            local data = self:read_txt_data(skill, name, value, max_level)
+            for i = 1, #data do
+                self:pack_data(obj, max_level, table_unpack(data[i]))
+            end
         end
     end
     return obj
@@ -80,6 +88,9 @@ function mt:pack_data(obj, max_level, name, value, level)
     if not level then
         obj[name][1] = value
         return
+    end
+    if not max_level then
+        print(obj['_user_id'], name, value, level)
     end
     if self.discard_useless_data and max_level < level then
         return
@@ -100,6 +111,9 @@ function mt:read_slk_data(skill, name, value)
         name = name:sub(1, -2)
     end
     local id = self:key2id(skill, name)
+    if not id then
+        return
+    end
     if value == '-' or value == ' -' then
         value = 0
     elseif value == '_' then
@@ -113,8 +127,9 @@ function mt:read_txt_data(skill, name, value, max_level)
     if type(name) ~= 'string' then
         return nil
     end
+    local level
     if max_level then
-        local level = tonumber(name:sub(-1))
+        level = tonumber(name:sub(-1))
         if level then
             name = name:sub(1, -2)
         end
@@ -125,7 +140,19 @@ function mt:read_txt_data(skill, name, value, max_level)
     elseif value == '_' then
         value = ''
     end
-    return id, value, level
+    if not id and type(value) == 'string' and value:find ',' then
+        local id = self:key2id(skill, name .. ':1')
+        if id then
+            local t = {}
+            for value in value:gmatch '[^,]+' do
+                local count = #t+1
+                local id = self:key2id(skill, name .. ':' .. count)
+                t[count] = {id, tonumber(value) or value, level}
+            end
+            return t
+        end
+    end
+    return {{id, value, level}}
 end
 
 function mt:save(key)
