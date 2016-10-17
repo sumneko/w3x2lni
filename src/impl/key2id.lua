@@ -47,11 +47,11 @@ function mt:add_data(id, meta, public, private)
     if not self:isenable(meta) then
         return
     end
-    local name  = meta['field']
+    local name  = meta['field']:lower()
     local num   = meta['data']
     local skill = meta['useSpecific']
     if num and num ~= 0 then
-        name = name .. string_char(('A'):byte() + num - 1)
+        name = name .. string_char(('a'):byte() + num - 1)
     end
     if meta['_has_index'] then
         name = name .. ':' .. (meta['index'] + 1)
@@ -108,7 +108,7 @@ end
 
 local function copy_code(private, ability)
     for skill, data in pairs(ability) do
-        local code = data['code']
+        local code = data['code']:lower()
         if skill ~= code and private[code] then
             if not private[skill] then
                 private[skill] = {}
