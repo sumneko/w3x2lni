@@ -108,7 +108,7 @@ end
 
 local function copy_code(private, ability)
     for skill, data in pairs(ability) do
-        local code = data['code']:lower()
+        local code = data['code']
         if skill ~= code and private[code] then
             if not private[skill] then
                 private[skill] = {}
