@@ -124,14 +124,15 @@ function mt:read_txt_data(skill, name, value, max_level, txt)
     if type(name) ~= 'string' then
         return nil
     end
+    local id = self:key2id(skill, name)
     local level
-    if max_level then
+    if not id and max_level then
         level = tonumber(name:sub(-1))
         if level then
             name = name:sub(1, -2)
+            id = self:key2id(skill, name)
         end
     end
-    local id = self:key2id(skill, name)
     if value == '-' or value == ' -' then
         value = 0
     elseif value == '_' then
