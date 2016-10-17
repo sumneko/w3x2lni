@@ -1,6 +1,6 @@
 (function()
 	local exepath = package.cpath:sub(1, package.cpath:find(';')-6)
-	package.path = package.path .. ';' .. exepath .. '..\\src\\?.lua'
+	package.path = package.path .. ';' .. exepath .. '..\\?.lua'
 end)()
 
 require 'luabind'

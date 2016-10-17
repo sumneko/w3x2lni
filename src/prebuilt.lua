@@ -1,6 +1,6 @@
 (function()
 	local exepath = package.cpath:sub(1, package.cpath:find(';')-6)
-	package.path = package.path .. ';' .. exepath .. '..\\src\\?.lua'
+	package.path = package.path .. ';' .. exepath .. '..\\?.lua'
 end)()
 
 require 'luabind'
@@ -14,8 +14,8 @@ local read_metadata = require 'read_metadata'
 local read_txt = require 'read_txt'
 local create_template = require 'create_template'
 
-local rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename()
-local meta_dir = rootpath / 'meta'
+local rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename():remove_filename()
+local meta_dir = rootpath / 'src' / 'meta'
 local template_dir = rootpath / 'template'
 
 local function main()
