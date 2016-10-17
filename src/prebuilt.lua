@@ -11,6 +11,7 @@ local w3x2txt  = require 'w3x2txt'
 local lni      = require 'lni'
 local read_slk = require 'read_slk'
 local read_metadata = require 'read_metadata'
+local read_ini = require 'read_ini'
 local read_txt = require 'read_txt'
 local create_template = require 'create_template'
 
@@ -32,7 +33,7 @@ local function main()
 
 	--读取编辑器文本
 	local editstring
-	local ini = read_txt(meta_dir / 'WorldEditStrings.txt')
+	local ini = read_ini(meta_dir / 'WorldEditStrings.txt')
 	if ini then
 		editstring = ini['WorldEditStrings']
 	end
@@ -55,18 +56,19 @@ local function main()
 			template:add_slk(read_slk(meta_dir / slk))
 		end
 
+		local metadata = read_metadata(meta_dir / w3x2txt.config['metadata'][file_name])
+		local key = lni:loader(io.load(key_dir / (file_name .. '.ini')), name)
+
 		local txt = w3x2txt.config['template']['txt'][file_name]
 		if type(txt) == 'table' then
 			for i = 1, #txt do
-				template:add_txt(read_txt(meta_dir / txt[i]))
+				template:add_txt(read_txt(meta_dir / txt[i], metadata, key))
 			end
 		elseif txt then
-			template:add_txt(read_txt(meta_dir / txt))
+			template:add_txt(read_txt(meta_dir / txt, metadata, key))
 		end
 
-		local key = lni:loader(io.load(key_dir / (file_name .. '.ini')), name)
 		local data = template:save(key)
-		local metadata = read_metadata(meta_dir / w3x2txt.config['metadata'][file_name])
 		local content = w3x2txt:obj2lni(data, metadata, editstring)
 		io.save(template_dir / (file_name .. '.ini'), content)
 	end

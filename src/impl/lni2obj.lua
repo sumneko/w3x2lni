@@ -33,6 +33,7 @@ function mt:sort_chunk(data)
 end
 
 function mt:key2id(skill, key)
+    local key = key:lower()
     local id = self.key[skill] and self.key[skill][key] or self.key['public'][key]
     if id then
         return id
