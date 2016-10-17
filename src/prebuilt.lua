@@ -16,6 +16,7 @@ local create_template = require 'create_template'
 
 local rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename():remove_filename()
 local meta_dir = rootpath / 'src' / 'meta'
+local key_dir = rootpath / 'src' / 'key'
 local template_dir = rootpath / 'template'
 
 local function main()
@@ -26,7 +27,7 @@ local function main()
 		print('正在生成key2id', file_name)
 		local metadata = read_metadata(meta_dir / meta)
 		local content = w3x2txt:key2id(file_name, metadata)
-		io.save(meta_dir / (file_name .. '.ini'), content)
+		io.save(key_dir / (file_name .. '.ini'), content)
 	end
 
 	--读取编辑器文本
@@ -63,7 +64,7 @@ local function main()
 			template:add_txt(read_txt(meta_dir / txt))
 		end
 
-		local key = lni:loader(io.load(meta_dir / (file_name .. '.ini')), name)
+		local key = lni:loader(io.load(key_dir / (file_name .. '.ini')), name)
 		local data = template:save(key)
 		local metadata = read_metadata(meta_dir / w3x2txt.config['metadata'][file_name])
 		local content = w3x2txt:obj2lni(data, metadata, editstring)

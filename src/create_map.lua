@@ -114,7 +114,7 @@ function mt:lni2w3x(name, file)
         if self.on_lni then
             data = self:on_lni(new_name, data)
         end
-		local key = lni:loader(io.load(self.dir['meta'] / name), name)
+		local key = lni:loader(io.load(self.dir['key'] / name), name)
 		local metadata = read_metadata(self.dir['meta'] / self.config['metadata'][name:sub(1, -5)])
 		local content = self.w3x2txt:lni2obj(data, metadata, key)
 		return new_name, content
