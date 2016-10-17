@@ -37,13 +37,6 @@ local function get_key_type(meta, keys, skill, key)
     return format
 end
 
-local pack_format = {
-	[0] = '%d',
-	[1] = '%.4f',
-	[2] = '%.4f',
-	[3] = '%s',
-}
-
 local function parse(txt, metadata, keys, line)
     if #line == 0 then
         return
@@ -66,8 +59,10 @@ local function parse(txt, metadata, keys, line)
     local key, value = line:match '^%s*(.-)%s*%=%s*(.-)%s*$'
     if key and value then
         local type = get_key_type(metadata, keys, current_chunk, key)
-        local format = pack_format[type]
-        txt[current_chunk][key] = format:format(value)
+        if type ~= 3 then
+            value = tonumber(value)
+        end
+        txt[current_chunk][key] = value
         return
     end
 end
