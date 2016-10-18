@@ -1,8 +1,5 @@
 /*/
-!/build/
-!/meta/
-!/src/
-!/template/
+!/.vscode/
 src/.vscode/
 *.w3x
 temp
