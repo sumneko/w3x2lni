@@ -51,7 +51,12 @@ function mt:create_map()
 end
 
 function mt:init()
-	local rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename():remove_filename()
+	local rootpath
+	if arg[2] then
+		rootpath = fs.path(arg[2])
+	else
+		rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename():remove_filename()
+	end
 	self:set_dir('root', rootpath)
 	self:set_dir('meta', rootpath / 'src' / 'meta')
 	self:set_dir('key', rootpath / 'src' / 'key')

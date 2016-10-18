@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "打包地图",
+            "type": "lua",
+            "request": "launch",
+            "program": "${workspaceRoot}/src/make.lua",
+            "stopOnEntry": true,
+            "cwd": "${workspaceRoot}/src/build",
+            "path": "",
+            "cpath": "${workspaceRoot}/src/build/?.dll;",
+            "arg": [
+               "${workspaceRoot}/NicoPoiDuang_4.0.w3x",
+               "${workspaceRoot}"
+            ]
+        },
+        {
+            "name": "解包地图",
+            "type": "lua",
+            "request": "launch",
+            "program": "${workspaceRoot}/src/make.lua",
+            "stopOnEntry": true,
+            "cwd": "${workspaceRoot}/src/build",
+            "path": "",
+            "cpath": "${workspaceRoot}/src/build/?.dll;",
+            "arg": [
+               "${workspaceRoot}/NicoPoiDuang_4.0",
+               "${workspaceRoot}"
+            ]
+        }
+    ]
+}
