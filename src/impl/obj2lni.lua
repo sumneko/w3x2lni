@@ -73,7 +73,17 @@ function mt:add_chunk(chunk)
 			table_insert(names, name)
 		end
 	end
-	table_sort(names)
+	table_sort(names, function(name1, name2)
+		local is_origin1 = name1 == chunk[name1]['_origin_id']
+		local is_origin2 = name2 == chunk[name2]['_origin_id']
+		if is_origin1 and not is_origin2 then
+			return true
+		end
+		if not is_origin1 and is_origin2 then
+			return false
+		end
+		return name1 < name2
+	end)
 	for i = 1, #names do
 		self:add_obj(chunk[names[i]])
 	end
