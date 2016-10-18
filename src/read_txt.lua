@@ -59,7 +59,11 @@ local function parse(txt, metadata, keys, line)
     local key, value = line:match '^%s*(.-)%s*%=%s*(.-)%s*$'
     if key and value then
         local type = get_key_type(metadata, keys, current_chunk, key)
-        if type ~= 3 then
+        if type == 3 then
+            if value:sub(1, 1) == '"' and value:sub(-1, -1) == '"' then
+                value = value:sub(2, -2)
+            end
+        else
             value = tonumber(value)
         end
         txt[current_chunk][key] = value
