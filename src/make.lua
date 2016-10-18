@@ -15,7 +15,7 @@ local function main()
 		return
 	end
 
-	w3x2txt:init()
+	w3x2txt:init(arg[2])
 	
 	local input_path = fs.path(uni.a2u(arg[1]))
 	if fs.is_directory(input_path) then

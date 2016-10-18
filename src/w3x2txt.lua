@@ -50,10 +50,9 @@ function mt:create_map()
 	return create_map(self)
 end
 
-function mt:init()
-	local rootpath
-	if arg[2] then
-		rootpath = fs.path(arg[2])
+function mt:init(rootpath)
+	if rootpath then
+		rootpath = fs.path(rootpath)
 	else
 		rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename():remove_filename()
 	end
