@@ -1,51 +1,4 @@
 -------------------------------------------------
----      *** BitLibEmu for Lua ***            ---
--------------------------------------------------
---- Author:  Martin Huesser                   ---
---- Date:    2008-06-16                       ---
---- License: You may use this code in your    ---
----          projects as long as this header  ---
----          stays intact.                    ---
--------------------------------------------------
-
-----------------------------------------
-
-function bnot(x)
-	return 4294967295 ~ x
-end
-
-----------------------------------------
-
-function lshift(x,n)
-	return (x << n) & 4294967295
-end
-
-----------------------------------------
-
-function rshift(x,n)
-	return (x & 4294967295) >> n
-end
-
-----------------------------------------
-
-function band(x,y)
-	return (x & y) & 4294967295
-end
-
-----------------------------------------
-
-function bor(x,y)
-	return (x | y) & 4294967295
-end
-
-----------------------------------------
-
-function bxor(x,y)
-	return (x ~ y) & 4294967295
-end
-
-
--------------------------------------------------
 ---      *** SHA-1 algorithm for Lua ***      ---
 -------------------------------------------------
 --- Author:  Martin Huesser                   ---
@@ -63,7 +16,7 @@ local h0, h1, h2, h3, h4
 -------------------------------------------------
 
 local function LeftRotate(val, nr)
-	return lshift(val, nr) + rshift(val, 32 - nr)
+	return (val << nr) | ((val & 0xFFFFFFFF) >> (32 - nr))
 end
 
 -------------------------------------------------
@@ -146,11 +99,11 @@ local function MainLoop(str)
 			b = a
 			a = t
 		end
-		h0 = (h0 + a) & 4294967295
-		h1 = (h1 + b) & 4294967295
-		h2 = (h2 + c) & 4294967295
-		h3 = (h3 + d) & 4294967295
-		h4 = (h4 + e) & 4294967295
+		h0 = (h0 + a) & 0xFFFFFFFF
+		h1 = (h1 + b) & 0xFFFFFFFF
+		h2 = (h2 + c) & 0xFFFFFFFF
+		h3 = (h3 + d) & 0xFFFFFFFF
+		h4 = (h4 + e) & 0xFFFFFFFF
 		str = strsub(str, 65)
 	end
 end
