@@ -3,5 +3,6 @@
 !/.vscode/
 src/.vscode/
 *.w3x
+*.sign
 temp
 src/rsa/ppk
