@@ -63,11 +63,11 @@ local function MainLoop(str)
 	local a, b, c, d, e, f, k, t
 	local i, j
 	local w = {}
-	while (str ~= "") do
+	for n = 1, #str, 64 do
 		for i = 0, 15 do
 			w[i] = 0
 			for j = 1, 4 do
-				w[i] = w[i] * 256 + strbyte(str, i * 4 + j)
+				w[i] = w[i] * 256 + strbyte(str, i * 4 + j + n - 1)
 			end
 		end
 		for i = 16, 79 do
@@ -104,7 +104,6 @@ local function MainLoop(str)
 		h2 = (h2 + c) & 0xFFFFFFFF
 		h3 = (h3 + d) & 0xFFFFFFFF
 		h4 = (h4 + e) & 0xFFFFFFFF
-		str = strsub(str, 65)
 	end
 end
 
