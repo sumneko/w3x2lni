@@ -115,7 +115,7 @@ local function main()
     print('')
     print('输入文件的sha1如下')
     local sha1 = sha1(m)
-    print(m)
+    print(sha1)
 
     print('')
     print('')
