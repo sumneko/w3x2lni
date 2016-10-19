@@ -11,6 +11,7 @@
 local strchar = string.char
 local strbyte = string.byte
 local strsub  = string.sub
+local strunpack = string.unpack
 local h0, h1, h2, h3, h4
 
 -------------------------------------------------
@@ -64,13 +65,10 @@ local function MainLoop(str)
 	local i, j
 	local w = {}
 	for n = 1, #str, 64 do
-		for i = 0, 15 do
-			w[i] = 0
-			for j = 1, 4 do
-				w[i] = w[i] * 256 + strbyte(str, i * 4 + j + n - 1)
-			end
-		end
-		for i = 16, 79 do
+		w[0x01], w[0x02], w[0x03], w[0x04], w[0x05], w[0x06], w[0x07], w[0x08],
+		w[0x09], w[0x0A], w[0x0B], w[0x0C], w[0x0D], w[0x0E], w[0x0F], w[0x10]
+		= strunpack(('>LLLLLLLLLLLLLLLL'), str, n)
+		for i = 17, 80 do
 			w[i] = LeftRotate(((w[i - 3] ~ w[i - 8]) ~ (w[i - 14] ~ w[i - 16])), 1)
 		end
 		a = h0
@@ -78,14 +76,14 @@ local function MainLoop(str)
 		c = h2
 		d = h3
 		e = h4
-		for i = 0, 79 do
-			if (i < 20) then
+		for i = 1, 80 do
+			if (i <= 20) then
 				f = (b & c) | ((~b) & d)
 				k = 1518500249
-			elseif (i < 40) then
+			elseif (i <= 40) then
 				f = ((b ~ c) ~ d)
 				k = 1859775393
-			elseif (i < 60) then
+			elseif (i <= 60) then
 				f = (b & c) | (b & d) | (c & d)
 				k = 2400959708
 			else
