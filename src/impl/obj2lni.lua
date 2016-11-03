@@ -104,7 +104,7 @@ function mt:add_obj(obj)
 	end
 	table_sort(names)
 	for i = 1, #names do
-		self:set_template_data(obj['_origin_id'], names[i], datas[names[i]])
+		self:add_template_data(obj['_origin_id'], names[i], datas[names[i]])
 		self:add_data(names[i], datas[names[i]])
 	end
 end
@@ -136,7 +136,7 @@ function mt:add_data(name, data)
 	end
 end
 
-function mt:set_template_data(id, name, data)
+function mt:add_template_data(id, name, data)
 	local template = self.template[id]
 	if not template[name] then
 		return

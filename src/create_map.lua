@@ -115,8 +115,9 @@ function mt:lni2w3x(name, file)
             data = self:on_lni(new_name, data)
         end
 		local key = lni:loader(io.load(self.dir['key'] / name), name)
-		local metadata = read_metadata(self.dir['meta'] / self.config['metadata'][name:sub(1, -5)])
-		local content = self.w3x2txt:lni2obj(data, metadata, key)
+		local metadata = read_metadata(self.dir['meta'] / self.config['metadata'][new_name])
+		local template = lni:loader(io.load(self.dir['template'] / name), new_name)
+		local content = self.w3x2txt:lni2obj(data, metadata, template, key)
 		return new_name, content
 	elseif name == 'war3map.w3i.ini' then
 	else

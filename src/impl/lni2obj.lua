@@ -44,12 +44,14 @@ end
 
 function mt:sort_obj(obj)
     local names = {}
+    local full_names = {}
     local new_obj = {}
     local count = 0
     for key, data in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
             local id = self:key2id(obj['_id'], key)
             table_insert(names, id)
+            full_names[id] = key
             new_obj[id] = data
             if type(data) == 'table' then
                 for _ in pairs(data) do
@@ -61,7 +63,7 @@ function mt:sort_obj(obj)
         end
     end
     table_sort(names)
-    return names, new_obj, count
+    return names, full_names, new_obj, count
 end
 
 local key_type = {
@@ -123,9 +125,10 @@ function mt:add_obj(id, obj)
     else
         self:add('c4', id)
     end
-    local names, new_obj, count = self:sort_obj(obj)
+    local names, full_names, new_obj, count = self:sort_obj(obj)
     self:add('l', count)
     for i = 1, #names do
+        self:remove_template_data(obj, obj['_id'], names[i], full_names[names[i]], new_obj[names[i]])
         self:add_data(names[i], new_obj[names[i]])
     end
 end
@@ -170,11 +173,51 @@ function mt:add_value(name, value, level)
     self:add('c4', '\0\0\0\0')
 end
 
-return function (self, data, meta, key)
+function mt:remove_template_data(obj, id, key, name, data)
+    local template = self.template[id]
+	if not template[name] then
+		return
+	end
+    if type(data) == 'table' then
+        for i, value in pairs(data) do
+            if type(template[name]) == 'table' then
+                local template_value = template[name][i] or template[name][#template[name]]
+                if value == template_value then
+                    data[i] = nil
+                end
+            else
+                if value == template[name] then
+                    data[i] = nil
+                end
+            end
+        end
+        local empty = true
+        for _ in pairs(data) do
+            empty = false
+            break
+        end
+        if empty then
+            obj[key] = nil
+        end
+    else
+        if type(template[name]) == 'table' then
+            if value == template[name][1] then
+                obj[key] = nil
+            end
+        else
+            if value == template[name] then
+                obj[key] = nil
+            end
+        end
+    end
+end
+
+return function (self, data, meta, template, key)
     local tbl = setmetatable({}, mt)
     tbl.hexs = {}
     tbl.self = self
     tbl.meta = meta
+    tbl.template = template
     tbl.key = key
     tbl.has_level = meta._has_level
 
