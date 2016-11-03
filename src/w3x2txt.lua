@@ -59,6 +59,7 @@ function mt:init(rootpath)
 	self:set_dir('root', rootpath)
 	self:set_dir('meta', rootpath / 'src' / 'meta')
 	self:set_dir('key', rootpath / 'src' / 'key')
+	self:set_dir('template', rootpath / 'template')
 	self:read_config()
 end
 

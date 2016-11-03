@@ -104,6 +104,7 @@ function mt:add_obj(obj)
 	end
 	table_sort(names)
 	for i = 1, #names do
+		self:set_template_data(obj['_origin_id'], names[i], datas[names[i]])
 		self:add_data(names[i], datas[names[i]])
 	end
 end
@@ -135,15 +136,36 @@ function mt:add_data(name, data)
 	end
 end
 
+function mt:set_template_data(id, name, data)
+	local template = self.template[id]
+	if not template[name] then
+		return
+	end
+	for i = 1, data._max_level do
+		if data[i] == nil then
+			if type(template[name]) == 'table' then
+				if template[name][i] then
+					data[i] = template[name][i]
+				else
+					data[i] = template[name][#template[name]]
+				end
+			else
+				data[i] = template[name]
+			end
+		end
+	end
+end
+
 function mt:convert_wts(content)
 	return self.self:convert_wts(content)
 end
 
-return function (self, data, meta, editstring)
+return function (self, data, meta, template, editstring)
 	local tbl = setmetatable({}, mt)
 	tbl.lines = {}
 	tbl.self = self
 	tbl.meta = meta
+	tbl.template = template
 	tbl.has_level = meta._has_level
 	tbl.editstring = editstring or {}
 
