@@ -125,10 +125,13 @@ function mt:add_obj(id, obj)
     else
         self:add('c4', id)
     end
+    
+    for name, value in pairs(obj) do
+        self:remove_template_data(obj, obj['_id'], name, value)
+    end
     local names, full_names, new_obj, count = self:sort_obj(obj)
     self:add('l', count)
     for i = 1, #names do
-        self:remove_template_data(obj, obj['_id'], names[i], full_names[names[i]], new_obj[names[i]])
         self:add_data(names[i], new_obj[names[i]])
     end
 end
@@ -173,42 +176,35 @@ function mt:add_value(name, value, level)
     self:add('c4', '\0\0\0\0')
 end
 
-function mt:remove_template_data(obj, id, key, name, data)
+function mt:remove_template_data(obj, id, name, data)
+    if name:sub(1, 1) == '_' then
+        return
+    end
     local template = self.template[id]
 	if not template[name] then
 		return
 	end
-    if type(data) == 'table' then
-        for i, value in pairs(data) do
-            if type(template[name]) == 'table' then
-                local template_value = template[name][i] or template[name][#template[name]]
-                if value == template_value then
-                    data[i] = nil
-                end
-            else
-                if value == template[name] then
-                    data[i] = nil
-                end
-            end
-        end
-        local empty = true
-        for _ in pairs(data) do
-            empty = false
-            break
-        end
-        if empty then
-            obj[key] = nil
-        end
-    else
+    if type(data) ~= 'table' then
+        data = {data}
+    end
+    for i, value in pairs(data) do
         if type(template[name]) == 'table' then
-            if value == template[name][1] then
-                obj[key] = nil
+            if value == template[name][i] then
+                data[i] = nil
             end
         else
-            if value == template[name] then
-                obj[key] = nil
+            if i == 1 and value == template[name] then
+                data[i] = nil
             end
         end
+    end
+    local empty = true
+    for _ in pairs(data) do
+        empty = false
+        break
+    end
+    if empty then
+        obj[name] = nil
     end
 end
 
