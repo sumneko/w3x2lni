@@ -189,11 +189,17 @@ function mt:remove_template_data(obj, id, name, data)
     end
     for i, value in pairs(data) do
         if type(template[name]) == 'table' then
-            if value == template[name][i] then
-                data[i] = nil
+            if i > #template[name] then
+                if value == template[name][#template[name]] then
+                    data[i] = nil
+                end
+            else
+                if value == (template[name][i]) then
+                    data[i] = nil
+                end
             end
         else
-            if i == 1 and value == template[name] then
+            if value == template[name] then
                 data[i] = nil
             end
         end
