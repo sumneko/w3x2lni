@@ -3,7 +3,6 @@
 	package.path = package.path .. ';' .. exepath .. '..\\?.lua'
 end)()
 
-require 'luabind'
 require 'filesystem'
 require 'utility'
 local uni      = require 'unicode'
