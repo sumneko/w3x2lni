@@ -175,6 +175,9 @@ function mt:add_value(name, value, level)
 end
 
 function mt:remove_template_data(obj, id, name, data)
+	if not self.template then
+		return
+	end
     if name:sub(1, 1) == '_' then
         return
     end
@@ -212,7 +215,7 @@ function mt:remove_template_data(obj, id, name, data)
     end
 end
 
-return function (self, data, meta, template, key)
+return function (self, data, meta, key, template)
     local tbl = setmetatable({}, mt)
     tbl.hexs = {}
     tbl.self = self

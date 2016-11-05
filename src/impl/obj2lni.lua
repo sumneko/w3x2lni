@@ -137,6 +137,9 @@ function mt:add_data(name, data)
 end
 
 function mt:add_template_data(id, name, data)
+	if not self.template then
+		return
+	end
 	local template = self.template[id]
 	if not template[name] then
 		return
@@ -160,7 +163,7 @@ function mt:convert_wts(content)
 	return self.self:convert_wts(content)
 end
 
-return function (self, data, meta, template, editstring)
+return function (self, data, meta, editstring, template)
 	local tbl = setmetatable({}, mt)
 	tbl.lines = {}
 	tbl.self = self

@@ -117,7 +117,7 @@ function mt:lni2w3x(name, file)
 		local key = lni:loader(io.load(self.dir['key'] / name), name)
 		local metadata = read_metadata(self.dir['meta'] / self.config['metadata'][new_name])
 		local template = lni:loader(io.load(self.dir['template'] / name), new_name)
-		local content = self.w3x2txt:lni2obj(data, metadata, template, key)
+		local content = self.w3x2txt:lni2obj(data, metadata, key, template)
 		return new_name, content
 	elseif name == 'war3map.w3i.ini' then
 		print('正在转换:', name)
@@ -322,7 +322,7 @@ function mt:w3x2lni(files, paths)
             if self.on_lni then
                 data = self:on_lni(name, data)
             end
-			local content = self.w3x2txt:obj2lni(data, metadata, template, editstring)
+			local content = self.w3x2txt:obj2lni(data, metadata, editstring, template)
 			local content = self.w3x2txt:convert_wts(content, wts)
 			save(paths[name]:parent_path() / (name .. '.ini'), content)
 		elseif name == 'war3map.w3i' then
