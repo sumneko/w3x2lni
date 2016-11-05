@@ -1,5 +1,3 @@
-local lni = require 'lni'
-
 local table_insert = table.insert
 local table_sort   = table.sort
 local table_concat = table.concat

@@ -1,6 +1,20 @@
 local table_concat = table.concat
 local table_insert = table.insert
 
+local function unpack_flag(flag)
+    local tbl = {}
+    for i = 0, 64 do
+        local n = 1 << i
+        if n > flag then
+            break
+        end
+        if flag & n ~= 0 then
+            table_insert(tbl, i+1)
+        end
+    end
+    return tbl
+end
+
 local mt = {}
 mt.__index = mt
 
@@ -112,20 +126,6 @@ function mt:add_player(data)
         self:add('低结盟优先权标记 = {%s}', table_concat(unpack_flag(player.ally_low_flag), ', '))
         self:add('高结盟优先权标记 = {%s}', table_concat(unpack_flag(player.ally_high_flag), ', '))
     end
-end
-
-function unpack_flag(flag)
-    local tbl = {}
-    for i = 0, 64 do
-        local n = 1 << i
-        if n > flag then
-            break
-        end
-        if flag & n ~= 0 then
-            table_insert(tbl, i+1)
-        end
-    end
-    return tbl
 end
 
 function mt:add_force(data)

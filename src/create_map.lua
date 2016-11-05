@@ -120,6 +120,17 @@ function mt:lni2w3x(name, file)
 		local content = self.w3x2txt:lni2obj(data, metadata, template, key)
 		return new_name, content
 	elseif name == 'war3map.w3i.ini' then
+		print('正在转换:', name)
+		local data = lni:loader(file, name)
+		local new_name = name:sub(1, -5)
+        if self.on_lni then
+            data = self:on_lni(new_name, data)
+        end
+		local content = self.w3x2txt:lni2w3i(data)
+		return new_name, content
+	elseif name == 'war3map.w3i' then
+		w3i = file
+		return name, file
 	else
 		return name, file
 	end
