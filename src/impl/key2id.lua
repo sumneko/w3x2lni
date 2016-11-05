@@ -150,7 +150,7 @@ local function convert_list(public, private)
 end
 
 return function (self, file_name, metadata)
-    local public, private = read_list(self, metadata, fs.path(file_name):extension())
+    local public, private = read_list(self, metadata, fs.path(file_name):extension():string())
 
     return convert_list(public, private)
 end
