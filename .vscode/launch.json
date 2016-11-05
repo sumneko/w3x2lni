@@ -13,7 +13,8 @@
             "arg": [
                "${workspaceRoot}/NicoPoiDuang_4.0.w3x",
                "${workspaceRoot}"
-            ]
+            ],
+            "console" : "ansi"
         },
         {
             "name": "解包地图",
@@ -27,7 +28,8 @@
             "arg": [
                "${workspaceRoot}/NicoPoiDuang_4.0",
                "${workspaceRoot}"
-            ]
+            ],
+            "console" : "ansi"
         }
     ]
 }
