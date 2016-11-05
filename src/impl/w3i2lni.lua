@@ -22,7 +22,7 @@ function mt:add_head(data)
     self:add('[镜头]')
     self:add('镜头范围 = {')
     for i = 1, 8 do
-        self:add('[%d] = %.4f', i, data['camera_bound_' .. i])
+        self:add('%d = %.4f,', i, data['camera_bound_' .. i])
     end
     self:add '}'
     self:add('镜头范围扩充 = {%d, %d, %d, %d}', data.camera_complement_1, data.camera_complement_2, data.camera_complement_3, data.camera_complement_4)
@@ -185,7 +185,7 @@ function mt:add_randomgroup(data)
         
         self:add('设置 = {')
 		for i, line in ipairs(group.lines) do
-		    self:add('[%d] = {', i)
+		    self:add('%d = {', i)
 			self:add('几率 = %d,', line.chance)
             local ids = {}
             for i = 1, #line.ids do
@@ -209,7 +209,7 @@ function mt:add_randomitem(data)
 
         self:add('设置 = {')
 		for i, set in ipairs(random_item.sets) do
-            self:add('[%d] = {', i)
+            self:add('%d = {', i)
 			for _, item in ipairs(set.items) do
 				self:add('{几率 = %d, ID = %q},', item.chance, item.id)
 			end
