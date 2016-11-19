@@ -197,8 +197,8 @@ function mt:save_map(map_path)
         player_count = 2333,
     }
     for _, dir in ipairs(self.dirs) do
-        if fs.exists(dir / 'war3map.w3i') then
-            w3i = self.w3x2txt:read_w3i(io.load(dir / 'war3map.w3i'))
+        if fs.exists(dir / 'war3map.w3i.ini') then
+            w3i = self.w3x2txt:read_w3i(self.w3x2txt:lni2w3i(lni:loader(io.load(dir / 'war3map.w3i.ini'), 'war3map.w3i.ini')))
             break
         end
     end
