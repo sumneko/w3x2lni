@@ -139,6 +139,10 @@ function mt:read_slk_data(skill, name, value)
         elseif value:match '^%s*[%-%_]%s*$' then
             value = ''
         end
+    elseif type(value) == 'number' then
+        if tp == 0 then
+            value = math.floor(value)
+        end
     end
     return id, value, level
 end
