@@ -329,6 +329,12 @@ function mt:w3x2lni(files, paths)
     -- 读slk
     local w3xs = {}
     for file_name, meta in pairs(self.config['metadata']) do
+        local data = {}
+        local metadata = read_metadata(self.dir['meta'] / self.config['metadata'][file_name])
+        if files[file_name] then
+            add_table(data, self.w3x2txt:read_obj(files[file_name], metadata))
+            files[file_name] = nil
+        end
         local template = create_template(file_name)
 
         template:set_option('discard_useless_data', false)
@@ -351,7 +357,6 @@ function mt:w3x2lni(files, paths)
             end
         end
 
-        local metadata = read_metadata(self.dir['meta'] / self.config['metadata'][file_name])
         local key = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), name)
 
         local txt = self.config['template']['txt'][file_name]
@@ -368,19 +373,15 @@ function mt:w3x2lni(files, paths)
             files[name] = nil
         end
 
-        local data = template:save(key)
+        add_table(data, template:save(key))
 
-        if files[file_name] then
-            add_table(data, self.w3x2txt:read_obj(files[file_name], metadata))
-            files[file_name] = nil
-        end
         if self.on_lni then
             data = self:on_lni(file_name, data)
         end
         local template = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
         local content = self.w3x2txt:obj2lni(data, metadata, editstring, template)
         local content = self.w3x2txt:convert_wts(content, wts)
-        save(paths[file_name]:parent_path() / (file_name .. '.ini'), content)
+        save(paths['war3map.w3i']:parent_path() / (file_name .. '.ini'), content)
     end
 	for name, file in pairs(files) do
         if name == 'war3map.w3i' then
