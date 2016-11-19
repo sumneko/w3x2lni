@@ -36,7 +36,7 @@ function mt:key2id(skill, nid, key)
     if id then
         return id
     end
-    print('错误:', 'key2id失败', skill, nid, key)
+    print(('错误: 技能[%s](模板为[%s])并不支持数据项[%s]'):format(nid, skill, key))
     return nil
 end
 
@@ -48,15 +48,17 @@ function mt:sort_obj(obj, id)
     for key, data in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
             local id = self:key2id(obj['_id'], id, key)
-            table_insert(names, id)
-            full_names[id] = key
-            new_obj[id] = data
-            if type(data) == 'table' then
-                for _ in pairs(data) do
+            if id then
+                table_insert(names, id)
+                full_names[id] = key
+                new_obj[id] = data
+                if type(data) == 'table' then
+                    for _ in pairs(data) do
+                        count = count + 1
+                    end
+                else
                     count = count + 1
                 end
-            else
-                count = count + 1
             end
         end
     end
