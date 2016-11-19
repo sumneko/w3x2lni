@@ -2,6 +2,7 @@ local stormlib = require 'stormlib'
 local lni = require 'lni'
 local read_metadata = require 'read_metadata'
 local read_ini = require 'read_ini'
+local create_template = require 'create_template'
 
 local table_insert = table.insert
 
@@ -21,6 +22,20 @@ local function remove_then_create_dir(dir)
 		task(fs.remove_all, dir)
 	end
 	task(fs.create_directories, dir)
+end
+
+local function add_table(tbl1, tbl2)
+    for k, v in pairs(tbl2) do
+        if tbl1[k] then
+            if type[tbl1[k]] == 'table' and type[v] == 'table' then
+                add_table(tbl1[k], v)
+            else
+                tbl1[k] = v
+            end
+        else
+            tbl1[k] = v
+        end
+    end
 end
 
 local mt = {}
@@ -311,21 +326,64 @@ function mt:w3x2lni(files, paths)
 			end
 		end
 	end
-	for name, file in pairs(files) do
-		if self.config['metadata'][name] then
-			local content = file
-			print('正在转换:' .. name)
-			local metadata = read_metadata(self.dir['meta'] / self.config['metadata'][name])
-			print((self.dir['template'] / name):string())
-			local template = lni:loader(io.load(self.dir['template'] / (name .. '.ini')), name)
-			local data = self.w3x2txt:read_obj(content, metadata)
-            if self.on_lni then
-                data = self:on_lni(name, data)
+    -- 读slk
+    local w3xs = {}
+    for file_name, meta in pairs(self.config['metadata']) do
+        local template = create_template(file_name)
+
+        template:set_option('discard_useless_data', false)
+        template:set_option('max_level_key', self.config['key']['max_level'][file_name])
+
+        local slk = self.config['template']['slk'][file_name]
+        if type(slk) == 'table' then
+            for i = 1, #slk do
+                local name = slk[i]
+                if files[name] then
+                    template:add_slk(read_slk(files[name]))
+                    files[name] = nil
+                end
             end
-			local content = self.w3x2txt:obj2lni(data, metadata, editstring, template)
-			local content = self.w3x2txt:convert_wts(content, wts)
-			save(paths[name]:parent_path() / (name .. '.ini'), content)
-		elseif name == 'war3map.w3i' then
+        else
+            local name = slk
+            if files[name] then
+                template:add_slk(read_slk(files[name]))
+                files[name] = nil
+            end
+        end
+
+        local metadata = read_metadata(self.dir['meta'] / self.config['metadata'][file_name])
+        local key = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), name)
+
+        local txt = self.config['template']['txt'][file_name]
+        if type(txt) == 'table' then
+            for i = 1, #txt do
+                local name = txt[i]
+                if files[name] then
+                    template:add_txt(read_txt(files[name], metadata, key))
+                    files[name] = nil
+                end
+            end
+        elseif txt then
+            template:add_txt(read_txt(files[name], metadata, key))
+            files[name] = nil
+        end
+
+        local data = template:save(key)
+
+        if files[file_name] then
+            add_table(data, self.w3x2txt:read_obj(files[file_name], metadata))
+            files[file_name] = nil
+        end
+        if self.on_lni then
+            data = self:on_lni(file_name, data)
+        end
+        local template = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
+        local content = self.w3x2txt:obj2lni(data, metadata, editstring, template)
+        local content = self.w3x2txt:convert_wts(content, wts)
+        save(paths[file_name]:parent_path() / (file_name .. '.ini'), content)
+    end
+	for name, file in pairs(files) do
+        if name == 'war3map.w3i' then
 			local content = file
 			local data = self.w3x2txt:read_w3i(content)
             if self.on_lni then

@@ -1,5 +1,3 @@
-local w3x2txt = require 'w3x2txt'
-
 local table_insert = table.insert
 local table_unpack = table.unpack
 local type = type
