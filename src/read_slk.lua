@@ -24,6 +24,7 @@ function mt:add_table(x, y, k)
 	self[x][y] = k
 end
 
+local x, y, k
 function mt:read_line(line)
 	local strs = {}
 	for str in line:gmatch '[^;]+' do
@@ -32,7 +33,6 @@ function mt:read_line(line)
 	if strs[1] ~= 'C' then
 		return
 	end
-	local x, y, k
 	for i = 2, #strs do
 		local key = strs[i]:sub(1, 1)
 		if key == 'X' then
@@ -42,6 +42,9 @@ function mt:read_line(line)
 		elseif key == 'K' then
 			k = strs[i]:sub(2, -1)
 		end
+	end
+	if not x then
+		print(line)
 	end
 	self:add_table(x, y, k)
 end
