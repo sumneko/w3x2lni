@@ -30,24 +30,24 @@ function mt:sort_chunk(data)
     return origin, user
 end
 
-function mt:key2id(skill, key)
+function mt:key2id(skill, id, key)
     local key = key:lower()
-    local id = self.key[skill] and self.key[skill][key] or self.key['public'][key]
+    local id = self.key[skill] and self.key[skill][key] or self.key[id] and self.key[id][key] or self.key['public'][key]
     if id then
         return id
     end
-    print('错误:', 'key2id失败', skill, key)
+    print('错误:', 'key2id失败', skill, id, key)
     return nil
 end
 
-function mt:sort_obj(obj)
+function mt:sort_obj(obj, id)
     local names = {}
     local full_names = {}
     local new_obj = {}
     local count = 0
     for key, data in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
-            local id = self:key2id(obj['_id'], key)
+            local id = self:key2id(obj['_id'], id, key)
             table_insert(names, id)
             full_names[id] = key
             new_obj[id] = data
@@ -125,16 +125,16 @@ function mt:add_obj(id, obj)
     end
     
     for name, value in pairs(obj) do
-        self:remove_template_data(obj, obj['_id'], name, value)
+        self:remove_template_data(obj, obj['_id'], id, name, value)
     end
-    local names, full_names, new_obj, count = self:sort_obj(obj)
+    local names, full_names, new_obj, count = self:sort_obj(obj, id)
     self:add('l', count)
     for i = 1, #names do
-        self:add_data(names[i], new_obj[names[i]])
+        self:add_data(names[i], new_obj[names[i]], id)
     end
 end
 
-function mt:add_data(name, data)
+function mt:add_data(name, data, id)
     local meta = self.meta[name]
     if meta['repeat'] and meta['repeat'] > 0 then
         if type(data) ~= 'table' then
@@ -153,14 +153,14 @@ function mt:add_data(name, data)
             end
         end
         for level = 1, max_level do
-            self:add_value(name, data[level], level)
+            self:add_value(name, data[level], level, id)
         end
     else
-        self:add_value(name, data, 0)
+        self:add_value(name, data, 0, id)
     end
 end
 
-function mt:add_value(name, value, level)
+function mt:add_value(name, value, level, id)
     if value == nil then
         return
     end
@@ -174,14 +174,17 @@ function mt:add_value(name, value, level)
     self:add('c4', '\0\0\0\0')
 end
 
-function mt:remove_template_data(obj, id, name, data)
+function mt:remove_template_data(obj, id, nid, name, data)
 	if not self.template then
 		return
 	end
     if name:sub(1, 1) == '_' then
         return
     end
-    local template = self.template[id]
+    local template = self.template[id] or self.template[nid]
+    if not template then
+        return
+    end
 	if not template[name] then
 		return
 	end
