@@ -30,13 +30,13 @@ function mt:sort_chunk(data)
     return origin, user
 end
 
-function mt:key2id(skill, id, key)
+function mt:key2id(skill, nid, key)
     local key = key:lower()
-    local id = self.key[skill] and self.key[skill][key] or self.key[id] and self.key[id][key] or self.key['public'][key]
+    local id = self.key[skill] and self.key[skill][key] or self.key[nid] and self.key[nid][key] or self.key['public'][key]
     if id then
         return id
     end
-    print('错误:', 'key2id失败', skill, id, key)
+    print('错误:', 'key2id失败', skill, nid, key)
     return nil
 end
 

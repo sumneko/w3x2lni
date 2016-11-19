@@ -134,14 +134,20 @@ function mt:read_slk_data(skill, name, value)
     end
     local tp = self:get_key_type(id)
     if type(value) == 'string' then
-        if tp ~= 3 then
+        if tp == 0 then
             value = 0
+        elseif tp == 1 or tp == 2 then
+            value = 0.0
         elseif value:match '^%s*[%-%_]%s*$' then
             value = ''
         end
     elseif type(value) == 'number' then
         if tp == 0 then
             value = math.floor(value)
+        elseif tp == 1 or tp == 2 then
+            value = value + 0.0
+        elseif tp == 3 then
+            value = tostring(value)
         end
     end
     return id, value, level
