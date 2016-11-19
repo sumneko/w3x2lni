@@ -21,7 +21,7 @@ function mt:__pairs()
 end
 
 local function read_metadata(file_name)
-	local tbl, list = read_slk(file_name)
+	local tbl, list = read_slk(io.load(file_name))
 	if not tbl then
 		return
 	end

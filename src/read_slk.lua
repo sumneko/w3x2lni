@@ -46,10 +46,8 @@ function mt:read_line(line)
 	self:add_table(x, y, k)
 end
 
-local function read_slk(file_name)
-	local content = io.load(file_name)
+local function read_slk(content)
 	if not content then
-		print('文件无效:' .. file_name:string())
 		return
 	end
 

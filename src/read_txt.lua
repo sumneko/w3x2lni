@@ -71,15 +71,13 @@ local function parse(txt, metadata, keys, line)
     end
 end
 
-return function (file_name, metadata, key)
-	local content = io.load(file_name)
+return function (content, metadata, key)
 	if not content then
-		print('文件无效:' .. file_name:string())
 		return
 	end
     current_chunk = nil
     local txt = {}
-	for line in io.lines2(file_name) do
+	for line in content:gmatch '[^\r\n]+' do
         parse(txt, metadata, key, line)
     end
     return txt

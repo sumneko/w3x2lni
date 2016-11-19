@@ -49,10 +49,10 @@ local function main()
 		local slk = w3x2txt.config['template']['slk'][file_name]
 		if type(slk) == 'table' then
 			for i = 1, #slk do
-				template:add_slk(read_slk(meta_dir / slk[i]))
+				template:add_slk(read_slk(io.load(meta_dir / slk[i])))
 			end
 		else
-			template:add_slk(read_slk(meta_dir / slk))
+			template:add_slk(read_slk(io.load(meta_dir / slk)))
 		end
 
 		local metadata = read_metadata(meta_dir / w3x2txt.config['metadata'][file_name])
@@ -61,10 +61,10 @@ local function main()
 		local txt = w3x2txt.config['template']['txt'][file_name]
 		if type(txt) == 'table' then
 			for i = 1, #txt do
-				template:add_txt(read_txt(meta_dir / txt[i], metadata, key))
+				template:add_txt(read_txt(io.load(meta_dir / txt[i]), metadata, key))
 			end
 		elseif txt then
-			template:add_txt(read_txt(meta_dir / txt, metadata, key))
+			template:add_txt(read_txt(io.load(meta_dir / txt), metadata, key))
 		end
 
 		local data = template:save(key)

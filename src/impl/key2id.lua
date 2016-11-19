@@ -134,7 +134,7 @@ local function read_list(self, metadata, extension)
         tbl:add_data(id, meta, public, private)
     end
     if extension == '.w3a' then
-        local ability = read_slk(self.dir['meta'] / 'abilitydata.slk')
+        local ability = read_slk(io.load(self.dir['meta'] / 'abilitydata.slk'))
         copy_code(private, ability)
     end
     return public, private
