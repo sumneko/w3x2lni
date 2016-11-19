@@ -141,6 +141,9 @@ function mt:add_template_data(id, name, data)
 		return
 	end
 	local template = self.template[id]
+	if not template then
+		return
+	end
 	if not template[name] then
 		return
 	end
