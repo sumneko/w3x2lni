@@ -32,6 +32,29 @@ function mt:add_txt(txt)
     end
 end
 
+local key_type = {
+	int			= 0,
+	bool		= 0,
+	deathType	= 0,
+	attackBits	= 0,
+	teamColor	= 0,
+	fullFlags	= 0,
+	channelType	= 0,
+	channelFlags= 0,
+	stackFlags	= 0,
+	silenceFlags= 0,
+	spellDetail	= 0,
+	real		= 1,
+	unreal		= 2,
+}
+
+function mt:get_key_type(key)
+    local meta = self.meta
+    local type = meta[key]['type']
+    local format = key_type[type] or 3
+    return format
+end
+
 function mt:key2id(skill, key)
     local key = key:lower()
     local id = self.key[skill] and self.key[skill][key] or self.key['public'][key]
@@ -109,10 +132,13 @@ function mt:read_slk_data(skill, name, value)
     if not id then
         return
     end
-    if value == '-' or value == ' -' then
-        value = 0
-    elseif value == '_' then
-        value = ''
+    if value == '-' or value == ' -' or value == '_' then
+        local tp = self:get_key_type(id)
+        if tp == 3 then
+            value = ''
+        else
+            value = 0
+        end
     end
     return id, value, level
 end
@@ -130,11 +156,6 @@ function mt:read_txt_data(skill, name, value, max_level, txt)
             name = name:sub(1, -2)
             id = self:key2id(skill, name)
         end
-    end
-    if value == '-' or value == ' -' then
-        value = 0
-    elseif value == '_' then
-        value = ''
     end
     if not id then
         if type(value) == 'string' and value:find ',' then
@@ -169,8 +190,9 @@ function mt:read_txt_data(skill, name, value, max_level, txt)
     return {{id, value, level}}
 end
 
-function mt:save(key)
+function mt:save(meta, key)
     self.key = key
+    self.meta = meta
 
     local data = {}
 

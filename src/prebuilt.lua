@@ -67,7 +67,7 @@ local function main()
 			template:add_txt(read_txt(io.load(meta_dir / txt), metadata, key))
 		end
 
-		local data = template:save(key)
+		local data = template:save(metadata, key)
 		local content = w3x2txt:obj2lni(data, metadata, editstring)
 		io.save(template_dir / (file_name .. '.ini'), content)
 	end

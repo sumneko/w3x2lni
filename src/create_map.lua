@@ -328,7 +328,7 @@ function mt:w3x2lni(files, paths)
 			end
 		end
 	end
-    
+
     -- 读slk
     local w3xs = {}
     local delete = {}
@@ -381,7 +381,7 @@ function mt:w3x2lni(files, paths)
             end
         end
 
-        add_table(data, template:save(key))
+        add_table(data, template:save(metadata, key))
 
         if self.on_lni then
             data = self:on_lni(file_name, data)
