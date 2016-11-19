@@ -84,7 +84,6 @@ function mt:pack_data(obj, max_level, name, value, level)
     if not obj[name] then
         obj[name] = {
             ['name']      = name,
-            ['_max_level'] = 0,
         }
     end
     if not level then
@@ -95,9 +94,6 @@ function mt:pack_data(obj, max_level, name, value, level)
         return
     end
     obj[name][level] = value
-    if level > obj[name]['_max_level'] then
-        obj[name]['_max_level'] = level
-    end
 end
 
 function mt:read_slk_data(skill, name, value)

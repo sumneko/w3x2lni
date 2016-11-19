@@ -104,12 +104,13 @@ function mt:add_obj(obj)
 	end
 	table_sort(names)
 	for i = 1, #names do
+		self:count_max_level(datas[names[i]])
 		self:add_template_data(obj['_origin_id'], names[i], datas[names[i]])
-		self:add_data(names[i], datas[names[i]])
+		self:add_data(names[i], datas[names[i]], obj)
 	end
 end
 
-function mt:add_data(name, data)
+function mt:add_data(name, data, obj)
 	if name:match '[^%w%_]' then
 		name = ('%q'):format(name)
 	end
@@ -131,6 +132,14 @@ function mt:add_data(name, data)
 		if is_string or data._max_level >= 10 then
 			self:add('%s = {\r\n%s,\r\n}', name, table_concat(data, ',\r\n'))
 		else
+			local suc, info = pcall(table_concat, data, ', ')
+			if not suc then
+				print(obj['_user_id'])
+				for k, v in pairs(data) do
+					print(k, v)
+				end
+				error(info)
+			end
 			self:add('%s = {%s}', name, table_concat(data, ', '))
 		end
 	end
@@ -158,6 +167,15 @@ function mt:add_template_data(id, name, data)
 			else
 				data[i] = template[name]
 			end
+		end
+	end
+end
+
+function mt:count_max_level(data)
+	data._max_level = 0
+	for k in pairs(data) do
+		if type(k) == 'number' and k > data._max_level then
+			data._max_level = k
 		end
 	end
 end

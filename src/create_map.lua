@@ -3,6 +3,8 @@ local lni = require 'lni'
 local read_metadata = require 'read_metadata'
 local read_ini = require 'read_ini'
 local create_template = require 'create_template'
+local read_slk = require 'read_slk'
+local read_txt = require 'read_txt'
 
 local table_insert = table.insert
 
@@ -27,7 +29,7 @@ end
 local function add_table(tbl1, tbl2)
     for k, v in pairs(tbl2) do
         if tbl1[k] then
-            if type[tbl1[k]] == 'table' and type[v] == 'table' then
+            if type(tbl1[k]) == 'table' and type(v) == 'table' then
                 add_table(tbl1[k], v)
             else
                 tbl1[k] = v
@@ -343,34 +345,37 @@ function mt:w3x2lni(files, paths)
         local slk = self.config['template']['slk'][file_name]
         if type(slk) == 'table' then
             for i = 1, #slk do
-                local name = slk[i]
+                local name = 'units\\' .. slk[i]
                 if files[name] then
                     template:add_slk(read_slk(files[name]))
                     files[name] = nil
                 end
             end
         else
-            local name = slk
+            local name = 'units\\' .. slk
             if files[name] then
                 template:add_slk(read_slk(files[name]))
                 files[name] = nil
             end
         end
 
-        local key = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), name)
+        local key = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
 
         local txt = self.config['template']['txt'][file_name]
         if type(txt) == 'table' then
             for i = 1, #txt do
-                local name = txt[i]
+                local name = 'units\\' .. txt[i]
                 if files[name] then
                     template:add_txt(read_txt(files[name], metadata, key))
                     files[name] = nil
                 end
             end
         elseif txt then
-            template:add_txt(read_txt(files[name], metadata, key))
-            files[name] = nil
+            local name = 'units\\' .. txt
+            if files[name] then
+                template:add_txt(read_txt(files[name], metadata, key))
+                files[name] = nil
+            end
         end
 
         add_table(data, template:save(key))

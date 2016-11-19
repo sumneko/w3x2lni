@@ -42,14 +42,10 @@ function mt:read_obj()
 		if not obj[name] then
 			obj[name] = {
 				['name']      = name,
-				['_max_level'] = 0,
 			}
 		end
 		if level then
 			obj[name][level] = value
-			if level > obj[name]['_max_level'] then
-				obj[name]['_max_level'] = level
-			end
 		else
 			obj[name][1] = value
 		end
