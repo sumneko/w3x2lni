@@ -18,6 +18,9 @@ function io.load(file_path)
 	if f then
 		local content	= f:read 'a'
 		f:close()
+        if content:sub(1, 3) == '\xEF\xBB\xBF' then
+            content = content:sub(4)
+        end
 		return content
 	else
 		return false, e
