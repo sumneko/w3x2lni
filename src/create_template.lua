@@ -132,12 +132,12 @@ function mt:read_slk_data(skill, name, value)
     if not id then
         return
     end
-    if type(value) == 'string' and value:match '^%s*[%-%_]%s*$' then
-        local tp = self:get_key_type(id)
-        if tp == 3 then
-            value = ''
-        else
+    local tp = self:get_key_type(id)
+    if type(value) == 'string' then
+        if tp ~= 3 then
             value = 0
+        elseif value:match '^%s*[%-%_]%s*$' then
+            value = ''
         end
     end
     return id, value, level
