@@ -120,6 +120,8 @@ local function copy_code(private, ability)
             end
         end
     end
+    -- AOac进行特殊处理
+    private['AOac'] = private['ACac']
 end
 
 local function read_list(self, metadata, extension)
