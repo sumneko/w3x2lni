@@ -55,6 +55,9 @@ function mt:read_obj(obj, skill, data)
         obj = {}
         obj['_origin_id'], obj['_user_id'] = skill, skill
     end
+    if data['code'] then
+        obj['_origin_id'] = data['code']
+    end
     local max_level
     if self.max_level_key then
         max_level = data[self.max_level_key]
