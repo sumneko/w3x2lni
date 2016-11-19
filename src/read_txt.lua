@@ -44,7 +44,7 @@ local function parse(txt, metadata, keys, line)
     if line:sub(1, 2) == '//' then
         return
     end
-    local chunk_name = line:match '%[(.-)%]'
+    local chunk_name = line:match '^[%c%s]*%[(.-)%][%c%s]*$'
     if chunk_name then
         current_chunk = chunk_name
         if not txt[chunk_name] then
