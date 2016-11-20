@@ -382,14 +382,18 @@ function mt:w3x2lni(files, paths)
         end
 
         add_table(data, template:save(metadata, key))
-
-        if self.on_lni then
-            data = self:on_lni(file_name, data)
+        if next(data) then
+            if not data['_版本'] then
+                data['_版本'] = 2
+            end
+            if self.on_lni then
+                data = self:on_lni(file_name, data)
+            end
+            local template = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
+            local content = self.w3x2txt:obj2lni(data, metadata, editstring, template)
+            local content = self.w3x2txt:convert_wts(content, wts)
+            save(paths['war3map.w3i']:parent_path() / (file_name .. '.ini'), content)
         end
-        local template = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
-        local content = self.w3x2txt:obj2lni(data, metadata, editstring, template)
-        local content = self.w3x2txt:convert_wts(content, wts)
-        save(paths['war3map.w3i']:parent_path() / (file_name .. '.ini'), content)
     end
 
     for name in pairs(delete) do
