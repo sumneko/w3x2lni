@@ -296,7 +296,7 @@ function mt:extract_files(map_path, output_dir)
 	return files, paths
 end
 
-function mt:w3x2lni(files, paths)
+function mt:w3x2lni(files, paths, output_dir)
 	--读取编辑器文本
 	local editstring
 	local ini = read_ini(self.dir['meta'] / 'WorldEditStrings.txt')
@@ -340,7 +340,7 @@ function mt:w3x2lni(files, paths)
             add_table(data, self.w3x2txt:read_obj(files[file_name], metadata))
             delete[file_name] = true
         end
-        
+
         if self.config['unpack']['read_slk'] then
             local template = create_template(file_name)
 
@@ -396,7 +396,7 @@ function mt:w3x2lni(files, paths)
             local template = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
             local content = self.w3x2txt:obj2lni(data, metadata, editstring, template)
             local content = self.w3x2txt:convert_wts(content, wts)
-            save(paths['war3map.w3i']:parent_path() / (file_name .. '.ini'), content)
+            save(output_dir / (file_name .. '.ini'), content)
         end
     end
 
@@ -449,7 +449,7 @@ function mt:unpack(output_dir)
 	map:close()
 	
 	local files, paths = self:extract_files(map_path, output_dir)
-	self:w3x2lni(files, paths)
+	self:w3x2lni(files, paths, output_dir)
 end
 
 function mt:save(map_path)
