@@ -22,15 +22,23 @@ function mt:add(format, ...)
     self.lines[#self.lines+1] = format:format(...)
 end
 
+function mt:format_string(value)
+    if value:match '[\n\r]' then
+        return ('[[\r\n%s\r\n]]'):format(value)
+    else
+        return ('%q'):format(value)
+    end
+end
+
 function mt:add_head(data)
     self:add('[地图]')
     self:add('文件版本 = %s', data.file_ver)
     self:add('地图版本 = %d', data.map_ver)
     self:add('编辑器版本 = %d', data.editor_ver)
-    self:add('地图名称 = %q', data.map_name)
-    self:add('作者名字 = %q', data.author)
-    self:add('地图描述 = %q', data.des)
-    self:add('推荐玩家 = %q', data.player_rec)
+    self:add('地图名称 = %s', self:format_string(data.map_name))
+    self:add('作者名字 = %s', self:format_string(data.author))
+    self:add('地图描述 = %s', self:format_string(data.des))
+    self:add('推荐玩家 = %s', self:format_string(data.player_rec))
 
     self:add ''
     self:add('[镜头]')
@@ -76,17 +84,17 @@ function mt:add_head(data)
     self:add ''
     self:add('[载入图]')
     self:add('序号 = %d', data.loading_screen_id)
-    self:add('路径 = %q', data.loading_screen_path)
-    self:add('文本 = %q', data.loading_screen_text)
-    self:add('标题 = %q', data.loading_screen_title)
-    self:add('子标题 = %q', data.loading_screen_subtitle)
+    self:add('路径 = %s', self:format_string(data.loading_screen_path))
+    self:add('文本 = %s', self:format_string(data.loading_screen_text))
+    self:add('标题 = %s', self:format_string(data.loading_screen_title))
+    self:add('子标题 = %s', self:format_string(data.loading_screen_subtitle))
 
     self:add ''
     self:add('[战役]')
-    self:add('路径 = %q', data.prologue_screen_path)
-    self:add('文本 = %q', data.prologue_screen_text)
-    self:add('标题 = %q', data.prologue_screen_title)
-    self:add('子标题 = %q', data.prologue_screen_subtitle)
+    self:add('路径 = %s', self:format_string(data.prologue_screen_path))
+    self:add('文本 = %s', self:format_string(data.prologue_screen_text))
+    self:add('标题 = %s', self:format_string(data.prologue_screen_title))
+    self:add('子标题 = %s', self:format_string(data.prologue_screen_subtitle))
 
     self:add ''
     self:add('[迷雾]')
@@ -98,9 +106,9 @@ function mt:add_head(data)
 
     self:add ''
     self:add('[环境]')
-    self:add('天气 = %q', data.weather_id)
-    self:add('音效 = %q', data.sound_environment)
-    self:add('光照 = %q', data.light_environment)
+    self:add('天气 = %s', self:format_string(data.weather_id))
+    self:add('音效 = %s', self:format_string(data.sound_environment))
+    self:add('光照 = %s', self:format_string(data.light_environment))
 
     --水面颜色
     self:add('水面颜色 = {%d, %d, %d, %d}', data.water_red, data.water_green, data.water_blue, data.water_alpha)
@@ -120,7 +128,7 @@ function mt:add_player(data)
         self:add('类型 = %d', player.type)
         self:add('种族 = %d', player.race)
         self:add('修正出生点 = %d', player.start_position)
-        self:add('名字 = %q', player.name)
+        self:add('名字 = %s', self:format_string(player.name))
         --出生点
         self:add('出生点 = {%.4f, %.4f}', player.start_x, player.start_y)
         self:add('低结盟优先权标记 = {%s}', table_concat(unpack_flag(player.ally_low_flag), ', '))
@@ -143,7 +151,7 @@ function mt:add_force(data)
 		self:add('共享高级单位设置 = %d', force.force_flag >> 4 & 1)
 
 		self:add('玩家列表 = {%s}', table_concat(unpack_flag(force.player_flag), ', '))
-		self:add('队伍名称 = %q', force.name)
+		self:add('队伍名称 = %s', self:format_string(force.name))
 	end
 end
 
@@ -180,7 +188,7 @@ function mt:add_randomgroup(data)
     for i, group in ipairs(data.groups) do
         self:add ''
         self:add('[随机组%d]', i)
-		self:add('随机组名称 = %q', group.name)
+		self:add('随机组名称 = %s', self:format_string(group.name))
         self:add('位置类型 = {%s}', table_concat(group.positions, ', '))
         
         self:add('设置 = {')
@@ -205,7 +213,7 @@ function mt:add_randomitem(data)
     for i, random_item in ipairs(data.random_items) do
         self:add ''
         self:add('[物品列表%d]', i)
-		self:add('物品列表名称 = %q', random_item.name)
+		self:add('物品列表名称 = %s', self:format_string(random_item.name))
 
         self:add('设置 = {')
 		for i, set in ipairs(random_item.sets) do
