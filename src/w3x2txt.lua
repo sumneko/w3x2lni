@@ -19,7 +19,7 @@ function mt:convert_wts(content, wts, only_short, read_only)
 		end
 		str_data.converted = not read_only
 		if text:match '[\n\r]' then
-			return ('[[\r\n%s]]'):format(text)
+			return ('[=[\r\n%s]=]'):format(value)
 		else
 			return ('%q'):format(text)
 		end

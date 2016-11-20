@@ -23,7 +23,7 @@ function mt:format_value(value)
 	else
 		value = self:get_editstring(value)
 		if value:match '[\n\r]' then
-			return ('[[\r\n%s]]'):format(value)
+			return ('[=[\r\n%s]=]'):format(value)
 		else
 			return ('%q'):format(value)
 		end

@@ -24,7 +24,7 @@ end
 
 function mt:format_string(value)
     if value:match '[\n\r]' then
-        return ('[[\r\n%s]]'):format(value)
+        return ('[=[\r\n%s]=]'):format(value)
     else
         return ('%q'):format(value)
     end
