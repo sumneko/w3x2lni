@@ -1,3 +1,4 @@
+local key_type = require 'key_type'
 local table_insert = table.insert
 local table_unpack = table.unpack
 local type = type
@@ -31,26 +32,6 @@ function mt:add_txt(txt)
         end
     end
 end
-
-local key_type = {
-	int            = 0,
-	bool           = 0,
-	deathType      = 0,
-	attackBits     = 0,
-	teamColor      = 0,
-	fullFlags      = 0,
-	channelType    = 0,
-	channelFlags   = 0,
-	stackFlags     = 0,
-	silenceFlags   = 0,
-	spellDetail    = 0,
-	detectionType  = 0,
-	defenseTypeInt = 0,
-	pickFlags      = 0,
-	morphFlags     = 0,
-	real           = 1,
-	unreal         = 2,
-}
 
 function mt:get_key_type(key)
     local meta = self.meta
