@@ -80,6 +80,8 @@ local key_type = {
 	spellDetail    = 0,
 	detectionType  = 0,
 	defenseTypeInt = 0,
+	pickFlags      = 0,
+	morphFlags     = 0,
 	real           = 1,
 	unreal         = 2,
 }
