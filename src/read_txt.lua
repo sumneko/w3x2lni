@@ -3,19 +3,21 @@ local tonumber = tonumber
 local current_chunk
 
 local key_type = {
-	int			= 0,
-	bool		= 0,
-	deathType	= 0,
-	attackBits	= 0,
-	teamColor	= 0,
-	fullFlags	= 0,
-	channelType	= 0,
-	channelFlags= 0,
-	stackFlags	= 0,
-	silenceFlags= 0,
-	spellDetail	= 0,
-	real		= 1,
-	unreal		= 2,
+	int            = 0,
+	bool           = 0,
+	deathType      = 0,
+	attackBits     = 0,
+	teamColor      = 0,
+	fullFlags      = 0,
+	channelType    = 0,
+	channelFlags   = 0,
+	stackFlags     = 0,
+	silenceFlags   = 0,
+	spellDetail    = 0,
+	detectionType  = 0,
+	defenseTypeInt = 0,
+	real           = 1,
+	unreal         = 2,
 }
 
 local function key2id(keys, skill, key)

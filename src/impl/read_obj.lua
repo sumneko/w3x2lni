@@ -53,6 +53,24 @@ function mt:read_obj()
 	return obj['_user_id'], obj
 end
 
+local key_type = {
+	int            = 0,
+	bool           = 0,
+	deathType      = 0,
+	attackBits     = 0,
+	teamColor      = 0,
+	fullFlags      = 0,
+	channelType    = 0,
+	channelFlags   = 0,
+	stackFlags     = 0,
+	silenceFlags   = 0,
+	spellDetail    = 0,
+	detectionType  = 0,
+	defenseTypeInt = 0,
+	real           = 1,
+	unreal         = 2,
+}
+
 local pack_format = {
 	[0] = 'l',
 	[1] = 'f',
@@ -60,12 +78,23 @@ local pack_format = {
 	[3] = 'z',
 }
 
+function mt:get_key_type(key)
+    local meta = self.meta
+    local type = meta[key]['type']
+    local format = key_type[type] or 3
+    return format
+end
+
 function mt:read_data()
 	local data = {}
 	local name = self:unpack 'c4' :match '^[^\0]+'
 	local value_type = self:unpack 'l'
 	local value_format = pack_format[value_type]
 	local level
+
+	if value_type ~= self:get_key_type(name) then
+		print(('数据类型错误:[%s],应该为[%s],错误的解析为了[%s]'):format(name, value_type, self:get_key_type(name)))
+	end
 
 	--是否包含等级信息
 	if self.has_level then
