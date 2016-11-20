@@ -340,48 +340,52 @@ function mt:w3x2lni(files, paths)
             add_table(data, self.w3x2txt:read_obj(files[file_name], metadata))
             delete[file_name] = true
         end
-        local template = create_template(file_name)
+        
+        if self.config['unpack']['read_slk'] then
+            local template = create_template(file_name)
 
-        template:set_option('discard_useless_data', false)
-        template:set_option('max_level_key', self.config['key']['max_level'][file_name])
+            template:set_option('discard_useless_data', false)
+            template:set_option('max_level_key', self.config['key']['max_level'][file_name])
 
-        local slk = self.config['template']['slk'][file_name]
-        if type(slk) == 'table' then
-            for i = 1, #slk do
-                local name = 'units\\' .. slk[i]
+            local slk = self.config['template']['slk'][file_name]
+            if type(slk) == 'table' then
+                for i = 1, #slk do
+                    local name = 'units\\' .. slk[i]
+                    if files[name] then
+                        template:add_slk(read_slk(files[name]))
+                        delete[name] = true
+                    end
+                end
+            else
+                local name = 'units\\' .. slk
                 if files[name] then
                     template:add_slk(read_slk(files[name]))
                     delete[name] = true
                 end
             end
-        else
-            local name = 'units\\' .. slk
-            if files[name] then
-                template:add_slk(read_slk(files[name]))
-                delete[name] = true
-            end
-        end
 
-        local key = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
+            local key = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
 
-        local txt = self.config['template']['txt'][file_name]
-        if type(txt) == 'table' then
-            for i = 1, #txt do
-                local name = 'units\\' .. txt[i]
+            local txt = self.config['template']['txt'][file_name]
+            if type(txt) == 'table' then
+                for i = 1, #txt do
+                    local name = 'units\\' .. txt[i]
+                    if files[name] then
+                        template:add_txt(read_txt(files[name], metadata, key))
+                        delete[name] = true
+                    end
+                end
+            elseif txt then
+                local name = 'units\\' .. txt
                 if files[name] then
                     template:add_txt(read_txt(files[name], metadata, key))
                     delete[name] = true
                 end
             end
-        elseif txt then
-            local name = 'units\\' .. txt
-            if files[name] then
-                template:add_txt(read_txt(files[name], metadata, key))
-                delete[name] = true
-            end
+
+            add_table(data, template:save(metadata, key))
         end
 
-        add_table(data, template:save(metadata, key))
         if next(data) then
             if not data['_版本'] then
                 data['_版本'] = 2
