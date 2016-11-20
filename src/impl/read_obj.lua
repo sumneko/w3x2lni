@@ -76,8 +76,9 @@ function mt:read_data()
 	local value_format = pack_format[value_type]
 	local level
 
-	if value_type ~= self:get_key_type(name) then
-		print(('数据类型错误:[%s],应该为[%s],错误的解析为了[%s]'):format(name, value_type, self:get_key_type(name)))
+	local check_type = self:get_key_type(name)
+	if value_type ~= check_type and (value_type == 3 or check_type == 3) then
+		print(('数据类型错误:[%s],应该为[%s],错误的解析为了[%s]'):format(name, value_type, check_type))
 	end
 
 	--是否包含等级信息
