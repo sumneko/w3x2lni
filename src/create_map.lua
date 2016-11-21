@@ -160,9 +160,7 @@ function mt:lni2w3x(name, file)
 end
 
 function mt:import_files(map, listfile, files, dirs)
-    if files['war3map.wts'] then
-		self.wts = self.w3x2txt:read_wts(files['war3map.wts'])
-	end
+	self.wts = self.w3x2txt:read_wts(files['war3map.wts'] or '')
 	local clock = os.clock()
 	local success, failed = 0, 0
 	for i = 1, #listfile do
@@ -196,10 +194,8 @@ function mt:import_files(map, listfile, files, dirs)
     else
 	    print('导入完毕', '成功:', success, '失败:', failed)
     end
-    if self.wts then
-        local content = self.wts:refresh()
-        map:save_file('war3map.wts', content)
-    end
+    local content = self.wts:refresh()
+    map:save_file('war3map.wts', content)
     if not files['war3mapunits.doo'] then
         map:save_file('war3mapunits.doo', self.w3x2txt:create_unitsdoo())
     end
