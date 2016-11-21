@@ -180,10 +180,6 @@ function mt:count_max_level(data)
 	end
 end
 
-function mt:convert_wts(content)
-	return self.self:convert_wts(content)
-end
-
 return function (self, data, meta, editstring, template)
 	local tbl = setmetatable({}, mt)
 	tbl.lines = {}

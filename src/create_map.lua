@@ -395,7 +395,7 @@ function mt:w3x2lni(files, paths, output_dir)
             end
             local template = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
             local content = self.w3x2txt:obj2lni(data, metadata, editstring, template)
-            local content = self.w3x2txt:convert_wts(content, wts)
+            local content = wts:load(content)
             save(output_dir / (file_name .. '.ini'), content)
         end
     end
@@ -412,7 +412,7 @@ function mt:w3x2lni(files, paths, output_dir)
                 data = self:on_lni(name, data)
             end
 			local content = self.w3x2txt:w3i2lni(data)
-			local content = self.w3x2txt:convert_wts(content, wts, false, true)
+			local content = wts:load(content, false, true)
 			save(paths['war3map.w3i']:parent_path() / 'war3map.w3i.ini', content)
 		elseif name == 'war3map.wts' then
 		else

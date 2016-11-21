@@ -4,28 +4,6 @@ local lni = require 'lni'
 
 local mt = {}
 
-function mt:convert_wts(content, wts, only_short, read_only)
-	if not wts then
-		return content
-	end
-	return content:gsub([=[['"]TRIGSTR_(%d+)['"]]=], function(i)
-		local str_data = wts[i]
-		if not str_data then
-			return
-		end
-		local text = str_data.text
-		if only_short and #text > 256 then
-			return
-		end
-		str_data.converted = not read_only
-		if text:match '[\n\r]' then
-			return ('[=[\r\n%s]=]'):format(text)
-		else
-			return ('%q'):format(text)
-		end
-	end)
-end
-
 mt.dir = {}
 function mt:set_dir(name, dir)
 	self.dir[name] = dir
