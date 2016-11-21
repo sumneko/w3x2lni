@@ -49,6 +49,7 @@ local function main()
 		'w3i2lni', 'lni2w3i',
 		'read_obj',
 		'read_w3i',
+		'create_unitsdoo',
 		'key2id',
 	}
 	

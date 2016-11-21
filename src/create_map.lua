@@ -198,9 +198,10 @@ function mt:import_files(map, listfile, files, dirs)
     end
     if self.wts then
         local content = self.wts:refresh()
-		if not map:save_file('war3map.wts', content) then
-            print('wts更新失败')
-        end
+        map:save_file('war3map.wts', content)
+    end
+    if not files['war3mapunits.doo'] then
+        map:save_file('war3mapunits.doo', self.w3x2txt:create_unitsdoo())
     end
 end
 
