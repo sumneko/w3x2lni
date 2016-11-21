@@ -71,14 +71,19 @@ function mt:read_obj(obj, skill, data)
         max_level = data[self.max_level_key]
     end
     for name, value in pairs(data) do
-        self:pack_data(obj, max_level, self:read_slk_data(skill, name, value))
+        local name, value, level = self:read_slk_data(skill, name, value)
+        if name then
+            self:pack_data(obj, max_level, name, value, level)
+        end
     end
     local txt = self.txt[skill]
     if txt then
         for name, value in pairs(txt) do
             local data = self:read_txt_data(skill, name, value, max_level, txt)
-            for i = 1, #data do
-                self:pack_data(obj, max_level, table_unpack(data[i]))
+            if data then
+                for i = 1, #data do
+                    self:pack_data(obj, max_level, table_unpack(data[i]))
+                end
             end
         end
     end
@@ -86,9 +91,6 @@ function mt:read_obj(obj, skill, data)
 end
 
 function mt:pack_data(obj, max_level, name, value, level)
-    if not name then
-        return
-    end
     if not obj[name] then
         obj[name] = {
             ['name']      = name,
@@ -104,25 +106,13 @@ function mt:pack_data(obj, max_level, name, value, level)
     obj[name][level] = value
 end
 
-function mt:read_slk_data(skill, name, value)
-    local data = {}
-    if type(name) ~= 'string' then
-        return nil
-    end
-    local level = tonumber(name:sub(-1))
-    if level then
-        name = name:sub(1, -2)
-    end
-    local id = self:key2id(skill, name)
-    if not id then
-        return
-    end
+function mt:to_type(id, value)
     local tp = self:get_key_type(id)
     if type(value) == 'string' then
         if tp == 0 then
-            value = 0
+            value = math.tointeger(value) or 0
         elseif tp == 1 or tp == 2 then
-            value = 0.0
+            value = tonumber(value) or 0.0
         elseif value:match '^%s*[%-%_]%s*$' then
             value = ''
         end
@@ -135,7 +125,50 @@ function mt:read_slk_data(skill, name, value)
             value = tostring(value)
         end
     end
-    return id, value, level
+    return value
+end
+
+function mt:read_slk_data(skill, name, value)
+    local data = {}
+    if type(name) ~= 'string' then
+        return nil
+    end
+    local level = tonumber(name:sub(-1))
+    if level then
+        name = name:sub(1, -2)
+    end
+    local id = self:key2id(skill, name)
+    if not id then
+        return nil
+    end
+    return id, self:to_type(id, value), level
+end
+
+-- 规则如下
+-- 1.如果当前字符为引号,则匹配到下一个引号,并忽略2端的引号
+-- 2.如果当前字符为逗号,则忽略当前字符
+-- 3.否则匹配到下一个逗号或引号前的一个字符
+local function splite(str)
+    local tbl = {}
+    local cur = 1
+    while cur <= #str do
+        if str:sub(cur, cur) == '"' then
+            local pos = str:find('"', cur+1, true) or (#str+1)
+            tbl[#tbl+1] = str:sub(cur+1, pos-1)
+            cur = pos+1
+        elseif str:sub(cur, cur) == ',' then
+            cur = cur+1
+        else
+            local pos = str:find('[",]', cur+1) or (#str+1)
+            tbl[#tbl+1] = str:sub(cur, pos-1)
+            cur = pos
+        end
+    end
+    if #tbl > 1 then
+        return tbl
+    else
+        return tbl[1]
+    end
 end
 
 function mt:read_txt_data(skill, name, value, max_level, txt)
@@ -153,14 +186,14 @@ function mt:read_txt_data(skill, name, value, max_level, txt)
         end
     end
     if not id then
-        if type(value) == 'string' and value:find ',' then
+        local value = splite(value)
+        if type(value) == 'table' then
             local id = self:key2id(skill, name .. ':1')
             if id then
                 local tbl = {}
-                for value in value:gmatch '[^,]+' do
-                    local count = #tbl+1
+                for count = 1, #value do
                     local id = self:key2id(skill, name .. ':' .. count)
-                    tbl[count] = {id, tonumber(value) or value, level}
+                    tbl[count] = {id, self:to_type(id, value[count]), level}
                 end
                 return tbl
             end
@@ -181,8 +214,12 @@ function mt:read_txt_data(skill, name, value, max_level, txt)
             end
             return tbl
         end
+        return nil
     end
-    return {{id, value, level}}
+    if value:sub(1, 1) == '"' and value:sub(-1, -1) == '"' then
+        value = value:sub(2, -2)
+    end
+    return {{id, self:to_type(id, value), level}}
 end
 
 function mt:save(meta, key)
