@@ -13,14 +13,21 @@ local read_metadata = require 'read_metadata'
 local read_ini = require 'read_ini'
 local read_txt = require 'read_txt'
 local create_template = require 'create_template'
+local create_key_type = require 'create_key_type'
 
 local rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename():remove_filename()
 local meta_dir = rootpath / 'src' / 'meta'
 local key_dir = rootpath / 'src' / 'key'
+local root_dir = rootpath / 'src'
 local template_dir = rootpath / 'template'
 
 local function main()
 	w3x2txt:init()
+
+	-- 生成key_type
+	local keydata = read_txt(io.load(meta_dir / 'uniteditordata.txt'))
+	local content = create_key_type(keydata)
+	io.save(root_dir / 'key_type.lua', content)
 
 	-- 生成key2id
     for file_name, meta in pairs(w3x2txt.config['metadata']) do
