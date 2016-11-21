@@ -44,7 +44,7 @@ end
 local function main()
 	-- 加载脚本
 	local convertors = {
-		'read_wts', 'fresh_wts',
+		'read_wts',
 		'obj2lni', 'lni2obj',
 		'w3i2lni', 'lni2w3i',
 		'read_obj',

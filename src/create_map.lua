@@ -131,6 +131,9 @@ function mt:lni2w3x(name, file)
         if self.on_lni then
             data = self:on_lni(new_name, data)
         end
+        if self.wts then
+            self.wts:save(data)
+        end
 		local key = lni:loader(io.load(self.dir['key'] / name), name)
 		local metadata = read_metadata(self.dir['meta'] / self.config['metadata'][new_name])
 		local template = lni:loader(io.load(self.dir['template'] / name), new_name)
@@ -143,6 +146,9 @@ function mt:lni2w3x(name, file)
         if self.on_lni then
             data = self:on_lni(new_name, data)
         end
+        if self.wts then
+            self.wts:save(data)
+        end
 		local content = self.w3x2txt:lni2w3i(data)
 		return new_name, content
 	elseif name == 'war3map.w3i' then
@@ -154,6 +160,9 @@ function mt:lni2w3x(name, file)
 end
 
 function mt:import_files(map, listfile, files, dirs)
+    if files['war3map.wts'] then
+		self.wts = self.w3x2txt:read_wts(files['war3map.wts'])
+	end
 	local clock = os.clock()
 	local success, failed = 0, 0
 	for i = 1, #listfile do
@@ -186,6 +195,12 @@ function mt:import_files(map, listfile, files, dirs)
         print('导入完毕', '成功:', success)
     else
 	    print('导入完毕', '成功:', success, '失败:', failed)
+    end
+    if self.wts then
+        local content = self.wts:refresh()
+		if not map:save_file('war3map.wts', content) then
+            print('wts更新失败')
+        end
     end
 end
 
@@ -428,7 +443,7 @@ function mt:w3x2lni(files, paths, output_dir)
 
 	--刷新字符串
 	if wts then
-		local content = self.w3x2txt:fresh_wts(wts)
+		local content = wts:refresh()
 		io.save(paths['war3map.wts'], content)
 	end
 end
