@@ -79,10 +79,10 @@ function mt:read_obj(obj, skill, data)
     local txt = self.txt[skill]
     if txt then
         for name, value in pairs(txt) do
-            local data = self:read_txt_data(skill, name, value, max_level, txt)
-            if data then
-                for i = 1, #data do
-                    self:pack_data(obj, max_level, table_unpack(data[i]))
+            local datas = self:read_txt_data(skill, name, value, max_level, txt)
+            if datas then
+                for i, data in pairs(datas) do
+                    self:pack_data(obj, max_level, table_unpack(data))
                 end
             end
         end
@@ -172,10 +172,10 @@ local function splite(str)
 end
 
 function mt:read_txt_data(skill, name, value, max_level, txt)
-    local data = {}
-    if type(name) ~= 'string' then
+    if not value then
         return nil
     end
+    local data = {}
     local id = self:key2id(skill, name)
     local level
     if not id and max_level then
@@ -210,7 +210,10 @@ function mt:read_txt_data(skill, name, value, max_level, txt)
                 end
                 value = txt[old_name]
                 txt[old_name] = nil
-                tbl[i] = self:read_txt_data(skill, name..i, value, max_level, txt)[1]
+                local data = self:read_txt_data(skill, name..i, value, max_level, txt)
+                if data then
+                    tbl[i] = data[1]
+                end
             end
             return tbl
         end
