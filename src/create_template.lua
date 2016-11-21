@@ -219,8 +219,21 @@ function mt:read_txt_data(skill, name, value, max_level, txt)
         end
         return nil
     end
-    if value:sub(1, 1) == '"' and value:sub(-1, -1) == '"' then
-        value = value:sub(2, -2)
+
+    local meta = self.meta[id]
+    if meta['repeat'] and meta['repeat'] > 0 then
+        value = splite(value)
+        if type(value) == 'table' then
+            local tbl = {}
+            for count = 1, #value do
+                tbl[count] = {id, self:to_type(id, value[count]), count}
+            end
+            return tbl
+        end
+    else
+        if value:sub(1, 1) == '"' and value:sub(-1, -1) == '"' then
+            value = value:sub(2, -2)
+        end
     end
     return {{id, self:to_type(id, value), level}}
 end
