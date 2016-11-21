@@ -383,14 +383,14 @@ function mt:w3x2lni(files, paths, output_dir)
                 for i = 1, #txt do
                     local name = 'units\\' .. txt[i]
                     if files[name] then
-                        template:add_txt(read_txt(files[name], metadata, key))
+                        template:add_txt(read_txt(files[name]))
                         delete[name] = true
                     end
                 end
             elseif txt then
                 local name = 'units\\' .. txt
                 if files[name] then
-                    template:add_txt(read_txt(files[name], metadata, key))
+                    template:add_txt(read_txt(files[name]))
                     delete[name] = true
                 end
             end

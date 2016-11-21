@@ -61,10 +61,10 @@ local function main()
 		local txt = w3x2txt.config['template']['txt'][file_name]
 		if type(txt) == 'table' then
 			for i = 1, #txt do
-				template:add_txt(read_txt(io.load(meta_dir / txt[i]), metadata, key))
+				template:add_txt(read_txt(io.load(meta_dir / txt[i])))
 			end
 		elseif txt then
-			template:add_txt(read_txt(io.load(meta_dir / txt), metadata, key))
+			template:add_txt(read_txt(io.load(meta_dir / txt)))
 		end
 
 		local data = template:save(metadata, key)
