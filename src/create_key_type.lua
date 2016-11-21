@@ -28,8 +28,6 @@ end
 return function(txt)
     local lines = {}
 
-    lines[#lines+1] = 'return'
-    lines[#lines+1] = '{'
     lines[#lines+1] = ('    %s = %s,'):format('int', 0)
     lines[#lines+1] = ('    %s = %s,'):format('bool', 0)
     lines[#lines+1] = ('    %s = %s,'):format('real', 1)
@@ -46,8 +44,8 @@ return function(txt)
         end
         lines[#lines+1] = ('    %s = %s,'):format(key, tp)
     end
-    
-    lines[#lines+1] = '}'
 
-    return table.concat(lines, '\r\n')
+    table.sort(lines)
+
+    return ('return\r\n{\r\n%s\r\n}\r\n'):format(table.concat(lines, '\r\n'))
 end
