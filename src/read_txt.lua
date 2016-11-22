@@ -21,7 +21,7 @@ local function parse(txt, line)
         return
     end
     line = line:gsub('%c+', '')
-    local key, value = line:match '^%s*(.-)%s*%=%s*(.-)%s*$'
+    local key, value = line:match '^(.*)%=(.-)%s*$'
     if key and value then
         txt[current_chunk][key] = value
         return
