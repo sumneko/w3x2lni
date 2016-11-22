@@ -94,6 +94,7 @@ function mt:pack_data(obj, max_level, name, value, level)
     if not obj[name] then
         obj[name] = {
             ['name']      = name,
+            [1]           = self:to_type(name),
         }
     end
     if not level then
