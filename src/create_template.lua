@@ -226,6 +226,11 @@ function mt:read_txt_data(skill, name, value, max_level, txt)
             end
             return tbl
         end
+    elseif name == 'Art' then
+        value = splite(value)
+        if type(value) == 'table' then
+            value = value[1]
+        end
     else
         if value:sub(1, 1) == '"' and value:sub(-1, -1) == '"' then
             value = value:sub(2, -2)
