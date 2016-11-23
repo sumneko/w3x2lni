@@ -9,12 +9,6 @@ local ipairs = ipairs
 local mt = {}
 mt.__index = mt
 
-function mt:set_option(option, value)
-    if option == 'max_level_key' then
-        self.max_level_key = value
-    end
-end
-
 function mt:add_slk(slk)
     table_insert(self.slk, slk)
 end
@@ -64,23 +58,19 @@ function mt:read_obj(obj, skill, data)
     if data['code'] then
         obj['_origin_id'] = data['code']
     end
-    local max_level
-    if self.max_level_key then
-        max_level = data[self.max_level_key]
-    end
     for name, value in pairs(data) do
         local name, value, level = self:read_slk_data(skill, name, value)
         if name then
-            self:pack_data(obj, max_level, name, value, level)
+            self:pack_data(obj, name, value, level)
         end
     end
     local txt = self.txt[skill]
     if txt then
         for name, value in pairs(txt) do
-            local datas = self:read_txt_data(skill, name, value, max_level, txt)
+            local datas = self:read_txt_data(skill, name, value, txt)
             if datas then
                 for i, data in pairs(datas) do
-                    self:pack_data(obj, max_level, table_unpack(data))
+                    self:pack_data(obj, table_unpack(data))
                 end
             end
         end
@@ -88,7 +78,7 @@ function mt:read_obj(obj, skill, data)
     return obj
 end
 
-function mt:pack_data(obj, max_level, name, value, level)
+function mt:pack_data(obj, name, value, level)
     if not obj[name] then
         obj[name] = {
             ['name']      = name,
@@ -97,9 +87,6 @@ function mt:pack_data(obj, max_level, name, value, level)
     end
     if not level then
         obj[name][1] = value
-        return
-    end
-    if max_level and level > 1 and max_level < level then
         return
     end
     obj[name][level] = value
@@ -186,14 +173,14 @@ local function splite(str)
     end
 end
 
-function mt:read_txt_data(skill, name, value, max_level, txt)
+function mt:read_txt_data(skill, name, value, txt)
     if not value then
         return nil
     end
     local data = {}
     local id = self:key2id(skill, name)
     local level
-    if not id and max_level then
+    if not id then
         level = tonumber(name:sub(-1))
         if level then
             name = name:sub(1, -2)
@@ -225,7 +212,7 @@ function mt:read_txt_data(skill, name, value, max_level, txt)
                 end
                 value = txt[old_name]
                 txt[old_name] = nil
-                local data = self:read_txt_data(skill, name..i, value, max_level, txt)
+                local data = self:read_txt_data(skill, name..i, value, txt)
                 if data then
                     tbl[i] = data[1]
                 end
