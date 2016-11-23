@@ -209,7 +209,7 @@ function mt:add_template_data(uid, id, name, data)
 				all_same = false
 			end
 		end
-		if all_same and data[i] == temp_data then
+		if all_same and data['_slk'] and data['_slk'][i] and data[i] == temp_data then
 			data[i] = nil
 			data._max_level = i - 1
 		end

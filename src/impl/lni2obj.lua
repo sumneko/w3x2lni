@@ -32,13 +32,13 @@ function mt:sort_chunk(data)
     return origin, user
 end
 
-function mt:key2id(skill, nid, key)
+function mt:key2id(code, skill, key)
     local key = key:lower()
-    local id = self.key[skill] and self.key[skill][key] or self.key[nid] and self.key[nid][key] or self.key['public'][key]
+    local id = self.key[code] and self.key[code][key] or self.key[skill] and self.key[skill][key] or self.key['public'][key]
     if id then
         return id
     end
-    print(('警告: 技能[%s](模板为[%s])并不支持数据项[%s]'):format(nid, skill, key))
+    print(('警告: 技能[%s](模板为[%s])并不支持数据项[%s]'):format(skill, code, key))
     return nil
 end
 

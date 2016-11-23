@@ -32,9 +32,9 @@ function mt:get_key_type(key)
     return format
 end
 
-function mt:key2id(skill, key)
+function mt:key2id(code, skill, key)
     local key = key:lower()
-    local id = self.key[skill] and self.key[skill][key] or self.key['public'][key]
+    local id = self.key[code] and self.key[code][key] or self.key[skill] and self.key[skill][key] or self.key['public'][key]
     if id then
         return id
     end
@@ -59,7 +59,7 @@ function mt:read_obj(obj, skill, data)
         obj['_origin_id'] = data['code']
     end
     for name, value in pairs(data) do
-        local name, value, level = self:read_slk_data(skill, name, value)
+        local name, value, level = self:read_slk_data(skill, obj['_origin_id'], name, value)
         if name then
             self:pack_data(obj, name, value, level)
         end
@@ -67,7 +67,7 @@ function mt:read_obj(obj, skill, data)
     local txt = self.txt[skill]
     if txt then
         for name, value in pairs(txt) do
-            local datas = self:read_txt_data(skill, name, value, txt)
+            local datas = self:read_txt_data(skill, obj['_origin_id'], name, value, txt)
             if datas then
                 for i, data in pairs(datas) do
                     self:pack_data(obj, table_unpack(data))
@@ -82,15 +82,17 @@ function mt:pack_data(obj, name, value, level)
     if not obj[name] then
         obj[name] = {
             ['name']      = name,
-            ['slk']       = true,
+            ['_slk']      = {[1] = true},
             [1]           = self:to_type(name),
         }
     end
     if not level then
         obj[name][1] = value
+        obj[name]['_slk'][1] = true
         return
     end
     obj[name][level] = value
+    obj[name]['_slk'][level] = true
 end
 
 function mt:to_type(id, value)
@@ -116,7 +118,7 @@ function mt:to_type(id, value)
     return value
 end
 
-function mt:read_slk_data(skill, name, value)
+function mt:read_slk_data(skill, code, name, value)
     local data = {}
     if type(name) ~= 'string' then
         return nil
@@ -125,7 +127,10 @@ function mt:read_slk_data(skill, name, value)
     if level then
         name = name:sub(1, -2)
     end
-    local id = self:key2id(skill, name)
+    local id = self:key2id(code, skill, name)
+    if skill == 'YDa7' then
+        print(skill, name, id, level, value)
+    end
     if not id then
         return nil
     end
@@ -174,34 +179,34 @@ local function splite(str)
     end
 end
 
-function mt:read_txt_data(skill, name, value, txt)
+function mt:read_txt_data(skill, code, name, value, txt)
     if not value then
         return nil
     end
     local data = {}
-    local id = self:key2id(skill, name)
+    local id = self:key2id(code, skill, name)
     local level
     if not id then
         level = tonumber(name:sub(-1))
         if level then
             name = name:sub(1, -2)
-            id = self:key2id(skill, name)
+            id = self:key2id(code, skill, name)
         end
     end
     if not id then
         local value = splite(value)
         if type(value) == 'table' then
-            local id = self:key2id(skill, name .. ':1')
+            local id = self:key2id(code, skill, name .. ':1')
             if id then
                 local tbl = {}
                 for count = 1, #value do
-                    local id = self:key2id(skill, name .. ':' .. count)
+                    local id = self:key2id(code, skill, name .. ':' .. count)
                     tbl[count] = {id, self:to_type(id, value[count]), level}
                 end
                 return tbl
             end
         end
-        if name:sub(-5) == 'count' and self:key2id(skill, name:sub(1, -6)) then
+        if name:sub(-5) == 'count' and self:key2id(code, skill, name:sub(1, -6)) then
             local name = name:sub(1, -6)
             local tbl = {}
             for i = 1, value do
@@ -213,7 +218,7 @@ function mt:read_txt_data(skill, name, value, txt)
                 end
                 value = txt[old_name]
                 txt[old_name] = nil
-                local data = self:read_txt_data(skill, name..i, value, txt)
+                local data = self:read_txt_data(skill, code, name..i, value, txt)
                 if data then
                     tbl[i] = data[1]
                 end
