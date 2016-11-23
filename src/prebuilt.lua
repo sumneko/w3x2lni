@@ -48,8 +48,7 @@ local function main()
 	for file_name, meta in pairs(w3x2txt.config['metadata']) do
 		print('正在生成模板', file_name)
 		local template = create_template(file_name)
-
-		template:set_option('discard_useless_data', true)
+		
 		template:set_option('max_level_key', w3x2txt.config['key']['max_level'][file_name])
 
 		local slk = w3x2txt.config['template']['slk'][file_name]

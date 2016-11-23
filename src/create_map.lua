@@ -353,8 +353,7 @@ function mt:w3x2lni(files, paths, output_dir)
 
         if self.config['unpack']['read_slk'] then
             local template = create_template(file_name)
-
-            template:set_option('discard_useless_data', false)
+            
             template:set_option('max_level_key', self.config['key']['max_level'][file_name])
 
             local slk = self.config['template']['slk'][file_name]

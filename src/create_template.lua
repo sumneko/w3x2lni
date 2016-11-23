@@ -10,9 +10,7 @@ local mt = {}
 mt.__index = mt
 
 function mt:set_option(option, value)
-    if option == 'discard_useless_data' then
-        self.discard_useless_data = value
-    elseif option == 'max_level_key' then
+    if option == 'max_level_key' then
         self.max_level_key = value
     end
 end
@@ -101,7 +99,7 @@ function mt:pack_data(obj, max_level, name, value, level)
         obj[name][1] = value
         return
     end
-    if self.discard_useless_data and level > 1 and max_level < level then
+    if max_level and level > 1 and max_level < level then
         return
     end
     obj[name][level] = value
