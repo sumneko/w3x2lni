@@ -187,9 +187,10 @@ function mt:add_template_data(uid, id, name, data)
 	if not template then
 		template = {}
 	end
-	local all_same = not not self.template
+	local all_same = true
 	for i = data._max_level, 1, -1 do
 		local temp_data
+		local has_temp = true
 		if type(template[name]) == 'table' then
 			if template[name][i] then
 				temp_data = template[name][i]
@@ -201,6 +202,7 @@ function mt:add_template_data(uid, id, name, data)
 		end
 		if not temp_data then
 			temp_data = self:to_type(data['_c4id'])
+			has_temp = false
 		end
 		if data[i] == nil then
 			data[i] = temp_data
@@ -209,9 +211,14 @@ function mt:add_template_data(uid, id, name, data)
 				all_same = false
 			end
 		end
-		if all_same and data['_slk'] and data['_slk'][i] and data[i] == temp_data then
-			data[i] = nil
-			data._max_level = i - 1
+		if all_same and data['_slk'] and data['_slk'][i] then
+			if has_temp or i > 1 then
+				data[i] = nil
+				data._max_level = i - 1
+			end
+			if not has_temp and i == 1 then
+				all_same = false
+			end
 		end
 	end
 	return all_same

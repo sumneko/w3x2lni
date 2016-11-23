@@ -98,21 +98,13 @@ end
 function mt:to_type(id, value)
     local tp = self:get_key_type(id)
     if tp == 0 then
-        value = tonumber(value)
-        if value then
-            value = math.floor(value)
-        end
+        value = math.floor(tonumber(value) or 0)
     elseif tp == 1 or tp == 2 then
-        value = tonumber(value)
-        if value then
-            value = value + 0.0
-        end
+        value = (tonumber(value) or 0.0) + 0.0
     elseif tp == 3 then
-        if value then
-            value = tostring(value)
-            if value:match '^%s*[%-%_]%s*$' then
-                value = nil
-            end
+        value = value or ''
+        if value:match '^%s*[%-%_]%s*$' then
+            value = ''
         end
     end
     return value
