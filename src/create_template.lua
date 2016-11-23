@@ -120,9 +120,6 @@ function mt:read_slk_data(skill, code, name, value)
         name = name:sub(1, -2)
     end
     local id = self:key2id(code, skill, name)
-    if skill == 'YDa7' then
-        print(skill, name, id, level, value)
-    end
     if not id then
         return nil
     end
