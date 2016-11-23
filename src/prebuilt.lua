@@ -5,7 +5,6 @@ end)()
 
 require 'filesystem'
 require 'utility'
-local uni      = require 'unicode'
 local w3x2txt  = require 'w3x2txt'
 local lni      = require 'lni'
 local read_slk = require 'read_slk'

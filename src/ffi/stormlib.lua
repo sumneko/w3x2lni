@@ -37,8 +37,8 @@ ffi.cdef[[
 	int MessageBoxA(void* hWnd, const char* lpText, const char* lpCaption, unsigned int uType);
 ]]
 
-local uni = require 'unicode'
-local current_filetime = require 'current_filetime'
+local uni = require 'ffi.unicode'
+local current_filetime = require 'ffi.current_filetime'
 local stormlib = ffi.load('stormlib')
 
 local wfile = {}

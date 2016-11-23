@@ -1,4 +1,4 @@
-local stormlib = require 'stormlib'
+local stormlib = require 'ffi.stormlib'
 local lni = require 'lni'
 local read_metadata = require 'read_metadata'
 local read_ini = require 'read_ini'

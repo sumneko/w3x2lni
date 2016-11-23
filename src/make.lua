@@ -5,7 +5,7 @@ end)()
 
 require 'filesystem'
 require 'utility'
-local uni      = require 'unicode'
+local uni      = require 'ffi.unicode'
 local w3x2txt  = require 'w3x2txt'
 
 local function main()

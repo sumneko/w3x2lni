@@ -1,5 +1,5 @@
-local uni = require 'unicode'
-local sleep = require 'sleep'
+local uni = require 'ffi.unicode'
+local sleep = require 'ffi.sleep'
 
 local table_unpack = table.unpack
 local table_insert = table.insert
