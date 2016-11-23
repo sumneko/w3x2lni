@@ -104,7 +104,7 @@ function mt:add_obj(obj)
 	local need_new = false
 	for i = 1, #names do
 		self:count_max_level(datas[names[i]])
-		sames[i] = self:add_template_data(obj['_origin_id'], names[i], datas[names[i]])
+		sames[i] = self:add_template_data(obj['_user_id'], obj['_origin_id'], names[i], datas[names[i]])
 		if not sames[i] then
 			need_new = true
 		end
@@ -157,17 +157,11 @@ function mt:add_data(name, data, obj)
 	end
 end
 
-function mt:add_template_data(id, name, data)
+function mt:add_template_data(uid, id, name, data)
 	if not self.template then
 		return
 	end
-	local template = self.template[id]
-	if not template then
-		return
-	end
-	if not template[name] then
-		return
-	end
+	local template = self.template[id] or self.template[uid] or {}
 	local all_same = true
 	for i = 1, data._max_level do
 		local temp_data
@@ -192,7 +186,7 @@ function mt:add_template_data(id, name, data)
 end
 
 function mt:count_max_level(data)
-	data._max_level = 0
+	data._max_level = 1
 	for k in pairs(data) do
 		if type(k) == 'number' and k > data._max_level then
 			data._max_level = k

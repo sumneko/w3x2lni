@@ -114,9 +114,9 @@ function mt:to_type(id, value)
     elseif tp == 1 or tp == 2 then
         value = (tonumber(value) or 0.0) + 0.0
     elseif tp == 3 then
-        value = tostring(value or '')
+        value = tostring(value)
         if value:match '^%s*[%-%_]%s*$' then
-            value = ''
+            value = nil
         end
     end
     return value
