@@ -1,3 +1,5 @@
+local key_type = require 'key_type'
+
 local table_insert = table.insert
 local table_sort   = table.sort
 local table_concat = table.concat
@@ -95,6 +97,7 @@ function mt:add_obj(obj)
 	local sames = {}
 	for name, data in pairs(obj) do
 		if name:sub(1, 1) ~= '_' then
+			data['_c4id'] = name
 			local name = self:format_name(name)
 			table_insert(names, name)
 			datas[name] = data
@@ -157,12 +160,34 @@ function mt:add_data(name, data, obj)
 	end
 end
 
+function mt:get_key_type(key)
+    local meta = self.meta
+    local type = meta[key]['type']
+    local format = key_type[type] or 3
+    return format
+end
+
+function mt:to_type(id, value)
+    local tp = self:get_key_type(id)
+    if tp == 0 then
+        value = math.floor(tonumber(value) or 0)
+    elseif tp == 1 or tp == 2 then
+        value = (tonumber(value) or 0.0) + 0.0
+    elseif tp == 3 then
+        value = value or ''
+        if value:match '^%s*[%-%_]%s*$' then
+            value = ''
+        end
+    end
+    return value
+end
+
 function mt:add_template_data(uid, id, name, data)
-	if not self.template then
-		return
+	local template = self.template and (self.template[id] or self.template[uid])
+	if not template then
+		template = {}
 	end
-	local template = self.template[id] or self.template[uid] or {}
-	local all_same = true
+	local all_same = not not self.template
 	for i = 1, data._max_level do
 		local temp_data
 		if type(template[name]) == 'table' then
@@ -173,6 +198,9 @@ function mt:add_template_data(uid, id, name, data)
 			end
 		else
 			temp_data = template[name]
+		end
+		if not temp_data then
+			temp_data = self:to_type(data['_c4id'])
 		end
 		if data[i] == nil then
 			data[i] = temp_data
