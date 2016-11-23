@@ -188,7 +188,7 @@ function mt:add_template_data(uid, id, name, data)
 		template = {}
 	end
 	local all_same = not not self.template
-	for i = 1, data._max_level do
+	for i = data._max_level, 1, -1 do
 		local temp_data
 		if type(template[name]) == 'table' then
 			if template[name][i] then
@@ -208,6 +208,10 @@ function mt:add_template_data(uid, id, name, data)
 			if data[i] ~= temp_data then
 				all_same = false
 			end
+		end
+		if all_same and data[i] == temp_data then
+			data[i] = nil
+			data._max_level = i - 1
 		end
 	end
 	return all_same

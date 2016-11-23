@@ -82,6 +82,7 @@ function mt:pack_data(obj, name, value, level)
     if not obj[name] then
         obj[name] = {
             ['name']      = name,
+            ['slk']       = true,
             [1]           = self:to_type(name),
         }
     end
