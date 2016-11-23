@@ -1,4 +1,3 @@
-local stormlib = require 'stormlib'
 local create_map = require 'create_map'
 local lni = require 'lni'
 
