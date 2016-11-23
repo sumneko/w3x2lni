@@ -183,7 +183,7 @@ function mt:to_type(id, value)
 end
 
 function mt:add_template_data(uid, id, name, data)
-	local template = self.template and (self.template[id] or self.template[uid])
+	local template = self.template and (self.template[uid] or self.template[id])
 	if not template then
 		template = {}
 	end
