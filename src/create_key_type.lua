@@ -1,25 +1,33 @@
 -- 规则如下
--- 1.如果当前字符为引号,则匹配到下一个引号,并忽略2端的引号
--- 2.如果当前字符为逗号,则忽略当前字符
--- 3.否则匹配到下一个逗号或引号前的一个字符
+-- 1.如果第一个字符是逗号,则添加一个空串
+-- 2.如果最后一个字符是逗号,则添加一个空串
+-- 3.如果当前字符为引号,则匹配到下一个引号,并忽略2端的字符
+-- 4.如果当前字符为逗号,则忽略该字符.如果上一个字符是逗号,则添加一个空串
+-- 5.否则匹配到下一个逗号或引号,并忽略该字符
 local function splite(str)
     local tbl = {}
     local cur = 1
+    if str:sub(1, 1) == ',' then
+        tbl[#tbl+1] = ''
+    end
     while cur <= #str do
         if str:sub(cur, cur) == '"' then
             local pos = str:find('"', cur+1, true) or (#str+1)
             tbl[#tbl+1] = str:sub(cur+1, pos-1)
             cur = pos+1
         elseif str:sub(cur, cur) == ',' then
+            if str:sub(cur-1, cur-1) == ',' then
+                tbl[#tbl+1] = ''
+            end
             cur = cur+1
         else
-            local pos = str:find('[",]', cur+1) or (#str+1)
+            local pos = str:find('[%"%,]', cur+1) or (#str+1)
             tbl[#tbl+1] = str:sub(cur, pos-1)
-            cur = pos
+            cur = pos+1
         end
     end
-    if tbl[#tbl] == '' and #tbl > 1 then
-        table.remove(tbl)
+    if str:sub(-1, -1) == ',' then
+        tbl[#tbl+1] = ''
     end
     if #tbl > 1 then
         return tbl

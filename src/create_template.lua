@@ -147,27 +147,35 @@ function mt:read_slk_data(skill, name, value)
 end
 
 -- 规则如下
--- 1.如果当前字符为引号,则匹配到下一个引号,并忽略2端的引号
--- 2.如果当前字符为逗号,则忽略当前字符
--- 3.否则匹配到下一个逗号或引号前的一个字符
+-- 1.如果第一个字符是逗号,则添加一个空串
+-- 2.如果最后一个字符是逗号,则添加一个空串
+-- 3.如果当前字符为引号,则匹配到下一个引号,并忽略2端的字符
+-- 4.如果当前字符为逗号,则忽略该字符.如果上一个字符是逗号,则添加一个空串
+-- 5.否则匹配到下一个逗号或引号,并忽略该字符
 local function splite(str)
     local tbl = {}
     local cur = 1
+    if str:sub(1, 1) == ',' then
+        tbl[#tbl+1] = ''
+    end
     while cur <= #str do
         if str:sub(cur, cur) == '"' then
             local pos = str:find('"', cur+1, true) or (#str+1)
             tbl[#tbl+1] = str:sub(cur+1, pos-1)
             cur = pos+1
         elseif str:sub(cur, cur) == ',' then
+            if str:sub(cur-1, cur-1) == ',' then
+                tbl[#tbl+1] = ''
+            end
             cur = cur+1
         else
-            local pos = str:find('[",]', cur+1) or (#str+1)
+            local pos = str:find('[%"%,]', cur+1) or (#str+1)
             tbl[#tbl+1] = str:sub(cur, pos-1)
-            cur = pos
+            cur = pos+1
         end
     end
-    if tbl[#tbl] == '' and #tbl > 1 then
-        table.remove(tbl)
+    if str:sub(-1, -1) == ',' then
+        tbl[#tbl+1] = ''
     end
     if #tbl > 1 then
         return tbl
@@ -226,8 +234,8 @@ function mt:read_txt_data(skill, name, value, max_level, txt)
     end
 
     local meta = self.meta[id]
+    value = splite(value)
     if meta['repeat'] and meta['repeat'] > 0 then
-        value = splite(value)
         if type(value) == 'table' then
             local tbl = {}
             for count = 1, #value do
@@ -236,13 +244,12 @@ function mt:read_txt_data(skill, name, value, max_level, txt)
             return tbl
         end
     elseif name == 'Art' then
-        value = splite(value)
         if type(value) == 'table' then
             value = value[1]
         end
     else
-        if value:sub(1, 1) == '"' and value:sub(-1, -1) == '"' then
-            value = value:sub(2, -2)
+        if type(value) == 'table' then
+            value = table.concat(value, ',')
         end
     end
     return {{id, self:to_type(id, value), level}}
