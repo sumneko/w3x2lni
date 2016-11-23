@@ -90,11 +90,9 @@ function mt:add_chunk(chunk)
 end
 
 function mt:add_obj(obj)
-	self:add ''
-	self:add('[%s]', obj['_user_id'])
-	self:add('%s = %q', '_id', obj['_origin_id'])
 	local names = {}
 	local datas = {}
+	local sames = {}
 	for name, data in pairs(obj) do
 		if name:sub(1, 1) ~= '_' then
 			local name = self:format_name(name)
@@ -103,10 +101,24 @@ function mt:add_obj(obj)
 		end
 	end
 	table_sort(names)
+	local need_new = false
 	for i = 1, #names do
 		self:count_max_level(datas[names[i]])
-		self:add_template_data(obj['_origin_id'], names[i], datas[names[i]])
-		self:add_data(names[i], datas[names[i]], obj)
+		sames[i] = self:add_template_data(obj['_origin_id'], names[i], datas[names[i]])
+		if not sames[i] then
+			need_new = true
+		end
+	end
+	if not need_new then
+		return
+	end
+	self:add ''
+	self:add('[%s]', obj['_user_id'])
+	self:add('%s = %q', '_id', obj['_origin_id'])
+	for i = 1, #names do
+		if not sames[i] then
+			self:add_data(names[i], datas[names[i]], obj)
+		end
 	end
 end
 
@@ -156,19 +168,27 @@ function mt:add_template_data(id, name, data)
 	if not template[name] then
 		return
 	end
+	local all_same = true
 	for i = 1, data._max_level do
-		if data[i] == nil then
-			if type(template[name]) == 'table' then
-				if template[name][i] then
-					data[i] = template[name][i]
-				else
-					data[i] = template[name][#template[name]]
-				end
+		local temp_data
+		if type(template[name]) == 'table' then
+			if template[name][i] then
+				temp_data = template[name][i]
 			else
-				data[i] = template[name]
+				temp_data = template[name][#template[name]]
+			end
+		else
+			temp_data = template[name]
+		end
+		if data[i] == nil then
+			data[i] = temp_data
+		else
+			if data[i] ~= temp_data then
+				all_same = false
 			end
 		end
 	end
+	return all_same
 end
 
 function mt:count_max_level(data)
