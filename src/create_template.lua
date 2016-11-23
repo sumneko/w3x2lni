@@ -166,6 +166,9 @@ local function splite(str)
             cur = pos
         end
     end
+    if tbl[#tbl] == '' and #tbl > 1 then
+        table.remove(tbl)
+    end
     if #tbl > 1 then
         return tbl
     else
