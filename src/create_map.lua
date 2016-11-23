@@ -31,8 +31,6 @@ local function add_table(tbl1, tbl2)
         if tbl1[k] then
             if type(tbl1[k]) == 'table' and type(v) == 'table' then
                 add_table(tbl1[k], v)
-            else
-                tbl1[k] = v
             end
         else
             tbl1[k] = v
