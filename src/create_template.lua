@@ -110,9 +110,15 @@ end
 function mt:to_type(id, value)
     local tp = self:get_key_type(id)
     if tp == 0 then
-        value = math.floor(tonumber(value) or 0)
+        value = tonumber(value)
+        if value then
+            value = math.floor(value)
+        end
     elseif tp == 1 or tp == 2 then
-        value = (tonumber(value) or 0.0) + 0.0
+        value = tonumber(value)
+        if value then
+            value = value + 0.0
+        end
     elseif tp == 3 then
         if value then
             value = tostring(value)
