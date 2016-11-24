@@ -105,7 +105,7 @@ function mt:find_origin_id(obj)
 		self.temp_reverse = {}
 		for uid, data in pairs(temp) do
 			local oid = data['_id']
-			if not temp[oid] and not self.temp_reverse[oid] then
+			if not temp[oid] and (not self.temp_reverse[oid] or uid < self.temp_reverse[oid]) then
 				self.temp_reverse[oid] = uid
 			end
 		end
