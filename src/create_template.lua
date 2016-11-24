@@ -75,14 +75,75 @@ function mt:read_obj(obj, skill, data)
             end
         end
     end
+    self:find_origin_id(obj)
+    self:add_template_data(obj)
     return obj
+end
+
+function mt:find_origin_id(obj)
+    local temp = self.template
+    if not temp then
+        return
+    end
+    local id = obj['_origin_id']
+    if not temp[id] then
+        if not self.temp_reverse then
+            self.temp_reverse = {}
+            for uid, data in pairs(temp) do
+                local oid = data['_id']
+                if not temp[oid] and (not self.temp_reverse[oid] or uid < self.temp_reverse[oid]) then
+                    self.temp_reverse[oid] = uid
+                end
+            end
+        end
+        obj['_origin_id'] = self.temp_reverse[id]
+    end
+end
+
+function mt:add_template_data(obj)
+    local id = obj['_origin_id']
+    local temp = self.template
+    local temp_skill
+    if temp then
+        temp_skill = temp[id]
+        if not temp_skill then
+            return
+        end
+    else
+        temp_skill = obj
+    end
+    
+    for lname, value in pairs(temp_skill) do
+        if lname:sub(1, 1) ~= '_' then
+            local name = self:key2id(id, id, lname)
+            if not obj[name] then
+                obj[name] = {
+                    ['name'] = name,
+                    ['_slk'] = {},
+                }
+            end
+            local max_level
+            local meta = self.meta[name]
+            if meta['repeat'] and meta['repeat'] > 0 then
+                max_level = 4
+            else
+                max_level = 1
+            end
+            for i = 1, max_level do
+                obj[name]['_slk'][i] = true
+                if not obj[name][i] then
+                    obj[name][i] = self:to_type(name)
+                end
+            end
+        end
+    end
 end
 
 function mt:pack_data(obj, name, value, level)
     if not obj[name] then
         obj[name] = {
-            ['name']      = name,
-            ['_slk']      = {},
+            ['name'] = name,
+            ['_slk'] = {},
         }
     end
     if not level then
@@ -238,9 +299,10 @@ function mt:read_txt_data(skill, code, name, value, txt)
     return {{id, self:to_type(id, value), level}}
 end
 
-function mt:save(meta, key)
+function mt:save(meta, key, template)
     self.key = key
     self.meta = meta
+    self.template = template
 
     local data = {}
 
