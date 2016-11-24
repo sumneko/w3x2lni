@@ -9,15 +9,8 @@ local ipairs = ipairs
 local mt = {}
 mt.__index = mt
 
-function mt:add_slk(slk, list, title)
+function mt:add_slk(slk)
     table_insert(self.slk, slk)
-    for _, id in ipairs(list) do
-        for _, name in pairs(title) do
-            if slk[id][name] == nil then
-                slk[id][name] = ''
-            end
-        end
-    end
 end
 
 function mt:add_txt(txt)
