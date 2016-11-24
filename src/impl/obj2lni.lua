@@ -128,7 +128,7 @@ function mt:add_obj(obj)
 	table_sort(names)
 	local need_new = false
 	for i = 1, #names do
-		self:count_max_level(datas[names[i]])
+		self:count_max_level(obj['_user_id'], names[i], datas[names[i]])
 		sames[i] = self:add_template_data(obj['_user_id'], obj['_origin_id'], names[i], datas[names[i]])
 		if not sames[i] then
 			need_new = true
@@ -206,13 +206,14 @@ end
 
 function mt:add_template_data(uid, id, name, data)
 	local template = self.template and (self.template[uid] or self.template[id])
+	local has_temp = true
 	if not template then
 		template = {}
+		has_temp = false
 	end
 	local all_same = true
 	for i = data._max_level, 1, -1 do
 		local temp_data
-		local has_temp = true
 		if type(template[name]) == 'table' then
 			if template[name][i] then
 				temp_data = template[name][i]
@@ -233,20 +234,15 @@ function mt:add_template_data(uid, id, name, data)
 				all_same = false
 			end
 		end
-		if all_same and data['_slk'] and data['_slk'][i] then
-			if has_temp or i > 1 then
-				data[i] = nil
-				data._max_level = i - 1
-			end
-			if not has_temp and i == 1 then
-				all_same = false
-			end
+		if all_same and has_temp and data['_slk'] and data['_slk'][i] and i > 1 then
+			data[i] = nil
+			data._max_level = i - 1
 		end
 	end
-	return all_same
+	return all_same and has_temp
 end
 
-function mt:count_max_level(data)
+function mt:count_max_level(skill, name, data)
 	data._max_level = 1
 	for k in pairs(data) do
 		if type(k) == 'number' and k > data._max_level then
