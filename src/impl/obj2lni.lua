@@ -73,6 +73,7 @@ function mt:add_chunk(chunk)
 	for name, obj in pairs(chunk) do
 		if name:sub(1, 1) ~= '_' then
 			table_insert(names, name)
+			self:find_origin_id(obj)
 		end
 	end
 	table_sort(names, function(name1, name2)
@@ -89,6 +90,27 @@ function mt:add_chunk(chunk)
 	for i = 1, #names do
 		self:add_obj(chunk[names[i]])
 	end
+end
+
+function mt:find_origin_id(obj)
+	local id = obj['_origin_id']
+	local temp = self.template
+	if not temp then
+		return
+	end
+	if temp[id] then
+		return
+	end
+	if not self.temp_reverse then
+		self.temp_reverse = {}
+		for uid, data in pairs(temp) do
+			local oid = data['_id']
+			if not temp[oid] and not self.temp_reverse[oid] then
+				self.temp_reverse[oid] = uid
+			end
+		end
+	end
+	obj['_origin_id'] = self.temp_reverse[id]
 end
 
 function mt:add_obj(obj)
