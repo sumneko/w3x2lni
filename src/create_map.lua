@@ -346,10 +346,6 @@ function mt:w3x2lni(files, paths, output_dir)
         print(file_name)
         local data = {}
         local metadata = read_metadata(self.dir['meta'] / self.config['metadata'][file_name])
-        if files[file_name] then
-            add_table(data, self.w3x2txt:read_obj(files[file_name], metadata))
-            delete[file_name] = true
-        end
 
         if self.config['unpack']['read_slk'] then
             local template = create_template(file_name)
@@ -390,6 +386,11 @@ function mt:w3x2lni(files, paths, output_dir)
             end
 
             add_table(data, template:save(metadata, key))
+        end
+        
+        if files[file_name] then
+            add_table(data, self.w3x2txt:read_obj(files[file_name], metadata))
+            delete[file_name] = true
         end
 
         if next(data) then
