@@ -400,7 +400,8 @@ function mt:w3x2lni(files, paths, output_dir)
                 data = self:on_lni(file_name, data)
             end
             local template = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
-            local content = self.w3x2txt:obj2lni(data, metadata, editstring, template)
+            local max_level_key = self.config['key']['max_level'][file_name]
+            local content = self.w3x2txt:obj2lni(data, metadata, editstring, template, max_level_key)
             if wts then
                 content = wts:load(content)
             end

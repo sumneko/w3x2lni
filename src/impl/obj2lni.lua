@@ -127,8 +127,9 @@ function mt:add_obj(obj)
 	end
 	table_sort(names)
 	local need_new = false
+	local max_level = self:find_max_level(datas)
 	for i = 1, #names do
-		self:count_max_level(obj['_user_id'], names[i], datas[names[i]])
+		self:count_max_level(obj['_user_id'], names[i], datas[names[i]], max_level)
 		sames[i] = self:add_template_data(obj['_user_id'], obj['_origin_id'], names[i], datas[names[i]])
 		if not sames[i] then
 			need_new = true
@@ -212,16 +213,23 @@ function mt:add_template_data(uid, id, name, data)
 		has_temp = false
 	end
 	local all_same = true
+    local max_meta
+	local meta = self.meta[data['_c4id']]
+	if meta['repeat'] and meta['repeat'] > 0 then
+		max_meta = 4
+	else
+		max_meta = 1
+	end
+	local template = template[name]
+	if type(template) ~= 'table' then
+		template = {template}
+	end
 	for i = data._max_level, 1, -1 do
 		local temp_data
-		if type(template[name]) == 'table' then
-			if template[name][i] then
-				temp_data = template[name][i]
-			else
-				temp_data = template[name][#template[name]]
-			end
+		if i > max_meta then
+			temp_data = template[max_meta]
 		else
-			temp_data = template[name]
+			temp_data = template[i]
 		end
 		if not temp_data then
 			temp_data = self:to_type(data['_c4id'])
@@ -234,7 +242,7 @@ function mt:add_template_data(uid, id, name, data)
 				all_same = false
 			end
 		end
-		if all_same and has_temp and data['_slk'] and data['_slk'][i] and i > 1 then
+		if all_same and data['_slk'] and data['_slk'][i] and (has_temp or i > 1) then
 			data[i] = nil
 			data._max_level = i - 1
 		end
@@ -242,8 +250,24 @@ function mt:add_template_data(uid, id, name, data)
 	return all_same and has_temp
 end
 
-function mt:count_max_level(skill, name, data)
+function mt:find_max_level(datas)
+	local key = self.max_level_key
+	if not key then
+		return nil
+	end
+	local data = datas[key]
+	if not data then
+		return nil
+	end
+	return data[1]
+end
+
+function mt:count_max_level(skill, name, data, max_level)
 	data._max_level = 1
+	local meta = self.meta[data['_c4id']]
+	if max_level and meta['repeat'] and meta['repeat'] > 0 then
+		data._max_level = max_level
+	end
 	for k in pairs(data) do
 		if type(k) == 'number' and k > data._max_level then
 			data._max_level = k
@@ -251,7 +275,7 @@ function mt:count_max_level(skill, name, data)
 	end
 end
 
-return function (self, data, meta, editstring, template)
+return function (self, data, meta, editstring, template, max_level_key)
 	local tbl = setmetatable({}, mt)
 	tbl.lines = {}
 	tbl.self = self
@@ -259,6 +283,7 @@ return function (self, data, meta, editstring, template)
 	tbl.template = template
 	tbl.has_level = meta._has_level
 	tbl.editstring = editstring or {}
+	tbl.max_level_key = max_level_key
 
 	tbl:add_head(data)
 	tbl:add_chunk(data)
