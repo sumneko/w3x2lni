@@ -85,6 +85,13 @@ function mt:pack_data(obj, name, value, level)
             ['_slk']      = {[1] = true},
             [1]           = self:to_type(name),
         }
+        local meta = self.meta[name]
+        if meta['repeat'] and meta['repeat'] > 0 then
+            for i = 2, 3 do
+                obj[name]['_slk'][i] = true
+                obj[name][i] = obj[name][1]
+            end
+        end
     end
     if not level then
         obj[name][1] = value
