@@ -94,9 +94,12 @@ function mt:find_origin_id(obj)
                 if not temp[oid] and (not self.temp_reverse[oid] or uid < self.temp_reverse[oid]) then
                     self.temp_reverse[oid] = uid
                 end
+                if not self.temp_first or uid < self.temp_first then
+                    self.temp_first = uid
+                end
             end
         end
-        obj['_origin_id'] = self.temp_reverse[id]
+        obj['_origin_id'] = self.temp_reverse[id] or self.temp_first
     end
 end
 
