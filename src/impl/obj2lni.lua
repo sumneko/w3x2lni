@@ -153,6 +153,7 @@ function mt:add_data(name, data, obj)
 		name = ('%q'):format(name)
 	end
 	self:add('-- %s', self:get_comment(data.name))
+	local values = {}
 	if data._max_level <= 1 then
 		self:add('%s = %s', name, self:format_value(data[1]))
 	else
@@ -162,23 +163,23 @@ function mt:add_data(name, data, obj)
 				is_string = true
 			end
 			if data._max_level >= 10 then
-				data[i] = ('%d = %s'):format(i, self:format_value(data[i]))
+				values[i] = ('%d = %s'):format(i, self:format_value(data[i]))
 			else
-				data[i] = self:format_value(data[i])
+				values[i] = self:format_value(data[i])
 			end
 		end
 		if is_string or data._max_level >= 10 then
-			self:add('%s = {\r\n%s,\r\n}', name, table_concat(data, ',\r\n'))
+			self:add('%s = {\r\n%s,\r\n}', name, table_concat(values, ',\r\n'))
 		else
-			local suc, info = pcall(table_concat, data, ', ')
+			local suc, info = pcall(table_concat, values, ', ')
 			if not suc then
 				print(obj['_user_id'])
-				for k, v in pairs(data) do
+				for k, v in pairs(values) do
 					print(k, v)
 				end
 				error(info)
 			end
-			self:add('%s = {%s}', name, table_concat(data, ', '))
+			self:add('%s = {%s}', name, table_concat(values, ', '))
 		end
 	end
 end
