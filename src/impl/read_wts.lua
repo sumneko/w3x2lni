@@ -67,7 +67,7 @@ end
 return function (self, content)
 	local tbl = {}
 	for string in content:gmatch 'STRING.-%c*%}' do
-		local i, s = string:match 'STRING (%d+).-%{\r\n(.-)%}'
+		local i, s = string:match 'STRING (%d+).-%{\r\n(.-)%\r\n}'
 		local t	= {
 			index	= i,
 			text	= s,
