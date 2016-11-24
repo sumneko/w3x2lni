@@ -58,6 +58,7 @@ function mt:read_obj(obj, skill, data)
     if data['code'] then
         obj['_origin_id'] = data['code']
     end
+    obj['_slk'] = true
     for name, value in pairs(data) do
         local name, value, level = self:read_slk_data(skill, obj['_origin_id'], name, value)
         if name then
@@ -75,79 +76,7 @@ function mt:read_obj(obj, skill, data)
             end
         end
     end
-    self:find_origin_id(obj)
-    self:add_template_data(obj)
     return obj
-end
-
-function mt:find_origin_id(obj)
-    local temp = self.template
-    if not temp then
-        return
-    end
-    local id = obj['_origin_id']
-    if not temp[id] then
-        if not self.temp_reverse then
-            self.temp_reverse = {}
-            for uid, data in pairs(temp) do
-                local oid = data['_id']
-                if not temp[oid] and (not self.temp_reverse[oid] or uid < self.temp_reverse[oid]) then
-                    self.temp_reverse[oid] = uid
-                end
-                if not self.temp_first or uid < self.temp_first then
-                    self.temp_first = uid
-                end
-            end
-        end
-        obj['_origin_id'] = self.temp_reverse[id] or self.temp_first
-    end
-end
-
-function mt:add_template_data(obj)
-    local id = obj['_origin_id']
-    local temp = self.template
-    local temp_skill
-    if temp then
-        temp_skill = temp[id]
-        if not temp_skill then
-            return
-        end
-    else
-        temp_skill = obj
-    end
-    
-    for lname, value in pairs(temp_skill) do
-        if lname:sub(1, 1) ~= '_' then
-            local name
-            if temp then
-                name = self:key2id(id, id, lname)
-            else
-                name = lname
-            end
-            if not name then
-                print(lname, id)
-            end
-            if not obj[name] then
-                obj[name] = {
-                    ['name'] = name,
-                    ['_slk'] = {},
-                }
-            end
-            local max_level
-            local meta = self.meta[name]
-            if meta['repeat'] and meta['repeat'] > 0 then
-                max_level = 4
-            else
-                max_level = 1
-            end
-            for i = 1, max_level do
-                obj[name]['_slk'][i] = true
-                if not obj[name][i] then
-                    obj[name][i] = self:to_type(name)
-                end
-            end
-        end
-    end
 end
 
 function mt:pack_data(obj, name, value, level)

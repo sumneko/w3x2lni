@@ -347,6 +347,12 @@ function mt:w3x2lni(files, paths, output_dir)
         local data = {}
         local metadata = read_metadata(self.dir['meta'] / self.config['metadata'][file_name])
         local temp_data = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
+        local key_data = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
+
+        if files[file_name] then
+            add_table(data, self.w3x2txt:read_obj(files[file_name], metadata))
+            delete[file_name] = true
+        end
 
         if self.config['unpack']['read_slk'] then
             local template = create_template(file_name)
@@ -367,8 +373,6 @@ function mt:w3x2lni(files, paths, output_dir)
                 end
             end
 
-            local key = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
-
             local txt = self.config['template']['txt'][file_name]
             if type(txt) == 'table' then
                 for i = 1, #txt do
@@ -386,12 +390,7 @@ function mt:w3x2lni(files, paths, output_dir)
                 end
             end
 
-            add_table(data, template:save(metadata, key, temp_data))
-        end
-        
-        if files[file_name] then
-            add_table(data, self.w3x2txt:read_obj(files[file_name], metadata))
-            delete[file_name] = true
+            add_table(data, template:save(metadata, key_data, temp_data))
         end
 
         if next(data) then
@@ -402,7 +401,7 @@ function mt:w3x2lni(files, paths, output_dir)
                 data = self:on_lni(file_name, data)
             end
             local max_level_key = self.config['key']['max_level'][file_name]
-            local content = self.w3x2txt:obj2lni(data, metadata, editstring, temp_data, max_level_key)
+            local content = self.w3x2txt:obj2lni(data, metadata, editstring, temp_data, key_data, max_level_key)
             if wts then
                 content = wts:load(content)
             end
