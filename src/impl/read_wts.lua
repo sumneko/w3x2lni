@@ -8,6 +8,7 @@ function mt:load(content, only_short, read_only)
 	return content:gsub([=[['"]TRIGSTR_(%d+)['"]]=], function(i)
 		local str_data = wts[i]
 		if not str_data then
+			print('警告: 没有找到字符串:', i)
 			return
 		end
 		local text = str_data.text
