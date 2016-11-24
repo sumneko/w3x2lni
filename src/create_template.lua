@@ -87,7 +87,7 @@ function mt:pack_data(obj, name, value, level)
         }
         local meta = self.meta[name]
         if meta['repeat'] and meta['repeat'] > 0 then
-            for i = 2, 3 do
+            for i = 2, 4 do
                 obj[name]['_slk'][i] = true
                 obj[name][i] = obj[name][1]
             end
