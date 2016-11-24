@@ -68,6 +68,10 @@ local function read_slk(content)
 	-- 组装成table
     local tbl = {}
 	local list = {}
+	local title = {}
+    for x, list in pairs(data) do
+        title[x] = list[1]
+    end
 	for y, id in pairs(data[1]) do
         if y ~= 1 then
             tbl[id] = {}
@@ -78,7 +82,7 @@ local function read_slk(content)
 			table_insert(list, id)
         end
 	end
-    return tbl, list
+    return tbl, list, title
 end
 
 return read_slk

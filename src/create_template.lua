@@ -9,8 +9,15 @@ local ipairs = ipairs
 local mt = {}
 mt.__index = mt
 
-function mt:add_slk(slk)
+function mt:add_slk(slk, list, title)
     table_insert(self.slk, slk)
+    for _, id in ipairs(list) do
+        for _, name in pairs(title) do
+            if slk[id][name] == nil then
+                slk[id][name] = ''
+            end
+        end
+    end
 end
 
 function mt:add_txt(txt)
@@ -82,16 +89,8 @@ function mt:pack_data(obj, name, value, level)
     if not obj[name] then
         obj[name] = {
             ['name']      = name,
-            ['_slk']      = {[1] = true},
-            [1]           = self:to_type(name),
+            ['_slk']      = {},
         }
-        local meta = self.meta[name]
-        if meta['repeat'] and meta['repeat'] > 0 then
-            for i = 2, 4 do
-                obj[name]['_slk'][i] = true
-                obj[name][i] = obj[name][1]
-            end
-        end
     end
     if not level then
         obj[name][1] = value
