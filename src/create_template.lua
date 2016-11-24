@@ -115,7 +115,15 @@ function mt:add_template_data(obj)
     
     for lname, value in pairs(temp_skill) do
         if lname:sub(1, 1) ~= '_' then
-            local name = self:key2id(id, id, lname)
+            local name
+            if temp then
+                name = self:key2id(id, id, lname)
+            else
+                name = lname
+            end
+            if not name then
+                print(lname, id)
+            end
             if not obj[name] then
                 obj[name] = {
                     ['name'] = name,

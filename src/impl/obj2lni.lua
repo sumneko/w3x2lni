@@ -212,7 +212,6 @@ function mt:add_template_data(uid, id, name, data)
 		end
 		if not temp_data then
 			temp_data = self:to_type(data['_c4id'])
-			has_temp = false
 		end
 		if data[i] == nil then
 			data[i] = temp_data
