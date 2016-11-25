@@ -48,6 +48,9 @@ local function main()
 	for file_name, meta in pairs(w3x2txt.config['metadata']) do
 		print('正在生成模板', file_name)
 		local template = create_template(file_name)
+		local metadata = read_metadata(meta_dir / w3x2txt.config['metadata'][file_name])
+		local key = lni:loader(io.load(key_dir / (file_name .. '.ini')), name)
+
 		local slk = w3x2txt.config['template']['slk'][file_name]
 		if type(slk) == 'table' then
 			for i = 1, #slk do
@@ -56,10 +59,7 @@ local function main()
 		else
 			template:add_slk(read_slk(io.load(meta_dir / slk)))
 		end
-
-		local metadata = read_metadata(meta_dir / w3x2txt.config['metadata'][file_name])
-		local key = lni:loader(io.load(key_dir / (file_name .. '.ini')), name)
-
+		
 		local txt = w3x2txt.config['template']['txt'][file_name]
 		if type(txt) == 'table' then
 			for i = 1, #txt do

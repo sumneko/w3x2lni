@@ -85,8 +85,9 @@ function mt:pack_data(obj, name, value, level)
         }
     end
     if not level then
-        obj[name][1] = value
-        obj[name]['_slk'][1] = true
+        level = 1
+    end
+    if obj[name][level] then
         return
     end
     obj[name][level] = value
@@ -108,6 +109,20 @@ function mt:to_type(id, value)
     return value
 end
 
+function mt:set_default_value(data)
+    for _, obj in pairs(data) do
+        for name, datas in pairs(obj) do
+            if name:sub(1, 1) ~= '_' then
+                for i, value in pairs(datas) do
+                    if type(i) == 'number' then
+                        datas[i] = self:to_type(name, value)
+                    end
+                end
+            end
+        end
+    end
+end
+
 function mt:read_slk_data(skill, code, name, value)
     local data = {}
     if type(name) ~= 'string' then
@@ -121,7 +136,7 @@ function mt:read_slk_data(skill, code, name, value)
     if not id then
         return nil
     end
-    return id, self:to_type(id, value), level
+    return id, value, level
 end
 
 -- 规则如下
@@ -176,9 +191,14 @@ function mt:read_txt_data(skill, code, name, value, txt)
     if not id then
         level = tonumber(name:sub(-1))
         if level then
+            level = level+1
             name = name:sub(1, -2)
             id = self:key2id(code, skill, name)
         end
+    end
+    
+    if skill == 'ANcs' then
+        print(name, id, level, value)
     end
     if not id then
         local value = splite(value)
@@ -188,40 +208,25 @@ function mt:read_txt_data(skill, code, name, value, txt)
                 local tbl = {}
                 for count = 1, #value do
                     local id = self:key2id(code, skill, name .. ':' .. count)
-                    tbl[count] = {id, self:to_type(id, value[count]), level}
+                    tbl[count] = {id, value[count], level}
                 end
                 return tbl
             end
         end
-        if name:sub(-5) == 'count' and self:key2id(code, skill, name:sub(1, -6)) then
-            local name = name:sub(1, -6)
-            local tbl = {}
-            for i = 1, value do
-                local old_name
-                if i > 1 then
-                    old_name = name .. (i-1)
-                else
-                    old_name = name
-                end
-                value = txt[old_name]
-                txt[old_name] = nil
-                local data = self:read_txt_data(skill, code, name..i, value, txt)
-                if data then
-                    tbl[i] = data[1]
-                end
-            end
-            return tbl
-        end
         return nil
     end
 
+    return self:read_txt_value(name, id, level, value)
+end
+
+function mt:read_txt_value(name, id, level, value)
     local meta = self.meta[id]
     value = splite(value)
     if meta['repeat'] and meta['repeat'] > 0 then
         if type(value) == 'table' then
             local tbl = {}
             for count = 1, #value do
-                tbl[count] = {id, self:to_type(id, value[count]), count}
+                tbl[count] = {id, value[count], count}
             end
             return tbl
         end
@@ -234,23 +239,24 @@ function mt:read_txt_data(skill, code, name, value, txt)
             value = table.concat(value, ',')
         end
     end
-    return {{id, self:to_type(id, value), level}}
+    return {{id, value, level}}
 end
 
-function mt:save(meta, key, template)
+function mt:save(meta, key)
     self.key = key
     self.meta = meta
-    self.template = template
 
     local data = {}
 
     -- 默认数据
-    for _, txt in ipairs(self.txt) do
-        self:read_txt(data, txt)
-    end
     for _, slk in ipairs(self.slk) do
         self:read_slk(data, slk)
     end
+    for _, txt in ipairs(self.txt) do
+        self:read_txt(data, txt)
+    end
+
+    self:set_default_value(data)
 
     return data
 end
