@@ -356,22 +356,6 @@ function mt:w3x2lni(files, paths, output_dir)
 
         if self.config['unpack']['read_slk'] then
             local template = create_template(file_name)
-            local slk = self.config['template']['slk'][file_name]
-            if type(slk) == 'table' then
-                for i = 1, #slk do
-                    local name = 'units\\' .. slk[i]
-                    template:add_slk(read_slk(files[name] or io.load(self.dir['meta'] / slk[i])))
-                    if files[name] then
-                        delete[name] = true
-                    end
-                end
-            else
-                local name = 'units\\' .. slk
-                template:add_slk(read_slk(files[name] or io.load(self.dir['meta'] / slk)))
-                if files[name] then
-                    delete[name] = true
-                end
-            end
 
             local txt = self.config['template']['txt'][file_name]
             if type(txt) == 'table' then
@@ -385,6 +369,23 @@ function mt:w3x2lni(files, paths, output_dir)
             elseif txt then
                 local name = 'units\\' .. txt
                 template:add_txt(read_txt(files[name] or io.load(self.dir['meta'] / txt)))
+                if files[name] then
+                    delete[name] = true
+                end
+            end
+            
+            local slk = self.config['template']['slk'][file_name]
+            if type(slk) == 'table' then
+                for i = 1, #slk do
+                    local name = 'units\\' .. slk[i]
+                    template:add_slk(read_slk(files[name] or io.load(self.dir['meta'] / slk[i])))
+                    if files[name] then
+                        delete[name] = true
+                    end
+                end
+            else
+                local name = 'units\\' .. slk
+                template:add_slk(read_slk(files[name] or io.load(self.dir['meta'] / slk)))
                 if files[name] then
                     delete[name] = true
                 end

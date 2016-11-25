@@ -14,15 +14,7 @@ function mt:add_slk(slk)
 end
 
 function mt:add_txt(txt)
-    for id, data in pairs(txt) do
-        if self.txt[id] then
-            for k, v in pairs(data) do
-                self.txt[id][k] = v
-            end
-        else
-            self.txt[id] = data
-        end
-    end
+    table_insert(self.txt, txt)
 end
 
 function mt:get_key_type(key)
@@ -41,16 +33,19 @@ function mt:key2id(code, skill, key)
     return nil
 end
 
-function mt:read_chunk(lni, slk)
-    if not slk then
-        return
-    end
-    for name, value in pairs(slk) do
-        lni[name] = self:read_obj(lni[name], name, value)
+function mt:read_txt(lni, txt)
+    for name, value in pairs(txt) do
+        lni[name] = self:read_obj(lni[name], name, value, 'txt')
     end
 end
 
-function mt:read_obj(obj, skill, data)
+function mt:read_slk(lni, slk)
+    for name, value in pairs(slk) do
+        lni[name] = self:read_obj(lni[name], name, value, 'slk')
+    end
+end
+
+function mt:read_obj(obj, skill, data, type)
     if not obj then
         obj = {}
         obj['_origin_id'], obj['_user_id'] = skill, skill
@@ -59,16 +54,19 @@ function mt:read_obj(obj, skill, data)
         obj['_origin_id'] = data['code']
     end
     obj['_slk'] = true
-    for name, value in pairs(data) do
-        local name, value, level = self:read_slk_data(skill, obj['_origin_id'], name, value)
-        if name then
-            self:pack_data(obj, name, value, level)
+
+    if type == 'slk' then
+        for name, value in pairs(data) do
+            local name, value, level = self:read_slk_data(skill, obj['_origin_id'], name, value)
+            if name then
+                self:pack_data(obj, name, value, level)
+            end
         end
     end
-    local txt = self.txt[skill]
-    if txt then
-        for name, value in pairs(txt) do
-            local datas = self:read_txt_data(skill, obj['_origin_id'], name, value, txt)
+    
+    if type == 'txt' then
+        for name, value in pairs(data) do
+            local datas = self:read_txt_data(skill, obj['_origin_id'], name, value, data)
             if datas then
                 for i, data in pairs(datas) do
                     self:pack_data(obj, table_unpack(data))
@@ -247,8 +245,11 @@ function mt:save(meta, key, template)
     local data = {}
 
     -- 默认数据
+    for _, txt in ipairs(self.txt) do
+        self:read_txt(data, txt)
+    end
     for _, slk in ipairs(self.slk) do
-        self:read_chunk(data, slk)
+        self:read_slk(data, slk)
     end
 
     return data
