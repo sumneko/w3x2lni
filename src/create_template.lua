@@ -197,9 +197,6 @@ function mt:read_txt_data(skill, code, name, value, txt)
         end
     end
     
-    if skill == 'ANcs' then
-        print(name, id, level, value)
-    end
     if not id then
         local value = splite(value)
         if type(value) == 'table' then
