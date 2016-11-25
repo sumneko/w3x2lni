@@ -360,15 +360,15 @@ function mt:w3x2lni(files, paths, output_dir)
             if type(slk) == 'table' then
                 for i = 1, #slk do
                     local name = 'units\\' .. slk[i]
+                    template:add_slk(read_slk(files[name] or io.load(self.dir['meta'] / slk[i])))
                     if files[name] then
-                        template:add_slk(read_slk(files[name]))
                         delete[name] = true
                     end
                 end
             else
                 local name = 'units\\' .. slk
+                template:add_slk(read_slk(files[name] or io.load(self.dir['meta'] / slk)))
                 if files[name] then
-                    template:add_slk(read_slk(files[name]))
                     delete[name] = true
                 end
             end
@@ -377,15 +377,15 @@ function mt:w3x2lni(files, paths, output_dir)
             if type(txt) == 'table' then
                 for i = 1, #txt do
                     local name = 'units\\' .. txt[i]
+                    template:add_txt(read_txt(files[name] or io.load(self.dir['meta'] / txt[i])))
                     if files[name] then
-                        template:add_txt(read_txt(files[name]))
                         delete[name] = true
                     end
                 end
             elseif txt then
                 local name = 'units\\' .. txt
+                template:add_txt(read_txt(files[name] or io.load(self.dir['meta'] / txt)))
                 if files[name] then
-                    template:add_txt(read_txt(files[name]))
                     delete[name] = true
                 end
             end
