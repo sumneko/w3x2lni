@@ -13,6 +13,7 @@ local read_ini = require 'read_ini'
 local read_txt = require 'read_txt'
 local create_template = require 'create_template'
 local create_key_type = require 'create_key_type'
+local create_order_list = require 'create_order_list'
 
 local rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename():remove_filename()
 local meta_dir = rootpath / 'src' / 'meta'
@@ -59,7 +60,7 @@ local function main()
 		else
 			template:add_slk(read_slk(io.load(meta_dir / slk)))
 		end
-		
+
 		local txt = w3x2txt.config['template']['txt'][file_name]
 		if type(txt) == 'table' then
 			for i = 1, #txt do
@@ -73,6 +74,11 @@ local function main()
 		local content = w3x2txt:obj2lni(data, metadata, editstring)
 		io.save(template_dir / (file_name .. '.ini'), content)
 	end
+
+	-- 生成技能命令映射
+	local skill_data = lni:loader(io.load(template_dir / 'war3map.w3a.ini'))
+	local order_list = create_order_list(skill_data)
+	io.save(meta_dir / 'order_list.lua', order_list)
 
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
 end
