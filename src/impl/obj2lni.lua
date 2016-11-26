@@ -171,6 +171,9 @@ function mt:find_origin_id(obj)
     if not temp then
         return
     end
+    if not obj['_origin_id'] or temp[obj['_user_id']] then
+        obj['_origin_id'] = obj['_user_id']
+    end
     local id = obj['_origin_id']
     if not temp[id] then
         if not self.temp_reverse then

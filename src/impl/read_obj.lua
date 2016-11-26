@@ -37,6 +37,7 @@ function mt:read_obj()
 	obj['_origin_id'], obj['_user_id'] = self:unpack 'c4c4'
 	if obj['_user_id'] == '\0\0\0\0' then
 		obj['_user_id'] = obj['_origin_id']
+		obj['_origin_id'] = nil
 	end
 	local count = self:unpack 'l'
 	for i = 1, count do
