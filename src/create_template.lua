@@ -216,6 +216,11 @@ function mt:read_txt_data(skill, code, name, value, txt)
     return self:read_txt_value(name, id, level, value)
 end
 
+local only_first = {'Art', 'Hotkey', 'Researchhotkey', 'Tip', 'Ubertip'}
+for k, v in ipairs(only_first) do
+    only_first[v] = true
+end
+
 function mt:read_txt_value(name, id, level, value)
     local meta = self.meta[id]
     value = splite(value)
@@ -227,7 +232,7 @@ function mt:read_txt_value(name, id, level, value)
             end
             return tbl
         end
-    elseif name == 'Art' then
+    elseif only_first[name] then
         if type(value) == 'table' then
             value = value[1]
         end
