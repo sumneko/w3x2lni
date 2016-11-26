@@ -20,6 +20,7 @@ local meta_dir = rootpath / 'src' / 'meta'
 local key_dir = rootpath / 'src' / 'key'
 local root_dir = rootpath / 'src'
 local template_dir = rootpath / 'template'
+local skill_dir = rootpath / 'src' / 'skill'
 
 local function main()
 	w3x2txt:init()
@@ -78,7 +79,7 @@ local function main()
 	-- 生成技能命令映射
 	local skill_data = lni:loader(io.load(template_dir / 'war3map.w3a.ini'))
 	local order_list = create_order_list(skill_data)
-	io.save(meta_dir / 'order_list.lua', order_list)
+	io.save(skill_dir / 'order_list.lua', order_list)
 
 	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
 end
