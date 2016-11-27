@@ -402,7 +402,7 @@ function mt:w3x2lni(files, paths, output_dir)
                 data = self:on_lni(file_name, data)
             end
             local max_level_key = self.config['key']['max_level'][file_name]
-            local content = self.w3x2txt:obj2lni(data, metadata, editstring, temp_data, key_data, max_level_key)
+            local content = self.w3x2txt:obj2lni(data, metadata, editstring, temp_data, key_data, max_level_key, file_name)
             if wts then
                 content = wts:load(content)
             end

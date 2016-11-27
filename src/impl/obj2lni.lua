@@ -112,8 +112,10 @@ function mt:add_obj(obj)
             origin_id = id
         end
     end
-    if obj['slk'] then
+    if obj['_slk'] then
         self:add_slk_data(obj, origin_id)
+        names, datas = self:preload_obj(obj)
+        count, sames = self:try_obj(user_id, origin_id, names, datas)
     end
     local lines = {}
 	for i = 1, #names do
@@ -152,15 +154,23 @@ function mt:preload_obj(obj)
 end
 
 function mt:try_obj(user_id, origin_id, names, datas)
+    local template = self.template and (self.template[user_id] or self.template[origin_id])
 	local sames = {}
     local count = 0
 	for i = 1, #names do
-		sames[i] = self:add_template_data(user_id, origin_id, names[i], datas[names[i]])
+		sames[i] = self:add_template_data(template, names[i], datas[names[i]])
 		if not sames[i] then
             count = count + 1
 			need_new = true
 		end
 	end
+    if template then
+        for name in pairs(template) do
+            if not datas[name] and name:sub(1, 1) ~= '_' then
+                count = count + 1
+            end
+        end
+    end
 	if need_new then
         return count, sames
 	end
@@ -215,15 +225,18 @@ function mt:find_origin_id(obj)
     end
     local oid = obj['_origin_id']
     if oid then
-        local list = self:get_revert(temp, oid)
+        local list = self:get_revert_list(temp, oid)
         if list then
             return list
         end
     end
+    if self.file_name == 'war3map.w3u' then
+        return self:get_unit_list(temp, id)
+    end
     return temp
 end
 
-function mt:get_revert(temp, id)
+function mt:get_revert_list(temp, id)
     if not self.revert_list then
         self.revert_list = {}
         for name, obj in pairs(temp) do
@@ -235,6 +248,30 @@ function mt:get_revert(temp, id)
         end
     end
     return self.revert_list[id]
+end
+
+function mt:get_unit_list(temp, id)
+    if not self.unit_list then
+        local count1 = 0
+        local count2 = 0
+        self.unit_list = {}
+        self.hero_list = {}
+        for name in pairs(temp) do
+            if name:find('^%l') then
+                self.unit_list[name] = true
+                count1 = count1 + 1
+            else
+                self.hero_list[name] = true
+                count2 = count2 + 1
+            end
+        end
+        print('unit_list', count1, count2)
+    end
+    if id:find('^%l') then
+        return self.unit_list
+    else
+        return self.hero_list
+    end
 end
 
 function mt:key2id(code, skill, key)
@@ -313,8 +350,7 @@ function mt:to_type(id, value)
     return value
 end
 
-function mt:add_template_data(uid, id, name, data)
-	local template = self.template and (self.template[uid] or self.template[id])
+function mt:add_template_data(template, name, data)
 	local has_temp = true
 	if not template then
 		template = {}
@@ -382,7 +418,7 @@ function mt:count_max_level(skill, name, data, max_level)
 	end
 end
 
-return function (self, data, meta, editstring, template, key, max_level_key)
+return function (self, data, meta, editstring, template, key, max_level_key, file_name)
 	local tbl = setmetatable({}, mt)
 	tbl.lines = {}
 	tbl.self = self
@@ -392,6 +428,7 @@ return function (self, data, meta, editstring, template, key, max_level_key)
 	tbl.has_level = meta._has_level
 	tbl.editstring = editstring or {}
 	tbl.max_level_key = max_level_key
+    tbl.file_name = file_name
 
 	tbl:add_head(data)
 	tbl:add_chunk(data)
