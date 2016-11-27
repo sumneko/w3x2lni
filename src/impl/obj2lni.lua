@@ -9,6 +9,17 @@ local type = type
 local pairs = pairs
 local setmetatable = setmetatable
 
+local function copy(tbl)
+    local ntbl = {}
+    for k, v in pairs(tbl) do
+        if type(v) == 'table' then
+            v = copy(v)
+        end
+        ntbl[k] = v
+    end
+    return ntbl
+end
+
 local mt = {}
 mt.__index = mt
 
@@ -96,13 +107,17 @@ function mt:add_chunk(chunk)
 	end
 end
 
-function mt:add_obj(obj)
-    local ids = {}
+function mt:add_obj(object)
     local sames
     local orign_id
     local count
-    ids = self:find_origin_id(obj)
+    local is_slk = object['_slk']
+    local obj = object
+    if is_slk then
+        obj = copy(object)
+    end
     local user_id = obj['_user_id']
+    local ids = self:find_origin_id(obj) or {}
     local names, datas = self:preload_obj(obj)
     for id in pairs(ids) do
         local new_count, new_sames = self:try_obj(user_id, id, names, datas)
@@ -112,7 +127,8 @@ function mt:add_obj(obj)
             origin_id = id
         end
     end
-    if obj['_slk'] then
+    if is_slk then
+        obj = object
         self:add_slk_data(obj, origin_id)
         names, datas = self:preload_obj(obj)
         count, sames = self:try_obj(user_id, origin_id, names, datas)
