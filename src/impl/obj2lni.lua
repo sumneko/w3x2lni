@@ -101,12 +101,7 @@ function mt:add_obj(obj)
     local sames
     local orign_id
     local count
-    if obj['_slk'] then
-        ids = self:find_origin_id(obj)
-        self:add_slk_data(obj)
-    else
-        ids = self:find_origin_id(obj)
-    end
+    ids = self:find_origin_id(obj)
     local user_id = obj['_user_id']
     local names, datas = self:preload_obj(obj)
     for id in pairs(ids) do
@@ -116,6 +111,9 @@ function mt:add_obj(obj)
             count = new_count
             origin_id = id
         end
+    end
+    if obj['slk'] then
+        self:add_slk_data(obj, origin_id)
     end
     local lines = {}
 	for i = 1, #names do
@@ -208,7 +206,8 @@ end
 function mt:find_origin_id(obj)
     local temp = self.template
     if not temp then
-        return
+        local id = obj['_origin_id']
+        return {[id] = true}
     end
     local id = obj['_user_id']
     if temp[id] then
@@ -249,8 +248,7 @@ function mt:key2id(code, skill, key)
     return nil
 end
 
-function mt:add_slk_data(obj)
-    local id = obj['_origin_id']
+function mt:add_slk_data(obj, id)
     local temp = self.template
     local temp_skill
     if temp then
