@@ -95,8 +95,8 @@ function mt:add_obj(obj)
 	local names = {}
 	local datas = {}
 	local sames = {}
+    self:find_origin_id(obj)
     if obj['_slk'] then
-        self:find_origin_id(obj)
         self:add_slk_data(obj)
     end
 	for name, data in pairs(obj) do
