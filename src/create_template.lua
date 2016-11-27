@@ -87,9 +87,6 @@ function mt:pack_data(obj, name, value, level)
     if not level then
         level = 1
     end
-    if obj[name][level] then
-        return
-    end
     obj[name][level] = value
     obj[name]['_slk'][level] = true
 end
