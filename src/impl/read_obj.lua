@@ -38,6 +38,8 @@ function mt:read_obj()
 	if obj['_user_id'] == '\0\0\0\0' then
 		obj['_user_id'] = obj['_origin_id']
 		obj['_origin_id'] = nil
+	else
+		obj['_true_origin'] = true
 	end
 	local count = self:unpack 'l'
 	for i = 1, count do

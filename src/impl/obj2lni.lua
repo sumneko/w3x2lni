@@ -117,7 +117,7 @@ function mt:add_obj(obj)
     end
     local lines = {}
 	for i = 1, #names do
-		if not sames[i] then
+		if sames and not sames[i] then
 			self:add_data(names[i], datas[names[i]], obj, lines)
 		end
 	end
@@ -205,7 +205,7 @@ end
 
 function mt:find_origin_id(obj)
     local temp = self.template
-    if not temp then
+    if not temp or obj['_true_origin'] then
         local id = obj['_origin_id']
         return {[id] = true}
     end
@@ -228,12 +228,10 @@ function mt:get_revert(temp, id)
         self.revert_list = {}
         for name, obj in pairs(temp) do
             local _id = obj['_id']
-            if name ~= _id then
-                if not self.revert_list[_id] then
-                    self.revert_list[_id] = {}
-                end
-                self.revert_list[_id][name] = true
+            if not self.revert_list[_id] then
+                self.revert_list[_id] = {}
             end
+            self.revert_list[_id][name] = true
         end
     end
     return self.revert_list[id]
