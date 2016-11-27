@@ -86,58 +86,97 @@ function mt:add_chunk(chunk)
 		end
 		return name1 < name2
 	end)
+    local clock = os.clock()
 	for i = 1, #names do
 		self:add_obj(chunk[names[i]])
+        if os.clock() - clock >= 1 then
+            clock = os.clock()
+            print(('正在转换:[%s] (%03d/%03d)'):format(names[i], i, #names))
+        end
 	end
 end
 
 function mt:add_obj(obj)
-	local names = {}
-	local datas = {}
-	local sames = {}
-    self:find_origin_id(obj)
+    local ids = {}
+    local sames
+    local orign_id
+    local count
     if obj['_slk'] then
+        ids = self:find_origin_id(obj)
         self:add_slk_data(obj)
+    else
+        ids = self:find_origin_id(obj)
     end
-	for name, data in pairs(obj) do
+    local user_id = obj['_user_id']
+    local names, datas = self:preload_obj(obj)
+    for id in pairs(ids) do
+        local new_count, new_sames = self:try_obj(user_id, id, names, datas)
+        if not count or count > new_count or (origin_id > id and count == new_count) then
+            sames = new_sames
+            count = new_count
+            origin_id = id
+        end
+    end
+    local lines = {}
+	for i = 1, #names do
+		if not sames[i] then
+			self:add_data(names[i], datas[names[i]], obj, lines)
+		end
+	end
+    if not lines or #lines == 0 then
+        return
+    end
+	self:add ''
+	self:add('[%s]', obj['_user_id'])
+	self:add('%s = %q', '_id', origin_id)
+    for i = 1, #lines do
+        self:add(table.unpack(lines[i]))
+    end
+end
+
+function mt:preload_obj(obj)
+    local names = {}
+	local datas = {}
+    for name, data in pairs(obj) do
 		if name:sub(1, 1) ~= '_' then
 			data['_c4id'] = name
 			local name = self:format_name(name)
-			table_insert(names, name)
+			names[#names+1] = name
 			datas[name] = data
 		end
 	end
 	table_sort(names)
-	local need_new = false
 	local max_level = self:find_max_level(datas)
 	for i = 1, #names do
 		self:count_max_level(obj['_user_id'], names[i], datas[names[i]], max_level)
-		sames[i] = self:add_template_data(obj['_user_id'], obj['_origin_id'], names[i], datas[names[i]])
+	end
+    return names, datas
+end
+
+function mt:try_obj(user_id, origin_id, names, datas)
+	local sames = {}
+    local count = 0
+	for i = 1, #names do
+		sames[i] = self:add_template_data(user_id, origin_id, names[i], datas[names[i]])
 		if not sames[i] then
+            count = count + 1
 			need_new = true
 		end
 	end
-	if not need_new then
-		return
+	if need_new then
+        return count, sames
 	end
-	self:add ''
-	self:add('[%s]', obj['_user_id'])
-	self:add('%s = %q', '_id', obj['_origin_id'])
-	for i = 1, #names do
-		if not sames[i] then
-			self:add_data(names[i], datas[names[i]], obj)
-		end
-	end
+    return 0, nil
 end
 
-function mt:add_data(name, data, obj)
+function mt:add_data(name, data, obj, lines)
 	if name:match '[^%w%_]' then
 		name = ('%q'):format(name)
 	end
-	self:add('-- %s', self:get_comment(data.name))
+    lines[#lines+1] = {'-- %s', self:get_comment(data.name)}
 	local values = {}
 	if data._max_level <= 1 then
-		self:add('%s = %s', name, self:format_value(data[1]))
+		lines[#lines+1] = {'%s = %s', name, self:format_value(data[1])}
 	else
 		local is_string
 		for i = 1, data._max_level do
@@ -151,7 +190,7 @@ function mt:add_data(name, data, obj)
 			end
 		end
 		if is_string or data._max_level >= 10 then
-			self:add('%s = {\r\n%s,\r\n}', name, table_concat(values, ',\r\n'))
+			lines[#lines+1] = {'%s = {\r\n%s,\r\n}', name, table_concat(values, ',\r\n')}
 		else
 			local suc, info = pcall(table_concat, values, ', ')
 			if not suc then
@@ -161,7 +200,7 @@ function mt:add_data(name, data, obj)
 				end
 				error(info)
 			end
-			self:add('%s = {%s}', name, table_concat(values, ', '))
+			lines[#lines+1] = {'%s = {%s}', name, table_concat(values, ', ')}
 		end
 	end
 end
@@ -171,25 +210,34 @@ function mt:find_origin_id(obj)
     if not temp then
         return
     end
-    if not obj['_origin_id'] or temp[obj['_user_id']] then
-        obj['_origin_id'] = obj['_user_id']
+    local id = obj['_user_id']
+    if temp[id] then
+        return {[id] = true}
     end
-    local id = obj['_origin_id']
-    if not temp[id] then
-        if not self.temp_reverse then
-            self.temp_reverse = {}
-            for uid, data in pairs(temp) do
-                local oid = data['_id']
-                if not temp[oid] and (not self.temp_reverse[oid] or uid < self.temp_reverse[oid]) then
-                    self.temp_reverse[oid] = uid
+    local oid = obj['_origin_id']
+    if oid then
+        local list = self:get_revert(temp, oid)
+        if list then
+            return list
+        end
+    end
+    return temp
+end
+
+function mt:get_revert(temp, id)
+    if not self.revert_list then
+        self.revert_list = {}
+        for name, obj in pairs(temp) do
+            local _id = obj['_id']
+            if name ~= _id then
+                if not self.revert_list[_id] then
+                    self.revert_list[_id] = {}
                 end
-                if not self.temp_first or uid < self.temp_first then
-                    self.temp_first = uid
-                end
+                self.revert_list[_id][name] = true
             end
         end
-        obj['_origin_id'] = self.temp_reverse[id] or self.temp_first
     end
+    return self.revert_list[id]
 end
 
 function mt:key2id(code, skill, key)
