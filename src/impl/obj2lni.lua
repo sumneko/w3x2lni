@@ -268,20 +268,15 @@ end
 
 function mt:get_unit_list(temp, id)
     if not self.unit_list then
-        local count1 = 0
-        local count2 = 0
         self.unit_list = {}
         self.hero_list = {}
         for name in pairs(temp) do
             if name:find('^%l') then
                 self.unit_list[name] = true
-                count1 = count1 + 1
             else
                 self.hero_list[name] = true
-                count2 = count2 + 1
             end
         end
-        print('unit_list', count1, count2)
     end
     if id:find('^%l') then
         return self.unit_list
