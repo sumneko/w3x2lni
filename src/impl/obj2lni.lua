@@ -250,7 +250,7 @@ function mt:find_origin_id(obj)
         end
     end
     if self.file_name == 'war3map.w3u' then
-        return self:get_unit_list(temp, id)
+        return self:get_unit_list(temp, obj['_name'])
     end
     return temp
 end
@@ -269,23 +269,22 @@ function mt:get_revert_list(temp, id)
     return self.revert_list[id]
 end
 
-function mt:get_unit_list(temp, id)
+function mt:get_unit_list(temp, name)
     if not self.unit_list then
         self.unit_list = {}
-        self.hero_list = {}
-        for name in pairs(temp) do
-            if name:find('^%l') then
-                self.unit_list[name] = true
+        for name, obj in pairs(temp) do
+            local _name = obj['_name']
+            if _name then
+                if not self.unit_list[_name] then
+                    self.unit_list[_name] = {}
+                end
+                self.unit_list[_name][name] = true
             else
-                self.hero_list[name] = true
+                print(name)
             end
         end
     end
-    if id:find('^%l') then
-        return self.unit_list
-    else
-        return self.hero_list
-    end
+    return self.unit_list[name]
 end
 
 function mt:key2id(code, skill, key)
