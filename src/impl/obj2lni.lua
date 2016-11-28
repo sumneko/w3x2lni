@@ -369,24 +369,12 @@ function mt:add_template_data(template, name, data, try)
 		has_temp = false
 	end
 	local all_same = true
-    local max_meta
-	local meta = self.meta[data['_c4id']]
-	if meta['repeat'] and meta['repeat'] > 0 then
-		max_meta = 4
-	else
-		max_meta = 1
-	end
 	local template = template[name]
 	if type(template) ~= 'table' then
 		template = {template}
 	end
 	for i = data._max_level, 1, -1 do
-		local temp_data
-		if i > max_meta then
-			temp_data = template[max_meta]
-		else
-			temp_data = template[i]
-		end
+		local temp_data = template[i] or template[#template]
 		if not temp_data then
 			temp_data = self:to_type(data['_c4id'])
 		end

@@ -72,7 +72,7 @@ local function main()
 		end
 
 		local data = template:save(metadata, key)
-		local content = w3x2txt:obj2lni(data, metadata, editstring)
+		local content = w3x2txt:obj2lni(data, metadata, editstring, nil, key, w3x2txt.config['key']['max_level'][file_name])
 		io.save(template_dir / (file_name .. '.ini'), content)
 	end
 
