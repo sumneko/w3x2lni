@@ -372,11 +372,6 @@ Missilearc=0.15
 Missilespeed=900
 MissileHoming=1
 
-[Aimp]
-Requires=Repb
-Art=ReplaceableTextures\PassiveButtons\PASBTNVorpalBlades.blp
-Buttonpos=0,2
-
 //#RESTNOBETA
 [etrs]
 Art=ReplaceableTextures\CommandButtons\BTNNightElfTransport.blp
