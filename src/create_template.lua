@@ -65,6 +65,7 @@ function mt:read_obj(obj, skill, data, type)
         if data['name'] then
             obj['_name'] = data['name']
         end
+        obj['_enable'] = true
     end
     
     if type == 'txt' then

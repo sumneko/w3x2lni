@@ -108,10 +108,13 @@ function mt:add_chunk(chunk)
 end
 
 function mt:add_obj(obj)
+    local is_slk = obj['_slk']
+    if is_slk and not obj['_enable'] then
+        return
+    end
     local sames
     local orign_id
     local count
-    local is_slk = obj['_slk']
     local user_id = obj['_user_id']
     local ids = self:find_origin_id(obj) or {}
     local names, datas = self:preload_obj(obj)
