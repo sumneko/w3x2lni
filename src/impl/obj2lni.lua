@@ -145,6 +145,9 @@ function mt:add_obj(object)
 	self:add ''
 	self:add('[%s]', obj['_user_id'])
 	self:add('%s = %q', '_id', origin_id)
+    if obj['_name'] then
+        self:add('%s = %q', '_name', obj['_name'])
+    end
     for i = 1, #lines do
         self:add(table.unpack(lines[i]))
     end

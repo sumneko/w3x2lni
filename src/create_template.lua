@@ -62,6 +62,9 @@ function mt:read_obj(obj, skill, data, type)
                 self:pack_data(obj, name, value, level)
             end
         end
+        if data['name'] then
+            obj['_name'] = data['name']
+        end
     end
     
     if type == 'txt' then
