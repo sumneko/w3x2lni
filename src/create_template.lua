@@ -102,9 +102,10 @@ function mt:to_type(id, value)
     elseif tp == 1 or tp == 2 then
         value = (tonumber(value) or 0.0) + 0.0
     elseif tp == 3 then
-        value = value or ''
-        if value:match '^%s*[%-%_]%s*$' then
-            value = ''
+        if type(value) == 'string' then
+            if value:match '^%s*[%-%_]%s*$' then
+                value = nil
+            end
         end
     end
     return value
