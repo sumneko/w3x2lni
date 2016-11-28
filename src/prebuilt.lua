@@ -15,7 +15,12 @@ local create_template = require 'create_template'
 local create_key_type = require 'create_key_type'
 local create_order_list = require 'create_order_list'
 
-local rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename():remove_filename()
+local rootpath
+if arg[1] then
+	rootpath = fs.path(arg[1])
+else
+	rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename():remove_filename()
+end
 local meta_dir = rootpath / 'src' / 'meta'
 local key_dir = rootpath / 'src' / 'key'
 local root_dir = rootpath / 'src'
@@ -23,7 +28,7 @@ local template_dir = rootpath / 'template'
 local skill_dir = rootpath / 'src' / 'skill'
 
 local function main()
-	w3x2txt:init()
+	w3x2txt:init(arg[1])
 
 	-- 生成key_type
 	local keydata = read_txt(io.load(meta_dir / 'uniteditordata.txt'))

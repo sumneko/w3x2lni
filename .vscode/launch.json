@@ -26,7 +26,21 @@
             "path": "",
             "cpath": "${workspaceRoot}/src/build/?.dll;",
             "arg": [
-               "${workspaceRoot}/NicoPoiDuang_4.0",
+               "${workspaceRoot}/1_All_Star_Battle_3.1d_editor.w3x",
+               "${workspaceRoot}"
+            ],
+            "console" : "ansi"
+        },
+        {
+            "name": "预生成",
+            "type": "lua",
+            "request": "launch",
+            "program": "${workspaceRoot}/src/prebuilt.lua",
+            "stopOnEntry": true,
+            "cwd": "${workspaceRoot}/src/build",
+            "path": "",
+            "cpath": "${workspaceRoot}/src/build/?.dll;",
+            "arg": [
                "${workspaceRoot}"
             ],
             "console" : "ansi"
