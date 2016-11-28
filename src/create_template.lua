@@ -213,7 +213,7 @@ function mt:read_txt_data(skill, code, name, value, txt)
     return self:read_txt_value(name, id, level, value)
 end
 
-local only_first = {'art', 'hotkey', 'researchhotkey', 'tip', 'ubertip', 'name', 'researchtip'}
+local only_first = {'art', 'hotkey', 'researchhotkey', 'name', 'researchtip'}
 for k, v in ipairs(only_first) do
     only_first[v] = true
 end
