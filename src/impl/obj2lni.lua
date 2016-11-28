@@ -399,7 +399,7 @@ function mt:add_template_data(template, name, data, try)
 				all_same = false
 			end
 		end
-		if not try and all_same and data['_slk'] and data['_slk'][i] and (has_temp or i > 1) then
+		if not try and all_same and (self.config['unpack']['remove_same'] or (data['_slk'] and data['_slk'][i])) and (has_temp or i > 1) then
 			data[i] = nil
 			data._max_level = i - 1
 		end
@@ -425,6 +425,9 @@ function mt:count_max_level(skill, name, data, max_level)
 	if max_level and meta['repeat'] and meta['repeat'] > 0 then
 		data._max_level = max_level
 	end
+	if self.config['unpack']['remove_over_level'] then
+		return
+	end
 	for k in pairs(data) do
 		if type(k) == 'number' and k > data._max_level then
 			data._max_level = k
@@ -443,6 +446,7 @@ return function (self, data, meta, editstring, template, key, max_level_key, fil
 	tbl.editstring = editstring or {}
 	tbl.max_level_key = max_level_key
     tbl.file_name = file_name
+	tbl.config = self.config
 
 	tbl:add_head(data)
 	tbl:add_chunk(data)
