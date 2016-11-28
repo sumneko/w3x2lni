@@ -279,8 +279,6 @@ function mt:get_unit_list(temp, name)
                     self.unit_list[_name] = {}
                 end
                 self.unit_list[_name][name] = true
-            else
-                print(name)
             end
         end
     end
