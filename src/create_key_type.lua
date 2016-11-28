@@ -33,11 +33,7 @@ local function splite(str)
     if str:sub(-1, -1) == ',' then
         tbl[#tbl+1] = ''
     end
-    if #tbl > 1 then
-        return tbl
-    else
-        return tbl[1]
-    end
+    return tbl
 end
 
 return function(txt)

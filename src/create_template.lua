@@ -175,11 +175,7 @@ local function splite(str)
     if str:sub(-1, -1) == ',' then
         tbl[#tbl+1] = ''
     end
-    if #tbl > 1 then
-        return tbl
-    else
-        return tbl[1]
-    end
+    return tbl
 end
 
 function mt:read_txt_data(skill, code, name, value, txt)
@@ -189,6 +185,7 @@ function mt:read_txt_data(skill, code, name, value, txt)
     local data = {}
     local id = self:key2id(code, skill, name)
     local level
+
     if not id then
         level = tonumber(name:sub(-1))
         if level then
@@ -200,16 +197,14 @@ function mt:read_txt_data(skill, code, name, value, txt)
     
     if not id then
         local value = splite(value)
-        if type(value) == 'table' then
-            local id = self:key2id(code, skill, name .. ':1')
-            if id then
-                local tbl = {}
-                for count = 1, #value do
-                    local id = self:key2id(code, skill, name .. ':' .. count)
-                    tbl[count] = {id, value[count], level}
-                end
-                return tbl
+        local id = self:key2id(code, skill, name .. ':1')
+        if id then
+            local tbl = {}
+            for count = 1, #value do
+                local id = self:key2id(code, skill, name .. ':' .. count)
+                tbl[count] = {id, value[count], level}
             end
+            return tbl
         end
         return nil
     end
@@ -217,30 +212,31 @@ function mt:read_txt_data(skill, code, name, value, txt)
     return self:read_txt_value(name, id, level, value)
 end
 
-local only_first = {'Art', 'Hotkey', 'Researchhotkey', 'Tip', 'Ubertip'}
+local only_first = {'art', 'hotkey', 'researchhotkey', 'tip', 'ubertip'}
 for k, v in ipairs(only_first) do
     only_first[v] = true
 end
 
+local force_array = {'requires', 'animnames'}
+for k, v in ipairs(force_array) do
+    force_array[v] = true
+end
 function mt:read_txt_value(name, id, level, value)
+    if force_array[name:lower()] then
+        return {{id, value, level or 1}}
+    end
     local meta = self.meta[id]
     value = splite(value)
     if meta['repeat'] and meta['repeat'] > 0 then
-        if type(value) == 'table' then
-            local tbl = {}
-            for count = 1, #value do
-                tbl[count] = {id, value[count], count}
-            end
-            return tbl
+        local tbl = {}
+        for count = 1, #value do
+            tbl[count] = {id, value[count], count}
         end
-    elseif only_first[name] then
-        if type(value) == 'table' then
-            value = value[1]
-        end
+        return tbl
+    elseif only_first[name:lower()] then
+        value = value[1]
     else
-        if type(value) == 'table' then
-            value = table.concat(value, ',')
-        end
+        value = table.concat(value, ',')
     end
     return {{id, value, level}}
 end
