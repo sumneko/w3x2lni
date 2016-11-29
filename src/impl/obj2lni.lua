@@ -337,6 +337,9 @@ function mt:add_slk_data(obj, id)
                 if not obj[name][i] then
                     obj[name]['_slk'][i] = true
                     obj[name][i] = self:to_type(name)
+                    if not obj[name][i] and i == 1 then
+                        obj[name][i] = ''
+                    end
                 end
             end
         end
@@ -359,10 +362,8 @@ function mt:to_type(id, value)
     elseif tp == 3 then
         if type(value) == 'string' then
             if value:match '^%s*[%-%_]%s*$' then
-                value = ''
+                value = nil
             end
-        else
-            value = ''
         end
     end
     return value
@@ -383,6 +384,9 @@ function mt:add_template_data(template, name, data, try)
 		local temp_data = template[i] or template[#template]
 		if not temp_data then
 			temp_data = self:to_type(data['_c4id'])
+            if not temp_data and i == 1 then
+                temp_data = ''
+            end
 		end
 		if data[i] == nil then
             if not try then
