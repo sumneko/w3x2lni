@@ -334,7 +334,10 @@ function mt:add_slk_data(obj, id)
                 max_level = 1
             end
             for i = 1, max_level do
-                if not obj[name][i] then
+                if obj[name][i] == false then
+                    obj[name][i] = obj[name][i-1]
+                end
+                if obj[name][i] == nil then
                     obj[name]['_slk'][i] = true
                     obj[name][i] = self:to_type(name)
                     if not obj[name][i] and i == 1 then
