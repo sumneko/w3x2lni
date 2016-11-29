@@ -401,7 +401,7 @@ function mt:add_template_data(template, name, data, try)
             if all_same and (self.config['unpack']['remove_same'] or (data['_slk'] and data['_slk'][i])) and i > 1 then
                 data[i] = nil
                 data._max_level = i - 1
-            elseif has_temp == false and data[i] == data[i-1] then
+            elseif has_temp == false and i == data._max_level and data[i] == data[i-1] then
                 data[i] = nil
                 data._max_level = i - 1
             end
