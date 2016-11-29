@@ -188,10 +188,13 @@ function mt:read_txt_data(skill, code, name, value, txt)
     local tbl = splite(value)
 
     if not id then
+        if not txt then
+            return nil
+        end
         for i = 1, #tbl do
             local new_name = name .. ':' .. i
-            if self:key2id(code, skill, new_name) then
-                local res = self:read_txt_data(skill, code, new_name, tbl[i], txt)
+            local res = self:read_txt_data(skill, code, new_name, tbl[i])
+            if res then
                 data[#data+1] = res[1]
             end
         end
