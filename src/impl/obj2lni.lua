@@ -382,7 +382,7 @@ function mt:add_template_data(template, name, data, try)
 	end
 	for i = data._max_level, 1, -1 do
 		local temp_data = template[i] or template[#template]
-		if not temp_data then
+		if not temp_data and has_temp then
 			temp_data = self:to_type(data['_c4id'])
             if not temp_data and i == 1 then
                 temp_data = ''
@@ -397,13 +397,15 @@ function mt:add_template_data(template, name, data, try)
 				all_same = false
 			end
 		end
-		if not try and all_same and (self.config['unpack']['remove_same'] or (data['_slk'] and data['_slk'][i])) and (has_temp or i > 1) then
-            data[i] = nil
-            data._max_level = i - 1
-        elseif has_temp == false and data[i] == data[i-1] then
-            data[i] = nil
-            data._max_level = i - 1
-		end
+        if not try then
+            if all_same and (self.config['unpack']['remove_same'] or (data['_slk'] and data['_slk'][i])) and i > 1 then
+                data[i] = nil
+                data._max_level = i - 1
+            elseif has_temp == false and data[i] == data[i-1] then
+                data[i] = nil
+                data._max_level = i - 1
+            end
+        end
 	end
 	return all_same and has_temp
 end
@@ -413,6 +415,9 @@ function mt:find_max_level(datas)
 	if not key then
 		return nil
 	end
+    if not self.template then
+        return 4
+    end
 	local data = datas[key]
 	if not data then
 		return nil
