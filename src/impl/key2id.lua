@@ -14,6 +14,21 @@ local function isignore(id1, id2)
     return false
 end
 
+local function hasname(skl, template, private, name, id)
+    local data = template[skl]
+    if not data then
+        return false
+    end
+    local code = data['code']
+    if code == skl then
+        return false
+    end
+    if private[code] and private[code][name] and private[code][name] ~= id then
+        return true
+    end
+    return hasname(code, template, private, name, id)
+end
+
 function mt:addtable(tbl, name, id)
     if tbl[name] then
         if not isignore(id, tbl[name]) then
@@ -106,8 +121,8 @@ local function add_private(tbl, private)
     end
 end
 
-local function copy_code(private, ability)
-    for skill, data in pairs(ability) do
+local function copy_code(private, template)
+    for skill, data in pairs(template) do
         local code = data['code']
         if skill ~= code and private[code] then
             if not private[skill] then
@@ -120,11 +135,24 @@ local function copy_code(private, ability)
             end
         end
     end
+
     -- AOac进行特殊处理
     private['AOac'] = private['ACac']
+
+    for skill, data in pairs(private) do
+        for name, id in pairs(data) do
+            if hasname(skill, template, private, name, id) then
+                print('发现冲突的id', skill, name, id)
+                data[name] = nil
+            end
+        end
+        if not next(data) then
+            private[skill] = nil
+        end
+    end
 end
 
-local function read_list(self, metadata, extension)
+local function read_list(self, metadata, template, extension)
     local tbl = setmetatable({}, { __index = mt })
     tbl.extension = extension
     tbl.lines = {}
@@ -136,8 +164,7 @@ local function read_list(self, metadata, extension)
         tbl:add_data(id, meta, public, private)
     end
     if extension == '.w3a' then
-        local ability = read_slk(io.load(self.dir['meta'] / 'abilitydata.slk'))
-        copy_code(private, ability)
+        copy_code(private, template)
     end
     return public, private
 end
@@ -151,8 +178,8 @@ local function convert_list(public, private)
     return table.concat(tbl, '\r\n') .. '\r\n'
 end
 
-return function (self, file_name, metadata)
-    local public, private = read_list(self, metadata, fs.path(file_name):extension():string())
+return function (self, file_name, metadata, template)
+    local public, private = read_list(self, metadata, template, fs.path(file_name):extension():string())
 
     return convert_list(public, private)
 end

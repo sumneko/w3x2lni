@@ -318,30 +318,32 @@ function mt:add_slk_data(obj, id)
             else
                 name = lname
             end
-            if not obj[name] then
-                obj[name] = {
-                    ['name'] = name,
-                }
-            end
-            if not obj[name]['_slk'] then
-                obj[name]['_slk'] = {}
-            end
-            local max_level
-            local meta = self.meta[name]
-            if meta['repeat'] and meta['repeat'] > 0 then
-                max_level = 4
-            else
-                max_level = 1
-            end
-            for i = 1, max_level do
-                if obj[name][i] == false then
-                    obj[name][i] = obj[name][i-1]
+            if name then
+                if not obj[name] then
+                    obj[name] = {
+                        ['name'] = name,
+                    }
                 end
-                if obj[name][i] == nil then
-                    obj[name]['_slk'][i] = true
-                    obj[name][i] = self:to_type(name)
-                    if not obj[name][i] and i == 1 then
-                        obj[name][i] = ''
+                if not obj[name]['_slk'] then
+                    obj[name]['_slk'] = {}
+                end
+                local max_level
+                local meta = self.meta[name]
+                if meta['repeat'] and meta['repeat'] > 0 then
+                    max_level = 4
+                else
+                    max_level = 1
+                end
+                for i = 1, max_level do
+                    if obj[name][i] == false then
+                        obj[name][i] = obj[name][i-1]
+                    end
+                    if obj[name][i] == nil then
+                        obj[name]['_slk'][i] = true
+                        obj[name][i] = self:to_type(name)
+                        if not obj[name][i] and i == 1 then
+                            obj[name][i] = ''
+                        end
                     end
                 end
             end

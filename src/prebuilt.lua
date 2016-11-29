@@ -27,6 +27,16 @@ local root_dir = rootpath / 'src'
 local template_dir = rootpath / 'template'
 local skill_dir = rootpath / 'src' / 'skill'
 
+local function add_table(t1, t2)
+    for k, v in pairs(t2) do
+        if type(t1[k]) == 'table' and type(v) == 'table' then
+            add_table(t1[k], v)
+        else
+            t1[k] = v
+        end
+    end
+end
+
 local function main()
 	w3x2txt:init(arg[1])
 
@@ -39,7 +49,16 @@ local function main()
     for file_name, meta in pairs(w3x2txt.config['metadata']) do
 		print('正在生成key2id', file_name)
 		local metadata = read_metadata(meta_dir / meta)
-		local content = w3x2txt:key2id(file_name, metadata)
+        local slk = w3x2txt.config['template']['slk'][file_name]
+        local template = {}
+		if type(slk) == 'table' then
+			for i = 1, #slk do
+				add_table(template, read_slk(io.load(meta_dir / slk[i])))
+			end
+		else
+			add_table(template, read_slk(io.load(meta_dir / slk)))
+		end
+		local content = w3x2txt:key2id(file_name, metadata, template)
 		io.save(key_dir / (file_name .. '.ini'), content)
 	end
 
