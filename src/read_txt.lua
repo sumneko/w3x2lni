@@ -3,8 +3,11 @@ local tonumber = tonumber
 local current_chunk
 
 local function convert(str)
-    if str:sub(1, 6) == '\x22\xAD\xA6\xE4\xB9\xA0' then
+    local s = str:sub(1, 6)
+    if s == '\x22\xAD\xA6\xE4\xB9\xA0' then
         str = '\xE5' .. str:sub(2)
+    elseif s == '\x22\xAE\xA9\xE7\x9B\xAE' then
+        str = '\xE8' .. str:sub(2)
     end
     return str
 end
