@@ -380,7 +380,7 @@ function mt:add_template_data(template, name, data, try)
 	for i = data._max_level, 1, -1 do
 		local temp_data = template[i] or template[#template]
 		if not temp_data then
-			temp_data = self:to_type(data['_c4id'])
+			temp_data = self:to_type(data['_c4id']) or ''
 		end
 		if data[i] == nil then
             if not try then
