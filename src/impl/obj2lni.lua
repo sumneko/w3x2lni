@@ -423,7 +423,7 @@ function mt:count_max_level(skill, name, data, max_level)
 	if max_level and meta['repeat'] and meta['repeat'] > 0 then
 		data._max_level = max_level
 	end
-	if self.config['unpack']['remove_over_level'] then
+	if self.template and self.config['unpack']['remove_over_level'] then
 		return
 	end
 	for k in pairs(data) do
