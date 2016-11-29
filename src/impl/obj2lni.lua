@@ -359,8 +359,10 @@ function mt:to_type(id, value)
     elseif tp == 3 then
         if type(value) == 'string' then
             if value:match '^%s*[%-%_]%s*$' then
-                value = nil
+                value = ''
             end
+        else
+            value = ''
         end
     end
     return value
@@ -380,7 +382,7 @@ function mt:add_template_data(template, name, data, try)
 	for i = data._max_level, 1, -1 do
 		local temp_data = template[i] or template[#template]
 		if not temp_data then
-			temp_data = self:to_type(data['_c4id']) or ''
+			temp_data = self:to_type(data['_c4id'])
 		end
 		if data[i] == nil then
             if not try then
