@@ -185,64 +185,51 @@ function mt:read_txt_data(skill, code, name, value, txt)
     end
     local data = {}
     local id = self:key2id(code, skill, name)
-    local level
+    local tbl = splite(value)
 
     if not id then
-        level = tonumber(name:sub(-1))
-        if level then
-            level = level+1
-            name = name:sub(1, -2)
-            id = self:key2id(code, skill, name)
+        for i = 1, #tbl do
+            local new_name = name .. ':' .. i
+            if self:key2id(code, skill, new_name) then
+                local res = self:read_txt_data(skill, code, new_name, tbl[i], txt)
+                data[#data+1] = res[1]
+            end
         end
+        return data
     end
     
-    if not id then
-        local value = splite(value)
-        local id = self:key2id(code, skill, name .. ':1')
-        if id then
-            local tbl = {}
-            for count = 1, #value do
-                local id = self:key2id(code, skill, name .. ':' .. count)
-                tbl[count] = {id, value[count], level}
-            end
-            return tbl
-        end
-        return nil
-    end
-
-    return self:read_txt_value(name, id, level, value)
-end
-
-local only_first = {'name', 'art', 'researchart', 'unart', 'hotkey', 'researchhotkey', 'unhotkey', 'researchtip', 'researchubertip'}
-for k, v in ipairs(only_first) do
-    only_first[v] = true
-end
-
-local force_array = {'requires', 'animnames'}
-for k, v in ipairs(force_array) do
-    force_array[v] = true
-end
-function mt:read_txt_value(name, id, level, value)
-    if force_array[name:lower()] then
-        return {{id, value, level or 1}}
-    end
     local meta = self.meta[id]
-    value = splite(value)
-    if meta['repeat'] and meta['repeat'] > 0 then
-        local tbl = {}
-        for count = 1, #value do
-            tbl[count] = {id, value[count], count}
+    if meta['appendIndex'] == 1 and txt then
+        local max_level = txt[name..'count'] or 1
+        for i = 1, max_level do
+            local new_name
+            if i == 1 then
+                new_name = name
+            else
+                new_name = name .. (i-1)
+            end
+            local res = self:read_txt_data(skill, code, name, txt[new_name])
+            data[i] = {id, res[1][2], i}
         end
-        return tbl
-    elseif only_first[name:lower()] then
-        value = value[1]
-    else
-        if value[#value] == false then
-            value[#value] = nil
-        end
-        value = table.concat(value, ',')
+        return data
     end
-    return {{id, value, level}}
+
+    local max_level = #tbl
+    if meta['index'] == -1 then
+        if tbl[#tbl] == false then
+            tbl[#tbl] = nil
+        end
+        tbl[1] = table.concat(tbl, ',')
+        max_level = 1
+    end
+    if not meta['repeat'] or meta['repeat'] == 0 then
+        max_level = 1
+    end
+
+    for i = 1, max_level do
+        data[i] = {id, tbl[i], i}
+    end
+    return data
 end
 
 function mt:save(meta, key)
