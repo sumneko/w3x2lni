@@ -344,7 +344,7 @@ function mt:extract_files(map_path, output_dir)
 	local map = stormlib.open(map_path)
 	local clock = os.clock()
 	local success, failed = 0, 0
-    local function extract_file(name)
+    local function extract_file(name, is_try)
 		local new_name, output_dir = name, output_dir
         if self.on_save then
             new_name, output_dir = self:on_save(name)
@@ -361,7 +361,7 @@ function mt:extract_files(map_path, output_dir)
 				files[name] = buf
 				paths[name] = path
 				success = success + 1
-			else
+			elseif not is_try then
 				failed = failed + 1
 				print('文件读取失败', name)
 			end
@@ -380,7 +380,7 @@ function mt:extract_files(map_path, output_dir)
 	end
 	for _, name in ipairs(list) do
         if not files[name:lower()] then
-		    extract_file(name:lower())
+		    extract_file(name:lower(), 'try')
         end
 	end
     if failed == 0 then
