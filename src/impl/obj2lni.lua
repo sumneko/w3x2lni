@@ -115,6 +115,7 @@ function mt:add_obj(obj)
     local orign_id
     local count, sames, names, datas
     local user_id = obj['_user_id']
+    local find_times = self.config['unpack']['find_id_times']
     local ids = self:find_origin_id(obj)
     for id in pairs(ids) do
         local new_obj = copy(obj)
@@ -131,6 +132,10 @@ function mt:add_obj(obj)
             origin_id = id
         end
         if not is_slk then
+            break
+        end
+        find_times = find_times - 1
+        if find_times == 0 then
             break
         end
     end
@@ -270,7 +275,7 @@ function mt:get_revert_list(temp, id)
             self.revert_list[_id][name] = true
         end
     end
-    return self.revert_list[id] or temp
+    return self.revert_list[id]
 end
 
 function mt:get_unit_list(temp, name)
