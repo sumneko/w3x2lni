@@ -115,7 +115,7 @@ function mt:add_obj(obj)
     local orign_id
     local count, sames, names, datas
     local user_id = obj['_user_id']
-    local ids = self:find_origin_id(obj) or {}
+    local ids = self:find_origin_id(obj)
     for id in pairs(ids) do
         local new_obj = copy(obj)
         if is_slk then
@@ -270,7 +270,7 @@ function mt:get_revert_list(temp, id)
             self.revert_list[_id][name] = true
         end
     end
-    return self.revert_list[id]
+    return self.revert_list[id] or temp
 end
 
 function mt:get_unit_list(temp, name)
@@ -286,7 +286,7 @@ function mt:get_unit_list(temp, name)
             end
         end
     end
-    return self.unit_list[name]
+    return self.unit_list[name] or temp
 end
 
 function mt:key2id(code, skill, key)
