@@ -4,7 +4,7 @@
 -- 3.如果最后一个字符是引号,则忽略该字符
 -- 4.如果当前字符为引号,则匹配到下一个引号,并忽略2端的字符
 -- 5.如果当前字符为逗号,则忽略该字符.如果上一个字符是逗号,则添加一个空串
--- 6.否则匹配到下一个逗号或引号,并忽略该字符
+-- 6.否则匹配到下一个逗号,并忽略该字符
 local function splite(str)
     local tbl = {}
     local cur = 1
@@ -25,7 +25,7 @@ local function splite(str)
             end
             cur = cur+1
         else
-            local pos = str:find('[%"%,]', cur+1) or (#str+1)
+            local pos = str:find(',', cur+1, true) or (#str+1)
             tbl[#tbl+1] = str:sub(cur, pos-1)
             cur = pos+1
         end
