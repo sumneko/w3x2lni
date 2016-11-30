@@ -112,32 +112,32 @@ function mt:add_obj(obj)
     if is_slk and not obj['_enable'] then
         return
     end
-    local sames
     local orign_id
-    local count
+    local count, sames, names, datas
     local user_id = obj['_user_id']
     local ids = self:find_origin_id(obj) or {}
-    local names, datas = self:preload_obj(obj)
     for id in pairs(ids) do
-        local new_count, new_sames = self:try_obj(user_id, id, names, datas, is_slk)
+        local new_obj = copy(obj)
+        if is_slk then
+            self:add_slk_data(new_obj, id)
+        end
+        local new_names, new_datas = self:preload_obj(new_obj)
+        local new_count, new_sames = self:try_obj(user_id, id, new_names, new_datas)
         if not count or count > new_count or (origin_id > id and count == new_count) then
-            sames = new_sames
             count = new_count
+            sames = new_sames
+            names = new_names
+            datas = new_datas
             origin_id = id
         end
         if not is_slk then
             break
         end
     end
-    if is_slk then
-        self:add_slk_data(obj, origin_id)
-        names, datas = self:preload_obj(obj)
-        count, sames = self:try_obj(user_id, origin_id, names, datas)
-    end
     local lines = {}
 	for i = 1, #names do
 		if sames and not sames[i] then
-			self:add_data(names[i], datas[names[i]], obj, lines)
+			self:add_data(names[i], datas[names[i]], user_id, lines)
 		end
 	end
     if not lines or #lines == 0 then
@@ -173,12 +173,12 @@ function mt:preload_obj(obj)
     return names, datas
 end
 
-function mt:try_obj(user_id, origin_id, names, datas, try)
+function mt:try_obj(user_id, origin_id, names, datas)
     local template = self.template and (self.template[user_id] or self.template[origin_id])
 	local sames = {}
     local count = 0
 	for i = 1, #names do
-		sames[i] = self:add_template_data(template, names[i], datas[names[i]], try)
+		sames[i] = self:add_template_data(template, names[i], datas[names[i]])
 		if not sames[i] then
             count = count + 1
 			need_new = true
@@ -197,7 +197,7 @@ function mt:try_obj(user_id, origin_id, names, datas, try)
     return 0, nil
 end
 
-function mt:add_data(name, data, obj, lines)
+function mt:add_data(name, data, user_id, lines)
     if #data == 0 then
         return
     end
@@ -225,7 +225,7 @@ function mt:add_data(name, data, obj, lines)
 		else
 			local suc, info = pcall(table_concat, values, ', ')
 			if not suc then
-				print(obj['_user_id'])
+				print(user_id)
 				for k, v in pairs(values) do
 					print(k, v)
 				end
@@ -374,7 +374,7 @@ function mt:to_type(id, value)
     return value
 end
 
-function mt:add_template_data(template, name, data, try)
+function mt:add_template_data(template, name, data)
 	local has_temp = true
 	if not template then
 		template = {}
@@ -394,22 +394,18 @@ function mt:add_template_data(template, name, data, try)
             end
 		end
 		if data[i] == nil then
-            if not try then
-			    data[i] = temp_data
-            end
+			data[i] = temp_data
 		else
 			if data[i] ~= temp_data then
 				all_same = false
 			end
 		end
-        if not try then
-            if all_same and (self.config['unpack']['remove_same'] or (data['_slk'] and data['_slk'][i])) and i > 1 then
-                data[i] = nil
-                data._max_level = i - 1
-            elseif has_temp == false and i == data._max_level and data[i] == data[i-1] then
-                data[i] = nil
-                data._max_level = i - 1
-            end
+        if all_same and (self.config['unpack']['remove_same'] or (data['_slk'] and data['_slk'][i])) and i > 1 then
+            data[i] = nil
+            data._max_level = i - 1
+        elseif has_temp == false and i == data._max_level and data[i] == data[i-1] then
+            data[i] = nil
+            data._max_level = i - 1
         end
 	end
 	return all_same and has_temp
