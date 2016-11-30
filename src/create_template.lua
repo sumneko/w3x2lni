@@ -212,7 +212,9 @@ function mt:read_txt_data(skill, code, name, value, txt)
                 new_name = name .. (i-1)
             end
             local res = self:read_txt_data(skill, code, name, txt[new_name])
-            data[i] = {id, res[1][2], i}
+            if res then
+                data[#data+1] = {id, res[1][2], i}
+            end
         end
         return data
     end
