@@ -30,11 +30,11 @@ function mt:init(rootpath)
 	if rootpath then
 		rootpath = fs.path(rootpath)
 	else
-		rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename():remove_filename()
+		rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename()
 	end
 	self:set_dir('root', rootpath)
-	self:set_dir('meta', rootpath / 'src' / 'meta')
-	self:set_dir('key', rootpath / 'src' / 'key')
+	self:set_dir('meta', rootpath / 'script' / 'meta')
+	self:set_dir('key', rootpath / 'script' / 'key')
 	self:set_dir('template', rootpath / 'template')
 	self:read_config()
 end

@@ -1,6 +1,6 @@
 (function()
 	local exepath = package.cpath:sub(1, package.cpath:find(';')-6)
-	package.path = package.path .. ';' .. exepath .. '..\\?.lua'
+	package.path = package.path .. ';' .. exepath .. '..\\script\\?.lua'
 end)()
 
 print(package.cpath)
@@ -22,13 +22,13 @@ local rootpath
 if arg[1] then
 	rootpath = fs.path(arg[1])
 else
-	rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename():remove_filename()
+	rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename()
 end
-local meta_dir = rootpath / 'src' / 'meta'
-local key_dir = rootpath / 'src' / 'key'
-local root_dir = rootpath / 'src'
+local meta_dir = rootpath / 'script' / 'meta'
+local key_dir = rootpath / 'script' / 'key'
+local root_dir = rootpath / 'script'
 local template_dir = rootpath / 'template'
-local skill_dir = rootpath / 'src' / 'skill'
+local skill_dir = rootpath / 'script' / 'skill'
 
 local function add_table(t1, t2)
     for k, v in pairs(t2) do
