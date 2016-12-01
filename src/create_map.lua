@@ -258,85 +258,6 @@ function mt:save_map(map_path)
     return true
 end
 
-local list = {
-    'war3map.w3a',
-    'war3map.w3b',
-    'war3map.w3d',
-    'war3map.w3h',
-    'war3map.w3q',
-    'war3map.w3t',
-    'war3map.w3u',
-    'units\\abilitydata.slk',
-    'units\\destructabledata.slk',
-    'units\\doodads.slk',
-    'units\\abilitybuffdata.slk',
-    'units\\upgradedata.slk',
-    'units\\itemdata.slk',
-    'units\\unitui.slk',
-    'units\\unitdata.slk',
-    'units\\unitbalance.slk',
-    'units\\unitabilities.slk',
-    'units\\unitweapons.slk',
-    'units\\campaignabilitystrings.txt',
-    'units\\commonabilitystrings.txt',
-    'units\\humanabilitystrings.txt',
-    'units\\neutralabilitystrings.txt',
-    'units\\nightelfabilitystrings.txt',
-    'units\\orcabilitystrings.txt',
-    'units\\undeadabilitystrings.txt',
-    'units\\itemabilitystrings.txt',
-    'units\\campaignabilityfunc.txt',
-    'units\\commonabilityfunc.txt',
-    'units\\humanabilityfunc.txt',
-    'units\\neutralabilityfunc.txt',
-    'units\\nightelfabilityfunc.txt',
-    'units\\orcabilityfunc.txt',
-    'units\\undeadabilityfunc.txt',
-    'units\\itemabilityfunc.txt',
-    'units\\campaignabilitystrings.txt',
-    'units\\commonabilitystrings.txt',
-    'units\\humanabilitystrings.txt',
-    'units\\neutralabilitystrings.txt',
-    'units\\nightelfabilitystrings.txt',
-    'units\\orcabilitystrings.txt',
-    'units\\undeadabilitystrings.txt',
-    'units\\itemabilitystrings.txt',
-    'units\\campaignabilityfunc.txt',
-    'units\\commonabilityfunc.txt',
-    'units\\humanabilityfunc.txt',
-    'units\\neutralabilityfunc.txt',
-    'units\\nightelfabilityfunc.txt',
-    'units\\orcabilityfunc.txt',
-    'units\\undeadabilityfunc.txt',
-    'units\\itemabilityfunc.txt',
-    'units\\campaignupgradestrings.txt',
-    'units\\neutralupgradestrings.txt',
-    'units\\nightelfupgradestrings.txt',
-    'units\\humanupgradestrings.txt',
-    'units\\orcupgradestrings.txt',
-    'units\\undeadupgradestrings.txt',
-    'units\\campaignupgradefunc.txt',
-    'units\\humanupgradefunc.txt',
-    'units\\neutralupgradefunc.txt',
-    'units\\nightelfupgradefunc.txt',
-    'units\\orcupgradefunc.txt',
-    'units\\undeadupgradefunc.txt',
-    'units\\itemstrings.txt',
-    'units\\itemfunc.txt',
-    'units\\campaignunitstrings.txt',
-    'units\\humanunitstrings.txt',
-    'units\\neutralunitstrings.txt',
-    'units\\nightelfunitstrings.txt',
-    'units\\orcunitstrings.txt',
-    'units\\undeadunitstrings.txt',
-    'units\\campaignunitfunc.txt',
-    'units\\humanunitfunc.txt',
-    'units\\neutralunitfunc.txt',
-    'units\\nightelfunitfunc.txt',
-    'units\\orcunitfunc.txt',
-    'units\\undeadunitfunc.txt',
-}
-
 function mt:extract_files(map_path, output_dir)
 	local files = {}
 	local paths = {}
@@ -378,18 +299,28 @@ function mt:extract_files(map_path, output_dir)
 	for name in pairs(map) do
 		extract_file(name:lower())
 	end
-	for _, name in ipairs(list) do
+	for name in pairs(self.info['metadata']) do
         if not files[name:lower()] then
-		    extract_file(name:lower(), 'try')
+            extract_file(name:lower(), 'try')
         end
-	end
+        for _, name in ipairs(self.info['template']['slk'][name]) do
+            if not files[name:lower()] then
+                extract_file(name:lower(), 'try')
+            end
+        end
+        for _, name in ipairs(self.info['template']['txt'][name]) do
+            if not files[name:lower()] then
+                extract_file(name:lower(), 'try')
+            end
+        end
+    end
     if failed == 0 then
         print('读取完毕', '成功:', success)
     else
-	    print('读取完毕', '成功:', success, '失败:', failed)
+        print('读取完毕', '成功:', success, '失败:', failed)
     end
-	map:close()
-	return files, paths
+    map:close()
+    return files, paths
 end
 
 function mt:to_lni(files, paths, output_dir)
