@@ -3,6 +3,9 @@
 	package.path = package.path .. ';' .. exepath .. '..\\?.lua'
 end)()
 
+print(package.cpath)
+print(package.path)
+
 require 'filesystem'
 require 'utility'
 local w3x2lni  = require 'w3x2lni'
