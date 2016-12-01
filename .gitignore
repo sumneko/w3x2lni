@@ -1,8 +1,9 @@
 /*/
-!/src/
+!/script/
+!/bin/
 !/.vscode/
-src/.vscode/
+script/.vscode/
 *.w3x
 *.sign
 temp
-src/rsa/ppk
+script/rsa/ppk
