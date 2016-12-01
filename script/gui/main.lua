@@ -64,6 +64,7 @@ local function button_mapname(canvas)
 end
 
 local function window_none(canvas)
+	canvas:layout_row_dynamic(2, 1)
 	canvas:layout_row_dynamic(200, 1)
 	canvas:button('把地图拖进来')
 	canvas:layout_row_dynamic(280, 1)
