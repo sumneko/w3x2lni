@@ -121,7 +121,7 @@ function mt:get_listfile()
 	return listfile, files, dirs
 end
 
-function mt:lni2w3x(name, file)
+function mt:to_w3x(name, file)
 	if name:sub(-4) == '.ini' and self.info['metadata'][name:sub(1, -5)] then
 		print('正在转换:', name)
 		local data = lni:loader(file, name)
@@ -135,7 +135,7 @@ function mt:lni2w3x(name, file)
 		local key = lni:loader(io.load(self.dir['key'] / name), name)
 		local metadata = read_metadata(self.dir['meta'] / self.info['metadata'][new_name])
 		local template = lni:loader(io.load(self.dir['template'] / name), new_name)
-		local content = self.w3x2txt:lni2obj(data, metadata, key, template)
+		local content = self.w3x2lni:lni2obj(data, metadata, key, template)
 		return new_name, content
 	elseif name == 'war3map.w3i.ini' then
 		print('正在转换:', name)
@@ -147,7 +147,7 @@ function mt:lni2w3x(name, file)
         if self.wts then
             self.wts:save(data)
         end
-		local content = self.w3x2txt:lni2w3i(data)
+		local content = self.w3x2lni:lni2w3i(data)
 		return new_name, content
 	elseif name == 'war3map.w3i' then
 		w3i = file
@@ -158,7 +158,7 @@ function mt:lni2w3x(name, file)
 end
 
 function mt:import_files(map, listfile, files, dirs)
-	self.wts = self.w3x2txt:read_wts(files['war3map.wts'] or '')
+	self.wts = self.w3x2lni:read_wts(files['war3map.wts'] or '')
 	local clock = os.clock()
 	local success, failed = 0, 0
 	for i = 1, #listfile do
@@ -168,7 +168,7 @@ function mt:import_files(map, listfile, files, dirs)
             name, content = self:on_save(name, content, dirs[name])
         end
         if name then
-            local name, content = self:lni2w3x(name, content)
+            local name, content = self:to_w3x(name, content)
             if content then
                 if map:save_file(name, content) then
                     success = success + 1
@@ -195,7 +195,7 @@ function mt:import_files(map, listfile, files, dirs)
     local content = self.wts:refresh()
     map:save_file('war3map.wts', content)
     if not files['war3mapunits.doo'] then
-        map:save_file('war3mapunits.doo', self.w3x2txt:create_unitsdoo())
+        map:save_file('war3mapunits.doo', self.w3x2lni:create_unitsdoo())
     end
 end
 
@@ -225,7 +225,7 @@ function mt:save_map(map_path)
     }
     for _, dir in ipairs(self.dirs) do
         if fs.exists(dir / 'war3map.w3i.ini') then
-            w3i = self.w3x2txt:read_w3i(self.w3x2txt:lni2w3i(lni:loader(io.load(dir / 'war3map.w3i.ini'), 'war3map.w3i.ini')))
+            w3i = self.w3x2lni:read_w3i(self.w3x2lni:lni2w3i(lni:loader(io.load(dir / 'war3map.w3i.ini'), 'war3map.w3i.ini')))
             break
         end
     end
@@ -392,7 +392,7 @@ function mt:extract_files(map_path, output_dir)
 	return files, paths
 end
 
-function mt:w3x2lni(files, paths, output_dir)
+function mt:to_lni(files, paths, output_dir)
 	--读取编辑器文本
 	local editstring
 	local ini = read_ini(self.dir['meta'] / 'WorldEditStrings.txt')
@@ -403,7 +403,7 @@ function mt:w3x2lni(files, paths, output_dir)
 	--读取字符串
 	local wts
 	if files['war3map.wts'] then
-		wts = self.w3x2txt:read_wts(files['war3map.wts'])
+		wts = self.w3x2lni:read_wts(files['war3map.wts'])
 	end
 	
 	local clock = os.clock()
@@ -436,7 +436,7 @@ function mt:w3x2lni(files, paths, output_dir)
         local key_data = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
 
         if files[file_name] then
-            add_table(data, self.w3x2txt:read_obj(files[file_name], metadata))
+            add_table(data, self.w3x2lni:read_obj(files[file_name], metadata))
             delete[file_name] = true
         end
 
@@ -472,7 +472,7 @@ function mt:w3x2lni(files, paths, output_dir)
                 data = self:on_lni(file_name, data)
             end
             local max_level_key = self.info['key']['max_level'][file_name]
-            local content = self.w3x2txt:obj2lni(data, metadata, editstring, temp_data, key_data, max_level_key, file_name)
+            local content = self.w3x2lni:obj2lni(data, metadata, editstring, temp_data, key_data, max_level_key, file_name)
             if wts then
                 content = wts:load(content)
             end
@@ -487,11 +487,11 @@ function mt:w3x2lni(files, paths, output_dir)
 	for name, file in pairs(files) do
         if name == 'war3map.w3i' then
 			local content = file
-			local data = self.w3x2txt:read_w3i(content)
+			local data = self.w3x2lni:read_w3i(content)
             if self.on_lni then
                 data = self:on_lni(name, data)
             end
-			local content = self.w3x2txt:w3i2lni(data)
+			local content = self.w3x2lni:w3i2lni(data)
             if wts then
 			    content = wts:load(content, false, true)
             end
@@ -531,7 +531,7 @@ function mt:unpack(output_dir)
 	map:close()
 	
 	local files, paths = self:extract_files(map_path, output_dir)
-	self:w3x2lni(files, paths, output_dir)
+	self:to_lni(files, paths, output_dir)
 end
 
 function mt:save(map_path)
@@ -543,13 +543,13 @@ function mt:save(map_path)
     return false
 end
 
-return function (w3x2txt)
+return function (w3x2lni)
     local self = setmetatable({}, mt)
     self.dirs = {}
     self.w3xs = {}
-    self.config = w3x2txt.config
-    self.info = w3x2txt.info
-    self.dir = w3x2txt.dir
-    self.w3x2txt = w3x2txt
+    self.config = w3x2lni.config
+    self.info = w3x2lni.info
+    self.dir = w3x2lni.dir
+    self.w3x2lni = w3x2lni
     return self
 end

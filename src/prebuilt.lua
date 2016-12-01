@@ -5,7 +5,7 @@ end)()
 
 require 'filesystem'
 require 'utility'
-local w3x2txt  = require 'w3x2txt'
+local w3x2lni  = require 'w3x2lni'
 local lni      = require 'lni'
 local read_slk = require 'read_slk'
 local read_metadata = require 'read_metadata'
@@ -38,7 +38,7 @@ local function add_table(t1, t2)
 end
 
 local function main()
-	w3x2txt:init(arg[1])
+	w3x2lni:init(arg[1])
 
 	-- 生成key_type
 	local keydata = read_txt(io.load(meta_dir / 'uniteditordata.txt'))
@@ -46,15 +46,15 @@ local function main()
 	io.save(root_dir / 'key_type.lua', content)
 
 	-- 生成key2id
-    for file_name, meta in pairs(w3x2txt.info['metadata']) do
+    for file_name, meta in pairs(w3x2lni.info['metadata']) do
 		print('正在生成key2id', file_name)
 		local metadata = read_metadata(meta_dir / meta)
-        local slk = w3x2txt.info['template']['slk'][file_name]
+        local slk = w3x2lni.info['template']['slk'][file_name]
         local template = {}
         for i = 1, #slk do
             add_table(template, read_slk(io.load(meta_dir / slk[i])))
         end
-		local content = w3x2txt:key2id(file_name, metadata, template)
+		local content = w3x2lni:key2id(file_name, metadata, template)
 		io.save(key_dir / (file_name .. '.ini'), content)
 	end
 
@@ -67,24 +67,24 @@ local function main()
 
 	-- 生成模板lni
 	fs.create_directories(template_dir)
-	for file_name, meta in pairs(w3x2txt.info['metadata']) do
+	for file_name, meta in pairs(w3x2lni.info['metadata']) do
 		print('正在生成模板', file_name)
 		local template = create_template(file_name)
-		local metadata = read_metadata(meta_dir / w3x2txt.info['metadata'][file_name])
+		local metadata = read_metadata(meta_dir / w3x2lni.info['metadata'][file_name])
 		local key = lni:loader(io.load(key_dir / (file_name .. '.ini')), name)
 
-		local slk = w3x2txt.info['template']['slk'][file_name]
+		local slk = w3x2lni.info['template']['slk'][file_name]
         for i = 1, #slk do
             template:add_slk(read_slk(io.load(meta_dir / slk[i])))
         end
 
-		local txt = w3x2txt.info['template']['txt'][file_name]
+		local txt = w3x2lni.info['template']['txt'][file_name]
         for i = 1, #txt do
             template:add_txt(read_txt(io.load(meta_dir / txt[i])))
         end
 
 		local data = template:save(metadata, key)
-		local content = w3x2txt:obj2lni(data, metadata, editstring, nil, key, w3x2txt.info['key']['max_level'][file_name])
+		local content = w3x2lni:obj2lni(data, metadata, editstring, nil, key, w3x2lni.info['key']['max_level'][file_name])
 		io.save(template_dir / (file_name .. '.ini'), content)
 	end
 
