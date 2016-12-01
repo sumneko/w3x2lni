@@ -22,7 +22,7 @@ local rootpath
 if arg[1] then
 	rootpath = fs.path(arg[1])
 else
-	rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename()
+	rootpath = fs.get(fs.DIR_EXE):remove_filename()
 end
 local meta_dir = rootpath / 'script' / 'meta'
 local key_dir = rootpath / 'script' / 'key'

@@ -30,7 +30,7 @@ function mt:init(rootpath)
 	if rootpath then
 		rootpath = fs.path(rootpath)
 	else
-		rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename()
+		rootpath = fs.get(fs.DIR_EXE):remove_filename()
 	end
 	self:set_dir('root', rootpath)
 	self:set_dir('meta', rootpath / 'script' / 'meta')
