@@ -15,12 +15,11 @@ end
 
 function mt:read_config()
 	self.config = lni:loader(io.load(self.dir['root'] / 'config.ini'), 'config')
+    self.info   = lni:loader(io.load(self.dir['meta'] / 'info.ini'),   'info')
 
-	for file_name, meta_name in pairs(self.config['metadata']) do
+	for file_name, meta_name in pairs(self.info['metadata']) do
 		self:set_metadata(file_name, meta_name)
 	end
-
-	return self.config
 end
 
 function mt:create_map()

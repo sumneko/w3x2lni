@@ -82,7 +82,7 @@ function mt:get_listfile()
     local dirs = {}
     local listfile = {}
 	local pack_ignore = {}
-	for _, name in ipairs(self.config['pack']['packignore']) do
+	for _, name in ipairs(self.info['pack']['packignore']) do
 		pack_ignore[name:lower()] = true
 	end
     
@@ -122,7 +122,7 @@ function mt:get_listfile()
 end
 
 function mt:lni2w3x(name, file)
-	if name:sub(-4) == '.ini' and self.config['metadata'][name:sub(1, -5)] then
+	if name:sub(-4) == '.ini' and self.info['metadata'][name:sub(1, -5)] then
 		print('正在转换:', name)
 		local data = lni:loader(file, name)
 		local new_name = name:sub(1, -5)
@@ -133,7 +133,7 @@ function mt:lni2w3x(name, file)
             self.wts:save(data)
         end
 		local key = lni:loader(io.load(self.dir['key'] / name), name)
-		local metadata = read_metadata(self.dir['meta'] / self.config['metadata'][new_name])
+		local metadata = read_metadata(self.dir['meta'] / self.info['metadata'][new_name])
 		local template = lni:loader(io.load(self.dir['template'] / name), new_name)
 		local content = self.w3x2txt:lni2obj(data, metadata, key, template)
 		return new_name, content
@@ -201,7 +201,7 @@ end
 
 function mt:import_imp(map, listfile)
 	local imp_ignore = {}
-	for _, name in ipairs(self.config['pack']['impignore']) do
+	for _, name in ipairs(self.info['pack']['impignore']) do
 		imp_ignore[name:lower()] = true
 	end
 
@@ -428,10 +428,10 @@ function mt:w3x2lni(files, paths, output_dir)
     -- 读slk
     local w3xs = {}
     local delete = {}
-    for file_name, meta in pairs(self.config['metadata']) do
+    for file_name, meta in pairs(self.info['metadata']) do
         print(file_name)
         local data = {}
-        local metadata = read_metadata(self.dir['meta'] / self.config['metadata'][file_name])
+        local metadata = read_metadata(self.dir['meta'] / self.info['metadata'][file_name])
         local temp_data = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
         local key_data = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
 
@@ -443,35 +443,19 @@ function mt:w3x2lni(files, paths, output_dir)
         if self.config['unpack']['read_slk'] then
             local template = create_template(file_name)
             
-            local slk = self.config['template']['slk'][file_name]
-            if type(slk) == 'table' then
-                for i = 1, #slk do
-                    local name = 'units\\' .. slk[i]
-                    template:add_slk(read_slk(files[name] or io.load(self.dir['meta'] / slk[i])))
-                    if files[name] then
-                        delete[name] = true
-                    end
-                end
-            else
-                local name = 'units\\' .. slk
-                template:add_slk(read_slk(files[name] or io.load(self.dir['meta'] / slk)))
+            local slk = self.info['template']['slk'][file_name]
+            for i = 1, #slk do
+                local name = slk[i]
+                template:add_slk(read_slk(files[name] or io.load(self.dir['meta'] / name)))
                 if files[name] then
                     delete[name] = true
                 end
             end
 
-            local txt = self.config['template']['txt'][file_name]
-            if type(txt) == 'table' then
-                for i = 1, #txt do
-                    local name = 'units\\' .. txt[i]
-                    template:add_txt(read_txt(files[name] or io.load(self.dir['meta'] / txt[i])))
-                    if files[name] then
-                        delete[name] = true
-                    end
-                end
-            elseif txt then
-                local name = 'units\\' .. txt
-                template:add_txt(read_txt(files[name] or io.load(self.dir['meta'] / txt)))
+            local txt = self.info['template']['txt'][file_name]
+            for i = 1, #txt do
+                local name = txt[i]
+                template:add_txt(read_txt(files[name] or io.load(self.dir['meta'] / name)))
                 if files[name] then
                     delete[name] = true
                 end
@@ -487,7 +471,7 @@ function mt:w3x2lni(files, paths, output_dir)
             if self.on_lni then
                 data = self:on_lni(file_name, data)
             end
-            local max_level_key = self.config['key']['max_level'][file_name]
+            local max_level_key = self.info['key']['max_level'][file_name]
             local content = self.w3x2txt:obj2lni(data, metadata, editstring, temp_data, key_data, max_level_key, file_name)
             if wts then
                 content = wts:load(content)
@@ -564,6 +548,7 @@ return function (w3x2txt)
     self.dirs = {}
     self.w3xs = {}
     self.config = w3x2txt.config
+    self.info = w3x2txt.info
     self.dir = w3x2txt.dir
     self.w3x2txt = w3x2txt
     return self

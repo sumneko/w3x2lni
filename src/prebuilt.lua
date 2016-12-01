@@ -46,18 +46,14 @@ local function main()
 	io.save(root_dir / 'key_type.lua', content)
 
 	-- 生成key2id
-    for file_name, meta in pairs(w3x2txt.config['metadata']) do
+    for file_name, meta in pairs(w3x2txt.info['metadata']) do
 		print('正在生成key2id', file_name)
 		local metadata = read_metadata(meta_dir / meta)
-        local slk = w3x2txt.config['template']['slk'][file_name]
+        local slk = w3x2txt.info['template']['slk'][file_name]
         local template = {}
-		if type(slk) == 'table' then
-			for i = 1, #slk do
-				add_table(template, read_slk(io.load(meta_dir / slk[i])))
-			end
-		else
-			add_table(template, read_slk(io.load(meta_dir / slk)))
-		end
+        for i = 1, #slk do
+            add_table(template, read_slk(io.load(meta_dir / slk[i])))
+        end
 		local content = w3x2txt:key2id(file_name, metadata, template)
 		io.save(key_dir / (file_name .. '.ini'), content)
 	end
@@ -71,32 +67,24 @@ local function main()
 
 	-- 生成模板lni
 	fs.create_directories(template_dir)
-	for file_name, meta in pairs(w3x2txt.config['metadata']) do
+	for file_name, meta in pairs(w3x2txt.info['metadata']) do
 		print('正在生成模板', file_name)
 		local template = create_template(file_name)
-		local metadata = read_metadata(meta_dir / w3x2txt.config['metadata'][file_name])
+		local metadata = read_metadata(meta_dir / w3x2txt.info['metadata'][file_name])
 		local key = lni:loader(io.load(key_dir / (file_name .. '.ini')), name)
 
-		local slk = w3x2txt.config['template']['slk'][file_name]
-		if type(slk) == 'table' then
-			for i = 1, #slk do
-				template:add_slk(read_slk(io.load(meta_dir / slk[i])))
-			end
-		else
-			template:add_slk(read_slk(io.load(meta_dir / slk)))
-		end
+		local slk = w3x2txt.info['template']['slk'][file_name]
+        for i = 1, #slk do
+            template:add_slk(read_slk(io.load(meta_dir / slk[i])))
+        end
 
-		local txt = w3x2txt.config['template']['txt'][file_name]
-		if type(txt) == 'table' then
-			for i = 1, #txt do
-				template:add_txt(read_txt(io.load(meta_dir / txt[i])))
-			end
-		elseif txt then
-			template:add_txt(read_txt(io.load(meta_dir / txt)))
-		end
+		local txt = w3x2txt.info['template']['txt'][file_name]
+        for i = 1, #txt do
+            template:add_txt(read_txt(io.load(meta_dir / txt[i])))
+        end
 
 		local data = template:save(metadata, key)
-		local content = w3x2txt:obj2lni(data, metadata, editstring, nil, key, w3x2txt.config['key']['max_level'][file_name])
+		local content = w3x2txt:obj2lni(data, metadata, editstring, nil, key, w3x2txt.info['key']['max_level'][file_name])
 		io.save(template_dir / (file_name .. '.ini'), content)
 	end
 
