@@ -1,6 +1,6 @@
 (function()
 	local exepath = package.cpath:sub(1, package.cpath:find(';')-6)
-	package.path = package.path .. ';' .. exepath .. '..\\?.lua'
+	package.path = package.path .. ';' .. exepath .. '..\\src\\?.lua'
 end)()
 
 require 'filesystem'
@@ -19,7 +19,7 @@ local rootpath
 if arg[1] then
 	rootpath = fs.path(arg[1])
 else
-	rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename():remove_filename()
+	rootpath = fs.get(fs.DIR_EXE):remove_filename():remove_filename()
 end
 local meta_dir = rootpath / 'src' / 'meta'
 local key_dir = rootpath / 'src' / 'key'

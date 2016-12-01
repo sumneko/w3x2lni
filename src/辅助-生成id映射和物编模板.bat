@@ -1,3 +1,3 @@
 @echo off
-"%~dp0build\lua.exe" "%~dp0prebuilt.lua"
+"%~dp0..\bin\lua.exe" "%~dp0prebuilt.lua"
 pause

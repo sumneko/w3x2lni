@@ -37,9 +37,9 @@
             "request": "launch",
             "program": "${workspaceRoot}/src/prebuilt.lua",
             "stopOnEntry": true,
-            "cwd": "${workspaceRoot}/src/build",
+            "cwd": "${workspaceRoot}/bin",
             "path": "",
-            "cpath": "${workspaceRoot}/src/build/?.dll;",
+            "cpath": "${workspaceRoot}/bin/?.dll;",
             "arg": [
                "${workspaceRoot}"
             ],
