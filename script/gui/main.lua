@@ -1,4 +1,6 @@
 require 'filesystem'
+require 'utility'
+local lni = require 'lni'
 local nk = require 'nuklear'
 nk:console()
 
@@ -18,6 +20,9 @@ NK_TEXT_ALIGN_BOTTOM   = 0x20
 NK_TEXT_LEFT           = NK_TEXT_ALIGN_MIDDLE | NK_TEXT_ALIGN_LEFT
 NK_TEXT_CENTERED       = NK_TEXT_ALIGN_MIDDLE | NK_TEXT_ALIGN_CENTERED
 NK_TEXT_RIGHT          = NK_TEXT_ALIGN_MIDDLE | NK_TEXT_ALIGN_RIGHT
+
+local root = fs.get(fs.DIR_EXE):remove_filename()
+local config = lni:loader(io.load(root / 'config.ini'))
 
 local window = nk.window('W3x2Lni', 400, 600)
 
@@ -68,19 +73,6 @@ local function window_none(canvas)
 	canvas:label('', NK_TEXT_RIGHT) canvas:label('后端: 最萌小汐', NK_TEXT_LEFT)
 end
 
-local config = {
-	unpack = {
-		-- 解包地图时是否分析slk文件
-		read_slk = false,
-		-- 分析slk时寻找id最优解的次数,0表示无限,寻找次数越多速度越慢
-		find_id_times = 0,
-		-- 解包时移除与模板完全相同的数据
-		remove_same = true,
-		-- 解包时移除超出等级的数据
-		remove_over_level = true,
-	}
-}
-
 local function window_mpq(canvas, height)
 	height = 200 - height
 	local unpack = config.unpack
@@ -100,7 +92,7 @@ local function window_mpq(canvas, height)
 		canvas:layout_row_dynamic(30, 1)
 		if canvas:checkbox('限制搜索最优模板的次数', unpack.find_id_times ~= 0) then
 			if unpack.find_id_times == 0 then
-				unpack.find_id_times = 1
+				unpack.find_id_times = 10
 			else
 				unpack.find_id_times = 0
 			end
@@ -129,6 +121,11 @@ end
 local function window_dir(canvas)
 end
 
+local function error_handle(msg)
+    print(msg)
+    print(debug.traceback())
+end
+
 function window:draw(canvas)
 	if filetype == 'none' then
 		window_none(canvas)
@@ -142,6 +139,11 @@ function window:draw(canvas)
 	end
 	canvas:layout_row_dynamic(50, 1)
 	if canvas:button('开始') then
+        arg = {}
+        arg[1] = mappath:string()
+        arg[2] = mappath:remove_filename():string()
+        package.loaded['make'] = nil
+		xpcall(require, error_handle, 'make')
 	end
 end
 
