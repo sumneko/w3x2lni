@@ -197,7 +197,7 @@ function window:draw(canvas)
 	canvas:label(backend_lastmsg, NK_TEXT_LEFT)
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(30, 1)
-	canvas:progress(backend_msgs['progress'] or 0, 100)
+	canvas:progress(math.floor(backend_msgs['progress'] or 0), 100)
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(50, 1)
 	if canvas:button('开始') then
