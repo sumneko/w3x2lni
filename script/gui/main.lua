@@ -1,5 +1,7 @@
 require 'filesystem'
+require 'sys'
 require 'utility'
+require 'gui.backend'
 local lni = require 'lni'
 local nk = require 'nuklear'
 nk:console()
@@ -74,7 +76,30 @@ local function window_none(canvas)
 	canvas:label('', NK_TEXT_RIGHT) canvas:label('后端: 最萌小汐', NK_TEXT_LEFT)
 end
 
+local backend
+local backend_lastmsg = ''
+
+local function update_backend()
+	if not backend then
+		return
+	end
+	if not backend.closed then
+		backend.closed = backend:update()
+	end
+	if #backend.output > 0 then
+		local pos = backend.output:find('\n')
+		if pos then
+			local msg = backend.output:sub(1, pos):gsub("^%s*(.-)%s*$", "%1")
+			if #msg > 0 then
+				backend_lastmsg = msg
+			end
+			backend.output = backend.output:sub(pos+1)
+		end
+	end
+end
+	
 local function window_mpq(canvas, height)
+	update_backend()
 	height = 200 - height
 	local unpack = config.unpack
 	canvas:layout_row_dynamic(10, 1)
@@ -112,7 +137,7 @@ local function window_mpq(canvas, height)
 	end)
 	canvas:layout_row_dynamic(height, 1)
 	canvas:layout_row_dynamic(30, 1)
-	canvas:label('正在读取文件...', NK_TEXT_LEFT)
+	canvas:label(backend_lastmsg, NK_TEXT_LEFT)
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(30, 1)
 	canvas:progress(0, 100)
@@ -140,11 +165,8 @@ function window:draw(canvas)
 	end
 	canvas:layout_row_dynamic(50, 1)
 	if canvas:button('开始') then
-        arg = {}
-        arg[1] = mappath:string()
-        arg[2] = mappath:remove_filename():string()
-        package.loaded['make'] = nil
-		xpcall(require, error_handle, 'make')
+		backend = sys.async_popen(('%q -nogui %q'):format(arg[0], mappath:string()))
+		print('ok' , backend)
 	end
 end
 

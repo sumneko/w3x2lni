@@ -88,14 +88,14 @@ end
 
 local stdio_print = print
 
-function print(...)
-	local tbl = {...}
-	local count = select('#', ...)
-	for i = 1, count do
-		tbl[i] = uni.u2a(tostring(tbl[i]))
-	end
-	stdio_print(table_unpack(tbl))
-end
+--function print(...)
+--	local tbl = {...}
+--	local count = select('#', ...)
+--	for i = 1, count do
+--		tbl[i] = uni.u2a(tostring(tbl[i]))
+--	end
+--	stdio_print(table_unpack(tbl))
+--end
 
 function task(f, ...)
 	for i = 1, 100 do
