@@ -286,15 +286,20 @@ function mt:extract_files(map_path, output_dir, max_count)
 				success = success + 1
 			elseif not is_try then
 				failed = failed + 1
-				message('文件读取失败', name)
+				--message('文件读取失败', name)
 			end
 			if os.clock() - clock >= 0.5 then
 				clock = os.clock()
-				if failed == 0 then
-					message('正在读取', '成功:', success)
-				else
-					message('正在读取', '成功:', success, '失败:', failed)
-				end
+				--if failed == 0 then
+				--	message('正在读取', '成功:', success)
+				--else
+				--	message('正在读取', '成功:', success, '失败:', failed)
+				--end
+                local name = name
+                if #name > 20 then
+                    name = name:sub(1, 10) .. '...' .. name:sub(-10)
+                end
+                message(('正在读取 [%s] (%d/%d)'):format(name, (success + failed), max_count))
                 progress((success + failed) / max_count)
 			end
 		end
@@ -318,11 +323,11 @@ function mt:extract_files(map_path, output_dir, max_count)
             end
         end
     end
-    if failed == 0 then
-        message('读取完毕', '成功:', success)
-    else
-        message('读取完毕', '成功:', success, '失败:', failed)
-    end
+    --if failed == 0 then
+    --    message('读取完毕', '成功:', success)
+    --else
+    --    message('读取完毕', '成功:', success, '失败:', failed)
+    --end
     map:close()
     return files, paths
 end
@@ -407,16 +412,21 @@ function mt:to_lni(files, paths, output_dir, max_count)
 			success = success + 1
 		else
 			failed = failed + 1
-			message('文件导出失败', name)
+			--message('文件导出失败', name)
 		end
 		if os.clock() - clock >= 0.5 then
 			clock = os.clock()
-			if failed == 0 then
-				message('正在导出', '成功:', success)
-			else
-				message('正在导出', '成功:', success, '失败:', failed)
-			end
+			--if failed == 0 then
+			--	message('正在导出', '成功:', success)
+			--else
+			--	message('正在导出', '成功:', success, '失败:', failed)
+			--end
             if max_count then
+                local name = path:string()
+                if #name > 20 then
+                    name = name:sub(1, 5) .. '...' .. name:sub(-15)
+                end
+                message(('正在导出 [%s] (%d/%d)'):format(name, (success + failed), max_count))
                 progress((success + failed) / max_count)
             end
 		end
@@ -428,7 +438,7 @@ function mt:to_lni(files, paths, output_dir, max_count)
         count = count + 1
         local target_progress = 15 + count * 9
         progress:target(target_progress - 7)
-        message(file_name)
+        --message(file_name)
         local content = self:load_obj(file_name, meta, files, delete, target_progress)
         if content then
             save(output_dir / (file_name .. '.ini'), content)
@@ -458,11 +468,11 @@ function mt:to_lni(files, paths, output_dir, max_count)
 		end
 	end
 	
-	if failed == 0 then
-		message('导出完毕', '成功:', success)
-	else
-		message('导出完毕', '成功:', success, '失败:', failed)
-	end
+	--if failed == 0 then
+	--	message('导出完毕', '成功:', success)
+	--else
+	--	message('导出完毕', '成功:', success, '失败:', failed)
+	--end
 
 	--刷新字符串
     progress:target(100)

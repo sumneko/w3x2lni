@@ -41,7 +41,7 @@ local function main()
 		map_file:save(output_dir)
 	end
 	
-	message('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
+	message('转换完毕,用时 ' .. os.clock() .. ' 秒') 
 end
 
 main()
