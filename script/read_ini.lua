@@ -31,7 +31,7 @@ end
 return function (file_name)
 	local content = io.load(file_name)
 	if not content then
-		print('文件无效:' .. file_name:string())
+		message('文件无效:' .. file_name:string())
 		return
 	end
     current_chunk = nil

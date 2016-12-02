@@ -3,8 +3,8 @@
 	package.path = package.path .. ';' .. exepath .. '..\\script\\?.lua'
 end)()
 
-print(package.cpath)
-print(package.path)
+message(package.cpath)
+message(package.path)
 
 require 'filesystem'
 require 'utility'
@@ -50,7 +50,7 @@ local function main()
 
 	-- 生成key2id
     for file_name, meta in pairs(w3x2lni.info['metadata']) do
-		print('正在生成key2id', file_name)
+		message('正在生成key2id', file_name)
 		local metadata = read_metadata(meta_dir / meta)
         local slk = w3x2lni.info['template']['slk'][file_name]
         local template = {}
@@ -71,7 +71,7 @@ local function main()
 	-- 生成模板lni
 	fs.create_directories(template_dir)
 	for file_name, meta in pairs(w3x2lni.info['metadata']) do
-		print('正在生成模板', file_name)
+		message('正在生成模板', file_name)
 		local template = create_template(file_name)
 		local metadata = read_metadata(meta_dir / w3x2lni.info['metadata'][file_name])
 		local key = lni:loader(io.load(key_dir / (file_name .. '.ini')), name)
@@ -96,7 +96,7 @@ local function main()
 	local order_list = create_order_list(skill_data)
 	io.save(skill_dir / 'order_list.lua', order_list)
 
-	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
+	message('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
 end
 
 main()

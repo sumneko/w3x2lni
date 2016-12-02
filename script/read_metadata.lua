@@ -31,7 +31,7 @@ local function read_metadata(file_name)
 	local has_index = {}
 	for k, v in pairs(tbl) do
 		if meta[k] then
-			print('meta表id重复', k)
+			message('meta表id重复', k)
 		end
 		meta[k] = v
 		-- 进行部分预处理

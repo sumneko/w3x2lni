@@ -16,7 +16,7 @@ local function load_order(skill_data)
         end
         if order then
             if data[code] and data[code] ~= order then
-                print('命令冲突', code, data[code], order)
+                message('命令冲突', code, data[code], order)
             end
             data[code] = order
         end
@@ -32,7 +32,7 @@ local function load_order2(skill_data, tp)
         if order then
             order = order_id[order]
             if data[code] and data[code] ~= order then
-                print('命令冲突', code, data[code], order)
+                message('命令冲突', code, data[code], order)
             end
             data[code] = order
         end

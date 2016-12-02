@@ -100,30 +100,30 @@ function mt:get_listfile()
                     success = success + 1
                 else
                     failed = failed + 1
-                    print('文件读取失败', name)
+                    message('文件读取失败', name)
                 end
                 if os.clock() - clock >= 0.5 then
                     clock = os.clock()
                     if failed == 0 then
-                        print('正在读取', '成功:', success)
+                        message('正在读取', '成功:', success)
                     else
-                        print('正在读取', '成功:', success, '失败:', failed)
+                        message('正在读取', '成功:', success, '失败:', failed)
                     end
                 end
             end
         end)
     end
     if failed == 0 then
-        print('读取完毕', '成功:', success)
+        message('读取完毕', '成功:', success)
     else
-	    print('读取完毕', '成功:', success, '失败:', failed)
+	    message('读取完毕', '成功:', success, '失败:', failed)
     end
 	return listfile, files, dirs
 end
 
 function mt:to_w3x(name, file)
 	if name:sub(-4) == '.ini' and self.info['metadata'][name:sub(1, -5)] then
-		print('正在转换:', name)
+		message('正在转换:', name)
 		local data = lni:loader(file, name)
 		local new_name = name:sub(1, -5)
         if self.on_lni then
@@ -138,7 +138,7 @@ function mt:to_w3x(name, file)
 		local content = self.w3x2lni:lni2obj(data, metadata, key, template)
 		return new_name, content
 	elseif name == 'war3map.w3i.ini' then
-		print('正在转换:', name)
+		message('正在转换:', name)
 		local data = lni:loader(file, name)
 		local new_name = name:sub(1, -5)
         if self.on_lni then
@@ -174,23 +174,23 @@ function mt:import_files(map, listfile, files, dirs)
                     success = success + 1
                 else
                     failed = failed + 1
-                    print('文件导入失败', name)
+                    message('文件导入失败', name)
                 end
                 if os.clock() - clock >= 0.5 then
                     clock = os.clock()
                     if failed == 0 then
-                        print('正在导入', '成功:', success)
+                        message('正在导入', '成功:', success)
                     else
-                        print('正在导入', '成功:', success, '失败:', failed)
+                        message('正在导入', '成功:', success, '失败:', failed)
                     end
                 end
             end
         end
 	end
     if failed == 0 then
-        print('导入完毕', '成功:', success)
+        message('导入完毕', '成功:', success)
     else
-	    print('导入完毕', '成功:', success, '失败:', failed)
+	    message('导入完毕', '成功:', success, '失败:', failed)
     end
     local content = self.wts:refresh()
     map:save_file('war3map.wts', content)
@@ -213,7 +213,7 @@ function mt:import_imp(map, listfile)
 	end
 	table.insert(imp, 1, ('ll'):pack(1, #imp))
 	if not map:save_file('war3map.imp', table.concat(imp, '\r')) then
-		print('war3map.imp导入失败')
+		message('war3map.imp导入失败')
 	end
 end
 
@@ -245,7 +245,7 @@ function mt:save_map(map_path)
     local listfile, files, dirs = self:get_listfile()
     local map = stormlib.create(temp_path, #listfile+8)
 	if not map then
-		print('地图创建失败,可能是文件被占用了')
+		message('地图创建失败,可能是文件被占用了')
 		return nil
 	end
 
@@ -284,14 +284,14 @@ function mt:extract_files(map_path, output_dir)
 				success = success + 1
 			elseif not is_try then
 				failed = failed + 1
-				print('文件读取失败', name)
+				message('文件读取失败', name)
 			end
 			if os.clock() - clock >= 0.5 then
 				clock = os.clock()
 				if failed == 0 then
-					print('正在读取', '成功:', success)
+					message('正在读取', '成功:', success)
 				else
-					print('正在读取', '成功:', success, '失败:', failed)
+					message('正在读取', '成功:', success, '失败:', failed)
 				end
 			end
 		end
@@ -315,9 +315,9 @@ function mt:extract_files(map_path, output_dir)
         end
     end
     if failed == 0 then
-        print('读取完毕', '成功:', success)
+        message('读取完毕', '成功:', success)
     else
-        print('读取完毕', '成功:', success, '失败:', failed)
+        message('读取完毕', '成功:', success, '失败:', failed)
     end
     map:close()
     return files, paths
@@ -344,14 +344,14 @@ function mt:to_lni(files, paths, output_dir)
 			success = success + 1
 		else
 			failed = failed + 1
-			print('文件导出失败', name)
+			message('文件导出失败', name)
 		end
 		if os.clock() - clock >= 0.5 then
 			clock = os.clock()
 			if failed == 0 then
-				print('正在导出', '成功:', success)
+				message('正在导出', '成功:', success)
 			else
-				print('正在导出', '成功:', success, '失败:', failed)
+				message('正在导出', '成功:', success, '失败:', failed)
 			end
 		end
 	end
@@ -360,7 +360,7 @@ function mt:to_lni(files, paths, output_dir)
     local w3xs = {}
     local delete = {}
     for file_name, meta in pairs(self.info['metadata']) do
-        print(file_name)
+        message(file_name)
         local data = {}
         local metadata = read_metadata(self.dir['meta'] / self.info['metadata'][file_name])
         local temp_data = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
@@ -434,9 +434,9 @@ function mt:to_lni(files, paths, output_dir)
 	end
 	
 	if failed == 0 then
-		print('导出完毕', '成功:', success)
+		message('导出完毕', '成功:', success)
 	else
-		print('导出完毕', '成功:', success, '失败:', failed)
+		message('导出完毕', '成功:', success, '失败:', failed)
 	end
 
 	--刷新字符串
@@ -451,12 +451,12 @@ function mt:unpack(output_dir)
     -- 解压地图
 	local map = stormlib.open(map_path)
 	if not map then
-		print('地图打开失败')
+		message('地图打开失败')
 		return
 	end
 
 	if not map:has_file '(listfile)' then
-		print('不支持没有文件列表(listfile)的地图')
+		message('不支持没有文件列表(listfile)的地图')
 		return
 	end
 	map:close()

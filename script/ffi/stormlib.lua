@@ -188,7 +188,7 @@ end
 function archive:__pairs()
 	local content = self:load_file('(listfile)')
 	if not content then
-		print('(listfile)导出失败')
+		message('(listfile)导出失败')
 		return
 	end
 	if content:sub(1, 3) == '\xEF\xBB\xBF' then

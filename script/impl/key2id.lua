@@ -32,7 +32,7 @@ end
 function mt:addtable(tbl, name, id)
     if tbl[name] then
         if not isignore(id, tbl[name]) then
-            print('错误:', 'id重复', id, tbl[name], name, skl)
+            message('错误:', 'id重复', id, tbl[name], name, skl)
         end
         return
     end
@@ -142,7 +142,7 @@ local function copy_code(private, template)
     for skill, data in pairs(private) do
         for name, id in pairs(data) do
             if hasname(skill, template, private, name, id) then
-                print('发现冲突的id', skill, name, id)
+                message('发现冲突的id', skill, name, id)
                 data[name] = nil
             end
         end

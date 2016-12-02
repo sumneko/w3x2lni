@@ -10,7 +10,7 @@ local w3x2lni  = require 'w3x2lni'
 
 local function main()
 	if not arg[1] then
-		print('请将地图或文件夹拖动到bat中!')
+		message('请将地图或文件夹拖动到bat中!')
 		return
 	end
 
@@ -41,7 +41,7 @@ local function main()
 		map_file:save(output_dir)
 	end
 	
-	print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
+	message('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
 end
 
 main()

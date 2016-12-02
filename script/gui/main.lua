@@ -119,6 +119,10 @@ local function update_backend()
 			backend.output = backend.output:sub(pos+1)
 		end
 	end
+	if #backend.error > 0 then
+		print(backend.error)
+		backend.error = ''
+	end
 end
 	
 local function window_mpq(canvas, height)

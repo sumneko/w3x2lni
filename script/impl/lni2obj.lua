@@ -38,7 +38,7 @@ function mt:key2id(code, skill, key)
     if id then
         return id
     end
-    print(('警告: 技能[%s](模板为[%s])并不支持数据项[%s]'):format(skill, code, key))
+    message(('警告: 技能[%s](模板为[%s])并不支持数据项[%s]'):format(skill, code, key))
     return nil
 end
 

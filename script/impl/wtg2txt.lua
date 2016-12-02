@@ -1,7 +1,7 @@
 local function wtg2txt(self, file_name_in, file_name_out)
 	local content	= io.load(file_name_in)
 	if not content then
-		print('文件无效:' .. file_name_in:string())
+		message('文件无效:' .. file_name_in:string())
 		return
 	end
 
@@ -96,7 +96,7 @@ local function wtg2txt(self, file_name_in, file_name_out)
 		index	= ('zzllllll'):unpack(content, index)
 
 		table.insert(triggers, trigger)
-		--print('trigger:' .. trigger.name)
+		--message('trigger:' .. trigger.name)
 		--读取子结构
 		funcs.readEcas()
 
@@ -139,7 +139,7 @@ local function wtg2txt(self, file_name_in, file_name_out)
 		eca.enable,	--是否允许(0不允许, 1允许)
 		index	= ('zl'):unpack(content, index)
 
-		--print('eca:' .. eca.name)
+		--message('eca:' .. eca.name)
 		--读取参数
 		funcs.readArgs(eca)
 
@@ -157,11 +157,11 @@ local function wtg2txt(self, file_name_in, file_name_out)
 		local args	= args
 		eca.args	= args
 
-		--print(eca.type, eca.name)
+		--message(eca.type, eca.name)
 		local state_args	= self.function_state[eca.type][eca.name].args
 		local arg_count	= #state_args
 
-		--print('args:' .. arg_count)
+		--message('args:' .. arg_count)
 
 		for i = 1, arg_count do
 			funcs.readArg(args)
@@ -176,7 +176,7 @@ local function wtg2txt(self, file_name_in, file_name_out)
 		arg.value,			--值
 		arg.insert_call,	--是否需要插入调用
 		index	= ('lzl'):unpack(content, index)
-		--print('var:' .. arg.value)
+		--message('var:' .. arg.value)
 
 		--是否是索引
 		table.insert(args, arg)
@@ -185,7 +185,7 @@ local function wtg2txt(self, file_name_in, file_name_out)
 		if arg.insert_call == 1 then
 			funcs.readEca(false, arg)
 			arg.int_unknow_1, index	= ('l'):unpack(content, index) --永远是0
-			--print(arg.int_unknow_1)
+			--message(arg.int_unknow_1)
 			return
 		end
 
@@ -311,7 +311,7 @@ local function wtg2txt(self, file_name_in, file_name_out)
 									elseif eca.type == 2 then
 										lines = lines_action
 									else
-										print('eca类型错误', eca.type)
+										message('eca类型错误', eca.type)
 									end
 								end
 
@@ -417,7 +417,7 @@ local function wtg2txt(self, file_name_in, file_name_out)
 
 								--[[
 								if eca.child_eca_count ~= 0 then
-									--print(eca.name, eca.child_eca_count)
+									--message(eca.name, eca.child_eca_count)
 									tab	= tab + 1
 									for i = 1, eca.child_eca_count do
 										local eca	= ecas[index]

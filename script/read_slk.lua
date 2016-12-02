@@ -44,7 +44,7 @@ function mt:read_line(line)
 		end
 	end
 	if not x then
-		print(line)
+		message(line)
 	end
 	self:add_table(x, y, k)
 end
