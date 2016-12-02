@@ -1,4 +1,5 @@
 local key_type = require 'key_type'
+local progress = require 'progress'
 
 local table_insert = table.insert
 local table_sort   = table.sort
@@ -100,9 +101,10 @@ function mt:add_chunk(chunk)
     local clock = os.clock()
 	for i = 1, #names do
 		self:add_obj(chunk[names[i]])
-        if os.clock() - clock >= 1 then
+        if os.clock() - clock >= 0.5 then
             clock = os.clock()
             message(('正在转换:[%s] (%03d/%03d)'):format(names[i], i, #names))
+            progress(i / #names)
         end
 	end
 end
