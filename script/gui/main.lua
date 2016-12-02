@@ -177,6 +177,7 @@ local function window_mpq(canvas, height)
 			else
 				unpack.find_id_times = 0
 			end
+			save_config()
 		end
 		if unpack.find_id_times == 0 then
 			canvas:edit('', 0, function ()
