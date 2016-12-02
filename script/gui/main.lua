@@ -221,6 +221,7 @@ function window:draw(canvas)
 		canvas:button('正在处理...')
 	else
 		if canvas:button('开始') then
+			backend_msgs['progress'] = nil
 			canvas:progress(0, 100)
 			backend = sys.async_popen(('%q -nogui %q'):format(arg[0], mappath:string()))
 		end
