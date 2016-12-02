@@ -201,6 +201,7 @@ function window:draw(canvas)
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(50, 1)
 	if canvas:button('开始') then
+		backend_msgs['progress'] = nil
 		backend = sys.async_popen(('%q -nogui %q'):format(arg[0], mappath:string()))
 	end
 end
