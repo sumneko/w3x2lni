@@ -107,8 +107,10 @@ local function update_backendmsg(pos)
 	local msg = backend.output:sub(1, pos):gsub("^%s*(.-)%s*$", "%1"):gsub('[^\r\n]+[\r\n]*', function(str)
 		if str:sub(1, 1) == '-' then
 			local key, value = str:match('%-(%S+)%s(.+)')
-			backend_msgs[key] = value
-			return ''
+			if key then
+				backend_msgs[key] = value
+				return ''
+			end
 		end
 	end)
 	if #msg > 0 then
