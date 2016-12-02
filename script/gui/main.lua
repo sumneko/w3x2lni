@@ -187,7 +187,7 @@ local function window_mpq(canvas, height)
 			local r = canvas:edit(tostring(unpack.find_id_times), 10, function (c)
 				return 48 <= c and c <= 57
 			end)
-			unpack.find_id_times = tonumber(r)
+			unpack.find_id_times = tonumber(r) or 1
 			save_config()
 		end
 		height = height - 68
