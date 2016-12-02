@@ -40,8 +40,7 @@ end
 function mt:update()
 	self:update_out()
 	self:update_err()
-	if not self.out_rd and not self.err_rd then
-		local exit_code = self.process:wait()
+	if not self.process:is_running() then
 		self.process:close()
 		return true
 	end
