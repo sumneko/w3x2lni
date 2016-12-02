@@ -26,6 +26,29 @@ NK_TEXT_RIGHT          = NK_TEXT_ALIGN_MIDDLE | NK_TEXT_ALIGN_RIGHT
 local root = fs.get(fs.DIR_EXE):remove_filename()
 local config = lni:loader(io.load(root / 'config.ini'))
 
+local config_content = [[
+[unpack]
+-- 解包地图时是否分析slk文件
+read_slk = $unpack.read_slk$
+-- 分析slk时寻找id最优解的次数,0表示无限,寻找次数越多速度越慢
+find_id_times = $unpack.find_id_times$
+-- 解包时移除与模板完全相同的数据
+remove_same = $unpack.remove_same$
+-- 解包时移除超出等级的数据
+remove_over_level = $unpack.remove_over_level$
+]]
+
+local function save_config()
+	local content = config_content:gsub('%$(.-)%$', function(str)
+		local value = config
+		for key in str:gmatch '[^%.]*' do
+			value = value[key]
+		end
+		return tostring(value)
+	end)
+	io.save(root / 'config.ini', content)
+end
+
 local window = nk.window('W3x2Lni', 400, 600)
 
 local filetype = 'none'
@@ -106,12 +129,15 @@ local function window_mpq(canvas, height)
 	canvas:layout_row_dynamic(30, 1)
 	if canvas:checkbox('分析slk文件', unpack.read_slk) then
 		unpack.read_slk = not unpack.read_slk
+		save_config()
 	end
 	if canvas:checkbox('删除和模板一致的数据', unpack.remove_same) then
 		unpack.remove_same = not unpack.remove_same
+		save_config()
 	end
 	if canvas:checkbox('删除超过最大等级的数据', unpack.remove_over_level) then
 		unpack.remove_over_level = not unpack.remove_over_level
+		save_config()
 	end
 	canvas:layout_row_dynamic(10, 1)
 	canvas:tree('高级', 1, function()
@@ -132,6 +158,7 @@ local function window_mpq(canvas, height)
 				return 48 <= c and c <= 57
 			end)
 			unpack.find_id_times = tonumber(r)
+			save_config()
 		end
 		height = height - 68
 	end)
@@ -148,8 +175,8 @@ local function window_dir(canvas)
 end
 
 local function error_handle(msg)
-    print(msg)
-    print(debug.traceback())
+	print(msg)
+	print(debug.traceback())
 end
 
 function window:draw(canvas)
