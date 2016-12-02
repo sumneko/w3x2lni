@@ -67,7 +67,7 @@ function window:dropfile(file)
 	end
 end
 
-local function button_mapname(canvas)
+local function button_mapname(canvas, height)
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(40, 1)
 	local ok, state = canvas:button(mapname)
@@ -83,9 +83,9 @@ local function button_mapname(canvas)
 		canvas:edit(mappath:string(), 200, function ()
 			return false
 		end)
-		return 44
+		height = height - 44
 	end
-	return 0
+	return height
 end
 
 local function window_none(canvas)
@@ -134,8 +134,7 @@ local function update_backend()
 end
 	
 local function window_mpq(canvas, height)
-	update_backend()
-	height = 200 - height
+	height = height - 158
 	local unpack = config.unpack
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(30, 1)
@@ -183,7 +182,8 @@ local function window_mpq(canvas, height)
 	canvas:layout_row_dynamic(10, 1)
 end
 
-local function window_dir(canvas)
+local function window_dir(canvas, height)
+	return height
 end
 
 function window:draw(canvas)
@@ -191,16 +191,23 @@ function window:draw(canvas)
 		window_none(canvas)
 		return
 	end
-	local height = button_mapname(canvas)
+	update_backend()
+	local height = button_mapname(canvas, 358)
 	if filetype == 'mpq' then
-		window_mpq(canvas, height)
+		height = window_mpq(canvas, height)
 	else
-		window_dir(canvas)
+		height = window_dir(canvas, height)
 	end
+	canvas:layout_row_dynamic(height, 1)
+	canvas:layout_row_dynamic(30, 1)
+	canvas:label(backend_lastmsg, NK_TEXT_LEFT)
+	canvas:layout_row_dynamic(10, 1)
+	canvas:layout_row_dynamic(30, 1)
+	canvas:progress(backend_msgs['progress'] or 0, 100)
+	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(50, 1)
 	if canvas:button('开始') then
 		backend = sys.async_popen(('%q -nogui %q'):format(arg[0], mappath:string()))
-		print('ok' , backend)
 	end
 end
 
