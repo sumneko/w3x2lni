@@ -27,7 +27,9 @@ local function main()
 		function map_file:on_save(name, file, dir)
 			return name, file
 		end
-		map_file:save(input_path:parent_path() / map_name)
+		if map_file:save(input_path:parent_path() / map_name) then
+			message('转换完毕,用时 ' .. os.clock() .. ' 秒') 
+		end
 	else
 		local output_dir = input_path:parent_path() / input_path:stem()
 		local map_file = w3x2lni:create_map()
@@ -38,10 +40,10 @@ local function main()
 		function map_file:on_save(name)
 			return name, output_dir
 		end
-		map_file:save(output_dir)
+		if map_file:save(output_dir) then
+			message('转换完毕,用时 ' .. os.clock() .. ' 秒') 
+		end
 	end
-	
-	message('转换完毕,用时 ' .. os.clock() .. ' 秒') 
 end
 
 main()

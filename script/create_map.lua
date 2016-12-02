@@ -490,12 +490,12 @@ function mt:unpack(output_dir)
 	local map = stormlib.open(map_path)
 	if not map then
 		message('地图打开失败')
-		return
+		return false
 	end
 
 	if not map:has_file '(listfile)' then
 		message('不支持没有文件列表(listfile)的地图')
-		return
+		return false
 	end
 	
     local max_count = 0
@@ -510,6 +510,7 @@ function mt:unpack(output_dir)
 	local files, paths = self:extract_files(map_path, output_dir, max_count)
 	self:to_lni(files, paths, output_dir, max_count)
     progress:target(100)
+    return true
 end
 
 function mt:save(map_path)
