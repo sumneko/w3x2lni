@@ -4,7 +4,7 @@ require 'utility'
 require 'gui.backend'
 local lni = require 'lni'
 local nk = require 'nuklear'
-nk:console()
+--nk:console()
 
 NK_WIDGET_STATE_MODIFIED = 1 << 1
 NK_WIDGET_STATE_INACTIVE = 1 << 2

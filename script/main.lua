@@ -3,7 +3,7 @@ if arg[1] == '-nogui' then
 	--nk:console()
 	table.remove(arg, 1)
 	require 'make'
-	os.execute('pause')
+	--os.execute('pause')
 else
 	require 'gui.main'
 end
