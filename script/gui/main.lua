@@ -103,6 +103,21 @@ local backend
 local backend_lastmsg = ''
 local backend_msgs = {}
 
+local function update_backendmsg(pos)
+	local msg = backend.output:sub(1, pos):gsub("^%s*(.-)%s*$", "%1"):gsub('[^\r\n]+[\r\n]*', function(str)
+		if str:sub(1, 1) == '-' then
+			local key, value = str:match('%-(%S+)%s(.+)')
+			backend_msgs[key] = value
+			return ''
+		end
+	end)
+	if #msg > 0 then
+		backend_lastmsg = msg
+	end
+	backend.output = backend.output:sub(pos+1)
+	return true
+end
+
 local function update_backend()
 	if not backend then
 		return
@@ -113,23 +128,24 @@ local function update_backend()
 	if #backend.output > 0 then
 		local pos = backend.output:find('\n')
 		if pos then
-			local msg = backend.output:sub(1, pos):gsub("^%s*(.-)%s*$", "%1"):gsub('[^\r\n]+[\r\n]*', function(str)
-				if str:sub(1, 1) == '-' then
-					local key, value = str:match('%-(%S+)%s(.+)')
-					backend_msgs[key] = value
-					return ''
-				end
-			end)
-			if #msg > 0 then
-				backend_lastmsg = msg
-			end
-			backend.output = backend.output:sub(pos+1)
+			update_backendmsg(pos)
 		end
 	end
 	if #backend.error > 0 then
 		io.stdout:write(backend.error)
 		io.stdout:flush()
 		backend.error = ''
+	end
+	if backend.closed then
+		while true do
+			local pos = backend.output:find('\n')
+			if not pos then
+				break
+			end
+			update_backendmsg(pos)
+		end
+		update_backendmsg(-1)
+		backend = nil
 	end
 end
 	
@@ -180,6 +196,7 @@ local function window_dir(canvas, height)
 	return height
 end
 
+local dot = 0
 function window:draw(canvas)
 	if filetype == 'none' then
 		window_none(canvas)
@@ -200,8 +217,12 @@ function window:draw(canvas)
 	canvas:progress(backend_msgs['progress'] or 0, 100)
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(50, 1)
-	if canvas:button('开始') then
-		backend = sys.async_popen(('%q -nogui %q'):format(arg[0], mappath:string()))
+	if backend then
+		canvas:button('正在处理...')
+	else
+		if canvas:button('开始') then
+			backend = sys.async_popen(('%q -nogui %q'):format(arg[0], mappath:string()))
+		end
 	end
 end
 
