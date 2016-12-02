@@ -174,11 +174,6 @@ end
 local function window_dir(canvas)
 end
 
-local function error_handle(msg)
-	print(msg)
-	print(debug.traceback())
-end
-
 function window:draw(canvas)
 	if filetype == 'none' then
 		window_none(canvas)
