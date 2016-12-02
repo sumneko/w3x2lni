@@ -288,7 +288,7 @@ function mt:extract_files(map_path, output_dir, max_count)
 				failed = failed + 1
 				--message('文件读取失败', name)
 			end
-			if os.clock() - clock >= 0.5 then
+			if os.clock() - clock >= 0.1 then
 				clock = os.clock()
 				--if failed == 0 then
 				--	message('正在读取', '成功:', success)
@@ -338,6 +338,7 @@ function mt:load_slk(file_name, meta, files, delete, data)
     local slk = self.info['template']['slk'][file_name]
     for i = 1, #slk do
         local name = slk[i]
+        message('正在转换', name)
         template:add_slk(read_slk(files[name] or io.load(self.dir['meta'] / name)))
         if files[name] then
             delete[name] = true
@@ -347,6 +348,7 @@ function mt:load_slk(file_name, meta, files, delete, data)
     local txt = self.info['template']['txt'][file_name]
     for i = 1, #txt do
         local name = txt[i]
+        message('正在转换', name)
         template:add_txt(read_txt(files[name] or io.load(self.dir['meta'] / name)))
         if files[name] then
             delete[name] = true
@@ -363,6 +365,7 @@ function mt:load_obj(file_name, meta, files, delete, target_progress)
     local key_data = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
 
     if files[file_name] then
+        message('正在转换', file_name)
         add_table(data, self.w3x2lni:read_obj(files[file_name], metadata))
         delete[file_name] = true
     end
@@ -412,7 +415,7 @@ function mt:to_lni(files, paths, output_dir, max_count)
 			failed = failed + 1
 			--message('文件导出失败', name)
 		end
-		if os.clock() - clock >= 0.5 then
+		if os.clock() - clock >= 0.1 then
 			clock = os.clock()
 			--if failed == 0 then
 			--	message('正在导出', '成功:', success)
@@ -474,6 +477,7 @@ function mt:to_lni(files, paths, output_dir, max_count)
 
 	--刷新字符串
     progress:target(100)
+    message('即将完成...')
 	if self.wts then
 		local content = self.wts:refresh()
 		io.save(paths['war3map.wts'], content)
