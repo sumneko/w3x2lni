@@ -381,9 +381,9 @@ function mt:load_obj(file_name, meta, files, delete, target_progress)
         end
         local max_level_key = self.info['key']['max_level'][file_name]
         progress:target(target_progress)
-        local content = self.w3x2lni:obj2lni(data, metadata, editstring, temp_data, key_data, max_level_key, file_name)
-        if wts then
-            content = wts:load(content)
+        local content = self.w3x2lni:obj2lni(data, metadata, self.editstring, temp_data, key_data, max_level_key, file_name)
+        if self.wts then
+            content = self.wts:load(content)
         end
         return content
     end
@@ -392,17 +392,15 @@ end
 function mt:to_lni(files, paths, output_dir, max_count)
 	--读取编辑器文本
     progress:target(12)
-	local editstring
 	local ini = read_ini(self.dir['meta'] / 'WorldEditStrings.txt')
 	if ini then
-		editstring = ini['WorldEditStrings']
+		self.editstring = ini['WorldEditStrings']
 	end
 	
 	--读取字符串
     progress:target(15)
-	local wts
 	if files['war3map.wts'] then
-		wts = self.w3x2lni:read_wts(files['war3map.wts'])
+		self.wts = self.w3x2lni:read_wts(files['war3map.wts'])
 	end
 	
 	local clock = os.clock()
@@ -458,8 +456,8 @@ function mt:to_lni(files, paths, output_dir, max_count)
                 data = self:on_lni(name, data)
             end
 			local content = self.w3x2lni:w3i2lni(data)
-            if wts then
-			    content = wts:load(content, false, true)
+            if self.wts then
+			    content = self.wts:load(content, false, true)
             end
 			save(paths['war3map.w3i']:parent_path() / 'war3map.w3i.ini', content, max_count)
 		elseif name == 'war3map.wts' then
@@ -476,8 +474,8 @@ function mt:to_lni(files, paths, output_dir, max_count)
 
 	--刷新字符串
     progress:target(100)
-	if wts then
-		local content = wts:refresh()
+	if self.wts then
+		local content = self.wts:refresh()
 		io.save(paths['war3map.wts'], content)
 	end
 end
