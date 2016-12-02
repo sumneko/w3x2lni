@@ -110,12 +110,6 @@ end
 --	std_print(table_unpack(tbl))
 --end
 
-local current_progress = 0
-function progress(n)
-    current_progress = current_progress + n
-    message('-progress', math_floor(current_progress))
-end
-
 function task(f, ...)
 	for i = 1, 100 do
 		if i == 100 then

@@ -5,6 +5,7 @@ local read_ini = require 'read_ini'
 local create_template = require 'create_template'
 local read_slk = require 'read_slk'
 local read_txt = require 'read_txt'
+local progress = require 'progress'
 
 local table_insert = table.insert
 
@@ -258,11 +259,12 @@ function mt:save_map(map_path)
     return true
 end
 
-function mt:extract_files(map_path, output_dir)
+function mt:extract_files(map_path, output_dir, max_count)
 	local files = {}
 	local paths = {}
 	local dirs = {}
-	local map = stormlib.open(map_path)
+    local map = stormlib.open(map_path)
+
 	local clock = os.clock()
 	local success, failed = 0, 0
     local function extract_file(name, is_try)
@@ -293,9 +295,11 @@ function mt:extract_files(map_path, output_dir)
 				else
 					message('正在读取', '成功:', success, '失败:', failed)
 				end
+                progress((success + failed) / max_count)
 			end
 		end
     end
+    
 	for name in pairs(map) do
 		extract_file(name:lower())
 	end
@@ -347,7 +351,7 @@ function mt:load_slk(file_name, meta, files, delete, data)
     return template
 end
 
-function mt:load_obj(file_name, meta, files, delete)
+function mt:load_obj(file_name, meta, files, delete, target_progress)
     local data = {}
     local metadata = read_metadata(self.dir['meta'] / self.info['metadata'][file_name])
     local temp_data = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
@@ -371,6 +375,7 @@ function mt:load_obj(file_name, meta, files, delete)
             data = self:on_lni(file_name, data)
         end
         local max_level_key = self.info['key']['max_level'][file_name]
+        progress:target(target_progress)
         local content = self.w3x2lni:obj2lni(data, metadata, editstring, temp_data, key_data, max_level_key, file_name)
         if wts then
             content = wts:load(content)
@@ -379,8 +384,9 @@ function mt:load_obj(file_name, meta, files, delete)
     end
 end
 
-function mt:to_lni(files, paths, output_dir)
+function mt:to_lni(files, paths, output_dir, max_count)
 	--读取编辑器文本
+    progress:target(12)
 	local editstring
 	local ini = read_ini(self.dir['meta'] / 'WorldEditStrings.txt')
 	if ini then
@@ -388,6 +394,7 @@ function mt:to_lni(files, paths, output_dir)
 	end
 	
 	--读取字符串
+    progress:target(15)
 	local wts
 	if files['war3map.wts'] then
 		wts = self.w3x2lni:read_wts(files['war3map.wts'])
@@ -395,7 +402,7 @@ function mt:to_lni(files, paths, output_dir)
 	
 	local clock = os.clock()
 	local success, failed = 0, 0
-	local function save(path, content)
+	local function save(path, content, max_count)
 		if io.save(path, content) then
 			success = success + 1
 		else
@@ -409,13 +416,20 @@ function mt:to_lni(files, paths, output_dir)
 			else
 				message('正在导出', '成功:', success, '失败:', failed)
 			end
+            if max_count then
+                progress((success + failed) / max_count)
+            end
 		end
 	end
 
     local delete = {}
+    local count = 0
     for file_name, meta in pairs(self.info['metadata']) do
+        count = count + 1
+        local target_progress = 15 + count * 9
+        progress:target(target_progress - 7)
         message(file_name)
-        local content = self:load_obj(file_name, meta, files, delete)
+        local content = self:load_obj(file_name, meta, files, delete, target_progress)
         if content then
             save(output_dir / (file_name .. '.ini'), content)
         end
@@ -425,6 +439,7 @@ function mt:to_lni(files, paths, output_dir)
         files[name] = nil
     end
 
+    progress:target(98)
 	for name, file in pairs(files) do
         if name == 'war3map.w3i' then
 			local content = file
@@ -436,10 +451,10 @@ function mt:to_lni(files, paths, output_dir)
             if wts then
 			    content = wts:load(content, false, true)
             end
-			save(paths['war3map.w3i']:parent_path() / 'war3map.w3i.ini', content)
+			save(paths['war3map.w3i']:parent_path() / 'war3map.w3i.ini', content, max_count)
 		elseif name == 'war3map.wts' then
 		else
-			save(paths[name], file)
+			save(paths[name], file, max_count)
 		end
 	end
 	
@@ -450,6 +465,7 @@ function mt:to_lni(files, paths, output_dir)
 	end
 
 	--刷新字符串
+    progress:target(100)
 	if wts then
 		local content = wts:refresh()
 		io.save(paths['war3map.wts'], content)
@@ -469,10 +485,19 @@ function mt:unpack(output_dir)
 		message('不支持没有文件列表(listfile)的地图')
 		return
 	end
-	map:close()
 	
-	local files, paths = self:extract_files(map_path, output_dir)
-	self:to_lni(files, paths, output_dir)
+    local max_count = 0
+    local list_file = map:load_file('(listfile)')
+    for _ in list_file:gmatch '[^\r\n]+' do
+        max_count = max_count + 1
+    end
+
+    map:close()
+	
+    progress:target(10)
+	local files, paths = self:extract_files(map_path, output_dir, max_count)
+	self:to_lni(files, paths, output_dir, max_count)
+    progress:target(100)
 end
 
 function mt:save(map_path)
