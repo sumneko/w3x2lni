@@ -323,6 +323,62 @@ function mt:extract_files(map_path, output_dir)
     return files, paths
 end
 
+function mt:load_slk(file_name, meta, files, delete, data)
+    local template = create_template(file_name)
+    
+    local slk = self.info['template']['slk'][file_name]
+    for i = 1, #slk do
+        local name = slk[i]
+        template:add_slk(read_slk(files[name] or io.load(self.dir['meta'] / name)))
+        if files[name] then
+            delete[name] = true
+        end
+    end
+
+    local txt = self.info['template']['txt'][file_name]
+    for i = 1, #txt do
+        local name = txt[i]
+        template:add_txt(read_txt(files[name] or io.load(self.dir['meta'] / name)))
+        if files[name] then
+            delete[name] = true
+        end
+    end
+
+    return template
+end
+
+function mt:load_obj(file_name, meta, files, delete)
+    local data = {}
+    local metadata = read_metadata(self.dir['meta'] / self.info['metadata'][file_name])
+    local temp_data = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
+    local key_data = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
+
+    if files[file_name] then
+        add_table(data, self.w3x2lni:read_obj(files[file_name], metadata))
+        delete[file_name] = true
+    end
+
+    if self.config['unpack']['read_slk'] then
+        local template = self:load_slk(file_name, meta, files, delete, data)
+        add_table(data, template:save(metadata, key_data))
+    end
+
+    if next(data) then
+        if not data['_版本'] then
+            data['_版本'] = 2
+        end
+        if self.on_lni then
+            data = self:on_lni(file_name, data)
+        end
+        local max_level_key = self.info['key']['max_level'][file_name]
+        local content = self.w3x2lni:obj2lni(data, metadata, editstring, temp_data, key_data, max_level_key, file_name)
+        if wts then
+            content = wts:load(content)
+        end
+        return content
+    end
+end
+
 function mt:to_lni(files, paths, output_dir)
 	--读取编辑器文本
 	local editstring
@@ -356,57 +412,11 @@ function mt:to_lni(files, paths, output_dir)
 		end
 	end
 
-    -- 读slk
-    local w3xs = {}
     local delete = {}
     for file_name, meta in pairs(self.info['metadata']) do
         message(file_name)
-        local data = {}
-        local metadata = read_metadata(self.dir['meta'] / self.info['metadata'][file_name])
-        local temp_data = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
-        local key_data = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
-
-        if files[file_name] then
-            add_table(data, self.w3x2lni:read_obj(files[file_name], metadata))
-            delete[file_name] = true
-        end
-
-        if self.config['unpack']['read_slk'] then
-            local template = create_template(file_name)
-            
-            local slk = self.info['template']['slk'][file_name]
-            for i = 1, #slk do
-                local name = slk[i]
-                template:add_slk(read_slk(files[name] or io.load(self.dir['meta'] / name)))
-                if files[name] then
-                    delete[name] = true
-                end
-            end
-
-            local txt = self.info['template']['txt'][file_name]
-            for i = 1, #txt do
-                local name = txt[i]
-                template:add_txt(read_txt(files[name] or io.load(self.dir['meta'] / name)))
-                if files[name] then
-                    delete[name] = true
-                end
-            end
-
-            add_table(data, template:save(metadata, key_data))
-        end
-
-        if next(data) then
-            if not data['_版本'] then
-                data['_版本'] = 2
-            end
-            if self.on_lni then
-                data = self:on_lni(file_name, data)
-            end
-            local max_level_key = self.info['key']['max_level'][file_name]
-            local content = self.w3x2lni:obj2lni(data, metadata, editstring, temp_data, key_data, max_level_key, file_name)
-            if wts then
-                content = wts:load(content)
-            end
+        local content = self:load_obj(file_name, meta, files, delete)
+        if content then
             save(output_dir / (file_name .. '.ini'), content)
         end
     end

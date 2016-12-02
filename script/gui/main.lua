@@ -4,7 +4,7 @@ require 'utility'
 require 'gui.backend'
 local lni = require 'lni'
 local nk = require 'nuklear'
---nk:console()
+nk:console()
 
 NK_WIDGET_STATE_MODIFIED = 1 << 1
 NK_WIDGET_STATE_INACTIVE = 1 << 2
@@ -101,6 +101,7 @@ end
 
 local backend
 local backend_lastmsg = ''
+local backend_msgs = {}
 
 local function update_backend()
 	if not backend then
@@ -112,7 +113,13 @@ local function update_backend()
 	if #backend.output > 0 then
 		local pos = backend.output:find('\n')
 		if pos then
-			local msg = backend.output:sub(1, pos):gsub("^%s*(.-)%s*$", "%1")
+			local msg = backend.output:sub(1, pos):gsub("^%s*(.-)%s*$", "%1"):gsub('[^\r\n]+[\r\n]*', function(str)
+				if str:sub(1, 1) == '-' then
+					local key, value = str:match('%-(%S+)%s(.+)')
+					backend_msgs[key] = value
+					return ''
+				end
+			end)
 			if #msg > 0 then
 				backend_lastmsg = msg
 			end
@@ -120,7 +127,8 @@ local function update_backend()
 		end
 	end
 	if #backend.error > 0 then
-		print(backend.error)
+		io.stdout:write(backend.error)
+		io.stdout:flush()
 		backend.error = ''
 	end
 end
@@ -171,7 +179,7 @@ local function window_mpq(canvas, height)
 	canvas:label(backend_lastmsg, NK_TEXT_LEFT)
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(30, 1)
-	canvas:progress(0, 100)
+	canvas:progress(backend_msgs['progress'] or 0, 100)
 	canvas:layout_row_dynamic(10, 1)
 end
 

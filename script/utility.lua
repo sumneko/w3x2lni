@@ -6,6 +6,7 @@ local table_insert = table.insert
 local table_sort   = table.sort
 local pairs = pairs
 local setmetatable = setmetatable
+local math_floor = math.floor
 
 local real_io_open = io.open
 
@@ -88,11 +89,31 @@ end
 
 function message(...)
 	local tbl = {...}
+    local err = {}
 	local count = select('#', ...)
 	for i = 1, count do
 		tbl[i] = tostring(tbl[i])
+        err[i] = uni.u2a(tbl[i])
 	end
+    io.stderr:write(table.concat(err, ' ')..'\r\n')
+    io.stderr:flush()
 	print(table.concat(tbl, ' '))
+end
+
+--local std_print = print
+--function print(...)
+--	local tbl = {...}
+--	local count = select('#', ...)
+--	for i = 1, count do
+--		tbl[i] = uni.u2a(tostring(tbl[i]))
+--	end
+--	std_print(table_unpack(tbl))
+--end
+
+local current_progress = 0
+function progress(n)
+    current_progress = current_progress + n
+    message('-progress', math_floor(current_progress))
 end
 
 function task(f, ...)
