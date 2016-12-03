@@ -62,6 +62,7 @@ function window:dropfile(file)
 	mappath = fs.path(file)
 	mapname = mappath:filename():string()
 	uitype = 'select'
+	window:set_title('W3x2Lni')
 end
 
 local function button_mapname(canvas, height)
