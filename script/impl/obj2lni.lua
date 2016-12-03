@@ -101,9 +101,9 @@ function mt:add_chunk(chunk)
     local clock = os.clock()
 	for i = 1, #names do
 		self:add_obj(chunk[names[i]])
-        if os.clock() - clock >= 0.5 then
+        if os.clock() - clock >= 0.1 then
             clock = os.clock()
-            message(('正在转换:[%s] (%03d/%03d)'):format(names[i], i, #names))
+            message(('正在转换%s: [%s] (%d/%d)'):format(self.file_name, names[i], i, #names))
             progress(i / #names)
         end
 	end
@@ -232,11 +232,13 @@ function mt:add_data(name, data, user_id, lines)
 		else
 			local suc, info = pcall(table_concat, values, ', ')
 			if not suc then
-				message(user_id)
+                local msg = {}
+                msg[#msg+1] = info
+				msg[#msg+1] = tostring(user_id)
 				for k, v in pairs(values) do
-					message(k, v)
+					msg[#msg+1] = tostring(k) .. '\t' .. tostring(v)
 				end
-				error(info)
+				error(table.concat(msg, '\r\n'))
 			end
 			lines[#lines+1] = {'%s = {%s}', name, table_concat(values, ', ')}
 		end

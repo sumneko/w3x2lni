@@ -107,8 +107,10 @@ local function update_backendmsg(pos)
 	local msg = backend.output:sub(1, pos):gsub("^%s*(.-)%s*$", "%1"):gsub('[^\r\n]+[\r\n]*', function(str)
 		if str:sub(1, 1) == '-' then
 			local key, value = str:match('%-(%S+)%s(.+)')
-			backend_msgs[key] = value
-			return ''
+			if key then
+				backend_msgs[key] = value
+				return ''
+			end
 		end
 	end)
 	if #msg > 0 then
@@ -175,6 +177,7 @@ local function window_mpq(canvas, height)
 			else
 				unpack.find_id_times = 0
 			end
+			save_config()
 		end
 		if unpack.find_id_times == 0 then
 			canvas:edit('', 0, function ()
@@ -184,7 +187,7 @@ local function window_mpq(canvas, height)
 			local r = canvas:edit(tostring(unpack.find_id_times), 10, function (c)
 				return 48 <= c and c <= 57
 			end)
-			unpack.find_id_times = tonumber(r)
+			unpack.find_id_times = tonumber(r) or 1
 			save_config()
 		end
 		height = height - 68
@@ -223,6 +226,7 @@ function window:draw(canvas)
 		if canvas:button('开始') then
 			backend_msgs['progress'] = nil
 			canvas:progress(0, 100)
+			backend_lastmsg = '正在初始化...'
 			backend = sys.async_popen(('%q -nogui %q'):format(arg[0], mappath:string()))
 		end
 	end

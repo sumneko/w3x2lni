@@ -54,7 +54,7 @@ local function main()
 	for _, name in ipairs(convertors) do
 		local func = require('impl.' .. name)
 		mt[name] = function (self, ...)
-			message(('正在执行:') .. name)
+			--message(('正在执行:') .. name)
 			return func(self, ...)
 		end
 	end
