@@ -39,6 +39,22 @@ local function add_table(tbl1, tbl2)
     end
 end
 
+local function resize_string(str, left, right)
+    local points = {}
+    local chars = {}
+    for p, c in utf8.codes(str) do
+        chars[#chars+1] = c
+        points[#points+1] = #chars
+        if c > 255 then
+            points[#points+1] = #chars
+        end
+    end
+    if #points <= left + right then
+        return str
+    end
+    return utf8.char(table.unpack(chars, 1, points[left] or 0)) .. '...' .. utf8.char(table.unpack(chars, points[#points - right + 1] or (#points+1)))
+end
+
 local mt = {}
 mt.__index = mt
 
@@ -295,11 +311,8 @@ function mt:extract_files(map_path, output_dir, max_count)
 				--else
 				--	message('正在读取', '成功:', success, '失败:', failed)
 				--end
-                local name = name
-                if #name > 20 then
-                    name = name:sub(1, 10) .. '...' .. name:sub(-10)
-                end
-                message(('正在读取 [%s] (%d/%d)'):format(name, (success + failed), max_count))
+                local name = resize_string(name, 10, 15)
+                message(('正在读取 [%s]'):format(name))
                 progress((success + failed) / max_count)
 			end
 		end
@@ -423,11 +436,8 @@ function mt:to_lni(files, paths, output_dir, max_count)
 			--	message('正在导出', '成功:', success, '失败:', failed)
 			--end
             if max_count then
-                local name = path:string()
-                if #name > 20 then
-                    name = name:sub(1, 5) .. '...' .. name:sub(-15)
-                end
-                message(('正在导出 [%s] (%d/%d)'):format(name, (success + failed), max_count))
+                local name = resize_string(path:string(), 0, 25)
+                message(('正在导出 [%s]'):format(name))
                 progress((success + failed) / max_count)
             end
 		end
