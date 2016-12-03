@@ -39,22 +39,6 @@ local function add_table(tbl1, tbl2)
     end
 end
 
-local function resize_string(str, left, right)
-    local points = {}
-    local chars = {}
-    for p, c in utf8.codes(str) do
-        chars[#chars+1] = c
-        points[#points+1] = #chars
-        if c > 255 then
-            points[#points+1] = #chars
-        end
-    end
-    if #points <= left + right then
-        return str
-    end
-    return utf8.char(table.unpack(chars, 1, points[left] or 0)) .. '...' .. utf8.char(table.unpack(chars, points[#points - right + 1] or (#points+1)))
-end
-
 local mt = {}
 mt.__index = mt
 
@@ -311,13 +295,12 @@ function mt:extract_files(map_path, output_dir, max_count)
 				--else
 				--	message('正在读取', '成功:', success, '失败:', failed)
 				--end
-                local name = resize_string(name, 10, 15)
-                message(('正在读取 [%s]'):format(name))
                 progress((success + failed) / max_count)
 			end
 		end
     end
     
+    message('正在读取...')
 	for name in pairs(map) do
 		extract_file(name:lower())
 	end
@@ -436,8 +419,6 @@ function mt:to_lni(files, paths, output_dir, max_count)
 			--	message('正在导出', '成功:', success, '失败:', failed)
 			--end
             if max_count then
-                local name = resize_string(path:string(), 0, 25)
-                message(('正在导出 [%s]'):format(name))
                 progress((success + failed) / max_count)
             end
 		end
@@ -461,6 +442,7 @@ function mt:to_lni(files, paths, output_dir, max_count)
     end
 
     progress:target(98)
+    message('正在导出...')
 	for name, file in pairs(files) do
         if name == 'war3map.w3i' then
 			local content = file

@@ -44,6 +44,7 @@ local function main()
 			message('转换完毕,用时 ' .. os.clock() .. ' 秒') 
 		end
 	else
+		message('正在打开...')
 		local output_dir = input_path:parent_path() / input_path:stem()
 		local map_file = w3x2lni:create_map()
 		map_file:add_input(input_path)
