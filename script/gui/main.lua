@@ -73,11 +73,11 @@ local function button_mapname(canvas, height)
 		showmappath = not showmappath
 	end
 	if state & NK_WIDGET_STATE_LEFT ~= 0 then
-		count = count + 1
+		showcount = showcount + 1
 	else
-		count = 0
+		showcount = 0
 	end
-	if showmappath or count > 20 then
+	if showmappath or showcount > 20 then
 		canvas:edit(mappath:string(), 200, function ()
 			return false
 		end)
