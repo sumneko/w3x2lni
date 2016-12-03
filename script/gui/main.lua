@@ -50,8 +50,9 @@ local function save_config()
 end
 
 local window = nk.window('W3x2Lni', 400, 600)
+window:set_style(0, 173, 217)
 
-local filetype = 'none'
+local uitype = 'none'
 local showmappath = false
 local showcount = 0
 local mapname = ''
@@ -60,11 +61,7 @@ local mappath = fs.path()
 function window:dropfile(file)
 	mappath = fs.path(file)
 	mapname = mappath:filename():string()
-	if fs.is_directory(mappath) then
-		filetype = 'dir'
-	else
-		filetype = 'mpq'
-	end
+	uitype = 'select'
 end
 
 local function button_mapname(canvas, height)
@@ -97,6 +94,29 @@ local function window_none(canvas)
 	canvas:label('', NK_TEXT_RIGHT) canvas:label('版本: 1.0.0', NK_TEXT_LEFT)
 	canvas:label('', NK_TEXT_RIGHT) canvas:label('前端: actboy168', NK_TEXT_LEFT)
 	canvas:label('', NK_TEXT_RIGHT) canvas:label('后端: 最萌小汐', NK_TEXT_LEFT)
+end
+
+local function window_select(canvas)
+	canvas:layout_row_dynamic(2, 1)
+	canvas:layout_row_dynamic(100, 1)
+	if canvas:button('转为Lni') then
+		uitype = 'convert'
+		window:set_title('W3x2Lni')
+		return
+	end
+	window:set_style(0, 173, 60)
+	if canvas:button('转为Slk') then
+		uitype = 'convert'
+		window:set_title('W3x2Slk')
+		return
+	end
+	window:set_style(217, 163, 60)
+	if canvas:button('转为Obj') then
+		uitype = 'convert'
+		window:set_title('W3x2Obj')
+		return
+	end
+	window:set_style(0, 173, 217)
 end
 
 local backend
@@ -202,16 +222,17 @@ end
 local dot = 0
 function window:draw(canvas)
 	update_backend()
-	if filetype == 'none' then
+	if uitype == 'none' then
 		window_none(canvas)
 		return
 	end
-	local height = button_mapname(canvas, 358)
-	if filetype == 'mpq' then
-		height = window_mpq(canvas, height)
-	else
-		height = window_dir(canvas, height)
+	if uitype == 'select' then
+		window_select(canvas)
+		return
 	end
+	local height = button_mapname(canvas, 358)
+	height = window_mpq(canvas, height)
+	--height = window_dir(canvas, height)
 	canvas:layout_row_dynamic(height, 1)
 	canvas:layout_row_dynamic(30, 1)
 	canvas:label(backend_lastmsg, NK_TEXT_LEFT)
