@@ -87,19 +87,6 @@ function io.lines2(path)
     end
 end
 
-function message(...)
-	local tbl = {...}
-    local err = {}
-	local count = select('#', ...)
-	for i = 1, count do
-		tbl[i] = tostring(tbl[i])
-        err[i] = uni.u2a(tbl[i])
-	end
-    io.stderr:write(table.concat(err, ' ')..'\r\n')
-    io.stderr:flush()
-	print(table.concat(tbl, ' '))
-end
-
 --local std_print = print
 --function print(...)
 --	local tbl = {...}

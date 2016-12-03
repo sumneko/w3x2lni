@@ -7,6 +7,7 @@ require 'filesystem'
 require 'utility'
 local w3x2lni  = require 'w3x2lni'
 local lni      = require 'lni'
+local uni      = require 'ffi.unicode'
 local read_slk = require 'read_slk'
 local read_metadata = require 'read_metadata'
 local read_ini = require 'read_ini'
@@ -26,6 +27,15 @@ local key_dir = rootpath / 'script' / 'key'
 local root_dir = rootpath / 'script'
 local template_dir = rootpath / 'template'
 local skill_dir = rootpath / 'script' / 'skill'
+
+function message(...)
+	local tbl = {...}
+	local count = select('#', ...)
+	for i = 1, count do
+		tbl[i] = uni.u2a(tostring(tbl[i]))
+	end
+	print(table.concat(tbl, ' '))
+end
 
 local function add_table(t1, t2)
     for k, v in pairs(t2) do
@@ -84,7 +94,7 @@ local function main()
         end
 
 		local data = template:save(metadata, key)
-		local content = w3x2lni:obj2lni(data, metadata, editstring, nil, key, w3x2lni.info['key']['max_level'][file_name])
+		local content = w3x2lni:obj2lni(data, metadata, editstring, nil, key, w3x2lni.info['key']['max_level'][file_name], file_name)
 		io.save(template_dir / (file_name .. '.ini'), content)
 	end
 

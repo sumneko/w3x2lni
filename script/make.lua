@@ -8,6 +8,19 @@ require 'utility'
 local uni      = require 'ffi.unicode'
 local w3x2lni  = require 'w3x2lni'
 
+function message(...)
+	local tbl = {...}
+	local err = {}
+	local count = select('#', ...)
+	for i = 1, count do
+		tbl[i] = tostring(tbl[i])
+		err[i] = uni.u2a(tbl[i])
+	end
+	io.stderr:write(table.concat(err, ' ')..'\r\n')
+	io.stderr:flush()
+	print(table.concat(tbl, ' '))
+end
+
 local function main()
 	if not arg[1] then
 		message('请将地图或文件夹拖动到bat中!')
