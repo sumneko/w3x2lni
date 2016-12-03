@@ -1,13 +1,6 @@
 local uni = require 'ffi.unicode'
 local sleep = require 'ffi.sleep'
 
-local table_unpack = table.unpack
-local table_insert = table.insert
-local table_sort   = table.sort
-local pairs = pairs
-local setmetatable = setmetatable
-local math_floor = math.floor
-
 local real_io_open = io.open
 
 function io.open(path, ...)
@@ -88,14 +81,11 @@ function io.lines2(path)
 end
 
 function task(f, ...)
-	for i = 1, 100 do
-		if i == 100 then
-			f(...)
-			return
-		end
+	for i = 1, 99 do
 		if pcall(f, ...) then
 			return
 		end
 		sleep(10)
 	end
+	f(...)
 end
