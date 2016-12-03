@@ -87,16 +87,6 @@ function io.lines2(path)
     end
 end
 
---local std_print = print
---function print(...)
---	local tbl = {...}
---	local count = select('#', ...)
---	for i = 1, count do
---		tbl[i] = uni.u2a(tostring(tbl[i]))
---	end
---	std_print(table_unpack(tbl))
---end
-
 function task(f, ...)
 	for i = 1, 100 do
 		if i == 100 then
@@ -108,11 +98,4 @@ function task(f, ...)
 		end
 		sleep(10)
 	end
-end
-
-local function remove_then_create_dir(dir)
-	if fs.exists(dir) then
-		task(fs.remove_all, dir)
-	end
-	task(fs.create_directories, dir)
 end
