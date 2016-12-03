@@ -235,7 +235,7 @@ function window:draw(canvas)
 			backend_msgs['progress'] = nil
 			canvas:progress(0, 100)
 			backend_lastmsg = '正在初始化...'
-			backend = sys.async_popen(('%q -nogui %q'):format(arg[0], mappath:string()))
+			backend = sys.async_popen(('%q -backend %q'):format(arg[0], mappath:string()))
 		end
 	end
 end
