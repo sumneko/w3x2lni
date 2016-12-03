@@ -88,18 +88,26 @@ local function button_mapname(canvas, height)
 	return height
 end
 
+local backend
+
 local function window_none(canvas)
 	canvas:layout_row_dynamic(2, 1)
 	canvas:layout_row_dynamic(200, 1)
 	canvas:button('把地图拖进来')
-	canvas:layout_row_dynamic(280, 1)
+	canvas:layout_row_dynamic(230, 1)
+	canvas:layout_row_dynamic(50, 1)
+	if canvas:button('预生成') then
+		if not backend then
+			backend = sys.async_popen(('%q -prebuilt'):format(arg[0]))
+		end
+	end
+	canvas:layout_row_dynamic(0, 1)
 	canvas:layout_row_dynamic(20, 2)
 	canvas:label('', NK_TEXT_RIGHT) canvas:label('版本: 1.0.0', NK_TEXT_LEFT)
 	canvas:label('', NK_TEXT_RIGHT) canvas:label('前端: actboy168', NK_TEXT_LEFT)
 	canvas:label('', NK_TEXT_RIGHT) canvas:label('后端: 最萌小汐', NK_TEXT_LEFT)
 end
 
-local backend
 local backend_lastmsg = ''
 local backend_msgs = {}
 
@@ -201,11 +209,11 @@ end
 
 local dot = 0
 function window:draw(canvas)
+	update_backend()
 	if filetype == 'none' then
 		window_none(canvas)
 		return
 	end
-	update_backend()
 	local height = button_mapname(canvas, 358)
 	if filetype == 'mpq' then
 		height = window_mpq(canvas, height)
