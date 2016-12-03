@@ -64,17 +64,7 @@ function mt:add_playercount()
 end
 
 function mt:add_input(input)
-    if fs.is_directory(input) then
-        if #self.w3xs > 0 then
-            return false
-        end
-        table_insert(self.dirs, input)
-    else
-        if #self.dirs > 0 then
-            return false
-        end
-        table_insert(self.w3xs, input)
-    end
+    table_insert(self.inputs, input)
     return true
 end
 
@@ -259,84 +249,15 @@ function mt:save_map(map_path)
     return true
 end
 
-function mt:extract_files(map_path, output_dir, max_count)
-	local files = {}
-	local paths = {}
-	local dirs = {}
-    local map = stormlib.open(map_path)
-
-	local clock = os.clock()
-	local success, failed = 0, 0
-    local function extract_file(name, is_try)
-		local new_name, output_dir = name, output_dir
-        if self.on_save then
-            new_name, output_dir = self:on_save(name)
-        end
-		if new_name then
-			if not dirs[output_dir:string()] then
-				dirs[output_dir:string()] = true
-				remove_then_create_dir(output_dir)
-			end
-			local path = output_dir / new_name
-			fs.create_directories(path:parent_path())
-			local buf = map:load_file(name)
-			if buf then
-				files[name] = buf
-				paths[name] = path
-				success = success + 1
-			elseif not is_try then
-				failed = failed + 1
-				--message('文件读取失败', name)
-			end
-			if os.clock() - clock >= 0.1 then
-				clock = os.clock()
-				--if failed == 0 then
-				--	message('正在读取', '成功:', success)
-				--else
-				--	message('正在读取', '成功:', success, '失败:', failed)
-				--end
-                progress((success + failed) / max_count)
-			end
-		end
-    end
-    
-    message('正在读取...')
-	for name in pairs(map) do
-		extract_file(name:lower())
-	end
-	for name in pairs(self.info['metadata']) do
-        if not files[name:lower()] then
-            extract_file(name:lower(), 'try')
-        end
-        for _, name in ipairs(self.info['template']['slk'][name]) do
-            if not files[name:lower()] then
-                extract_file(name:lower(), 'try')
-            end
-        end
-        for _, name in ipairs(self.info['template']['txt'][name]) do
-            if not files[name:lower()] then
-                extract_file(name:lower(), 'try')
-            end
-        end
-    end
-    --if failed == 0 then
-    --    message('读取完毕', '成功:', success)
-    --else
-    --    message('读取完毕', '成功:', success, '失败:', failed)
-    --end
-    map:close()
-    return files, paths
-end
-
-function mt:load_slk(file_name, meta, files, delete, data)
+function mt:load_slk(file_name, meta, delete)
     local template = create_template(file_name)
     
     local slk = self.info['template']['slk'][file_name]
     for i = 1, #slk do
         local name = slk[i]
         message('正在转换', name)
-        template:add_slk(read_slk(files[name] or io.load(self.dir['meta'] / name)))
-        if files[name] then
+        template:add_slk(read_slk(self.files[name] or io.load(self.dir['meta'] / name)))
+        if self.files[name] then
             delete[name] = true
         end
     end
@@ -345,8 +266,8 @@ function mt:load_slk(file_name, meta, files, delete, data)
     for i = 1, #txt do
         local name = txt[i]
         message('正在转换', name)
-        template:add_txt(read_txt(files[name] or io.load(self.dir['meta'] / name)))
-        if files[name] then
+        template:add_txt(read_txt(self.files[name] or io.load(self.dir['meta'] / name)))
+        if self.files[name] then
             delete[name] = true
         end
     end
@@ -354,173 +275,213 @@ function mt:load_slk(file_name, meta, files, delete, data)
     return template
 end
 
-function mt:load_obj(file_name, meta, files, delete, target_progress)
-    local data = {}
-    local metadata = read_metadata(self.dir['meta'] / self.info['metadata'][file_name])
-    local temp_data = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
-    local key_data = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
-
-    if files[file_name] then
-        message('正在转换', file_name)
-        add_table(data, self.w3x2lni:read_obj(files[file_name], metadata))
-        delete[file_name] = true
-    end
-
-    if self.config['unpack']['read_slk'] then
-        local template = self:load_slk(file_name, meta, files, delete, data)
-        add_table(data, template:save(metadata, key_data))
-    end
-
-    if next(data) then
-        if not data['_版本'] then
-            data['_版本'] = 2
-        end
-        if self.on_lni then
-            data = self:on_lni(file_name, data)
-        end
-        local max_level_key = self.info['key']['max_level'][file_name]
-        progress:target(target_progress)
-        local content = self.w3x2lni:obj2lni(data, metadata, self.editstring, temp_data, key_data, max_level_key, file_name)
-        if self.wts then
-            content = self.wts:load(content)
-        end
-        return content
-    end
-end
-
-function mt:to_lni(files, paths, output_dir, max_count)
+function mt:to_lni()
 	--读取编辑器文本
-    progress:target(12)
+    progress:target(20)
 	local ini = read_ini(self.dir['meta'] / 'WorldEditStrings.txt')
 	if ini then
 		self.editstring = ini['WorldEditStrings']
 	end
 	
 	--读取字符串
-    progress:target(15)
-	if files['war3map.wts'] then
-		self.wts = self.w3x2lni:read_wts(files['war3map.wts'])
-	end
-	
-	local clock = os.clock()
-	local success, failed = 0, 0
-	local function save(path, content, max_count)
-		if io.save(path, content) then
-			success = success + 1
-		else
-			failed = failed + 1
-			--message('文件导出失败', name)
-		end
-		if os.clock() - clock >= 0.1 then
-			clock = os.clock()
-			--if failed == 0 then
-			--	message('正在导出', '成功:', success)
-			--else
-			--	message('正在导出', '成功:', success, '失败:', failed)
-			--end
-            if max_count then
-                progress((success + failed) / max_count)
-            end
-		end
+    progress:target(21)
+	if self.files['war3map.wts'] then
+		self.wts = self.w3x2lni:read_wts(self.files['war3map.wts'])
 	end
 
     local delete = {}
     local count = 0
     for file_name, meta in pairs(self.info['metadata']) do
         count = count + 1
-        local target_progress = 15 + count * 9
-        progress:target(target_progress - 7)
-        --message(file_name)
-        local content = self:load_obj(file_name, meta, files, delete, target_progress)
+        local target_progress = 22 + count * 9
+        progress:target(target_progress)
+        
+        local data = self.objs[file_name]
+        if not data['_版本'] then
+            data['_版本'] = 2
+        end
+        if self.on_lni then
+            data = self:on_lni(file_name, data)
+        end
+        
+        local metadata = read_metadata(self.dir['meta'] / self.info['metadata'][file_name])
+        local temp_data = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
+        local key_data = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
+        local max_level_key = self.info['key']['max_level'][file_name]
+        local content = self.w3x2lni:obj2lni(data, metadata, self.editstring, temp_data, key_data, max_level_key, file_name)
+        if self.wts then
+            content = self.wts:load(content)
+        end
         if content then
-            save(output_dir / (file_name .. '.ini'), content)
+            self.files[file_name .. '.ini'] = content
+        end
+        progress(1)
+    end
+
+	--刷新字符串
+	if self.wts then
+        progress:target(86)
+		local content = self.wts:refresh()
+		self.files['war3map.wts'] = content
+        progress(1)
+	end
+end
+
+function mt:load_data()
+    local delete = {}
+    local count = 0
+    for file_name, meta in pairs(self.info['metadata']) do
+        count = count + 1
+        local target_progress = 5 + count * 2
+        self.objs[file_name] = {}
+
+        local metadata = read_metadata(self.dir['meta'] / self.info['metadata'][file_name])
+        local key_data = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
+
+        if self.files[file_name] then
+            progress:target(target_progress - 1)
+            message('正在转换', file_name)
+            add_table(self.objs[file_name], self.w3x2lni:read_obj(self.files[file_name], metadata))
+            delete[file_name] = true
+            progress(1)
+        end
+
+        if self.config['unpack']['read_slk'] then
+            progress:target(target_progress)
+            local template = self:load_slk(file_name, meta, delete, data)
+            add_table(self.objs[file_name], template:save(metadata, key_data))
+            progress(1)
         end
     end
 
     for name in pairs(delete) do
-        files[name] = nil
+        self.files[name] = nil
     end
-
-    progress:target(98)
-    message('正在导出...')
-	for name, file in pairs(files) do
-        if name == 'war3map.w3i' then
-			local content = file
-			local data = self.w3x2lni:read_w3i(content)
-            if self.on_lni then
-                data = self:on_lni(name, data)
-            end
-			local content = self.w3x2lni:w3i2lni(data)
-            if self.wts then
-			    content = self.wts:load(content, false, true)
-            end
-			save(paths['war3map.w3i']:parent_path() / 'war3map.w3i.ini', content, max_count)
-		elseif name == 'war3map.wts' then
-		else
-			save(paths[name], file, max_count)
-		end
-	end
-	
-	--if failed == 0 then
-	--	message('导出完毕', '成功:', success)
-	--else
-	--	message('导出完毕', '成功:', success, '失败:', failed)
-	--end
-
-	--刷新字符串
-    progress:target(100)
-    message('即将完成...')
-	if self.wts then
-		local content = self.wts:refresh()
-		io.save(paths['war3map.wts'], content)
-	end
 end
 
-function mt:unpack(output_dir)
-    local map_path = self.w3xs[1]
-    -- 解压地图
-	local map = stormlib.open(map_path)
+function mt:save_dir(output_dir)
+    local paths = {}
+    local max_count = 0
+
+    for name in pairs(self.files) do
+        local path = output_dir
+		if self.on_save then
+            name, path = self:on_save(name)
+        end
+        if name and path then
+            paths[name] = path
+            max_count = max_count + 1
+        end
+	end
+
+    local clock = os.clock()
+    local count = 0
+    for name, path in pairs(paths) do
+        local dir = (path / name):remove_filename()
+        if not fs.exists(dir) then
+            fs.create_directories(dir)
+        end
+        io.save(path / name, self.files[name])
+        count = count + 1
+		if os.clock() - clock >= 0.1 then
+            clock = os.clock()
+            progress(count / max_count)
+		end
+    end
+end
+
+function mt:load_mpq(map_path)
+    local map = stormlib.open(map_path)
 	if not map then
 		message('地图打开失败')
 		return false
 	end
 
-	if not map:has_file '(listfile)' then
-		message('不支持没有文件列表(listfile)的地图')
-		return false
-	end
-	
+    local list = {}
+    local files = {}
     local max_count = 0
-    local list_file = map:load_file('(listfile)')
-    for _ in list_file:gmatch '[^\r\n]+' do
-        max_count = max_count + 1
+    local function add_file(name)
+        local name = name:lower()
+        if not list[name] then
+            list[name] = true
+            max_count = max_count + 1
+        end
+    end
+
+	for name in pairs(map) do
+		add_file(name)
+	end
+	for name in pairs(self.info['metadata']) do
+        add_file(name)
+        for _, name in ipairs(self.info['template']['slk'][name]) do
+            add_file(name)
+        end
+        for _, name in ipairs(self.info['template']['txt'][name]) do
+            add_file(name)
+        end
+    end
+
+    local clock = os.clock()
+    local count = 0
+    for name in pairs(list) do
+        local buf = map:load_file(name)
+        if buf then
+            files[name] = buf
+        end
+        count = count + 1
+        if os.clock() - clock >= 0.1 then
+            clock = os.clock()
+            progress(count / max_count)
+        end
     end
 
     map:close()
-	
-    progress:target(10)
-	local files, paths = self:extract_files(map_path, output_dir, max_count)
-	self:to_lni(files, paths, output_dir, max_count)
+
+    add_table(self.files, files)
+end
+
+function mt:load_file()
+    for i, input in ipairs(self.inputs) do
+        progress:target(5 * i / #self.inputs)
+        if fs.is_directory(input) then
+            self:load_dir(input)
+        else
+            self:load_mpq(input)
+        end
+    end
+    return true
+end
+
+function mt:save(output_dir, convert_type, output_type)
+    message('正在打开地图...')
+    self:load_file()
+    message('正在读取物编...')
+    self:load_data()
+    if convert_type == 'lni' then
+	    self:to_lni()
+    else
+        self:save_map(output_dir)
+    end
+
+    progress:target(100)
+    if output_type == 'dir' then
+        message('正在清空输出目录...')
+        remove_then_create_dir(output_dir)
+        message('正在导出文件...')
+        self:save_dir(output_dir)
+    end
     progress:target(100)
     return true
 end
 
-function mt:save(map_path)
-    if #self.dirs > 0 then
-        return self:save_map(map_path)
-    elseif #self.w3xs > 0 then
-        return self:unpack(map_path)
-    end
-    return false
-end
-
 return function (w3x2lni)
     local self = setmetatable({}, mt)
-    self.dirs = {}
-    self.w3xs = {}
     self.config = w3x2lni.config
     self.info = w3x2lni.info
     self.dir = w3x2lni.dir
     self.w3x2lni = w3x2lni
+    self.inputs = {}
+    self.files = {}
+    self.objs = {}
     return self
 end
