@@ -249,7 +249,7 @@ function mt:save_map(map_path)
     return true
 end
 
-function mt:load_slk(file_name, meta, delete)
+function mt:load_slk(file_name, delete)
     local slk = slk_loader(file_name)
     
     local slk = self.info['template']['slk'][file_name]
@@ -348,13 +348,13 @@ function mt:load_data()
 
         if self.config['unpack']['read_slk'] then
             progress:target(target_progress)
-            local template = self:load_slk(file_name, meta, delete, data)
+            local template = self:load_slk(file_name, delete)
             add_table(self.objs[file_name], template:save(metadata, key_data))
             progress(1)
         end
 
         local temp_data = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
-        self.w3x2lni:add_template(self.objs[file_name], meta, temp_data)
+        self.w3x2lni:add_template(self.objs[file_name], metadata, key_data, temp_data)
     end
 
     for name in pairs(delete) do

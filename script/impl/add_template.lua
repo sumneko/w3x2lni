@@ -1,3 +1,9 @@
+local key_type = require 'key_type'
+local progress = require 'progress'
+
+local table_sort   = table.sort
+local string_char  = string.char
+
 local mt = {}
 mt.__index = mt
 
@@ -30,7 +36,7 @@ local function add_table(tbl1, tbl2)
     end
 end
 
-function mt:add_obj(name, obj)
+function mt:add_obj(user_id, obj)
     local origin_id
     local count, sames, names, datas
     local user_id = obj['_user_id']
@@ -43,10 +49,9 @@ function mt:add_obj(name, obj)
             self:add_slk_data(new_obj, id)
         end
         local new_names, new_datas = self:preload_obj(new_obj, id)
-        local new_count, new_sames = self:try_obj(user_id, id, new_names, new_datas)
+        local new_count = self:try_obj(user_id, id, new_names, new_datas)
         if not count or count > new_count or (origin_id > id and count == new_count) then
             count = new_count
-            sames = new_sames
             names = new_names
             datas = new_datas
             origin_id = id
@@ -59,18 +64,10 @@ function mt:add_obj(name, obj)
             break
         end
     end
-
-    for i, name in ipairs(names) do
-        if not sames[i] then
-            obj[name]['_not_same'] = true
-        end
-    end
     
-    obj['_origin_id'] = origin_id
-    local template = self.template and (self.template[user_id] or self.template[origin_id])
-    if template then
-        add_table(obj, template)
-    end
+    datas['_user_id'] = user_id
+    datas['_origin_id'] = origin_id
+    return datas
 end
 
 function mt:preload_obj(obj, id)
@@ -84,7 +81,6 @@ function mt:preload_obj(obj, id)
             datas[name] = data
 		end
 	end
-	table_sort(names)
 	local max_level = self:find_max_level(id, datas)
 	for i = 1, #names do
 		self:count_max_level(obj['_user_id'], names[i], datas[names[i]], max_level)
@@ -97,21 +93,29 @@ function mt:try_obj(user_id, origin_id, names, datas)
 	local sames = {}
     local count = 0
 	for i = 1, #names do
-		sames[i] = self:add_template_data(template, names[i], datas[names[i]])
-		if not sames[i] then
+		local same = self:add_template_data(template, names[i], datas[names[i]])
+		if not same then
             count = count + 1
 			need_new = true
+            datas[names[i]]._not_same = true
 		end
 	end
     if template then
-        for name in pairs(template) do
+        for name, data in pairs(template) do
             if not datas[name] and name:sub(1, 1) ~= '_' then
                 count = count + 1
+                if type(data) ~= 'table' then
+                    data = {data}
+                end
+                datas[name] = copy(data)
+                datas[name].name = self:key2id(origin_id, user_id, name)
+                datas[name]._max_level = #datas[name]
+                datas[name]._not_same = true
             end
         end
     end
 	if need_new then
-        return count, sames
+        return count
 	end
     return 0, nil
 end
@@ -336,18 +340,21 @@ function mt:format_name(name)
 	return name
 end
 
-return function (self, data, meta, template)
+return function (self, data, meta, key, template)
     local tbl = setmetatable({}, mt)
     tbl.self = self
     tbl.meta = meta
     tbl.template = template
     tbl.config = self.config
+    tbl.key = key
 
     for name, obj in pairs(data) do
-        if obj['_slk'] and not obj['_enable'] then
-            data[name] = nil
-        else
-            tbl:add_obj(name, obj)
+        if name:sub(1, 1) ~= '_' then
+            if obj['_slk'] and not obj['_enable'] then
+                data[name] = nil
+            else
+                data[name] = tbl:add_obj(name, obj)
+            end
         end
     end
 
