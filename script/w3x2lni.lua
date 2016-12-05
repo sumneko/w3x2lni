@@ -49,6 +49,7 @@ local function main()
 		'read_w3i',
 		'create_unitsdoo',
 		'key2id',
+		'add_template',
 	}
 	
 	for _, name in ipairs(convertors) do

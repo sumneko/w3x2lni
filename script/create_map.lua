@@ -352,6 +352,9 @@ function mt:load_data()
             add_table(self.objs[file_name], template:save(metadata, key_data))
             progress(1)
         end
+
+        local temp_data = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
+        self.w3x2lni:add_template(self.objs[file_name], meta, temp_data)
     end
 
     for name in pairs(delete) do
