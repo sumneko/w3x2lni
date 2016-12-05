@@ -124,7 +124,7 @@ function mt:add_obj(obj)
         if is_slk then
             self:add_slk_data(new_obj, id)
         end
-        local new_names, new_datas = self:preload_obj(new_obj)
+        local new_names, new_datas = self:preload_obj(new_obj, id)
         local new_count, new_sames = self:try_obj(user_id, id, new_names, new_datas)
         if not count or count > new_count or (origin_id > id and count == new_count) then
             count = new_count
@@ -161,7 +161,7 @@ function mt:add_obj(obj)
     end
 end
 
-function mt:preload_obj(obj)
+function mt:preload_obj(obj, id)
     local names = {}
 	local datas = {}
     for name, data in pairs(obj) do
@@ -173,7 +173,7 @@ function mt:preload_obj(obj)
 		end
 	end
 	table_sort(names)
-	local max_level = self:find_max_level(datas)
+	local max_level = self:find_max_level(id, datas)
 	for i = 1, #names do
 		self:count_max_level(obj['_user_id'], names[i], datas[names[i]], max_level)
 	end
@@ -420,7 +420,7 @@ function mt:add_template_data(template, name, data)
 	return all_same and has_temp
 end
 
-function mt:find_max_level(datas)
+function mt:find_max_level(id, datas)
 	local key = self.max_level_key
 	if not key then
 		return nil
@@ -429,10 +429,11 @@ function mt:find_max_level(datas)
         return 4
     end
 	local data = datas[key]
-	if not data then
-		return nil
+	if data then
+        return data[1]
+    else
+		return self.template[id][key]
 	end
-	return data[1]
 end
 
 function mt:count_max_level(skill, name, data, max_level)
