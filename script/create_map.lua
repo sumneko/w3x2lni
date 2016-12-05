@@ -2,7 +2,7 @@ local stormlib = require 'ffi.stormlib'
 local lni = require 'lni'
 local read_metadata = require 'read_metadata'
 local read_ini = require 'read_ini'
-local create_template = require 'create_template'
+local slk_loader = require 'slk_loader'
 local read_slk = require 'read_slk'
 local read_txt = require 'read_txt'
 local progress = require 'progress'
@@ -250,13 +250,13 @@ function mt:save_map(map_path)
 end
 
 function mt:load_slk(file_name, meta, delete)
-    local template = create_template(file_name)
+    local slk = slk_loader(file_name)
     
     local slk = self.info['template']['slk'][file_name]
     for i = 1, #slk do
         local name = slk[i]
         message('正在转换', name)
-        template:add_slk(read_slk(self.files[name] or io.load(self.dir['meta'] / name)))
+        slk:add_slk(read_slk(self.files[name] or io.load(self.dir['meta'] / name)))
         if self.files[name] then
             delete[name] = true
         end
@@ -266,13 +266,13 @@ function mt:load_slk(file_name, meta, delete)
     for i = 1, #txt do
         local name = txt[i]
         message('正在转换', name)
-        template:add_txt(read_txt(self.files[name] or io.load(self.dir['meta'] / name)))
+        slk:add_txt(read_txt(self.files[name] or io.load(self.dir['meta'] / name)))
         if self.files[name] then
             delete[name] = true
         end
     end
 
-    return template
+    return slk
 end
 
 function mt:to_lni()

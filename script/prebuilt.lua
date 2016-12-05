@@ -12,7 +12,7 @@ local read_slk = require 'read_slk'
 local read_metadata = require 'read_metadata'
 local read_ini = require 'read_ini'
 local read_txt = require 'read_txt'
-local create_template = require 'create_template'
+local slk_loader = require 'slk_loader'
 local create_key_type = require 'create_key_type'
 local create_order_list = require 'create_order_list'
 
@@ -79,7 +79,7 @@ local function main()
 	fs.create_directories(template_dir)
 	for file_name, meta in pairs(w3x2lni.info['metadata']) do
 		message('正在生成模板', file_name)
-		local template = create_template(file_name)
+		local template = slk_loader(file_name)
 		local metadata = read_metadata(meta_dir / w3x2lni.info['metadata'][file_name])
 		local key = lni:loader(io.load(key_dir / (file_name .. '.ini')), name)
 
