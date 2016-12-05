@@ -99,11 +99,16 @@ end
 function mt:add_obj(obj)
     local user_id = obj['_user_id']
     local origin_id = obj['_origin_id']
-    local lines = {}
-	for name, data in pairs(obj) do
+    local names = {}
+    for name, data in pairs(obj) do
 		if name:sub(1, 1) ~= '_' and data['_not_same'] then
-			self:add_data(name, data, user_id, lines)
+            names[#names+1] = name
 		end
+	end
+    table_sort(names)
+    local lines = {}
+	for _, name in ipairs(names) do
+		self:add_data(name, obj[name], user_id, lines)
 	end
     if not lines or #lines == 0 then
         return
