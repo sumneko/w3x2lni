@@ -1,4 +1,4 @@
-local order_id = require 'order_id'
+local order_id = require 'order.order_id'
 
 local function load_order(skill_data)
     local data = {}
