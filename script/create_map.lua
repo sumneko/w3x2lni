@@ -247,27 +247,15 @@ function mt:save_map(map_path)
 end
 
 function mt:load_slk(file_name, delete)
-    local slk = w2l:slk_loader(file_name)
-    
-    local slk = self.info['template']['slk'][file_name]
-    for i = 1, #slk do
-        local name = slk[i]
+    local slk = w2l:slk_loader(file_name, function(path)
+        local name = path:string()
         message('正在转换', name)
-        slk:add_slk(w2l:read_slk(self.files[name] or io.load(self.dir['meta'] / name)))
         if self.files[name] then
             delete[name] = true
+            return self.files[name]
         end
-    end
-
-    local txt = self.info['template']['txt'][file_name]
-    for i = 1, #txt do
-        local name = txt[i]
-        message('正在转换', name)
-        slk:add_txt(w2l:read_txt(self.files[name] or io.load(self.dir['meta'] / name)))
-        if self.files[name] then
-            delete[name] = true
-        end
-    end
+        return io.load(path)
+    end)
 
     return slk
 end
@@ -345,8 +333,8 @@ function mt:load_data()
 
         if self.config['unpack']['read_slk'] then
             progress:target(target_progress)
-            local template = self:load_slk(file_name, delete)
-            add_table(self.objs[file_name], template:save(metadata, key_data))
+            local slk = self:load_slk(file_name, delete)
+            add_table(self.objs[file_name], slk)
             progress(1)
         end
 
