@@ -1,6 +1,5 @@
 local stormlib = require 'ffi.stormlib'
 local lni = require 'lni'
-local read_ini = require 'read_ini'
 local progress = require 'progress'
 local w2l = require 'w3x2lni'
 
@@ -260,14 +259,7 @@ function mt:load_slk(file_name, delete)
     return slk
 end
 
-function mt:to_lni()
-	--读取编辑器文本
-    progress:target(20)
-	local ini = read_ini(self.dir['meta'] / 'WorldEditStrings.txt')
-	if ini then
-		self.editstring = ini['WorldEditStrings']
-	end
-	
+function mt:to_lni()	
 	--读取字符串
     progress:target(21)
 	if self.files['war3map.wts'] then
@@ -290,7 +282,7 @@ function mt:to_lni()
         end
         
         local temp_data = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
-        local content = w2l:to_lni(file_name, data, temp_data, io.load, self.editstring)
+        local content = w2l:to_lni(file_name, data, temp_data, io.load)
         if self.wts then
             content = self.wts:load(content)
         end

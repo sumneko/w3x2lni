@@ -46,8 +46,12 @@ function mt:format_value(value)
 end
 
 function mt:get_editstring(name)
-	while self.editstring[name] do
-		name = self.editstring[name]
+	if not self.editstring then
+		return name
+	end
+	local editstring = self.editstring['WorldEditStrings']
+	while editstring[name] do
+		name = editstring[name]
 	end
 	return name
 end
@@ -166,7 +170,7 @@ function mt:add_data(name, data, user_id, lines)
 	end
 end
 
-return function (w2l, file_name, data, template, loader, editstring)
+return function (w2l, file_name, data, template, loader)
 	local tbl = setmetatable({}, mt)
 	tbl.lines = {}
 	tbl.self = w2l
@@ -176,7 +180,7 @@ return function (w2l, file_name, data, template, loader, editstring)
 	tbl.meta = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name])
 	tbl.key = lni:loader(loader(w2l.dir['key'] / (file_name .. '.ini')), file_name)
 	tbl.has_level = tbl.meta._has_level
-	tbl.editstring = editstring or {}
+	tbl.editstring = w2l:read_ini(w2l.dir['meta'] / 'WorldEditStrings.txt')
 	tbl.max_level_key = w2l.info['key']['max_level'][file_name]
     tbl.file_name = file_name
 
