@@ -49,7 +49,7 @@ function mt:read_line(line)
 	self:add_table(x, y, k)
 end
 
-local function read_slk(w3x2lni, content)
+local function read_slk(w2l, content)
 	if not content then
 		return
 	end

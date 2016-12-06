@@ -6,7 +6,7 @@ end)()
 require 'filesystem'
 require 'utility'
 local uni      = require 'ffi.unicode'
-local w3x2lni  = require 'w3x2lni'
+local w2l  = require 'w3x2lni'
 
 function message(...)
 	local tbl = {...}
@@ -27,12 +27,12 @@ local function main()
 		return
 	end
 
-	w3x2lni:init(arg[2])
+	w2l:init(arg[2])
 	
 	local input_path = fs.path(uni.a2u(arg[1]))
 	if fs.is_directory(input_path) then
 		local map_name = input_path:filename():string() .. '.w3x'
-		local map_file = w3x2lni:create_map()
+		local map_file = w2l:create_map()
 		map_file:add_input(input_path)
 		function map_file:on_lni(name, lni)
 			return lni
@@ -46,7 +46,7 @@ local function main()
 	else
 		message('正在打开...')
 		local output_dir = input_path:parent_path() / input_path:stem()
-		local map_file = w3x2lni:create_map()
+		local map_file = w2l:create_map()
 		map_file:add_input(input_path)
 		function map_file:on_lni(name, lni)
 			return lni

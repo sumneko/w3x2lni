@@ -120,9 +120,9 @@ function mt:to_w3x(name, file)
             self.wts:save(data)
         end
 		local key = lni:loader(io.load(self.dir['key'] / name), name)
-		local metadata = self.w3x2lni:read_metadata(self.dir['meta'] / self.info['metadata'][new_name])
+		local metadata = self.w2l:read_metadata(self.dir['meta'] / self.info['metadata'][new_name])
 		local template = lni:loader(io.load(self.dir['template'] / name), new_name)
-		local content = self.w3x2lni:lni2obj(data, metadata, key, template)
+		local content = self.w2l:lni2obj(data, metadata, key, template)
 		return new_name, content
 	elseif name == 'war3map.w3i.ini' then
 		message('正在转换:', name)
@@ -134,7 +134,7 @@ function mt:to_w3x(name, file)
         if self.wts then
             self.wts:save(data)
         end
-		local content = self.w3x2lni:lni2w3i(data)
+		local content = self.w2l:lni2w3i(data)
 		return new_name, content
 	elseif name == 'war3map.w3i' then
 		w3i = file
@@ -145,7 +145,7 @@ function mt:to_w3x(name, file)
 end
 
 function mt:import_files(map, listfile, files, dirs)
-	self.wts = self.w3x2lni:read_wts(files['war3map.wts'] or '')
+	self.wts = self.w2l:read_wts(files['war3map.wts'] or '')
 	local clock = os.clock()
 	local success, failed = 0, 0
 	for i = 1, #listfile do
@@ -182,7 +182,7 @@ function mt:import_files(map, listfile, files, dirs)
     local content = self.wts:refresh()
     map:save_file('war3map.wts', content)
     if not files['war3mapunits.doo'] then
-        map:save_file('war3mapunits.doo', self.w3x2lni:create_unitsdoo())
+        map:save_file('war3mapunits.doo', self.w2l:create_unitsdoo())
     end
 end
 
@@ -212,7 +212,7 @@ function mt:save_map(map_path)
     }
     for _, dir in ipairs(self.dirs) do
         if fs.exists(dir / 'war3map.w3i.ini') then
-            w3i = self.w3x2lni:read_w3i(self.w3x2lni:lni2w3i(lni:loader(io.load(dir / 'war3map.w3i.ini'), 'war3map.w3i.ini')))
+            w3i = self.w2l:read_w3i(self.w2l:lni2w3i(lni:loader(io.load(dir / 'war3map.w3i.ini'), 'war3map.w3i.ini')))
             break
         end
     end
@@ -246,13 +246,13 @@ function mt:save_map(map_path)
 end
 
 function mt:load_slk(file_name, delete)
-    local slk = self.w3x2lni:slk_loader(file_name)
+    local slk = self.w2l:slk_loader(file_name)
     
     local slk = self.info['template']['slk'][file_name]
     for i = 1, #slk do
         local name = slk[i]
         message('正在转换', name)
-        slk:add_slk(self.w3x2lni:read_slk(self.files[name] or io.load(self.dir['meta'] / name)))
+        slk:add_slk(self.w2l:read_slk(self.files[name] or io.load(self.dir['meta'] / name)))
         if self.files[name] then
             delete[name] = true
         end
@@ -262,7 +262,7 @@ function mt:load_slk(file_name, delete)
     for i = 1, #txt do
         local name = txt[i]
         message('正在转换', name)
-        slk:add_txt(self.w3x2lni:read_txt(self.files[name] or io.load(self.dir['meta'] / name)))
+        slk:add_txt(self.w2l:read_txt(self.files[name] or io.load(self.dir['meta'] / name)))
         if self.files[name] then
             delete[name] = true
         end
@@ -282,7 +282,7 @@ function mt:to_lni()
 	--读取字符串
     progress:target(21)
 	if self.files['war3map.wts'] then
-		self.wts = self.w3x2lni:read_wts(self.files['war3map.wts'])
+		self.wts = self.w2l:read_wts(self.files['war3map.wts'])
 	end
 
     local delete = {}
@@ -300,11 +300,11 @@ function mt:to_lni()
             data = self:on_lni(file_name, data)
         end
         
-        local metadata = self.w3x2lni:read_metadata(self.dir['meta'] / self.info['metadata'][file_name])
+        local metadata = self.w2l:read_metadata(self.dir['meta'] / self.info['metadata'][file_name])
         local temp_data = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
         local key_data = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
         local max_level_key = self.info['key']['max_level'][file_name]
-        local content = self.w3x2lni:obj2lni(data, metadata, self.editstring, temp_data, key_data, max_level_key, file_name)
+        local content = self.w2l:obj2lni(data, metadata, self.editstring, temp_data, key_data, max_level_key, file_name)
         if self.wts then
             content = self.wts:load(content)
         end
@@ -331,13 +331,13 @@ function mt:load_data()
         local target_progress = 5 + count * 2
         self.objs[file_name] = {}
 
-        local metadata = self.w3x2lni:read_metadata(self.dir['meta'] / self.info['metadata'][file_name])
+        local metadata = self.w2l:read_metadata(self.dir['meta'] / self.info['metadata'][file_name])
         local key_data = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
 
         if self.files[file_name] then
             progress:target(target_progress - 1)
             message('正在转换', file_name)
-            add_table(self.objs[file_name], self.w3x2lni:read_obj(self.files[file_name], metadata))
+            add_table(self.objs[file_name], self.w2l:read_obj(self.files[file_name], metadata))
             delete[file_name] = true
             progress(1)
         end
@@ -350,7 +350,7 @@ function mt:load_data()
         end
 
         local temp_data = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
-        self.w3x2lni:add_template(self.objs[file_name], metadata, key_data, temp_data)
+        self.w2l:add_template(self.objs[file_name], metadata, key_data, temp_data)
     end
 
     for name in pairs(delete) do
@@ -473,12 +473,12 @@ function mt:save(output_dir, convert_type, output_type)
     return true
 end
 
-return function (w3x2lni)
+return function (w2l)
     local self = setmetatable({}, mt)
-    self.config = w3x2lni.config
-    self.info = w3x2lni.info
-    self.dir = w3x2lni.dir
-    self.w3x2lni = w3x2lni
+    self.config = w2l.config
+    self.info = w2l.info
+    self.dir = w2l.dir
+    self.w2l = w2l
     self.inputs = {}
     self.files = {}
     self.objs = {}

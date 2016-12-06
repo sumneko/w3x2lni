@@ -257,20 +257,20 @@ function mt:save(meta, key)
     return data
 end
 
-return function (w3x2lni, file_name, loader)
+return function (w2l, file_name, loader)
     local self = setmetatable({}, mt)
 
     self.slk = {}
     self.txt = {}
 
-    local slk = w3x2lni.info['template']['slk'][file_name]
+    local slk = w2l.info['template']['slk'][file_name]
     for i = 1, #slk do
-        self:add_slk(w3x2lni:read_slk(loader(w3x2lni.dir['meta'] / slk[i])))
+        self:add_slk(w2l:read_slk(loader(w2l.dir['meta'] / slk[i])))
     end
 
-    local txt = w3x2lni.info['template']['txt'][file_name]
+    local txt = w2l.info['template']['txt'][file_name]
     for i = 1, #txt do
-        self:add_txt(w3x2lni:read_txt(loader(w3x2lni.dir['meta'] / txt[i])))
+        self:add_txt(w2l:read_txt(loader(w2l.dir['meta'] / txt[i])))
     end
     
     return self
