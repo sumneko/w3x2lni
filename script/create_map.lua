@@ -281,7 +281,7 @@ function mt:to_lni()
             data = self:on_lni(file_name, data)
         end
         
-        local content = w2l:to_lni(file_name, data, io.load)
+        local content = w2l:to_lni_old(file_name, data, io.load)
         if self.wts then
             content = self.wts:load(content)
         end

@@ -1,19 +1,25 @@
+local key_type = require 'key_type'
 local progress = require 'progress'
 local lni = require 'lni'
 
 local table_insert = table.insert
-local table_sort = table.sort
-local math_type = math.type
+local table_sort   = table.sort
 local table_concat = table.concat
+local math_type    = math.type
+local string_char  = string.char
+local type = type
+local pairs = pairs
+local setmetatable = setmetatable
 
-local function get_len(tbl)
-	local len = 0
-	for n in pairs(tbl) do
-		if type(n) == 'number' and n > len then
-			len = n
-		end
-	end
-	return len
+local function copy(tbl)
+    local ntbl = {}
+    for k, v in pairs(tbl) do
+        if type(v) == 'table' then
+            v = copy(v)
+        end
+        ntbl[k] = v
+    end
+    return ntbl
 end
 
 local mt = {}
@@ -37,6 +43,22 @@ function mt:format_value(value)
 			return ('%q'):format(value)
 		end
 	end
+end
+
+function mt:get_editstring(name)
+	if not self.editstring then
+		return name
+	end
+	local editstring = self.editstring['WorldEditStrings']
+	while editstring[name] do
+		name = editstring[name]
+	end
+	return name
+end
+
+function mt:get_comment(name)
+	local comment = self.meta[name].displayName
+	return self:get_editstring(comment)
 end
 
 function mt:add(format, ...)
@@ -80,24 +102,25 @@ function mt:add_chunk(chunk)
 end
 
 function mt:add_obj(obj)
+    local user_id = obj['_user_id']
+    local origin_id = obj['_origin_id']
     local names = {}
     for name, data in pairs(obj) do
-		if name:sub(1, 1) ~= '_' then
+		if name:sub(1, 1) ~= '_' and data['_not_same'] then
             names[#names+1] = name
 		end
 	end
     table_sort(names)
     local lines = {}
 	for _, name in ipairs(names) do
-		self:add_data(name, obj[name], lines)
+		self:add_data(name, obj[name], user_id, lines)
 	end
     if not lines or #lines == 0 then
         return
     end
-
 	self:add ''
 	self:add('[%s]', obj['_user_id'])
-	self:add('%s = %q', '_id', obj['_origin_id'])
+	self:add('%s = %q', '_id', origin_id)
     if obj['_name'] then
         self:add('%s = %q', '_name', obj['_name'])
     end
@@ -106,55 +129,45 @@ function mt:add_obj(obj)
     end
 end
 
-function mt:add_data(name, data, lines)
+function mt:add_data(name, data, user_id, lines)
     if #data == 0 then
         return
     end
 	if name:match '[^%w%_]' then
 		name = ('%q'):format(name)
 	end
-    lines[#lines+1] = {'-- %s', self:get_comment(data._id)}
-	local max_level = get_len(data)
+    lines[#lines+1] = {'-- %s', self:get_comment(data.name)}
 	local values = {}
-	if max_level <= 1 then
+	if data._max_level <= 1 then
 		lines[#lines+1] = {'%s = %s', name, self:format_value(data[1])}
-		return
-	end
-
-	local is_string
-	for i = 1, max_level do
-		if type(data[i]) == 'string' then
-			is_string = true
+	else
+		local is_string
+		for i = 1, data._max_level do
+			if type(data[i]) == 'string' then
+				is_string = true
+			end
+			if data._max_level >= 10 then
+				values[i] = ('%d = %s'):format(i, self:format_value(data[i]))
+			else
+				values[i] = self:format_value(data[i])
+			end
 		end
-		if max_level >= 10 then
-			values[i] = ('%d = %s'):format(i, self:format_value(data[i]))
+		if is_string or data._max_level >= 10 then
+			lines[#lines+1] = {'%s = {\r\n%s,\r\n}', name, table_concat(values, ',\r\n')}
 		else
-			values[i] = self:format_value(data[i])
+			local suc, info = pcall(table_concat, values, ', ')
+			if not suc then
+                local msg = {}
+                msg[#msg+1] = info
+				msg[#msg+1] = tostring(user_id)
+				for k, v in pairs(values) do
+					msg[#msg+1] = tostring(k) .. '\t' .. tostring(v)
+				end
+				error(table.concat(msg, '\r\n'))
+			end
+			lines[#lines+1] = {'%s = {%s}', name, table_concat(values, ', ')}
 		end
 	end
-
-	if is_string or max_level >= 10 then
-		lines[#lines+1] = {'%s = {\r\n%s,\r\n}', name, table_concat(values, ',\r\n')}
-		return
-	end
-	
-	lines[#lines+1] = {'%s = {%s}', name, table_concat(values, ', ')}
-end
-
-function mt:get_comment(id)
-	local comment = self.meta[id].displayName
-	return self:get_editstring(comment)
-end
-
-function mt:get_editstring(str)
-	if not self.editstring then
-		return str
-	end
-	local editstring = self.editstring['WorldEditStrings']
-	while editstring[str] do
-		str = editstring[str]
-	end
-	return str
 end
 
 return function (w2l, file_name, data, loader)
@@ -167,6 +180,7 @@ return function (w2l, file_name, data, loader)
 	tbl.key = lni:loader(loader(w2l.dir['key'] / (file_name .. '.ini')), file_name)
 	tbl.has_level = tbl.meta._has_level
 	tbl.editstring = w2l:read_ini(w2l.dir['meta'] / 'ui' / 'WorldEditStrings.txt')
+	tbl.max_level_key = w2l.info['key']['max_level'][file_name]
     tbl.file_name = file_name
 
 	tbl:add_head(data)

@@ -69,14 +69,14 @@ end
 
 function mt:read_slk(lni, slk)
     for name, data in pairs(slk) do
-        lni[name] = self:read_slk_obj(name, data)
+        lni[name] = self:read_slk_obj(lni[name], name, data)
     end
 end
 
-function mt:read_slk_obj(name, data)
-    local obj = {}
+function mt:read_slk_obj(obj, name, data)
+    local obj = obj or {}
     obj._user_id = name
-    obj._origin_id = data.code
+    obj._origin_id = data.code or obj._origin_id
     obj._name = data.name  -- 单位的反slk可以用name作为线索
     obj._slk = true
 
