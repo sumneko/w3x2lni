@@ -58,13 +58,6 @@ function mt:add_txt(txt)
     table_insert(self.txt, txt)
 end
 
-function mt:get_key_type(key)
-    local meta = self.meta
-    local type = meta[key]['type']
-    local format = key_type[type] or 3
-    return format
-end
-
 function mt:key2id(name, code, key)
     local key = key:lower()
     local id = code and self.key[code] and self.key[code][key] or self.key[name] and self.key[name][key] or self.key['public'][key]
@@ -90,6 +83,8 @@ function mt:read_slk_obj(name, data)
     for key, value in pairs(data) do
         self:read_slk_data(name, obj, key, value)
     end
+
+    return obj
 end
 
 function mt:read_slk_data(name, obj, key, value)
@@ -120,7 +115,7 @@ function mt:read_txt_obj(obj, skill, data)
     obj['_txt'] = true
 
     for key, value in pairs(data) do
-        self:read_txt_data(name, obj._origin_id, key, value, data)
+        self:read_txt_data(name, obj, key, value, data)
     end
 end
 
@@ -184,6 +179,13 @@ function mt:add_data(obj, key, id, value, level)
     obj[key][level] = value
 end
 
+function mt:get_key_type(id)
+    local meta = self.meta
+    local type = meta[id]['type']
+    local format = key_type[type] or 3
+    return format
+end
+
 function mt:to_type(id, value)
     local tp = self:get_key_type(id)
     if tp == 0 then
@@ -200,13 +202,13 @@ function mt:to_type(id, value)
     return value
 end
 
-function mt:set_default_value(data)
-    for _, obj in pairs(data) do
-        for name, datas in pairs(obj) do
-            if name:sub(1, 1) ~= '_' then
-                for i, value in pairs(datas) do
+function mt:set_default_value(lni)
+    for _, obj in pairs(lni) do
+        for key, data in pairs(obj) do
+            if key:sub(1, 1) ~= '_' then
+                for i, value in pairs(data) do
                     if type(i) == 'number' then
-                        datas[i] = self:to_type(name, value)
+                        data[i] = self:to_type(data._id, value)
                     end
                 end
             end
