@@ -84,8 +84,10 @@ local function read_slk(w2l, content)
         if y ~= 1 then
             tbl[id] = {}
             for x, list in pairs(data) do
-                local key = list[1] or x
-                tbl[id][key] = list[y]
+                local key = list[1]
+				if key then
+                	tbl[id][key] = list[y]
+				end
             end
 			table_insert(list, id)
         end
