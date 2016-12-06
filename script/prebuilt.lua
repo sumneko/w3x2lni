@@ -9,7 +9,7 @@ local w2l  = require 'w3x2lni'
 local lni      = require 'lni'
 local uni      = require 'ffi.unicode'
 local create_key_type = require 'create_key_type'
-local create_order_list = require 'create_order_list'
+local order_prebuilt = require 'order.prebuilt'
 
 local rootpath
 if arg[1] then
@@ -21,7 +21,6 @@ local meta_dir = rootpath / 'script' / 'meta'
 local key_dir = rootpath / 'script' / 'key'
 local root_dir = rootpath / 'script'
 local template_dir = rootpath / 'template'
-local skill_dir = rootpath / 'script' / 'skill'
 
 function message(...)
 	local tbl = {...}
@@ -46,7 +45,7 @@ local function main()
 	w2l:init(arg[1])
 
 	-- 生成key_type
-	local keydata = w2l:read_txt(io.load(meta_dir / 'uniteditordata.txt'))
+	local keydata = w2l:read_txt(io.load(meta_dir / 'ui' / 'uniteditordata.txt'))
 	local content = create_key_type(keydata)
 	io.save(root_dir / 'key_type.lua', content)
 
@@ -75,8 +74,8 @@ local function main()
 
 	-- 生成技能命令映射
 	local skill_data = lni:loader(io.load(template_dir / 'war3map.w3a.ini'))
-	local order_list = create_order_list(skill_data)
-	io.save(skill_dir / 'order_list.lua', order_list)
+	local order_list = order_prebuilt(skill_data)
+	io.save(rootpath / 'script' / 'order' / 'order_list.lua', order_list)
 
 	message('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
 end
