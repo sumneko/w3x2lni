@@ -281,8 +281,7 @@ function mt:to_lni()
             data = self:on_lni(file_name, data)
         end
         
-        local temp_data = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
-        local content = w2l:to_lni(file_name, data, temp_data, io.load)
+        local content = w2l:to_lni(file_name, data, io.load)
         if self.wts then
             content = self.wts:load(content)
         end

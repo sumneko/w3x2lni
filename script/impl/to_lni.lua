@@ -170,11 +170,10 @@ function mt:add_data(name, data, user_id, lines)
 	end
 end
 
-return function (w2l, file_name, data, template, loader)
+return function (w2l, file_name, data, loader)
 	local tbl = setmetatable({}, mt)
 	tbl.lines = {}
 	tbl.self = w2l
-	tbl.template = template
 	tbl.config = w2l.config
 
 	tbl.meta = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name])
