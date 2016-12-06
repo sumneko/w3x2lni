@@ -1,4 +1,3 @@
-local create_map = require 'create_map'
 local lni = require 'lni'
 
 local mt = {}
@@ -20,10 +19,6 @@ function mt:read_config()
 	for file_name, meta_name in pairs(self.info['metadata']) do
 		self:set_metadata(file_name, meta_name)
 	end
-end
-
-function mt:create_map()
-	return create_map(self)
 end
 
 function mt:init(rootpath)
