@@ -76,9 +76,8 @@ local function main()
 	for file_name, meta in pairs(w2l.info['metadata']) do
 		message('正在生成模板', file_name)
 		local data = w2l:slk_loader(file_name, io.load)
-		local metadata = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name])
 		
-		local content = w2l:obj2lni(data, metadata, editstring, nil, key, w2l.info['key']['max_level'][file_name], file_name)
+		local content = w2l:to_lni(file_name, data, nil, io.load, editstring)
 		io.save(template_dir / (file_name .. '.ini'), content)
 	end
 

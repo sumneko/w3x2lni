@@ -1,5 +1,6 @@
 local key_type = require 'key_type'
 local progress = require 'progress'
+local lni = require 'lni'
 
 local table_insert = table.insert
 local table_sort   = table.sort
@@ -165,18 +166,19 @@ function mt:add_data(name, data, user_id, lines)
 	end
 end
 
-return function (self, data, meta, editstring, template, key, max_level_key, file_name)
+return function (w2l, file_name, data, template, loader, editstring)
 	local tbl = setmetatable({}, mt)
 	tbl.lines = {}
-	tbl.self = self
-	tbl.meta = meta
+	tbl.self = w2l
 	tbl.template = template
-	tbl.key = key
-	tbl.has_level = meta._has_level
+	tbl.config = w2l.config
+
+	tbl.meta = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name])
+	tbl.key = lni:loader(loader(w2l.dir['key'] / (file_name .. '.ini')), file_name)
+	tbl.has_level = tbl.meta._has_level
 	tbl.editstring = editstring or {}
-	tbl.max_level_key = max_level_key
+	tbl.max_level_key = w2l.info['key']['max_level'][file_name]
     tbl.file_name = file_name
-	tbl.config = self.config
 
 	tbl:add_head(data)
 	tbl:add_chunk(data)

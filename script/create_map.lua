@@ -289,11 +289,8 @@ function mt:to_lni()
             data = self:on_lni(file_name, data)
         end
         
-        local metadata = w2l:read_metadata(self.dir['meta'] / self.info['metadata'][file_name])
         local temp_data = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
-        local key_data = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
-        local max_level_key = self.info['key']['max_level'][file_name]
-        local content = w2l:obj2lni(data, metadata, self.editstring, temp_data, key_data, max_level_key, file_name)
+        local content = w2l:to_lni(file_name, data, temp_data, io.load, self.editstring)
         if self.wts then
             content = self.wts:load(content)
         end
