@@ -8,141 +8,6 @@ local tonumber = tonumber
 local pairs = pairs
 local ipairs = ipairs
 
-local mt = {}
-mt.__index = mt
-
-function mt:add_slk(slk)
-    table_insert(self.slk, slk)
-end
-
-function mt:add_txt(txt)
-    table_insert(self.txt, txt)
-end
-
-function mt:get_key_type(key)
-    local meta = self.meta
-    local type = meta[key]['type']
-    local format = key_type[type] or 3
-    return format
-end
-
-function mt:key2id(code, skill, key)
-    local key = key:lower()
-    local id = self.key[code] and self.key[code][key] or self.key[skill] and self.key[skill][key] or self.key['public'][key]
-    if id then
-        return id
-    end
-    return nil
-end
-
-function mt:read_txt(lni, txt)
-    for name, value in pairs(txt) do
-        lni[name] = self:read_obj(lni[name], name, value, 'txt')
-    end
-end
-
-function mt:read_slk(lni, slk)
-    for name, value in pairs(slk) do
-        lni[name] = self:read_obj(lni[name], name, value, 'slk')
-    end
-end
-
-function mt:read_obj(obj, skill, data, type)
-    if not obj then
-        obj = {}
-        obj['_origin_id'], obj['_user_id'] = skill, skill
-    end
-    if data['code'] then
-        obj['_origin_id'] = data['code']
-    end
-    obj['_slk'] = true
-
-    if type == 'slk' then
-        for name, value in pairs(data) do
-            local name, value, level = self:read_slk_data(skill, obj['_origin_id'], name, value)
-            if name then
-                self:pack_data(obj, name, value, level)
-            end
-        end
-        if data['name'] then
-            obj['_name'] = data['name']
-        end
-        obj['_enable'] = true
-    end
-    
-    if type == 'txt' then
-        for name, value in pairs(data) do
-            local datas = self:read_txt_data(skill, obj['_origin_id'], name, value, data)
-            if datas then
-                for i, data in pairs(datas) do
-                    self:pack_data(obj, table_unpack(data))
-                end
-            end
-        end
-    end
-    return obj
-end
-
-function mt:pack_data(obj, name, value, level)
-    if not obj[name] then
-        obj[name] = {
-            ['name'] = name,
-            ['_slk'] = {},
-        }
-    end
-    if not level then
-        level = 1
-    end
-    obj[name][level] = value
-    obj[name]['_slk'][level] = true
-end
-
-function mt:to_type(id, value)
-    local tp = self:get_key_type(id)
-    if tp == 0 then
-        value = math.floor(tonumber(value) or 0)
-    elseif tp == 1 or tp == 2 then
-        value = (tonumber(value) or 0.0) + 0.0
-    elseif tp == 3 then
-        if type(value) == 'string' then
-            if value:match '^%s*[%-%_]%s*$' then
-                value = nil
-            end
-        end
-    end
-    return value
-end
-
-function mt:set_default_value(data)
-    for _, obj in pairs(data) do
-        for name, datas in pairs(obj) do
-            if name:sub(1, 1) ~= '_' then
-                for i, value in pairs(datas) do
-                    if type(i) == 'number' then
-                        datas[i] = self:to_type(name, value)
-                    end
-                end
-            end
-        end
-    end
-end
-
-function mt:read_slk_data(skill, code, name, value)
-    local data = {}
-    if type(name) ~= 'string' then
-        return nil
-    end
-    local level = tonumber(name:sub(-1))
-    if level then
-        name = name:sub(1, -2)
-    end
-    local id = self:key2id(code, skill, name)
-    if not id then
-        return nil
-    end
-    return id, value, level
-end
-
 -- 规则如下
 -- 1.如果第一个字符是逗号,则添加一个空串
 -- 2.如果最后一个字符是逗号,则添加一个空标记
@@ -181,44 +46,112 @@ local function splite(str)
     return tbl
 end
 
-function mt:read_txt_data(skill, code, name, value, txt)
-    if not value then
+
+local mt = {}
+mt.__index = mt
+
+function mt:add_slk(slk)
+    table_insert(self.slk, slk)
+end
+
+function mt:add_txt(txt)
+    table_insert(self.txt, txt)
+end
+
+function mt:get_key_type(key)
+    local meta = self.meta
+    local type = meta[key]['type']
+    local format = key_type[type] or 3
+    return format
+end
+
+function mt:key2id(name, code, key)
+    local key = key:lower()
+    local id = code and self.key[code] and self.key[code][key] or self.key[name] and self.key[name][key] or self.key['public'][key]
+    if id then
+        return id
+    end
+    return nil
+end
+
+function mt:read_slk(lni, slk)
+    for name, data in pairs(slk) do
+        lni[name] = self:read_slk_obj(name, data)
+    end
+end
+
+function mt:read_slk_obj(name, data)
+    local obj = {}
+    obj._user_id = name
+    obj._origin_id = data.code
+    obj._name = data.name  -- 单位的反slk可以用name作为线索
+    obj._slk = true
+
+    for key, value in pairs(data) do
+        self:read_slk_data(name, obj, key, value)
+    end
+end
+
+function mt:read_slk_data(name, obj, key, value)
+    local level = tonumber(key:sub(-1))
+    if level then
+        key = key:sub(1, -2)
+    end
+    local id = self:key2id(name, obj.code, key)
+    if not id then
         return nil
     end
+
+    self:add_data(obj, key, id, value, level)
+    return true
+end
+
+function mt:read_txt(lni, txt)
+    for name, data in pairs(txt) do
+        self:read_txt_obj(lni[name], name, data)
+    end
+end
+
+function mt:read_txt_obj(obj, skill, data)
+    if obj == nil then
+        return
+    end
+
+    obj['_txt'] = true
+
+    for key, value in pairs(data) do
+        self:read_txt_data(name, obj._origin_id, key, value, data)
+    end
+end
+
+function mt:read_txt_data(name, obj, key, value, txt)
     local data = {}
-    local id = self:key2id(code, skill, name)
+    local id = self:key2id(name, obj.code, key)
     local tbl = splite(value)
 
-    if not id then
-        if not txt then
-            return nil
+    if id == nil then
+        if txt == nil then
+            return
         end
         for i = 1, #tbl do
-            local new_name = name .. ':' .. i
-            local res = self:read_txt_data(skill, code, new_name, tbl[i])
-            if res then
-                data[#data+1] = res[1]
-            end
+            local new_key = key .. ':' .. i
+            self:read_txt_data(name, obj, new_key, tbl[i])
         end
-        return data
+        return
     end
     
     local meta = self.meta[id]
     if meta['appendIndex'] == 1 and txt then
-        local max_level = txt[name..'count'] or 1
+        local max_level = txt[key..'count'] or 1
         for i = 1, max_level do
-            local new_name
+            local new_key
             if i == 1 then
-                new_name = name
+                new_key = key
             else
-                new_name = name .. (i-1)
+                new_key = key .. (i-1)
             end
-            local res = self:read_txt_data(skill, code, name, txt[new_name])
-            if res then
-                data[#data+1] = {id, res[1][2], i}
-            end
+            self:read_txt_data(name, obj, key, txt[new_key])
         end
-        return data
     end
 
     local max_level = #tbl
@@ -234,9 +167,51 @@ function mt:read_txt_data(skill, code, name, value, txt)
     end
 
     for i = 1, max_level do
-        data[i] = {id, tbl[i], i}
+        self:add_data(obj, key, id, tbl[i])
     end
-    return data
+end
+
+function mt:add_data(obj, key, id, value, level)
+    if obj[key] == nil then
+        obj[key] = {
+            ['_key'] = key,
+            ['_id']  = id,
+        }
+    end
+    if level == nil then
+        level = #obj[key] + 1
+    end
+    obj[key][level] = value
+end
+
+function mt:to_type(id, value)
+    local tp = self:get_key_type(id)
+    if tp == 0 then
+        value = math.floor(tonumber(value) or 0)
+    elseif tp == 1 or tp == 2 then
+        value = (tonumber(value) or 0.0) + 0.0
+    elseif tp == 3 then
+        if type(value) == 'string' then
+            if value:match '^%s*[%-%_]%s*$' then
+                value = nil
+            end
+        end
+    end
+    return value
+end
+
+function mt:set_default_value(data)
+    for _, obj in pairs(data) do
+        for name, datas in pairs(obj) do
+            if name:sub(1, 1) ~= '_' then
+                for i, value in pairs(datas) do
+                    if type(i) == 'number' then
+                        datas[i] = self:to_type(name, value)
+                    end
+                end
+            end
+        end
+    end
 end
 
 function mt:save()

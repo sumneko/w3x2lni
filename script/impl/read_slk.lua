@@ -66,8 +66,20 @@ local function read_slk(w2l, content)
 	end
 
 	-- 组装成table
-    local tbl = {}
+	local t_mt = {}
 	local list = {}
+	function t_mt:__pairs()
+		local i = 0
+		return function()
+			i = i + 1
+			if not list[i] then
+				return nil
+			end
+			return list[i], self[list[i]]
+		end
+	end
+	
+    local tbl = setmetatable({}, t_mt)
 	for y, id in pairs(data[1]) do
         if y ~= 1 then
             tbl[id] = {}
