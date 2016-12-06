@@ -263,7 +263,7 @@ end
 function mt:to_lni()
 	--读取编辑器文本
     progress:target(20)
-	local ini = read_ini(self.dir['meta'] / 'WorldEditStrings.txt')
+	local ini = read_ini(self.dir['meta'] / 'ui' / 'WorldEditStrings.txt')
 	if ini then
 		self.editstring = ini['WorldEditStrings']
 	end

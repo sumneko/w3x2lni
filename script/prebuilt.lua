@@ -47,7 +47,7 @@ local function main()
 	w2l:init(arg[1])
 
 	-- 生成key_type
-	local keydata = w2l:read_txt(io.load(meta_dir / 'uniteditordata.txt'))
+	local keydata = w2l:read_txt(io.load(meta_dir / 'ui' / 'uniteditordata.txt'))
 	local content = create_key_type(keydata)
 	io.save(root_dir / 'key_type.lua', content)
 
@@ -66,7 +66,7 @@ local function main()
 
 	--读取编辑器文本
 	local editstring
-	local ini = read_ini(meta_dir / 'WorldEditStrings.txt')
+	local ini = read_ini(meta_dir / 'ui' / 'WorldEditStrings.txt')
 	if ini then
 		editstring = ini['WorldEditStrings']
 	end
