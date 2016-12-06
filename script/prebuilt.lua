@@ -8,7 +8,6 @@ require 'utility'
 local w2l  = require 'w3x2lni'
 local lni      = require 'lni'
 local uni      = require 'ffi.unicode'
-local read_ini = require 'read_ini'
 local create_key_type = require 'create_key_type'
 local order_prebuilt = require 'order.prebuilt'
 
@@ -63,21 +62,13 @@ local function main()
 		io.save(key_dir / (file_name .. '.ini'), content)
 	end
 
-	--读取编辑器文本
-	local editstring
-	local ini = read_ini(meta_dir / 'ui' / 'WorldEditStrings.txt')
-	if ini then
-		editstring = ini['WorldEditStrings']
-	end
-
 	-- 生成模板lni
 	fs.create_directories(template_dir)
 	for file_name, meta in pairs(w2l.info['metadata']) do
 		message('正在生成模板', file_name)
 		local data = w2l:slk_loader(file_name, io.load)
-		local metadata = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name])
 		
-		local content = w2l:obj2lni(data, metadata, editstring, nil, key, w2l.info['key']['max_level'][file_name], file_name)
+		local content = w2l:to_lni(file_name, data, nil, io.load)
 		io.save(template_dir / (file_name .. '.ini'), content)
 	end
 
