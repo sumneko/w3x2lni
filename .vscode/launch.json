@@ -40,6 +40,7 @@
             "cwd": "${workspaceRoot}/bin",
             "path": "",
             "cpath": "${workspaceRoot}/bin/?.dll;",
+            "luadll": "${workspaceRoot}/bin/luacore.dll",
             "arg": [
                "${workspaceRoot}"
             ],
