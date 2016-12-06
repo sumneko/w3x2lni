@@ -76,8 +76,8 @@ end
 function mt:read_slk_obj(obj, name, data)
     local obj = obj or {}
     obj._user_id = name
-    obj._origin_id = data.code or obj._origin_id
-    obj._name = data.name  -- 单位的反slk可以用name作为线索
+    obj._origin_id = data.code or obj._origin_id or name
+    obj._name = data.name or obj._name  -- 单位的反slk可以用name作为线索
     obj._slk = true
 
     for key, value in pairs(data) do
