@@ -2,7 +2,6 @@ local stormlib = require 'ffi.stormlib'
 local lni = require 'lni'
 local read_metadata = require 'read_metadata'
 local read_ini = require 'read_ini'
-local slk_loader = require 'slk_loader'
 local read_slk = require 'read_slk'
 local read_txt = require 'read_txt'
 local progress = require 'progress'
@@ -250,7 +249,7 @@ function mt:save_map(map_path)
 end
 
 function mt:load_slk(file_name, delete)
-    local slk = slk_loader(file_name)
+    local slk = self.w3x2lni:slk_loader(file_name)
     
     local slk = self.info['template']['slk'][file_name]
     for i = 1, #slk do

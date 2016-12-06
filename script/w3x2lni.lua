@@ -50,6 +50,7 @@ local function main()
 		'create_unitsdoo',
 		'key2id',
 		'add_template',
+		'slk_loader',
 	}
 	
 	for _, name in ipairs(convertors) do

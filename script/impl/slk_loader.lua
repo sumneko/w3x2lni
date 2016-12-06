@@ -256,7 +256,7 @@ function mt:save(meta, key)
     return data
 end
 
-return function (name)
+return function (self, name)
     local self = setmetatable({}, mt)
 
     self.slk = {}
