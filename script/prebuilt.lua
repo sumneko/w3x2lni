@@ -75,11 +75,9 @@ local function main()
 	fs.create_directories(template_dir)
 	for file_name, meta in pairs(w2l.info['metadata']) do
 		message('正在生成模板', file_name)
-		local template = w2l:slk_loader(file_name, io.load)
-		local metadata = w2l:read_metadata(meta_dir / w2l.info['metadata'][file_name])
-		local key = lni:loader(io.load(key_dir / (file_name .. '.ini')), name)
-
-		local data = template:save(metadata, key)
+		local data = w2l:slk_loader(file_name, io.load)
+		local metadata = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name])
+		
 		local content = w2l:obj2lni(data, metadata, editstring, nil, key, w2l.info['key']['max_level'][file_name], file_name)
 		io.save(template_dir / (file_name .. '.ini'), content)
 	end

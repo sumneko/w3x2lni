@@ -1,4 +1,5 @@
 local key_type = require 'key_type'
+local lni = require 'lni'
 
 local table_insert = table.insert
 local table_unpack = table.unpack
@@ -238,10 +239,7 @@ function mt:read_txt_data(skill, code, name, value, txt)
     return data
 end
 
-function mt:save(meta, key)
-    self.key = key
-    self.meta = meta
-
+function mt:save()
     local data = {}
 
     -- 默认数据
@@ -272,6 +270,9 @@ return function (w2l, file_name, loader)
     for i = 1, #txt do
         self:add_txt(w2l:read_txt(loader(w2l.dir['meta'] / txt[i])))
     end
-    
-    return self
+
+    self.meta = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name])
+    self.key = lni:loader(loader(w2l.dir['key'] / (file_name .. '.ini')), file_name)
+
+    return self:save()
 end
