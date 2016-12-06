@@ -2,8 +2,6 @@ local string_char = string.char
 local table_insert = table.insert
 local table_sort = table.sort
 
-local read_slk = require 'read_slk'
-
 local mt = {}
 
 local function isignore(id1, id2)

@@ -1,9 +1,6 @@
 local stormlib = require 'ffi.stormlib'
 local lni = require 'lni'
-local read_metadata = require 'read_metadata'
 local read_ini = require 'read_ini'
-local read_slk = require 'read_slk'
-local read_txt = require 'read_txt'
 local progress = require 'progress'
 
 local table_insert = table.insert
@@ -123,7 +120,7 @@ function mt:to_w3x(name, file)
             self.wts:save(data)
         end
 		local key = lni:loader(io.load(self.dir['key'] / name), name)
-		local metadata = read_metadata(self.dir['meta'] / self.info['metadata'][new_name])
+		local metadata = self.w3x2lni:read_metadata(self.dir['meta'] / self.info['metadata'][new_name])
 		local template = lni:loader(io.load(self.dir['template'] / name), new_name)
 		local content = self.w3x2lni:lni2obj(data, metadata, key, template)
 		return new_name, content
@@ -255,7 +252,7 @@ function mt:load_slk(file_name, delete)
     for i = 1, #slk do
         local name = slk[i]
         message('正在转换', name)
-        slk:add_slk(read_slk(self.files[name] or io.load(self.dir['meta'] / name)))
+        slk:add_slk(self.w3x2lni:read_slk(self.files[name] or io.load(self.dir['meta'] / name)))
         if self.files[name] then
             delete[name] = true
         end
@@ -265,7 +262,7 @@ function mt:load_slk(file_name, delete)
     for i = 1, #txt do
         local name = txt[i]
         message('正在转换', name)
-        slk:add_txt(read_txt(self.files[name] or io.load(self.dir['meta'] / name)))
+        slk:add_txt(self.w3x2lni:read_txt(self.files[name] or io.load(self.dir['meta'] / name)))
         if self.files[name] then
             delete[name] = true
         end
@@ -303,7 +300,7 @@ function mt:to_lni()
             data = self:on_lni(file_name, data)
         end
         
-        local metadata = read_metadata(self.dir['meta'] / self.info['metadata'][file_name])
+        local metadata = self.w3x2lni:read_metadata(self.dir['meta'] / self.info['metadata'][file_name])
         local temp_data = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
         local key_data = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
         local max_level_key = self.info['key']['max_level'][file_name]
@@ -334,7 +331,7 @@ function mt:load_data()
         local target_progress = 5 + count * 2
         self.objs[file_name] = {}
 
-        local metadata = read_metadata(self.dir['meta'] / self.info['metadata'][file_name])
+        local metadata = self.w3x2lni:read_metadata(self.dir['meta'] / self.info['metadata'][file_name])
         local key_data = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
 
         if self.files[file_name] then

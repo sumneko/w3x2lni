@@ -47,6 +47,8 @@ local function main()
 		'w3i2lni', 'lni2w3i',
 		'read_obj',
 		'read_w3i',
+		'read_slk', 'read_txt',
+		'read_metadata',
 		'create_unitsdoo',
 		'key2id',
 		'add_template',

@@ -1,5 +1,3 @@
-local read_slk = require 'read_slk'
-
 local pairs = pairs
 local setmetatable = setmetatable
 
@@ -20,8 +18,8 @@ function mt:__pairs()
 	end, self, nil
 end
 
-local function read_metadata(file_name)
-	local tbl, list = read_slk(io.load(file_name))
+local function read_metadata(w3x2lni, file_name)
+	local tbl, list = w3x2lni:read_slk(io.load(file_name))
 	if not tbl then
 		return
 	end

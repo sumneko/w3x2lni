@@ -38,7 +38,7 @@ local function parse(txt, line)
     end
 end
 
-return function (content)
+return function (w3x2lni, content)
 	if not content then
 		return
 	end

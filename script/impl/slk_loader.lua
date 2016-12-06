@@ -1,4 +1,5 @@
 local key_type = require 'key_type'
+
 local table_insert = table.insert
 local table_unpack = table.unpack
 local type = type
@@ -256,11 +257,21 @@ function mt:save(meta, key)
     return data
 end
 
-return function (self, name)
+return function (w3x2lni, file_name, loader)
     local self = setmetatable({}, mt)
 
     self.slk = {}
     self.txt = {}
+
+    local slk = w3x2lni.info['template']['slk'][file_name]
+    for i = 1, #slk do
+        self:add_slk(w3x2lni:read_slk(loader(w3x2lni.dir['meta'] / slk[i])))
+    end
+
+    local txt = w3x2lni.info['template']['txt'][file_name]
+    for i = 1, #txt do
+        self:add_txt(w3x2lni:read_txt(loader(w3x2lni.dir['meta'] / txt[i])))
+    end
     
     return self
 end
