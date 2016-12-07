@@ -111,7 +111,7 @@ function mt:read_txt(lni, txt)
     end
 end
 
-function mt:read_txt_obj(obj, skill, data)
+function mt:read_txt_obj(obj, name, data)
     if obj == nil then
         return
     end
@@ -158,19 +158,7 @@ function mt:read_txt_data(name, obj, key, value, txt)
         end
     end
 
-    local max_level = #tbl
-    if meta['index'] == -1 then
-        if tbl[#tbl] == false then
-            tbl[#tbl] = nil
-        end
-        tbl[1] = table.concat(tbl, ',')
-        max_level = 1
-    end
-    if not meta['repeat'] or meta['repeat'] == 0 then
-        max_level = 1
-    end
-
-    for i = 1, max_level do
+    for i = 1, #tbl do
         self:add_data(obj, key, id, tbl[i])
     end
 end
