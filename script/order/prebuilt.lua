@@ -34,7 +34,13 @@ local function load_order2(skill_data, tp)
         local order
         order = skill[tp]
         if order then
-            order = order_id[order]
+            local new_order
+            for str in order:gmatch '[^,]+' do
+                new_order = order_id[str] or new_order
+            end
+            order = new_order
+        end
+        if order then
             if data[code] and data[code] ~= order then
                 message('命令冲突', code, data[code], order)
             end
