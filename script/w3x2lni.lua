@@ -11,10 +11,6 @@ end
 function mt:read_config()
 	self.config = lni:loader(io.load(self.dir['root'] / 'config.ini'), 'config')
     self.info   = lni:loader(io.load(self.dir['root'] / 'script' / 'info.ini'), 'info')
-
-	for file_name, meta_name in pairs(self.info['metadata']) do
-		self:set_metadata(file_name, meta_name)
-	end
 end
 
 function mt:init()
