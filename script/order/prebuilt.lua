@@ -10,7 +10,11 @@ local function load_order(skill_data)
             order = skill.Order
         end
         if order then
-            order = order_id[order]
+            local new_order
+            for str in order:gmatch '[^,]+' do
+                new_order = order_id[str] or new_order
+            end
+            order = new_order
         elseif skill.YDWEtip then
             order = skill.YDWEtip:match '^命令ID是(.)+$'
         end
