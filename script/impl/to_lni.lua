@@ -82,7 +82,6 @@ function mt:add_obj(obj)
         return
     end
 
-	self:add ''
 	self:add('[%s]', obj['_user_id'])
 	self:add('%s = %q', '_id', obj['_origin_id'])
     if obj['_name'] then
@@ -91,6 +90,7 @@ function mt:add_obj(obj)
     for i = 1, #lines do
         self:add(table.unpack(lines[i]))
     end
+	self:add ''
 end
 
 function mt:add_data(key, data, lines)
@@ -169,7 +169,7 @@ return function (w2l, file_name, data, loader)
 	tbl.has_level = tbl.meta._has_level
 	tbl.editstring = w2l:read_ini(w2l.dir['meta'] / 'ui' / 'WorldEditStrings.txt')
     tbl.file_name = file_name
-	
+
 	tbl:add_chunk(data)
 
 	return table_concat(tbl.lines, '\r\n')
