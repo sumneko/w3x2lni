@@ -62,7 +62,7 @@ local function main()
 	for file_name, meta in pairs(w2l.info['metadata']) do
 		message('正在生成模板', file_name)
 		local data = w2l:slk_loader(file_name, io.load)
-		
+		w2l:count_max_level(file_name, data, io.load)
 		local content = w2l:to_lni(file_name, data, io.load)
 		io.save(template_dir / (file_name .. '.ini'), content)
 	end
