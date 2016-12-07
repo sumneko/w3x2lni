@@ -36,7 +36,7 @@ local function main()
 		'key2id',
 		'add_template',
 		'slk_loader',
-		'count_max_level',
+		'post_process',
 	}
 	
 	for _, name in ipairs(convertors) do
