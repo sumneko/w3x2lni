@@ -11,12 +11,7 @@ local uni      = require 'ffi.unicode'
 local create_key_type = require 'create_key_type'
 local order_prebuilt = require 'order.prebuilt'
 
-local rootpath
-if arg[1] then
-	rootpath = fs.path(arg[1])
-else
-	rootpath = fs.get(fs.DIR_EXE):remove_filename()
-end
+local rootpath = fs.path(uni.a2u(arg[0])):remove_filename()
 local meta_dir = rootpath / 'script' / 'meta'
 local key_dir = rootpath / 'script' / 'key'
 local root_dir = rootpath / 'script'
