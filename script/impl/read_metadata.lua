@@ -1,14 +1,13 @@
 local pairs = pairs
-local setmetatable = setmetatable
 
-local mt = {}
-mt.__index = mt
+local metadatas = {}
 
 local function read_metadata(w2l, file_name)
-	local tbl = w2l:read_slk(io.load(file_name))
-	if not tbl then
-		return
+	if metadatas[file_name] then
+		return metadatas[file_name]
 	end
+	local tbl = w2l:read_slk(io.load(file_name))
+	metadatas[file_name] = tbl
 
 	local has_index = {}
 	for k, v in pairs(tbl) do
