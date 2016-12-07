@@ -92,7 +92,7 @@ local function read_slk(w2l, content)
 			table_insert(list, id)
         end
 	end
-    return tbl, list
+    return tbl
 end
 
 return read_slk
