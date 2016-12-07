@@ -59,7 +59,6 @@ function mt:add_txt(txt)
 end
 
 function mt:key2id(name, code, key)
-    local key = key:lower()
     local id = code and self.key[code] and self.key[code][key] or self.key[name] and self.key[name][key] or self.key['public'][key]
     if id then
         return id
@@ -80,7 +79,12 @@ function mt:read_slk_obj(obj, name, data)
     obj._name = data.name or obj._name  -- 单位的反slk可以用name作为线索
     obj._slk = true
 
+    local lower_data = {}
     for key, value in pairs(data) do
+        lower_data[key:lower()] = value
+    end
+
+    for key, value in pairs(lower_data) do
         self:read_slk_data(name, obj, key, value)
     end
 
@@ -114,8 +118,13 @@ function mt:read_txt_obj(obj, skill, data)
 
     obj['_txt'] = true
 
+    local lower_data = {}
     for key, value in pairs(data) do
-        self:read_txt_data(name, obj, key, value, data)
+        lower_data[key:lower()] = value
+    end
+
+    for key, value in pairs(lower_data) do
+        self:read_txt_data(name, obj, key, value, lower_data)
     end
 end
 

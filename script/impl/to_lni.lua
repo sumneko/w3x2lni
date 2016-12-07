@@ -5,6 +5,7 @@ local table_insert = table.insert
 local table_sort = table.sort
 local math_type = math.type
 local table_concat = table.concat
+local string_char = string.char
 
 local function get_len(tbl)
 	local len = 0
@@ -80,16 +81,19 @@ function mt:add_chunk(chunk)
 end
 
 function mt:add_obj(obj)
+	local upper_obj = {}
     local names = {}
     for name, data in pairs(obj) do
 		if name:sub(1, 1) ~= '_' then
+			local name = self:get_name(data)
             names[#names+1] = name
+			upper_obj[name] = data
 		end
 	end
     table_sort(names)
     local lines = {}
 	for _, name in ipairs(names) do
-		self:add_data(name, obj[name], lines)
+		self:add_data(name, upper_obj[name], lines)
 	end
     if not lines or #lines == 0 then
         return
@@ -139,6 +143,20 @@ function mt:add_data(name, data, lines)
 	end
 	
 	lines[#lines+1] = {'%s = {%s}', name, table_concat(values, ', ')}
+end
+
+function mt:get_name(data)
+	local id = data._id
+	local meta  = self.meta[id]
+	local name  = meta.field
+	local num   = meta.data
+	if num and num ~= 0 then
+		name = name .. string_char(('A'):byte() + num - 1)
+	end
+	if meta._has_index then
+		name = name .. ':' .. (meta.index + 1)
+	end
+	return name
 end
 
 function mt:get_comment(id)
