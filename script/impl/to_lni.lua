@@ -34,13 +34,6 @@ function mt:add(format, ...)
 	self.lines[#self.lines+1] = format:format(...)
 end
 
-function mt:add_head(data)
-	if data['_版本'] then
-		self:add '[头]'
-		self:add('版本 = %s', data['_版本'])
-	end
-end
-
 function mt:add_chunk(chunk)
 	local names = {}
 	for name, obj in pairs(chunk) do
@@ -176,8 +169,7 @@ return function (w2l, file_name, data, loader)
 	tbl.has_level = tbl.meta._has_level
 	tbl.editstring = w2l:read_ini(w2l.dir['meta'] / 'ui' / 'WorldEditStrings.txt')
     tbl.file_name = file_name
-
-	tbl:add_head(data)
+	
 	tbl:add_chunk(data)
 
 	return table_concat(tbl.lines, '\r\n')

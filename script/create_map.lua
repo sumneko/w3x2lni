@@ -274,9 +274,6 @@ function mt:to_lni()
         progress:target(target_progress)
         
         local data = self.objs[file_name]
-        if not data['_版本'] then
-            data['_版本'] = 2
-        end
         if self.on_lni then
             data = self:on_lni(file_name, data)
         end

@@ -94,7 +94,7 @@ function mt:format_value(value)
 end
 
 function mt:add_head(data)
-    self:add('l', data['头']['版本'])
+    self:add('l', 2)
 end
 
 function mt:add_chunk(id, data)

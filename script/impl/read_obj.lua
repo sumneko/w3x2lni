@@ -120,7 +120,7 @@ return function (self, content, meta)
 	tbl.meta      = meta
 
 	-- 版本号
-	data['_版本'] = tbl:read_version()
+	tbl:read_version()
 	-- 默认数据
 	tbl:read_chunk(data)
 	-- 自定义数据
