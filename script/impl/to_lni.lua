@@ -7,16 +7,6 @@ local math_type = math.type
 local table_concat = table.concat
 local string_char = string.char
 
-local function get_len(tbl)
-	local len = 0
-	for n in pairs(tbl) do
-		if type(n) == 'number' and n > len then
-			len = n
-		end
-	end
-	return len
-end
-
 local mt = {}
 mt.__index = mt
 
@@ -111,33 +101,33 @@ function mt:add_obj(obj)
 end
 
 function mt:add_data(key, data, lines)
-    if #data == 0 then
+	local len = data._len
+    if len == 0 then
         return
     end
 	if key:match '[^%w%_]' then
 		key = ('%q'):format(key)
 	end
     lines[#lines+1] = {'-- %s', self:get_comment(data._id)}
-	local max_level = get_len(data)
 	local values = {}
-	if max_level <= 1 then
+	if len <= 1 then
 		lines[#lines+1] = {'%s = %s', key, self:format_value(data[1])}
 		return
 	end
 
 	local is_string
-	for i = 1, max_level do
+	for i = 1, len do
 		if type(data[i]) == 'string' then
 			is_string = true
 		end
-		if max_level >= 10 then
+		if len >= 10 then
 			values[i] = ('%d = %s'):format(i, self:format_value(data[i]))
 		else
 			values[i] = self:format_value(data[i])
 		end
 	end
 
-	if is_string or max_level >= 10 then
+	if is_string or len >= 10 then
 		lines[#lines+1] = {'%s = {\r\n%s,\r\n}', key, table_concat(values, ',\r\n')}
 		return
 	end

@@ -201,10 +201,12 @@ function mt:to_type(id, value)
     elseif tp == 1 or tp == 2 then
         value = (tonumber(value) or 0.0) + 0.0
     elseif tp == 3 then
-        if type(value) == 'string' then
-            if value:match '^%s*[%-%_]%s*$' then
-                value = nil
-            end
+        if value == nil then
+            return nil
+        end
+        value = tostring(value)
+        if value:match '^%s*[%-%_]%s*$' then
+            return nil
         end
     end
     return value
