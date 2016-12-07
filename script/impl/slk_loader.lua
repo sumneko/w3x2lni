@@ -170,10 +170,21 @@ function mt:add_data(obj, key, id, value, level)
             ['_id']  = id,
         }
     end
-    if level == nil then
-        level = #obj[key] + 1
+    
+    local meta = self.meta[id]
+    if meta.index == -1 and (not meta['repeat'] or meta['repeat'] == 0) then
+        level = 1
+        if obj[key][level] then
+            obj[key][level] = obj[key][level] .. ',' .. value
+        else
+            obj[key][level] = value
+        end
+    else
+        if level == nil then
+            level = #obj[key] + 1
+        end
+        obj[key][level] = value
     end
-    obj[key][level] = value
 end
 
 function mt:get_key_type(id)
