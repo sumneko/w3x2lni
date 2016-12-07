@@ -2,51 +2,30 @@ local table_insert = table.insert
 local pairs = pairs
 local setmetatable = setmetatable
 
-local mt = {}
-mt.__index = mt
-
-mt.current_y = 0
-
-function mt:add_table(x, y, k)
-	if y then
-		self.current_y = y
-	else
-		y = self.current_y
-	end
-	if not self[x] then
-		self[x] = {}
-	end
-	if k:sub(1, 1) == '"' and k:sub(-1, -1) == '"' then
-		k = k:sub(2, -2)
-	else
-		k = tonumber(k)
-	end
-	self[x][y] = k
-end
-
 local x, y, k
-function mt:read_line(line)
-	local strs = {}
-	for str in line:gmatch '[^;]+' do
-		table_insert(strs, str)
-	end
-	if strs[1] ~= 'C' then
+
+local function read_line(slk, line)
+	if line:byte(1) ~= 67 then
 		return
 	end
-	for i = 2, #strs do
-		local key = strs[i]:sub(1, 1)
-		if key == 'X' then
-			x = tonumber(strs[i]:sub(2, -1))
-		elseif key == 'Y' then
-			y = tonumber(strs[i]:sub(2, -1))
-		elseif key == 'K' then
-			k = strs[i]:sub(2, -1)
+	for str in line:gmatch '[^;]+' do
+		local key = str:byte(1)
+		if key == 88 then
+			x = tonumber(str:sub(2, -1))
+		elseif key == 89 then
+			y = tonumber(str:sub(2, -1))
+		elseif key == 75 then
+			if str:byte(2) == 34 and str:byte(-1) == 34 then
+				k = str:sub(3, -2)
+			else
+				k = tonumber(str:sub(2, -1))
+			end
 		end
 	end
-	if not x then
-		message(line)
+	if not slk[x] then
+		slk[x] = {}
 	end
-	self:add_table(x, y, k)
+	slk[x][y] = k
 end
 
 local function read_slk(w2l, content)
@@ -54,15 +33,12 @@ local function read_slk(w2l, content)
 		return
 	end
 
-	local data = setmetatable({}, mt)
+	local data = {}
+	x, y, k = nil, nil, nil
 
 	-- 解析meta文件
 	for line in content:gmatch '%C+' do
-		data:read_line(line)
-	end
-
-	for key in pairs(mt) do
-		data[key] = nil
+		read_line(data, line)
 	end
 
 	-- 组装成table
