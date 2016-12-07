@@ -28,7 +28,7 @@ local function main()
 		return
 	end
 
-	w2l:init(arg[2])
+	w2l:init()
 	
 	local input_path = fs.path(uni.a2u(arg[1]))
 	if fs.is_directory(input_path) then
