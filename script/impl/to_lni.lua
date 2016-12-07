@@ -82,18 +82,18 @@ end
 
 function mt:add_obj(obj)
 	local upper_obj = {}
-    local names = {}
-    for name, data in pairs(obj) do
-		if name:sub(1, 1) ~= '_' then
-			local name = self:get_name(data)
-            names[#names+1] = name
-			upper_obj[name] = data
+    local keys = {}
+    for key, data in pairs(obj) do
+		if key:sub(1, 1) ~= '_' then
+			local key = self:get_key(data)
+            keys[#keys+1] = key
+			upper_obj[key] = data
 		end
 	end
-    table_sort(names)
+    table_sort(keys)
     local lines = {}
-	for _, name in ipairs(names) do
-		self:add_data(name, upper_obj[name], lines)
+	for _, key in ipairs(keys) do
+		self:add_data(key, upper_obj[key], lines)
 	end
     if not lines or #lines == 0 then
         return
@@ -110,18 +110,18 @@ function mt:add_obj(obj)
     end
 end
 
-function mt:add_data(name, data, lines)
+function mt:add_data(key, data, lines)
     if #data == 0 then
         return
     end
-	if name:match '[^%w%_]' then
-		name = ('%q'):format(name)
+	if key:match '[^%w%_]' then
+		key = ('%q'):format(key)
 	end
     lines[#lines+1] = {'-- %s', self:get_comment(data._id)}
 	local max_level = get_len(data)
 	local values = {}
 	if max_level <= 1 then
-		lines[#lines+1] = {'%s = %s', name, self:format_value(data[1])}
+		lines[#lines+1] = {'%s = %s', key, self:format_value(data[1])}
 		return
 	end
 
@@ -138,25 +138,25 @@ function mt:add_data(name, data, lines)
 	end
 
 	if is_string or max_level >= 10 then
-		lines[#lines+1] = {'%s = {\r\n%s,\r\n}', name, table_concat(values, ',\r\n')}
+		lines[#lines+1] = {'%s = {\r\n%s,\r\n}', key, table_concat(values, ',\r\n')}
 		return
 	end
 	
-	lines[#lines+1] = {'%s = {%s}', name, table_concat(values, ', ')}
+	lines[#lines+1] = {'%s = {%s}', key, table_concat(values, ', ')}
 end
 
-function mt:get_name(data)
+function mt:get_key(data)
 	local id = data._id
 	local meta  = self.meta[id]
-	local name  = meta.field
+	local key  = meta.field
 	local num   = meta.data
 	if num and num ~= 0 then
-		name = name .. string_char(('A'):byte() + num - 1)
+		key = key .. string_char(('A'):byte() + num - 1)
 	end
 	if meta._has_index then
-		name = name .. ':' .. (meta.index + 1)
+		key = key .. ':' .. (meta.index + 1)
 	end
-	return name
+	return key
 end
 
 function mt:get_comment(id)
