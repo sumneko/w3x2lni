@@ -8,11 +8,6 @@ function mt:set_dir(name, dir)
 	self.dir[name] = dir
 end
 
-mt.metadata = {}
-function mt:set_metadata(name, metadata)
-	self.metadata[name] = metadata
-end
-
 function mt:read_config()
 	self.config = lni:loader(io.load(self.dir['root'] / 'config.ini'), 'config')
     self.info   = lni:loader(io.load(self.dir['root'] / 'script' / 'info.ini'), 'info')
