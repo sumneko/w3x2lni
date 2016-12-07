@@ -38,7 +38,7 @@ local function main()
 	-- 加载脚本
 	local convertors = {
 		'read_wts',
-		'to_lni', 'lni2obj',
+		'to_lni', 'lni2obj', 'to_lni_old',
 		'w3i2lni', 'lni2w3i',
 		'read_obj',
 		'read_w3i',
