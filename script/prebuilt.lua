@@ -42,7 +42,7 @@ local function add_table(t1, t2)
 end
 
 local function main()
-	w2l:init(arg[1])
+	w2l:init()
 
 	-- 生成key_type
 	local keydata = w2l:read_txt(io.load(meta_dir / 'ui' / 'uniteditordata.txt'))

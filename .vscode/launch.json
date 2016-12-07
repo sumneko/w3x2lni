@@ -10,11 +10,11 @@
             "cwd": "${workspaceRoot}/bin",
             "path": "",
             "cpath": "${workspaceRoot}/bin/?.dll;",
+            "arg0": "${workspaceRoot}/w3x2lni.exe",
             "arg": [
-               "${workspaceRoot}/NicoPoiDuang_4.0.w3x",
-               "${workspaceRoot}"
+                "${workspaceRoot}/NicoPoiDuang_4.0.w3x"
             ],
-            "console" : "ansi"
+            "console": "ansi"
         },
         {
             "name": "解包地图",
@@ -25,11 +25,11 @@
             "cwd": "${workspaceRoot}/bin",
             "path": "",
             "cpath": "${workspaceRoot}/bin/?.dll;",
+            "arg0": "${workspaceRoot}/w3x2lni.exe",
             "arg": [
-               "${workspaceRoot}/1_All_Star_Battle_3.1d_editor.w3x",
-               "${workspaceRoot}"
+                "${workspaceRoot}/1_All_Star_Battle_3.1d_editor.w3x"
             ],
-            "console" : "ansi"
+            "console": "ansi"
         },
         {
             "name": "预生成",
@@ -41,10 +41,10 @@
             "path": "",
             "cpath": "${workspaceRoot}/bin/?.dll;",
             "luadll": "${workspaceRoot}/bin/luacore.dll",
+            "arg0": "${workspaceRoot}/w3x2lni.exe",
             "arg": [
-               "${workspaceRoot}"
             ],
-            "console" : "ansi"
+            "console": "ansi"
         }
     ]
 }

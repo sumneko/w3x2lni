@@ -1,4 +1,5 @@
 local lni = require 'lni'
+local uni = require 'ffi.unicode'
 
 local mt = {}
 
@@ -21,12 +22,8 @@ function mt:read_config()
 	end
 end
 
-function mt:init(rootpath)
-	if rootpath then
-		rootpath = fs.path(rootpath)
-	else
-		rootpath = fs.get(fs.DIR_EXE):remove_filename()
-	end
+function mt:init()
+	rootpath = fs.path(uni.a2u(arg[0])):remove_filename()
 	self:set_dir('root', rootpath)
 	self:set_dir('meta', rootpath / 'script' / 'meta')
 	self:set_dir('key', rootpath / 'script' / 'key')
