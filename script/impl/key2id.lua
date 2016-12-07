@@ -4,37 +4,19 @@ local table_sort = table.sort
 
 local mt = {}
 
-local function isignore(id1, id2)
-    -- 闪电之球技能有2个DataA
-    if id1 == 'Idam' and id2 == 'Idic' then
-        return true
-    end
-    return false
-end
-
-local function hasname(skl, template, private, name, id)
-    local data = template[skl]
-    if not data then
-        return false
-    end
-    local code = data['code']
-    if code == skl then
-        return false
-    end
-    if private[code] and private[code][name] and private[code][name] ~= id then
-        return true
-    end
-    return hasname(code, template, private, name, id)
-end
-
-function mt:addtable(tbl, name, id)
-    if tbl[name] then
-        if not isignore(id, tbl[name]) then
-            message('错误:', 'id重复', id, tbl[name], name, skl)
+function mt:canadd(skl, id)
+    if skl == 'AIlb' or skl == 'AIpb' then
+        -- AIlb与AIpb有2个DataA,进行特殊处理
+        if id == 'Idam' then
+            return false
         end
-        return
+    elseif skl == 'AIls' then
+    -- AIls有2个DataA,进行特殊处理
+        if id == 'Idps' then
+            return false
+        end
     end
-    tbl[name] = id
+    return true
 end
 
 function mt:isenable(meta)
@@ -70,13 +52,15 @@ function mt:add_data(id, meta, public, private)
         name = name .. ':' .. (meta['index'] + 1)
     end
     if not skill then
-        self:addtable(public, name, id)
+        public[name] = id
     else
         for skl in skill:gmatch '%w+' do
-            if not private[skl] then
-                private[skl] = {}
+            if self:canadd(skl, id) then
+                if not private[skl] then
+                    private[skl] = {}
+                end
+                private[skl][name] = id
             end
-            self:addtable(private[skl], name, id)
         end
     end
 end
@@ -136,18 +120,6 @@ local function copy_code(private, template)
 
     -- AOac进行特殊处理
     private['AOac'] = private['ACac']
-
-    for skill, data in pairs(private) do
-        for name, id in pairs(data) do
-            if hasname(skill, template, private, name, id) then
-                message('发现冲突的id', skill, name, id)
-                data[name] = nil
-            end
-        end
-        if not next(data) then
-            private[skill] = nil
-        end
-    end
 end
 
 local function read_list(self, metadata, template, extension)
@@ -159,7 +131,9 @@ local function read_list(self, metadata, template, extension)
     local private = {}
 
     for id, meta in pairs(metadata) do
-        tbl:add_data(id, meta, public, private)
+        if type(meta) == 'table' then
+            tbl:add_data(id, meta, public, private)
+        end
     end
     if extension == '.w3a' then
         copy_code(private, template)
