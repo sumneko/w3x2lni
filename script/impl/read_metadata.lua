@@ -29,7 +29,7 @@ local function read_metadata(w2l, file_name)
 			has_level = true
 		end
 	end
-	tbl._has_level = true
+	tbl._has_level = has_level
 	return tbl
 end
 
