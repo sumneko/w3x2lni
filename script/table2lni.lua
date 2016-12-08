@@ -12,14 +12,20 @@ local function format_value(value)
 end
 
 local function add_data(lines, key, data)
+    local indexs = {}
+    for index in pairs(data) do
+        local index = tostring(index)
+        if index:sub(1, 1) ~= '_' then
+            indexs[#indexs+1] = index
+        end
+    end
+    if #indexs == 0 then
+        return
+    end
     if key:find '[^%w_]' then
         lines[#lines+1] = ('[.%q]'):format(key)
     else
         lines[#lines+1] = ('[.%s]'):format(key)
-    end
-    local indexs = {}
-    for index in pairs(data) do
-        indexs[#indexs+1] = tostring(index)
     end
     table.sort(indexs)
     for _, index in ipairs(indexs) do
