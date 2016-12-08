@@ -252,7 +252,6 @@ function mt:to_lni()
 		self.wts = w2l:read_wts(self.files['war3map.wts']('war3map.wts'))
 	end
 
-    local delete = {}
     local count = 0
     for file_name, meta in pairs(w2l.info['metadata']) do
         count = count + 1
@@ -264,7 +263,7 @@ function mt:to_lni()
             data = self:on_lni(file_name, data)
         end
         
-        local content = w2l:to_lni_old(file_name, data, io.load)
+        local content = w2l:to_lni(file_name, data, io.load)
         if self.wts then
             content = self.wts:load(content)
         end
@@ -331,10 +330,10 @@ function mt:load_obj(file_name, target_progress)
         progress(1)
     end
 
-    w2l:add_template(result, metadata, key_data, temp_data)
+    --w2l:add_template(file_name, data, io.load)
     w2l:post_process(file_name, data, io.load)
 
-    return result
+    return data
 end
 
 function mt:save_dir(output_dir)
