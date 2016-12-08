@@ -83,6 +83,9 @@ local function add_key(obj, meta, key, id)
             end
         end
     end
+    for i = max_level+1, #obj[key] do
+        obj[key][i] = nil
+    end
 end
 
 local function add_default(obj, meta, key_data)
