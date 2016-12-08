@@ -320,7 +320,7 @@ function mt:load_obj(file_name, target_progress)
             return io.load(w2l.dir['meta'] / name)
         end)
     else
-        data = lni:loader(io.load(w2l.dir['template'] / (file_name .. '.ini')), file_name)
+        data = {}
     end
 
     if self.files[file_name] then
