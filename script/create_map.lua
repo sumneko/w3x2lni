@@ -69,7 +69,7 @@ function mt:get_listfile()
     local dirs = {}
     local listfile = {}
 	local pack_ignore = {}
-	for _, name in ipairs(self.info['pack']['packignore']) do
+	for _, name in ipairs(w2l.info['pack']['packignore']) do
 		pack_ignore[name:lower()] = true
 	end
     
@@ -109,7 +109,7 @@ function mt:get_listfile()
 end
 
 function mt:to_w3x(name, file)
-	if name:sub(-4) == '.ini' and self.info['metadata'][name:sub(1, -5)] then
+	if name:sub(-4) == '.ini' and w2l.info['metadata'][name:sub(1, -5)] then
 		message('正在转换:', name)
 		local data = lni:loader(file, name)
 		local new_name = name:sub(1, -5)
@@ -119,9 +119,9 @@ function mt:to_w3x(name, file)
         if self.wts then
             self.wts:save(data)
         end
-		local key = lni:loader(io.load(self.dir['key'] / name), name)
-		local metadata = w2l:read_metadata(self.dir['meta'] / self.info['metadata'][new_name])
-		local template = lni:loader(io.load(self.dir['template'] / name), new_name)
+		local key = lni:loader(io.load(w2l.dir['key'] / name), name)
+		local metadata = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][new_name])
+		local template = lni:loader(io.load(w2l.dir['template'] / name), new_name)
 		local content = w2l:lni2obj(data, metadata, key, template)
 		return new_name, content
 	elseif name == 'war3map.w3i.ini' then
@@ -188,7 +188,7 @@ end
 
 function mt:import_imp(map, listfile)
 	local imp_ignore = {}
-	for _, name in ipairs(self.info['pack']['impignore']) do
+	for _, name in ipairs(w2l.info['pack']['impignore']) do
 		imp_ignore[name:lower()] = true
 	end
 
@@ -268,7 +268,7 @@ function mt:to_lni()
 
     local delete = {}
     local count = 0
-    for file_name, meta in pairs(self.info['metadata']) do
+    for file_name, meta in pairs(w2l.info['metadata']) do
         count = count + 1
         local target_progress = 22 + count * 9
         progress:target(target_progress)
@@ -300,13 +300,13 @@ end
 function mt:load_data()
     local delete = {}
     local count = 0
-    for file_name, meta in pairs(self.info['metadata']) do
+    for file_name, meta in pairs(w2l.info['metadata']) do
         count = count + 1
         local target_progress = 5 + count * 2
         self.objs[file_name] = {}
 
-        local metadata = w2l:read_metadata(self.dir['meta'] / self.info['metadata'][file_name])
-        local key_data = lni:loader(io.load(self.dir['key'] / (file_name .. '.ini')), file_name)
+        local metadata = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name])
+        local key_data = lni:loader(io.load(w2l.dir['key'] / (file_name .. '.ini')), file_name)
 
         if self.files[file_name] then
             progress:target(target_progress - 1)
@@ -316,14 +316,14 @@ function mt:load_data()
             progress(1)
         end
 
-        if self.config['unpack']['read_slk'] then
+        if w2l.config['unpack']['read_slk'] then
             progress:target(target_progress)
             local slk = self:load_slk(file_name, delete)
             add_table(self.objs[file_name], slk)
             progress(1)
         end
 
-        local temp_data = lni:loader(io.load(self.dir['template'] / (file_name .. '.ini')), file_name)
+        local temp_data = lni:loader(io.load(w2l.dir['template'] / (file_name .. '.ini')), file_name)
         w2l:add_template(self.objs[file_name], metadata, key_data, temp_data)
     end
 
@@ -384,12 +384,12 @@ function mt:load_mpq(map_path)
 	for name in pairs(map) do
 		add_file(name)
 	end
-	for name in pairs(self.info['metadata']) do
+	for name in pairs(w2l.info['metadata']) do
         add_file(name)
-        for _, name in ipairs(self.info['template']['slk'][name]) do
+        for _, name in ipairs(w2l.info['template']['slk'][name]) do
             add_file(name)
         end
-        for _, name in ipairs(self.info['template']['txt'][name]) do
+        for _, name in ipairs(w2l.info['template']['txt'][name]) do
             add_file(name)
         end
     end
@@ -449,10 +449,6 @@ end
 
 return function ()
     local self = setmetatable({}, mt)
-    self.config = w2l.config
-    self.info = w2l.info
-    self.dir = w2l.dir
-    w2l = w2l
     self.inputs = {}
     self.files = {}
     self.objs = {}
