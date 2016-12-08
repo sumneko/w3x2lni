@@ -35,7 +35,7 @@ local function add_obj(lines, name, obj)
     table.sort(keys)
     for _, key in ipairs(keys) do
         if key:sub(1, 1) == '_' then
-            lines[#lines+1] = ('%s = %s'):format(key, format_value(obj[key]))
+            lines[#lines+1] = ('%s=%s'):format(key, format_value(obj[key]))
         else
             add_data(lines, key, obj[key])
         end
