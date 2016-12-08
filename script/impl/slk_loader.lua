@@ -68,7 +68,9 @@ end
 
 function mt:read_slk(lni, slk)
     for name, data in pairs(slk) do
-        lni[name] = self:read_slk_obj(lni[name], name, data)
+        if name ~= '' then
+            lni[name] = self:read_slk_obj(lni[name], name, data)
+        end
     end
 end
 
