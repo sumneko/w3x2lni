@@ -16,7 +16,15 @@ local function load_order(skill_data)
             end
             order = new_order
         elseif skill.YDWEtip then
-            order = skill.YDWEtip:match '^命令ID是(.)+$'
+            local order = skill.YDWEtip
+            if type(order) ~= 'table' then
+                order = {order}
+            end
+            local new_order
+            for _, str in ipairs(order) do
+                new_order = str:match '^命令ID是(.)+$' or new_order
+            end
+            order = new_order
         end
         if order then
             if data[code] and data[code] ~= order then
