@@ -17,6 +17,9 @@ end
 local function count_max_level(data, meta, max_level)
     local id = data._id
     local meta = meta[id]
+    if not id then
+        return
+    end
     local rep = meta['repeat']
     if rep == nil or rep == 0 then
         return

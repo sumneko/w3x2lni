@@ -69,8 +69,10 @@ function mt:add_obj(obj)
     for key, data in pairs(obj) do
 		if key:sub(1, 1) ~= '_' then
 			local key = self:get_key(data)
-            keys[#keys+1] = key
-			upper_obj[key] = data
+			if key then
+				keys[#keys+1] = key
+				upper_obj[key] = data
+			end
 		end
 	end
     table_sort(keys)
@@ -131,6 +133,9 @@ end
 function mt:get_key(data)
 	local id = data._id
 	local meta  = self.meta[id]
+	if not meta then
+		return
+	end
 	local key  = meta.field
 	local num   = meta.data
 	if num and num ~= 0 then
