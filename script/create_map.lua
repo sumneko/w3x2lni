@@ -304,6 +304,7 @@ function mt:load_data()
         self.objs[file_name] = self:load_obj(file_name, target_progress)
     end
 
+    -- 删掉输入的二进制物编和slk,因为他们已经转化成lua数据了
     for file_name in pairs(w2l.info['metadata']) do
         self.files[file_name] = nil
     end
@@ -328,7 +329,7 @@ function mt:load_obj(file_name, target_progress)
     if self.files[file_name] then
         progress:target(target_progress - 1)
         message('正在转换', file_name)
-        add_table(result, w2l:read_obj(self.files[file_name](file_name), metadata))
+        add_table(result, w2l:read_obj(file_name, self.files[file_name](file_name)))
         progress(1)
     end
 

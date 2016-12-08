@@ -1,10 +1,6 @@
 local key_type = require 'key_type'
 
-local table_remove = table.remove
-local table_unpack = table.unpack
-local table_insert = table.insert
 local math_tointeger = math.tointeger
-local setmetatable = setmetatable
 local select = select
 
 local mt = {}
@@ -109,15 +105,15 @@ function mt:read_data()
 	return name, value, level
 end
 
-return function (self, content, meta)
+return function (w2l, file_name, content)
 	local index   = 1
 	local data    = {}
 	local tbl     = setmetatable({}, mt)
 	
 	tbl.content   = content
-	tbl.has_level = meta._has_level
 	tbl.index     = index
-	tbl.meta      = meta
+	tbl.meta      = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name])
+	tbl.has_level = tbl.meta._has_level
 
 	-- 版本号
 	tbl:read_version()
