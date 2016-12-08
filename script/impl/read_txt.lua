@@ -2,16 +2,6 @@ local tonumber = tonumber
 
 local current_chunk
 
-local function convert(str)
-    local s = str:sub(1, 6)
-    if s == '\x22\xAD\xA6\xE4\xB9\xA0' then
-        str = '\xE5' .. str:sub(2)
-    elseif s == '\x22\xAE\xA9\xE7\x9B\xAE' then
-        str = '\xE8' .. str:sub(2)
-    end
-    return str
-end
-
 local function parse(txt, line)
     if #line == 0 then
         return
@@ -33,7 +23,7 @@ local function parse(txt, line)
     line = line:gsub('%c+', '')
     local key, value = line:match '^(.*)%=(.*)$'
     if key and value then
-        txt[current_chunk][key] = convert(value)
+        txt[current_chunk][key] = value
         return
     end
 end
