@@ -312,13 +312,12 @@ function mt:load_obj(file_name, target_progress)
     local data
 
     if w2l.config['unpack']['read_slk'] then
-        data = w2l:slk_loader(file_name, function(path)
-            local name = path:string()
+        data = w2l:slk_loader(file_name, io.load, function(name)
             message('正在转换', name)
             if self.files[name] then
                 return self.files[name](name)
             end
-            return io.load(path)
+            return io.load(w2l.dir['meta'] / name)
         end)
     else
         data = lni:loader(io.load(w2l.dir['template'] / (file_name .. '.ini')), file_name)

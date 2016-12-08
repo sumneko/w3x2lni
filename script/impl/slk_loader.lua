@@ -202,7 +202,7 @@ function mt:save()
     return data
 end
 
-return function (w2l, file_name, loader)
+return function (w2l, file_name, loader, slk_loader)
     local self = setmetatable({}, mt)
 
     self.slk = {}
@@ -210,12 +210,12 @@ return function (w2l, file_name, loader)
 
     local slk = w2l.info['template']['slk'][file_name]
     for i = 1, #slk do
-        self:add_slk(w2l:read_slk(loader(w2l.dir['meta'] / slk[i])))
+        self:add_slk(w2l:read_slk(slk_loader(slk[i])))
     end
 
     local txt = w2l.info['template']['txt'][file_name]
     for i = 1, #txt do
-        self:add_txt(w2l:read_txt(loader(w2l.dir['meta'] / txt[i])))
+        self:add_txt(w2l:read_txt(slk_loader(txt[i])))
     end
 
     self.meta = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name], loader)
