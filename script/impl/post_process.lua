@@ -48,9 +48,9 @@ end
 
 local function get_title(meta)
     local titles = {}
-    for _, data in pairs(meta) do
+    for id, data in pairs(meta) do
         if type(data) == 'table' and data.slk ~= 'Profile' then
-            titles[data.ID] = data
+            titles[id] = data
         end
     end
     return titles
