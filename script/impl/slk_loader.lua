@@ -8,45 +8,6 @@ local tonumber = tonumber
 local pairs = pairs
 local ipairs = ipairs
 
--- 规则如下
--- 1.如果第一个字符是逗号,则添加一个空串
--- 2.如果最后一个字符是逗号,则添加一个空标记
--- 3.如果最后一个字符是引号,则忽略该字符
--- 4.如果当前字符为引号,则匹配到下一个引号,并忽略2端的字符
--- 5.如果当前字符为逗号,则忽略该字符.如果上一个字符是逗号,则添加一个空串
--- 6.否则匹配到下一个逗号,并忽略该字符
-local function splite(str)
-    local tbl = {}
-    local cur = 1
-    if str:sub(1, 1) == ',' then
-        tbl[#tbl+1] = ''
-    end
-    while cur <= #str do
-        if str:sub(cur, cur) == '"' then
-            if cur == #str then
-                break
-            end
-            local pos = str:find('"', cur+1, true) or (#str+1)
-            tbl[#tbl+1] = str:sub(cur+1, pos-1)
-            cur = pos+1
-        elseif str:sub(cur, cur) == ',' then
-            if str:sub(cur-1, cur-1) == ',' then
-                tbl[#tbl+1] = ''
-            end
-            cur = cur+1
-        else
-            local pos = str:find(',', cur+1, true) or (#str+1)
-            tbl[#tbl+1] = str:sub(cur, pos-1)
-            cur = pos+1
-        end
-    end
-    if str:sub(-1, -1) == ',' then
-        tbl[#tbl+1] = false
-    end
-    return tbl
-end
-
-
 local mt = {}
 mt.__index = mt
 
@@ -131,22 +92,21 @@ end
 function mt:read_txt_data(name, obj, key, value, txt)
     local data = {}
     local id = self:key2id(name, obj.code, key)
-    local tbl = splite(value)
 
     if id == nil then
         if txt == nil then
             return
         end
-        for i = 1, #tbl do
+        for i = 1, #value do
             local new_key = key .. ':' .. i
-            self:read_txt_data(name, obj, new_key, tbl[i])
+            self:read_txt_data(name, obj, new_key, {value[i]})
         end
         return
     end
     
     local meta = self.meta[id]
     if meta['appendIndex'] == 1 and txt then
-        local max_level = txt[key..'count'] or 1
+        local max_level = txt[key..'count'] and txt[key..'count'][1] or 1
         for i = 1, max_level do
             local new_key
             if i == 1 then
@@ -158,8 +118,8 @@ function mt:read_txt_data(name, obj, key, value, txt)
         end
     end
 
-    for i = 1, #tbl do
-        self:add_data(obj, key, id, tbl[i])
+    for i = 1, #value do
+        self:add_data(obj, key, id, value[i])
     end
 end
 
