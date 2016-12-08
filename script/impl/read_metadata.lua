@@ -2,12 +2,12 @@ local pairs = pairs
 
 local metadatas = {}
 
-local function read_metadata(w2l, file_path)
+local function read_metadata(w2l, file_path, loader)
 	local file_name = file_path:string()
 	if metadatas[file_name] then
 		return metadatas[file_name]
 	end
-	local tbl = w2l:read_slk(io.load(file_path))
+	local tbl = w2l:read_slk(loader(file_path))
 	metadatas[file_name] = tbl
 
 	local has_index = {}

@@ -120,7 +120,7 @@ function mt:to_w3x(name, file)
             self.wts:save(data)
         end
 		local key = lni:loader(io.load(w2l.dir['key'] / name), name)
-		local metadata = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][new_name])
+		local metadata = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][new_name], io.load)
 		local template = lni:loader(io.load(w2l.dir['template'] / name), new_name)
 		local content = w2l:lni2obj(data, metadata, key, template)
 		return new_name, content
@@ -245,19 +245,6 @@ function mt:save_map(map_path)
     return true
 end
 
-function mt:load_slk(file_name)
-    local slk = w2l:slk_loader(file_name, function(path)
-        local name = path:string()
-        message('正在转换', name)
-        if self.files[name] then
-            return self.files[name](name)
-        end
-        return io.load(path)
-    end)
-
-    return slk
-end
-
 function mt:to_lni()	
 	--读取字符串
     progress:target(21)
@@ -265,7 +252,6 @@ function mt:to_lni()
 		self.wts = w2l:read_wts(self.files['war3map.wts']('war3map.wts'))
 	end
 
-    local delete = {}
     local count = 0
     for file_name, meta in pairs(w2l.info['metadata']) do
         count = count + 1
@@ -277,7 +263,7 @@ function mt:to_lni()
             data = self:on_lni(file_name, data)
         end
         
-        local content = w2l:to_lni_old(file_name, data, io.load)
+        local content = w2l:to_lni(file_name, data, io.load)
         if self.wts then
             content = self.wts:load(content)
         end
@@ -320,29 +306,33 @@ function mt:load_data()
 end
 
 function mt:load_obj(file_name, target_progress)
-    local metadata = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name])
+    local metadata = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name], io.load)
     local key_data = lni:loader(io.load(w2l.dir['key'] / (file_name .. '.ini')), file_name)
-    local temp_data = lni:loader(io.load(w2l.dir['template'] / (file_name .. '.ini')), file_name)
 
-    local result = {}
-
-    if self.files[file_name] then
-        progress:target(target_progress - 1)
-        message('正在转换', file_name)
-        add_table(result, w2l:read_obj(file_name, self.files[file_name](file_name)))
-        progress(1)
-    end
+    local data
 
     if w2l.config['unpack']['read_slk'] then
-        progress:target(target_progress)
-        local slk = self:load_slk(file_name)
-        add_table(result, slk)
+        data = w2l:slk_loader(file_name, io.load, function(name)
+            message('正在转换', name)
+            if self.files[name] then
+                return self.files[name](name)
+            end
+            return io.load(w2l.dir['meta'] / name)
+        end)
+    else
+        data = lni:loader(io.load(w2l.dir['template'] / (file_name .. '.ini')), file_name)
+    end
+
+    if self.files[file_name] then
+        message('正在转换', file_name)
+        add_table(data, w2l:read_obj(file_name, self.files[file_name]))
         progress(1)
     end
 
-    w2l:add_template(result, metadata, key_data, temp_data)
+    --w2l:add_template(file_name, data, io.load)
+    w2l:post_process(file_name, data, io.load)
 
-    return result
+    return data
 end
 
 function mt:save_dir(output_dir)

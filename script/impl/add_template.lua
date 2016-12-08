@@ -1,3 +1,4 @@
+local lni = require 'lni'
 local key_type = require 'key_type'
 local progress = require 'progress'
 
@@ -36,7 +37,15 @@ local function add_table(tbl1, tbl2)
     end
 end
 
-function mt:add_obj(user_id, obj)
+function mt:parse_chunk(chunk)
+    for name, obj in pairs(chunk) do
+        if name:sub(1, 1) ~= '_' then
+            tbl:parse_obj(name, obj)
+        end
+    end
+end
+
+function mt:parse_obj(name, obj)
     local origin_id
     local count, sames, names, datas
     local user_id = obj['_user_id']
@@ -340,23 +349,10 @@ function mt:format_name(name)
 	return name
 end
 
-return function (self, data, meta, key, template)
+return function (w3l, file_name, data, loader)
     local tbl = setmetatable({}, mt)
-    tbl.self = self
-    tbl.meta = meta
-    tbl.template = template
-    tbl.config = self.config
-    tbl.key = key
+    tbl.meta = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name], loader)
+    tbl.key = lni:loader(io.load(w2l.dir['key'] / (file_name .. '.ini')), file_name)
 
-    for name, obj in pairs(data) do
-        if name:sub(1, 1) ~= '_' then
-            if obj['_slk'] and not obj['_enable'] then
-                data[name] = nil
-            else
-                data[name] = tbl:add_obj(name, obj)
-            end
-        end
-    end
-
-    return data
+    tbl:parse_chunk(data)
 end

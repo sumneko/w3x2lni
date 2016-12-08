@@ -22,62 +22,47 @@ end
 function mt:read_chunk(chunk)
 	local count = self:unpack 'l'
 	for i = 1, count do
-		local name, obj = self:read_obj()
-		chunk[name] = obj
+		self:read_obj(chunk)
 	end
-	return chunk
 end
 
-function mt:read_obj()
+function mt:read_obj(chunk)
 	local obj = {}
-	obj['_origin_id'], obj['_user_id'] = self:unpack 'c4c4'
-	if obj['_user_id'] == '\0\0\0\0' then
-		obj['_user_id'] = obj['_origin_id']
-		obj['_origin_id'] = nil
+	local code, name = self:unpack 'c4c4'
+	if name == '\0\0\0\0' then
+		name = code
+		code = nil
 	else
-		obj['_true_origin'] = true
+		obj._true_origin = true
 	end
+	obj['_user_id'] = name
+	obj['_origin_id'] = code
+
 	local count = self:unpack 'l'
 	for i = 1, count do
-		local name, value, level = self:read_data()
-		if not obj[name] then
-			obj[name] = {
-				['name']      = name,
-			}
-		end
-		if level then
-			obj[name][level] = value
-		else
-			obj[name][1] = value
-		end
+		self:read_data(obj)
 	end
-	return obj['_user_id'], obj
+	chunk[name] = obj
 end
 
-local pack_format = {
-	[0] = 'l',
-	[1] = 'f',
-	[2] = 'f',
-	[3] = 'z',
-}
-
-function mt:get_key_type(key)
+function mt:get_id_type(id)
     local meta = self.meta
-    local type = meta[key]['type']
+    local type = meta[id]['type']
     local format = key_type[type] or 3
     return format
 end
 
-function mt:read_data()
+function mt:read_data(obj)
 	local data = {}
-	local name = self:unpack 'c4' :match '^[^\0]+'
+	local id = self:unpack 'c4' :match '^[^\0]+'
+	local meta = self.meta[id]
+	local key = meta.field:lower()
 	local value_type = self:unpack 'l'
-	local value_format = pack_format[value_type]
-	local level
+	local level = 1
 
-	local check_type = self:get_key_type(name)
+	local check_type = self:get_id_type(id)
 	if value_type ~= check_type and (value_type == 3 or check_type == 3) then
-		message(('数据类型错误:[%s],应该为[%s],错误的解析为了[%s]'):format(name, value_type, check_type))
+		message(('数据类型错误:[%s],应该为[%s],错误的解析为了[%s]'):format(id, value_type, check_type))
 	end
 
 	--是否包含等级信息
@@ -90,30 +75,34 @@ function mt:read_data()
 		self:unpack 'l'
 	end
 
-	local value = self:unpack(value_format)
-	if value_format == 'l' then
-		value = math_tointeger(value)
-	elseif value_format == 'f' then
-		value = tonumber(value)
+	if value_type == 0 then
+		value = self:unpack 'l'
+	elseif value_type == 1 or value_type == 2 then
+		value = self:unpack 'f'
 	else
-		value = tostring(value)
+		value = self:unpack 'z'
 	end
 	
 	-- 扔掉一个整数
 	self:unpack 'l'
-	
-	return name, value, level
+
+	if obj[key] == nil then
+		obj[key] = {
+			['_key'] = key,
+			['_id'] = id,
+		}
+	end
+	obj[key][level] = value
 end
 
-return function (w2l, file_name, content)
-	local index   = 1
-	local data    = {}
+return function (w2l, file_name, loader)
 	local tbl     = setmetatable({}, mt)
-	
-	tbl.content   = content
-	tbl.index     = index
-	tbl.meta      = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name])
+	tbl.content   = loader(file_name)
+	tbl.index     = 1
+	tbl.meta      = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name], loader)
 	tbl.has_level = tbl.meta._has_level
+
+	local data    = {}
 
 	-- 版本号
 	tbl:read_version()

@@ -47,7 +47,7 @@ local function main()
 	-- 生成key2id
     for file_name, meta in pairs(w2l.info['metadata']) do
 		message('正在生成key2id', file_name)
-		local metadata = w2l:read_metadata(meta_dir / meta)
+		local metadata = w2l:read_metadata(meta_dir / meta, io.load)
         local slk = w2l.info['template']['slk'][file_name]
         local template = {}
         for i = 1, #slk do
@@ -61,7 +61,9 @@ local function main()
 	fs.create_directories(template_dir)
 	for file_name, meta in pairs(w2l.info['metadata']) do
 		message('正在生成模板', file_name)
-		local data = w2l:slk_loader(file_name, io.load)
+		local data = w2l:slk_loader(file_name, io.load, function(name)
+			return io.load(w2l.dir['meta'] / name)
+		end)
 		w2l:post_process(file_name, data, io.load)
 		local content = w2l:to_lni(file_name, data, io.load)
 		io.save(template_dir / (file_name .. '.ini'), content)
