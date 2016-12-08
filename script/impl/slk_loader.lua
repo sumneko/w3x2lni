@@ -114,7 +114,9 @@ function mt:read_txt_data(name, obj, key, value, txt)
             else
                 new_key = key .. (i-1)
             end
-            self:read_txt_data(name, obj, key, txt[new_key])
+            if txt[new_key] then
+                self:read_txt_data(name, obj, key, txt[new_key])
+            end
         end
     end
 
