@@ -245,19 +245,6 @@ function mt:save_map(map_path)
     return true
 end
 
-function mt:load_slk(file_name)
-    local slk = w2l:slk_loader(file_name, function(path)
-        local name = path:string()
-        message('正在转换', name)
-        if self.files[name] then
-            return self.files[name](name)
-        end
-        return io.load(path)
-    end)
-
-    return slk
-end
-
 function mt:to_lni()	
 	--读取字符串
     progress:target(21)
@@ -322,24 +309,30 @@ end
 function mt:load_obj(file_name, target_progress)
     local metadata = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name], io.load)
     local key_data = lni:loader(io.load(w2l.dir['key'] / (file_name .. '.ini')), file_name)
-    local temp_data = lni:loader(io.load(w2l.dir['template'] / (file_name .. '.ini')), file_name)
 
-    local result = {}
-
-    if self.files[file_name] then
-        progress:target(target_progress - 1)
-        message('正在转换', file_name)
-        add_table(result, w2l:read_obj(file_name, self.files[file_name]))
-        progress(1)
-    end
+    local data
 
     if w2l.config['unpack']['read_slk'] then
-        progress:target(target_progress)
-        add_table(result, self:load_slk(file_name))
+        data = w2l:slk_loader(file_name, function(path)
+            local name = path:string()
+            message('正在转换', name)
+            if self.files[name] then
+                return self.files[name](name)
+            end
+            return io.load(path)
+        end)
+    else
+        data = lni:loader(io.load(w2l.dir['template'] / (file_name .. '.ini')), file_name)
+    end
+
+    if self.files[file_name] then
+        message('正在转换', file_name)
+        add_table(data, w2l:read_obj(file_name, self.files[file_name]))
         progress(1)
     end
 
     w2l:add_template(result, metadata, key_data, temp_data)
+    w2l:post_process(file_name, data, io.load)
 
     return result
 end
