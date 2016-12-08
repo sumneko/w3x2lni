@@ -65,7 +65,13 @@ local function add_key(obj, meta, key, id)
             ['_key'] = key,
         }
     end
-    for i = 1, 4 do
+    local max_level = 1
+    local meta = meta[id]
+    local rep = meta['repeat']
+    if rep and rep > 0 then
+        max_level = 4
+    end
+    for i = 1, max_level do
         if obj[key][i] == nil then
             if format == 0 then
                 obj[key][i] = 0
