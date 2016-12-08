@@ -251,7 +251,7 @@ function mt:load_slk(file_name, delete)
         message('正在转换', name)
         if self.files[name] then
             delete[name] = true
-            return self.files[name]
+            return self.files[name](name)
         end
         return io.load(path)
     end)
@@ -263,7 +263,7 @@ function mt:to_lni()
 	--读取字符串
     progress:target(21)
 	if self.files['war3map.wts'] then
-		self.wts = w2l:read_wts(self.files['war3map.wts'])
+		self.wts = w2l:read_wts(self.files['war3map.wts']('war3map.wts'))
 	end
 
     local delete = {}
@@ -283,7 +283,7 @@ function mt:to_lni()
             content = self.wts:load(content)
         end
         if content then
-            self.files[file_name .. '.ini'] = content
+            self.files[file_name .. '.ini'] = function() return content end
         end
         progress(1)
     end
@@ -292,7 +292,7 @@ function mt:to_lni()
 	if self.wts then
         progress:target(86)
 		local content = self.wts:refresh()
-		self.files['war3map.wts'] = content
+		self.files['war3map.wts'] = function() return content end
         progress(1)
 	end
 end
@@ -311,7 +311,7 @@ function mt:load_data()
         if self.files[file_name] then
             progress:target(target_progress - 1)
             message('正在转换', file_name)
-            add_table(self.objs[file_name], w2l:read_obj(self.files[file_name], metadata))
+            add_table(self.objs[file_name], w2l:read_obj(self.files[file_name](file_name), metadata))
             delete[file_name] = true
             progress(1)
         end
@@ -354,7 +354,7 @@ function mt:save_dir(output_dir)
         if not fs.exists(dir) then
             fs.create_directories(dir)
         end
-        io.save(path / name, self.files[name])
+        io.save(path / name, self.files[name](name))
         count = count + 1
 		if os.clock() - clock >= 0.1 then
             clock = os.clock()
@@ -370,14 +370,20 @@ function mt:load_mpq(map_path)
 		return false
 	end
 
-    local list = {}
-    local files = {}
-    local max_count = 0
-    local function add_file(name)
+    local function loader(name)
+        return map:load_file(name)
+    end
+
+    local function add_file(name, read)
         local name = name:lower()
-        if not list[name] then
-            list[name] = true
-            max_count = max_count + 1
+        if not map:has_file(name) then
+            return
+        end
+        if read then
+            local content = loader(name)
+            self.files[name] = function() return content end
+        else
+            self.files[name] = loader
         end
     end
 
@@ -385,32 +391,14 @@ function mt:load_mpq(map_path)
 		add_file(name)
 	end
 	for name in pairs(w2l.info['metadata']) do
-        add_file(name)
+        add_file(name, true)
         for _, name in ipairs(w2l.info['template']['slk'][name]) do
-            add_file(name)
+            add_file(name, true)
         end
         for _, name in ipairs(w2l.info['template']['txt'][name]) do
-            add_file(name)
+            add_file(name, true)
         end
     end
-
-    local clock = os.clock()
-    local count = 0
-    for name in pairs(list) do
-        local buf = map:load_file(name)
-        if buf then
-            files[name] = buf
-        end
-        count = count + 1
-        if os.clock() - clock >= 0.1 then
-            clock = os.clock()
-            progress(count / max_count)
-        end
-    end
-
-    map:close()
-
-    add_table(self.files, files)
 end
 
 function mt:load_file()
