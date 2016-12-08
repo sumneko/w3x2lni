@@ -1,6 +1,7 @@
 local key_type = require 'key_type'
 
 local math_tointeger = math.tointeger
+local string_char = string.char
 local select = select
 
 local mt = {}
@@ -52,11 +53,23 @@ function mt:get_id_type(id)
     return format
 end
 
+function mt:get_id_name(id)
+	local meta  = self.meta[id]
+	local name  = meta.field:lower()
+	local num   = meta.data
+	if num and num ~= 0 then
+		name = name .. string_char(('a'):byte() + num - 1)
+	end
+	if meta._has_index then
+		name = name .. ':' .. (meta.index + 1)
+	end
+	return name
+end
+
 function mt:read_data(obj)
 	local data = {}
 	local id = self:unpack 'c4' :match '^[^\0]+'
-	local meta = self.meta[id]
-	local key = meta.field:lower()
+	local key = self:get_id_name(id)
 	local value_type = self:unpack 'l'
 	local level = 1
 
