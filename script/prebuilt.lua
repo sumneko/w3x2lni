@@ -10,12 +10,14 @@ local lni      = require 'lni'
 local uni      = require 'ffi.unicode'
 local create_key_type = require 'create_key_type'
 local order_prebuilt = require 'order.prebuilt'
+local table2lni = require 'table2lni'
 
 local rootpath = fs.path(uni.a2u(arg[0])):remove_filename()
 local meta_dir = rootpath / 'script' / 'meta'
 local key_dir = rootpath / 'script' / 'key'
 local root_dir = rootpath / 'script'
 local template_dir = rootpath / 'template'
+local default_dir = rootpath / 'script' / 'meta' / 'lni'
 
 function message(...)
 	local tbl = {...}
@@ -58,6 +60,7 @@ local function main()
 	end
 
 	-- 生成模板lni
+	fs.create_directories(default_dir)
 	fs.create_directories(template_dir)
 	for file_name, meta in pairs(w2l.info['metadata']) do
 		message('正在生成模板', file_name)
@@ -65,8 +68,10 @@ local function main()
 			return io.load(w2l.dir['meta'] / name)
 		end)
 		w2l:post_process(file_name, data, io.load)
-		local content = w2l:to_lni(file_name, data, io.load)
-		io.save(template_dir / (file_name .. '.ini'), content)
+		io.save(default_dir / (file_name .. '.ini'), table2lni(data))
+		io.save(template_dir / (file_name .. '.ini'), w2l:to_lni(file_name, data, io.load))
+		local t = lni:loader(io.load(default_dir / (file_name .. '.ini')))
+		print(t)
 	end
 
 	-- 生成技能命令映射
