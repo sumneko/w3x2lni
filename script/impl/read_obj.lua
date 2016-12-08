@@ -105,15 +105,14 @@ function mt:read_data()
 	return name, value, level
 end
 
-return function (w2l, file_name, content)
-	local index   = 1
-	local data    = {}
+return function (w2l, file_name, loader)
 	local tbl     = setmetatable({}, mt)
-	
-	tbl.content   = content
-	tbl.index     = index
-	tbl.meta      = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name])
+	tbl.content   = loader(file_name)
+	tbl.index     = 1
+	tbl.meta      = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name], loader)
 	tbl.has_level = tbl.meta._has_level
+
+	local data    = {}
 
 	-- 版本号
 	tbl:read_version()

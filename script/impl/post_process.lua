@@ -89,7 +89,7 @@ local function add_default(obj, meta, key_data)
 end
 
 return function (w2l, file_name, data, loader)
-    local meta = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name])
+    local meta = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name], loader)
     local level_key = w2l.info['key']['max_level'][file_name]
     local key_data = lni:loader(loader(w2l.dir['key'] / (file_name .. '.ini')))
 
