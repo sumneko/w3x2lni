@@ -64,13 +64,15 @@ function mt:read_slk_data(name, obj, key, id, lower_data)
     local rep = meta['repeat']
     if rep and rep > 0 then
         for i = 1, 4 do
-            if lower_data[key..i] then
-                self:add_data(obj, key, id, lower_data[key..i], i)
+            local value = lower_data[key..i]
+            if value then
+                self:add_data(obj, key, id, value, i)
             end
         end
     else
-        if lower_data[key] then
-            self:add_data(obj, key, id, lower_data[key], 1)
+        local value = lower_data[key]
+        if value then
+            self:add_data(obj, key, id, value, 1)
         end
     end
 end
@@ -204,22 +206,37 @@ function mt:add_data(obj, key, id, value, level)
     end
 end
 
+local math_floor = math.floor
 function mt:to_type(id, value)
     local tp = self:get_id_type(id)
     if tp == 0 then
-        value = math.floor(tonumber(value) or 0)
+        if not value then
+            return 0
+        end
+        value = tonumber(value)
+        if not value then
+            return 0
+        end
+        return math_floor(value)
     elseif tp == 1 or tp == 2 then
-        value = (tonumber(value) or 0.0) + 0.0
+        if not value then
+            return 0.0
+        end
+        value = tonumber(value)
+        if not value then
+            return 0.0
+        end
+        return value + 0.0
     elseif tp == 3 then
-        if value == nil then
+        if not value then
             return nil
         end
         value = tostring(value)
         if value:match '^%s*[%-%_]%s*$' then
             return nil
         end
+        return value
     end
-    return value
 end
 
 function mt:save()
@@ -259,6 +276,10 @@ return function (w2l, file_name, loader, slk_loader)
     function self:get_id_type(id)
         return w2l:get_id_type(id, self.meta)
     end
-
-    return self:save()
+    local clock = os.clock()
+    local result = self:save()
+    print(file_name, os.clock() - clock)
+    function message()
+    end
+    return result
 end
