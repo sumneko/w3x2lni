@@ -42,25 +42,27 @@ function mt:read_slk_obj(obj, name, data)
         lower_data[key:lower()] = value
     end
 
-    for key, value in pairs(lower_data) do
-        self:read_slk_data(name, obj, key, value)
+    for key, id in pairs(self.key['public']) do
+        self:read_slk_data(name, obj, key, id, lower_data)
     end
 
     return obj
 end
 
-function mt:read_slk_data(name, obj, key, value)
-    local level = tonumber(key:sub(-1))
-    if level then
-        key = key:sub(1, -2)
+function mt:read_slk_data(name, obj, key, id, lower_data)
+    local meta = self.meta[id]
+    if meta['slk'] == 'Profile' then
+        return
     end
-    local id = self:key2id(name, obj.code, key)
-    if not id then
-        return nil
+    
+    local rep = meta['repeat']
+    if rep and rep > 0 then
+        for i = 1, 4 do
+            self:add_data(obj, key, id, lower_data[key..i], i)
+        end
+    else
+        self:add_data(obj, key, id, lower_data[key])
     end
-
-    self:add_data(obj, key, id, value, level)
-    return true
 end
 
 function mt:read_txt(lni, txt)
@@ -81,28 +83,30 @@ function mt:read_txt_obj(obj, name, data)
         lower_data[key:lower()] = value
     end
 
-    for key, value in pairs(lower_data) do
-        self:read_txt_data(name, obj, key, value, lower_data)
+    for key, id in pairs(self.key['public']) do
+        self:read_txt_data(name, obj, key, id, lower_data)
     end
 end
 
-function mt:read_txt_data(name, obj, key, value, txt)
-    local data = {}
-    local id = self:key2id(name, obj.code, key)
+function mt:read_txt_data(name, obj, key, id, txt)
+    local meta = self.meta[id]
+    if meta['slk'] ~= 'Profile' then
+        return
+    end
 
-    if id == nil then
-        if txt == nil then
+    if meta['index'] == 1 then
+        local key = key:sub(1, -3)
+        local value = txt[key]
+        if not value then
             return
         end
         for i = 1, #value do
-            local new_key = key .. ':' .. i
-            self:read_txt_data(name, obj, new_key, {value[i]})
+            self:add_data(obj, key..':'..i, id, value[i][1])
         end
         return
     end
-    
-    local meta = self.meta[id]
-    if meta['appendIndex'] == 1 and txt then
+
+    if meta['appendIndex'] == 1 then
         local max_level = txt[key..'count'] and txt[key..'count'][1] or 1
         for i = 1, max_level do
             local new_key
@@ -112,13 +116,18 @@ function mt:read_txt_data(name, obj, key, value, txt)
                 new_key = key .. (i-1)
             end
             if txt[new_key] then
-                self:read_txt_data(name, obj, key, txt[new_key])
+                self:add_data(obj, key, id, txt[new_key][1])
             end
         end
+        return
     end
 
+    local value = txt[key]
+    if not value then
+        return
+    end
     for i = 1, #value do
-        self:add_data(obj, key, id, value[i])
+        self:add_data(obj, key, id, value[i], i)
     end
 end
 
@@ -126,14 +135,15 @@ function mt:add_data(obj, key, id, value, level)
     if obj[key] == nil then
         obj[key] = {}
     end
+
+    value = self:to_type(id, value)
     
     local meta = self.meta[id]
     if meta.index == -1 and (not meta['repeat'] or meta['repeat'] == 0) then
-        level = 1
-        if obj[key][level] then
-            obj[key][level] = obj[key][level] .. ',' .. value
+        if obj[key][1] then
+            obj[key][1] = obj[key][1] .. ',' .. value
         else
-            obj[key][level] = value
+            obj[key][1] = value
         end
     else
         if level == nil then
@@ -151,28 +161,14 @@ function mt:to_type(id, value)
         value = (tonumber(value) or 0.0) + 0.0
     elseif tp == 3 then
         if value == nil then
-            return nil
+            return ''
         end
         value = tostring(value)
         if value:match '^%s*[%-%_]%s*$' then
-            return nil
+            return ''
         end
     end
     return value
-end
-
-function mt:set_default_value(lni)
-    for name, obj in pairs(lni) do
-        for key, data in pairs(obj) do
-            if key:sub(1, 1) ~= '_' then
-                for i, value in pairs(data) do
-                    if type(i) == 'number' then
-                        data[i] = self:to_type(self:key2id(name, obj._origin_id, key), value)
-                    end
-                end
-            end
-        end
-    end
 end
 
 function mt:save()
@@ -185,8 +181,6 @@ function mt:save()
     for _, txt in ipairs(self.txt) do
         self:read_txt(data, txt)
     end
-
-    self:set_default_value(data)
 
     return data
 end

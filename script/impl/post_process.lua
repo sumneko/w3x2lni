@@ -81,28 +81,25 @@ local function add_default(obj, meta, key_data, get_id_type)
 end
 
 return function (w2l, file_name, data, loader)
-    local meta = w2l:read_metadata(file_name)
     local level_key = w2l.info['key']['max_level'][file_name]
+    if not level_key then
+        return
+    end
+
     local key_data = w2l:parse_lni(loader(w2l.key / (file_name .. '.ini')))
+    local meta = w2l:read_metadata(file_name)
     
     local function get_id_type(id)
         return w2l:get_id_type(id, meta)
     end
-
-    if level_key then
-        for name, obj in pairs(data) do
-            local max_level = get_max_level(obj, level_key)
-            add_default(obj, meta, key_data, get_id_type)
-            for key, data in pairs(obj) do
-                if key:sub(1, 1) ~= '_' then
-                    local id = key2id(name, obj._origin_id, key, key_data)
-                    count_max_level(id, data, meta, max_level, key_data)
-                end
+    
+    for name, obj in pairs(data) do
+        local max_level = get_max_level(obj, level_key)
+        for key, data in pairs(obj) do
+            if key:sub(1, 1) ~= '_' then
+                local id = key2id(name, obj._origin_id, key, key_data)
+                count_max_level(id, data, meta, max_level, key_data)
             end
-        end
-    else
-        for name, obj in pairs(data) do
-            add_default(obj, meta, key_data, get_id_type)
         end
     end
 end
