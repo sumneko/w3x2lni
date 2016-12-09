@@ -7,7 +7,6 @@ require 'filesystem'
 require 'utility'
 local w2l  = require 'w3x2lni'
 local uni      = require 'ffi.unicode'
-local create_key_type = require 'create_key_type'
 local order_prebuilt = require 'order.prebuilt'
 local table2lni = require 'table2lni'
 
@@ -30,13 +29,38 @@ local function add_table(t1, t2)
     end
 end
 
+local function prebuilt_id_type(id_data)
+    local lines = {}
+    lines[#lines+1] = '[root]'
+    lines[#lines+1] = ('%s = %s'):format('int', 0)
+    lines[#lines+1] = ('%s = %s'):format('bool', 0)
+    lines[#lines+1] = ('%s = %s'):format('real', 1)
+    lines[#lines+1] = ('%s = %s'):format('unreal', 2)
+
+    for key, data in pairs(id_data) do
+        local value = data['00'][1]
+        local tp
+        if tonumber(value) then
+            tp = 0
+        else
+            tp = 3
+        end
+        lines[#lines+1] = ('%s = %s'):format(key, tp)
+    end
+
+    table.sort(lines)
+
+    return table.concat(lines, '\r\n')
+end
+
+
 local function main()
 	w2l:init()
 
-	-- 生成key_type
-	local keydata = w2l:parse_txt(io.load(w2l.mpq / 'ui' / 'uniteditordata.txt'))
-	local content = create_key_type(keydata)
-	io.save(w2l.root / 'script' / 'prebuilt' / 'key_type.lua', content)
+	-- 生成id_type
+	local id_data = w2l:parse_txt(io.load(w2l.mpq / 'ui' / 'uniteditordata.txt'))
+	local content = prebuilt_id_type(id_data)
+	io.save(w2l.root / 'script' / 'prebuilt' / 'id_type.ini', content)
 
 	-- 生成key2id
     for file_name, meta in pairs(w2l.info['metadata']) do
