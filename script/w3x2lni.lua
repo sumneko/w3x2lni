@@ -3,8 +3,13 @@ local w3xparser = require 'w3xparser'
 local lni = require 'lni-c'
 local slk = w3xparser.slk
 local txt = w3xparser.txt
+local pairs = pairs
 
 local mt = {}
+
+local metadatas = {}
+local id_type
+local usable_code
 
 function mt:read_config()
 	self.config = lni(io.load(self.root / 'config.ini'), 'config')
@@ -33,7 +38,37 @@ function mt:parse_txt(buf)
 	return txt(buf)
 end
 
-local id_type
+function mt:read_metadata(type)
+	local filepath = self.mpq / self.info['metadata'][type]
+	if metadatas[type] then
+		return metadatas[type]
+	end
+	local tbl = self:parse_slk(io.load(filepath))
+	metadatas[type] = tbl
+
+	local has_index = {}
+	for k, v in pairs(tbl) do
+		-- 进行部分预处理
+		local name  = v['field']
+		local index = v['index']
+		if index and index >= 1 then
+			has_index[name] = true
+		end
+	end
+	local has_level
+	for k, v in pairs(tbl) do
+		local name = v['field']
+		if has_index[name] then
+			v._has_index = true
+		end
+		if v['repeat'] then
+			has_level = true
+		end
+	end
+	tbl._has_level = has_level
+	return tbl
+end
+
 function mt:get_id_type(id, meta)
     local type = meta[id]['type']
 	if not id_type then
@@ -43,7 +78,6 @@ function mt:get_id_type(id, meta)
     return format
 end
 
-local usable_code
 function mt:is_usable_code(code)
 	if not usable_code then
 		usable_code = lni(io.load(self.prebuilt / 'usable_code.ini'))
@@ -59,7 +93,6 @@ local function main()
 		'w3i2lni', 'lni2w3i',
 		'read_obj',
 		'read_w3i',
-		'read_metadata',
 		'create_unitsdoo',
 		'key2id',
 		'add_template',
