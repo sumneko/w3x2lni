@@ -159,7 +159,7 @@ function mt:get_editstring(str)
 	while editstring[str] do
 		str = editstring[str][1]
 	end
-	return str
+	return str:gsub('%c+', '')
 end
 
 return function (w2l, file_name, data, loader)
