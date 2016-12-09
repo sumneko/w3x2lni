@@ -1,5 +1,3 @@
-local key_type = require 'prebuilt.key_type'
-
 local string_char = string.char
 
 local pairs = pairs
@@ -58,9 +56,8 @@ local function get_title(meta)
     return titles
 end
 
-local function add_key(obj, meta, key, id)
-    local type = meta[id]['type']
-    local format = key_type[type] or 3
+local function add_key(obj, meta, key, id, get_id_type)
+    local format = get_id_type(id)
     if obj[key] == nil then
         obj[key] = {
             ['_id'] = id,
@@ -87,14 +84,14 @@ local function add_key(obj, meta, key, id)
     end
 end
 
-local function add_default(obj, meta, key_data)
+local function add_default(obj, meta, key_data, get_id_type)
     for key, id in pairs(key_data['public']) do
-        add_key(obj, meta, key, id)
+        add_key(obj, meta, key, id, get_id_type)
     end
     local code = obj['_origin_id']
     if key_data[code] then
         for key, id in pairs(key_data[code]) do
-            add_key(obj, meta, key, id)
+            add_key(obj, meta, key, id, get_id_type)
         end
     end
 end
@@ -103,12 +100,16 @@ return function (w2l, file_name, data, loader)
     local meta = w2l:read_metadata(w2l.mpq / w2l.info['metadata'][file_name], loader)
     local level_key = w2l.info['key']['max_level'][file_name]
     local key_data = w2l:parse_lni(loader(w2l.key / (file_name .. '.ini')))
+    
+    local function get_id_type(id)
+        return w2l:get_id_type(id, meta)
+    end
 
     local titles = get_title(meta)
 
     for name, obj in pairs(data) do
         local max_level = get_max_level(obj, level_key)
-        add_default(obj, meta, key_data)
+        add_default(obj, meta, key_data, get_id_type)
         for key, data in pairs(obj) do
             if key:sub(1, 1) ~= '_' then
                 count_max_level(data, meta, max_level)

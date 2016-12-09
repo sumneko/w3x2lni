@@ -1,5 +1,3 @@
-local key_type = require 'prebuilt.key_type'
-
 local table_insert = table.insert
 local table_sort   = table.sort
 local table_concat = table.concat
@@ -68,13 +66,6 @@ function mt:sort_obj(obj, id)
     return names, full_names, new_obj, count
 end
 
-function mt:get_key_type(key)
-    local meta = self.meta
-    local type = meta[key]['type']
-    local format = key_type[type] or 3
-    return format
-end
-
 local pack_format = {
 	[0] = 'l',
 	[1] = 'f',
@@ -83,7 +74,7 @@ local pack_format = {
 }
 
 function mt:get_key_format(key)
-    return pack_format[self:get_key_type(key)]
+    return pack_format[self:get_id_type(key)]
 end
 
 function mt:format_value(value)
@@ -153,7 +144,7 @@ function mt:add_value(name, value, level, id)
         return
     end
     local meta = self.meta[name]
-    self:add('c4l', name .. ('\0'):rep(4 - #name), self:get_key_type(name))
+    self:add('c4l', name .. ('\0'):rep(4 - #name), self:get_id_type(name))
     if self.has_level then
         self:add('l', level)
         self:add('l', meta['data'] or 0)
@@ -214,6 +205,10 @@ return function (self, data, meta, key, template)
     tbl.template = template
     tbl.key = key
     tbl.has_level = meta._has_level
+
+    function tbl:get_id_type(id)
+        return self:get_id_type(id, meta)
+    end
 
     local origin_id, user_id = tbl:sort_chunk(data)
     tbl:add_head(data)

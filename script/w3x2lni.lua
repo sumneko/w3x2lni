@@ -17,6 +17,7 @@ function mt:init()
 	self.key = self.root / 'script' / 'prebuilt' / 'key'
 	self.template = self.root / 'template'
 	self.default = self.root / 'script' / 'prebuilt' / 'default'
+	self.prebuilt = self.root / 'script' / 'prebuilt'
 	self:read_config()
 end
 
@@ -30,6 +31,16 @@ end
 
 function mt:parse_txt(buf)
 	return txt(buf)
+end
+
+local id_type
+function mt:get_id_type(id, meta)
+    local type = meta[id]['type']
+	if not id_type then
+		id_type = lni(io.load(self.prebuilt / 'id_type.ini'))
+	end
+    local format = id_type[type] or 3
+    return format
 end
 
 local function main()

@@ -1,5 +1,3 @@
-local key_type = require 'prebuilt.key_type'
-
 local math_tointeger = math.tointeger
 local string_char = string.char
 local select = select
@@ -45,13 +43,6 @@ function mt:read_obj(chunk)
 		self:read_data(obj)
 	end
 	chunk[name] = obj
-end
-
-function mt:get_id_type(id)
-    local meta = self.meta
-    local type = meta[id]['type']
-    local format = key_type[type] or 3
-    return format
 end
 
 function mt:get_id_name(id)
@@ -115,6 +106,10 @@ return function (w2l, file_name, loader)
 	tbl.index     = 1
 	tbl.meta      = w2l:read_metadata(w2l.mpq / w2l.info['metadata'][file_name], loader)
 	tbl.has_level = tbl.meta._has_level
+
+	function tbl:get_id_type(id)
+		return w2l:get_id_type(id, self.meta)
+	end
 
 	local data    = {}
 

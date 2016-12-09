@@ -1,5 +1,3 @@
-local key_type = require 'prebuilt.key_type'
-
 local table_insert = table.insert
 local table_unpack = table.unpack
 local type = type
@@ -148,15 +146,8 @@ function mt:add_data(obj, key, id, value, level)
     end
 end
 
-function mt:get_key_type(id)
-    local meta = self.meta
-    local type = meta[id]['type']
-    local format = key_type[type] or 3
-    return format
-end
-
 function mt:to_type(id, value)
-    local tp = self:get_key_type(id)
+    local tp = self:get_id_type(id)
     if tp == 0 then
         value = math.floor(tonumber(value) or 0)
     elseif tp == 1 or tp == 2 then
@@ -221,6 +212,10 @@ return function (w2l, file_name, loader, slk_loader)
 
     self.meta = w2l:read_metadata(w2l.mpq / w2l.info['metadata'][file_name], loader)
     self.key = w2l:parse_lni(loader(w2l.key / (file_name .. '.ini')), file_name)
+
+    function self:get_id_type(id)
+        return w2l:get_id_type(id, self.meta)
+    end
 
     return self:save()
 end
