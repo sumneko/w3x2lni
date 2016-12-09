@@ -31,7 +31,6 @@ end
 
 local function prebuilt_id_type(id_data)
     local lines = {}
-    lines[#lines+1] = '[root]'
     lines[#lines+1] = ('%s = %s'):format('int', 0)
     lines[#lines+1] = ('%s = %s'):format('bool', 0)
     lines[#lines+1] = ('%s = %s'):format('real', 1)
@@ -50,7 +49,17 @@ local function prebuilt_id_type(id_data)
 
     table.sort(lines)
 
-    return table.concat(lines, '\r\n')
+    return '[root]\r\n' .. table.concat(lines, '\r\n')
+end
+
+local function pack_table(tbl)
+	local lines = {}
+	lines[#lines+1] = '[root]'
+	for name, value in pairs(tbl) do
+		lines[#lines+1] = ('%s=%s'):format(name, value)
+	end
+	table.sort(lines)
+	return '[root]\r\n' .. table.concat(lines, '\r\n')
 end
 
 
@@ -78,6 +87,7 @@ local function main()
 	-- 生成模板lni
 	fs.create_directories(w2l.default)
 	fs.create_directories(w2l.template)
+	local usable_names = {}
 	for file_name, meta in pairs(w2l.info['metadata']) do
 		message('正在生成模板', file_name)
 		local data = w2l:slk_loader(file_name, io.load, function(name)
@@ -86,7 +96,11 @@ local function main()
 		w2l:post_process(file_name, data, io.load)
 		io.save(w2l.default / (file_name .. '.ini'), table2lni(data))
 		io.save(w2l.template / (file_name .. '.ini'), w2l:to_lni(file_name, data, io.load))
+		for name in pairs(data) do
+			usable_names[name] = true
+		end
 	end
+	io.save(w2l.prebuilt / 'usable_names.ini', pack_table(usable_names))
 
 	-- 生成技能命令映射
 	local skill_data = w2l:parse_lni(io.load(w2l.template / 'war3map.w3a.ini'))
