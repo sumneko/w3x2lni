@@ -23,7 +23,7 @@ function mt:init()
 	self:set_dir('meta', rootpath / 'script' / 'meta')
 	self:set_dir('key', rootpath / 'script' / 'key')
 	self:set_dir('template', rootpath / 'template')
-	self:set_dir('default', rootpath / 'script' / 'meta' / 'lni')
+	self:set_dir('default', rootpath / 'script' / 'default')
 	self:read_config()
 end
 
