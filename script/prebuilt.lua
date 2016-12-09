@@ -74,7 +74,7 @@ local function main()
 	-- 生成key2id
     for file_name, meta in pairs(w2l.info['metadata']) do
 		message('正在生成key2id', file_name)
-		local metadata = w2l:read_metadata(w2l.mpq / meta, io.load)
+		local metadata = w2l:read_metadata(file_name)
         local slk = w2l.info['template']['slk'][file_name]
         local template = {}
         for i = 1, #slk do

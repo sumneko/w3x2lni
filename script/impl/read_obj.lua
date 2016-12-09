@@ -104,7 +104,7 @@ return function (w2l, file_name, loader)
 	local tbl     = setmetatable({}, mt)
 	tbl.content   = loader(file_name)
 	tbl.index     = 1
-	tbl.meta      = w2l:read_metadata(w2l.mpq / w2l.info['metadata'][file_name], loader)
+	tbl.meta      = w2l:read_metadata(file_name)
 	tbl.has_level = tbl.meta._has_level
 
 	function tbl:get_id_type(id)

@@ -190,7 +190,7 @@ return function (w2l, file_name, data, loader)
 	tbl.self = w2l
 	tbl.config = w2l.config
 
-	tbl.meta = w2l:read_metadata(w2l.mpq / w2l.info['metadata'][file_name], loader)
+	tbl.meta = w2l:read_metadata(file_name)
 	tbl.key = w2l:parse_lni(loader(w2l.key / (file_name .. '.ini')), file_name)
 	tbl.has_level = tbl.meta._has_level
 	tbl.editstring = w2l:parse_txt(io.load(w2l.mpq / 'ui' / 'WorldEditStrings.txt'))

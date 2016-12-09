@@ -207,7 +207,7 @@ return function (w2l, file_name, loader, slk_loader)
         self:add_txt(w2l:parse_txt(slk_loader(txt[i])))
     end
 
-    self.meta = w2l:read_metadata(w2l.mpq / w2l.info['metadata'][file_name], loader)
+    self.meta = w2l:read_metadata(file_name)
     self.key = w2l:parse_lni(loader(w2l.key / (file_name .. '.ini')), file_name)
 
     function self:get_id_type(id)

@@ -342,7 +342,7 @@ end
 
 return function (w2l, file_name, data, loader)
     local tbl = setmetatable({}, mt)
-    tbl.meta = w2l:read_metadata(w2l.mpq / w2l.info['metadata'][file_name], loader)
+    tbl.meta = w2l:read_metadata(file_name)
     tbl.key = w2l:parse_lni(io.load(w2l.key / (file_name .. '.ini')), file_name)
 
     function tbl:get_id_type(id)
