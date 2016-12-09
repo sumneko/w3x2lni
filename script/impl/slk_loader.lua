@@ -2,6 +2,7 @@ local table_insert = table.insert
 local table_unpack = table.unpack
 local type = type
 local tonumber = tonumber
+local math_floor = math.floor
 local pairs = pairs
 local ipairs = ipairs
 
@@ -16,20 +17,19 @@ function mt:add_txt(txt)
     table_insert(self.txt, txt)
 end
 
-function mt:key2id(name, code, key)
-    local id = code and self.key[code] and self.key[code][key] or self.key[name] and self.key[name][key] or self.key['public'][key]
-    if id then
-        return id
-    end
-    return nil
-end
-
 function mt:read_slk(lni, slk)
     for name, data in pairs(slk) do
         lni[name] = self:read_slk_obj(lni[name], name, data)
     end
 end
 
+local key_lower = {}
+local function get_lower(key)
+    key_lower[key] = key:lower()
+    return key_lower[key]
+end
+
+local slk_keys, slk_ids
 function mt:read_slk_obj(obj, name, data)
     local obj = obj or {}
     obj._user_id = name
@@ -39,15 +39,16 @@ function mt:read_slk_obj(obj, name, data)
 
     local lower_data = {}
     for key, value in pairs(data) do
-        lower_data[key:lower()] = value
+        lower_data[key_lower[key] or get_lower(key)] = value
+    end
+    
+    for i = 1, #slk_keys do
+        self:read_slk_data(name, obj, slk_keys[i], slk_ids[i], lower_data)
     end
 
-    for key, id in pairs(self.key['public']) do
-        self:read_slk_data(name, obj, key, id, lower_data)
-    end
-
-    if self.key[name] then
-        for key, id in pairs(self.key[name]) do
+    local private = self.key[name] or self.key[obj._origin_id]
+    if private then
+        for key, id in pairs(private) do
             self:read_slk_data(name, obj, key, id, lower_data)
         end
     end
@@ -57,10 +58,6 @@ end
 
 function mt:read_slk_data(name, obj, key, id, lower_data)
     local meta = self.meta[id]
-    if meta['slk'] == 'Profile' then
-        return
-    end
-    
     local rep = meta['repeat']
     if rep and rep > 0 then
         for i = 1, 4 do
@@ -83,6 +80,7 @@ function mt:read_txt(lni, txt)
     end
 end
 
+local txt_keys, txt_ids
 function mt:read_txt_obj(obj, name, data)
     if obj == nil then
         return
@@ -92,11 +90,11 @@ function mt:read_txt_obj(obj, name, data)
 
     local lower_data = {}
     for key, value in pairs(data) do
-        lower_data[key:lower()] = value
+        lower_data[key_lower[key] or get_lower(key)] = value
     end
 
-    for key, id in pairs(self.key['public']) do
-        self:read_txt_data(name, obj, key, id, lower_data)
+    for i = 1, #txt_keys do
+        self:read_txt_data(name, obj, txt_keys[i], txt_ids[i], lower_data)
     end
 end
 
@@ -206,7 +204,6 @@ function mt:add_data(obj, key, id, value, level)
     end
 end
 
-local math_floor = math.floor
 function mt:to_type(id, value)
     local tp = self:get_id_type(id)
     if tp == 0 then
@@ -242,6 +239,21 @@ end
 function mt:save()
     local data = {}
 
+    slk_keys = {}
+    slk_ids = {}
+    txt_keys = {}
+    txt_ids = {}
+    for key, id in pairs(self.key['public']) do
+        local meta = self.meta[id]
+        if meta['slk'] == 'Profile' then
+            txt_keys[#txt_keys+1] = key
+            txt_ids[#txt_ids+1] = id
+        else
+            slk_keys[#slk_keys+1] = key
+            slk_ids[#slk_ids+1] = id
+        end
+    end
+
     -- 默认数据
     for _, slk in ipairs(self.slk) do
         self:read_slk(data, slk)
@@ -276,10 +288,10 @@ return function (w2l, file_name, loader, slk_loader)
     function self:get_id_type(id)
         return w2l:get_id_type(id, self.meta)
     end
-    local clock = os.clock()
+    --local clock = os.clock()
     local result = self:save()
-    print(file_name, os.clock() - clock)
-    function message()
-    end
+    --print(file_name, os.clock() - clock)
+    --function message()
+    --end
     return result
 end
