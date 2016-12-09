@@ -69,7 +69,7 @@ local function main()
 	-- 生成id_type
 	local id_data = w2l:parse_txt(io.load(w2l.mpq / 'ui' / 'uniteditordata.txt'))
 	local content = prebuilt_id_type(id_data)
-	io.save(w2l.root / 'script' / 'prebuilt' / 'id_type.ini', content)
+	io.save(w2l.prebuilt / 'id_type.ini', content)
 
 	-- 生成key2id
     for file_name, meta in pairs(w2l.info['metadata']) do
