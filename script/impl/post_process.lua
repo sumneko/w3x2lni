@@ -43,16 +43,6 @@ local function get_key(meta)
 	return key
 end
 
-local function get_title(meta)
-    local titles = {}
-    for id, data in pairs(meta) do
-        if type(data) == 'table' and data.slk ~= 'Profile' then
-            titles[id] = data
-        end
-    end
-    return titles
-end
-
 local function add_key(obj, meta, key, id, get_id_type)
     local format = get_id_type(id)
     if obj[key] == nil then
@@ -99,16 +89,20 @@ return function (w2l, file_name, data, loader)
         return w2l:get_id_type(id, meta)
     end
 
-    local titles = get_title(meta)
-
-    for name, obj in pairs(data) do
-        local max_level = get_max_level(obj, level_key)
-        add_default(obj, meta, key_data, get_id_type)
-        for key, data in pairs(obj) do
-            if key:sub(1, 1) ~= '_' then
-                local id = key2id(name, obj._origin_id, key, key_data)
-                count_max_level(id, data, meta, max_level, key_data)
+    if level_key then
+        for name, obj in pairs(data) do
+            local max_level = get_max_level(obj, level_key)
+            add_default(obj, meta, key_data, get_id_type)
+            for key, data in pairs(obj) do
+                if key:sub(1, 1) ~= '_' then
+                    local id = key2id(name, obj._origin_id, key, key_data)
+                    count_max_level(id, data, meta, max_level, key_data)
+                end
             end
+        end
+    else
+        for name, obj in pairs(data) do
+            add_default(obj, meta, key_data, get_id_type)
         end
     end
 end
