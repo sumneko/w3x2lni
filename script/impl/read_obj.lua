@@ -33,6 +33,7 @@ function mt:read_obj(chunk)
 	if name == '\0\0\0\0' then
 		name = code
 		code = nil
+		--self.force_slk = true
 	else
 		obj._true_origin = true
 	end
@@ -124,5 +125,5 @@ return function (w2l, file_name, loader)
 	-- 自定义数据
 	tbl:read_chunk(data)
 
-	return data
+	return data, tbl.force_slk
 end

@@ -308,9 +308,16 @@ function mt:load_obj(file_name, target_progress)
     local metadata = w2l:read_metadata(w2l.mpq / w2l.info['metadata'][file_name], io.load)
     local key_data = w2l:parse_lni(io.load(w2l.key / (file_name .. '.ini')), file_name)
 
-    local data
+    local obj, data
+    local force_slk
 
-    if w2l.config['unpack']['read_slk'] then
+    if self.files[file_name] then
+        message('正在转换', file_name)
+        obj, force_slk = w2l:read_obj(file_name, self.files[file_name])
+        progress(1)
+    end
+
+    if force_slk or w2l.config['unpack']['read_slk'] then
         data = w2l:slk_loader(file_name, io.load, function(name)
             message('正在转换', name)
             if self.files[name] then
@@ -322,11 +329,7 @@ function mt:load_obj(file_name, target_progress)
         data = w2l:parse_lni(io.load(w2l.default / (file_name .. '.ini')))
     end
 
-    if self.files[file_name] then
-        message('正在转换', file_name)
-        add_table(data, w2l:read_obj(file_name, self.files[file_name]))
-        progress(1)
-    end
+    add_table(data, obj or {})
 
     --w2l:add_template(file_name, data, io.load)
     w2l:post_process(file_name, data, io.load)
