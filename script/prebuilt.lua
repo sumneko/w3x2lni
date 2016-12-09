@@ -86,8 +86,6 @@ local function main()
 		w2l:post_process(file_name, data, io.load)
 		io.save(w2l.default / (file_name .. '.ini'), table2lni(data))
 		io.save(w2l.template / (file_name .. '.ini'), w2l:to_lni(file_name, data, io.load))
-		local t = w2l:parse_lni(io.load(w2l.default / (file_name .. '.ini')))
-		print(t)
 	end
 
 	-- 生成技能命令映射
