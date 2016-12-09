@@ -43,7 +43,7 @@ function mt:read_metadata(type)
 	if metadatas[type] then
 		return metadatas[type]
 	end
-	local tbl = self:parse_slk(io.load(filepath))
+	local tbl = slk(io.load(filepath))
 	metadatas[type] = tbl
 
 	local has_index = {}

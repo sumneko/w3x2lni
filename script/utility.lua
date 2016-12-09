@@ -33,12 +33,6 @@ function io.save(file_path, content)
 	end
 end
 
-local real_io_lines = io.lines
-
-function io.lines(path)
-	return real_io_lines(uni.u2a(path))
-end
-
 function task(f, ...)
 	for i = 1, 99 do
 		if pcall(f, ...) then
