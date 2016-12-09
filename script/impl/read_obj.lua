@@ -1,4 +1,4 @@
-local key_type = require 'key_type'
+local key_type = require 'prebuilt.key_type'
 
 local math_tointeger = math.tointeger
 local string_char = string.char

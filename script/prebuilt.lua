@@ -36,7 +36,7 @@ local function main()
 	-- 生成key_type
 	local keydata = w2l:parse_txt(io.load(w2l.mpq / 'ui' / 'uniteditordata.txt'))
 	local content = create_key_type(keydata)
-	io.save(w2l.root / 'script' / 'key_type.lua', content)
+	io.save(w2l.root / 'script' / 'prebuilt' / 'key_type.lua', content)
 
 	-- 生成key2id
     for file_name, meta in pairs(w2l.info['metadata']) do

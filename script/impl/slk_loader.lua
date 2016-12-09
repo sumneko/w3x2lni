@@ -1,4 +1,4 @@
-local key_type = require 'key_type'
+local key_type = require 'prebuilt.key_type'
 
 local table_insert = table.insert
 local table_unpack = table.unpack

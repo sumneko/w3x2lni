@@ -14,9 +14,9 @@ end
 function mt:init()
 	self.root = fs.path(uni.a2u(arg[0])):remove_filename()
 	self.mpq = self.root / 'script' / 'mpq'
-	self.key = self.root / 'script' / 'key'
+	self.key = self.root / 'script' / 'prebuilt' / 'key'
 	self.template = self.root / 'template'
-	self.default = self.root / 'script' / 'default'
+	self.default = self.root / 'script' / 'prebuilt' / 'default'
 	self:read_config()
 end
 
