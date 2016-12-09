@@ -219,8 +219,8 @@ return function (w2l, file_name, loader, slk_loader)
         self:add_txt(w2l:parse_txt(slk_loader(txt[i])))
     end
 
-    self.meta = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name], loader)
-    self.key = w2l:parse_lni(loader(w2l.dir['key'] / (file_name .. '.ini')), file_name)
+    self.meta = w2l:read_metadata(w2l.mpq / w2l.info['metadata'][file_name], loader)
+    self.key = w2l:parse_lni(loader(w2l.key / (file_name .. '.ini')), file_name)
 
     return self:save()
 end

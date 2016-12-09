@@ -6,24 +6,17 @@ local txt = w3xparser.txt
 
 local mt = {}
 
-mt.dir = {}
-
-function mt:set_dir(name, dir)
-	self.dir[name] = dir
-end
-
 function mt:read_config()
-	self.config = lni(io.load(self.dir['root'] / 'config.ini'), 'config')
-    self.info   = lni(io.load(self.dir['root'] / 'script' / 'info.ini'), 'info')
+	self.config = lni(io.load(self.root / 'config.ini'), 'config')
+    self.info   = lni(io.load(self.root / 'script' / 'info.ini'), 'info')
 end
 
 function mt:init()
-	rootpath = fs.path(uni.a2u(arg[0])):remove_filename()
-	self:set_dir('root', rootpath)
-	self:set_dir('meta', rootpath / 'script' / 'meta')
-	self:set_dir('key', rootpath / 'script' / 'key')
-	self:set_dir('template', rootpath / 'template')
-	self:set_dir('default', rootpath / 'script' / 'default')
+	self.root = fs.path(uni.a2u(arg[0])):remove_filename()
+	self.mpq = self.root / 'script' / 'mpq'
+	self.key = self.root / 'script' / 'key'
+	self.template = self.root / 'template'
+	self.default = self.root / 'script' / 'default'
 	self:read_config()
 end
 

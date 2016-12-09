@@ -118,9 +118,9 @@ function mt:to_w3x(name, file)
         if self.wts then
             self.wts:save(data)
         end
-		local key = w2l:parse_lni(io.load(w2l.dir['key'] / name), name)
-		local metadata = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][new_name], io.load)
-		local template = w2l:parse_lni(io.load(w2l.dir['template'] / name), new_name)
+		local key = w2l:parse_lni(io.load(w2l.key / name), name)
+		local metadata = w2l:read_metadata(w2l.mpq / w2l.info['metadata'][new_name], io.load)
+		local template = w2l:parse_lni(io.load(w2l.template / name), new_name)
 		local content = w2l:lni2obj(data, metadata, key, template)
 		return new_name, content
 	elseif name == 'war3map.w3i.ini' then
@@ -305,8 +305,8 @@ function mt:load_data()
 end
 
 function mt:load_obj(file_name, target_progress)
-    local metadata = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name], io.load)
-    local key_data = w2l:parse_lni(io.load(w2l.dir['key'] / (file_name .. '.ini')), file_name)
+    local metadata = w2l:read_metadata(w2l.mpq / w2l.info['metadata'][file_name], io.load)
+    local key_data = w2l:parse_lni(io.load(w2l.key / (file_name .. '.ini')), file_name)
 
     local data
 
@@ -316,10 +316,10 @@ function mt:load_obj(file_name, target_progress)
             if self.files[name] then
                 return self.files[name](name)
             end
-            return io.load(w2l.dir['meta'] / name)
+            return io.load(w2l.mpq / name)
         end)
     else
-        data = w2l:parse_lni(io.load(w2l.dir['default'] / (file_name .. '.ini')))
+        data = w2l:parse_lni(io.load(w2l.default / (file_name .. '.ini')))
     end
 
     if self.files[file_name] then

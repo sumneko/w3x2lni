@@ -168,10 +168,10 @@ return function (w2l, file_name, data, loader)
 	tbl.self = w2l
 	tbl.config = w2l.config
 
-	tbl.meta = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name], loader)
-	tbl.key = w2l:parse_lni(loader(w2l.dir['key'] / (file_name .. '.ini')), file_name)
+	tbl.meta = w2l:read_metadata(w2l.mpq / w2l.info['metadata'][file_name], loader)
+	tbl.key = w2l:parse_lni(loader(w2l.key / (file_name .. '.ini')), file_name)
 	tbl.has_level = tbl.meta._has_level
-	tbl.editstring = w2l:parse_txt(io.load(w2l.dir['meta'] / 'ui' / 'WorldEditStrings.txt'))
+	tbl.editstring = w2l:parse_txt(io.load(w2l.mpq / 'ui' / 'WorldEditStrings.txt'))
     tbl.file_name = file_name
 
 	tbl:add_chunk(data)
