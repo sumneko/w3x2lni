@@ -158,7 +158,7 @@ function mt:get_editstring(str)
 	end
 	local editstring = self.editstring['WorldEditStrings']
 	while editstring[str] do
-		str = editstring[str]
+		str = editstring[str][1]
 	end
 	return str
 end
@@ -172,7 +172,7 @@ return function (w2l, file_name, data, loader)
 	tbl.meta = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name], loader)
 	tbl.key = lni:loader(loader(w2l.dir['key'] / (file_name .. '.ini')), file_name)
 	tbl.has_level = tbl.meta._has_level
-	tbl.editstring = w2l:read_ini(w2l.dir['meta'] / 'ui' / 'WorldEditStrings.txt')
+	tbl.editstring = w2l:read_txt(w2l.dir['meta'] / 'ui' / 'WorldEditStrings.txt')
     tbl.file_name = file_name
 
 	tbl:add_chunk(data)
