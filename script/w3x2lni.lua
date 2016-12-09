@@ -20,7 +20,7 @@ end
 function mt:init()
 	rootpath = fs.path(uni.a2u(arg[0])):remove_filename()
 	self:set_dir('root', rootpath)
-	self:set_dir('meta', rootpath / 'script' / 'meta')
+	self:set_dir('mpq', rootpath / 'script' / 'mpq')
 	self:set_dir('key', rootpath / 'script' / 'key')
 	self:set_dir('template', rootpath / 'template')
 	self:set_dir('default', rootpath / 'script' / 'default')

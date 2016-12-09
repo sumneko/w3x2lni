@@ -12,11 +12,11 @@ local order_prebuilt = require 'order.prebuilt'
 local table2lni = require 'table2lni'
 
 local rootpath = fs.path(uni.a2u(arg[0])):remove_filename()
-local meta_dir = rootpath / 'script' / 'meta'
+local mpq_dir = rootpath / 'script' / 'mpq'
 local key_dir = rootpath / 'script' / 'key'
 local root_dir = rootpath / 'script'
 local template_dir = rootpath / 'template'
-local default_dir = rootpath / 'script' / 'meta' / 'lni'
+local default_dir = rootpath / 'script' / 'default'
 
 function message(...)
 	local tbl = {...}
@@ -41,18 +41,18 @@ local function main()
 	w2l:init()
 
 	-- 生成key_type
-	local keydata = w2l:parse_txt(io.load(meta_dir / 'ui' / 'uniteditordata.txt'))
+	local keydata = w2l:parse_txt(io.load(mpq_dir / 'ui' / 'uniteditordata.txt'))
 	local content = create_key_type(keydata)
 	io.save(root_dir / 'key_type.lua', content)
 
 	-- 生成key2id
     for file_name, meta in pairs(w2l.info['metadata']) do
 		message('正在生成key2id', file_name)
-		local metadata = w2l:read_metadata(meta_dir / meta, io.load)
+		local metadata = w2l:read_metadata(mpq_dir / meta, io.load)
         local slk = w2l.info['template']['slk'][file_name]
         local template = {}
         for i = 1, #slk do
-            add_table(template, w2l:parse_slk(io.load(meta_dir / slk[i])))
+            add_table(template, w2l:parse_slk(io.load(mpq_dir / slk[i])))
         end
 		local content = w2l:key2id(file_name, metadata, template)
 		io.save(key_dir / (file_name .. '.ini'), content)
@@ -64,7 +64,7 @@ local function main()
 	for file_name, meta in pairs(w2l.info['metadata']) do
 		message('正在生成模板', file_name)
 		local data = w2l:slk_loader(file_name, io.load, function(name)
-			return io.load(w2l.dir['meta'] / name)
+			return io.load(w2l.dir['mpq'] / name)
 		end)
 		w2l:post_process(file_name, data, io.load)
 		io.save(default_dir / (file_name .. '.ini'), table2lni(data))

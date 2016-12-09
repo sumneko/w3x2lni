@@ -350,7 +350,7 @@ end
 
 return function (w2l, file_name, data, loader)
     local tbl = setmetatable({}, mt)
-    tbl.meta = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name], loader)
+    tbl.meta = w2l:read_metadata(w2l.dir['mpq'] / w2l.info['metadata'][file_name], loader)
     tbl.key = w2l:parse_lni(io.load(w2l.dir['key'] / (file_name .. '.ini')), file_name)
 
     tbl:parse_chunk(data)
