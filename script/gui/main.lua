@@ -2,7 +2,7 @@ require 'filesystem'
 require 'sys'
 require 'utility'
 require 'gui.backend'
-local w3l = require 'w3x2lni'
+local w2l = require 'w3x2lni'
 local nk = require 'nuklear'
 nk:console()
 
