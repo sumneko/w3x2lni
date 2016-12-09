@@ -6,7 +6,6 @@ end)()
 require 'filesystem'
 require 'utility'
 local w2l  = require 'w3x2lni'
-local lni      = require 'lni'
 local uni      = require 'ffi.unicode'
 local create_key_type = require 'create_key_type'
 local order_prebuilt = require 'order.prebuilt'
@@ -42,7 +41,7 @@ local function main()
 	w2l:init()
 
 	-- 生成key_type
-	local keydata = w2l:read_txt(io.load(meta_dir / 'ui' / 'uniteditordata.txt'))
+	local keydata = w2l:parse_txt(io.load(meta_dir / 'ui' / 'uniteditordata.txt'))
 	local content = create_key_type(keydata)
 	io.save(root_dir / 'key_type.lua', content)
 
@@ -53,7 +52,7 @@ local function main()
         local slk = w2l.info['template']['slk'][file_name]
         local template = {}
         for i = 1, #slk do
-            add_table(template, w2l:read_slk(io.load(meta_dir / slk[i])))
+            add_table(template, w2l:parse_slk(io.load(meta_dir / slk[i])))
         end
 		local content = w2l:key2id(file_name, metadata, template)
 		io.save(key_dir / (file_name .. '.ini'), content)
@@ -70,12 +69,12 @@ local function main()
 		w2l:post_process(file_name, data, io.load)
 		io.save(default_dir / (file_name .. '.ini'), table2lni(data))
 		io.save(template_dir / (file_name .. '.ini'), w2l:to_lni(file_name, data, io.load))
-		local t = lni:loader(io.load(default_dir / (file_name .. '.ini')))
+		local t = w2l:parse_lni(io.load(default_dir / (file_name .. '.ini')))
 		print(t)
 	end
 
 	-- 生成技能命令映射
-	local skill_data = lni:loader(io.load(template_dir / 'war3map.w3a.ini'))
+	local skill_data = w2l:parse_lni(io.load(template_dir / 'war3map.w3a.ini'))
 	local order_list = order_prebuilt(skill_data)
 	io.save(rootpath / 'script' / 'order' / 'order_list.lua', order_list)
 

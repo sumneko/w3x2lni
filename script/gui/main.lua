@@ -2,7 +2,7 @@ require 'filesystem'
 require 'sys'
 require 'utility'
 require 'gui.backend'
-local lni = require 'lni'
+local w3l = require 'w3x2lni'
 local nk = require 'nuklear'
 nk:console()
 
@@ -24,7 +24,7 @@ NK_TEXT_CENTERED       = NK_TEXT_ALIGN_MIDDLE | NK_TEXT_ALIGN_CENTERED
 NK_TEXT_RIGHT          = NK_TEXT_ALIGN_MIDDLE | NK_TEXT_ALIGN_RIGHT
 
 local root = fs.get(fs.DIR_EXE):remove_filename()
-local config = lni:loader(io.load(root / 'config.ini'))
+local config = w2l:parse_lni(io.load(root / 'config.ini'))
 
 local config_content = [[
 [unpack]

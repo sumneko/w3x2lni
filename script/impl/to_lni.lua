@@ -1,5 +1,4 @@
 local progress = require 'progress'
-local lni = require 'lni'
 
 local table_insert = table.insert
 local table_sort = table.sort
@@ -170,9 +169,9 @@ return function (w2l, file_name, data, loader)
 	tbl.config = w2l.config
 
 	tbl.meta = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name], loader)
-	tbl.key = lni:loader(loader(w2l.dir['key'] / (file_name .. '.ini')), file_name)
+	tbl.key = w2l:parse_lni(loader(w2l.dir['key'] / (file_name .. '.ini')), file_name)
 	tbl.has_level = tbl.meta._has_level
-	tbl.editstring = w2l:read_txt(w2l.dir['meta'] / 'ui' / 'WorldEditStrings.txt')
+	tbl.editstring = w2l:parse_txt(io.load(w2l.dir['meta'] / 'ui' / 'WorldEditStrings.txt'))
     tbl.file_name = file_name
 
 	tbl:add_chunk(data)

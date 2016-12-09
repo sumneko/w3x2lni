@@ -7,7 +7,7 @@ local function read_metadata(w2l, file_path, loader)
 	if metadatas[file_name] then
 		return metadatas[file_name]
 	end
-	local tbl = w2l:read_slk(loader(file_path))
+	local tbl = w2l:parse_slk(loader(file_path))
 	metadatas[file_name] = tbl
 
 	local has_index = {}

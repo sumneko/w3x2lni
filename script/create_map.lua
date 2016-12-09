@@ -1,5 +1,4 @@
 local stormlib = require 'ffi.stormlib'
-local lni = require 'lni'
 local progress = require 'progress'
 local w2l = require 'w3x2lni'
 
@@ -111,7 +110,7 @@ end
 function mt:to_w3x(name, file)
 	if name:sub(-4) == '.ini' and w2l.info['metadata'][name:sub(1, -5)] then
 		message('正在转换:', name)
-		local data = lni:loader(file, name)
+		local data = w2l:parse_lni(file, name)
 		local new_name = name:sub(1, -5)
         if self.on_lni then
             data = self:on_lni(new_name, data)
@@ -119,14 +118,14 @@ function mt:to_w3x(name, file)
         if self.wts then
             self.wts:save(data)
         end
-		local key = lni:loader(io.load(w2l.dir['key'] / name), name)
+		local key = w2l:parse_lni(io.load(w2l.dir['key'] / name), name)
 		local metadata = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][new_name], io.load)
-		local template = lni:loader(io.load(w2l.dir['template'] / name), new_name)
+		local template = w2l:parse_lni(io.load(w2l.dir['template'] / name), new_name)
 		local content = w2l:lni2obj(data, metadata, key, template)
 		return new_name, content
 	elseif name == 'war3map.w3i.ini' then
 		message('正在转换:', name)
-		local data = lni:loader(file, name)
+		local data = w2l:parse_lni(file, name)
 		local new_name = name:sub(1, -5)
         if self.on_lni then
             data = self:on_lni(new_name, data)
@@ -212,7 +211,7 @@ function mt:save_map(map_path)
     }
     for _, dir in ipairs(self.dirs) do
         if fs.exists(dir / 'war3map.w3i.ini') then
-            w3i = w2l:read_w3i(w2l:lni2w3i(lni:loader(io.load(dir / 'war3map.w3i.ini'), 'war3map.w3i.ini')))
+            w3i = w2l:read_w3i(w2l:lni2w3i(w2l:parse_lni(io.load(dir / 'war3map.w3i.ini'), 'war3map.w3i.ini')))
             break
         end
     end
@@ -307,7 +306,7 @@ end
 
 function mt:load_obj(file_name, target_progress)
     local metadata = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name], io.load)
-    local key_data = lni:loader(io.load(w2l.dir['key'] / (file_name .. '.ini')), file_name)
+    local key_data = w2l:parse_lni(io.load(w2l.dir['key'] / (file_name .. '.ini')), file_name)
 
     local data
 
@@ -320,7 +319,7 @@ function mt:load_obj(file_name, target_progress)
             return io.load(w2l.dir['meta'] / name)
         end)
     else
-        data = lni:loader(io.load(w2l.dir['default'] / (file_name .. '.ini')))
+        data = w2l:parse_lni(io.load(w2l.dir['default'] / (file_name .. '.ini')))
     end
 
     if self.files[file_name] then

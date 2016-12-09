@@ -1,5 +1,4 @@
 local key_type = require 'key_type'
-local lni = require 'lni'
 
 local table_insert = table.insert
 local table_unpack = table.unpack
@@ -212,16 +211,16 @@ return function (w2l, file_name, loader, slk_loader)
 
     local slk = w2l.info['template']['slk'][file_name]
     for i = 1, #slk do
-        self:add_slk(w2l:read_slk(slk_loader(slk[i])))
+        self:add_slk(w2l:parse_slk(slk_loader(slk[i])))
     end
 
     local txt = w2l.info['template']['txt'][file_name]
     for i = 1, #txt do
-        self:add_txt(w2l:read_txt(slk_loader(txt[i])))
+        self:add_txt(w2l:parse_txt(slk_loader(txt[i])))
     end
 
     self.meta = w2l:read_metadata(w2l.dir['meta'] / w2l.info['metadata'][file_name], loader)
-    self.key = lni:loader(loader(w2l.dir['key'] / (file_name .. '.ini')), file_name)
+    self.key = w2l:parse_lni(loader(w2l.dir['key'] / (file_name .. '.ini')), file_name)
 
     return self:save()
 end

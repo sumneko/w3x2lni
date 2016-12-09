@@ -1,16 +1,20 @@
-local lni = require 'lni'
 local uni = require 'ffi.unicode'
+local w3xparser = require 'w3xparser'
+local lni = require 'lni-c'
+local slk = w3xparser.slk
+local txt = w3xparser.txt
 
 local mt = {}
 
 mt.dir = {}
+
 function mt:set_dir(name, dir)
 	self.dir[name] = dir
 end
 
 function mt:read_config()
-	self.config = lni:loader(io.load(self.dir['root'] / 'config.ini'), 'config')
-    self.info   = lni:loader(io.load(self.dir['root'] / 'script' / 'info.ini'), 'info')
+	self.config = lni(io.load(self.dir['root'] / 'config.ini'), 'config')
+    self.info   = lni(io.load(self.dir['root'] / 'script' / 'info.ini'), 'info')
 end
 
 function mt:init()
@@ -23,6 +27,18 @@ function mt:init()
 	self:read_config()
 end
 
+function mt:parse_lni(...)
+	return lni(...)
+end
+
+function mt:parse_slk(buf)
+	return slk(buf)
+end
+
+function mt:parse_txt(buf)
+	return txt(buf)
+end
+
 local function main()
 	-- 加载脚本
 	local convertors = {
@@ -31,7 +47,6 @@ local function main()
 		'w3i2lni', 'lni2w3i',
 		'read_obj',
 		'read_w3i',
-		'read_slk', 'read_txt',
 		'read_metadata',
 		'create_unitsdoo',
 		'key2id',
