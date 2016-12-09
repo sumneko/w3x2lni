@@ -43,6 +43,14 @@ function mt:get_id_type(id, meta)
     return format
 end
 
+local usable_code
+function mt:is_usable_code(code)
+	if not usable_code then
+		usable_code = lni(io.load(self.prebuilt / 'usable_code.ini'))
+	end
+	return usable_code[code]
+end
+
 local function main()
 	-- 加载脚本
 	local convertors = {

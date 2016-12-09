@@ -30,9 +30,12 @@ function mt:read_obj(chunk)
 	local code, name = self:unpack 'c4c4'
 	if name == '\0\0\0\0' then
 		name = code
-		code = nil
-		--self.force_slk = true
-	else
+		if not self:is_usable_code(code) then
+			code = nil
+			self.force_slk = true
+		end
+	end
+	if code then
 		obj._true_origin = true
 	end
 	obj['_user_id'] = name
@@ -109,6 +112,10 @@ return function (w2l, file_name, loader)
 
 	function tbl:get_id_type(id)
 		return w2l:get_id_type(id, self.meta)
+	end
+
+	function tbl:is_usable_code(code)
+		return w2l:is_usable_code(code)
 	end
 
 	local data    = {}
