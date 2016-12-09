@@ -100,9 +100,6 @@ end
 
 function mt:read_txt_data(name, obj, key, id, txt)
     local meta = self.meta[id]
-    if meta['slk'] ~= 'Profile' then
-        return
-    end
 
     if meta['index'] == 1 then
         local key = key:sub(1, -3)
@@ -166,16 +163,17 @@ function mt:add_default_data(name, obj, key, id)
         max_level = 4
     end
     
-    if not obj[key] then
+    if obj[key] then
+        for i = max_level+1, #obj[key] do
+            obj[key][i] = nil
+        end
+    else
         obj[key] = {}
     end
     for i = 1, max_level do
         if not obj[key][i] then
             obj[key][i] = self:to_type(id)
         end
-    end
-    for i = max_level+1, #obj[key] do
-        obj[key][i] = nil
     end
 end
 
@@ -197,7 +195,7 @@ function mt:add_data(obj, key, id, value, level)
             obj[key][1] = value
         end
     else
-        if level == nil then
+        if not level then
             level = #obj[key] + 1
         end
         obj[key][level] = value
@@ -228,8 +226,11 @@ function mt:to_type(id, value)
         if not value then
             return nil
         end
+        if value == '' then
+            return value
+        end
         value = tostring(value)
-        if value:match '^%s*[%-%_]%s*$' then
+        if not value:match '[^ %-%_]' then
             return nil
         end
         return value
@@ -288,10 +289,6 @@ return function (w2l, file_name, loader, slk_loader)
     function self:get_id_type(id)
         return w2l:get_id_type(id, self.meta)
     end
-    --local clock = os.clock()
     local result = self:save()
-    --print(file_name, os.clock() - clock)
-    --function message()
-    --end
     return result
 end
