@@ -64,7 +64,7 @@ local function main()
 	for file_name, meta in pairs(w2l.info['metadata']) do
 		message('正在生成模板', file_name)
 		local data = w2l:slk_loader(file_name, io.load, function(name)
-			return io.load(w2l.dir['mpq'] / name)
+			return io.load(w2l.mpq / name)
 		end)
 		w2l:post_process(file_name, data, io.load)
 		io.save(default_dir / (file_name .. '.ini'), table2lni(data))

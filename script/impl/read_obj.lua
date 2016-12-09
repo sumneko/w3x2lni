@@ -112,7 +112,7 @@ return function (w2l, file_name, loader)
 	local tbl     = setmetatable({}, mt)
 	tbl.content   = loader(file_name)
 	tbl.index     = 1
-	tbl.meta      = w2l:read_metadata(w2l.dir['mpq'] / w2l.info['metadata'][file_name], loader)
+	tbl.meta      = w2l:read_metadata(w2l.mpq / w2l.info['metadata'][file_name], loader)
 	tbl.has_level = tbl.meta._has_level
 
 	local data    = {}
