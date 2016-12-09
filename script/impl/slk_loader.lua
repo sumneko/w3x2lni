@@ -46,6 +46,12 @@ function mt:read_slk_obj(obj, name, data)
         self:read_slk_data(name, obj, key, id, lower_data)
     end
 
+    if self.key[name] then
+        for key, id in pairs(self.key[name]) do
+            self:read_slk_data(name, obj, key, id, lower_data)
+        end
+    end
+
     return obj
 end
 
@@ -58,10 +64,14 @@ function mt:read_slk_data(name, obj, key, id, lower_data)
     local rep = meta['repeat']
     if rep and rep > 0 then
         for i = 1, 4 do
-            self:add_data(obj, key, id, lower_data[key..i], i)
+            if lower_data[key..i] then
+                self:add_data(obj, key, id, lower_data[key..i], i)
+            end
         end
     else
-        self:add_data(obj, key, id, lower_data[key])
+        if lower_data[key] then
+            self:add_data(obj, key, id, lower_data[key], 1)
+        end
     end
 end
 
@@ -100,8 +110,8 @@ function mt:read_txt_data(name, obj, key, id, txt)
         if not value then
             return
         end
-        for i = 1, #value do
-            self:add_data(obj, key..':'..i, id, value[i][1])
+        for i = 1, 2 do
+            self:add_data(obj, key..':'..i, id, value[i])
         end
         return
     end
@@ -127,7 +137,45 @@ function mt:read_txt_data(name, obj, key, id, txt)
         return
     end
     for i = 1, #value do
-        self:add_data(obj, key, id, value[i], i)
+        self:add_data(obj, key, id, value[i])
+    end
+end
+
+function mt:add_default(lni)
+    for name, obj in pairs(lni) do
+        self:add_default_obj(name, obj)
+    end
+end
+
+function mt:add_default_obj(name, obj)
+    for key, id in pairs(self.key['public']) do
+        self:add_default_data(name, obj, key, id)
+    end
+    if self.key[name] then
+        for key, id in pairs(self.key[name]) do
+            self:add_default_data(name, obj, key, id)
+        end
+    end
+end
+
+function mt:add_default_data(name, obj, key, id)
+    local meta = self.meta[id]
+    local max_level = 1
+    local rep = meta['repeat']
+    if rep and rep > 0 then
+        max_level = 4
+    end
+    
+    if not obj[key] then
+        obj[key] = {}
+    end
+    for i = 1, max_level do
+        if not obj[key][i] then
+            obj[key][i] = self:to_type(id)
+        end
+    end
+    for i = max_level+1, #obj[key] do
+        obj[key][i] = nil
     end
 end
 
@@ -137,9 +185,12 @@ function mt:add_data(obj, key, id, value, level)
     end
 
     value = self:to_type(id, value)
+    if not value then
+        return
+    end
     
     local meta = self.meta[id]
-    if meta.index == -1 and (not meta['repeat'] or meta['repeat'] == 0) then
+    if not level and meta.index == -1 and (not meta['repeat'] or meta['repeat'] == 0) then
         if obj[key][1] then
             obj[key][1] = obj[key][1] .. ',' .. value
         else
@@ -161,11 +212,11 @@ function mt:to_type(id, value)
         value = (tonumber(value) or 0.0) + 0.0
     elseif tp == 3 then
         if value == nil then
-            return ''
+            return nil
         end
         value = tostring(value)
         if value:match '^%s*[%-%_]%s*$' then
-            return ''
+            return nil
         end
     end
     return value
@@ -181,6 +232,7 @@ function mt:save()
     for _, txt in ipairs(self.txt) do
         self:read_txt(data, txt)
     end
+    self:add_default(data)
 
     return data
 end
