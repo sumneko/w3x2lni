@@ -95,10 +95,7 @@ function mt:read_data(obj)
 	self:unpack 'l'
 
 	if obj[key] == nil then
-		obj[key] = {
-			['_key'] = key,
-			['_id'] = id,
-		}
+		obj[key] = {}
 	end
 	obj[key][level] = value
 end

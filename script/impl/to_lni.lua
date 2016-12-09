@@ -5,9 +5,20 @@ local table_sort = table.sort
 local math_type = math.type
 local table_concat = table.concat
 local string_char = string.char
+local type = type
 
 local mt = {}
 mt.__index = mt
+
+local function get_len(tbl)
+	local n = 0
+	for k in pairs(tbl) do
+		if type(k) == 'number' and k > n then
+			n = k
+		end
+	end
+	return n
+end
 
 function mt:format_value(value)
 	local tp = type(value)
@@ -65,9 +76,12 @@ end
 function mt:add_obj(obj)
 	local upper_obj = {}
     local keys = {}
+	local name = obj._user_id
+	local code = obj._origin_id
     for key, data in pairs(obj) do
 		if key:sub(1, 1) ~= '_' then
-			local key = self:get_key(data)
+			local id = self:key2id(name, code, key)
+			local key = self:get_key(id)
 			if key then
 				keys[#keys+1] = key
 				upper_obj[key] = data
@@ -77,7 +91,8 @@ function mt:add_obj(obj)
     table_sort(keys)
     local lines = {}
 	for _, key in ipairs(keys) do
-		self:add_data(key, upper_obj[key], lines)
+		local id = self:key2id(name, code, key:lower())
+		self:add_data(key, id, upper_obj[key], lines)
 	end
     if not lines or #lines == 0 then
         return
@@ -94,15 +109,15 @@ function mt:add_obj(obj)
 	self:add ''
 end
 
-function mt:add_data(key, data, lines)
-	local len = data._len
+function mt:add_data(key, id, data, lines)
+	local len = get_len(data)
     if len == 0 then
         return
     end
 	if key:match '[^%w%_]' then
 		key = ('%q'):format(key)
 	end
-    lines[#lines+1] = {'-- %s', self:get_comment(data._id)}
+    lines[#lines+1] = {'-- %s', self:get_comment(id)}
 	local values = {}
 	if len <= 1 then
 		lines[#lines+1] = {'%s = %s', key, self:format_value(data[1])}
@@ -129,8 +144,15 @@ function mt:add_data(key, data, lines)
 	lines[#lines+1] = {'%s = {%s}', key, table_concat(values, ', ')}
 end
 
-function mt:get_key(data)
-	local id = data._id
+function mt:key2id(name, code, key)
+    local id = code and self.key[code] and self.key[code][key] or self.key[name] and self.key[name][key] or self.key['public'][key]
+    if id then
+        return id
+    end
+    return nil
+end
+
+function mt:get_key(id)
 	local meta  = self.meta[id]
 	if not meta then
 		return

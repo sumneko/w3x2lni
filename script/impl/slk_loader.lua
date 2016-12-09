@@ -124,10 +124,7 @@ end
 
 function mt:add_data(obj, key, id, value, level)
     if obj[key] == nil then
-        obj[key] = {
-            ['_key'] = key,
-            ['_id']  = id,
-        }
+        obj[key] = {}
     end
     
     local meta = self.meta[id]
@@ -165,12 +162,12 @@ function mt:to_type(id, value)
 end
 
 function mt:set_default_value(lni)
-    for _, obj in pairs(lni) do
+    for name, obj in pairs(lni) do
         for key, data in pairs(obj) do
             if key:sub(1, 1) ~= '_' then
                 for i, value in pairs(data) do
                     if type(i) == 'number' then
-                        data[i] = self:to_type(data._id, value)
+                        data[i] = self:to_type(self:key2id(name, obj._origin_id, key), value)
                     end
                 end
             end

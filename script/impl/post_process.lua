@@ -11,8 +11,15 @@ local function get_max_level(obj, key)
     return data[1]
 end
 
-local function count_max_level(data, meta, max_level)
-    local id = data._id
+local function key2id(name, code, key, key_data)
+    local id = code and key_data[code] and key_data[code][key] or key_data[name] and key_data[name][key] or key_data['public'][key]
+    if id then
+        return id
+    end
+    return nil
+end
+
+local function count_max_level(id, data, meta, max_level)
     local meta = meta[id]
     if not id then
         return
@@ -22,16 +29,6 @@ local function count_max_level(data, meta, max_level)
         return
     end
     data._max_level = max_level
-end
-
-local function count_len(data)
-    local len = 0
-    for k in pairs(data) do
-        if type(k) == 'number' and k > len then
-            len = k
-        end
-    end
-    data._len = len
 end
 
 local function get_key(meta)
@@ -59,10 +56,7 @@ end
 local function add_key(obj, meta, key, id, get_id_type)
     local format = get_id_type(id)
     if obj[key] == nil then
-        obj[key] = {
-            ['_id'] = id,
-            ['_key'] = key,
-        }
+        obj[key] = {}
     end
     local max_level = 1
     local meta = meta[id]
@@ -112,8 +106,8 @@ return function (w2l, file_name, data, loader)
         add_default(obj, meta, key_data, get_id_type)
         for key, data in pairs(obj) do
             if key:sub(1, 1) ~= '_' then
-                count_max_level(data, meta, max_level)
-                count_len(data)
+                local id = key2id(name, obj._origin_id, key, key_data)
+                count_max_level(id, data, meta, max_level, key_data)
             end
         end
     end

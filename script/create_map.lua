@@ -330,7 +330,7 @@ function mt:load_obj(file_name, target_progress)
     end
 
     add_table(data, obj or {})
-
+    
     --w2l:add_template(file_name, data, io.load)
     w2l:post_process(file_name, data, io.load)
 
