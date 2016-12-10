@@ -3,6 +3,7 @@ local w3xparser = require 'w3xparser'
 local lni = require 'lni-c'
 local slk = w3xparser.slk
 local txt = w3xparser.txt
+local ini = w3xparser.ini
 local pairs = pairs
 
 local mt = {}
@@ -36,6 +37,10 @@ end
 
 function mt:parse_txt(buf)
 	return txt(buf)
+end
+
+function mt:parse_ini(buf)
+	return ini(buf)
 end
 
 function mt:read_metadata(type)
