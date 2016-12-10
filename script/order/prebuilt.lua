@@ -71,10 +71,10 @@ end
 return function (skill_data)
     local order, unorder, orderon, orderoff
 
-    local order = write_order(load_order(skill_data), 'order')
-    local unorder = write_order(load_order2(skill_data, 'unorder'), 'Unorder')
-    local orderon = write_order(load_order2(skill_data, 'orderon'), 'Orderon')
-    local orderoff = write_order(load_order2(skill_data, 'orderoff'), 'Orderoff')
+    local order = write_order(load_order(skill_data), 'Order')
+    local unorder = write_order(load_order2(skill_data, 'Unorder'), 'Unorder')
+    local orderon = write_order(load_order2(skill_data, 'Orderon'), 'Orderon')
+    local orderoff = write_order(load_order2(skill_data, 'Orderoff'), 'Orderoff')
 
     local content = ('return {\r\n%s%s%s%s}'):format(order, unorder, orderon, orderoff)
 
