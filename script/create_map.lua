@@ -110,6 +110,7 @@ function mt:get_listfile()
 end
 
 function mt:to_w3x(name, file)
+    -- TODO: 这个判断二进制的方法不科学
 	if name:sub(-4) == '.ini' and w2l.info['metadata'][name:sub(1, -5)] then
 		message('正在转换:', name)
 		local data = w2l:parse_lni(file, name)
