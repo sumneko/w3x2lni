@@ -66,7 +66,7 @@ function mt:read_data(obj)
 	local id = self:unpack 'c4' :match '^[^\0]+'
 	local key = self:get_id_name(id)
 	local value_type = self:unpack 'l'
-	local level = 1
+	local level = 0
 
 	local check_type = self:get_id_type(id)
 	if value_type ~= check_type and (value_type == 3 or check_type == 3) then
@@ -76,9 +76,7 @@ function mt:read_data(obj)
 	--是否包含等级信息
 	if self.has_level then
 		local this_level = self:unpack 'l'
-		if this_level ~= 0 then
-			level = this_level
-		end
+		level = this_level
 		-- 扔掉一个整数
 		self:unpack 'l'
 	end
@@ -94,10 +92,15 @@ function mt:read_data(obj)
 	-- 扔掉一个整数
 	self:unpack 'l'
 
-	if obj[key] == nil then
-		obj[key] = {}
+	
+	if level == 0 then
+		obj[key] = value
+	else
+		if not obj[key] then
+			obj[key] = {}
+		end
+		obj[key][level] = value
 	end
-	obj[key][level] = value
 end
 
 return function (w2l, file_name, loader)
