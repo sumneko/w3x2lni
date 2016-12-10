@@ -286,9 +286,6 @@ return function (w2l, file_name, loader, slk_loader)
     function self:get_id_type(id)
         return w2l:get_id_type(id, self.meta)
     end
-    local clock = os.clock()
     local result = self:save()
-    print(file_name, os.clock() - clock)
-    function message() end
     return result
 end
