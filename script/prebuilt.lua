@@ -93,11 +93,11 @@ local function main()
 	local usable_code = {}
 	for ttype, meta in pairs(w2l.info['metadata']) do
 		message('正在生成模板', ttype)
-		local data = w2l:slk_loader(ttype, io.load, function(name)
+		local data = w2l:slk_loader(ttype, function(name)
 			return io.load(w2l.mpq / name)
 		end)
 		io.save(w2l.default / (ttype .. '.ini'), table2lni(data))
-		io.save(w2l.template / (ttype .. '.ini'), w2l:to_lni(ttype, data, io.load))
+		io.save(w2l.template / (ttype .. '.ini'), w2l:to_lni(ttype, data))
 		for name in pairs(data) do
 			usable_code[name] = true
 		end

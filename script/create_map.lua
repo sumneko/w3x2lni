@@ -265,7 +265,7 @@ function mt:to_lni()
             data = self:on_lni(ttype, data)
         end
         
-        local content = w2l:to_lni(ttype, data, io.load)
+        local content = w2l:to_lni(ttype, data)
         if self.wts then
             content = self.wts:load(content)
         end
@@ -324,7 +324,7 @@ function mt:load_obj(ttype, file_name, target_progress)
     end
 
     if force_slk or w2l.config['unpack']['read_slk'] then
-        data = w2l:slk_loader(ttype, io.load, function(name)
+        data = w2l:slk_loader(ttype, function(name)
             message('正在转换', name)
             if self.files[name] then
                 return self.files[name](name)

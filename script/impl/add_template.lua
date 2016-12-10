@@ -340,7 +340,7 @@ function mt:format_name(name)
 	return name
 end
 
-return function (w2l, file_name, data, loader)
+return function (w2l, file_name, data)
     local tbl = setmetatable({}, mt)
     tbl.meta = w2l:read_metadata(file_name)
     tbl.key = w2l:parse_lni(io.load(w2l.key / (file_name .. '.ini')), file_name)
