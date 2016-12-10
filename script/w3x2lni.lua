@@ -60,17 +60,12 @@ function mt:read_metadata(type)
 			has_index[name] = true
 		end
 	end
-	local has_level
 	for k, v in pairs(tbl) do
 		local name = v['field']
 		if has_index[name] then
 			v._has_index = true
 		end
-		if v['repeat'] then
-			has_level = true
-		end
 	end
-	tbl._has_level = has_level
 	return tbl
 end
 

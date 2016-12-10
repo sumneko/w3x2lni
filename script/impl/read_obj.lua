@@ -105,7 +105,7 @@ return function (w2l, file_name, loader)
 	tbl.content   = loader(file_name)
 	tbl.index     = 1
 	tbl.meta      = w2l:read_metadata(file_name)
-	tbl.has_level = tbl.meta._has_level
+	tbl.has_level = w2l.info['key']['max_level'][file_name]
 
 	function tbl:get_id_type(id)
 		return w2l:get_id_type(id, self.meta)
