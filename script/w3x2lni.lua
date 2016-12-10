@@ -45,11 +45,11 @@ end
 
 function mt:read_metadata(type)
 	local filepath = self.mpq / self.info['metadata'][type]
-	if metadatas[type] then
-		return metadatas[type]
+	if metadatas[filepath:string()] then
+		return metadatas[filepath:string()]
 	end
 	local tbl = slk(io.load(filepath))
-	metadatas[type] = tbl
+	metadatas[filepath:string()] = tbl
 
 	local has_index = {}
 	for k, v in pairs(tbl) do
