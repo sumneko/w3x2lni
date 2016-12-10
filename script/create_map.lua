@@ -110,6 +110,7 @@ function mt:get_listfile()
 end
 
 function mt:to_w3x(name, file)
+    -- TODO: 这个判断二进制的方法不科学
 	if name:sub(-4) == '.ini' and w2l.info['metadata'][name:sub(1, -5)] then
 		message('正在转换:', name)
 		local data = w2l:parse_lni(file, name)
@@ -285,22 +286,25 @@ end
 
 function mt:load_data()
     local count = 0
-    for file_name in pairs(w2l.info['metadata']) do
+    for _, name in pairs(w2l.info.template.obj) do
         count = count + 1
         local target_progress = 5 + count * 2
-        self.objs[file_name] = self:load_obj(file_name, target_progress)
+        self.objs[name] = self:load_obj(name, target_progress)
     end
 
     -- 删掉输入的二进制物编和slk,因为他们已经转化成lua数据了
-    for file_name in pairs(w2l.info['metadata']) do
-        self.files[file_name] = nil
+    for _, name in pairs(w2l.info.template.obj) do
+        self.files[name] = nil
     end
     if w2l.config['unpack']['read_slk'] then
-        for _, file_names in pairs(w2l.info['template']) do
-            for _, slk_names in pairs(file_names) do
-                for _, file_name in ipairs(slk_names) do
-                    self.files[file_name] = nil
-                end
+        for _, names in pairs(w2l.info.template.slk) do
+            for _, name in ipairs(names) do
+                self.files[name] = nil
+            end
+        end
+        for _, names in pairs(w2l.info.template.txt) do
+            for _, name in ipairs(names) do
+                self.files[name] = nil
             end
         end
     end
@@ -396,12 +400,16 @@ function mt:load_mpq(map_path)
 	for name in pairs(map) do
 		add_file(name)
 	end
-	for name in pairs(w2l.info['metadata']) do
+    for _, name in pairs(w2l.info.template.obj) do
         add_file(name, true)
-        for _, name in ipairs(w2l.info['template']['slk'][name]) do
+    end
+    for _, names in pairs(w2l.info.template.slk) do
+        for _, name in ipairs(names) do
             add_file(name, true)
         end
-        for _, name in ipairs(w2l.info['template']['txt'][name]) do
+    end
+    for _, names in pairs(w2l.info.template.txt) do
+        for _, name in ipairs(names) do
             add_file(name, true)
         end
     end
