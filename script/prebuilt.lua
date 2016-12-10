@@ -11,6 +11,9 @@ local order_prebuilt = require 'order.prebuilt'
 local table2lni = require 'table2lni'
 
 function message(...)
+	if select(1, ...) == '-progress' then
+		return
+	end
 	local tbl = {...}
 	local count = select('#', ...)
 	for i = 1, count do
