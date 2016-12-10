@@ -169,7 +169,7 @@ function mt:get_key(id)
 end
 
 function mt:get_comment(id)
-	local comment = self.meta[id].displayName
+	local comment = self.meta[id].displayname
 	return self:get_editstring(comment)
 end
 

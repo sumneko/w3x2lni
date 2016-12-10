@@ -5,9 +5,9 @@ local function load_order(skill_data)
     for code, skill in pairs(skill_data) do
         local order
         if code == 'AAns' then
-            order = skill.DataE
+            order = skill.datae
         else
-            order = skill.Order
+            order = skill.order
         end
         if order then
             local new_order
@@ -15,8 +15,8 @@ local function load_order(skill_data)
                 new_order = order_id[str] or new_order
             end
             order = new_order
-        elseif skill.YDWEtip then
-            local order = skill.YDWEtip
+        elseif skill.ydwetip then
+            local order = skill.ydwetip
             if type(order) ~= 'table' then
                 order = {order}
             end

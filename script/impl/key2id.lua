@@ -22,14 +22,14 @@ end
 function mt:isenable(meta)
     local extension = self.extension
     if extension == '.w3u' then
-        if meta['useHero'] == 1 or meta['useUnit'] == 1 or meta['useBuilding'] == 1 or meta['useCreep'] == 1 then
+        if meta['usehero'] == 1 or meta['useunit'] == 1 or meta['usebuilding'] == 1 or meta['usecreep'] == 1 then
             return true
         else
             return false
         end
     end
     if extension == '.w3t' then
-        if meta['useItem'] == 1 then
+        if meta['useitem'] == 1 then
             return true
         else
             return false
@@ -44,7 +44,7 @@ function mt:add_data(id, meta, public, private)
     end
     local name  = meta['field']:lower()
     local num   = meta['data']
-    local skill = meta['useSpecific']
+    local skill = meta['usespecific']
     if num and num ~= 0 then
         name = name .. string_char(('a'):byte() + num - 1)
     end
