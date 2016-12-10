@@ -43,14 +43,13 @@ function mt:parse_ini(buf)
 	return ini(buf)
 end
 
-function mt:read_metadata(info)
-	local filepath = self.mpq / info.meta
-	local path_string = filepath:string()
-	if metadatas[path_string] then
-		return metadatas[path_string]
+function mt:read_metadata(type)
+	local filepath = self.mpq / self.info['metadata'][type]
+	if metadatas[filepath:string()] then
+		return metadatas[filepath:string()]
 	end
 	local tbl = slk(io.load(filepath))
-	metadatas[path_string] = tbl
+	metadatas[filepath:string()] = tbl
 
 	local has_index = {}
 	for k, v in pairs(tbl) do

@@ -191,16 +191,16 @@ function mt:get_editstring(str)
 	return str:gsub('%c+', '')
 end
 
-return function (w2l, info, data, loader)
+return function (w2l, file_name, data, loader)
 	local tbl = setmetatable({}, mt)
 	tbl.lines = {}
 	tbl.self = w2l
 	tbl.config = w2l.config
 
-	tbl.meta = w2l:read_metadata(info)
-	tbl.key = w2l:parse_lni(loader(w2l.key / info.lni), file_name)
+	tbl.meta = w2l:read_metadata(file_name)
+	tbl.key = w2l:parse_lni(loader(w2l.key / (file_name .. '.ini')), file_name)
 	tbl.editstring = w2l:parse_ini(io.load(w2l.mpq / 'ui' / 'WorldEditStrings.txt'))
-    tbl.file_name = info.obj
+    tbl.file_name = file_name
 
 	tbl:add_chunk(data)
 

@@ -275,23 +275,25 @@ function mt:save()
     return data
 end
 
-return function (w2l, info, loader, slk_loader)
+return function (w2l, ttype, loader, slk_loader)
     local self = setmetatable({}, mt)
 
     self.slk = {}
     self.txt = {}
 
-    for i = 1, #info.slk do
-        self:add_slk(w2l:parse_slk(slk_loader(info.slk[i])))
+    local slk = w2l.info['template']['slk'][ttype]
+    for i = 1, #slk do
+        self:add_slk(w2l:parse_slk(slk_loader(slk[i])))
     end
 
-    for i = 1, #info.txt do
-        self:add_txt(w2l:parse_txt(slk_loader(info.txt[i])))
+    local txt = w2l.info['template']['txt'][ttype]
+    for i = 1, #txt do
+        self:add_txt(w2l:parse_txt(slk_loader(txt[i])))
     end
 
-    self.meta = w2l:read_metadata(info)
-    self.key = w2l:parse_lni(loader(w2l.key / info.lni), info.obj)
-    self.max_level_key = info.level
+    self.meta = w2l:read_metadata(ttype)
+    self.key = w2l:parse_lni(loader(w2l.key / (ttype .. '.ini')), ttype)
+    self.max_level_key = w2l.info['key']['max_level'][ttype]
 
     function self:get_id_type(id)
         return w2l:get_id_type(id, self.meta)

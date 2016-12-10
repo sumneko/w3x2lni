@@ -78,7 +78,7 @@ function mt:read_data(obj)
 	end
 
 	--是否包含等级信息
-	if self.max_level_key then
+	if self.has_level then
 		local this_level = self:unpack 'l'
 		level = this_level
 		-- 扔掉一个整数
@@ -107,12 +107,13 @@ function mt:read_data(obj)
 	end
 end
 
-return function (w2l, info, loader)
+return function (w2l, ttype, file_name, loader)
 	local tbl     = setmetatable({}, mt)
-	tbl.content   = loader(info.obj)
+	tbl.content   = loader(file_name)
 	tbl.index     = 1
-	tbl.meta      = w2l:read_metadata(info)
-    tbl.max_level_key = info.level
+	tbl.meta      = w2l:read_metadata(ttype)
+	tbl.has_level = w2l.info['key']['max_level'][ttype]
+    tbl.max_level_key = w2l.info['key']['max_level'][ttype]
 
 	function tbl:get_id_type(id)
 		return w2l:get_id_type(id, self.meta)
