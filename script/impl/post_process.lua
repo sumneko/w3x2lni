@@ -8,7 +8,7 @@ local function get_max_level(obj, key)
     if not data then
         return 1
     end
-    return data[1]
+    return data
 end
 
 local function key2id(name, code, key, key_data)

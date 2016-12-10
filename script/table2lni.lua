@@ -12,17 +12,21 @@ local function format_value(value)
 end
 
 local function add_data(lines, key, data)
-    if #data == 0 then
-        return
-    end
     if key:find '[^%w_]' then
         key = ('%q'):format(key)
     end
-    local values = {}
-    for i = 1, #data do
-        values[i] = format_value(data[i])
+    if type(data) == 'table' then
+        if #data == 0 then
+            return
+        end
+        local values = {}
+        for i = 1, #data do
+            values[i] = format_value(data[i])
+        end
+        lines[#lines+1] = ('%s={%s}'):format(key, table.concat(values, ','))
+    else
+        lines[#lines+1] = ('%s=%s'):format(key, format_value(data))
     end
-    lines[#lines+1] = ('%s={%s}'):format(key, table.concat(values, ','))
 end
 
 local function add_obj(lines, name, obj)

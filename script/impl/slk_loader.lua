@@ -65,7 +65,7 @@ function mt:read_slk_data(name, obj, key, id, data)
     else
         local value = data[key]
         if value then
-            obj[key] = {self:to_type(id, value)}
+            obj[key] = self:to_type(id, value)
         end
     end
 end
@@ -154,48 +154,55 @@ end
 
 function mt:add_default_data(name, obj, key, id)
     local meta = self.meta[id]
-    local max_level = 1
     local rep = meta['repeat']
     if rep and rep > 0 then
-        max_level = 4
-    end
-    
-    if obj[key] then
-        for i = max_level+1, #obj[key] do
-            obj[key][i] = nil
+        if obj[key] then
+            for i = 5, #obj[key] do
+                obj[key][i] = nil
+            end
+        else
+            obj[key] = {}
+        end
+        for i = 1, 4 do
+            if not obj[key][i] then
+                obj[key][i] = self:to_type(id)
+            end
         end
     else
-        obj[key] = {}
-    end
-    for i = 1, max_level do
-        if not obj[key][i] then
-            obj[key][i] = self:to_type(id)
+        if not obj[key] then
+            obj[key] = self:to_type(id)
         end
     end
 end
 
 function mt:add_data(obj, key, id, value, level)
-    if not obj[key] then
-        obj[key] = {}
-    end
-
     value = self:to_type(id, value)
     if not value then
         return
     end
     
     local meta = self.meta[id]
-    if not level and meta.index == -1 and (not meta['repeat'] or meta['repeat'] == 0) then
-        if obj[key][1] then
-            obj[key][1] = obj[key][1] .. ',' .. value
+    local has_level = meta['repeat'] and meta['repeat'] > 0
+    if not level and meta.index == -1 and not has_level then
+        if obj[key] then
+            obj[key] = obj[key] .. ',' .. value
         else
-            obj[key][1] = value
+            obj[key] = value
         end
     else
-        if not level then
-            level = #obj[key] + 1
+        if has_level then
+            if not obj[key] then
+                obj[key] = {}
+            end
+            if not level then
+                level = #obj[key] + 1
+            end
+            obj[key][level] = value
+        else
+            if not obj[key] then
+                obj[key] = value
+            end
         end
-        obj[key][level] = value
     end
 end
 

@@ -110,20 +110,27 @@ function mt:add_obj(obj)
 end
 
 function mt:add_data(key, id, data, lines)
-	local len = get_len(data)
-    if len == 0 then
-        return
-    end
+	local len
+	if type(data) == 'table' then
+		len = get_len(data)
+		if len == 0 then
+			return
+		end
+	end
 	if key:match '[^%w%_]' then
 		key = ('%q'):format(key)
 	end
     lines[#lines+1] = {'-- %s', self:get_comment(id)}
-	local values = {}
+	if not len then
+		lines[#lines+1] = {'%s = %s', key, self:format_value(data)}
+		return
+	end
 	if len <= 1 then
 		lines[#lines+1] = {'%s = %s', key, self:format_value(data[1])}
 		return
 	end
 
+	local values = {}
 	local is_string
 	for i = 1, len do
 		if type(data[i]) == 'string' then
