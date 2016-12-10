@@ -23,12 +23,6 @@ function mt:read_slk(lni, slk)
     end
 end
 
-local key_lower = {}
-local function get_lower(key)
-    key_lower[key] = key:lower()
-    return key_lower[key]
-end
-
 local slk_keys, slk_ids
 function mt:read_slk_obj(obj, name, data)
     local obj = obj or {}
@@ -36,38 +30,33 @@ function mt:read_slk_obj(obj, name, data)
     obj._origin_id = data.code or obj._origin_id or name
     --obj._name = data.name or obj._name  -- 单位的反slk可以用name作为线索
     obj._slk = true
-
-    local lower_data = {}
-    for key, value in pairs(data) do
-        lower_data[key_lower[key] or get_lower(key)] = value
-    end
     
     for i = 1, #slk_keys do
-        self:read_slk_data(name, obj, slk_keys[i], slk_ids[i], lower_data)
+        self:read_slk_data(name, obj, slk_keys[i], slk_ids[i], data)
     end
 
     local private = self.key[name] or self.key[obj._origin_id]
     if private then
         for key, id in pairs(private) do
-            self:read_slk_data(name, obj, key, id, lower_data)
+            self:read_slk_data(name, obj, key, id, data)
         end
     end
 
     return obj
 end
 
-function mt:read_slk_data(name, obj, key, id, lower_data)
+function mt:read_slk_data(name, obj, key, id, data)
     local meta = self.meta[id]
     local rep = meta['repeat']
     if rep and rep > 0 then
         for i = 1, 4 do
-            local value = lower_data[key..i]
+            local value = data[key..i]
             if value then
                 self:add_data(obj, key, id, value, i)
             end
         end
     else
-        local value = lower_data[key]
+        local value = data[key]
         if value then
             self:add_data(obj, key, id, value, 1)
         end
@@ -88,13 +77,8 @@ function mt:read_txt_obj(obj, name, data)
 
     obj['_txt'] = true
 
-    local lower_data = {}
-    for key, value in pairs(data) do
-        lower_data[key_lower[key] or get_lower(key)] = value
-    end
-
     for i = 1, #txt_keys do
-        self:read_txt_data(name, obj, txt_keys[i], txt_ids[i], lower_data)
+        self:read_txt_data(name, obj, txt_keys[i], txt_ids[i], data)
     end
 end
 
@@ -289,6 +273,9 @@ return function (w2l, file_name, loader, slk_loader)
     function self:get_id_type(id)
         return w2l:get_id_type(id, self.meta)
     end
+    local clock = os.clock()
     local result = self:save()
+    print(file_name, os.clock() - clock)
+    function message() end
     return result
 end
