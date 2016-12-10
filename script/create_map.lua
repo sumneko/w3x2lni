@@ -254,22 +254,23 @@ function mt:to_lni()
 	end
 
     local count = 0
-    for file_name, meta in pairs(w2l.info['metadata']) do
+    for _, type in ipairs(w2l.info.object) do
+        local info = w2l.info[type]
         count = count + 1
         local target_progress = 22 + count * 9
         progress:target(target_progress)
         
-        local data = self.objs[file_name]
+        local data = self.objs[info.obj]
         if self.on_lni then
-            data = self:on_lni(file_name, data)
+            data = self:on_lni(info.obj, data)
         end
         
-        local content = w2l:to_lni(file_name, data, io.load)
+        local content = w2l:to_lni(info, data, io.load)
         if self.wts then
             content = self.wts:load(content)
         end
         if content then
-            self.files[file_name .. '.ini'] = function() return content end
+            self.files[info.lni] = function() return content end
         end
         progress(1)
     end
@@ -285,42 +286,39 @@ end
 
 function mt:load_data()
     local count = 0
-    for file_name in pairs(w2l.info['metadata']) do
+    for _, type in ipairs(w2l.info.object) do
+        local info = w2l.info[type]
         count = count + 1
         local target_progress = 5 + count * 2
-        self.objs[file_name] = self:load_obj(file_name, target_progress)
+        self.objs[info.obj] = self:load_obj(info, target_progress)
     end
 
     -- 删掉输入的二进制物编和slk,因为他们已经转化成lua数据了
-    for file_name in pairs(w2l.info['metadata']) do
-        self.files[file_name] = nil
-    end
-    if w2l.config['unpack']['read_slk'] then
-        for _, file_names in pairs(w2l.info['template']) do
-            for _, slk_names in pairs(file_names) do
-                for _, file_name in ipairs(slk_names) do
-                    self.files[file_name] = nil
-                end
-            end
+    for _, type in ipairs(w2l.info.object) do
+        local info = w2l.info[type]
+        self.files[info.obj] = nil
+        if w2l.config['unpack']['read_slk'] then
+            self.files[info.slk] = nil
+            self.files[info.txt] = nil
         end
     end
 end
 
-function mt:load_obj(file_name, target_progress)
-    local metadata = w2l:read_metadata(file_name)
-    local key_data = w2l:parse_lni(io.load(w2l.key / (file_name .. '.ini')), file_name)
+function mt:load_obj(info, target_progress)
+    local metadata = w2l:read_metadata(info)
+    local key_data = w2l:parse_lni(io.load(w2l.key / info.lni), info.obj)
 
     local obj, data
     local force_slk
 
-    if self.files[file_name] then
-        message('正在转换', file_name)
-        obj, force_slk = w2l:read_obj(file_name, self.files[file_name])
+    if self.files[info.obj] then
+        message('正在转换', info.obj)
+        obj, force_slk = w2l:read_obj(info, self.files[info.obj])
         progress(1)
     end
 
     if force_slk or w2l.config['unpack']['read_slk'] then
-        data = w2l:slk_loader(file_name, io.load, function(name)
+        data = w2l:slk_loader(info, io.load, function(name)
             message('正在转换', name)
             if self.files[name] then
                 return self.files[name](name)
@@ -328,7 +326,7 @@ function mt:load_obj(file_name, target_progress)
             return io.load(w2l.mpq / name)
         end)
     else
-        data = w2l:parse_lni(io.load(w2l.default / (file_name .. '.ini')))
+        data = w2l:parse_lni(io.load(w2l.default / info.lni))
     end
 
     add_table(data, obj or {})
@@ -396,12 +394,13 @@ function mt:load_mpq(map_path)
 	for name in pairs(map) do
 		add_file(name)
 	end
-	for name in pairs(w2l.info['metadata']) do
-        add_file(name, true)
-        for _, name in ipairs(w2l.info['template']['slk'][name]) do
+    for _, type in ipairs(w2l.info.object) do
+        local info = w2l.info[type]
+        add_file(info.obj, true)
+        for _, name in ipairs(info.slk) do
             add_file(name, true)
         end
-        for _, name in ipairs(w2l.info['template']['txt'][name]) do
+        for _, name in ipairs(info.txt) do
             add_file(name, true)
         end
     end

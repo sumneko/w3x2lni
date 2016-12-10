@@ -75,29 +75,30 @@ local function main()
 	io.save(w2l.prebuilt / 'id_type.ini', content)
 
 	-- 生成key2id
-    for file_name, meta in pairs(w2l.info['metadata']) do
-		message('正在生成key2id', file_name)
-		local metadata = w2l:read_metadata(file_name)
-        local slk = w2l.info['template']['slk'][file_name]
+	for _, type in ipairs(w2l.info.object) do
+		local info = w2l.info[type]
+		message('正在生成key2id', info.obj)
+		local metadata = w2l:read_metadata(info)
         local template = {}
-        for i = 1, #slk do
-            add_table(template, w2l:parse_slk(io.load(w2l.mpq / slk[i])))
+        for i = 1, #info.slk do
+            add_table(template, w2l:parse_slk(io.load(w2l.mpq / info.slk[i])))
         end
-		local content = w2l:key2id(file_name, metadata, template)
-		io.save(w2l.key / (file_name .. '.ini'), content)
+		local content = w2l:key2id(info.obj, metadata, template)
+		io.save(w2l.key / info.lni, content)
 	end
 
 	-- 生成模板lni
 	fs.create_directories(w2l.default)
 	fs.create_directories(w2l.template)
 	local usable_code = {}
-	for file_name, meta in pairs(w2l.info['metadata']) do
-		message('正在生成模板', file_name)
-		local data = w2l:slk_loader(file_name, io.load, function(name)
+	for _, type in ipairs(w2l.info.object) do
+		local info = w2l.info[type]
+		message('正在生成模板', info.obj)
+		local data = w2l:slk_loader(info, io.load, function(name)
 			return io.load(w2l.mpq / name)
 		end)
-		io.save(w2l.default / (file_name .. '.ini'), table2lni(data))
-		io.save(w2l.template / (file_name .. '.ini'), w2l:to_lni(file_name, data, io.load))
+		io.save(w2l.default / info.lni, table2lni(data))
+		io.save(w2l.template / info.lni, w2l:to_lni(info, data, io.load))
 		for name in pairs(data) do
 			usable_code[name] = true
 		end
