@@ -49,16 +49,23 @@ function mt:read_slk_data(name, obj, key, id, data)
     local meta = self.meta[id]
     local rep = meta['repeat']
     if rep and rep > 0 then
+        local flag
         for i = 1, 4 do
-            local value = data[key..i]
-            if value then
-                self:add_data(obj, key, id, value, i)
+            if data[key..i] then
+                flag = true
+                break
+            end
+        end
+        if flag then
+            obj[key] = {}
+            for i = 1, 4 do
+                obj[key][i] = self:to_type(id, data[key..i])
             end
         end
     else
         local value = data[key]
         if value then
-            self:add_data(obj, key, id, value, 1)
+            obj[key] = {self:to_type(id, value)}
         end
     end
 end
@@ -129,8 +136,14 @@ function mt:add_default(lni)
 end
 
 function mt:add_default_obj(name, obj)
-    for key, id in pairs(self.key['public']) do
-        self:add_default_data(name, obj, key, id)
+    for i = 1, #slk_keys do
+        local key = slk_keys[i]
+        if not obj[key] then
+            self:add_default_data(name, obj, slk_keys[i], slk_ids[i])
+        end
+    end
+    for i = 1, #txt_keys do
+        self:add_default_data(name, obj, txt_keys[i], txt_ids[i])
     end
     if self.key[name] then
         for key, id in pairs(self.key[name]) do
@@ -162,7 +175,7 @@ function mt:add_default_data(name, obj, key, id)
 end
 
 function mt:add_data(obj, key, id, value, level)
-    if obj[key] == nil then
+    if not obj[key] then
         obj[key] = {}
     end
 
