@@ -46,6 +46,10 @@ function mt:read_obj(chunk)
 		self:read_data(obj)
 	end
 	chunk[name] = obj
+	obj._max_level = obj[self.max_level_key]
+    if obj._max_level == 0 then
+        obj._max_level = 1
+    end
 end
 
 function mt:get_id_name(id)
@@ -109,6 +113,7 @@ return function (w2l, file_name, loader)
 	tbl.index     = 1
 	tbl.meta      = w2l:read_metadata(file_name)
 	tbl.has_level = w2l.info['key']['max_level'][file_name]
+    tbl.max_level_key = w2l.info['key']['max_level'][file_name]
 
 	function tbl:get_id_type(id)
 		return w2l:get_id_type(id, self.meta)

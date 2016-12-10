@@ -150,6 +150,10 @@ function mt:add_default_obj(name, obj)
             self:add_default_data(name, obj, key, id)
         end
     end
+    obj._max_level = obj[self.max_level_key]
+    if obj._max_level == 0 then
+        obj._max_level = 1
+    end
 end
 
 function mt:add_default_data(name, obj, key, id)
@@ -289,6 +293,7 @@ return function (w2l, file_name, loader, slk_loader)
 
     self.meta = w2l:read_metadata(file_name)
     self.key = w2l:parse_lni(loader(w2l.key / (file_name .. '.ini')), file_name)
+    self.max_level_key = w2l.info['key']['max_level'][file_name]
 
     function self:get_id_type(id)
         return w2l:get_id_type(id, self.meta)
