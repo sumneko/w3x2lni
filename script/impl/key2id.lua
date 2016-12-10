@@ -20,15 +20,15 @@ function mt:canadd(skl, id)
 end
 
 function mt:isenable(meta)
-    local extension = self.extension
-    if extension == '.w3u' then
+    local type = self.type
+    if type == 'unit' then
         if meta['usehero'] == 1 or meta['useunit'] == 1 or meta['usebuilding'] == 1 or meta['usecreep'] == 1 then
             return true
         else
             return false
         end
     end
-    if extension == '.w3t' then
+    if type == 'item' then
         if meta['useitem'] == 1 then
             return true
         else
@@ -122,9 +122,9 @@ local function copy_code(private, template)
     private['AOac'] = private['ACac']
 end
 
-local function read_list(self, metadata, template, extension)
+local function read_list(self, metadata, template, ttype)
     local tbl = setmetatable({}, { __index = mt })
-    tbl.extension = extension
+    tbl.type = ttype
     tbl.lines = {}
 
     local public = {}
@@ -135,7 +135,7 @@ local function read_list(self, metadata, template, extension)
             tbl:add_data(id, meta, public, private)
         end
     end
-    if extension == '.w3a' then
+    if ttype == 'ability' then
         copy_code(private, template)
     end
     return public, private
@@ -150,8 +150,8 @@ local function convert_list(public, private)
     return table.concat(tbl, '\r\n') .. '\r\n'
 end
 
-return function (self, file_name, metadata, template)
-    local public, private = read_list(self, metadata, template, fs.path(file_name):extension():string())
+return function (self, type, metadata, template)
+    local public, private = read_list(self, metadata, template, type)
 
     return convert_list(public, private)
 end

@@ -107,13 +107,13 @@ function mt:read_data(obj)
 	end
 end
 
-return function (w2l, file_name, loader)
+return function (w2l, ttype, file_name, loader)
 	local tbl     = setmetatable({}, mt)
 	tbl.content   = loader(file_name)
 	tbl.index     = 1
-	tbl.meta      = w2l:read_metadata(file_name)
-	tbl.has_level = w2l.info['key']['max_level'][file_name]
-    tbl.max_level_key = w2l.info['key']['max_level'][file_name]
+	tbl.meta      = w2l:read_metadata(ttype)
+	tbl.has_level = w2l.info['key']['max_level'][ttype]
+    tbl.max_level_key = w2l.info['key']['max_level'][ttype]
 
 	function tbl:get_id_type(id)
 		return w2l:get_id_type(id, self.meta)
