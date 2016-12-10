@@ -97,7 +97,6 @@ local function main()
 		'key2id',
 		'add_template',
 		'slk_loader',
-		'post_process',
 	}
 	
 	for _, name in ipairs(convertors) do

@@ -96,7 +96,6 @@ local function main()
 		local data = w2l:slk_loader(file_name, io.load, function(name)
 			return io.load(w2l.mpq / name)
 		end)
-		--w2l:post_process(file_name, data, io.load)
 		io.save(w2l.default / (file_name .. '.ini'), table2lni(data))
 		io.save(w2l.template / (file_name .. '.ini'), w2l:to_lni(file_name, data, io.load))
 		for name in pairs(data) do
