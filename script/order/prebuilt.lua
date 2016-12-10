@@ -5,9 +5,9 @@ local function load_order(skill_data)
     for code, skill in pairs(skill_data) do
         local order
         if code == 'AAns' then
-            order = skill.datae
+            order = skill.DataE
         else
-            order = skill.order
+            order = skill.Order
         end
         if order then
             local new_order
@@ -15,8 +15,8 @@ local function load_order(skill_data)
                 new_order = order_id[str] or new_order
             end
             order = new_order
-        elseif skill.ydwetip then
-            local order = skill.ydwetip
+        elseif skill.YDWEtip then
+            local order = skill.YDWEtip
             if type(order) ~= 'table' then
                 order = {order}
             end
@@ -71,10 +71,10 @@ end
 return function (skill_data)
     local order, unorder, orderon, orderoff
 
-    local order = write_order(load_order(skill_data), 'Order')
-    local unorder = write_order(load_order2(skill_data, 'Unorder'), 'Unorder')
-    local orderon = write_order(load_order2(skill_data, 'Orderon'), 'Orderon')
-    local orderoff = write_order(load_order2(skill_data, 'Orderoff'), 'Orderoff')
+    local order = write_order(load_order(skill_data), 'order')
+    local unorder = write_order(load_order2(skill_data, 'unorder'), 'Unorder')
+    local orderon = write_order(load_order2(skill_data, 'orderon'), 'Orderon')
+    local orderoff = write_order(load_order2(skill_data, 'orderoff'), 'Orderoff')
 
     local content = ('return {\r\n%s%s%s%s}'):format(order, unorder, orderon, orderoff)
 
