@@ -264,7 +264,4 @@ end
 function m.attach(handle)
 	return setmetatable({ handle = handle }, archive)
 end
-function m.messagebox(text, caption)
-	ffi.C.MessageBoxA(nil, text, caption, 0)
-end
 return m
