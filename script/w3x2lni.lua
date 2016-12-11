@@ -1,3 +1,4 @@
+require 'utility'
 local uni = require 'ffi.unicode'
 local w3xparser = require 'w3xparser'
 local lni = require 'lni-c'
@@ -15,9 +16,6 @@ local usable_code
 function mt:read_config()
 	self.config = lni(io.load(self.root / 'config.ini'), 'config')
     self.info   = lni(io.load(self.root / 'script' / 'info.ini'), 'info')
-end
-
-function mt:init()
 end
 
 function mt:parse_lni(...)

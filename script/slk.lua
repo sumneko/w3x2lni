@@ -4,21 +4,12 @@
 end)()
 
 require 'filesystem'
-require 'utility'
 local uni = require 'ffi.unicode'
-local w2l = require 'w3x2lni'
-local map = require 'map'
 
 function message(...)
 end
 
-local clock = os.clock()
-local mappath = fs.path(uni.a2u(arg[1]))
-local m = map()
-m:load_mpq(mappath)
-print('time:', os.clock() - clock)
-m:load_data()
-print('time:', os.clock() - clock)
+local m
 
 local function create_object(t)
 	local mt = {}
@@ -86,12 +77,26 @@ local function create_proxy(type)
 end
 
 local slk = {}
-for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
-	slk[name] = create_proxy(name)
-end
-slk.misc = {}
 
+function slk:initialize(mappath)
+	local map = require 'map'
+	local clock = os.clock()
+	m = map()
+	m:load_mpq(mappath)
+	print('time:', os.clock() - clock)
+	m:load_data()
+	print('time:', os.clock() - clock)
+
+	for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
+		slk[name] = create_proxy(name)
+	end
+	slk.misc = {}
+end
+
+local mappath = fs.path(uni.a2u(arg[1]))
+slk:initialize(mappath)
 print(slk.ability.A00E.DataA1)
+
 
 --for k, v in pairs(slk.ability.A000) do
 --	print(k, v)
