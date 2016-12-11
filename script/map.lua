@@ -378,7 +378,7 @@ function mt:load_mpq(mappath)
     if type(mappath) == 'number' then
         map = stormlib.attach(mappath)
     else
-        map = stormlib.open(mappath)
+        map = stormlib.open(mappath, true)
     end
 	if not map then
 		message('地图打开失败')
