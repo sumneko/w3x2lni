@@ -34,6 +34,8 @@ read_slk = $unpack.read_slk$
 find_id_times = $unpack.find_id_times$
 -- 解包时移除与模板完全相同的数据
 remove_same = $unpack.remove_same$
+-- 解包时补全空缺的数据
+add_void = $unpack.add_void$
 -- 解包时移除超出等级的数据
 remove_over_level = $unpack.remove_over_level$
 ]]
