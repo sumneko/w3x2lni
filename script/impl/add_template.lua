@@ -183,29 +183,31 @@ function mt:clean_obj(name, obj)
     local remove_over_level = self.config['remove_over_level']
     local remove_same = self.config['remove_same']
     for key, data in pairs(obj) do
-        if remove_over_level and max_level then
-            if type(data) == 'table' then
-                for level in pairs(data) do
-                    if level > max_level then
-                        data[level] = nil
+        if key:sub(1, 1) ~= '_' then
+            if remove_over_level and max_level then
+                if type(data) == 'table' then
+                    for level in pairs(data) do
+                        if level > max_level then
+                            data[level] = nil
+                        end
                     end
                 end
             end
-        end
-        if remove_same then
-            local dest = default[key]
-            if type(dest) == 'table' then
-                for i = 1, #data do
-                    if data[i] == dest[i] then
-                        data[i] = nil
+            if remove_same then
+                local dest = default[key]
+                if type(dest) == 'table' then
+                    for i = 1, #data do
+                        if data[i] == dest[i] then
+                            data[i] = nil
+                        end
                     end
-                end
-                if not next(data) then
-                    obj[key] = nil
-                end
-            else
-                if data == dest then
-                    obj[key] = nil
+                    if not next(data) then
+                        obj[key] = nil
+                    end
+                else
+                    if data == dest then
+                        obj[key] = nil
+                    end
                 end
             end
         end
