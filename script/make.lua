@@ -5,9 +5,9 @@ end)()
 
 require 'filesystem'
 require 'utility'
-local uni        = require 'ffi.unicode'
-local w2l        = require 'w3x2lni'
-local create_map = require 'create_map'
+local uni = require 'ffi.unicode'
+local w2l = require 'w3x2lni'
+local map = require 'map'
 
 function message(...)
 	local tbl = {...}
@@ -27,13 +27,11 @@ local function main()
 		message('请将地图或文件夹拖动到bat中!')
 		return
 	end
-
-	w2l:init()
 	
 	local input_path = fs.path(uni.a2u(arg[1]))
 	if fs.is_directory(input_path) then
 		local map_name = input_path:filename():string() .. '.w3x'
-		local map_file = create_map()
+		local map_file = map()
 		map_file:add_input(input_path)
 		function map_file:on_lni(name, lni)
 			return lni
@@ -47,7 +45,7 @@ local function main()
 	else
 		message('正在打开...')
 		local output_dir = input_path:parent_path() / input_path:stem()
-		local map_file = create_map()
+		local map_file = map()
 		map_file:add_input(input_path)
 		function map_file:on_lni(name, lni)
 			return lni

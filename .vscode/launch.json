@@ -45,6 +45,22 @@
             "arg": [
             ],
             "console": "ansi"
+        },
+        {
+            "name": "测试",
+            "type": "lua",
+            "request": "launch",
+            "program": "${workspaceRoot}/script/slk.lua",
+            "stopOnEntry": true,
+            "cwd": "${workspaceRoot}/bin",
+            "path": "",
+            "cpath": "${workspaceRoot}/bin/?.dll;",
+            "luadll": "${workspaceRoot}/bin/luacore.dll",
+            "arg0": "${workspaceRoot}/w3x2lni.exe",
+            "arg": [
+                "${workspaceRoot}/DotA_v6.83dv_MU13.7.w3x"
+            ],
+            "console": "ansi"
         }
     ]
 }

@@ -1,3 +1,4 @@
+require 'utility'
 local uni = require 'ffi.unicode'
 local w3xparser = require 'w3xparser'
 local lni = require 'lni-c'
@@ -15,16 +16,6 @@ local usable_code
 function mt:read_config()
 	self.config = lni(io.load(self.root / 'config.ini'), 'config')
     self.info   = lni(io.load(self.root / 'script' / 'info.ini'), 'info')
-end
-
-function mt:init()
-	self.root = fs.path(uni.a2u(arg[0])):remove_filename()
-	self.template = self.root / 'template'
-	self.mpq = self.root / 'script' / 'mpq'
-	self.prebuilt = self.root / 'script' / 'prebuilt'
-	self.key = self.prebuilt / 'key'
-	self.default = self.prebuilt / 'default'
-	self:read_config()
 end
 
 function mt:parse_lni(...)
@@ -85,29 +76,32 @@ function mt:is_usable_code(code)
 	return usable_code[code]
 end
 
-local function main()
-	-- 加载脚本
-	local convertors = {
-		'read_wts',
-		'to_lni', 'lni2obj',
-		'w3i2lni', 'lni2w3i',
-		'read_obj',
-		'read_w3i',
-		'create_unitsdoo',
-		'key2id',
-		'add_template',
-		'slk_loader',
-	}
-	
-	for _, name in ipairs(convertors) do
-		local func = require('impl.' .. name)
-		mt[name] = function (self, ...)
-			--message(('正在执行:') .. name)
-			return func(self, ...)
-		end
+mt.root = fs.path(uni.a2u(arg[0])):remove_filename()
+mt.template = mt.root / 'template'
+mt.mpq = mt.root / 'script' / 'mpq'
+mt.prebuilt = mt.root / 'script' / 'prebuilt'
+mt.key = mt.prebuilt / 'key'
+mt.default = mt.prebuilt / 'default'
+mt:read_config()
+-- 加载脚本
+local convertors = {
+	'read_wts',
+	'to_lni', 'lni2obj',
+	'w3i2lni', 'lni2w3i',
+	'read_obj',
+	'read_w3i',
+	'create_unitsdoo',
+	'key2id',
+	'add_template',
+	'slk_loader',
+}
+
+for _, name in ipairs(convertors) do
+	local func = require('impl.' .. name)
+	mt[name] = function (self, ...)
+		--message(('正在执行:') .. name)
+		return func(self, ...)
 	end
 end
-
-main()
 
 return mt
