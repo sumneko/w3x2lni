@@ -27,8 +27,6 @@ local function main()
 		message('请将地图或文件夹拖动到bat中!')
 		return
 	end
-
-	w2l:init()
 	
 	local input_path = fs.path(uni.a2u(arg[1]))
 	if fs.is_directory(input_path) then

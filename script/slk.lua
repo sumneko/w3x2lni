@@ -12,8 +12,6 @@ local map = require 'map'
 function message(...)
 end
 
-w2l:init()
-
 local clock = os.clock()
 local mappath = fs.path(uni.a2u(arg[1]))
 local m = map()

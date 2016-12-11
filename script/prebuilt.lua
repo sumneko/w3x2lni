@@ -67,8 +67,6 @@ end
 
 
 local function main()
-	w2l:init()
-
 	-- 生成id_type
 	local id_data = w2l:parse_txt(io.load(w2l.mpq / 'ui' / 'uniteditordata.txt'))
 	local content = prebuilt_id_type(id_data)
