@@ -285,6 +285,12 @@ function mt:to_lni()
 	end
 end
 
+function mt:post_process()
+    for ttype, name in pairs(w2l.info.template.obj) do
+        w2l:post_process(ttype, name, self.objs[ttype])
+    end
+end
+
 function mt:load_data()
     local count = 0
     for ttype, name in pairs(w2l.info.template.obj) do
@@ -337,8 +343,6 @@ function mt:load_obj(ttype, file_name, target_progress)
     end
 
     add_table(data, obj or {})
-    
-    w2l:add_template(ttype, file_name, data)
 
     return data
 end
@@ -438,6 +442,8 @@ function mt:save(output_dir, convert_type, output_type)
     self:load_file()
     message('正在读取物编...')
     self:load_data()
+    message('正在处理物编...')
+    self:post_process()
     if convert_type == 'lni' then
 	    self:to_lni()
     else

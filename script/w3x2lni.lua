@@ -95,7 +95,7 @@ local convertors = {
 	'read_w3i',
 	'create_unitsdoo',
 	'key2id',
-	'add_template',
+	'post_process',
 	'slk_loader',
 }
 
