@@ -50,12 +50,20 @@ function mt:parse_chunk(chunk)
             message(('搜索最优模板[%s] (%d/%d)'):format(name, i, #names))
         end
     end
+    for i = 1, #names do
+        local name = names[i]
+        self:clean_obj(name, chunk[name])
+        if os.clock() - clock >= 0.1 then
+            clock = os.clock()
+            message(('清理数据[%s] (%d/%d)'):format(name, i, #names))
+        end
+    end
 end
 
 function mt:parse_obj(name, obj)
     local code
     local count
-    local find_times = self.find_id_times
+    local find_times = self.config['find_id_times']
     local maybe = self:find_code(obj)
     if type(maybe) ~= 'table' then
         obj._origin_id = maybe
@@ -168,73 +176,40 @@ function mt:get_unit_list(default, name)
     return self.unit_list[name]
 end
 
-function mt:add_template_data(template, name, data)
-	local has_temp = true
-	if not template then
-		template = {}
-		has_temp = false
-	end
-	local all_same = true
-	local template = template[name]
-	if type(template) ~= 'table' then
-		template = {template}
-	end
-	for i = data._max_level, 1, -1 do
-		local temp_data = template[i] or template[#template]
-		if not temp_data and has_temp then
-			temp_data = self:to_type(data['_c4id'])
-            if not temp_data and i == 1 then
-                temp_data = ''
+function mt:clean_obj(name, obj)
+    local code = obj._origin_id
+    local max_level = obj._max_level
+    local default = self.default[code]
+    local remove_over_level = self.config['remove_over_level']
+    local remove_same = self.config['remove_same']
+    for key, data in pairs(obj) do
+        if remove_over_level and max_level then
+            if type(data) == 'table' then
+                for level in pairs(data) do
+                    if level > max_level then
+                        data[level] = nil
+                    end
+                end
             end
-		end
-		if data[i] == nil then
-			data[i] = temp_data
-		else
-			if data[i] ~= temp_data then
-				all_same = false
-			end
-		end
-        if all_same and (self.config['unpack']['remove_same'] or (data['_slk'] and data['_slk'][i])) and i > 1 then
-            data[i] = nil
-            data._max_level = i - 1
-        elseif has_temp == false and i == data._max_level and data[i] == data[i-1] then
-            data[i] = nil
-            data._max_level = i - 1
         end
-	end
-	return all_same and has_temp
-end
-
-function mt:find_max_level(id, datas)
-	local key = self.max_level_key
-	if not key then
-		return nil
-	end
-    if not self.template then
-        return 4
+        if remove_same then
+            local dest = default[key]
+            if type(dest) == 'table' then
+                for i = 1, #data do
+                    if data[i] == dest[i] then
+                        data[i] = nil
+                    end
+                end
+                if not next(data) then
+                    obj[key] = nil
+                end
+            else
+                if data == dest then
+                    obj[key] = nil
+                end
+            end
+        end
     end
-	local data = datas[key]
-	if data then
-        return data[1]
-    else
-		return self.template[id][key]
-	end
-end
-
-function mt:count_max_level(skill, name, data, max_level)
-	data._max_level = 1
-	local meta = self.meta[data['_c4id']]
-	if max_level and meta['repeat'] and meta['repeat'] > 0 then
-		data._max_level = max_level
-	end
-	if self.template and self.config['unpack']['remove_over_level'] then
-		return
-	end
-	for k in pairs(data) do
-		if type(k) == 'number' and k > data._max_level then
-			data._max_level = k
-		end
-	end
 end
 
 function mt:to_type(id, value)
@@ -281,7 +256,7 @@ return function (w2l, ttype, file_name, data)
     tbl.key = w2l:parse_lni(io.load(w2l.key / (ttype .. '.ini')), file_name)
     tbl.default = w2l:parse_lni(io.load(w2l.default / (ttype .. '.ini')))
     tbl.type = ttype
-    tbl.find_id_times = w2l.config['unpack']['find_id_times']
+    tbl.config = w2l.config['unpack']
 
     function tbl:get_id_type(id)
         return w2l:get_id_type(id, tbl.meta)
