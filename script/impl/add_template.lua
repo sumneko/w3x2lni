@@ -182,33 +182,67 @@ function mt:clean_obj(name, obj)
     local default = self.default[code]
     local remove_over_level = self.config['remove_over_level']
     local remove_same = self.config['remove_same']
+    local add_void  = self.config['add_void']
     for key, data in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
             if remove_over_level and max_level then
-                if type(data) == 'table' then
-                    for level in pairs(data) do
-                        if level > max_level then
-                            data[level] = nil
-                        end
-                    end
-                end
+                self:remove_over_level(data, max_level)
             end
             if remove_same then
-                local dest = default[key]
-                if type(dest) == 'table' then
-                    for i = 1, #data do
-                        if data[i] == dest[i] then
-                            data[i] = nil
-                        end
-                    end
-                    if not next(data) then
-                        obj[key] = nil
-                    end
-                else
-                    if data == dest then
-                        obj[key] = nil
-                    end
-                end
+                self:remove_same(key, data, default, obj)
+            end
+            if add_void then
+                self:add_void(key, data, default)
+            end
+        end
+    end
+end
+
+function mt:remove_over_level(data, max_level)
+    if type(data) ~= 'table' then
+        return
+    end
+    for level in pairs(data) do
+        if level > max_level then
+            data[level] = nil
+        end
+    end
+end
+
+function mt:remove_same(key, data, default, obj)
+    local dest = default[key]
+    if type(dest) == 'table' then
+        for i = 1, #data do
+            if data[i] == dest[i] then
+                data[i] = nil
+            end
+        end
+        if not next(data) then
+            obj[key] = nil
+        end
+    else
+        if data == dest then
+            obj[key] = nil
+        end
+    end
+end
+
+function mt:add_void(key, data, default)
+    if type(data) ~= 'table' then
+        return
+    end
+    local len = 0
+    for n in pairs(data) do
+        if n > len then
+            len = n
+        end
+    end
+    local dest = default[key]
+    local tp = type(data[len])
+    for i = 1, len do
+        if not data[i] then
+            if tp == 'number' then
+                data[i] = dest[#dest]
             end
         end
     end
