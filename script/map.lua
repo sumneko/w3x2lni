@@ -1,6 +1,7 @@
 local stormlib = require 'ffi.stormlib'
 local progress = require 'progress'
 local w2l = require 'w3x2lni'
+w2l:initialize()
 
 local table_insert = table.insert
 

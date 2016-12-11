@@ -22,7 +22,7 @@ local function create_object(t)
 		if value and type(value) ~= 'table' then
 			return value
 		end
-		local pos = key:find("%d*$")
+		local pos = key:find("%d+$")
 		if not pos then
 			return
 		end
