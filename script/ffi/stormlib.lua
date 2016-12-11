@@ -257,6 +257,9 @@ function m.create(path, filecount)
 	end
 	return setmetatable({ handle = phandle[0] }, archive)
 end
+function m.attach(handle)
+	return setmetatable({ handle = handle }, archive)
+end
 function m.messagebox(text, caption)
 	ffi.C.MessageBoxA(nil, text, caption, 0)
 end

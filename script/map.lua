@@ -373,8 +373,13 @@ function mt:save_dir(output_dir)
     end
 end
 
-function mt:load_mpq(map_path)
-    local map = stormlib.open(map_path)
+function mt:load_mpq(mappath)
+    local map
+    if type(mappath) == 'number' then
+        map = stormlib.attach(mappath)
+    else
+        map = stormlib.open(mappath)
+    end
 	if not map then
 		message('地图打开失败')
 		return false
