@@ -319,7 +319,7 @@ function mt:load_obj(ttype, file_name, target_progress)
 
     if self.files[file_name] then
         message('正在转换', file_name)
-        obj, force_slk = w2l:read_obj(ttype, file_name, self.files[file_name])
+        obj, force_slk = w2l:read_obj(ttype, file_name, self.files[file_name](file_name))
         progress(1)
     end
 
@@ -337,7 +337,7 @@ function mt:load_obj(ttype, file_name, target_progress)
 
     add_table(data, obj or {})
     
-    --w2l:add_template(file_name, data, io.load)
+    w2l:add_template(ttype, file_name, data)
 
     return data
 end

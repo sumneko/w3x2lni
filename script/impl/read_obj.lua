@@ -107,9 +107,9 @@ function mt:read_data(obj)
 	end
 end
 
-return function (w2l, ttype, file_name)
+return function (w2l, ttype, file_name, content)
 	local tbl     = setmetatable({}, mt)
-	tbl.content   = io.load(file_name)
+	tbl.content   = content
 	tbl.index     = 1
 	tbl.meta      = w2l:read_metadata(ttype)
 	tbl.has_level = w2l.info['key']['max_level'][ttype]

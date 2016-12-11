@@ -36,201 +36,136 @@ local function add_table(tbl1, tbl2)
 end
 
 function mt:parse_chunk(chunk)
+    local max_count = 0
     for name, obj in pairs(chunk) do
-        if name:sub(1, 1) ~= '_' then
-            tbl:parse_obj(name, obj)
+        max_count = max_count + 1
+    end
+    local count = 0
+    local clock = os.clock()
+    for name, obj in pairs(chunk) do
+        self:parse_obj(name, obj)
+        count = count + 1
+        if os.clock() - clock >= 0.1 then
+            clock = os.clock()
+            message(('搜索最优模板[%s] (%d/%d)'):format(name, count, max_count))
         end
     end
 end
 
 function mt:parse_obj(name, obj)
-    local origin_id
-    local count, sames, names, datas
-    local user_id = obj['_user_id']
-    local find_times = self.config['unpack']['find_id_times']
-    local ids = self:find_origin_id(obj)
+    local code
+    local count
+    local find_times = self.find_id_times
+    local maybe = self:find_code(obj)
+    if type(maybe) ~= 'table' then
+        obj._origin_id = maybe
+        return
+    end
 
-    for id in pairs(ids) do
-        local new_obj = copy(obj)
-        if is_slk then
-            self:add_slk_data(new_obj, id)
-        end
-        local new_names, new_datas = self:preload_obj(new_obj, id)
-        local new_count = self:try_obj(user_id, id, new_names, new_datas)
-        if not count or count > new_count or (origin_id > id and count == new_count) then
+    for try_name in pairs(maybe) do
+        local new_count = self:try_obj(obj, self.default[try_name])
+        if not count or count > new_count or (count == new_count and code > try_name) then
             count = new_count
-            names = new_names
-            datas = new_datas
-            origin_id = id
-        end
-        if not is_slk then
-            break
+            code = try_name
         end
         find_times = find_times - 1
         if find_times == 0 then
             break
         end
     end
-    
-    datas['_user_id'] = user_id
-    datas['_origin_id'] = origin_id
-    return datas
+
+    obj._origin_id = code
 end
 
-function mt:preload_obj(obj, id)
-    local names = {}
-	local datas = {}
-    for name, data in pairs(obj) do
-		if name:sub(1, 1) ~= '_' then
-			data['_c4id'] = name
-			local name = self:format_name(name)
-            names[#names+1] = name
-            datas[name] = data
-		end
-	end
-	local max_level = self:find_max_level(id, datas)
-	for i = 1, #names do
-		self:count_max_level(obj['_user_id'], names[i], datas[names[i]], max_level)
-	end
-    return names, datas
-end
-
-function mt:try_obj(user_id, origin_id, names, datas)
-    local template = self.template and (self.template[user_id] or self.template[origin_id])
-	local sames = {}
-    local count = 0
-	for i = 1, #names do
-		local same = self:add_template_data(template, names[i], datas[names[i]])
-		if not same then
-            count = count + 1
-			need_new = true
-            datas[names[i]]._not_same = true
-		end
-	end
-    if template then
-        for name, data in pairs(template) do
-            if not datas[name] and name:sub(1, 1) ~= '_' then
-                count = count + 1
-                if type(data) ~= 'table' then
-                    data = {data}
+function mt:try_obj(obj, may_obj)
+    local diff_count = 0
+    for name, may_data in pairs(may_obj) do
+        if name:sub(1, 1) ~= '_' then
+            local data = obj[name]
+            if type(may_data) == 'table' then
+                if type(data) == 'table' then
+                    for i = 1, #may_data do
+                        if data[i] ~= may_data[i] then
+                            diff_count = diff_count + 1
+                            break
+                        end
+                    end
+                else
+                    diff_count = diff_count + 1
                 end
-                datas[name] = copy(data)
-                datas[name].name = self:key2id(origin_id, user_id, name)
-                datas[name]._max_level = #datas[name]
-                datas[name]._not_same = true
+            else
+                if data ~= may_data then
+                    diff_count = diff_count + 1
+                end
             end
         end
     end
-	if need_new then
-        return count
-	end
-    return 0, nil
+    return diff_count
 end
 
-function mt:find_origin_id(obj)
-    local temp = self.template
-    if not temp or obj['_true_origin'] then
-        local id = obj['_origin_id']
-        return {[id] = true}
+function mt:find_code(obj)
+    if obj['_true_origin'] then
+        local code = obj['_origin_id']
+        return code
     end
-    local id = obj['_user_id']
-    if temp[id] then
-        return {[id] = true}
+    local name = obj['_user_id']
+    if self.default[name] then
+        return name
     end
-    local oid = obj['_origin_id']
-    if oid then
-        local list = self:get_revert_list(temp, oid)
+    local code = obj['_origin_id']
+    if code then
+        local list = self:get_revert_list(self.default, code)
         if list then
             return list
         end
     end
-    if self.file_name == 'war3map.w3u' then
-        return self:get_unit_list(temp, obj['_name'])
+    if self.type == 'unit' then
+        local list = self:get_unit_list(self.default, obj['_name'])
+        if list then
+            return list
+        end
     end
-    return temp
+    return self.default
 end
 
-function mt:get_revert_list(temp, id)
+function mt:get_revert_list(default, code)
     if not self.revert_list then
         self.revert_list = {}
-        for name, obj in pairs(temp) do
-            local _id = obj['_id']
-            if not self.revert_list[_id] then
-                self.revert_list[_id] = {}
+        for name, obj in pairs(default) do
+            local code = obj['_origin_id']
+            local list = self.revert_list[code]
+            if not list then
+                self.revert_list[code] = name
+            else
+                if type(list) ~= 'table' then
+                    self.revert_list[code] = {[list] = true}
+                end
+                self.revert_list[code][name] = true
             end
-            self.revert_list[_id][name] = true
         end
     end
-    return self.revert_list[id]
+    return self.revert_list[code]
 end
 
-function mt:get_unit_list(temp, name)
+function mt:get_unit_list(default, name)
     if not self.unit_list then
         self.unit_list = {}
-        for name, obj in pairs(temp) do
+        for name, obj in pairs(default) do
             local _name = obj['_name']
             if _name then
-                if not self.unit_list[_name] then
-                    self.unit_list[_name] = {}
-                end
-                self.unit_list[_name][name] = true
-            end
-        end
-    end
-    return self.unit_list[name] or temp
-end
-
-function mt:add_slk_data(obj, id)
-    local temp = self.template
-    local temp_skill
-    if temp then
-        temp_skill = temp[id]
-        if not temp_skill then
-            return
-        end
-    else
-        temp_skill = obj
-    end
-    
-    for lname, value in pairs(temp_skill) do
-        if lname:sub(1, 1) ~= '_' then
-            local name
-            if temp then
-                name = self:key2id(id, id, lname)
-            else
-                name = lname
-            end
-            if name then
-                if not obj[name] then
-                    obj[name] = {
-                        ['name'] = name,
-                    }
-                end
-                if not obj[name]['_slk'] then
-                    obj[name]['_slk'] = {}
-                end
-                local max_level
-                local meta = self.meta[name]
-                if meta['repeat'] and meta['repeat'] > 0 then
-                    max_level = 4
+                local list = self.unit_list[_name]
+                if not list then
+                    self.unit_list[_name] = name
                 else
-                    max_level = 1
-                end
-                for i = 1, max_level do
-                    if obj[name][i] == false then
-                        obj[name][i] = obj[name][i-1]
+                    if type(list) ~= 'table' then
+                        self.unit_list[_name] = {[list] = true}
                     end
-                    if obj[name][i] == nil then
-                        obj[name]['_slk'][i] = true
-                        obj[name][i] = self:to_type(name)
-                        if not obj[name][i] and i == 1 then
-                            obj[name][i] = ''
-                        end
-                    end
+                    self.unit_list[_name][name] = true
                 end
             end
         end
     end
+    return self.unit_list[name]
 end
 
 function mt:add_template_data(template, name, data)
@@ -340,10 +275,13 @@ function mt:format_name(name)
 	return name
 end
 
-return function (w2l, file_name, data)
+return function (w2l, ttype, file_name, data)
     local tbl = setmetatable({}, mt)
-    tbl.meta = w2l:read_metadata(file_name)
-    tbl.key = w2l:parse_lni(io.load(w2l.key / (file_name .. '.ini')), file_name)
+    tbl.meta = w2l:read_metadata(ttype)
+    tbl.key = w2l:parse_lni(io.load(w2l.key / (ttype .. '.ini')), file_name)
+    tbl.default = w2l:parse_lni(io.load(w2l.default / (ttype .. '.ini')))
+    tbl.type = ttype
+    tbl.find_id_times = w2l.config['unpack']['find_id_times']
 
     function tbl:get_id_type(id)
         return w2l:get_id_type(id, tbl.meta)
