@@ -225,10 +225,14 @@ function archive:__pairs()
 end
 
 local m = {}
-function m.open(path, filecount)
+function m.open(path, readonly, filecount)
 	local wpath = uni.u2w(path:string())
 	local phandle = ffi.new('uint32_t[1]', 0)
-	if not stormlib.SFileOpenArchive(wpath, 0, 0, phandle) then
+	local flag = 0
+	if readonly then
+		flag = 0x100
+	end
+	if not stormlib.SFileOpenArchive(wpath, 0, flag, phandle) then
 		return nil
 	end
 	if filecount then
