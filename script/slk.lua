@@ -5,9 +5,9 @@ end)()
 
 require 'filesystem'
 require 'utility'
-local uni        = require 'ffi.unicode'
-local w2l        = require 'w3x2lni'
-local create_map = require 'create_map'
+local uni = require 'ffi.unicode'
+local w2l = require 'w3x2lni'
+local map = require 'map'
 
 function message(...)
 end
@@ -15,11 +15,11 @@ end
 w2l:init()
 
 local clock = os.clock()
-local input_path = fs.path(uni.a2u(arg[1]))
-local map = create_map()
-map:load_mpq(input_path)
+local mappath = fs.path(uni.a2u(arg[1]))
+local m = map()
+m:load_mpq(mappath)
 print('time:', os.clock() - clock)
-map:load_data()
+m:load_data()
 print('time:', os.clock() - clock)
 
 local function create_object(t)
@@ -68,7 +68,7 @@ local function create_object(t)
 end
 
 local function create_proxy(type)
-	local t = map.objs[type]
+	local t = m.objs[type]
 	local mt = {}
 	function mt:__index(key)
 		return create_object(t[key] or {})
