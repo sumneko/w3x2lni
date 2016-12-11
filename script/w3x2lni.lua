@@ -13,11 +13,6 @@ local metadatas = {}
 local id_type
 local usable_code
 
-function mt:read_config()
-	self.config = lni(io.load(self.root / 'config.ini'), 'config')
-    self.info   = lni(io.load(self.root / 'script' / 'info.ini'), 'info')
-end
-
 function mt:parse_lni(...)
 	return lni(...)
 end
@@ -76,13 +71,21 @@ function mt:is_usable_code(code)
 	return usable_code[code]
 end
 
-mt.root = fs.path(uni.a2u(arg[0])):remove_filename()
-mt.template = mt.root / 'template'
-mt.mpq = mt.root / 'script' / 'mpq'
-mt.prebuilt = mt.root / 'script' / 'prebuilt'
-mt.key = mt.prebuilt / 'key'
-mt.default = mt.prebuilt / 'default'
-mt:read_config()
+function mt:initialize(root)
+	if self.initialized then
+		return
+	end
+	self.initialized = true
+	self.root = root or fs.path(uni.a2u(arg[0])):remove_filename()
+	self.template = self.root / 'template'
+	self.mpq = self.root / 'script' / 'mpq'
+	self.prebuilt = self.root / 'script' / 'prebuilt'
+	self.key = self.prebuilt / 'key'
+	self.default = self.prebuilt / 'default'
+	self.config = lni(io.load(self.root / 'config.ini'), 'config')
+    self.info   = lni(io.load(self.root / 'script' / 'info.ini'), 'info')
+end
+
 -- 加载脚本
 local convertors = {
 	'read_wts',
