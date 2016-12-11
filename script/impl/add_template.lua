@@ -36,18 +36,18 @@ local function add_table(tbl1, tbl2)
 end
 
 function mt:parse_chunk(chunk)
-    local max_count = 0
-    for name, obj in pairs(chunk) do
-        max_count = max_count + 1
+    local names = {}
+    for name in pairs(chunk) do
+        names[#names+1] = name
     end
-    local count = 0
+    table.sort(names)
     local clock = os.clock()
-    for name, obj in pairs(chunk) do
-        self:parse_obj(name, obj)
-        count = count + 1
+    for i = 1, #names do
+        local name = names[i]
+        self:parse_obj(name, chunk[name])
         if os.clock() - clock >= 0.1 then
             clock = os.clock()
-            message(('搜索最优模板[%s] (%d/%d)'):format(name, count, max_count))
+            message(('搜索最优模板[%s] (%d/%d)'):format(name, i, #names))
         end
     end
 end
