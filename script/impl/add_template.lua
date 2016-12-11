@@ -212,44 +212,6 @@ function mt:clean_obj(name, obj)
     end
 end
 
-function mt:to_type(id, value)
-    local tp = self:get_id_type(id)
-    if tp == 0 then
-        value = math.floor(tonumber(value) or 0)
-    elseif tp == 1 or tp == 2 then
-        value = (tonumber(value) or 0.0) + 0.0
-    elseif tp == 3 then
-        if type(value) == 'string' then
-            if value:match '^%s*[%-%_]%s*$' then
-                value = nil
-            end
-        end
-    end
-    return value
-end
-
-function mt:key2id(code, skill, key)
-    local key = key:lower()
-    local id = self.key[code] and self.key[code][key] or self.key[skill] and self.key[skill][key] or self.key['public'][key]
-    if id then
-        return id
-    end
-    return nil
-end
-
-function mt:format_name(name)
-	local meta  = self.meta[name]
-	local name  = meta['field']
-	local num   = meta['data']
-	if num and num ~= 0 then
-		name = name .. string_char(('A'):byte() + num - 1)
-	end
-	if meta['_has_index'] then
-		name = name .. ':' .. (meta['index'] + 1)
-	end
-	return name
-end
-
 return function (w2l, ttype, file_name, data)
     local tbl = setmetatable({}, mt)
     tbl.meta = w2l:read_metadata(ttype)
