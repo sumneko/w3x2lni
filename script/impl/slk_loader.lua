@@ -28,8 +28,10 @@ function mt:read_slk_obj(obj, name, data)
     local obj = obj or {}
     obj._user_id = name
     obj._origin_id = data.code or obj._origin_id or name
-    --obj._name = data.name or obj._name  -- 单位的反slk可以用name作为线索
     obj._slk = true
+    if self.type == 'unit' and not obj._name then
+        obj._name = data.name  -- 单位的反slk可以用name作为线索
+    end
     
     for i = 1, #slk_keys do
         self:read_slk_data(name, obj, slk_keys[i], slk_ids[i], data)
@@ -294,6 +296,7 @@ return function (w2l, ttype, loader)
     self.meta = w2l:read_metadata(ttype)
     self.key = w2l:parse_lni(io.load(w2l.key / (ttype .. '.ini')), ttype)
     self.max_level_key = w2l.info['key']['max_level'][ttype]
+    self.type = ttype
 
     function self:get_id_type(id)
         return w2l:get_id_type(id, self.meta)
