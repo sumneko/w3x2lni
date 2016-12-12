@@ -260,7 +260,7 @@ function mt:load_misc()
             add_table(misc, data.Misc)
         end
     end
-    return misc
+    self.objs['misc'] = misc
 end
 
 function mt:to_lni()
