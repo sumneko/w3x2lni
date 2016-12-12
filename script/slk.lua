@@ -103,8 +103,8 @@ function slk:initialize(mappath)
 	m:load_mpq(mappath)
 	print('time:', os.clock() - clock)
 	m:load_data()
-	print('time:', os.clock() - clock)
 	m:load_misc()
+	print('time:', os.clock() - clock)
 
 	for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
 		slk[name] = create_proxy(name)
