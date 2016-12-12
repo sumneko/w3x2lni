@@ -74,11 +74,14 @@ end
 
 function mt:editstring(str)
 	if not editstring then
-		editstring = lni(io.load(self.mpq / 'ui' / 'WorldEditStrings.txt'))['WorldEditStrings']
+		editstring = ini(io.load(self.mpq / 'ui' / 'WorldEditStrings.txt'))['WorldEditStrings']
 	end
-	while editstring[str] do
+	if not editstring[str] then
+		return str
+	end
+	repeat
 		str = editstring[str]
-	end
+	until not editstring[str]
 	return str:gsub('%c+', '')
 end
 

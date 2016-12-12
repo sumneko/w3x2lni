@@ -5,11 +5,19 @@ end)()
 
 require 'filesystem'
 local uni = require 'ffi.unicode'
+local w2l = require 'w3x2lni'
 
 function message(...)
 end
 
 local m
+
+local function convert(v)
+	if type(v) ~= 'string' then
+		return v
+	end
+	return w2l:editstring(v)
+end
 
 local function create_object(t)
 	local mt = {}
@@ -20,7 +28,7 @@ local function create_object(t)
 		key = key:lower()
 		local value = t[key]
 		if value and type(value) ~= 'table' then
-			return value
+			return convert(value)
 		end
 		local pos = key:find("%d+$")
 		if not pos then
@@ -34,7 +42,7 @@ local function create_object(t)
 		if level > t._max_level then
 			return
 		end
-		return value[level]
+		return convert(value[level])
 	end
 	function mt:__newindex()
 	end
@@ -48,7 +56,7 @@ local function create_object(t)
 				if t._max_level <= level then
 					level = nil
 				end
-				return key .. olevel, t[key][olevel]
+				return key .. olevel, convert(t[key][olevel])
 			end
 			local nkey = next(t, key)
 			while true do
@@ -62,12 +70,12 @@ local function create_object(t)
 			end
 			key = nkey
 			if type(t[key]) ~= 'table' then
-				return key, t[key]
+				return key, convert(t[key])
 			end
 			if t._max_level > 1 then
 				level = 1
 			end
-			return key .. 1, t[key][1]
+			return key .. 1, convert(t[key][1])
 		end
 	end
 	return setmetatable({}, mt)
