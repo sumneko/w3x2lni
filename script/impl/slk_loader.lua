@@ -63,6 +63,9 @@ function mt:read_slk_data(name, obj, key, id, data)
             for i = 1, 4 do
                 obj[key][i] = self:to_type(id, data[key..i])
             end
+            if #obj[key] == 0 then
+                obj[key] = nil
+            end
         end
     else
         local value = data[key]
@@ -162,16 +165,21 @@ function mt:add_default_data(name, obj, key, id)
     local meta = self.meta[id]
     local rep = meta['repeat']
     if rep and rep > 0 then
+        local value = self:to_type(id)
         if obj[key] then
             for i = 5, #obj[key] do
                 obj[key][i] = nil
             end
         else
-            obj[key] = {}
+            if value then
+                obj[key] = {}
+            else
+                return
+            end
         end
         for i = 1, 4 do
             if not obj[key][i] then
-                obj[key][i] = self:to_type(id)
+                obj[key][i] = value
             end
         end
     else

@@ -16,9 +16,6 @@ local function add_data(lines, key, data)
         key = ('%q'):format(key)
     end
     if type(data) == 'table' then
-        if #data == 0 then
-            return
-        end
         local values = {}
         for i = 1, #data do
             values[i] = format_value(data[i])
