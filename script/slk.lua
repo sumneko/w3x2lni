@@ -12,13 +12,6 @@ end
 
 local m
 
-local function convert(v)
-	if type(v) ~= 'string' then
-		return v
-	end
-	return w2l:editstring(v)
-end
-
 local function create_object(t)
 	local mt = {}
 	function mt:__index(key)
@@ -28,7 +21,7 @@ local function create_object(t)
 		key = key:lower()
 		local value = t[key]
 		if value and type(value) ~= 'table' then
-			return convert(value)
+			return value
 		end
 		local pos = key:find("%d+$")
 		if not pos then
@@ -42,7 +35,7 @@ local function create_object(t)
 		if level > t._max_level then
 			return
 		end
-		return convert(value[level])
+		return value[level]
 	end
 	function mt:__newindex()
 	end
@@ -56,7 +49,7 @@ local function create_object(t)
 				if t._max_level <= level then
 					level = nil
 				end
-				return key .. olevel, convert(t[key][olevel])
+				return key .. olevel, t[key][olevel]
 			end
 			local nkey = next(t, key)
 			while true do
@@ -70,12 +63,12 @@ local function create_object(t)
 			end
 			key = nkey
 			if type(t[key]) ~= 'table' then
-				return key, convert(t[key])
+				return key, t[key]
 			end
 			if t._max_level > 1 then
 				level = 1
 			end
-			return key .. 1, convert(t[key][1])
+			return key .. 1, t[key][1]
 		end
 	end
 	return setmetatable({}, mt)
@@ -126,9 +119,9 @@ slk:initialize(mappath)
 --print(slk.ability.A00E.Cost1)
 --print(slk.ability.A00E.DataA1)
 
-for k, v in pairs(slk.ability.AEim) do
-	print(k, v)
-end
+--for k, v in pairs(slk.ability.AEim) do
+--	print(k, v)
+--end
 
 --for id, abil in pairs(slk.ability) do
 --	print(id, abil.DataA1)
