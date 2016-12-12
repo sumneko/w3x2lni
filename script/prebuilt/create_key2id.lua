@@ -122,7 +122,7 @@ local function copy_code(private, template)
     private['AOac'] = private['ACac']
 end
 
-local function read_list(self, metadata, template, ttype)
+local function read_list(metadata, template, ttype)
     local tbl = setmetatable({}, { __index = mt })
     tbl.type = ttype
     tbl.lines = {}
@@ -150,8 +150,8 @@ local function convert_list(public, private)
     return table.concat(tbl, '\r\n') .. '\r\n'
 end
 
-return function (self, type, metadata, template)
-    local public, private = read_list(self, metadata, template, type)
+return function (type, metadata, template)
+    local public, private = read_list(metadata, template, type)
 
     return convert_list(public, private)
 end

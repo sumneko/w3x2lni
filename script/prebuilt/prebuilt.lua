@@ -8,7 +8,8 @@ require 'utility'
 local w2l  = require 'w3x2lni'
 local uni      = require 'ffi.unicode'
 local order_prebuilt = require 'order.prebuilt'
-local table2lni = require 'table2lni'
+local default2lni = require 'prebuilt.default2lni'
+local create_key2id = require 'prebuilt.create_key2id'
 w2l:initialize()
 
 function message(...)
@@ -82,7 +83,7 @@ local function main()
         for i = 1, #slk do
             add_table(template, w2l:parse_slk(io.load(w2l.mpq / slk[i])))
         end
-		local content = w2l:key2id(type, metadata, template)
+		local content = create_key2id(type, metadata, template)
 		io.save(w2l.key / (type .. '.ini'), content)
 	end
 
@@ -92,11 +93,11 @@ local function main()
 	local usable_code = {}
 	for ttype, meta in pairs(w2l.info['metadata']) do
 		message('正在生成模板', ttype)
-		local data = w2l:slk_loader(ttype, function(name)
+		local data = w2l:frontend_slk(ttype, function(name)
 			return io.load(w2l.mpq / name)
 		end)
-		io.save(w2l.default / (ttype .. '.ini'), table2lni(data))
-		io.save(w2l.template / (ttype .. '.ini'), w2l:to_lni(ttype, data))
+		io.save(w2l.default / (ttype .. '.ini'),default2lni(data))
+		io.save(w2l.template / (ttype .. '.ini'), w2l:backend_lni(ttype, data))
 		for name in pairs(data) do
 			usable_code[name] = true
 		end

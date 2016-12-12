@@ -276,7 +276,7 @@ function mt:to_lni()
             data = self:on_lni(ttype, data)
         end
         
-        local content = w2l:to_lni(ttype, data)
+        local content = w2l:backend_lni(ttype, data)
         if content then
             self.files[ttype .. '.ini'] = function() return content end
         end
@@ -308,65 +308,7 @@ function mt:post_process()
 end
 
 function mt:load_data()
-	--读取字符串
-	if self.files['war3map.wts'] then
-		w2l:read_wts(self.files['war3map.wts']('war3map.wts'))
-	end
-    
-    local count = 0
-    for ttype, name in pairs(w2l.info.template.obj) do
-        count = count + 1
-        local target_progress = 3 + count * 2
-        self.objs[ttype] = self:load_obj(ttype, name, target_progress)
-    end
-
-    -- 删掉输入的二进制物编和slk,因为他们已经转化成lua数据了
-    for _, name in pairs(w2l.info.template.obj) do
-        self.files[name] = nil
-    end
-    if w2l.config['unpack']['read_slk'] then
-        for _, names in pairs(w2l.info.template.slk) do
-            for _, name in ipairs(names) do
-                self.files[name] = nil
-            end
-        end
-        for _, names in pairs(w2l.info.template.txt) do
-            for _, name in ipairs(names) do
-                self.files[name] = nil
-            end
-        end
-    end
-end
-
-function mt:load_obj(ttype, file_name, target_progress)
-    local metadata = w2l:read_metadata(ttype)
-    local key_data = w2l:parse_lni(io.load(w2l.key / (ttype .. '.ini')), ttype)
-
-    local obj, data
-    local force_slk
-
-    progress:target(target_progress-1)
-    if self.files[file_name] then
-        message('正在转换', file_name)
-        obj, force_slk = w2l:read_obj(ttype, file_name, self.files[file_name](file_name))
-    end
-
-    progress:target(target_progress)
-    if force_slk or w2l.config['unpack']['read_slk'] then
-        data = w2l:slk_loader(ttype, function(name)
-            message('正在转换', name)
-            if self.files[name] then
-                return self.files[name](name)
-            end
-            return io.load(w2l.mpq / name)
-        end)
-    else
-        data = w2l:parse_lni(io.load(w2l.default / (ttype .. '.ini')))
-    end
-
-    add_table(data, obj or {})
-
-    return data
+	self.objs = w2l:frontend(self.files)
 end
 
 function mt:save_dir(output_dir)

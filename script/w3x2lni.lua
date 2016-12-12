@@ -103,23 +103,22 @@ end
 
 -- 加载脚本
 local convertors = {
-	'read_wts',
-	'to_lni', 'lni2obj',
-	'w3i2lni', 'lni2w3i',
-	'read_obj',
-	'read_w3i',
-	'create_unitsdoo',
-	'key2id',
-	'post_process',
-	'slk_loader',
+	'frontend',
+	'frontend_wts', 'frontend_slk', 'frontend_wts', 'frontend_processing',
+	'backend_lni', 'backend_obj',
 }
 
 for _, name in ipairs(convertors) do
-	local func = require('impl.' .. name)
-	mt[name] = function (self, ...)
-		--message(('正在执行:') .. name)
-		return func(self, ...)
-	end
+	mt[name] = require('slk.' .. name)
+end
+
+local convertors = {
+	'lni2w3i', 'read_w3i', 'w3i2lni',
+	'create_unitsdoo',
+}
+
+for _, name in ipairs(convertors) do
+	mt[name] = require('other.' .. name)
 end
 
 return mt
