@@ -60,7 +60,7 @@
             "arg": [
                 "${workspaceRoot}/DotA_v6.83dv_MU13.7.w3x"
             ],
-            "console": "ansi"
+            "console": "utf8"
         }
     ]
 }

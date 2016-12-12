@@ -39,7 +39,17 @@ local function create_object(t)
 	function mt:__newindex()
 	end
 	function mt:__pairs()
-		return function (_, key)
+		local key
+		local level
+		return function ()
+			if level then
+				level = level + 1
+				local olevel = level
+				if t._max_level <= level then
+					level = nil
+				end
+				return key .. olevel, t[key][olevel]
+			end
 			local nkey = next(t, key)
 			while true do
 				if not nkey then
@@ -50,7 +60,14 @@ local function create_object(t)
 				end
 				nkey = next(t, nkey)
 			end
-			return nkey, self[nkey]
+			key = nkey
+			if type(t[key]) ~= 'table' then
+				return key, t[key]
+			end
+			if t._max_level > 1 then
+				level = 1
+			end
+			return key .. 1, t[key][1]
 		end
 	end
 	return setmetatable({}, mt)
@@ -95,12 +112,15 @@ end
 
 local mappath = fs.path(uni.a2u(arg[1]))
 slk:initialize(mappath)
-print(slk.ability.A00E.DataA1)
 
+--print(slk.unit.h0BF.Name1)
+--print(slk.ability.A00E.Cost)
+--print(slk.ability.A00E.Cost1)
+--print(slk.ability.A00E.DataA1)
 
---for k, v in pairs(slk.ability.A000) do
---	print(k, v)
---end
+for k, v in pairs(slk.ability.AEim) do
+	print(k, v)
+end
 
 --for id, abil in pairs(slk.ability) do
 --	print(id, abil.DataA1)
