@@ -103,7 +103,7 @@ end
 
 -- 加载脚本
 local convertors = {
-	'frontend',
+	'frontend', 'backend',
 	'frontend_wts', 'frontend_slk', 'frontend_obj', 'frontend_processing',
 	'backend_lni', 'backend_obj',
 }
