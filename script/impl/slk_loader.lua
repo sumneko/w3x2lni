@@ -1,7 +1,6 @@
 local table_insert = table.insert
 local table_unpack = table.unpack
 local type = type
-local tonumber = tonumber
 local math_floor = math.floor
 local pairs = pairs
 local ipairs = ipairs
@@ -226,7 +225,7 @@ function mt:to_type(id, value)
         if not value then
             return 0
         end
-        value = tonumber(value)
+        value = self:tonumber(value)
         if not value then
             return 0
         end
@@ -235,7 +234,7 @@ function mt:to_type(id, value)
         if not value then
             return 0.0
         end
-        value = tonumber(value)
+        value = self:tonumber(value)
         if not value then
             return 0.0
         end
@@ -309,6 +308,11 @@ return function (w2l, ttype, loader)
     function self:get_id_type(id)
         return w2l:get_id_type(id, self.meta)
     end
+
+    function self:tonumber(buf)
+        return w2l:tonumber(buf)
+    end
+    
     local result = self:save()
     return result
 end
