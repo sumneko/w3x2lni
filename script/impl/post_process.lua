@@ -42,20 +42,24 @@ function mt:parse_chunk(chunk)
     end
     table.sort(names)
     local clock = os.clock()
+    progress:target(self.target_progress - 1)
     for i = 1, #names do
         local name = names[i]
         self:parse_obj(name, chunk[name])
         if os.clock() - clock >= 0.1 then
             clock = os.clock()
             message(('搜索最优模板[%s] (%d/%d)'):format(name, i, #names))
+            progress(i / #names)
         end
     end
+    progress:target(self.target_progress)
     for i = 1, #names do
         local name = names[i]
         self:clean_obj(name, chunk[name])
         if os.clock() - clock >= 0.1 then
             clock = os.clock()
             message(('清理数据[%s] (%d/%d)'):format(name, i, #names))
+            progress(i / #names)
         end
     end
 end
@@ -248,11 +252,12 @@ function mt:add_void(key, data, default)
     end
 end
 
-return function (w2l, ttype, file_name, data)
+return function (w2l, ttype, file_name, data, target_progress)
     local tbl = setmetatable({}, mt)
     tbl.meta = w2l:read_metadata(ttype)
     tbl.key = w2l:parse_lni(io.load(w2l.key / (ttype .. '.ini')), file_name)
     tbl.default = w2l:parse_lni(io.load(w2l.default / (ttype .. '.ini')))
+    tbl.target_progress = target_progress
     tbl.type = ttype
     tbl.config = w2l.config['unpack']
 

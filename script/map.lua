@@ -250,7 +250,6 @@ end
 
 function mt:to_lni()	
 	--读取字符串
-    progress:target(21)
 	if self.files['war3map.wts'] then
 		self.wts = w2l:read_wts(self.files['war3map.wts']('war3map.wts'))
 	end
@@ -259,7 +258,7 @@ function mt:to_lni()
     local count = 0
     for ttype, meta in pairs(w2l.info['metadata']) do
         count = count + 1
-        local target_progress = 22 + count * 9
+        local target_progress = 66 + count * 2
         progress:target(target_progress)
         
         local data = self.objs[ttype]
@@ -290,16 +289,17 @@ function mt:to_lni()
 
 	--刷新字符串
 	if self.wts then
-        progress:target(86)
 		local content = self.wts:refresh()
 		self.files['war3map.wts'] = function() return content end
-        progress(1)
 	end
 end
 
 function mt:post_process()
+    local count = 0
     for ttype, name in pairs(w2l.info.template.obj) do
-        w2l:post_process(ttype, name, self.objs[ttype])
+        count = count + 1
+        local target_progress = 17 + 7 * count
+        w2l:post_process(ttype, name, self.objs[ttype], target_progress)
     end
 end
 
@@ -307,7 +307,7 @@ function mt:load_data()
     local count = 0
     for ttype, name in pairs(w2l.info.template.obj) do
         count = count + 1
-        local target_progress = 5 + count * 2
+        local target_progress = 3 + count * 2
         self.objs[ttype] = self:load_obj(ttype, name, target_progress)
     end
 
@@ -336,12 +336,13 @@ function mt:load_obj(ttype, file_name, target_progress)
     local obj, data
     local force_slk
 
+    progress:target(target_progress-1)
     if self.files[file_name] then
         message('正在转换', file_name)
         obj, force_slk = w2l:read_obj(ttype, file_name, self.files[file_name](file_name))
-        progress(1)
     end
 
+    progress:target(target_progress)
     if force_slk or w2l.config['unpack']['read_slk'] then
         data = w2l:slk_loader(ttype, function(name)
             message('正在转换', name)
@@ -374,6 +375,7 @@ function mt:save_dir(output_dir)
         end
 	end
 
+    progress:target(100)
     local clock = os.clock()
     local count = 0
     for name, path in pairs(paths) do
@@ -386,6 +388,7 @@ function mt:save_dir(output_dir)
 		if os.clock() - clock >= 0.1 then
             clock = os.clock()
             progress(count / max_count)
+            message(('正在导出文件... (%d/%d)'):format(count, max_count))
 		end
     end
 end
@@ -439,7 +442,7 @@ end
 
 function mt:load_file()
     for i, input in ipairs(self.inputs) do
-        progress:target(5 * i / #self.inputs)
+        progress:target(3 * i / #self.inputs)
         if fs.is_directory(input) then
             self:load_dir(input)
         else
@@ -462,7 +465,6 @@ function mt:save(output_dir, convert_type, output_type)
         self:save_map(output_dir)
     end
 
-    progress:target(100)
     if output_type == 'dir' then
         message('正在清空输出目录...')
         remove_then_create_dir(output_dir)
