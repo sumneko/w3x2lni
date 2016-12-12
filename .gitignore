@@ -2,6 +2,7 @@
 !/script/
 !/bin/
 !/.vscode/
+!/template/
 script/.vscode/
 *.w3x
 *.sign
