@@ -269,7 +269,7 @@ function mt:post_process()
     for ttype, name in pairs(w2l.info.template.obj) do
         count = count + 1
         local target_progress = 17 + 7 * count
-        w2l:frontend_processing(ttype, name, self.objs[ttype], target_progress)
+        w2l:backend_processing(ttype, self.objs, target_progress)
     end
 end
 
@@ -356,6 +356,42 @@ function mt:load_mpq(mappath)
         end
     end
     add_file("war3mapmisc.txt", true)
+end
+
+function mt:load_dir(mappath)
+    local function loader(name)
+        return map:load_file(name)
+    end
+
+    local function add_file(name, read)
+        local name = name:lower()
+        if not map:has_file(name) then
+            return
+        end
+        if read then
+            local content = loader(name)
+            self.files[name] = function() return content end
+        else
+            self.files[name] = loader
+        end
+    end
+
+	for name in pairs(map) do
+		add_file(name)
+	end
+    for _, name in pairs(w2l.info.template.obj) do
+        add_file(name, true)
+    end
+    for _, names in pairs(w2l.info.template.slk) do
+        for _, name in ipairs(names) do
+            add_file(name, true)
+        end
+    end
+    for _, names in pairs(w2l.info.template.txt) do
+        for _, name in ipairs(names) do
+            add_file(name, true)
+        end
+    end
 end
 
 function mt:load_file()
