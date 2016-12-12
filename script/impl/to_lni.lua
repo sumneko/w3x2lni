@@ -31,7 +31,7 @@ function mt:format_value(value)
 	elseif tp == 'nil' then
 		return 'nil'
 	else
-		value = w2l:get_editstring(value)
+		value = self.w2l:editstring(value)
 		if value:match '[\n\r]' then
 			return ('[=[\r\n%s]=]'):format(value)
 		else
@@ -177,13 +177,13 @@ end
 
 function mt:get_comment(id)
 	local comment = self.meta[id].displayname
-	return w2l:get_editstring(comment)
+	return self.w2l:editstring(comment)
 end
 
 return function (w2l, file_name, data)
 	local tbl = setmetatable({}, mt)
 	tbl.lines = {}
-	tbl.self = w2l
+	tbl.w2l = w2l
 	tbl.config = w2l.config
 
 	tbl.meta = w2l:read_metadata(file_name)

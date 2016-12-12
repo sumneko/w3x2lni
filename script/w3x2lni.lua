@@ -73,6 +73,7 @@ function mt:is_usable_code(code)
 end
 
 function mt:editstring(str)
+	-- TODO: WESTRING不区分大小写，不过我们把WorldEditStrings.txt改了，暂时不会出现问题
 	if not editstring then
 		editstring = ini(io.load(self.mpq / 'ui' / 'WorldEditStrings.txt'))['WorldEditStrings']
 	end
