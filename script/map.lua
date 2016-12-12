@@ -255,6 +255,7 @@ function mt:to_lni()
 		self.wts = w2l:read_wts(self.files['war3map.wts']('war3map.wts'))
 	end
 
+    --转换物编
     local count = 0
     for ttype, meta in pairs(w2l.info['metadata']) do
         count = count + 1
@@ -274,6 +275,17 @@ function mt:to_lni()
             self.files[ttype .. '.ini'] = function() return content end
         end
         progress(1)
+    end
+
+    --转换其他文件
+    if self.files['war3map.w3i'] then
+        local w3i = w2l:read_w3i(self.files['war3map.w3i']('war3map.w3i'))
+        local lni = w2l:w3i2lni(w3i)
+        if self.wts then
+            lni = self.wts:load(lni)
+        end
+        self.files['mapinfo.ini'] = function() return lni end
+        self.files['war3map.w3i'] = nil
     end
 
 	--刷新字符串

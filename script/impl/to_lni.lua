@@ -184,7 +184,7 @@ function mt:get_editstring(str)
 	if not self.editstring then
 		return str
 	end
-	local editstring = self.editstring['WorldEditStrings']
+	local editstring = self.editstring
 	while editstring[str] do
 		str = editstring[str]
 	end
@@ -199,7 +199,7 @@ return function (w2l, file_name, data)
 
 	tbl.meta = w2l:read_metadata(file_name)
 	tbl.key = w2l:parse_lni(io.load(w2l.key / (file_name .. '.ini')), file_name)
-	tbl.editstring = w2l:parse_ini(io.load(w2l.mpq / 'ui' / 'WorldEditStrings.txt'))
+	tbl.editstring = w2l:parse_ini(io.load(w2l.mpq / 'ui' / 'WorldEditStrings.txt'))['WorldEditStrings']
     tbl.file_name = file_name
 
 	tbl:add_chunk(data)
