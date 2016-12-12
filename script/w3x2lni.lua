@@ -12,6 +12,7 @@ local mt = {}
 local metadatas = {}
 local id_type
 local usable_code
+local editstring
 
 function mt:parse_lni(...)
 	return lni(...)
@@ -69,6 +70,16 @@ function mt:is_usable_code(code)
 		usable_code = lni(io.load(self.prebuilt / 'usable_code.ini'))
 	end
 	return usable_code[code]
+end
+
+function mt:editstring(str)
+	if not editstring then
+		editstring = lni(io.load(self.mpq / 'ui' / 'WorldEditStrings.txt'))['WorldEditStrings']
+	end
+	while editstring[str] do
+		str = editstring[str]
+	end
+	return str:gsub('%c+', '')
 end
 
 function mt:initialize(root)

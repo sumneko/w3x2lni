@@ -31,7 +31,7 @@ function mt:format_value(value)
 	elseif tp == 'nil' then
 		return 'nil'
 	else
-		value = self:get_editstring(value)
+		value = w2l:get_editstring(value)
 		if value:match '[\n\r]' then
 			return ('[=[\r\n%s]=]'):format(value)
 		else
@@ -177,18 +177,7 @@ end
 
 function mt:get_comment(id)
 	local comment = self.meta[id].displayname
-	return self:get_editstring(comment)
-end
-
-function mt:get_editstring(str)
-	if not self.editstring then
-		return str
-	end
-	local editstring = self.editstring
-	while editstring[str] do
-		str = editstring[str]
-	end
-	return str:gsub('%c+', '')
+	return w2l:get_editstring(comment)
 end
 
 return function (w2l, file_name, data)
@@ -199,7 +188,6 @@ return function (w2l, file_name, data)
 
 	tbl.meta = w2l:read_metadata(file_name)
 	tbl.key = w2l:parse_lni(io.load(w2l.key / (file_name .. '.ini')), file_name)
-	tbl.editstring = w2l:parse_ini(io.load(w2l.mpq / 'ui' / 'WorldEditStrings.txt'))['WorldEditStrings']
     tbl.file_name = file_name
 
 	tbl:add_chunk(data)
