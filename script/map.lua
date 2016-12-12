@@ -300,7 +300,7 @@ function mt:post_process()
     for ttype, name in pairs(w2l.info.template.obj) do
         count = count + 1
         local target_progress = 17 + 7 * count
-        w2l:post_process(ttype, name, self.objs[ttype], target_progress)
+        w2l:frontend_processing(ttype, name, self.objs[ttype], target_progress)
     end
 end
 

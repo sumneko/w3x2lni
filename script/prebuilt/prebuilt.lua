@@ -24,12 +24,16 @@ function message(...)
 	print(table.concat(tbl, ' '))
 end
 
-local function add_table(t1, t2)
-    for k, v in pairs(t2) do
-        if type(t1[k]) == 'table' and type(v) == 'table' then
-            add_table(t1[k], v)
+local function add_table(tbl1, tbl2)
+    for k, v in pairs(tbl2) do
+        if tbl1[k] then
+            if type(tbl1[k]) == 'table' and type(v) == 'table' then
+                add_table(tbl1[k], v)
+            else
+                tbl1[k] = v
+            end
         else
-            t1[k] = v
+            tbl1[k] = v
         end
     end
 end

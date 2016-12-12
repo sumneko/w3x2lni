@@ -1,5 +1,19 @@
 local progress = require 'progress'
 
+local function add_table(tbl1, tbl2)
+    for k, v in pairs(tbl2) do
+        if tbl1[k] then
+            if type(tbl1[k]) == 'table' and type(v) == 'table' then
+                add_table(tbl1[k], v)
+            else
+                tbl1[k] = v
+            end
+        else
+            tbl1[k] = v
+        end
+    end
+end
+
 local function load_obj(w2l, files, ttype, file_name, target_progress)
     local metadata = w2l:read_metadata(ttype)
     local key_data = w2l:parse_lni(io.load(w2l.key / (ttype .. '.ini')), ttype)
@@ -10,7 +24,7 @@ local function load_obj(w2l, files, ttype, file_name, target_progress)
     progress:target(target_progress-1)
     if files[file_name] then
         message('正在转换', file_name)
-        obj, force_slk = w2l:frontend_obj(ttype, file_name, self.files[file_name](file_name))
+        obj, force_slk = w2l:frontend_obj(ttype, file_name, files[file_name](file_name))
     end
 
     progress:target(target_progress)
