@@ -251,14 +251,11 @@ end
 function mt:load_misc()
     local misc = {}
     for _, name in ipairs {"UI\\MiscData.txt", "Units\\MiscData.txt", "Units\\MiscGame.txt"} do
-        add_table(misc, w2l:parse_ini(io.load(w2l.mpq / name)).Misc)
+        add_table(misc, w2l:parse_ini(io.load(w2l.mpq / name)))
     end
     local name = "war3mapmisc.txt"
     if self.files[name] then
-        local data = w2l:parse_ini(self.files[name](name))
-        if data.Misc then
-            add_table(misc, data.Misc)
-        end
+        add_table(misc, w2l:parse_ini(self.files[name](name)))
     end
     self.objs['misc'] = misc
 end
