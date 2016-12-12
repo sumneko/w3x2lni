@@ -1,9 +1,12 @@
+local w3xparser = require 'w3xparser'
+
 local table_insert = table.insert
 local table_unpack = table.unpack
 local type = type
 local math_floor = math.floor
 local pairs = pairs
 local ipairs = ipairs
+local wtonumber = w3xparser.tonumber
 
 local mt = {}
 mt.__index = mt
@@ -225,7 +228,7 @@ function mt:to_type(id, value)
         if not value then
             return 0
         end
-        value = self:tonumber(value)
+        value = wtonumber(value)
         if not value then
             return 0
         end
@@ -234,7 +237,7 @@ function mt:to_type(id, value)
         if not value then
             return 0.0
         end
-        value = self:tonumber(value)
+        value = wtonumber(value)
         if not value then
             return 0.0
         end
@@ -307,10 +310,6 @@ return function (w2l, ttype, loader)
 
     function self:get_id_type(id)
         return w2l:get_id_type(id, self.meta)
-    end
-
-    function self:tonumber(buf)
-        return w2l:tonumber(buf)
     end
     
     local result = self:save()

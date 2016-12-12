@@ -5,7 +5,6 @@ local lni = require 'lni-c'
 local slk = w3xparser.slk
 local txt = w3xparser.txt
 local ini = w3xparser.ini
-local wtonumber = w3xparser.tonumber
 local pairs = pairs
 
 local mt = {}
@@ -29,10 +28,6 @@ end
 
 function mt:parse_ini(buf)
 	return ini(buf)
-end
-
-function mt:tonumber(buf)
-	return wtonumber(buf)
 end
 
 function mt:read_metadata(type)
