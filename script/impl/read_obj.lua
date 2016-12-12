@@ -90,7 +90,7 @@ function mt:read_data(obj)
 	elseif value_type == 1 or value_type == 2 then
 		value = self:unpack 'f'
 	else
-		value = self:unpack 'z'
+		value = self:convert_wts(self:unpack 'z')
 	end
 	
 	-- 扔掉一个整数
@@ -121,6 +121,13 @@ return function (w2l, ttype, file_name, content)
 
 	function tbl:is_usable_code(code)
 		return w2l:is_usable_code(code)
+	end
+
+	function tbl:convert_wts(str)
+		if not w2l.wts then
+			return str
+		end
+		return w2l.wts:load(str)
 	end
 
 	local data    = {}

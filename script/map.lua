@@ -119,8 +119,8 @@ function mt:to_w3x(name, file)
         if self.on_lni then
             data = self:on_lni(new_name, data)
         end
-        if self.wts then
-            self.wts:save(data)
+        if w2l.wts then
+            w2l.wts:save(data)
         end
 		local key = w2l:parse_lni(io.load(w2l.key / name), name)
 		local metadata = w2l:read_metadata(new_name)
@@ -134,8 +134,8 @@ function mt:to_w3x(name, file)
         if self.on_lni then
             data = self:on_lni(new_name, data)
         end
-        if self.wts then
-            self.wts:save(data)
+        if w2l.wts then
+            w2l.wts:save(data)
         end
 		local content = w2l:lni2w3i(data)
 		return new_name, content
@@ -148,7 +148,7 @@ function mt:to_w3x(name, file)
 end
 
 function mt:import_files(map, listfile, files, dirs)
-	self.wts = w2l:read_wts(files['war3map.wts'] or '')
+	w2l:read_wts(files['war3map.wts'] or '')
 	local clock = os.clock()
 	local success, failed = 0, 0
 	for i = 1, #listfile do
@@ -182,7 +182,7 @@ function mt:import_files(map, listfile, files, dirs)
     else
 	    message('导入完毕', '成功:', success, '失败:', failed)
     end
-    local content = self.wts:refresh()
+    local content = w2l.wts:refresh()
     map:save_file('war3map.wts', content)
     if not files['war3mapunits.doo'] then
         map:save_file('war3mapunits.doo', w2l:create_unitsdoo())
@@ -248,12 +248,7 @@ function mt:save_map(map_path)
     return true
 end
 
-function mt:to_lni()	
-	--读取字符串
-	if self.files['war3map.wts'] then
-		self.wts = w2l:read_wts(self.files['war3map.wts']('war3map.wts'))
-	end
-
+function mt:to_lni()
     --转换物编
     local count = 0
     for ttype, meta in pairs(w2l.info['metadata']) do
@@ -267,9 +262,6 @@ function mt:to_lni()
         end
         
         local content = w2l:to_lni(ttype, data)
-        if self.wts then
-            content = self.wts:load(content)
-        end
         if content then
             self.files[ttype .. '.ini'] = function() return content end
         end
@@ -280,16 +272,13 @@ function mt:to_lni()
     if self.files['war3map.w3i'] then
         local w3i = w2l:read_w3i(self.files['war3map.w3i']('war3map.w3i'))
         local lni = w2l:w3i2lni(w3i)
-        if self.wts then
-            lni = self.wts:load(lni)
-        end
         self.files['mapinfo.ini'] = function() return lni end
         self.files['war3map.w3i'] = nil
     end
 
 	--刷新字符串
-	if self.wts then
-		local content = self.wts:refresh()
+	if w2l.wts then
+		local content = w2l.wts:refresh()
 		self.files['war3map.wts'] = function() return content end
 	end
 end
@@ -304,6 +293,11 @@ function mt:post_process()
 end
 
 function mt:load_data()
+	--读取字符串
+	if self.files['war3map.wts'] then
+		w2l:read_wts(self.files['war3map.wts']('war3map.wts'))
+	end
+    
     local count = 0
     for ttype, name in pairs(w2l.info.template.obj) do
         count = count + 1

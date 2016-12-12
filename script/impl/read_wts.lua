@@ -5,7 +5,7 @@ mt.__index = mt
 
 function mt:load(content, only_short, read_only)
 	local wts = self.wts
-	return content:gsub([=[['"]TRIGSTR_(%d+)['"]]=], function(i)
+	return content:gsub('TRIGSTR_(%d+)', function(i)
 		local str_data = wts[i]
 		if not str_data then
 			message('警告: 没有找到字符串:', i)
@@ -16,11 +16,7 @@ function mt:load(content, only_short, read_only)
 			return
 		end
 		str_data.converted = not read_only
-		if text:match '[\n\r]' then
-			return ('[=[\r\n%s]=]'):format(text)
-		else
-			return ('%q'):format(text)
-		end
+		return text
 	end)
 end
 
@@ -76,5 +72,5 @@ return function (self, content)
 		table_insert(tbl, t)
 		tbl[('%03d'):format(i)] = t	--这里的索引是字符串
 	end
-	return setmetatable({ wts = tbl, lastindex = 0 }, mt)
+	self.wts = setmetatable({ wts = tbl, lastindex = 0 }, mt)
 end

@@ -23,6 +23,7 @@ function mt:add(format, ...)
 end
 
 function mt:format_string(value)
+    value = self:convert_wts(value)
     if value:match '[\n\r]' then
         return ('[=[\r\n%s]=]'):format(value)
     else
@@ -227,10 +228,17 @@ function mt:add_randomitem(data)
 	end
 end
 
-return function (self, data)
+return function (w2l, data)
     local tbl = setmetatable({}, mt)
     tbl.lines = {}
-    tbl.self = self
+    tbl.self = w2l
+
+    function tbl:convert_wts(str)
+		if not w2l.wts then
+			return str
+		end
+		return w2l.wts:load(str)
+	end
 
     tbl:add_head(data)
     tbl:add_player(data)
