@@ -248,6 +248,21 @@ function mt:save_map(map_path)
     return true
 end
 
+function mt:load_misc()
+    local misc = {}
+    for _, name in ipairs {"UI\\MiscData.txt", "Units\\MiscData.txt", "Units\\MiscGame.txt"} do
+        add_table(misc, w2l:parse_ini(io.load(w2l.mpq / name)).Misc)
+    end
+    local name = "war3mapmisc.txt"
+    if self.files[name] then
+        local data = w2l:parse_ini(self.files[name](name))
+        if data.Misc then
+            add_table(misc, data.Misc)
+        end
+    end
+    return misc
+end
+
 function mt:to_lni()
     --转换物编
     local count = 0
@@ -432,6 +447,7 @@ function mt:load_mpq(mappath)
             add_file(name, true)
         end
     end
+    add_file("war3mapmisc.txt", true)
 end
 
 function mt:load_file()

@@ -108,7 +108,7 @@ function slk:initialize(mappath)
 	for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
 		slk[name] = create_proxy(name)
 	end
-	slk.misc = {}
+	self.misc = m:load_misc()
 end
 
 local mappath = fs.path(uni.a2u(arg[1]))
