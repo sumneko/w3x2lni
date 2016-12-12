@@ -9,6 +9,7 @@ local w2l  = require 'w3x2lni'
 local uni      = require 'ffi.unicode'
 local order_prebuilt = require 'order.prebuilt'
 local table2lni = require 'table2lni'
+w2l:initialize()
 
 function message(...)
 	if select(1, ...) == '-progress' then
