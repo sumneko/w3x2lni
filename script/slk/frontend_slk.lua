@@ -6,6 +6,7 @@ local type = type
 local math_floor = math.floor
 local pairs = pairs
 local ipairs = ipairs
+local tostring = tostring
 local wtonumber = w3xparser.tonumber
 
 local w2l
@@ -81,7 +82,6 @@ local function read_slk_data(name, obj, key, meta, data)
 end
 
 local function read_slk_obj(obj, name, data)
-    local obj = obj or {}
     obj._user_id = name
     obj._origin_id = data.code or obj._origin_id or name
     obj._slk = true
@@ -99,13 +99,14 @@ local function read_slk_obj(obj, name, data)
             read_slk_data(name, obj, key, metadata[id], data)
         end
     end
-
-    return obj
 end
 
 local function read_slk(lni, slk)
     for name, data in pairs(slk) do
-        lni[name] = read_slk_obj(lni[name], name, data)
+        if not lni[name] then
+            lni[name] = {}
+        end
+        read_slk_obj(lni[name], name, data)
     end
 end
 
@@ -179,9 +180,7 @@ local function read_txt_obj(obj, name, data)
     if obj == nil then
         return
     end
-
-    obj['_txt'] = true
-
+    obj._txt = true
     for i = 1, #txt_keys do
         read_txt_data(name, obj, txt_keys[i], txt_meta[i], data)
     end
