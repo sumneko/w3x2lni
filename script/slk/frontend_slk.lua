@@ -6,6 +6,7 @@ local ipairs = ipairs
 local tostring = tostring
 local wtonumber = w3xparser.tonumber
 local next = next
+local table_concat = table.concat
 
 local w2l
 local metadata
@@ -127,23 +128,15 @@ local function txt_add_data(obj, key, meta, value)
         return
     end
     local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
-    if meta.index == -1 and not has_repeat then
+    if has_repeat then
         if obj[key] then
-            obj[key] = obj[key] .. ',' .. value
+            obj[key][#obj[key] + 1] = value
         else
-            obj[key] = value
-        end
+            obj[key] = { value }
+        end 
     else
-        if has_repeat then
-            if obj[key] then
-                obj[key][#obj[key] + 1] = value
-            else
-                obj[key] = { value }
-            end 
-        else
-            if not obj[key] then
-                obj[key] = value
-            end
+        if not obj[key] then
+            obj[key] = value
         end
     end
 end
@@ -170,19 +163,30 @@ local function txt_read_data(name, obj, key, meta, txt)
             else
                 new_key = key .. (i-1)
             end
-            if txt[new_key] then
-                txt_add_data(obj, key, meta, txt[new_key][1])
+            local value = txt[new_key]
+            if value and #value > 0 then
+                if meta['index'] == -1 then
+                    txt_add_data(obj, key, meta, table_concat(value, ','))
+                else
+                    for i = 1, #value do
+                        txt_add_data(obj, key, meta, value[i])
+                    end
+                end
             end
         end
         return
     end
 
     local value = txt[key]
-    if not value then
+    if not value or #value == 0 then
         return
     end
-    for i = 1, #value do
-        txt_add_data(obj, key, meta, value[i])
+    if meta['index'] == -1 then
+        txt_add_data(obj, key, meta, table_concat(value, ','))
+    else
+        for i = 1, #value do
+            txt_add_data(obj, key, meta, value[i])
+        end
     end
 end
 
