@@ -100,7 +100,8 @@ function slk:initialize(mappath)
 	local map = require 'map'
 	local clock = os.clock()
 	m = map()
-	m:load_mpq(mappath)
+	m.inputs = {mappath}
+	m:load_file()
 	print('time:', os.clock() - clock)
 	m:load_data()
 	m:load_misc()

@@ -1,6 +1,6 @@
-local stormlib = require 'ffi.stormlib'
 local progress = require 'progress'
 local w2l = require 'w3x2lni'
+local archive = require 'archive'
 w2l:initialize()
 
 local table_insert = table.insert
@@ -261,7 +261,7 @@ function mt:load_misc()
 end
 
 function mt:to_lni()
-    w2l:backend(self.files, self.slk, self.on_lni)
+    w2l:backend(self.archive, self.slk, self.on_lni)
 end
 
 function mt:post_process()
@@ -269,7 +269,7 @@ function mt:post_process()
 end
 
 function mt:load_data()
-	self.slk = w2l:frontend(self.files)
+	self.slk = w2l:frontend(self.archive)
 end
 
 function mt:save_dir(output_dir)
@@ -390,14 +390,7 @@ function mt:load_dir(mappath)
 end
 
 function mt:load_file()
-    for i, input in ipairs(self.inputs) do
-        progress:target(3 * i / #self.inputs)
-        if fs.is_directory(input) then
-            self:load_dir(input)
-        else
-            self:load_mpq(input)
-        end
-    end
+    self.archive = archive(self.inputs[1])
     return true
 end
 
