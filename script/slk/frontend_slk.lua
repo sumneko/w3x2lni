@@ -6,6 +6,7 @@ local type = type
 local math_floor = math.floor
 local pairs = pairs
 local ipairs = ipairs
+local tostring = tostring
 local wtonumber = w3xparser.tonumber
 
 local w2l
@@ -14,12 +15,12 @@ local has_level
 local keyconvert
 local slk_type
 local slk_keys
-local slk_ids
+local slk_meta
 local txt_keys
-local txt_ids
+local txt_meta
 
-local function to_type(id, value)
-    local tp = w2l:get_id_type(id, metadata)
+local function to_type(meta, value)
+    local tp = w2l:get_id_type(meta.type)
     if tp == 0 then
         if not value then
             return 0
@@ -53,41 +54,9 @@ local function to_type(id, value)
     end
 end
 
-local function add_data(obj, key, id, value, level)
-    value = to_type(id, value)
-    if not value then
-        return
-    end
-    
-    local meta = metadata[id]
-    local has_level = meta['repeat'] and meta['repeat'] > 0
-    if not level and meta.index == -1 and not has_level then
-        if obj[key] then
-            obj[key] = obj[key] .. ',' .. value
-        else
-            obj[key] = value
-        end
-    else
-        if has_level then
-            if not obj[key] then
-                obj[key] = {}
-            end
-            if not level then
-                level = #obj[key] + 1
-            end
-            obj[key][level] = value
-        else
-            if not obj[key] then
-                obj[key] = value
-            end
-        end
-    end
-end
-
-local function read_slk_data(name, obj, key, id, data)
-    local meta = metadata[id]
-    local rep = meta['repeat']
-    if rep and rep > 0 then
+local function read_slk_data(name, obj, key, meta, data)
+    local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
+    if has_repeat then
         local flag
         for i = 1, 4 do
             if data[key..i] then
@@ -98,7 +67,7 @@ local function read_slk_data(name, obj, key, id, data)
         if flag then
             obj[key] = {}
             for i = 1, 4 do
-                obj[key][i] = to_type(id, data[key..i])
+                obj[key][i] = to_type(meta, data[key..i])
             end
             if #obj[key] == 0 then
                 obj[key] = nil
@@ -107,13 +76,12 @@ local function read_slk_data(name, obj, key, id, data)
     else
         local value = data[key]
         if value then
-            obj[key] = to_type(id, value)
+            obj[key] = to_type(meta, value)
         end
     end
 end
 
 local function read_slk_obj(obj, name, data)
-    local obj = obj or {}
     obj._user_id = name
     obj._origin_id = data.code or obj._origin_id or name
     obj._slk = true
@@ -122,28 +90,55 @@ local function read_slk_obj(obj, name, data)
     end
     
     for i = 1, #slk_keys do
-        read_slk_data(name, obj, slk_keys[i], slk_ids[i], data)
+        read_slk_data(name, obj, slk_keys[i], slk_meta[i], data)
     end
 
     local private = keyconvert[name] or keyconvert[obj._origin_id]
     if private then
         for key, id in pairs(private) do
-            read_slk_data(name, obj, key, id, data)
+            read_slk_data(name, obj, key, metadata[id], data)
         end
     end
-
-    return obj
 end
 
 local function read_slk(lni, slk)
     for name, data in pairs(slk) do
-        lni[name] = read_slk_obj(lni[name], name, data)
+        if not lni[name] then
+            lni[name] = {}
+        end
+        read_slk_obj(lni[name], name, data)
     end
 end
 
-local function read_txt_data(name, obj, key, id, txt)
-    local meta = metadata[id]
+local function add_txt_data(obj, key, meta, value)
+    value = to_type(meta, value)
+    if not value then
+        return
+    end
+    local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
+    if meta.index == -1 and not has_repeat then
+        if obj[key] then
+            obj[key] = obj[key] .. ',' .. value
+        else
+            obj[key] = value
+        end
+    else
+        if has_repeat then
+            if obj[key] then
+                obj[key][#obj[key] + 1] = value
+            else
+                obj[key] = { value }
+            end 
+        else
+            if not obj[key] then
+                obj[key] = value
+            end
+        end
+    end
+end
 
+
+local function read_txt_data(name, obj, key, meta, txt)
     if meta['index'] == 1 then
         local key = key:sub(1, -3)
         local value = txt[key]
@@ -151,7 +146,7 @@ local function read_txt_data(name, obj, key, id, txt)
             return
         end
         for i = 1, 2 do
-            add_data(obj, key..':'..i, id, value[i])
+            add_txt_data(obj, key..':'..i, meta, value[i])
         end
         return
     end
@@ -166,7 +161,7 @@ local function read_txt_data(name, obj, key, id, txt)
                 new_key = key .. (i-1)
             end
             if txt[new_key] then
-                add_data(obj, key, id, txt[new_key][1])
+                add_txt_data(obj, key, meta, txt[new_key][1])
             end
         end
         return
@@ -177,7 +172,7 @@ local function read_txt_data(name, obj, key, id, txt)
         return
     end
     for i = 1, #value do
-        add_data(obj, key, id, value[i])
+        add_txt_data(obj, key, meta, value[i])
     end
 end
 
@@ -185,11 +180,9 @@ local function read_txt_obj(obj, name, data)
     if obj == nil then
         return
     end
-
-    obj['_txt'] = true
-
+    obj._txt = true
     for i = 1, #txt_keys do
-        read_txt_data(name, obj, txt_keys[i], txt_ids[i], data)
+        read_txt_data(name, obj, txt_keys[i], txt_meta[i], data)
     end
 end
 
@@ -199,11 +192,10 @@ local function read_txt(lni, txt)
     end
 end
 
-local function add_default_data(name, obj, key, id)
-    local meta = metadata[id]
-    local rep = meta['repeat']
-    if rep and rep > 0 then
-        local value = to_type(id)
+local function add_default_data(name, obj, key, meta)
+    local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
+    if has_repeat then
+        local value = to_type(meta)
         if obj[key] then
             for i = 5, #obj[key] do
                 obj[key][i] = nil
@@ -222,7 +214,7 @@ local function add_default_data(name, obj, key, id)
         end
     else
         if not obj[key] then
-            obj[key] = to_type(id)
+            obj[key] = to_type(meta)
         end
     end
 end
@@ -231,15 +223,15 @@ local function add_default_obj(name, obj)
     for i = 1, #slk_keys do
         local key = slk_keys[i]
         if not obj[key] then
-            add_default_data(name, obj, slk_keys[i], slk_ids[i])
+            add_default_data(name, obj, slk_keys[i], slk_meta[i])
         end
     end
     for i = 1, #txt_keys do
-        add_default_data(name, obj, txt_keys[i], txt_ids[i])
+        add_default_data(name, obj, txt_keys[i], txt_meta[i])
     end
     if keyconvert[name] then
         for key, id in pairs(keyconvert[name]) do
-            add_default_data(name, obj, key, id)
+            add_default_data(name, obj, key, metadata[id])
         end
     end
     obj._max_level = obj[has_level]
@@ -262,17 +254,17 @@ return function (w2l_, type, loader)
     slk_type = type
 
     slk_keys = {}
-    slk_ids = {}
+    slk_meta = {}
     txt_keys = {}
-    txt_ids = {}
+    txt_meta = {}
     for key, id in pairs(keyconvert['public']) do
         local meta = metadata[id]
         if meta['slk'] == 'Profile' then
             txt_keys[#txt_keys+1] = key
-            txt_ids[#txt_ids+1] = id
+            txt_meta[#txt_meta+1] = metadata[id]
         else
             slk_keys[#slk_keys+1] = key
-            slk_ids[#slk_ids+1] = id
+            slk_meta[#slk_meta+1] = metadata[id]
         end
     end
 
