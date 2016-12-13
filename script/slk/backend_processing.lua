@@ -225,8 +225,7 @@ local function parse_obj(name, obj, default, config, ttype)
     obj._origin_id = code
 end
 
-local function processing(w2l, type, slk, target_progress)
-    local chunk = slk[type]
+local function processing(w2l, type, chunk, target_progress)
     local default = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')))
     local config = w2l.config['unpack']
     local names = {}
@@ -259,4 +258,11 @@ local function processing(w2l, type, slk, target_progress)
     end
 end
 
-return processing
+return function (w2l, slk)
+    local count = 0
+    for type, name in pairs(w2l.info.template.obj) do
+        count = count + 1
+        local target_progress = 17 + 7 * count
+        processing(w2l, type, slk[type], target_progress)
+    end
+end

@@ -265,12 +265,7 @@ function mt:to_lni()
 end
 
 function mt:post_process()
-    local count = 0
-    for ttype, name in pairs(w2l.info.template.obj) do
-        count = count + 1
-        local target_progress = 17 + 7 * count
-        w2l:backend_processing(ttype, self.slk, target_progress)
-    end
+    w2l:backend_processing(self.slk)
 end
 
 function mt:load_data()
