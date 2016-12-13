@@ -252,7 +252,7 @@ function mt:load_misc()
     w2l:frontend_misc(self.archive, self.slk)
 end
 
-function mt:to_lni()
+function mt:backend()
     w2l:backend(self.archive, self.slk, self.on_lni)
 end
 
@@ -394,11 +394,8 @@ function mt:save(output_dir)
     self:load_data()
     message('正在处理物编...')
     self:post_process()
-    if w2l.config.target_format == 'lni' then
-	    self:to_lni()
-    else
-        --self:save_map(output_dir)
-    end
+    message('正在转换...')
+	self:backend()
 
     if w2l.config.target_storage == 'dir' then
         message('正在清空输出目录...')
