@@ -58,15 +58,18 @@ local function add_data(obj, key, meta, value)
     if not value then
         return
     end
-    local has_level = meta['repeat'] and meta['repeat'] > 0
-    if meta.index == -1 and not has_level then
+    local has_repeat = false
+    if has_level then
+        has_repeat = meta['repeat'] and meta['repeat'] > 0
+    end
+    if meta.index == -1 and not has_repeat then
         if obj[key] then
             obj[key] = obj[key] .. ',' .. value
         else
             obj[key] = value
         end
     else
-        if has_level then
+        if has_repeat then
             if obj[key] then
                 obj[key][#obj[key] + 1] = value
             else
