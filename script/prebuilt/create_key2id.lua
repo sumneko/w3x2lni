@@ -53,6 +53,17 @@ function mt:add_data(id, meta, common, special, type)
     end
     if not skill then
         common[name] = id
+        local filename = meta['slk']:lower()
+        if filename ~= 'profile' then
+            filename = 'units\\' .. meta['slk']:lower() .. '.slk'
+            if type == 'doodad' then
+                filename = 'doodads\\doodads.slk'
+            end
+        end
+        if not special[filename] then
+            special[filename] = {}
+        end
+        special[filename][name] = id
     else
         for skl in skill:gmatch '%w+' do
             if self:canadd(skl, id) then
@@ -63,17 +74,6 @@ function mt:add_data(id, meta, common, special, type)
             end
         end
     end
-    local filename = meta['slk']:lower()
-    if filename ~= 'profile' then
-        filename = 'units\\' .. meta['slk']:lower() .. '.slk'
-        if type == 'doodad' then
-            filename = 'doodads\\doodads.slk'
-        end
-    end
-    if not special[filename] then
-        special[filename] = {}
-    end
-    special[filename][name] = id
 end
 
 local function sort_table(tbl)
