@@ -1,15 +1,12 @@
-local math_tointeger = math.tointeger
 local string_char = string.char
 local select = select
 
+local w2l
 local has_level
 local metadata
 local unpack_buf
 local unpack_pos
 local force_slk
-
-local mt = {}
-mt.__index = mt
 
 local function set_pos(...)
 	unpack_pos = select(-1, ...)
@@ -33,7 +30,7 @@ local function get_id_name(id)
 	return name
 end
 
-local function read_data(w2l, obj)
+local function read_data(obj)
 	local data = {}
 	local id = unpack 'c4' :match '^[^\0]+'
 	local key = get_id_name(id)
@@ -80,7 +77,7 @@ local function read_data(w2l, obj)
 	end
 end
 
-local function read_obj(w2l, chunk)
+local function read_obj(chunk)
 	local obj = {}
 	local code, name = unpack 'c4c4'
 	if name == '\0\0\0\0' then
@@ -98,7 +95,7 @@ local function read_obj(w2l, chunk)
 
 	local count = unpack 'l'
 	for i = 1, count do
-		read_data(w2l, obj)
+		read_data(obj)
 	end
 	chunk[name] = obj
 	obj._max_level = obj[has_level]
@@ -111,14 +108,15 @@ local function read_version()
 	return unpack 'l'
 end
 
-local function read_chunk(w2l, chunk)
+local function read_chunk(chunk)
 	local count = unpack 'l'
 	for i = 1, count do
-		read_obj(w2l, chunk)
+		read_obj(chunk)
 	end
 end
 
-return function (w2l, type, buf)
+return function (w2l_, type, buf)
+	w2l = w2l_
 	has_level = w2l.info.key.max_level[type]
 	metadata = w2l:read_metadata(type)
 	unpack_buf = buf
@@ -127,8 +125,8 @@ return function (w2l, type, buf)
 	-- 版本号
 	read_version()
 	-- 默认数据
-	read_chunk(w2l, data)
+	read_chunk(data)
 	-- 自定义数据
-	read_chunk(w2l, data)
+	read_chunk(data)
 	return data, force_slk
 end
