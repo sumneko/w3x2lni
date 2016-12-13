@@ -116,7 +116,7 @@ print('time:', os.clock() - clock)
 --print(slk_proxy.unit.h0BF.Name1)
 --print(slk_proxy.ability.A00E.Cost)
 --print(slk_proxy.ability.A00E.Cost1)
---print(slk_proxy.ability.A00E.DataA1)
+print(slk_proxy.ability.A00E.DataA1)
 
 --for k, v in pairs(slk_proxy.ability.AEim) do
 --	print(k, v)
