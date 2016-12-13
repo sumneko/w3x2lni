@@ -8,16 +8,47 @@ local pairs = pairs
 local ipairs = ipairs
 local wtonumber = w3xparser.tonumber
 
+local w2l
+local metadata
+local has_level
+
+local function to_type(id, value)
+    local tp = w2l:get_id_type(id, metadata)
+    if tp == 0 then
+        if not value then
+            return 0
+        end
+        value = wtonumber(value)
+        if not value then
+            return 0
+        end
+        return math_floor(value)
+    elseif tp == 1 or tp == 2 then
+        if not value then
+            return 0.0
+        end
+        value = wtonumber(value)
+        if not value then
+            return 0.0
+        end
+        return value + 0.0
+    elseif tp == 3 then
+        if not value then
+            return nil
+        end
+        if value == '' then
+            return value
+        end
+        value = tostring(value)
+        if not value:match '[^ %-%_]' then
+            return nil
+        end
+        return value
+    end
+end
+
 local mt = {}
 mt.__index = mt
-
-function mt:add_slk(slk)
-    table_insert(self.slk, slk)
-end
-
-function mt:add_txt(txt)
-    table_insert(self.txt, txt)
-end
 
 function mt:read_slk(lni, slk)
     for name, data in pairs(slk) do
@@ -50,7 +81,7 @@ function mt:read_slk_obj(obj, name, data)
 end
 
 function mt:read_slk_data(name, obj, key, id, data)
-    local meta = self.meta[id]
+    local meta = metadata[id]
     local rep = meta['repeat']
     if rep and rep > 0 then
         local flag
@@ -63,7 +94,7 @@ function mt:read_slk_data(name, obj, key, id, data)
         if flag then
             obj[key] = {}
             for i = 1, 4 do
-                obj[key][i] = self:to_type(id, data[key..i])
+                obj[key][i] = to_type(id, data[key..i])
             end
             if #obj[key] == 0 then
                 obj[key] = nil
@@ -72,7 +103,7 @@ function mt:read_slk_data(name, obj, key, id, data)
     else
         local value = data[key]
         if value then
-            obj[key] = self:to_type(id, value)
+            obj[key] = to_type(id, value)
         end
     end
 end
@@ -97,7 +128,7 @@ function mt:read_txt_obj(obj, name, data)
 end
 
 function mt:read_txt_data(name, obj, key, id, txt)
-    local meta = self.meta[id]
+    local meta = metadata[id]
 
     if meta['index'] == 1 then
         local key = key:sub(1, -3)
@@ -157,17 +188,17 @@ function mt:add_default_obj(name, obj)
             self:add_default_data(name, obj, key, id)
         end
     end
-    obj._max_level = obj[self.max_level_key]
+    obj._max_level = obj[has_level]
     if obj._max_level == 0 then
         obj._max_level = 1
     end
 end
 
 function mt:add_default_data(name, obj, key, id)
-    local meta = self.meta[id]
+    local meta = metadata[id]
     local rep = meta['repeat']
     if rep and rep > 0 then
-        local value = self:to_type(id)
+        local value = to_type(id)
         if obj[key] then
             for i = 5, #obj[key] do
                 obj[key][i] = nil
@@ -186,18 +217,18 @@ function mt:add_default_data(name, obj, key, id)
         end
     else
         if not obj[key] then
-            obj[key] = self:to_type(id)
+            obj[key] = to_type(id)
         end
     end
 end
 
 function mt:add_data(obj, key, id, value, level)
-    value = self:to_type(id, value)
+    value = to_type(id, value)
     if not value then
         return
     end
     
-    local meta = self.meta[id]
+    local meta = metadata[id]
     local has_level = meta['repeat'] and meta['repeat'] > 0
     if not level and meta.index == -1 and not has_level then
         if obj[key] then
@@ -222,41 +253,6 @@ function mt:add_data(obj, key, id, value, level)
     end
 end
 
-function mt:to_type(id, value)
-    local tp = self:get_id_type(id)
-    if tp == 0 then
-        if not value then
-            return 0
-        end
-        value = wtonumber(value)
-        if not value then
-            return 0
-        end
-        return math_floor(value)
-    elseif tp == 1 or tp == 2 then
-        if not value then
-            return 0.0
-        end
-        value = wtonumber(value)
-        if not value then
-            return 0.0
-        end
-        return value + 0.0
-    elseif tp == 3 then
-        if not value then
-            return nil
-        end
-        if value == '' then
-            return value
-        end
-        value = tostring(value)
-        if not value:match '[^ %-%_]' then
-            return nil
-        end
-        return value
-    end
-end
-
 function mt:save()
     local data = {}
 
@@ -265,7 +261,7 @@ function mt:save()
     txt_keys = {}
     txt_ids = {}
     for key, id in pairs(self.key['public']) do
-        local meta = self.meta[id]
+        local meta = metadata[id]
         if meta['slk'] == 'Profile' then
             txt_keys[#txt_keys+1] = key
             txt_ids[#txt_ids+1] = id
@@ -287,31 +283,25 @@ function mt:save()
     return data
 end
 
-return function (w2l, ttype, loader)
-    local self = setmetatable({}, mt)
-
-    self.slk = {}
-    self.txt = {}
-
-    local slk = w2l.info['template']['slk'][ttype]
-    for i = 1, #slk do
-        self:add_slk(w2l:parse_slk(loader(slk[i])))
-    end
-
-    local txt = w2l.info['template']['txt'][ttype]
-    for i = 1, #txt do
-        self:add_txt(w2l:parse_txt(loader(txt[i])))
-    end
-
-    self.meta = w2l:read_metadata(ttype)
-    self.key = w2l:parse_lni(io.load(w2l.key / (ttype .. '.ini')), ttype)
-    self.max_level_key = w2l.info['key']['max_level'][ttype]
-    self.type = ttype
-
-    function self:get_id_type(id)
-        return w2l:get_id_type(id, self.meta)
-    end
+return function (w2l_, type, loader)
+    w2l = w2l_
+    metadata = w2l:read_metadata(type)
+    has_level = w2l.info.key.max_level[type]
     
-    local result = self:save()
-    return result
+    local slk = {}
+    local txt = {}
+    for _, filename in ipairs(w2l.info.template.slk[type]) do
+        slk[#slk+1] = w2l:parse_slk(loader(filename))
+    end
+    for _, filename in ipairs(w2l.info.template.txt[type]) do
+        txt[#txt+1] = w2l:parse_txt(loader(filename))
+    end
+
+    local self = setmetatable({}, mt)
+    self.slk = slk
+    self.txt = txt
+    self.key = w2l:parse_lni(io.load(w2l.key / (type .. '.ini')), type)
+    self.type = type
+
+    return self:save()
 end
