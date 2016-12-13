@@ -27,17 +27,21 @@ local root = fs.get(fs.DIR_EXE):remove_filename()
 local config = lni(io.load(root / 'config.ini'))
 
 local config_content = [[
-[unpack]
--- 解包地图时是否分析slk文件
-read_slk = $unpack.read_slk$
+[root]
+-- 是否分析slk文件
+read_slk = $read_slk$
 -- 分析slk时寻找id最优解的次数,0表示无限,寻找次数越多速度越慢
-find_id_times = $unpack.find_id_times$
--- 解包时移除与模板完全相同的数据
-remove_same = $unpack.remove_same$
--- 解包时补全空缺的数据
-add_void = $unpack.add_void$
--- 解包时移除超出等级的数据
-remove_over_level = $unpack.remove_over_level$
+find_id_times = $find_id_times$
+-- 移除与模板完全相同的数据
+remove_same = $remove_same$
+-- 补全空缺的数据
+add_void = $add_void$
+-- 移除超出等级的数据
+remove_over_level = $remove_over_level$
+-- 转换后的目标格式('lni', 'obj', 'slk')
+target_format = $target_format$
+-- 转换为地图还是目录('map', 'dir')
+target_storage = $target_storage$
 ]]
 
 local function save_config()
@@ -46,7 +50,11 @@ local function save_config()
 		for key in str:gmatch '[^%.]*' do
 			value = value[key]
 		end
-		return tostring(value)
+		if type(value) == 'string' then
+			return ('%q'):format(value)
+		else
+			return tostring(value)
+		end
 	end)
 	io.save(root / 'config.ini', content)
 end
@@ -105,18 +113,29 @@ local function window_select(canvas)
 	if canvas:button('转为Lni') then
 		uitype = 'convert'
 		window:set_title('W3x2Lni')
+		config.target_format = 'lni'
+		save_config()
 		return
 	end
 	window:set_style(0, 173, 60)
 	if canvas:button('转为Slk') then
 		uitype = 'convert'
 		window:set_title('W3x2Slk')
+		config.target_format = 'slk'
+		config.remove_same = true
+		config.remove_over_level = true
+		config.add_void = true
+		save_config()
 		return
 	end
 	window:set_style(217, 163, 60)
 	if canvas:button('转为Obj') then
 		uitype = 'convert'
 		window:set_title('W3x2Obj')
+		config.target_format = 'obj'
+		config.remove_same = true
+		config.add_void = true
+		save_config()
 		return
 	end
 	window:set_style(0, 173, 217)
@@ -175,42 +194,54 @@ local function update_backend()
 end
 	
 local function window_mpq(canvas, height)
-	height = height - 158
-	local unpack = config.unpack
+	height = height - 90
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(30, 1)
-	if canvas:checkbox('分析slk文件', unpack.read_slk) then
-		unpack.read_slk = not unpack.read_slk
+	if canvas:checkbox('分析slk文件', config.read_slk) then
+		config.read_slk = not config.read_slk
 		save_config()
 	end
-	if canvas:checkbox('删除和模板一致的数据', unpack.remove_same) then
-		unpack.remove_same = not unpack.remove_same
-		save_config()
+	if config.target_format == 'lni' then
+		height = height - 34
+		if canvas:checkbox('删除和模板一致的数据', config.remove_same) then
+			config.remove_same = not config.remove_same
+			save_config()
+		end
 	end
-	if canvas:checkbox('删除超过最大等级的数据', unpack.remove_over_level) then
-		unpack.remove_over_level = not unpack.remove_over_level
-		save_config()
+	if config.target_format == 'lni' or config.target_format == 'obj' then
+		height = height - 34
+		if canvas:checkbox('删除超过最大等级的数据', config.remove_over_level) then
+			config.remove_over_level = not config.remove_over_level
+			save_config()
+		end
+	end
+	if config.target_format == 'lni' then
+		height = height - 34
+		if canvas:checkbox('补全多等级数据中的空位', config.add_void) then
+			config.add_void = not config.add_void
+			save_config()
+		end
 	end
 	canvas:layout_row_dynamic(10, 1)
 	canvas:tree('高级', 1, function()
 		canvas:layout_row_dynamic(30, 1)
-		if canvas:checkbox('限制搜索最优模板的次数', unpack.find_id_times ~= 0) then
-			if unpack.find_id_times == 0 then
-				unpack.find_id_times = 10
+		if canvas:checkbox('限制搜索最优模板的次数', config.find_id_times ~= 0) then
+			if config.find_id_times == 0 then
+				config.find_id_times = 10
 			else
-				unpack.find_id_times = 0
+				config.find_id_times = 0
 			end
 			save_config()
 		end
-		if unpack.find_id_times == 0 then
+		if config.find_id_times == 0 then
 			canvas:edit('', 0, function ()
 				return false
 			end)
 		else
-			local r = canvas:edit(tostring(unpack.find_id_times), 10, function (c)
+			local r = canvas:edit(tostring(config.find_id_times), 10, function (c)
 				return 48 <= c and c <= 57
 			end)
-			unpack.find_id_times = tonumber(r) or 1
+			config.find_id_times = tonumber(r) or 1
 			save_config()
 		end
 		height = height - 68
