@@ -261,16 +261,6 @@ return function (w2l_, type, loader)
     keyconvert = w2l:keyconvert(type)
     slk_type = type
 
-    local slk = {}
-    local txt = {}
-    for _, filename in ipairs(w2l.info.template.slk[type]) do
-        slk[#slk+1] = w2l:parse_slk(loader(filename))
-    end
-    for _, filename in ipairs(w2l.info.template.txt[type]) do
-        txt[#txt+1] = w2l:parse_txt(loader(filename))
-    end
-
-    local data = {}
     slk_keys = {}
     slk_ids = {}
     txt_keys = {}
@@ -285,13 +275,15 @@ return function (w2l_, type, loader)
             slk_ids[#slk_ids+1] = id
         end
     end
-    -- 默认数据
-    for _, slk in ipairs(slk) do
-        read_slk(data, slk)
+
+    local data = {}
+    for _, filename in ipairs(w2l.info.template.slk[type]) do
+        read_slk(data, w2l:parse_slk(loader(filename)))
     end
-    for _, txt in ipairs(txt) do
-        read_txt(data, txt)
+    for _, filename in ipairs(w2l.info.template.txt[type]) do
+        read_txt(data, w2l:parse_txt(loader(filename)))
     end
+
     add_default(data)
     return data
 end
