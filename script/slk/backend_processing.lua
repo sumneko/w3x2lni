@@ -131,9 +131,9 @@ local function clean_obj(name, obj, default, config)
     local code = obj._origin_id
     local max_level = obj._max_level
     local default = default[code]
-    local is_remove_over_level = config['remove_over_level']
-    local is_remove_same = config['remove_same']
-    local is_add_void  = config['add_void']
+    local is_remove_over_level = config.remove_over_level
+    local is_remove_same = config.remove_same
+    local is_add_void  = config.add_void
     for key, data in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
             if is_remove_over_level and max_level then
@@ -203,7 +203,7 @@ end
 local function parse_obj(name, obj, default, config, ttype)
     local code
     local count
-    local find_times = config['find_id_times']
+    local find_times = config.find_id_times
     local maybe = find_code(obj, default, ttype)
     if type(maybe) ~= 'table' then
         obj._origin_id = maybe
@@ -227,7 +227,7 @@ end
 
 local function processing(w2l, type, chunk, target_progress)
     local default = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')))
-    local config = w2l.config['unpack']
+    local config = w2l.config
     local names = {}
     for name in pairs(chunk) do
         names[#names+1] = name

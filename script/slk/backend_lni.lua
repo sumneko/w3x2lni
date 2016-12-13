@@ -184,7 +184,6 @@ return function (w2l, file_name, data)
 	local tbl = setmetatable({}, mt)
 	tbl.lines = {}
 	tbl.w2l = w2l
-	tbl.config = w2l.config
 
 	tbl.meta = w2l:read_metadata(file_name)
 	tbl.key = w2l:parse_lni(io.load(w2l.key / (file_name .. '.ini')), file_name)

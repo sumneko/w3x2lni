@@ -25,7 +25,7 @@ local function load(w2l, archive, type, filename, target_progress)
     end
 
     progress:target(target_progress)
-    if force_slk or w2l.config.unpack.read_slk then
+    if force_slk or w2l.config.read_slk then
         data = w2l:frontend_slk(type, function(name)
             message('正在转换', name)
             local buf = archive:get(name)
