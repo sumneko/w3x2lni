@@ -53,7 +53,7 @@ local function main()
 		function map_file:on_save(name)
 			return name, output_dir
 		end
-		if map_file:save(output_dir, 'lni', 'dir') then
+		if map_file:save(output_dir) then
 			message('转换完毕,用时 ' .. os.clock() .. ' 秒') 
 		end
 	end

@@ -387,20 +387,20 @@ function mt:load_file()
     return true
 end
 
-function mt:save(output_dir, convert_type, output_type)
+function mt:save(output_dir)
     message('正在打开地图...')
     self:load_file()
     message('正在读取物编...')
     self:load_data()
     message('正在处理物编...')
     self:post_process()
-    if convert_type == 'lni' then
+    if w2l.config.target_format == 'lni' then
 	    self:to_lni()
     else
-        self:save_map(output_dir)
+        --self:save_map(output_dir)
     end
 
-    if output_type == 'dir' then
+    if w2l.config.target_storage == 'dir' then
         message('正在清空输出目录...')
         remove_then_create_dir(output_dir)
         message('正在导出文件...')
