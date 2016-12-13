@@ -57,8 +57,7 @@ function mt:read_metadata(type)
 	return tbl
 end
 
-function mt:get_id_type(id, meta)
-    local type = meta[id]['type']
+function mt:get_id_type(type)
 	if not id_type then
 		id_type = lni(io.load(self.prebuilt / 'id_type.ini'))
 	end

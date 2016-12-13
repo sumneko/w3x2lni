@@ -207,7 +207,7 @@ return function (self, data, meta, key, template)
     tbl.has_level = meta._has_level
 
     function tbl:get_id_type(id)
-        return self:get_id_type(id, meta)
+        return self:get_id_type(meta[id].type)
     end
 
     local origin_id, user_id = tbl:sort_chunk(data)
