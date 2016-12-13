@@ -17,8 +17,12 @@ local function add_data(lines, key, data)
     end
     if type(data) == 'table' then
         local values = {}
-        for i = 1, #data do
-            values[i] = format_value(data[i])
+        local null
+        for i = 4, 1, -1 do
+            values[i] = format_value(data[i]) or null
+            if values[i] then
+                null = 'nil'
+            end
         end
         lines[#lines+1] = ('%s={%s}'):format(key, table.concat(values, ','))
     else
