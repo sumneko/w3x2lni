@@ -47,9 +47,7 @@ local function load_obj(w2l, archive, ttype, filename, target_progress)
     return data
 end
 
-local function load_data(w2l, archive)
-    local slk = {}
-
+return function(w2l, archive, slk)
 	--读取字符串
     local wts = archive:get('war3map.wts')
 	if wts then
@@ -80,8 +78,4 @@ local function load_data(w2l, archive)
     --        end
     --    end
     --end
-
-    return slk
 end
-
-return load_data

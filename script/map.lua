@@ -261,7 +261,8 @@ function mt:post_process()
 end
 
 function mt:load_data()
-	self.slk = w2l:frontend(self.archive)
+    self.slk = {}
+	w2l:frontend(self.archive, self.slk)
 end
 
 function mt:save_dir(output_dir)
