@@ -104,8 +104,13 @@ end
 -- 加载脚本
 local convertors = {
 	'frontend', 'backend',
-	'frontend_wts', 'frontend_slk', 'frontend_obj',
-	'backend_processing', 'backend_lni', 'backend_obj',
+	'frontend_wts',
+	'frontend_slk', 
+	'frontend_obj',
+	'frontend_misc',
+	'backend_processing',
+	'backend_lni', 
+	'backend_obj',
 }
 
 for _, name in ipairs(convertors) do

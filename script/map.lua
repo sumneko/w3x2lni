@@ -249,15 +249,7 @@ function mt:save_map(map_path)
 end
 
 function mt:load_misc()
-    local misc = {}
-    for _, name in ipairs {"UI\\MiscData.txt", "Units\\MiscData.txt", "Units\\MiscGame.txt"} do
-        add_table(misc, w2l:parse_ini(io.load(w2l.mpq / name)))
-    end
-    local name = "war3mapmisc.txt"
-    if self.files[name] then
-        add_table(misc, w2l:parse_ini(self.files[name](name)))
-    end
-    self.slk['misc'] = misc
+    w2l:frontend_misc(self.archive, self.slk)
 end
 
 function mt:to_lni()

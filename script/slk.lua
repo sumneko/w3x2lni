@@ -6,11 +6,12 @@ end)()
 require 'filesystem'
 local uni = require 'ffi.unicode'
 local w2l = require 'w3x2lni'
+w2l:initialize()
 
 function message(...)
 end
 
-local m
+local slk
 
 local function create_object(t)
 	local mt = {}
@@ -75,7 +76,7 @@ local function create_object(t)
 end
 
 local function create_proxy(type)
-	local t = m.slk[type]
+	local t = slk[type]
 	local mt = {}
 	function mt:__index(key)
 		return create_object(t[key] or {})
@@ -94,36 +95,32 @@ local function create_proxy(type)
 	return setmetatable({}, mt)
 end
 
-local slk = {}
+local slk_proxy = {}
 
-function slk:initialize(mappath)
-	local map = require 'map'
-	local clock = os.clock()
-	m = map()
-	m.inputs = {mappath}
-	m:load_file()
-	print('time:', os.clock() - clock)
-	m:load_data()
-	m:load_misc()
-	print('time:', os.clock() - clock)
-
+function slk_proxy:initialize(mappath)
+	local archive = require 'archive'
+	local ar = archive(mappath)
+	slk = w2l:frontend(ar)
+	w2l:frontend_misc(ar, slk)
 	for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-		slk[name] = create_proxy(name)
+		slk_proxy[name] = create_proxy(name)
 	end
 end
 
+local clock = os.clock()
 local mappath = fs.path(uni.a2u(arg[1]))
-slk:initialize(mappath)
+slk_proxy:initialize(mappath)
+print('time:', os.clock() - clock)
 
---print(slk.unit.h0BF.Name1)
---print(slk.ability.A00E.Cost)
---print(slk.ability.A00E.Cost1)
---print(slk.ability.A00E.DataA1)
+--print(slk_proxy.unit.h0BF.Name1)
+--print(slk_proxy.ability.A00E.Cost)
+--print(slk_proxy.ability.A00E.Cost1)
+--print(slk_proxy.ability.A00E.DataA1)
 
---for k, v in pairs(slk.ability.AEim) do
+--for k, v in pairs(slk_proxy.ability.AEim) do
 --	print(k, v)
 --end
 
---for id, abil in pairs(slk.ability) do
+--for id, abil in pairs(slk_proxy.ability) do
 --	print(id, abil.DataA1)
 --end
