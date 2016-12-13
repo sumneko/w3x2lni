@@ -225,8 +225,8 @@ local function parse_obj(name, obj, default, config, ttype)
     obj._origin_id = code
 end
 
-local function processing(w2l, type, objs, target_progress)
-    local chunk = objs[type]
+local function processing(w2l, type, slk, target_progress)
+    local chunk = slk[type]
     local default = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')))
     local config = w2l.config['unpack']
     local names = {}

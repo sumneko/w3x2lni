@@ -257,11 +257,11 @@ function mt:load_misc()
     if self.files[name] then
         add_table(misc, w2l:parse_ini(self.files[name](name)))
     end
-    self.objs['misc'] = misc
+    self.slk['misc'] = misc
 end
 
 function mt:to_lni()
-    w2l:backend(self.files, self.objs, self.on_lni)
+    w2l:backend(self.files, self.slk, self.on_lni)
 end
 
 function mt:post_process()
@@ -269,12 +269,12 @@ function mt:post_process()
     for ttype, name in pairs(w2l.info.template.obj) do
         count = count + 1
         local target_progress = 17 + 7 * count
-        w2l:backend_processing(ttype, self.objs, target_progress)
+        w2l:backend_processing(ttype, self.slk, target_progress)
     end
 end
 
 function mt:load_data()
-	self.objs = w2l:frontend(self.files)
+	self.slk = w2l:frontend(self.files)
 end
 
 function mt:save_dir(output_dir)
@@ -433,6 +433,6 @@ return function ()
     local self = setmetatable({}, mt)
     self.inputs = {}
     self.files = {}
-    self.objs = {}
+    self.slk = {}
     return self
 end

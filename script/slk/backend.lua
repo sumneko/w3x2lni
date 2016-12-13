@@ -1,6 +1,6 @@
 local progress = require 'progress'
 
-local function to_lni(w2l, files, objs, on_lni)
+local function to_lni(w2l, files, slk, on_lni)
     --转换物编
     local count = 0
     for ttype, meta in pairs(w2l.info['metadata']) do
@@ -8,7 +8,7 @@ local function to_lni(w2l, files, objs, on_lni)
         local target_progress = 66 + count * 2
         progress:target(target_progress)
         
-        local data = objs[ttype]
+        local data = slk[ttype]
         if on_lni then
             data = on_lni(w2l, ttype, data)
         end

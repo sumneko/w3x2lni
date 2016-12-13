@@ -46,7 +46,7 @@ local function load_obj(w2l, files, ttype, file_name, target_progress)
 end
 
 local function load_data(w2l, files)
-    local objs = {}
+    local slk = {}
 
 	--读取字符串
 	if files['war3map.wts'] then
@@ -57,7 +57,7 @@ local function load_data(w2l, files)
     for ttype, name in pairs(w2l.info.template.obj) do
         count = count + 1
         local target_progress = 3 + count * 2
-        objs[ttype] = load_obj(w2l, files, ttype, name, target_progress)
+        slk[ttype] = load_obj(w2l, files, ttype, name, target_progress)
     end
 
     -- 删掉输入的二进制物编和slk,因为他们已经转化成lua数据了
@@ -77,7 +77,7 @@ local function load_data(w2l, files)
         end
     end
 
-    return objs
+    return slk
 end
 
 return load_data

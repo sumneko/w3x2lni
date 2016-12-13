@@ -75,7 +75,7 @@ local function create_object(t)
 end
 
 local function create_proxy(type)
-	local t = m.objs[type]
+	local t = m.slk[type]
 	local mt = {}
 	function mt:__index(key)
 		return create_object(t[key] or {})
