@@ -23,8 +23,8 @@ function mt:parse_slk(buf)
 	return slk(buf)
 end
 
-function mt:parse_txt(buf)
-	return txt(buf)
+function mt:parse_txt(...)
+	return txt(...)
 end
 
 function mt:parse_ini(buf)

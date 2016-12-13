@@ -248,10 +248,13 @@ return function (w2l_, type, loader)
         end
         slk_read(data, w2l:parse_slk(loader(filename)), slk_keys, slk_meta)
     end
-    for _, filename in ipairs(w2l.info.template.txt[type]) do
-        txt_read(data, w2l:parse_txt(loader(filename)))
+    if #w2l.info.template.txt[type] > 0 then
+        local txt = {}
+        for _, filename in ipairs(w2l.info.template.txt[type]) do
+            w2l:parse_txt(loader(filename), filename, txt)
+        end
+        txt_read(data, txt)
     end
-
     default_add(data)
     return data
 end
