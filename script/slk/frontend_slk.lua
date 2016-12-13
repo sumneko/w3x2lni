@@ -53,8 +53,7 @@ local function to_type(meta, value)
     end
 end
 
-local function add_data(obj, key, id, value, level)
-    local meta = metadata[id]
+local function add_data(obj, key, meta, value, level)
     value = to_type(meta, value)
     if not value then
         return
@@ -150,7 +149,7 @@ local function read_txt_data(name, obj, key, id, txt)
             return
         end
         for i = 1, 2 do
-            add_data(obj, key..':'..i, id, value[i])
+            add_data(obj, key..':'..i, meta, value[i])
         end
         return
     end
@@ -165,7 +164,7 @@ local function read_txt_data(name, obj, key, id, txt)
                 new_key = key .. (i-1)
             end
             if txt[new_key] then
-                add_data(obj, key, id, txt[new_key][1])
+                add_data(obj, key, meta, txt[new_key][1])
             end
         end
         return
@@ -176,7 +175,7 @@ local function read_txt_data(name, obj, key, id, txt)
         return
     end
     for i = 1, #value do
-        add_data(obj, key, id, value[i])
+        add_data(obj, key, meta, value[i])
     end
 end
 
