@@ -12,8 +12,6 @@ local metadata
 local has_level
 local keyconvert
 local slk_type
-local slk_keys
-local slk_meta
 local txt_keys
 local txt_meta
 
@@ -227,37 +225,24 @@ return function (w2l_, type, loader)
     keyconvert = w2l:keyconvert(type)
     slk_type = type
 
-    local file_keys = {}
-    local file_meta = {}
-    slk_keys = {}
-    slk_meta = {}
     txt_keys = {}
     txt_meta = {}
-    for key, id in pairs(keyconvert['common']) do
-        local meta = metadata[id]
-        if meta['slk'] == 'Profile' then
+    if keyconvert.profile then
+        for key, id in pairs(keyconvert.profile) do
             txt_keys[#txt_keys+1] = key
             txt_meta[#txt_meta+1] = metadata[id]
-        else
-            slk_keys[#slk_keys+1] = key
-            slk_meta[#slk_meta+1] = meta
-            local filename = 'units\\' .. meta['slk']:lower() .. '.slk'
-            if type == 'doodad' then
-                filename = 'doodads\\doodads.slk'
-            end
-            if file_keys[filename] then
-                file_keys[filename][#file_keys[filename]+1] = key
-                file_meta[filename][#file_meta[filename]+1] = meta
-            else
-                file_keys[filename] = {key}
-                file_meta[filename] = {metadata[id]}
-            end
         end
     end
 
     local data = {}
     for _, filename in ipairs(w2l.info.template.slk[type]) do
-        slk_read(data, w2l:parse_slk(loader(filename)), file_keys[filename], file_meta[filename])
+        local slk_keys = {}
+        local slk_meta = {}
+        for key, id in pairs(keyconvert[filename]) do
+            slk_keys[#slk_keys+1] = key
+            slk_meta[#slk_meta+1] = metadata[id]
+        end
+        slk_read(data, w2l:parse_slk(loader(filename)), slk_keys, slk_meta)
     end
     for _, filename in ipairs(w2l.info.template.txt[type]) do
         txt_read(data, w2l:parse_txt(loader(filename)))
