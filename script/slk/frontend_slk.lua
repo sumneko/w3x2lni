@@ -5,6 +5,7 @@ local pairs = pairs
 local ipairs = ipairs
 local tostring = tostring
 local wtonumber = w3xparser.tonumber
+local next = next
 
 local w2l
 local metadata
@@ -81,27 +82,15 @@ end
 local function slk_read_data(obj, key, meta, data)
     local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
     if has_repeat then
-        local flag
+        obj[key] = {}
         for i = 1, 4 do
-            if data[key..i] then
-                flag = true
-                break
-            end
+            obj[key][i] = to_type(meta, data[key..i])
         end
-        if flag then
-            obj[key] = {}
-            for i = 1, 4 do
-                obj[key][i] = to_type(meta, data[key..i])
-            end
-            if #obj[key] == 0 then
-                obj[key] = nil
-            end
+        if not next(obj[key]) then
+            obj[key] = nil
         end
     else
-        local value = data[key]
-        if value then
-            obj[key] = to_type(meta, value)
-        end
+        obj[key] = to_type(meta, data[key])
     end
 end
 
@@ -115,18 +104,12 @@ local function slk_read_obj(obj, name, data, keys, metas)
     
     for i = 1, #keys do
         slk_read_data(obj, keys[i], metas[i], data)
-        if not obj[keys[i]] then
-            default_add_data(obj, keys[i], metas[i])
-        end
     end
 
     local private = keyconvert[name] or keyconvert[obj._origin_id]
     if private then
         for key, id in pairs(private) do
             slk_read_data(obj, key, metadata[id], data)
-            if not obj[key] then
-                default_add_data(obj, key, metadata[id])
-            end
         end
     end
 end
