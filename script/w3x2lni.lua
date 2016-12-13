@@ -13,6 +13,7 @@ local metadatas = {}
 local id_type
 local usable_code
 local editstring
+local keyconvert = {}
 
 function mt:parse_lni(...)
 	return lni(...)
@@ -61,8 +62,7 @@ function mt:get_id_type(id, meta)
 	if not id_type then
 		id_type = lni(io.load(self.prebuilt / 'id_type.ini'))
 	end
-    local format = id_type[type] or 3
-    return format
+    return id_type[type] or 3
 end
 
 function mt:is_usable_code(code)
@@ -84,6 +84,13 @@ function mt:editstring(str)
 		str = editstring[str]
 	until not editstring[str]
 	return str:gsub('%c+', '')
+end
+
+function mt:keyconvert(type)
+	if not keyconvert[type] then
+		keyconvert[type] = lni(io.load(self.key / (type .. '.ini')), type)
+	end
+	return keyconvert[type]
 end
 
 function mt:initialize(root)

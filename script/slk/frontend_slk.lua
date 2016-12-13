@@ -300,7 +300,7 @@ return function (w2l_, type, loader)
     local self = setmetatable({}, mt)
     self.slk = slk
     self.txt = txt
-    self.key = w2l:parse_lni(io.load(w2l.key / (type .. '.ini')), type)
+    self.key = w2l:keyconvert(type)
     self.type = type
 
     return self:save()

@@ -186,7 +186,7 @@ return function (w2l, file_name, data)
 	tbl.w2l = w2l
 
 	tbl.meta = w2l:read_metadata(file_name)
-	tbl.key = w2l:parse_lni(io.load(w2l.key / (file_name .. '.ini')), file_name)
+    tbl.key = w2l:keyconvert(type)
     tbl.file_name = file_name
 
 	tbl:add_chunk(data)
