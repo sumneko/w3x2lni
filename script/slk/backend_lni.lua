@@ -152,7 +152,7 @@ function mt:add_data(key, id, data, lines)
 end
 
 function mt:key2id(name, code, key)
-    local id = code and self.key[code] and self.key[code][key] or self.key[name] and self.key[name][key] or self.key['public'][key]
+    local id = code and self.key[code] and self.key[code][key] or self.key[name] and self.key[name][key] or self.key['common'][key]
     if id then
         return id
     end

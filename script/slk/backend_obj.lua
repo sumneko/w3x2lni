@@ -17,7 +17,7 @@ end
 
 function mt:key2id(code, skill, key)
     local key = key:lower()
-    local id = self.key[code] and self.key[code][key] or self.key[skill] and self.key[skill][key] or self.key['public'][key]
+    local id = self.key[code] and self.key[code][key] or self.key[skill] and self.key[skill][key] or self.key['common'][key]
     if id then
         return id
     end

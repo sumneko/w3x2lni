@@ -255,7 +255,7 @@ return function (w2l_, type, loader)
     slk_meta = {}
     txt_keys = {}
     txt_meta = {}
-    for key, id in pairs(keyconvert['public']) do
+    for key, id in pairs(keyconvert['common']) do
         local meta = metadata[id]
         if meta['slk'] == 'Profile' then
             txt_keys[#txt_keys+1] = key

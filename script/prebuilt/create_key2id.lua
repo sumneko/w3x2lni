@@ -38,7 +38,7 @@ function mt:isenable(meta)
     return true
 end
 
-function mt:add_data(id, meta, public, private)
+function mt:add_data(id, meta, common, special, type)
     if not self:isenable(meta) then
         return
     end
@@ -52,17 +52,28 @@ function mt:add_data(id, meta, public, private)
         name = name .. ':' .. (meta['index'] + 1)
     end
     if not skill then
-        public[name] = id
+        common[name] = id
     else
         for skl in skill:gmatch '%w+' do
             if self:canadd(skl, id) then
-                if not private[skl] then
-                    private[skl] = {}
+                if not special[skl] then
+                    special[skl] = {}
                 end
-                private[skl][name] = id
+                special[skl][name] = id
             end
         end
     end
+    local filename = meta['slk']:lower()
+    if filename ~= 'profile' then
+        filename = 'units\\' .. meta['slk']:lower() .. '.slk'
+        if type == 'doodad' then
+            filename = 'doodads\\doodads.slk'
+        end
+    end
+    if not special[filename] then
+        special[filename] = {}
+    end
+    special[filename][name] = id
 end
 
 local function sort_table(tbl)
@@ -74,24 +85,28 @@ local function sort_table(tbl)
     return names
 end
 
-local function add_public(tbl, public)
-    local names = sort_table(public)
-    tbl[#tbl+1] = '[public]'
+local function add_common(tbl, common)
+    local names = sort_table(common)
+    tbl[#tbl+1] = '[common]'
     for _, name in ipairs(names) do
         if name:find('[^_%w]') then
-            tbl[#tbl+1] = ('\'%s\' = %s'):format(name, public[name])
+            tbl[#tbl+1] = ('\'%s\' = %s'):format(name, common[name])
         else
-            tbl[#tbl+1] = ('%s = %s'):format(name, public[name])
+            tbl[#tbl+1] = ('%s = %s'):format(name, common[name])
         end
     end
 end
 
-local function add_private(tbl, private)
-    local names = sort_table(private)
+local function add_special(tbl, special)
+    local names = sort_table(special)
     for _, name in ipairs(names) do
-        local data = private[name]
+        local data = special[name]
         tbl[#tbl+1] = ''
-        tbl[#tbl+1] = ('[%s]'):format(name)
+        if name:find '[^%w_]' then
+            tbl[#tbl+1] = ('[%q]'):format(name)
+        else
+            tbl[#tbl+1] = ('[%s]'):format(name)
+        end
         local names = sort_table(data)
         for _, name in ipairs(names) do
             if name:find('[^_%w]') then
@@ -103,23 +118,23 @@ local function add_private(tbl, private)
     end
 end
 
-local function copy_code(private, template)
+local function copy_code(special, template)
     for skill, data in pairs(template) do
         local code = data['code']
-        if skill ~= code and private[code] then
-            if not private[skill] then
-                private[skill] = {}
+        if skill ~= code and special[code] then
+            if not special[skill] then
+                special[skill] = {}
             end
-            for k, v in pairs(private[code]) do
-                if not private[skill][k] then
-                    private[skill][k] = v
+            for k, v in pairs(special[code]) do
+                if not special[skill][k] then
+                    special[skill][k] = v
                 end
             end
         end
     end
 
     -- AOac进行特殊处理
-    private['AOac'] = private['ACac']
+    special['AOac'] = special['ACac']
 end
 
 local function read_list(metadata, template, ttype)
@@ -127,31 +142,26 @@ local function read_list(metadata, template, ttype)
     tbl.type = ttype
     tbl.lines = {}
 
-    local public = {}
-    local private = {}
+    local common = {}
+    local special = {}
 
     for id, meta in pairs(metadata) do
         if type(meta) == 'table' then
-            tbl:add_data(id, meta, public, private)
+            tbl:add_data(id, meta, common, special, ttype)
         end
     end
     if ttype == 'ability' then
-        copy_code(private, template)
+        copy_code(special, template)
     end
-    return public, private
-end
-
-local function convert_list(public, private)
-    local tbl = {}
-
-    add_public(tbl, public)
-    add_private(tbl, private)
-
-    return table.concat(tbl, '\r\n') .. '\r\n'
+    return common, special
 end
 
 return function (type, metadata, template)
-    local public, private = read_list(metadata, template, type)
+    local tbl = {}
 
-    return convert_list(public, private)
+    local common, special = read_list(metadata, template, type)
+    add_common(tbl, common)
+    add_special(tbl, special)
+
+    return table.concat(tbl, '\r\n') .. '\r\n'
 end
