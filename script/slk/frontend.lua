@@ -1,36 +1,32 @@
 local progress = require 'progress'
 
-local function add_table(tbl1, tbl2)
-    for k, v in pairs(tbl2) do
-        if tbl1[k] then
-            if type(tbl1[k]) == 'table' and type(v) == 'table' then
-                add_table(tbl1[k], v)
+local function table_merge(a, b)
+    for k, v in pairs(b) do
+        if a[k] then
+            if type(a[k]) == 'table' and type(v) == 'table' then
+                table_merge(a[k], v)
             else
-                tbl1[k] = v
+                a[k] = v
             end
         else
-            tbl1[k] = v
+            a[k] = v
         end
     end
 end
 
-local function load_obj(w2l, archive, ttype, filename, target_progress)
-    local metadata = w2l:read_metadata(ttype)
-    local key_data = w2l:parse_lni(io.load(w2l.key / (ttype .. '.ini')), ttype)
-
-    local obj, data
-    local force_slk
+local function load(w2l, archive, type, filename, target_progress)
+    local obj, data, force_slk
 
     progress:target(target_progress-1)
     local buf = archive:get(filename)
     if buf then
         message('正在转换', file_name)
-        obj, force_slk = w2l:frontend_obj(ttype, filename, buf)
+        obj, force_slk = w2l:frontend_obj(type, filename, buf)
     end
 
     progress:target(target_progress)
-    if force_slk or w2l.config['unpack']['read_slk'] then
-        data = w2l:frontend_slk(ttype, function(name)
+    if force_slk or w2l.config.unpack.read_slk then
+        data = w2l:frontend_slk(type, function(name)
             message('正在转换', name)
             local buf = archive:get(name)
             if buf then
@@ -39,11 +35,12 @@ local function load_obj(w2l, archive, ttype, filename, target_progress)
             return io.load(w2l.mpq / name)
         end)
     else
-        data = w2l:parse_lni(io.load(w2l.default / (ttype .. '.ini')))
+        data = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')))
     end
 
-    add_table(data, obj or {})
-
+    if obj then
+        table_merge(data, obj)
+    end
     return data
 end
 
@@ -55,10 +52,10 @@ return function(w2l, archive, slk)
 	end
     
     local count = 0
-    for ttype, name in pairs(w2l.info.template.obj) do
+    for type, name in pairs(w2l.info.template.obj) do
         count = count + 1
         local target_progress = 3 + count * 2
-        slk[ttype] = load_obj(w2l, archive, ttype, name, target_progress)
+        slk[type] = load(w2l, archive, type, name, target_progress)
     end
 
     -- TODO: 删掉输入的二进制物编和slk,因为他们已经转化成lua数据了
