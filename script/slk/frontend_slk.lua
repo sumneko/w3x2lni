@@ -53,13 +53,13 @@ local function to_type(meta, value)
     end
 end
 
-local function add_data(obj, key, meta, value, level)
+local function add_data(obj, key, meta, value)
     value = to_type(meta, value)
     if not value then
         return
     end
     local has_level = meta['repeat'] and meta['repeat'] > 0
-    if not level and meta.index == -1 and not has_level then
+    if meta.index == -1 and not has_level then
         if obj[key] then
             obj[key] = obj[key] .. ',' .. value
         else
@@ -67,13 +67,11 @@ local function add_data(obj, key, meta, value, level)
         end
     else
         if has_level then
-            if not obj[key] then
-                obj[key] = {}
-            end
-            if not level then
-                level = #obj[key] + 1
-            end
-            obj[key][level] = value
+            if obj[key] then
+                obj[key][#obj[key] + 1] = value
+            else
+                obj[key] = { value }
+            end 
         else
             if not obj[key] then
                 obj[key] = value
