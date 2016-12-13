@@ -180,14 +180,14 @@ function mt:get_comment(id)
 	return self.w2l:editstring(comment)
 end
 
-return function (w2l, file_name, data)
+return function (w2l, type, data)
 	local tbl = setmetatable({}, mt)
 	tbl.lines = {}
 	tbl.w2l = w2l
 
-	tbl.meta = w2l:read_metadata(file_name)
+	tbl.meta = w2l:read_metadata(type)
     tbl.key = w2l:keyconvert(type)
-    tbl.file_name = file_name
+    tbl.file_name = type
 
 	tbl:add_chunk(data)
 
