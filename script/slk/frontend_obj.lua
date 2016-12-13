@@ -107,7 +107,7 @@ function mt:read_data(obj)
 	end
 end
 
-return function (w2l, ttype, file_name, content)
+return function (w2l, ttype, content)
 	local tbl     = setmetatable({}, mt)
 	tbl.content   = content
 	tbl.index     = 1
