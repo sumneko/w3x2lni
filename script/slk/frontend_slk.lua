@@ -78,7 +78,7 @@ local function slk_read_data(obj, key, meta, data)
     end
 end
 
-local function slk_read_obj(obj, name, data)
+local function slk_read_obj(obj, name, data, keys, metas)
     obj._user_id = name
     obj._origin_id = data.code or obj._origin_id or name
     obj._slk = true
@@ -86,8 +86,8 @@ local function slk_read_obj(obj, name, data)
         obj._name = data.name  -- 单位的反slk可以用name作为线索
     end
     
-    for i = 1, #slk_keys do
-        slk_read_data(obj, slk_keys[i], slk_meta[i], data)
+    for i = 1, #keys do
+        slk_read_data(obj, keys[i], metas[i], data)
     end
 
     local private = keyconvert[name] or keyconvert[obj._origin_id]
@@ -98,12 +98,12 @@ local function slk_read_obj(obj, name, data)
     end
 end
 
-local function slk_read(table, slk)
+local function slk_read(table, slk, keys, metas)
     for name, data in pairs(slk) do
         if not table[name] then
             table[name] = {}
         end
-        slk_read_obj(table[name], name, data)
+        slk_read_obj(table[name], name, data, keys, metas)
     end
 end
 
@@ -249,6 +249,8 @@ return function (w2l_, type, loader)
     keyconvert = w2l:keyconvert(type)
     slk_type = type
 
+    local file_keys = {}
+    local file_meta = {}
     slk_keys = {}
     slk_meta = {}
     txt_keys = {}
@@ -260,13 +262,24 @@ return function (w2l_, type, loader)
             txt_meta[#txt_meta+1] = metadata[id]
         else
             slk_keys[#slk_keys+1] = key
-            slk_meta[#slk_meta+1] = metadata[id]
+            slk_meta[#slk_meta+1] = meta
+            local filename = 'units\\' .. meta['slk']:lower() .. '.slk'
+            if type == 'doodad' then
+                filename = 'doodads\\doodads.slk'
+            end
+            if file_keys[filename] then
+                file_keys[filename][#file_keys[filename]+1] = key
+                file_meta[filename][#file_meta[filename]+1] = meta
+            else
+                file_keys[filename] = {key}
+                file_meta[filename] = {metadata[id]}
+            end
         end
     end
 
     local data = {}
     for _, filename in ipairs(w2l.info.template.slk[type]) do
-        slk_read(data, w2l:parse_slk(loader(filename)))
+        slk_read(data, w2l:parse_slk(loader(filename)), file_keys[filename], file_meta[filename])
     end
     for _, filename in ipairs(w2l.info.template.txt[type]) do
         txt_read(data, w2l:parse_txt(loader(filename)))
