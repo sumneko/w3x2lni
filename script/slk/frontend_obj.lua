@@ -1,4 +1,3 @@
-local string_char = string.char
 local select = select
 
 local w2l
@@ -17,12 +16,14 @@ local function unpack(str)
 	return set_pos(str:unpack(unpack_buf, unpack_pos))
 end
 
+local character = { 'a','b','c','d','e','f','g','h','i' }
+
 local function get_id_name(id)
 	local meta  = metadata[id]
 	local name  = meta.field:lower()
 	local num   = meta.data
 	if num and num ~= 0 then
-		name = name .. string_char(('a'):byte() + num - 1)
+		name = name .. character[num]
 	end
 	if meta._has_index then
 		name = name .. ':' .. (meta.index + 1)
