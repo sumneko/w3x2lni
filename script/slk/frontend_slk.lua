@@ -53,39 +53,9 @@ local function to_type(meta, value)
     end
 end
 
-local function add_data(obj, key, meta, value)
-    value = to_type(meta, value)
-    if not value then
-        return
-    end
-    local has_repeat = false
-    if has_level then
-        has_repeat = meta['repeat'] and meta['repeat'] > 0
-    end
-    if meta.index == -1 and not has_repeat then
-        if obj[key] then
-            obj[key] = obj[key] .. ',' .. value
-        else
-            obj[key] = value
-        end
-    else
-        if has_repeat then
-            if obj[key] then
-                obj[key][#obj[key] + 1] = value
-            else
-                obj[key] = { value }
-            end 
-        else
-            if not obj[key] then
-                obj[key] = value
-            end
-        end
-    end
-end
-
 local function read_slk_data(name, obj, key, meta, data)
-    local rep = meta['repeat']
-    if rep and rep > 0 then
+    local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
+    if has_repeat then
         local flag
         for i = 1, 4 do
             if data[key..i] then
@@ -139,6 +109,34 @@ local function read_slk(lni, slk)
     end
 end
 
+local function add_txt_data(obj, key, meta, value)
+    value = to_type(meta, value)
+    if not value then
+        return
+    end
+    local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
+    if meta.index == -1 and not has_repeat then
+        if obj[key] then
+            obj[key] = obj[key] .. ',' .. value
+        else
+            obj[key] = value
+        end
+    else
+        if has_repeat then
+            if obj[key] then
+                obj[key][#obj[key] + 1] = value
+            else
+                obj[key] = { value }
+            end 
+        else
+            if not obj[key] then
+                obj[key] = value
+            end
+        end
+    end
+end
+
+
 local function read_txt_data(name, obj, key, meta, txt)
     if meta['index'] == 1 then
         local key = key:sub(1, -3)
@@ -147,7 +145,7 @@ local function read_txt_data(name, obj, key, meta, txt)
             return
         end
         for i = 1, 2 do
-            add_data(obj, key..':'..i, meta, value[i])
+            add_txt_data(obj, key..':'..i, meta, value[i])
         end
         return
     end
@@ -162,7 +160,7 @@ local function read_txt_data(name, obj, key, meta, txt)
                 new_key = key .. (i-1)
             end
             if txt[new_key] then
-                add_data(obj, key, meta, txt[new_key][1])
+                add_txt_data(obj, key, meta, txt[new_key][1])
             end
         end
         return
@@ -173,7 +171,7 @@ local function read_txt_data(name, obj, key, meta, txt)
         return
     end
     for i = 1, #value do
-        add_data(obj, key, meta, value[i])
+        add_txt_data(obj, key, meta, value[i])
     end
 end
 
@@ -196,8 +194,8 @@ local function read_txt(lni, txt)
 end
 
 local function add_default_data(name, obj, key, meta)
-    local rep = meta['repeat']
-    if rep and rep > 0 then
+    local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
+    if has_repeat then
         local value = to_type(meta)
         if obj[key] then
             for i = 5, #obj[key] do
