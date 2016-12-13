@@ -13,22 +13,7 @@ function mt:add(format, ...)
     self.hexs[#self.hexs+1] = (format):pack(...)
 end
 
-function mt:sort_chunk(data)
-    local origin = {}
-    local user = {}
-    for id, obj in pairs(data) do
-        if obj['_id'] then
-            if obj['_id'] == id then
-                table_insert(origin, id)
-            else
-                table_insert(user, id)
-            end
-        end
-    end
-    table_sort(origin)
-    table_sort(user)
-    return origin, user
-end
+
 
 function mt:key2id(code, skill, key)
     local key = key:lower()
@@ -84,34 +69,9 @@ function mt:format_value(value)
     return value
 end
 
-function mt:add_head(data)
-    self:add('l', 2)
-end
 
-function mt:add_chunk(id, data)
-    self:add('l', #id)
-    for i = 1, #id do
-        self:add_obj(id[i], data[id[i]])
-    end
-end
 
-function mt:add_obj(id, obj)
-    self:add('c4', obj['_id'])
-    if id == obj['_id'] then
-        self:add('c4', '\0\0\0\0')
-    else
-        self:add('c4', id)
-    end
-    
-    for name, value in pairs(obj) do
-        self:remove_template_data(obj, obj['_id'], id, name, value)
-    end
-    local names, full_names, new_obj, count = self:sort_obj(obj, id)
-    self:add('l', count)
-    for i = 1, #names do
-        self:add_data(names[i], new_obj[names[i]], id)
-    end
-end
+
 
 function mt:add_data(name, data, id)
     local meta = self.meta[name]
@@ -197,20 +157,65 @@ function mt:remove_template_data(obj, id, nid, name, data)
     end
 end
 
-return function (self, data, meta, key, template)
+function mt:add_obj(id, obj)
+    local code = obj._origin_id
+    self:add('c4', code)
+    if id == code then
+        self:add('c4', '\0\0\0\0')
+    else
+        self:add('c4', id)
+    end
+    
+    for name, value in pairs(obj) do
+        self:remove_template_data(obj, code, id, name, value)
+    end
+    local names, full_names, new_obj, count = self:sort_obj(obj, id)
+    self:add('l', count)
+    for i = 1, #names do
+        self:add_data(names[i], new_obj[names[i]], id)
+    end
+end
+
+function mt:add_chunk(ids, data)
+    self:add('l', #ids)
+    for _, id in ipairs(ids) do
+        self:add_obj(id, data[id])
+    end
+end
+
+function mt:add_head(data)
+    self:add('l', 2)
+end
+
+local function sort_chunk(data)
+    local origin = {}
+    local user = {}
+    for id, obj in pairs(data) do
+        if obj['_id'] then
+            if obj['_id'] == id then
+                table_insert(origin, id)
+            else
+                table_insert(user, id)
+            end
+        end
+    end
+    table_sort(origin)
+    table_sort(user)
+    return origin, user
+end
+
+return function (w2l, type, data)
     local tbl = setmetatable({}, mt)
     tbl.hexs = {}
-    tbl.self = self
-    tbl.meta = meta
-    tbl.template = template
-    tbl.key = key
-    tbl.has_level = meta._has_level
+    tbl.meta = w2l:read_metadata(type)
+    tbl.key = w2l:keyconvert(type)
+    tbl.has_level = w2l.info.key.max_level[type]
 
     function tbl:get_id_type(id)
         return self:get_id_type(meta[id].type)
     end
 
-    local origin_id, user_id = tbl:sort_chunk(data)
+    local origin_id, user_id = sort_chunk(data)
     tbl:add_head(data)
     tbl:add_chunk(origin_id, data)
     tbl:add_chunk(user_id, data)
