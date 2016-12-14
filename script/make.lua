@@ -9,6 +9,7 @@ local uni = require 'ffi.unicode'
 local w2l = require 'w3x2lni'
 local map = require 'map'
 
+io.stderr:setvbuf('no')
 function message(...)
 	local tbl = {...}
 	local err = {}
@@ -18,7 +19,6 @@ function message(...)
 		err[i] = uni.u2a(tbl[i])
 	end
 	io.stderr:write(table.concat(err, ' ')..'\r\n')
-	io.stderr:flush()
 	print(table.concat(tbl, ' '))
 end
 
