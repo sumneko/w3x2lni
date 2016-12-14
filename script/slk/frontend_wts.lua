@@ -60,9 +60,9 @@ function mt:refresh()
 	return table.concat(lines, '\r\n\r\n')
 end
 
-
+-- TODO: 待重构，数据和操作分离 
 return function (w2l, archive)
-    local buf = archive:get('war3map.wts')
+	local buf = archive:get('war3map.wts')
 	if not buf then
 		return
 	end
