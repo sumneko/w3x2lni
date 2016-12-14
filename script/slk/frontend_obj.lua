@@ -1,6 +1,7 @@
 local select = select
 
 local w2l
+local wts
 local has_level
 local metadata
 local unpack_buf
@@ -57,8 +58,8 @@ local function read_data(obj)
 		value = unpack 'f'
 	else
 		local str = unpack 'z'
-		if w2l.wts then
-			value = w2l.wts:load(str)
+		if wts then
+			value = wts:load(str)
 		else
 			value = str
 		end
@@ -116,8 +117,9 @@ local function read_chunk(chunk)
 	end
 end
 
-return function (w2l_, type, buf)
+return function (w2l_, type, wts_, buf)
 	w2l = w2l_
+	wts = wts_
 	has_level = w2l.info.key.max_level[type]
 	metadata = w2l:read_metadata(type)
 	unpack_buf = buf
