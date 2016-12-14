@@ -129,41 +129,25 @@ local function txt_add_default_data(obj, key, meta)
     end
 end
 
-local function txt_add_data(obj, key, meta, value)
-    value = to_type(meta, value)
-    if not value then
-        return
-    end
-    local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
-    if has_repeat then
-        if obj[key] then
-            obj[key][#obj[key] + 1] = value
-        else
-            obj[key] = { value }
-        end 
-    else
-        if not obj[key] then
-            obj[key] = value
-        end
-    end
-end
-
 local function txt_read_data(name, obj, key, meta, txt)
     if meta['index'] == 1 then
         local key = key:sub(1, -3)
-        local value = txt[key]
-        if not value then
-            return
-        end
-        obj[key .. ':1'] = nil
-        for i = 1, 2 do
-            txt_add_data(obj, key..':'..i, meta, value[i])
+        local value = txt and txt[key]
+        if value then
+            for i = 1, 2 do
+                obj[key..':'..i] = to_type(meta, value[i])
+            end
+        else
+            for i = 1, 2 do
+                obj[key..':'..i] = to_type(meta)
+            end
         end
         return
     end
 
     if meta['appendIndex'] == 1 then
-        local max_level = txt[key..'count'] and txt[key..'count'][1] or 1
+        local max_level = txt and txt[key..'count'] and txt[key..'count'][1] or 1
+        obj[key] = {}
         for i = 1, max_level do
             local new_key
             if i == 1 then
@@ -171,44 +155,40 @@ local function txt_read_data(name, obj, key, meta, txt)
             else
                 new_key = key .. (i-1)
             end
-            local value = txt[new_key]
+            local value = txt and txt[new_key]
             if value and #value > 0 then
-                if meta['index'] == -1 then
-                    txt_add_data(obj, key, meta, table_concat(value, ','))
-                else
-                    for i = 1, #value do
-                        txt_add_data(obj, key, meta, value[i])
-                    end
-                end
+                obj[key][i] = table_concat(value, ',')
             end
         end
         return
     end
 
-    local value = txt[key]
+    local value = txt and txt[key]
     if not value or #value == 0 then
+        --TODO: 防止后来的button:1将button:2解析出来的数据覆盖
+        if not obj[key] then
+            obj[key] = to_type(meta)
+        end
         return
     end
-    if meta['index'] == -1 then
-        txt_add_data(obj, key, meta, table_concat(value, ','))
-    else
-        for i = 1, #value do
-            txt_add_data(obj, key, meta, value[i])
-        end
+    if meta['index'] == -1 and #value > 1 then
+        obj[key] = table_concat(value, ',')
+        return
+    end
+    if not meta['repeat'] or meta['repeat'] == 0 then
+        obj[key] = to_type(meta, value[1])
+        return
+    end
+    obj[key] = {}
+    for i = 1, #value do
+        obj[key][i] = value[i]
     end
 end
 
 local function txt_read_obj(obj, name, data)
-    if data then
-        obj._txt = true
-        for i = 1, #txt_keys do
-            txt_read_data(name, obj, txt_keys[i], txt_meta[i], data)
-            txt_add_default_data(obj, txt_keys[i], txt_meta[i])
-        end
-    else
-        for i = 1, #txt_keys do
-            txt_add_default_data(obj, txt_keys[i], txt_meta[i])
-        end
+    obj._txt = true
+    for i = 1, #txt_keys do
+        txt_read_data(name, obj, txt_keys[i], txt_meta[i], data)
     end
 end
 
