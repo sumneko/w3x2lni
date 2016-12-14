@@ -42,11 +42,47 @@ local function to_obj(w2l, archive, slk, on_lni)
     end
 end
 
+local function to_slk(w2l, archive, slk, on_lni)
+    --转换物编
+    local count = 0
+    for type, meta in pairs(w2l.info['metadata']) do
+        count = count + 1
+        local target_progress = 66 + count * 2
+        progress:target(target_progress)
+        
+        local data = slk[type]
+        if on_lni then
+            data = on_lni(w2l, type, data)
+        end
+        
+        for _, slk in ipairs(w2l.info['template']['slk'][type]) do
+            local content = w2l:backend_slk(type, slk, data)
+            if content then
+                archive:set(slk, content)
+            end
+        end
+        for _, txt in ipairs(w2l.info['template']['txt'][type]) do
+            local content = w2l:backend_txt(type, txt, data)
+            if content then
+                archive:set(txt, content)
+            end
+        end
+        local content = w2l:backend_obj(type, data)
+        if content then
+            archive:set(w2l.info['template']['obj'][type], content)
+        end
+        
+        progress(1)
+    end
+end
+
 return function (w2l, archive, slk, on_lni)
     if w2l.config.target_format == 'lni' then
         to_lni(w2l, archive, slk, on_lni)
     elseif w2l.config.target_format == 'obj' then
         to_obj(w2l, archive, slk, on_lni)
+    elseif w2l.config.target_format == 'slk' then
+        to_slk(w2l, archive, slk, on_lni)
     end
 
     --转换其他文件
