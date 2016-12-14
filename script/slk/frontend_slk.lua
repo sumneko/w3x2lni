@@ -22,20 +22,12 @@ local function to_type(meta, value)
         if not value then
             return 0
         end
-        value = wtonumber(value)
-        if not value then
-            return 0
-        end
-        return math_floor(value)
+        return math_floor(wtonumber(value))
     elseif tp == 1 or tp == 2 then
         if not value then
             return 0.0
         end
-        value = wtonumber(value)
-        if not value then
-            return 0.0
-        end
-        return value + 0.0
+        return wtonumber(value) + 0.0
     elseif tp == 3 then
         if not value then
             return nil
@@ -97,33 +89,6 @@ local function slk_read(table, slk, keys, metas, update_level)
             if obj._max_level == 0 then
                 obj._max_level = 1
             end
-        end
-    end
-end
-
-local function txt_add_default_data(obj, key, meta)
-    local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
-    if has_repeat then
-        local value = to_type(meta)
-        if obj[key] then
-            for i = 5, #obj[key] do
-                obj[key][i] = nil
-            end
-        else
-            if value then
-                obj[key] = {}
-            else
-                return
-            end
-        end
-        for i = 1, 4 do
-            if not obj[key][i] then
-                obj[key][i] = value
-            end
-        end
-    else
-        if not obj[key] then
-            obj[key] = to_type(meta)
         end
     end
 end
