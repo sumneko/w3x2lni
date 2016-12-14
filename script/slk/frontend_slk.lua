@@ -13,8 +13,6 @@ local metadata
 local has_level
 local keyconvert
 local slk_type
-local txt_keys
-local txt_meta
 
 local function to_type(tp, value)
     if tp == 0 then
@@ -162,16 +160,11 @@ local function txt_read_data(name, obj, key, meta, txt)
     end
 end
 
-local function txt_read_obj(obj, name, data)
-    for i = 1, #txt_keys do
-        txt_read_data(name, obj, txt_keys[i], txt_meta[i], data)
-    end
-end
-
-
-local function txt_read(table, txt)
+local function txt_read(table, txt, txt_keys, txt_meta)
     for name, obj in pairs(table) do
-        txt_read_obj(obj, name, txt[name])
+        for i = 1, #txt_keys do
+            txt_read_data(name, obj, txt_keys[i], txt_meta[i], txt[name])
+        end
     end
 end
 
@@ -181,21 +174,6 @@ return function (w2l_, type, loader)
     has_level = w2l.info.key.max_level[type]
     keyconvert = w2l:keyconvert(type)
     slk_type = type
-
-    txt_keys = {}
-    txt_meta = {}
-    if keyconvert.profile then
-        for key, id in pairs(keyconvert.profile) do
-            local meta = metadata[id]
-            txt_keys[#txt_keys+1] = key
-            txt_meta[#txt_meta+1] = {
-                ['type'] = w2l:get_id_type(meta.type),
-                ['repeat'] = has_level and meta['repeat'] and meta['repeat'] > 0,
-                ['index'] = meta.index,
-                ['appendIndex'] = meta.appendIndex,
-            }
-        end
-    end
 
     local data = {}
     for _, filename in ipairs(w2l.info.template.slk[type]) do
@@ -217,12 +195,25 @@ return function (w2l_, type, loader)
         end
         slk_read(data, w2l:parse_slk(loader(filename)), slk_keys, slk_meta, update_level)
     end
-    if #w2l.info.template.txt[type] > 0 then
+    
+    if keyconvert.profile then
+        local txt_keys = {}
+        local txt_meta = {}
+        for key, id in pairs(keyconvert.profile) do
+            local meta = metadata[id]
+            txt_keys[#txt_keys+1] = key
+            txt_meta[#txt_meta+1] = {
+                ['type'] = w2l:get_id_type(meta.type),
+                ['repeat'] = has_level and meta['repeat'] and meta['repeat'] > 0,
+                ['index'] = meta.index,
+                ['appendIndex'] = meta.appendIndex,
+            }
+        end
         local txt = {}
         for _, filename in ipairs(w2l.info.template.txt[type]) do
             w2l:parse_txt(loader(filename), filename, txt)
         end
-        txt_read(data, txt)
+        txt_read(data, txt, txt_keys, txt_meta)
     end
     return data
 end
