@@ -69,7 +69,6 @@ end
 local function slk_read_obj(obj, name, data, keys, metas)
     obj._user_id = name
     obj._origin_id = data.code or obj._origin_id or name
-    obj._slk = true
     if slk_type == 'unit' and not obj._name then
         obj._name = data.name  -- 单位的反slk可以用name作为线索
     end
@@ -186,7 +185,6 @@ local function txt_read_data(name, obj, key, meta, txt)
 end
 
 local function txt_read_obj(obj, name, data)
-    obj._txt = true
     for i = 1, #txt_keys do
         txt_read_data(name, obj, txt_keys[i], txt_meta[i], data)
     end
