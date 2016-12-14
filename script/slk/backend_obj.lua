@@ -76,7 +76,9 @@ function mt:add_obj(name, obj)
     
     local keys = {}
     for key in pairs(obj) do
-        keys[#keys+1] = key
+        if key:sub(1, 1) ~= '_' then
+            keys[#keys+1] = key
+        end
     end
     table_sort(keys)
     
@@ -98,16 +100,15 @@ function mt:add_head(data)
     self:add('l', 2)
 end
 
-local function sort_chunk(data)
+local function sort_chunk(chunk)
     local origin = {}
     local user = {}
-    for id, obj in pairs(data) do
-        if obj['_id'] then
-            if obj['_id'] == id then
-                table_insert(origin, id)
-            else
-                table_insert(user, id)
-            end
+    for name, obj in pairs(chunk) do
+        local code = obj._origin_id
+        if name == code then
+            origin[#origin+1] = name
+        else
+            user[#user+1] = name
         end
     end
     table_sort(origin)
@@ -116,14 +117,15 @@ local function sort_chunk(data)
 end
 
 return function (w2l, type, data)
+    local meta = w2l:read_metadata(type)
     local tbl = setmetatable({}, mt)
     tbl.hexs = {}
-    tbl.meta = w2l:read_metadata(type)
+    tbl.meta = meta
     tbl.key = w2l:keyconvert(type)
     tbl.has_level = w2l.info.key.max_level[type]
 
     function tbl:get_id_type(id)
-        return self:get_id_type(meta[id].type)
+        return w2l:get_id_type(meta[id].type)
     end
 
     local origin_id, user_id = sort_chunk(data)
