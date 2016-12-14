@@ -155,6 +155,7 @@ local function txt_read_data(name, obj, key, meta, txt)
         if not value then
             return
         end
+        obj[key .. ':1'] = nil
         for i = 1, 2 do
             txt_add_data(obj, key..':'..i, meta, value[i])
         end
@@ -198,26 +199,23 @@ local function txt_read_data(name, obj, key, meta, txt)
 end
 
 local function txt_read_obj(obj, name, data)
-    obj._txt = true
-    for i = 1, #txt_keys do
-        txt_read_data(name, obj, txt_keys[i], txt_meta[i], data)
+    if data then
+        obj._txt = true
+        for i = 1, #txt_keys do
+            txt_read_data(name, obj, txt_keys[i], txt_meta[i], data)
+            txt_add_default_data(obj, txt_keys[i], txt_meta[i])
+        end
+    else
+        for i = 1, #txt_keys do
+            txt_add_default_data(obj, txt_keys[i], txt_meta[i])
+        end
     end
 end
 
-local function txt_add_default_obj(obj, name)
-    for i = 1, #txt_keys do
-        txt_add_default_data(obj, txt_keys[i], txt_meta[i])
-    end
-end
 
 local function txt_read(table, txt)
     for name, obj in pairs(table) do
-        if txt[name] then
-            txt_read_obj(obj, name, txt[name])
-            txt_add_default_obj(obj, name)
-        else
-            txt_add_default_obj(obj, name)
-        end
+        txt_read_obj(obj, name, txt[name])
     end
 end
 
