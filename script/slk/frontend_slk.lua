@@ -113,12 +113,19 @@ local function slk_read_obj(obj, name, data, keys, metas)
     end
 end
 
-local function slk_read(table, slk, keys, metas)
+local function slk_read(table, slk, keys, metas, update_level)
     for name, data in pairs(slk) do
         if not table[name] then
             table[name] = {}
         end
-        slk_read_obj(table[name], name, data, keys, metas)
+        local obj = table[name]
+        slk_read_obj(obj, name, data, keys, metas)
+        if update_level then
+            obj._max_level = obj[update_level]
+            if obj._max_level == 0 then
+                obj._max_level = 1
+            end
+        end
     end
 end
 
@@ -210,10 +217,6 @@ local function default_add_obj(name, obj)
     for i = 1, #txt_keys do
         default_add_data(obj, txt_keys[i], txt_meta[i])
     end
-    obj._max_level = obj[has_level]
-    if obj._max_level == 0 then
-        obj._max_level = 1
-    end
 end
 
 local function default_add(table)
@@ -240,13 +243,17 @@ return function (w2l_, type, loader)
 
     local data = {}
     for _, filename in ipairs(w2l.info.template.slk[type]) do
+        local update_level
         local slk_keys = {}
         local slk_meta = {}
         for key, id in pairs(keyconvert[filename]) do
             slk_keys[#slk_keys+1] = key
             slk_meta[#slk_meta+1] = metadata[id]
+            if key == has_level then
+                update_level = has_level
+            end
         end
-        slk_read(data, w2l:parse_slk(loader(filename)), slk_keys, slk_meta)
+        slk_read(data, w2l:parse_slk(loader(filename)), slk_keys, slk_meta, update_level)
     end
     if #w2l.info.template.txt[type] > 0 then
         local txt = {}
