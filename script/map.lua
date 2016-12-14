@@ -251,7 +251,7 @@ function mt:save_dir(output_dir)
         if not fs.exists(dir) then
             fs.create_directories(dir)
         end
-        io.save(path / name, self.files[name](name))
+        io.save(path / name, self.files[name])
         count = count + 1
 		if os.clock() - clock >= 0.1 then
             clock = os.clock()

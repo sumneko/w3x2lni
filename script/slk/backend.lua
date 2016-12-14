@@ -15,7 +15,7 @@ local function to_lni(w2l, files, slk, on_lni)
         
         local content = w2l:backend_lni(ttype, data)
         if content then
-            files[ttype .. '.ini'] = function() return content end
+            files[ttype .. '.ini'] = content
         end
         progress(1)
     end
@@ -36,7 +36,7 @@ local function to_obj(w2l, files, slk, on_lni)
         
         local content = w2l:backend_obj(type, data)
         if content then
-            files[type] = function() return content end
+            files[type] = content
         end
         progress(1)
     end
@@ -53,13 +53,13 @@ return function (w2l, files, slk, on_lni)
     if files['war3map.w3i'] then
         local w3i = w2l:read_w3i(files['war3map.w3i']('war3map.w3i'))
         local lni = w2l:w3i2lni(w3i)
-        files['mapinfo.ini'] = function() return lni end
-        files['war3map.w3i'] = nil
+        files['mapinfo.ini'] = lni
+        files['war3map.w3i'] = false
     end
 
 	--刷新字符串
 	if w2l.wts then
 		local content = w2l.wts:refresh()
-		files['war3map.wts'] = function() return content end
+		files['war3map.wts'] = content
 	end
 end
