@@ -51,33 +51,6 @@ local function to_type(meta, value)
     end
 end
 
-local function default_add_data(obj, key, meta)
-    local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
-    if has_repeat then
-        local value = to_type(meta)
-        if obj[key] then
-            for i = 5, #obj[key] do
-                obj[key][i] = nil
-            end
-        else
-            if value then
-                obj[key] = {}
-            else
-                return
-            end
-        end
-        for i = 1, 4 do
-            if not obj[key][i] then
-                obj[key][i] = value
-            end
-        end
-    else
-        if not obj[key] then
-            obj[key] = to_type(meta)
-        end
-    end
-end
-
 local function slk_read_data(obj, key, meta, data)
     local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
     if has_repeat then
@@ -113,12 +86,46 @@ local function slk_read_obj(obj, name, data, keys, metas)
     end
 end
 
-local function slk_read(table, slk, keys, metas)
+local function slk_read(table, slk, keys, metas, update_level)
     for name, data in pairs(slk) do
         if not table[name] then
             table[name] = {}
         end
-        slk_read_obj(table[name], name, data, keys, metas)
+        local obj = table[name]
+        slk_read_obj(obj, name, data, keys, metas)
+        if update_level then
+            obj._max_level = obj[update_level]
+            if obj._max_level == 0 then
+                obj._max_level = 1
+            end
+        end
+    end
+end
+
+local function txt_add_default_data(obj, key, meta)
+    local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
+    if has_repeat then
+        local value = to_type(meta)
+        if obj[key] then
+            for i = 5, #obj[key] do
+                obj[key][i] = nil
+            end
+        else
+            if value then
+                obj[key] = {}
+            else
+                return
+            end
+        end
+        for i = 1, 4 do
+            if not obj[key][i] then
+                obj[key][i] = value
+            end
+        end
+    else
+        if not obj[key] then
+            obj[key] = to_type(meta)
+        end
     end
 end
 
@@ -148,6 +155,7 @@ local function txt_read_data(name, obj, key, meta, txt)
         if not value then
             return
         end
+        obj[key .. ':1'] = nil
         for i = 1, 2 do
             txt_add_data(obj, key..':'..i, meta, value[i])
         end
@@ -191,34 +199,23 @@ local function txt_read_data(name, obj, key, meta, txt)
 end
 
 local function txt_read_obj(obj, name, data)
-    if obj == nil then
-        return
-    end
-    obj._txt = true
-    for i = 1, #txt_keys do
-        txt_read_data(name, obj, txt_keys[i], txt_meta[i], data)
+    if data then
+        obj._txt = true
+        for i = 1, #txt_keys do
+            txt_read_data(name, obj, txt_keys[i], txt_meta[i], data)
+            txt_add_default_data(obj, txt_keys[i], txt_meta[i])
+        end
+    else
+        for i = 1, #txt_keys do
+            txt_add_default_data(obj, txt_keys[i], txt_meta[i])
+        end
     end
 end
+
 
 local function txt_read(table, txt)
-    for name, data in pairs(txt) do
-        txt_read_obj(table[name], name, data)
-    end
-end
-
-local function default_add_obj(name, obj)
-    for i = 1, #txt_keys do
-        default_add_data(obj, txt_keys[i], txt_meta[i])
-    end
-    obj._max_level = obj[has_level]
-    if obj._max_level == 0 then
-        obj._max_level = 1
-    end
-end
-
-local function default_add(table)
     for name, obj in pairs(table) do
-        default_add_obj(name, obj)
+        txt_read_obj(obj, name, txt[name])
     end
 end
 
@@ -240,13 +237,17 @@ return function (w2l_, type, loader)
 
     local data = {}
     for _, filename in ipairs(w2l.info.template.slk[type]) do
+        local update_level
         local slk_keys = {}
         local slk_meta = {}
         for key, id in pairs(keyconvert[filename]) do
             slk_keys[#slk_keys+1] = key
             slk_meta[#slk_meta+1] = metadata[id]
+            if key == has_level then
+                update_level = has_level
+            end
         end
-        slk_read(data, w2l:parse_slk(loader(filename)), slk_keys, slk_meta)
+        slk_read(data, w2l:parse_slk(loader(filename)), slk_keys, slk_meta, update_level)
     end
     if #w2l.info.template.txt[type] > 0 then
         local txt = {}
@@ -255,6 +256,5 @@ return function (w2l_, type, loader)
         end
         txt_read(data, txt)
     end
-    default_add(data)
     return data
 end
