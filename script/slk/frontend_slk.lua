@@ -16,26 +16,17 @@ local slk_type
 local txt_keys
 local txt_meta
 
-local function to_type(meta, value)
-    local tp = w2l:get_id_type(meta.type)
+local function to_type(tp, value)
     if tp == 0 then
         if not value then
             return 0
         end
-        value = wtonumber(value)
-        if not value then
-            return 0
-        end
-        return math_floor(value)
+        return math_floor(wtonumber(value))
     elseif tp == 1 or tp == 2 then
         if not value then
             return 0.0
         end
-        value = wtonumber(value)
-        if not value then
-            return 0.0
-        end
-        return value + 0.0
+        return wtonumber(value) + 0.0
     elseif tp == 3 then
         if not value then
             return nil
@@ -52,17 +43,31 @@ local function to_type(meta, value)
 end
 
 local function slk_read_data(obj, key, meta, data)
-    local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
-    if has_repeat then
+    if meta['repeat'] then
         obj[key] = {}
         for i = 1, 4 do
-            obj[key][i] = to_type(meta, data[key..i])
+            obj[key][i] = to_type(meta.type, data[key..i])
         end
         if not next(obj[key]) then
             obj[key] = nil
         end
     else
-        obj[key] = to_type(meta, data[key])
+        obj[key] = to_type(meta.type, data[key])
+    end
+end
+
+local function slk_read_private_data(obj, key, meta, data)
+    local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
+    if has_repeat then
+        obj[key] = {}
+        for i = 1, 4 do
+            obj[key][i] = to_type(w2l:get_id_type(meta.type), data[key..i])
+        end
+        if not next(obj[key]) then
+            obj[key] = nil
+        end
+    else
+        obj[key] = to_type(w2l:get_id_type(meta.type), data[key])
     end
 end
 
@@ -80,7 +85,7 @@ local function slk_read_obj(obj, name, data, keys, metas)
     local private = keyconvert[name] or keyconvert[obj._origin_id]
     if private then
         for key, id in pairs(private) do
-            slk_read_data(obj, key, metadata[id], data)
+            slk_read_private_data(obj, key, metadata[id], data)
         end
     end
 end
@@ -101,44 +106,17 @@ local function slk_read(table, slk, keys, metas, update_level)
     end
 end
 
-local function txt_add_default_data(obj, key, meta)
-    local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
-    if has_repeat then
-        local value = to_type(meta)
-        if obj[key] then
-            for i = 5, #obj[key] do
-                obj[key][i] = nil
-            end
-        else
-            if value then
-                obj[key] = {}
-            else
-                return
-            end
-        end
-        for i = 1, 4 do
-            if not obj[key][i] then
-                obj[key][i] = value
-            end
-        end
-    else
-        if not obj[key] then
-            obj[key] = to_type(meta)
-        end
-    end
-end
-
 local function txt_read_data(name, obj, key, meta, txt)
     if meta['index'] == 1 then
         local key = key:sub(1, -3)
         local value = txt and txt[key]
         if value then
             for i = 1, 2 do
-                obj[key..':'..i] = to_type(meta, value[i])
+                obj[key..':'..i] = to_type(meta.type, value[i])
             end
         else
             for i = 1, 2 do
-                obj[key..':'..i] = to_type(meta)
+                obj[key..':'..i] = to_type(meta.type)
             end
         end
         return
@@ -166,7 +144,7 @@ local function txt_read_data(name, obj, key, meta, txt)
     if not value or #value == 0 then
         --TODO: 防止后来的button:1将button:2解析出来的数据覆盖
         if not obj[key] then
-            obj[key] = to_type(meta)
+            obj[key] = to_type(meta.type)
         end
         return
     end
@@ -174,8 +152,8 @@ local function txt_read_data(name, obj, key, meta, txt)
         obj[key] = table_concat(value, ',')
         return
     end
-    if not meta['repeat'] or meta['repeat'] == 0 then
-        obj[key] = to_type(meta, value[1])
+    if not meta['repeat'] then
+        obj[key] = to_type(meta.type, value[1])
         return
     end
     obj[key] = {}
@@ -208,8 +186,14 @@ return function (w2l_, type, loader)
     txt_meta = {}
     if keyconvert.profile then
         for key, id in pairs(keyconvert.profile) do
+            local meta = metadata[id]
             txt_keys[#txt_keys+1] = key
-            txt_meta[#txt_meta+1] = metadata[id]
+            txt_meta[#txt_meta+1] = {
+                ['type'] = w2l:get_id_type(meta.type),
+                ['repeat'] = has_level and meta['repeat'] and meta['repeat'] > 0,
+                ['index'] = meta.index,
+                ['appendIndex'] = meta.appendIndex,
+            }
         end
     end
 
@@ -219,8 +203,14 @@ return function (w2l_, type, loader)
         local slk_keys = {}
         local slk_meta = {}
         for key, id in pairs(keyconvert[filename]) do
+            local meta = metadata[id]
             slk_keys[#slk_keys+1] = key
-            slk_meta[#slk_meta+1] = metadata[id]
+            slk_meta[#slk_meta+1] = {
+                ['type'] = w2l:get_id_type(meta.type),
+                ['repeat'] = has_level and meta['repeat'] and meta['repeat'] > 0,
+                ['index'] = meta.index,
+                ['appendIndex'] = meta.appendIndex,
+            }
             if key == has_level then
                 update_level = has_level
             end
