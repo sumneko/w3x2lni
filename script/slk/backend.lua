@@ -1,6 +1,6 @@
 local progress = require 'progress'
 
-local function to_lni(w2l, files, slk, on_lni)
+local function to_lni(w2l, archive, slk, on_lni)
     --转换物编
     local count = 0
     for ttype, meta in pairs(w2l.info['metadata']) do
@@ -15,13 +15,13 @@ local function to_lni(w2l, files, slk, on_lni)
         
         local content = w2l:backend_lni(ttype, data)
         if content then
-            files[ttype .. '.ini'] = content
+            archive:set(ttype .. '.ini', content)
         end
         progress(1)
     end
 end
 
-local function to_obj(w2l, files, slk, on_lni)
+local function to_obj(w2l, archive, slk, on_lni)
     --转换物编
     local count = 0
     for type, meta in pairs(w2l.info['metadata']) do
@@ -36,30 +36,30 @@ local function to_obj(w2l, files, slk, on_lni)
         
         local content = w2l:backend_obj(type, data)
         if content then
-            files[type] = content
+            archive:set(w2l.info['template']['obj'][type], content)
         end
         progress(1)
     end
 end
 
-return function (w2l, files, slk, on_lni)
+return function (w2l, archive, slk, on_lni)
     if w2l.config.target_format == 'lni' then
-        to_lni(w2l, files, slk, on_lni)
+        to_lni(w2l, archive, slk, on_lni)
     elseif w2l.config.target_format == 'obj' then
-        to_obj(w2l, files, slk, on_lni)
+        to_obj(w2l, archive, slk, on_lni)
     end
 
     --转换其他文件
-    if files['war3map.w3i'] then
-        local w3i = w2l:read_w3i(files['war3map.w3i']('war3map.w3i'))
+    if archive:get 'war3map.w3i' then
+        local w3i = w2l:read_w3i(archive:get 'war3map.w3i')
         local lni = w2l:w3i2lni(w3i)
-        files['mapinfo.ini'] = lni
-        files['war3map.w3i'] = false
+        archive:set('mapinfo.ini', lni)
+        archive:set('war3map.w3i', false)
     end
 
 	--刷新字符串
 	if w2l.wts then
 		local content = w2l.wts:refresh()
-		files['war3map.wts'] = content
+		archive:set('war3map.wts', content)
 	end
 end

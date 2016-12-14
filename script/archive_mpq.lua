@@ -3,6 +3,10 @@ local stormlib = require 'ffi.stormlib'
 local mt = {}
 mt.__index = mt
 
+function mt:set(filename, content)
+    self.cache[filename] = content
+end
+
 function mt:get(filename)
     local filename = filename:lower()
     if self.cache[filename] ~= nil then
@@ -22,6 +26,17 @@ end
 
 function mt:close()
     self.handle:close()
+end
+
+function mt:__pairs()
+    local function next_file(tbl, key)
+        local new_key, value = next(tbl, key)
+        if value == false then
+            return next_file(tbl, new_key)
+        end
+        return new_key, value
+    end
+    return next_file, self.cache
 end
 
 return function (pathorhandle)

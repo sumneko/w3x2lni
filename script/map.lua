@@ -232,7 +232,7 @@ function mt:save_dir(output_dir)
     local paths = {}
     local max_count = 0
 
-    for name in pairs(self.files) do
+    for name in pairs(self.archive) do
         local path = output_dir
 		if self.on_save then
             name, path = self:on_save(name)
@@ -251,7 +251,7 @@ function mt:save_dir(output_dir)
         if not fs.exists(dir) then
             fs.create_directories(dir)
         end
-        io.save(path / name, self.files[name])
+        io.save(path / name, self.archive:get(name))
         count = count + 1
 		if os.clock() - clock >= 0.1 then
             clock = os.clock()
@@ -289,7 +289,6 @@ end
 return function ()
     local self = setmetatable({}, mt)
     self.inputs = {}
-    self.files = {}
     self.slk = {}
     return self
 end
