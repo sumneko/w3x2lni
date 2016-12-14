@@ -65,7 +65,32 @@ function mt:key2id(code, skill, key)
     return nil
 end
 
-function mt:add_obj(name, obj)
+function mt:add_obj(name, obj)    
+    local keys = {}
+    for key in pairs(obj) do
+        if key:sub(1, 1) ~= '_' then
+            keys[#keys+1] = key
+        end
+    end
+    if #keys == 0 then
+        return
+    end
+    table_sort(keys)
+
+    local count = 0
+    for _, key in ipairs(keys) do
+        local data = obj[key]
+        if data then
+            if type(data) == 'table' then
+                for _ in pairs(data) do
+                    count = count + 1
+                end
+            else
+                count = count + 1
+            end
+        end
+    end
+    
     local code = obj._origin_id
     self:add('c4', code)
     if name == code then
@@ -73,19 +98,13 @@ function mt:add_obj(name, obj)
     else
         self:add('c4', name)
     end
-    
-    local keys = {}
-    for key in pairs(obj) do
-        if key:sub(1, 1) ~= '_' then
-            keys[#keys+1] = key
-        end
-    end
-    table_sort(keys)
-    
-    self:add('l', #keys)
+    self:add('l', count)
     for _, key in ipairs(keys) do
-        local id = self:key2id(code, name, key)
-        self:add_data(key, id, obj[key])
+        local data = obj[key]
+        if data then
+            local id = self:key2id(code, name, key)
+            self:add_data(key, id, obj[key])
+        end
     end
 end
 
