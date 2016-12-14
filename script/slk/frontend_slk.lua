@@ -51,33 +51,6 @@ local function to_type(meta, value)
     end
 end
 
-local function default_add_data(obj, key, meta)
-    local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
-    if has_repeat then
-        local value = to_type(meta)
-        if obj[key] then
-            for i = 5, #obj[key] do
-                obj[key][i] = nil
-            end
-        else
-            if value then
-                obj[key] = {}
-            else
-                return
-            end
-        end
-        for i = 1, 4 do
-            if not obj[key][i] then
-                obj[key][i] = value
-            end
-        end
-    else
-        if not obj[key] then
-            obj[key] = to_type(meta)
-        end
-    end
-end
-
 local function slk_read_data(obj, key, meta, data)
     local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
     if has_repeat then
@@ -125,6 +98,33 @@ local function slk_read(table, slk, keys, metas, update_level)
             if obj._max_level == 0 then
                 obj._max_level = 1
             end
+        end
+    end
+end
+
+local function txt_add_default_data(obj, key, meta)
+    local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
+    if has_repeat then
+        local value = to_type(meta)
+        if obj[key] then
+            for i = 5, #obj[key] do
+                obj[key][i] = nil
+            end
+        else
+            if value then
+                obj[key] = {}
+            else
+                return
+            end
+        end
+        for i = 1, 4 do
+            if not obj[key][i] then
+                obj[key][i] = value
+            end
+        end
+    else
+        if not obj[key] then
+            obj[key] = to_type(meta)
         end
     end
 end
@@ -198,30 +198,26 @@ local function txt_read_data(name, obj, key, meta, txt)
 end
 
 local function txt_read_obj(obj, name, data)
-    if obj == nil then
-        return
-    end
     obj._txt = true
     for i = 1, #txt_keys do
         txt_read_data(name, obj, txt_keys[i], txt_meta[i], data)
     end
 end
 
-local function txt_read(table, txt)
-    for name, data in pairs(txt) do
-        txt_read_obj(table[name], name, data)
-    end
-end
-
-local function default_add_obj(name, obj)
+local function txt_add_default_obj(obj, name)
     for i = 1, #txt_keys do
-        default_add_data(obj, txt_keys[i], txt_meta[i])
+        txt_add_default_data(obj, txt_keys[i], txt_meta[i])
     end
 end
 
-local function default_add(table)
+local function txt_read(table, txt)
     for name, obj in pairs(table) do
-        default_add_obj(name, obj)
+        if txt[name] then
+            txt_read_obj(obj, name, txt[name])
+            txt_add_default_obj(obj, name)
+        else
+            txt_add_default_obj(obj, name)
+        end
     end
 end
 
@@ -262,6 +258,5 @@ return function (w2l_, type, loader)
         end
         txt_read(data, txt)
     end
-    default_add(data)
     return data
 end
