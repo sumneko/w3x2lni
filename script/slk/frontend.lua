@@ -20,7 +20,7 @@ local function load(w2l, archive, type, filename, target_progress)
     progress:target(target_progress-1)
     local buf = archive:get(filename)
     if buf then
-        message('正在转换', file_name)
+        message('正在转换', filename)
         obj, force_slk = w2l:frontend_obj(type, buf)
     end
 
