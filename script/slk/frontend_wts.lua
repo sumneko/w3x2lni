@@ -60,10 +60,14 @@ function mt:refresh()
 	return table.concat(lines, '\r\n\r\n')
 end
 
-
-return function (self, content)
+-- TODO: 待重构，数据和操作分离 
+return function (w2l, archive)
+	local buf = archive:get('war3map.wts')
+	if not buf then
+		return
+	end
 	local tbl = {}
-	for string in content:gmatch 'STRING.-%c*%}' do
+	for string in buf:gmatch 'STRING.-%c*%}' do
 		local i, s = string:match 'STRING (%d+).-%{\r\n(.-)%\r\n}'
 		local t	= {
 			index	= i,
@@ -72,5 +76,5 @@ return function (self, content)
 		table_insert(tbl, t)
 		tbl[('%03d'):format(i)] = t	--这里的索引是字符串
 	end
-	self.wts = setmetatable({ wts = tbl, lastindex = 0 }, mt)
+	return setmetatable({ wts = tbl, lastindex = 0 }, mt)
 end

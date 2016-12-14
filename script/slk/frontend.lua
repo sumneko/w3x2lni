@@ -14,14 +14,14 @@ local function table_merge(a, b)
     end
 end
 
-local function load(w2l, archive, type, filename, target_progress)
+local function load(w2l, wts, archive, type, filename, target_progress)
     local obj, data, force_slk
 
     progress:target(target_progress-1)
     local buf = archive:get(filename)
     if buf then
         message('正在转换', filename)
-        obj, force_slk = w2l:frontend_obj(type, buf)
+        obj, force_slk = w2l:frontend_obj(type, wts, buf)
     end
 
     progress:target(target_progress)
@@ -46,16 +46,13 @@ end
 
 return function(w2l, archive, slk)
 	--读取字符串
-    local wts = archive:get('war3map.wts')
-	if wts then
-		w2l:frontend_wts(wts)
-	end
-    
+	slk.wts = w2l:frontend_wts(archive)
+
     local count = 0
     for type, name in pairs(w2l.info.template.obj) do
         count = count + 1
         local target_progress = 3 + count * 2
-        slk[type] = load(w2l, archive, type, name, target_progress)
+        slk[type] = load(w2l, slk.wts, archive, type, name, target_progress)
     end
 
     -- TODO: 删掉输入的二进制物编和slk,因为他们已经转化成lua数据了
