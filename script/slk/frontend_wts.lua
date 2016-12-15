@@ -3,6 +3,9 @@ local table_insert = table.insert
 local mt = {}
 mt.__index = mt
 
+-- TODO: 同时有英文逗号和英文双引号的字符串存在txt里会解析出错
+--       包含右打括号的字符串存在wts里会解析出错
+--       超过256字节的字符串存在二进制里会崩溃
 function mt:load(content, only_short, read_only)
 	local wts = self.wts
 	return content:gsub('TRIGSTR_(%d+)', function(i)
