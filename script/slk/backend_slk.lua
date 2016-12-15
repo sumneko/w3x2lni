@@ -42,7 +42,7 @@ local function add_values(names, skeys)
         for x, key in ipairs(skeys) do
             local value = obj[key]
             if value then
-                add(x, y, value)
+                add(x, y+1, value)
             end
         end
     end
