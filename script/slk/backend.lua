@@ -60,18 +60,18 @@ local function to_slk(w2l, archive, slk, on_lni)
             local content = w2l:backend_slk(type, slk, data)
             archive:set(slk, content)
         end
-        --for i, txt in ipairs(w2l.info['template']['txt'][type]) do
-        --    if i == 1 then 
-        --        local content = w2l:backend_txt(type, txt, data)
-        --        archive:set(txt, content)
-        --    else
-        --        archive:set(txt, '')
-        --    end
-        --end
-        local content = w2l:backend_obj(type, data)
-        if content then
-            archive:set(w2l.info['template']['obj'][type], content)
+        for i, txt in ipairs(w2l.info['template']['txt'][type]) do
+            if i == 1 then 
+                local content = w2l:backend_txt(type, data)
+                archive:set(txt, content)
+            else
+                archive:set(txt, '')
+            end
         end
+        --local content = w2l:backend_obj(type, data)
+        --if content then
+        --    archive:set(w2l.info['template']['obj'][type], content)
+        --end
         
         progress(1)
     end
