@@ -5,11 +5,15 @@ local table_sort = table.sort
 local enable_type = {
     abilCode = 'ability',
     abilityID = 'ability',
-    buffList = 'buff',
+    abilityList = 'ability',
     heroAbilityList = 'ability',
-    techList= 'upgrade',
+    buffList = 'buff',
+    effectList = 'buff',
     unitCode = 'unit',
     unitList = 'unit',
+    itemList = 'item',
+    techList = 'upgrade',
+    upgradeList = 'upgrade',
     upgradeCode = 'upgrade',
 }
 
@@ -201,6 +205,11 @@ return function (type, metadata, template)
     local common, special = read_list(metadata, template, type)
     add_common(tbl, tbl2, common)
     add_special(tbl, tbl2, special)
-
+    if type == 'upgrade' then
+        tbl2[#tbl2+1] = 'code1 = unit'
+        tbl2[#tbl2+1] = 'code2 = unit'
+        tbl2[#tbl2+1] = 'code3 = unit'
+        tbl2[#tbl2+1] = 'code4 = unit'
+    end
     return table.concat(tbl, '\r\n') .. '\r\n', table.concat(tbl2, '\r\n') .. '\r\n'
 end
