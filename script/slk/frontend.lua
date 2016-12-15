@@ -53,13 +53,14 @@ local function merge_obj(data, objs)
     end
 end
 
-local function load(w2l, wts, archive, type, filename, target_progress)
+local function load(w2l, wts, archive, type, target_progress)
     local obj, data, force_slk
 
     progress:target(target_progress-1)
-    local buf = archive:get(filename)
+    local objname = w2l.info.template.objp[type]
+    local buf = archive:get(objname)
     if buf then
-        message('正在转换', filename)
+        message('正在转换', objname)
         obj, force_slk = w2l:frontend_obj(type, wts, buf)
     end
 
@@ -84,31 +85,11 @@ local function load(w2l, wts, archive, type, filename, target_progress)
 end
 
 return function(w2l, archive, slk)
-	--读取字符串
-	slk.wts = w2l:frontend_wts(archive)
-
-    local count = 0
-    for type, name in pairs(w2l.info.template.obj) do
-        count = count + 1
-        local target_progress = 3 + count * 2
-        slk[type] = load(w2l, slk.wts, archive, type, name, target_progress)
+    --读取字符串
+    slk.wts = w2l:frontend_wts(archive)
+    local target_progress = 3
+    for type in pairs(w2l.info.template.obj) do
+        target_progress = target_progress + 2
+        slk[type] = load(w2l, slk.wts, archive, type, target_progress)
     end
-
-    -- TODO: 删掉输入的二进制物编和slk,因为他们已经转化成lua数据了
-    -- 
-    --for _, name in pairs(w2l.info.template.obj) do
-    --    files[name] = nil
-    --end
-    --if w2l.config['unpack']['read_slk'] then
-    --    for _, names in pairs(w2l.info.template.slk) do
-    --        for _, name in ipairs(names) do
-    --            files[name] = nil
-    --        end
-    --    end
-    --    for _, names in pairs(w2l.info.template.txt) do
-    --        for _, name in ipairs(names) do
-    --            files[name] = nil
-    --        end
-    --    end
-    --end
 end
