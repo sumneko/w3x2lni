@@ -1,7 +1,5 @@
 local lpeg = require 'lpeg'
 local w3xparser = require 'w3xparser'
-
-local tonumber = tonumber
 local wtonumber = w3xparser.tonumber
 local ids
 local line_count

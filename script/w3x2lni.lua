@@ -120,6 +120,7 @@ local convertors = {
 	'backend_slk',
 	'backend_txt',
 	'backend_obj',
+	'backend_jass',
 }
 
 for _, name in ipairs(convertors) do
@@ -128,7 +129,7 @@ end
 
 local convertors = {
 	'lni2w3i', 'read_w3i', 'w3i2lni',
-	'create_unitsdoo', 'search_id',
+	'create_unitsdoo',
 }
 
 for _, name in ipairs(convertors) do
