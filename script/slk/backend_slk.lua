@@ -186,7 +186,5 @@ return function(w2l_, type, slk_name, chunk)
 
     load_chunk(chunk, slk_name)
     convert_slk(slk_name)
-    if #lines > 0 then
-        return table_concat(lines, '\r\n')
-    end
+    return table_concat(lines, '\r\n')
 end
