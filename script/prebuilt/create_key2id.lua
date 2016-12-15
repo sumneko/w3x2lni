@@ -12,7 +12,7 @@ local enable_type = {
     unitCode = 'unit',
     unitList = 'unit',
     itemList = 'item',
-    techList = 'upgrade',
+    techList = 'upgrade,unit',
     upgradeList = 'upgrade',
     upgradeCode = 'upgrade',
 }
@@ -100,7 +100,7 @@ local function sort_table(tbl)
     return names
 end
 
-local function add_common(tbl, tbl2, common)
+local function add_common(tbl, tbl2, slktype, common)
     local names = sort_table(common)
     local flag
     tbl[#tbl+1] = '[common]'
@@ -108,17 +108,12 @@ local function add_common(tbl, tbl2, common)
     for _, name in ipairs(names) do
         local id, type = common[name][1], common[name][2]
         if name:find('[^_%w]') then
-            tbl[#tbl+1] = ('\'%s\' = %s'):format(name, id)
-            if enable_type[type] then
-                tbl2[#tbl2+1] = ('\'%s\' = %s'):format(name, enable_type[type])
-                flag = true
-            end
-        else
-            tbl[#tbl+1] = ('%s = %s'):format(name, id)
-            if enable_type[type] then
-                tbl2[#tbl2+1] = ('%s = %s'):format(name, enable_type[type])
-                flag = true
-            end
+            name = "'" .. name .. "'"
+        end
+        tbl[#tbl+1] = ('%s = %s'):format(name, id)
+        if enable_type[type] and not (slktype == 'item' and name == 'cooldownid') then
+            tbl2[#tbl2+1] = ('%s = %s'):format(name, enable_type[type])
+            flag = true
         end
     end
     if not flag then
@@ -142,17 +137,12 @@ local function add_special(tbl, tbl2, special)
         for _, name in ipairs(names) do
             local id, type = data[name][1], data[name][2]
             if name:find('[^_%w]') then
-                tbl[#tbl+1] = ('\'%s\' = %s'):format(name, id)
-                if enable_type[type] then
-                    tbl2[#tbl2+1] = ('\'%s\' = %s'):format(name, enable_type[type])
-                    flag = true
-                end
-            else
-                tbl[#tbl+1] = ('%s = %s'):format(name, id)
-                if enable_type[type] then
-                    tbl2[#tbl2+1] = ('%s = %s'):format(name, enable_type[type])
-                    flag = true
-                end
+                name = "'" .. name .. "'"
+            end
+            tbl[#tbl+1] = ('%s = %s'):format(name, id)
+            if enable_type[type] then
+                tbl2[#tbl2+1] = ('%s = %s'):format(name, enable_type[type])
+                flag = true
             end
         end
         if not flag then
@@ -203,7 +193,7 @@ return function (type, metadata, template)
     local tbl2 = {}
 
     local common, special = read_list(metadata, template, type)
-    add_common(tbl, tbl2, common)
+    add_common(tbl, tbl2, type, common)
     add_special(tbl, tbl2, special)
     if type == 'upgrade' then
         tbl2[#tbl2+1] = 'code1 = unit'
