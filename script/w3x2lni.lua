@@ -122,7 +122,7 @@ local convertors = {
 	'backend_slk',
 	'backend_txt',
 	'backend_obj',
-	'backend_jass',
+	'backend_searchjass',
 	'backend_searchdoo',
 }
 

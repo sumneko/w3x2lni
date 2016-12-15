@@ -1,11 +1,11 @@
 local std_type = type
 local mustuse =  {
-    unit = { 'Volc','Ntin','hpea','ugol','Hblm','hrtt','Ewar','Oshd','Otch','Nngs','uske','Udre','ugho','Emoo','ewsp','Nplh','uaco','Udea','opeo','Edem','Nbrn','unpl','Nfir','Ofar','htow','Nbst','Obla','Nalc','Hpal','Hamg','Ekee','Npbm','ogre','etol','Ucrl','Ulic','ngol','otbk','nshe','Hmkg' },
-    ability = { 'Amic','Avul','Adda','Aalr','Aatk','ANbu','AHbu','AObu','AEbu','AUbu','AGbu','Abdt','Argd','AHer','Arev','ARal','Amnz','ACsp','Sloa','Aetl','Amov','Afir','Afih','Afio','Afin','Afiu' },
+    unit = { 'Volc' },
+    ability = { 'Avul','Adda','Aalr','Aatk','ANbu','AHbu','AObu','AEbu','AUbu','AGbu','Abdt','Argd','AHer','Arev','ARal','Amnz','ACsp','Sloa','Aetl','Amov','Afir','Afih','Afio','Afin','Afiu' },
     buff = { 'BPSE','BSTN','BTLF','Bdet','Bvul','Bspe','Bfro','Bsha','Btrv','Bbar','Xbdt','Xbli','Xdis','Xfhs','Xfhm','Xfhl','Xfos','Xfom','Xfol','Xfns','Xfnm','Xfnl','Xfus','Xfum','Xful','Bchd','Bmil','Bpxf','Bphx','BHav','Barm','Bens','Bstt','Bcor','Bspa','Buns','BUst','BIwb','Xesn','Bivs','BUad' },
-    destructable = { 'DTep','DTrx','DTrf' },
-    upgrade = { 'Robk','Rhrt' },
-    item = { 'stwp' },
+    destructable = { },
+    upgrade = { },
+    item = { },
     doodad = { },
 }
 
@@ -74,14 +74,10 @@ local function mark_mustuse(slk)
 end
 
 local function mark_jass(w2l, archive, slk)
-    local buf = archive:get('war3map.j')
-    if not buf then
-        buf = archive:get('scripts\\war3map.j')
-        if not buf then
-            return
-        end
+    local list = w2l:backend_searchjass(archive)
+    if not list then
+        return
     end
-    local list = w2l:backend_jass(buf)
     for name in pairs(list) do
         mark(slk, name)
     end
@@ -112,6 +108,5 @@ return function(w2l, archive, slk)
     mark_mustuse(slk)
     mark_jass(w2l, archive, slk)
     mark_doo(w2l, archive, slk)
-    --TODO: 动态化BJ函数的引用
     --TODO: 随机物品、随机建筑、随机野怪、市场
 end

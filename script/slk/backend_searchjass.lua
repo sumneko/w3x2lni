@@ -95,9 +95,16 @@ end
 local word = sp * (real + int + str + id) * sp
 local pjass = (ign + word + S'=+-*/><!()[],' + err'语法不正确')^0
 
-return function (w2l, jass)
+return function (w2l, archive)
+    local buf = archive:get('war3map.j')
+    if not buf then
+        buf = archive:get('scripts\\war3map.j')
+        if not buf then
+            return
+        end
+    end
     ids = {}
     line_count = 0
-    pjass:match(jass)
+    pjass:match(buf)
     return ids
 end
