@@ -87,8 +87,9 @@ local function main()
         for i = 1, #slk do
             add_table(template, w2l:parse_slk(io.load(w2l.mpq / slk[i])))
         end
-		local content = create_key2id(type, metadata, template)
-		io.save(w2l.key / (type .. '.ini'), content)
+		local content1, content2 = create_key2id(type, metadata, template)
+		io.save(w2l.key / (type .. '.ini'), content1)
+		io.save(w2l.key / (type .. '_type.ini'), content2)
 	end
 
 	-- 生成模板lni

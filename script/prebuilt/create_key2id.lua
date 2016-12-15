@@ -2,6 +2,17 @@ local string_char = string.char
 local table_insert = table.insert
 local table_sort = table.sort
 
+local enable_type = {
+    abilCode = 'ability',
+    abilityID = 'ability',
+    buffList = 'buff',
+    heroAbilityList = 'ability',
+    techList= 'upgrade',
+    unitCode = 'unit',
+    unitList = 'unit',
+    upgradeCode = 'upgrade',
+}
+
 local mt = {}
 
 function mt:canadd(skl, id)
@@ -52,7 +63,7 @@ function mt:add_data(id, meta, common, special, type)
         name = name .. ':' .. (meta['index'] + 1)
     end
     if not skill then
-        common[name] = id
+        common[name] = {id, meta['type']}
         local filename = meta['slk']:lower()
         if filename ~= 'profile' then
             filename = 'units\\' .. meta['slk']:lower() .. '.slk'
@@ -63,14 +74,14 @@ function mt:add_data(id, meta, common, special, type)
         if not special[filename] then
             special[filename] = {}
         end
-        special[filename][name] = id
+        special[filename][name] = {id}
     else
         for skl in skill:gmatch '%w+' do
             if self:canadd(skl, id) then
                 if not special[skl] then
                     special[skl] = {}
                 end
-                special[skl][name] = id
+                special[skl][name] = {id, meta['type']}
             end
         end
     end
@@ -85,35 +96,63 @@ local function sort_table(tbl)
     return names
 end
 
-local function add_common(tbl, common)
+local function add_common(tbl, tbl2, common)
     local names = sort_table(common)
+    local flag
     tbl[#tbl+1] = '[common]'
+    tbl2[#tbl2+1] = tbl[#tbl]
     for _, name in ipairs(names) do
+        local id, type = common[name][1], common[name][2]
         if name:find('[^_%w]') then
-            tbl[#tbl+1] = ('\'%s\' = %s'):format(name, common[name])
+            tbl[#tbl+1] = ('\'%s\' = %s'):format(name, id)
+            if enable_type[type] then
+                tbl2[#tbl2+1] = ('\'%s\' = %s'):format(name, enable_type[type])
+                flag = true
+            end
         else
-            tbl[#tbl+1] = ('%s = %s'):format(name, common[name])
+            tbl[#tbl+1] = ('%s = %s'):format(name, id)
+            if enable_type[type] then
+                tbl2[#tbl2+1] = ('%s = %s'):format(name, enable_type[type])
+                flag = true
+            end
         end
+    end
+    if not flag then
+        tbl2[#tbl2] = nil
     end
 end
 
-local function add_special(tbl, special)
+local function add_special(tbl, tbl2, special)
     local names = sort_table(special)
     for _, name in ipairs(names) do
         local data = special[name]
+        local flag
         tbl[#tbl+1] = ''
         if name:find '[^%w_]' then
             tbl[#tbl+1] = ('[%q]'):format(name)
         else
             tbl[#tbl+1] = ('[%s]'):format(name)
         end
+        tbl2[#tbl2+1] = tbl[#tbl]
         local names = sort_table(data)
         for _, name in ipairs(names) do
+            local id, type = data[name][1], data[name][2]
             if name:find('[^_%w]') then
-                tbl[#tbl+1] = ('\'%s\' = %s'):format(name, data[name])
+                tbl[#tbl+1] = ('\'%s\' = %s'):format(name, id)
+                if enable_type[type] then
+                    tbl2[#tbl2+1] = ('\'%s\' = %s'):format(name, enable_type[type])
+                    flag = true
+                end
             else
-                tbl[#tbl+1] = ('%s = %s'):format(name, data[name])
+                tbl[#tbl+1] = ('%s = %s'):format(name, id)
+                if enable_type[type] then
+                    tbl2[#tbl2+1] = ('%s = %s'):format(name, enable_type[type])
+                    flag = true
+                end
             end
+        end
+        if not flag then
+            tbl2[#tbl2] = nil
         end
     end
 end
@@ -140,7 +179,6 @@ end
 local function read_list(metadata, template, ttype)
     local tbl = setmetatable({}, { __index = mt })
     tbl.type = ttype
-    tbl.lines = {}
 
     local common = {}
     local special = {}
@@ -158,10 +196,11 @@ end
 
 return function (type, metadata, template)
     local tbl = {}
+    local tbl2 = {}
 
     local common, special = read_list(metadata, template, type)
-    add_common(tbl, common)
-    add_special(tbl, special)
+    add_common(tbl, tbl2, common)
+    add_special(tbl, tbl2, special)
 
-    return table.concat(tbl, '\r\n') .. '\r\n'
+    return table.concat(tbl, '\r\n') .. '\r\n', table.concat(tbl2, '\r\n') .. '\r\n'
 end
