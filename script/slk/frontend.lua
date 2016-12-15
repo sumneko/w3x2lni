@@ -57,7 +57,7 @@ local function load(w2l, wts, archive, type, target_progress)
     local obj, data, force_slk
 
     progress:target(target_progress-1)
-    local objname = w2l.info.template.objp[type]
+    local objname = w2l.info.template.obj[type]
     local buf = archive:get(objname)
     if buf then
         message('正在转换', objname)

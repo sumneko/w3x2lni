@@ -43,6 +43,7 @@ local function to_obj(w2l, archive, slk, on_lni)
 end
 
 local function to_slk(w2l, archive, slk, on_lni)
+    w2l:backend_mark(archive, slk)
     --转换物编
     local count = 0
     for type, meta in pairs(w2l.info['metadata']) do
