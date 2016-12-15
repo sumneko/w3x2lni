@@ -128,7 +128,7 @@ end
 
 local convertors = {
 	'lni2w3i', 'read_w3i', 'w3i2lni',
-	'create_unitsdoo',
+	'create_unitsdoo', 'search_id',
 }
 
 for _, name in ipairs(convertors) do
