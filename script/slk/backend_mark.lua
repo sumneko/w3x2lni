@@ -87,6 +87,21 @@ local function mark_jass(w2l, archive, slk)
     end
 end
 
+local function mark_doo(w2l, archive, slk)
+    local destructable, doodad = w2l:backend_searchdoo(archive)
+    if not destructable then
+        return
+    end
+    for name in pairs(destructable) do
+        if not mark_known_type(slk, 'destructable', name) then
+            mark_known_type(slk, 'doodad', name)
+        end
+    end
+    for name in pairs(doodad) do
+        mark_known_type(slk, 'doodad', name)
+    end
+end
+
 return function(w2l, archive, slk)
     if not search then
         search = {}
@@ -96,7 +111,7 @@ return function(w2l, archive, slk)
     end
     mark_mustuse(slk)
     mark_jass(w2l, archive, slk)
-    --TODO: 解析DOO
+    mark_doo(w2l, archive, slk)
     --TODO: 动态化BJ函数的引用
     --TODO: 随机物品、随机建筑、随机野怪、市场
 end
