@@ -28,7 +28,7 @@ local function fint3(str)
 end
 
 local function fint4(str)
-    add_id(str)
+    add_id(str:sub(2, -2))
 end
 
 lpeg.locale(lpeg)
