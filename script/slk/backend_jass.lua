@@ -5,6 +5,30 @@ local ids
 local line_count
 local min = ('>I4'):unpack 'A000'
 
+local extra_func = {
+    MeleeStartingUnitsHuman = {'hpea', 'Hamg', 'Hpal', 'Hblm', 'Hmkg', 'htow', 'Amic', 'stwp'},
+    MeleeStartingUnitsOrc = {'opeo', 'Obla', 'Ofar', 'ogre', 'Otch', 'Oshd', 'stwp'},
+    MeleeStartingUnitsUndead = {'Udre', 'Udea', 'Ucrl', 'uaco', 'unpl', 'ugho', 'Ulic', 'stwp'},
+    MeleeStartingUnitsNightElf = {'etol', 'Edem', 'ewsp', 'Ewar', 'Emoo', 'Ekee', 'stwp'},
+    MeleeStartingUnitsUnknownRace = {'nshe'},
+    MeleeStartingUnitsForPlayer = {'hpea', 'Hamg', 'Hpal', 'Hblm', 'Hmkg', 'htow', 'Amic', 'opeo', 'Obla', 'Ofar', 'ogre', 'Otch', 'Oshd', 'Udre', 'Udea', 'Ucrl', 'uaco', 'unpl', 'ugho', 'Ulic', 'etol', 'Edem', 'ewsp', 'Ewar', 'Emoo', 'Ekee', 'stwp'},
+    MeleeStartingUnits = {'hpea', 'Hamg', 'Hpal', 'Hblm', 'Hmkg', 'htow', 'Amic', 'opeo', 'Obla', 'Ofar', 'ogre', 'Otch', 'Oshd', 'Udre', 'Udea', 'Ucrl', 'uaco', 'unpl', 'ugho', 'Ulic', 'etol', 'Edem', 'ewsp', 'Ewar', 'Emoo', 'Ekee', 'nshe', 'stwp'},
+
+    InitSummonableCaps = {'Rhrt', 'hrtt', 'Robk', 'otbk', 'uske'},
+    InitBlizzard = {'Rhrt', 'hrtt', 'Robk', 'otbk', 'uske'},
+    
+    MeleeGrantItemsToHero = {'stwp'},
+    MeleeGrantItemsToTrainedHero = {'stwp'},
+    MeleeGrantItemsToHiredHero = {'stwp'},
+    MeleeGrantHeroItems = {'stwp'},
+    MeleeRandomHeroLoc = {'stwp'},
+
+    ChangeElevatorWallBlocker = {'DTep'},
+    NearbyElevatorExistsEnum = {'DTrx', 'DTrf'},
+    NearbyElevatorExists = {'DTrx', 'DTrf'},
+    ChangeElevatorWalls = {'DTep', 'DTrx', 'DTrf'},
+}
+
 local function add_id(id)
     if #id ~= 4 then
         return
@@ -31,6 +55,14 @@ local function fint4(str)
     add_id(str:sub(2, -2))
 end
 
+local function fbj(id)
+    if extra_func[id] then
+        for _, name in ipairs(extra_func[id]) do
+            ids[name] = true
+        end
+    end
+end
+
 lpeg.locale(lpeg)
 local S = lpeg.S
 local P = lpeg.P
@@ -54,7 +86,7 @@ local int  = int4 + int3 + int2 + int1
 local real = (P'-' * sp)^-1 * (P'.' * R'09'^1 + R'09'^1 * P'.' * R'09'^0)
 local str1 = esc * P(1) + (1-quo)
 local str  = quo * (nl + str1)^0 * quo
-local id   = R('az', 'AZ') * R('az', 'AZ', '09', '__')^0
+local id   = R('az', 'AZ') * R('az', 'AZ', '09', '__')^0 / fbj
 
 local function err(str)
     return ((1-nl)^1 + P(1)) / function(c) error(('line[%d]: %s:\n===========================\n%s\n==========================='):format(line_count, str, c)) end
