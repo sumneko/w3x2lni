@@ -111,17 +111,14 @@ local function slk_read(table, slk, keys, metas, update_level)
 end
 
 local function txt_read_data(name, obj, key, meta, txt)
-    if meta['index'] == 1 then
+    if meta['index'] > 0 then
         local key = key:sub(1, -3)
+        local i = meta['index']
         local value = txt and txt[key]
         if value then
-            for i = 1, 2 do
-                obj[key..':'..i] = to_type(meta.type, value[i])
-            end
+            obj[key..':'..i] = to_type(meta.type, value[i])
         else
-            for i = 1, 2 do
-                obj[key..':'..i] = to_type(meta.type)
-            end
+            obj[key..':'..i] = to_type(meta.type)
         end
         return
     end
@@ -146,10 +143,7 @@ local function txt_read_data(name, obj, key, meta, txt)
 
     local value = txt and txt[key]
     if not value or #value == 0 then
-        --TODO: 防止后来的button:1将button:2解析出来的数据覆盖
-        if not obj[key] then
-            obj[key] = to_type(meta.type)
-        end
+        obj[key] = to_type(meta.type)
         return
     end
     if meta['index'] == -1 and #value > 1 then
@@ -211,7 +205,7 @@ return function (w2l_, type, loader)
             txt_meta[#txt_meta+1] = {
                 ['type'] = w2l:get_id_type(meta.type),
                 ['repeat'] = has_level and meta['repeat'] and meta['repeat'] > 0,
-                ['index'] = meta.index,
+                ['index'] = meta._has_index and (meta.index+1) or meta.index,
                 ['appendIndex'] = meta.appendIndex,
             }
         end
