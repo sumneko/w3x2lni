@@ -1,19 +1,5 @@
 local progress = require 'progress'
 
-local function table_merge(a, b)
-    for k, v in pairs(b) do
-        if a[k] then
-            if type(a[k]) == 'table' and type(v) == 'table' then
-                table_merge(a[k], v)
-            else
-                a[k] = v
-            end
-        else
-            a[k] = v
-        end
-    end
-end
-
 local function load(w2l, wts, archive, type, filename, target_progress)
     local obj, data, force_slk
 
@@ -39,7 +25,7 @@ local function load(w2l, wts, archive, type, filename, target_progress)
     end
 
     if obj then
-        table_merge(data, obj)
+        w2l:frontend_merge(data, obj)
     end
     return data
 end
