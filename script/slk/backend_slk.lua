@@ -3,6 +3,7 @@ local ipairs = ipairs
 local string_char = string.char
 local pairs = pairs
 local table_sort = table.sort
+local table_insert = table.insert
 
 local slk
 local w2l
@@ -12,6 +13,20 @@ local keys
 local lines
 local cx
 local cy
+
+local extra_key = {
+    ['units\\abilitydata.slk']      = 'alias',
+    ['units\\abilitybuffdata.slk']  = 'alias',
+    ['units\\destructabledata.slk'] = 'DestructableID',
+    ['units\\itemdata.slk']         = 'itemID',
+    ['units\\upgradedata.slk']      = 'upgradeid',
+    ['units\\unitabilities.slk']    = 'unitAbilID',
+    ['units\\unitbalance.slk']      = 'unitBalanceID',
+    ['units\\unitdata.slk']         = 'unitID',
+    ['units\\unitui.slk']           = 'unitUIID',
+    ['units\\unitweapons.slk']      = 'unitWeapID',
+    ['doodads\\doodads.slk']        = 'doodID',
+}
 
 local function add_end()
     lines[#lines+1] = 'E'
@@ -75,7 +90,7 @@ local function get_key(id)
 	return key
 end
 
-local function get_keys()
+local function get_keys(slk_name)
     local skeys = {}
     for _, id in pairs(keys) do
         local meta = metadata[id]
@@ -88,6 +103,10 @@ local function get_keys()
         end
     end
     table_sort(skeys)
+    table_insert(skeys, 1, extra_key[slk_name])
+    if extra_key[slk_name] == 'alias' then
+        table_insert(skeys, 2, 'code')
+    end
     return skeys
 end
 
@@ -100,12 +119,12 @@ local function get_names()
     return names
 end
 
-local function convert_slk()
+local function convert_slk(slk_name)
     if not next(slk) then
         return
     end
     local names = get_names()
-    local skeys = get_keys()
+    local skeys = get_keys(slk_name)
     add_head(names, skeys)
     add_title(skeys)
     add_values(names, skeys)
@@ -120,7 +139,7 @@ local function key2id(name, code, key)
     return nil
 end
 
-local function load_data(name, code, obj, key, slk_data)
+local function load_data(name, code, obj, key, slk_data, slk_name)
     if not obj[key] then
         return
     end
@@ -134,22 +153,24 @@ local function load_data(name, code, obj, key, slk_data)
         slk_data[skey] = obj[key]
         obj[key] = nil
     end
+    slk_data[extra_key[slk_name]] = name
+    slk_data['code'] = code
 end
 
-local function load_obj(name, obj)
+local function load_obj(name, obj, slk_name)
     local code = obj._origin_id
     local slk_data = {}
     for key in pairs(keys) do
-        load_data(name, code, obj, key, slk_data)
+        load_data(name, code, obj, key, slk_data, slk_name)
     end
     if next(slk_data) then
         return slk_data
     end
 end
 
-local function load_chunk(chunk)
+local function load_chunk(chunk, slk_name)
     for name, obj in pairs(chunk) do
-        slk[name] = load_obj(name, obj)
+        slk[name] = load_obj(name, obj, slk_name)
     end
 end
 
@@ -163,8 +184,8 @@ return function(w2l_, type, slk_name, chunk)
     keydata = w2l:keyconvert(type)
     keys = keydata[slk_name]
 
-    load_chunk(chunk)
-    convert_slk()
+    load_chunk(chunk, slk_name)
+    convert_slk(slk_name)
     if #lines > 0 then
         return table_concat(lines, '\r\n')
     end
