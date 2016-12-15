@@ -114,6 +114,7 @@ local convertors = {
 	'frontend_slk', 
 	'frontend_obj',
 	'frontend_misc',
+	'frontend_merge',
 	'backend_processing',
 	'backend_lni',
 	'backend_slk',

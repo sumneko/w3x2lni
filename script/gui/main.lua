@@ -122,8 +122,8 @@ local function window_select(canvas)
 		uitype = 'convert'
 		window:set_title('W3x2Slk')
 		config.target_format = 'slk'
-		config.remove_same = true
-		config.remove_over_level = true
+		config.remove_same = false
+		config.remove_over_level = false
 		config.add_void = true
 		save_config()
 		return
