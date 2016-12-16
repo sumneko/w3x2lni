@@ -2,6 +2,7 @@ local lpeg = require 'lpeg'
 local w3xparser = require 'w3xparser'
 local wtonumber = w3xparser.tonumber
 local ids
+local marks
 local line_count
 local min = ('>I4'):unpack 'A000'
 
@@ -27,6 +28,25 @@ local extra_func = {
     NearbyElevatorExistsEnum = {'DTrx', 'DTrf'},
     NearbyElevatorExists = {'DTrx', 'DTrf'},
     ChangeElevatorWalls = {'DTep', 'DTrx', 'DTrf'},
+}
+
+local need_mark = {
+    ChooseRandomCreep = 'unit',
+    ChooseRandomCreepBJ = 'unit',
+    ChooseRandomNPBuilding = 'unit',
+    ChooseRandomNPBuildingBJ = 'unit',
+    ChooseRandomItem = 'item',
+    ChooseRandomItemBJ = 'item',
+    ChooseRandomItemEx = 'item',
+    ChooseRandomItemExBJ = 'item',
+    UpdateEachStockBuildingEnum = 'item',
+
+    -- TODO: 只有当有"marketplace"时才会产生引用
+    UpdateEachStockBuilding = 'item',
+    PerformStockUpdates = 'item',
+    StartStockUpdates = 'item',
+    InitNeutralBuildings = 'item',
+    InitBlizzard = 'item',
 }
 
 local function add_id(id)
@@ -60,6 +80,9 @@ local function fbj(id)
         for _, name in ipairs(extra_func[id]) do
             ids[name] = true
         end
+    end
+    if need_mark[id] then
+        marks[need_mark[id]] = true
     end
 end
 
@@ -104,7 +127,9 @@ return function (w2l, archive)
         end
     end
     ids = {}
+    marks = {}
     line_count = 0
     pjass:match(buf)
     return ids
+    return ids, marks
 end
