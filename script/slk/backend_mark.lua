@@ -16,7 +16,64 @@ Alam = { 'ushd', 'unit' },
 
 local search
 
-local function mark_known_type(slk, type, name)
+local function split(str)
+    local r = {}
+    str:gsub('[^,]+', function (w) r[#r+1] = w end)
+    return r
+end
+
+local mark_known_type
+
+local function mark_value(slk, type, value)
+    if type == 'upgrade,unit' then
+        if std_type(value) == 'string' then
+            for _, name in ipairs(split(value)) do
+                if not mark_known_type(slk, 'unit', name) then
+                    if not mark_known_type(slk, 'upgrade', name) then
+                        print(name)
+                    end
+                end
+            end
+        else
+            if not mark_known_type(slk, 'unit', value) then
+                if not mark_known_type(slk, 'upgrade', value) then
+                    print(value)
+                end
+            end
+        end
+        return
+    end
+    if std_type(value) == 'string' then
+        for _, name in ipairs(split(value)) do
+            if not mark_known_type(slk, type, name) then
+                print(name)
+            end
+        end
+    else
+        if not mark_known_type(slk, type, value) then
+            print(value)
+        end
+    end
+end
+
+local function mark_list(slk, o, list)
+    if not list then
+        return
+    end
+    for key, type in pairs(list) do
+        local value = o[key]
+        if not value then
+        elseif std_type(value) == 'table' then
+            for _, name in ipairs(value) do
+                mark_value(slk, type, name)
+            end
+        else
+            mark_value(slk, type, value)
+        end
+    end
+end
+
+function mark_known_type(slk, type, name)
     local o = slk[type][name]
     if not o then
         return false
@@ -25,33 +82,13 @@ local function mark_known_type(slk, type, name)
         return true
     end
     o._mark = 1
-    local searchlist = search[type].common
-    if searchlist then
-        for key, type in pairs(searchlist) do
-            if std_type(o[key]) == 'table' then
-                for _, name in ipairs(o[key]) do
-                    mark_known_type(slk, type, name)
-                end
-            else
-                mark_known_type(slk, type, o[key])
-            end
-        end
-    end
-    local searchlist = search[type][o._origin_id]
-    if searchlist then
-        for key, type in pairs(searchlist) do
-            if std_type(o[key]) == 'table' then
-                for _, name in ipairs(o[key]) do
-                    mark_known_type(slk, type, name)
-                end
-            else
-                mark_known_type(slk, type, o[key])
-            end
-        end
-    end
+    mark_list(slk, o, search[type].common)
+    mark_list(slk, o, search[type][o._origin_id])
     local marklist = mustmark[o._origin_id]
     if marklist then
-        mark_known_type(slk, marklist[2], marklist[1])
+        if not mark_known_type(slk, marklist[2], marklist[1]) then
+            print(marklist[1])
+        end
     end
     return true
 end
@@ -62,13 +99,16 @@ local function mark(slk, name)
             return true
         end
     end
+    print(name)
     return false
 end
 
 local function mark_mustuse(slk)
     for type, list in pairs(mustuse) do
         for _, name in ipairs(list) do
-            mark_known_type(slk, type, name)
+            if not mark_known_type(slk, type, name) then
+                print(name)
+            end
         end
     end
 end

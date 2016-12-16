@@ -219,10 +219,6 @@ function mt:backend()
     w2l:backend(self.archive, self.slk, self.on_lni)
 end
 
-function mt:post_process()
-    w2l:backend_processing(self.slk)
-end
-
 function mt:load_data()
     self.slk = {}
 	w2l:frontend(self.archive, self.slk)
@@ -272,9 +268,9 @@ function mt:save(output_dir)
     message('正在读取物编...')
     self:load_data()
     message('正在处理物编...')
-    self:post_process()
     message('正在转换...')
-	self:backend()
+    self:backend()
+    --w2l:backend_processing(self.slk)
 
     if w2l.config.target_storage == 'dir' then
         message('正在清空输出目录...')
