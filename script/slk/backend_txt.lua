@@ -18,23 +18,13 @@ local lines
 
 local function to_type(tp, value)
     if tp == 0 then
-        if not value then
-            return 0
-        end
-        return math_floor(wtonumber(value))
+        return value
     elseif tp == 1 or tp == 2 then
-        if not value then
-            return 0
-        end
-        return wtonumber(value)
+        return value
     elseif tp == 3 then
-        if not value then
-            return ''
+        if type(value) ~= 'string' then
+            return value
         end
-        if value == '' then
-            return ''
-        end
-        value = tostring(value)
         if value:find(',', nil, false) then
             value = '"' .. value .. '"'
         end
@@ -42,10 +32,69 @@ local function to_type(tp, value)
     end
 end
 
-local function add_data(name, key, value)
-    local id = keys[key]
+local function add_data(name, obj, key, id, value, values)
     local meta = metadata[id]
     local tp = w2l:get_id_type(id)
+    if meta['_has_index'] then
+        if meta['index'] == 0 then
+            local key = meta.field
+            value = (obj[key..':1'] or 0) .. ',' .. (obj[key..':2'] or 0)
+            if value == '0,0' then
+                return
+            end
+            values[#values+1] = ('%s=%s'):format(key, value)
+        end
+        return
+    end
+    if meta['appendindex'] == 1 then
+        if type(value) == 'table' then
+            local len = 0
+            for n in pairs(value) do
+                if n > len then
+                    len = n
+                end
+            end
+            if len == 0 then
+                return
+            end
+            values[#values+1] = ('%s=%s'):format(key..'count', len)
+            local flag
+            for i = 1, len do
+                local key = key
+                if i > 1 then
+                    key = key .. (i-1)
+                end
+                if value[i] and value[i] ~= 0 and value[i] ~= '' then
+                    flag = true
+                    if meta['index'] == -1 then
+                        values[#values+1] = ('%s=%s'):format(key, value[i])
+                    else
+                        values[#values+1] = ('%s=%s'):format(key, to_type(tp, value[i]))
+                    end
+                end
+            end
+            if not flag then
+                values[#values] = nil
+            end
+        else
+            if not value or value == 0 or value == '' then
+                return
+            end
+            values[#values+1] = ('%s=%s'):format(key..'count', 1)
+            if meta['index'] == -1 then
+                values[#values+1] = ('%s=%s'):format(key, value)
+            else
+                values[#values+1] = ('%s=%s'):format(key, to_type(tp, value))
+            end
+        end
+        return
+    end
+    if meta['index'] == -1 then
+        if value and value ~= '' and value ~= 0 then
+            values[#values+1] = ('%s=%s'):format(key, value)
+        end
+        return
+    end
     if type(value) == 'table' then
         for i, v in pairs(value) do
             value[i] = to_type(tp, value[i])
@@ -54,26 +103,8 @@ local function add_data(name, key, value)
     else
         value = to_type(tp, value)
     end
-    if value ~= '' then
-        lines[#lines+1] = ('%s=%s'):format(key, value)
-    end
-end
-
-local function add_obj(name, obj, skeys)
-    lines[#lines+1] = ('[%s]'):format(name)
-    for _, key in ipairs(skeys) do
-        local data = obj[key]
-        if data then
-            add_data(name, key, data)
-        end
-    end
-    lines[#lines+1] = ''
-end
-
-local function add_chunk(names, skeys)
-    for _, name in ipairs(names) do
-        local obj = slk[name]
-        add_obj(name, obj, skeys)
+    if value and value ~= '' and value ~= 0 then
+        values[#values+1] = ('%s=%s'):format(key, value)
     end
 end
 
@@ -93,13 +124,31 @@ local function get_key(id)
 	return key
 end
 
-local function get_keys()
-    local skeys = {}
+local function add_obj(name, obj)
+    local values = {}
     for _, id in pairs(keys) do
-        skeys[#skeys+1] = get_key(id)
+        local key = get_key(id)
+        local data = obj[key]
+        if data then
+            add_data(name, obj, key, id, data, values)
+        end
     end
-    table_sort(skeys)
-    return skeys
+    if #values == 0 then
+        return
+    end
+    lines[#lines+1] = ('[%s]'):format(name)
+    table_sort(values)
+    for _, value in ipairs(values) do
+        lines[#lines+1] = value
+    end
+    lines[#lines+1] = ''
+end
+
+local function add_chunk(names)
+    for _, name in ipairs(names) do
+        local obj = slk[name]
+        add_obj(name, obj)
+    end
 end
 
 local function get_names()
@@ -116,8 +165,7 @@ local function convert_txt()
         return
     end
     local names = get_names()
-    local skeys = get_keys()
-    add_chunk(names, skeys)
+    add_chunk(names)
 end
 
 local function key2id(name, code, key)

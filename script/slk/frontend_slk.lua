@@ -123,7 +123,7 @@ local function txt_read_data(name, obj, key, meta, txt)
         return
     end
 
-    if meta['appendIndex'] == 1 then
+    if meta['appendindex'] == 1 then
         local max_level = txt and txt[key..'count'] and txt[key..'count'][1] or 1
         obj[key] = {}
         for i = 1, max_level do
