@@ -96,8 +96,10 @@ local function read_obj(chunk)
 		obj._true_origin = true
 	end
 	obj['_user_id'] = name
-	obj['_origin_id'] = code:lower()
-	obj['_code_id'] = code
+	if code then
+		obj['_origin_id'] = string_lower(code)
+		obj['_code_id'] = code
+	end
 
 	local count = unpack 'l'
 	for i = 1, count do
