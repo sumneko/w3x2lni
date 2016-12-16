@@ -7,6 +7,7 @@ local tostring = tostring
 local wtonumber = w3xparser.tonumber
 local next = next
 local table_concat = table.concat
+local string_lower = string.lower
 
 local w2l
 local metadata
@@ -75,9 +76,8 @@ local function slk_read_private_data(obj, key, meta, data)
     end
 end
 
-local function slk_read_obj(obj, name, data, keys, metas)
-    obj._user_id = name
-    obj._origin_id = data.code or obj._origin_id or name
+local function slk_read_obj(obj, lname, data, keys, metas)
+    obj._origin_id = data.code or obj._origin_id or obj._user_id
     if slk_type == 'unit' and not obj._name then
         obj._name = data.name  -- 单位的反slk可以用name作为线索
     end
@@ -86,7 +86,7 @@ local function slk_read_obj(obj, name, data, keys, metas)
         slk_read_data(obj, keys[i], metas[i], data)
     end
 
-    local private = keyconvert[name] or keyconvert[obj._origin_id]
+    local private = keyconvert[lname] or keyconvert[string_lower(obj._origin_id)]
     if private then
         for key, id in pairs(private) do
             slk_read_private_data(obj, key, metadata[id], data)
@@ -96,11 +96,13 @@ end
 
 local function slk_read(table, slk, keys, metas, update_level)
     for name, data in pairs(slk) do
-        if not table[name] then
-            table[name] = {}
+        local lname = string_lower(name)
+        if not table[lname] then
+            table[lname] = {}
+            table[lname]._user_id = name
         end
-        local obj = table[name]
-        slk_read_obj(obj, name, data, keys, metas)
+        local obj = table[lname]
+        slk_read_obj(obj, lname, data, keys, metas)
         if update_level then
             obj._max_level = obj[update_level]
             if obj._max_level == 0 then
@@ -161,9 +163,10 @@ local function txt_read_data(name, obj, key, meta, txt)
 end
 
 local function txt_read(table, txt, txt_keys, txt_meta)
-    for name, obj in pairs(table) do
+    for lname, obj in pairs(table) do
+        local name = obj._user_id
         for i = 1, #txt_keys do
-            txt_read_data(name, obj, txt_keys[i], txt_meta[i], txt[name])
+            txt_read_data(lname, obj, txt_keys[i], txt_meta[i], txt[name])
         end
     end
 end

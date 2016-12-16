@@ -81,6 +81,7 @@ function mt:add_data(id, meta, common, special, type)
         special[filename][name] = {id}
     else
         for skl in skill:gmatch '%w+' do
+            skl = skl:lower()
             if self:canadd(skl, id) then
                 if not special[skl] then
                     special[skl] = {}
@@ -153,7 +154,8 @@ end
 
 local function copy_code(special, template)
     for skill, data in pairs(template) do
-        local code = data['code']
+        local skill = skill:lower()
+        local code = data['code']:lower()
         if skill ~= code and special[code] then
             if not special[skill] then
                 special[skill] = {}

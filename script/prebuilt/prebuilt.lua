@@ -63,7 +63,6 @@ end
 
 local function pack_table(tbl)
 	local lines = {}
-	lines[#lines+1] = '[root]'
 	for name, value in pairs(tbl) do
 		lines[#lines+1] = ('%s=%s'):format(name, value)
 	end

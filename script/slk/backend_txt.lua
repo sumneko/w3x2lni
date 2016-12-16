@@ -177,7 +177,9 @@ local function get_names()
     for name in pairs(slk) do
         names[#names+1] = name
     end
-    table_sort(names)
+    table_sort(names, function(a, b)
+        return slk[a]['_user_id'] < slk[b]['_user_id']
+    end)
     return names
 end
 
@@ -190,6 +192,9 @@ local function convert_txt()
 end
 
 local function key2id(name, code, key)
+    name = name:lower()
+    code = code:lower()
+    key = key:lower()
     local id = code and keydata[code] and keydata[code][key] or keydata[name] and keydata[name][key] or keydata['common'][key]
     if id then
         return id

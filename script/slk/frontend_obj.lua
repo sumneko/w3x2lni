@@ -1,4 +1,7 @@
 local select = select
+local string_lower = string.lower
+local string_unpack = string.unpack
+local string_match = string.match
 
 local w2l
 local wts
@@ -14,14 +17,14 @@ local function set_pos(...)
 end
 
 local function unpack(str)
-	return set_pos(str:unpack(unpack_buf, unpack_pos))
+	return set_pos(string_unpack(str, unpack_buf, unpack_pos))
 end
 
 local character = { 'a','b','c','d','e','f','g','h','i' }
 
 local function get_id_name(id)
 	local meta  = metadata[id]
-	local name  = meta.field:lower()
+	local name  = string_lower(meta.field)
 	local num   = meta.data
 	if num and num ~= 0 then
 		name = name .. character[num]
@@ -34,7 +37,7 @@ end
 
 local function read_data(obj)
 	local data = {}
-	local id = unpack 'c4' :match '^[^\0]+'
+	local id = string_match(unpack 'c4', '^[^\0]+')
 	local key = get_id_name(id)
 	local value_type = unpack 'l'
 	local level = 0
@@ -99,7 +102,7 @@ local function read_obj(chunk)
 	for i = 1, count do
 		read_data(obj)
 	end
-	chunk[name] = obj
+	chunk[string_lower(name)] = obj
 	obj._max_level = obj[has_level]
     if obj._max_level == 0 then
         obj._max_level = 1

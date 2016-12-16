@@ -56,7 +56,9 @@ function mt:add_data(key, id, data)
 end
 
 function mt:key2id(code, skill, key)
-    local key = key:lower()
+	skill = skill:lower()
+	code = code:lower()
+    key = key:lower()
     local id = self.key[code] and self.key[code][key] or self.key[skill] and self.key[skill][key] or self.key['common'][key]
     if id then
         return id
@@ -130,8 +132,11 @@ local function sort_chunk(chunk)
             user[#user+1] = name
         end
     end
-    table_sort(origin)
-    table_sort(user)
+    local function sorter(a, b)
+        return chunk[a]['_user_id'] < chunk[b]['_user_id']
+    end
+    table_sort(origin, sorter)
+    table_sort(user, sorter)
     return origin, user
 end
 

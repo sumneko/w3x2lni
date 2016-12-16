@@ -54,7 +54,9 @@ local function add_chunk(lines, tbl)
     for name in pairs(tbl) do
         names[#names+1] = name
     end
-    table.sort(names)
+    table.sort(names, function(a, b)
+        return tbl[a]['_user_id'] < tbl[b]['_user_id']
+    end)
     for _, name in ipairs(names) do
         add_obj(lines, name, tbl[name])
     end

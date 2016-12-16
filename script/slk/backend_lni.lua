@@ -52,15 +52,15 @@ function mt:add_chunk(chunk)
 		end
 	end
 	table_sort(names, function(name1, name2)
-		local is_origin1 = name1 == chunk[name1]['_origin_id']
-		local is_origin2 = name2 == chunk[name2]['_origin_id']
+		local is_origin1 = chunk[name1]['_user_id'] == chunk[name1]['_origin_id']
+		local is_origin2 = chunk[name2]['_user_id'] == chunk[name2]['_origin_id']
 		if is_origin1 and not is_origin2 then
 			return true
 		end
 		if not is_origin1 and is_origin2 then
 			return false
 		end
-		return name1 < name2
+		return chunk[name1]['_user_id'] < chunk[name2]['_user_id']
 	end)
     local clock = os.clock()
 	for i = 1, #names do
@@ -152,6 +152,9 @@ function mt:add_data(key, id, data, lines)
 end
 
 function mt:key2id(name, code, key)
+	name = name:lower()
+	code = code:lower()
+    key = key:lower()
     local id = code and self.key[code] and self.key[code][key] or self.key[name] and self.key[name][key] or self.key['common'][key]
     if id then
         return id
