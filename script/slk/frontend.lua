@@ -16,15 +16,22 @@ local function table_merge(a, b)
     end
 end
 
-local function copy(a, b)
+local function copy(b)
+    local a = {}
+    for k, v in pairs(b) do
+        a[k] = v
+    end
+    return a
+end
+
+local function copy2(a, b)
     local c = {}
     for k, v in pairs(a) do
-        c[k] = v
+        c[k] = b[k] or v
+        b[k] = nil
     end
-    if b then
-        for k, v in pairs(b) do
-            c[k] = v
-        end
+    for k, v in pairs(b) do
+        c[k] = v
     end
     return c
 end
@@ -32,10 +39,26 @@ end
 local function table_copy(a, b)
     local c = {}
     for k, v in pairs(a) do
-        if type(v) == 'table' then
-            c[k] = copy(v, b[k])
+        if b[k] then
+            if type(v) == 'table' then
+                c[k] = copy2(v, b[k])
+            else
+                c[k] = b[k]
+            end
+            b[k] = nil
         else
-            c[k] = b[k] or v
+            if type(v) == 'table' then
+                c[k] = copy(v)
+            else
+                c[k] = v
+            end
+        end
+    end
+    for k, v in pairs(b) do
+        if type(v) == 'table' then
+            c[k] = copy(v)
+        else
+            c[k] = v
         end
     end
     return c
