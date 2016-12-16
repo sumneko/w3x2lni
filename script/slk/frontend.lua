@@ -17,16 +17,14 @@ local function table_merge(a, b)
 end
 
 local function copy(a, b)
-    if b then
-        local c = {}
-        for k, v in pairs(a) do
-            c[k] = b[k] or v
-        end
-        return c
-    end
     local c = {}
     for k, v in pairs(a) do
         c[k] = v
+    end
+    if b then
+        for k, v in pairs(b) do
+            c[k] = v
+        end
     end
     return c
 end
