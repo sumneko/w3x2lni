@@ -1,8 +1,8 @@
 local std_type = type
 local mustuse =  {
-    unit = { 'Volc' },
-    ability = { 'Avul','Adda','Aalr','Aatk','ANbu','AHbu','AObu','AEbu','AUbu','AGbu','Abdt','Argd','AHer','Arev','ARal','Amnz','ACsp','Sloa','Aetl','Amov','Afir','Afih','Afio','Afin','Afiu' },
-    buff = { 'BPSE','BSTN','BTLF','Bdet','Bvul','Bspe','Bfro','Bsha','Btrv','Bbar','Xbdt','Xbli','Xdis','Xfhs','Xfhm','Xfhl','Xfos','Xfom','Xfol','Xfns','Xfnm','Xfnl','Xfus','Xfum','Xful','Bchd','Bmil','Bpxf','Bphx','BHav','Barm','Bens','Bstt','Bcor','Bspa','Buns','BUst','BIwb','Xesn','Bivs','BUad' },
+    unit = { 'volc' },
+    ability = { 'avul','adda','aalr','aatk','anbu','ahbu','aobu','aebu','aubu','agbu','abdt','argd','aher','arev','aral','amnz','acsp','sloa','aetl','amov','afir','afih','afio','afin','afiu' },
+    buff = { 'bpse','bstn','btlf','bdet','bvul','bspe','bfro','bsha','btrv','bbar','xbdt','xbli','xdis','xfhs','xfhm','xfhl','xfos','xfom','xfol','xfns','xfnm','xfnl','xfus','xfum','xful','bchd','bmil','bpxf','bphx','bhav','barm','bens','bstt','bcor','bspa','buns','bust','biwb','xesn','bivs','buad' },
     destructable = { },
     upgrade = { },
     item = { },
@@ -18,7 +18,7 @@ local search
 
 local function split(str)
     local r = {}
-    str:gsub('[^,]+', function (w) r[#r+1] = w end)
+    str:gsub('[^,]+', function (w) r[#r+1] = w:lower() end)
     return r
 end
 
