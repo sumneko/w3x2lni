@@ -114,12 +114,42 @@ local function mark_mustuse(slk)
 end
 
 local function mark_jass(w2l, archive, slk)
-    local list = w2l:backend_searchjass(archive)
+    local list, flag = w2l:backend_searchjass(archive)
     if not list then
         return
     end
     for name in pairs(list) do
         mark(slk, name)
+    end
+    if flag.creeps or flag.building then
+        local maptile = slk.w3i.map_main_ground_type
+        local search_marketplace = flag.marketplace and flag.item
+        flag.marketplace = nil
+        for _, obj in pairs(slk.unit) do
+            local need_mark = false
+            if obj.race == 'creeps' and obj.tilesets and (obj.tilesets == '*' or obj.tilesets:find(maptile)) then
+                if (flag.building and obj.isbldg == 1 and obj.nbrandom == 1) or (flag.creeps and obj.isbldg == 0) then
+                    mark_known_type(slk, 'unit', obj)
+                end
+            end
+            if search_marketplace and obj._name == 'marketplace' then
+                flag.marketplace = true
+                search_marketplace = false
+            end
+        end
+    end
+    if flag.item then
+        for _, obj in pairs(slk.item) do
+            if obj.pickRandom == 1 then
+                mark_known_type(slk, 'item', obj)
+            end
+        end
+    elseif flag.marketplace then
+        for _, obj in pairs(slk.item) do
+            if obj.pickRandom == 1 and obj.sellable == 1 then
+                mark_known_type(slk, 'item', obj)
+            end
+        end
     end
 end
 
@@ -148,5 +178,4 @@ return function(w2l, archive, slk)
     mark_mustuse(slk)
     mark_jass(w2l, archive, slk)
     mark_doo(w2l, archive, slk)
-    --TODO: 随机物品、随机建筑、随机野怪、市场
 end

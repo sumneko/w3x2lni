@@ -78,6 +78,7 @@ local function to_slk(w2l, archive, slk, on_lni)
 end
 
 return function (w2l, archive, slk, on_lni)
+    slk.w3i = w2l:read_w3i(archive:get 'war3map.w3i')
     if w2l.config.target_format == 'lni' then
         to_lni(w2l, archive, slk, on_lni)
     elseif w2l.config.target_format == 'obj' then
@@ -88,8 +89,7 @@ return function (w2l, archive, slk, on_lni)
 
     --转换其他文件
     if archive:get 'war3map.w3i' then
-        local w3i = w2l:read_w3i(archive:get 'war3map.w3i')
-        local lni = w2l:w3i2lni(w3i)
+        local lni = w2l:w3i2lni(slk.w3i)
         archive:set('mapinfo.ini', lni)
         archive:set('war3map.w3i', false)
     end

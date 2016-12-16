@@ -31,10 +31,10 @@ local extra_func = {
 }
 
 local need_mark = {
-    ChooseRandomCreep = 'unit',
-    ChooseRandomCreepBJ = 'unit',
-    ChooseRandomNPBuilding = 'unit',
-    ChooseRandomNPBuildingBJ = 'unit',
+    ChooseRandomCreep = 'creeps',
+    ChooseRandomCreepBJ = 'creeps',
+    ChooseRandomNPBuilding = 'building',
+    ChooseRandomNPBuildingBJ = 'building',
     ChooseRandomItem = 'item',
     ChooseRandomItemBJ = 'item',
     ChooseRandomItemEx = 'item',
@@ -42,11 +42,11 @@ local need_mark = {
     UpdateEachStockBuildingEnum = 'item',
 
     -- 只有当有"marketplace"这个单位时才会产生引用
-    UpdateEachStockBuilding = 'market',
-    PerformStockUpdates = 'market',
-    StartStockUpdates = 'market',
-    InitNeutralBuildings = 'market',
-    InitBlizzard = 'market',
+    UpdateEachStockBuilding = 'marketplace',
+    PerformStockUpdates = 'marketplace',
+    StartStockUpdates = 'marketplace',
+    InitNeutralBuildings = 'marketplace',
+    InitBlizzard = 'marketplace',
 }
 
 local function add_id(id)
@@ -130,6 +130,5 @@ return function (w2l, archive)
     marks = {}
     line_count = 0
     pjass:match(buf)
-    return ids
     return ids, marks
 end
