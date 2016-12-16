@@ -259,12 +259,18 @@ end
 
 function mt:load_file()
     self.archive = archive(self.inputs[1])
+    if not self.archive then
+        return false
+    end
     return true
 end
 
 function mt:save(output_dir)
     message('正在打开地图...')
-    self:load_file()
+    if not self:load_file() then
+        message('地图打开失败')
+        return false
+    end
     message('正在读取物编...')
     self:load_data()
     message('正在处理物编...')
