@@ -71,7 +71,7 @@ end
 
 local function add_head(names, skeys)
     lines[#lines+1] = 'ID;PWXL;N;E'
-    lines[#lines+1] = ('B;X%d;Y%d;D0'):format(#skeys, #names)
+    lines[#lines+1] = ('B;X%d;Y%d;D0'):format(#skeys, #names+1)
 end
 
 local function get_key(id)
