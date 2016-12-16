@@ -22,7 +22,10 @@ local function to_type(tp, value)
     if tp == 0 then
         return value or 0
     elseif tp == 1 or tp == 2 then
-        return value or 0
+        if not value then
+            return 0
+        end
+        return ('%.4f'):format(value):gsub('[0]+$', ''):gsub('%.$', '')
     elseif tp == 3 then
         if type(value) ~= 'string' then
             return value or ''
@@ -55,7 +58,7 @@ end
 
 local function add_data(name, obj, key, id, value, values)
     local meta = metadata[id]
-    local tp = w2l:get_id_type(id)
+    local tp = w2l:get_id_type(meta.type)
     if meta['_has_index'] then
         if meta['index'] == 0 then
             local key = meta.field
