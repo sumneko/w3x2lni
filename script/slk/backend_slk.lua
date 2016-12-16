@@ -71,7 +71,7 @@ end
 
 local function add_head(names, skeys)
     lines[#lines+1] = 'ID;PWXL;N;E'
-    lines[#lines+1] = ('B;X%d;Y%d;D0'):format(#skeys, #names)
+    lines[#lines+1] = ('B;X%d;Y%d;D0'):format(#skeys, #names+1)
 end
 
 local function get_key(id)
@@ -104,8 +104,11 @@ local function get_keys(slk_name)
     end
     table_sort(skeys)
     table_insert(skeys, 1, extra_key[slk_name])
-    if extra_key[slk_name] == 'alias' then
+    if slk_name == 'units\\abilitydata.slk' or type == 'units\\abilitybuffdata.slk' then
         table_insert(skeys, 2, 'code')
+    end
+    if slk_name == 'units\\unitui.slk' then
+        table_insert(skeys, 2, 'name')
     end
     return skeys
 end
@@ -155,6 +158,7 @@ local function load_data(name, code, obj, key, slk_data, slk_name)
     end
     slk_data[extra_key[slk_name]] = name
     slk_data['code'] = code
+    slk_data['name'] = obj._name
 end
 
 local function load_obj(name, obj, slk_name)
