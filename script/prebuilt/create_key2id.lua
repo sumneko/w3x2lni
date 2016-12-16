@@ -197,11 +197,5 @@ return function (type, metadata, template)
     local common, special = read_list(metadata, template, type)
     add_common(tbl, tbl2, type, common)
     add_special(tbl, tbl2, special)
-    if type == 'upgrade' then
-        tbl2[#tbl2+1] = 'code1 = unit'
-        tbl2[#tbl2+1] = 'code2 = unit'
-        tbl2[#tbl2+1] = 'code3 = unit'
-        tbl2[#tbl2+1] = 'code4 = unit'
-    end
     return table.concat(tbl, '\r\n') .. '\r\n', table.concat(tbl2, '\r\n') .. '\r\n'
 end
