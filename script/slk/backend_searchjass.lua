@@ -130,6 +130,5 @@ return function (w2l, archive)
     marks = {}
     line_count = 0
     pjass:match(buf)
-    return ids
     return ids, marks
 end
