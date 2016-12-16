@@ -40,8 +40,6 @@ local need_mark = {
     ChooseRandomItemEx = 'item',
     ChooseRandomItemExBJ = 'item',
     UpdateEachStockBuildingEnum = 'item',
-
-    -- 只有当有"marketplace"这个单位时才会产生引用
     UpdateEachStockBuilding = 'marketplace',
     PerformStockUpdates = 'marketplace',
     StartStockUpdates = 'marketplace',
