@@ -1,9 +1,13 @@
+local w3xparser = require 'w3xparser'
+
 local table_concat = table.concat
 local ipairs = ipairs
 local string_char = string.char
 local pairs = pairs
 local table_sort = table.sort
 local table_insert = table.insert
+local math_floor = math.floor
+local wtonumber = w3xparser.tonumber
 
 local slk
 local w2l
@@ -12,8 +16,47 @@ local keydata
 local keys
 local lines
 
+local function to_type(tp, value)
+    if tp == 0 then
+        if not value then
+            return 0
+        end
+        return math_floor(wtonumber(value))
+    elseif tp == 1 or tp == 2 then
+        if not value then
+            return 0
+        end
+        return wtonumber(value)
+    elseif tp == 3 then
+        if not value then
+            return ''
+        end
+        if value == '' then
+            return ''
+        end
+        value = tostring(value)
+        if value:find(',', nil, false) then
+            value = '"' .. value .. '"'
+        end
+        return value
+    end
+end
+
 local function add_data(name, key, value)
-    lines[#lines+1] = ('%s=%s'):format(key, value)
+    local id = keys[key]
+    local meta = metadata[id]
+    local tp = w2l:get_id_type(id)
+    if type(value) == 'table' then
+        for i, v in pairs(value) do
+            value[i] = to_type(tp, value[i])
+        end
+        value = table.concat(value, ',')
+    else
+        value = to_type(tp, value)
+    end
+    if value ~= '' then
+        lines[#lines+1] = ('%s=%s'):format(key, value)
+    end
 end
 
 local function add_obj(name, obj, skeys)
