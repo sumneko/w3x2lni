@@ -41,12 +41,12 @@ local need_mark = {
     ChooseRandomItemExBJ = 'item',
     UpdateEachStockBuildingEnum = 'item',
 
-    -- TODO: 只有当有"marketplace"时才会产生引用
-    UpdateEachStockBuilding = 'item',
-    PerformStockUpdates = 'item',
-    StartStockUpdates = 'item',
-    InitNeutralBuildings = 'item',
-    InitBlizzard = 'item',
+    -- 只有当有"marketplace"这个单位时才会产生引用
+    UpdateEachStockBuilding = 'market',
+    PerformStockUpdates = 'market',
+    StartStockUpdates = 'market',
+    InitNeutralBuildings = 'market',
+    InitBlizzard = 'market',
 }
 
 local function add_id(id)
