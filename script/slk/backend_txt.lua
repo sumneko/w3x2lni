@@ -8,6 +8,8 @@ local table_sort = table.sort
 local table_insert = table.insert
 local math_floor = math.floor
 local wtonumber = w3xparser.tonumber
+local select = select
+local table_unpack = table.unpack
 
 local slk
 local w2l
@@ -18,12 +20,12 @@ local lines
 
 local function to_type(tp, value)
     if tp == 0 then
-        return value
+        return value or 0
     elseif tp == 1 or tp == 2 then
-        return value
+        return value or 0
     elseif tp == 3 then
         if type(value) ~= 'string' then
-            return value
+            return value or ''
         end
         if value:find(',', nil, false) then
             value = '"' .. value .. '"'
@@ -32,14 +34,33 @@ local function to_type(tp, value)
     end
 end
 
+local function get_index_data(tp, ...)
+    local len = select('#', ...)
+    local datas = {...}
+    local need = false
+    for i = len, 1, -1 do
+        local value = to_type(tp, datas[i])
+        if not need and (not value or value == 0 or value == '') then
+            datas[i] = nil
+        else
+            need = true
+            datas[i] = value
+        end
+    end
+    if #datas == 0 then
+        return
+    end
+    return table_concat(datas, ',')
+end
+
 local function add_data(name, obj, key, id, value, values)
     local meta = metadata[id]
     local tp = w2l:get_id_type(id)
     if meta['_has_index'] then
         if meta['index'] == 0 then
             local key = meta.field
-            value = (obj[key..':1'] or 0) .. ',' .. (obj[key..':2'] or 0)
-            if value == '0,0' then
+            local value = get_index_data(tp, obj[key..':1'], obj[key..':2'])
+            if not value then
                 return
             end
             values[#values+1] = ('%s=%s'):format(key, value)
@@ -96,10 +117,7 @@ local function add_data(name, obj, key, id, value, values)
         return
     end
     if type(value) == 'table' then
-        for i, v in pairs(value) do
-            value[i] = to_type(tp, value[i])
-        end
-        value = table.concat(value, ',')
+        value = get_index_data(tp, table_unpack(value))
     else
         value = to_type(tp, value)
     end
