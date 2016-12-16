@@ -68,10 +68,10 @@ local function to_slk(w2l, archive, slk, on_lni)
                 archive:set(txt, '')
             end
         end
-        --local content = w2l:backend_obj(type, data)
-        --if content then
-        --    archive:set(w2l.info['template']['obj'][type], content)
-        --end
+        local content = w2l:backend_obj(type, data)
+        if content then
+            archive:set(w2l.info['template']['obj'][type], content)
+        end
         
         progress(1)
     end
