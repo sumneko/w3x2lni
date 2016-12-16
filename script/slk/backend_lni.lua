@@ -52,8 +52,8 @@ function mt:add_chunk(chunk)
 		end
 	end
 	table_sort(names, function(name1, name2)
-		local is_origin1 = chunk[name1]['_user_id'] == chunk[name1]['_origin_id']
-		local is_origin2 = chunk[name2]['_user_id'] == chunk[name2]['_origin_id']
+		local is_origin1 = name1 == chunk[name1]['_origin_id']
+		local is_origin2 = name2 == chunk[name2]['_origin_id']
 		if is_origin1 and not is_origin2 then
 			return true
 		end
@@ -99,7 +99,7 @@ function mt:add_obj(obj)
     end
 
 	self:add('[%s]', obj['_user_id'])
-	self:add('%s = %q', '_id', obj['_origin_id'])
+	self:add('%s = %q', '_id', obj['_code_id'])
     if obj['_name'] then
         self:add('%s = %q', '_name', obj['_name'])
     end

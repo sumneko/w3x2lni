@@ -151,7 +151,7 @@ end
 
 local function find_code(obj, default, type)
     if obj['_true_origin'] then
-        local code = obj['_origin_id']
+        local code = obj['_code_id']
         return code
     end
     local name = obj['_user_id']
@@ -232,7 +232,9 @@ local function processing(w2l, type, chunk, target_progress)
     for name in pairs(chunk) do
         names[#names+1] = name
     end
-    table.sort(names)
+    table.sort(names, function(a, b)
+        return chunk[a]['_user_id'] < chunk[b]['_user_id']
+    end)
 
     revert_list = nil
     unit_list = nil

@@ -20,12 +20,12 @@ local enable_type = {
 local mt = {}
 
 function mt:canadd(skl, id)
-    if skl == 'AIlb' or skl == 'AIpb' then
+    if skl == 'ailb' or skl == 'aipb' then
         -- AIlb与AIpb有2个DataA,进行特殊处理
         if id == 'Idam' then
             return false
         end
-    elseif skl == 'AIls' then
+    elseif skl == 'ails' then
     -- AIls有2个DataA,进行特殊处理
         if id == 'Idps' then
             return false
@@ -169,7 +169,7 @@ local function copy_code(special, template)
     end
 
     -- AOac进行特殊处理
-    special['AOac'] = special['ACac']
+    special['aoac'] = special['acac']
 end
 
 local function read_list(metadata, template, ttype)
