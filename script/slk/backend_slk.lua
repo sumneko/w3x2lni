@@ -161,9 +161,10 @@ local function load_data(name, code, obj, key, slk_data, slk_name)
         slk_data[skey] = obj[key]
         obj[key] = nil
     end
-    slk_data[extra_key[slk_name]] = name
-    slk_data['code'] = code
+    slk_data[extra_key[slk_name]] = obj['_user_id']
+    slk_data['code'] = obj['_code_id']
     slk_data['name'] = obj._name
+    slk_data['_user_id'] = obj._user_id
 end
 
 local function load_obj(name, obj, slk_name)
