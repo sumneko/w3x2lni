@@ -40,7 +40,8 @@ end
 local function get_revert_list(default, code)
     if not revert_list then
         revert_list = {}
-        for name, obj in pairs(default) do
+        for lname, obj in pairs(default) do
+            local name = obj['_user_id']
             local code = obj['_origin_id']
             local list = revert_list[code]
             if not list then
@@ -59,8 +60,9 @@ end
 local function get_unit_list(default, name)
     if not unit_list then
         unit_list = {}
-        for name, obj in pairs(default) do
+        for lname, obj in pairs(default) do
             local _name = obj['_name']
+            local name = obj['_user_id']
             if _name then
                 local list = unit_list[_name]
                 if not list then
@@ -149,12 +151,11 @@ local function clean_obj(name, obj, default, config)
     end
 end
 
-local function find_code(obj, default, type)
+local function find_code(name, obj, default, type)
     if obj['_true_origin'] then
         local code = obj['_code_id']
         return code
     end
-    local name = obj['_user_id']
     if default[name] then
         return name
     end
@@ -204,7 +205,7 @@ local function parse_obj(name, obj, default, config, ttype)
     local code
     local count
     local find_times = config.find_id_times
-    local maybe = find_code(obj, default, ttype)
+    local maybe = find_code(name, obj, default, ttype)
     if type(maybe) ~= 'table' then
         obj._origin_id = maybe
         return
