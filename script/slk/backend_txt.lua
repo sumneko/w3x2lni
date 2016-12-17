@@ -149,6 +149,16 @@ local function get_key(id)
 	return key
 end
 
+local function format_value(val)
+    if val == '' then
+        return nil
+    end
+    if type(val) == 'string' then
+        val = val:gsub('\r\n', '|n'):gsub('[\r\n]', '|n')
+    end
+    return val
+end
+
 local function add_obj(name, obj)
     local values = {}
     for _, id in pairs(keys) do
@@ -166,8 +176,9 @@ local function add_obj(name, obj)
         return a[1]:lower() < b[1]:lower()
     end)
     for _, value in ipairs(values) do
-        if value[2] ~= '' then
-            lines[#lines+1] = value[1] .. '=' .. value[2]
+        local val = format_value(value[2])
+        if val then
+            lines[#lines+1] = value[1] .. '=' .. val
         end
     end
     lines[#lines+1] = ''
