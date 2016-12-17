@@ -9,6 +9,7 @@ local w2l  = require 'w3x2lni'
 local uni      = require 'ffi.unicode'
 local order_prebuilt = require 'order.prebuilt'
 local default2lni = require 'prebuilt.default2lni'
+local txt2teamplate = require 'prebuilt.txt2teamplate'
 local create_key2id = require 'prebuilt.create_key2id'
 w2l:initialize()
 
@@ -109,6 +110,7 @@ local function main()
 	end
 	io.save(w2l.prebuilt / 'usable_code.ini', pack_table(usable_code))
 	io.save(w2l.default / 'txt.ini', default2lni('txt', txt))
+	io.save(w2l.template / 'txt.ini', txt2teamplate('txt', txt))
 
 	-- 生成技能命令映射
 	local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'))
