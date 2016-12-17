@@ -103,7 +103,7 @@ local function main()
 		local data = datas[ttype]
 		io.save(w2l.default / (ttype .. '.ini'), default2lni(data))
 		io.save(w2l.template / (ttype .. '.ini'), w2l:backend_lni(ttype, data))
-		for name in pairs(data) do
+		for name, obj in pairs(data) do
 			usable_code[name] = true
 		end
 	end
