@@ -149,14 +149,17 @@ local function get_key(id)
 	return key
 end
 
-local function format_value(val)
+local function format_value(key, val)
     if val == '' then
+        return nil
+    end
+    if key == 'EditorSuffix' then
         return nil
     end
     if type(val) == 'string' then
         val = val:gsub('\r\n', '|n'):gsub('[\r\n]', '|n')
     end
-    return val
+    return key .. '=' .. val
 end
 
 local function add_obj(name, obj)
@@ -176,10 +179,7 @@ local function add_obj(name, obj)
         return a[1]:lower() < b[1]:lower()
     end)
     for _, value in ipairs(values) do
-        local val = format_value(value[2])
-        if val then
-            lines[#lines+1] = value[1] .. '=' .. val
-        end
+        lines[#lines+1] = format_value(value[1], value[2])
     end
     lines[#lines+1] = ''
 end
