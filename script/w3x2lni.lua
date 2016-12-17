@@ -125,6 +125,7 @@ local convertors = {
 	'backend_obj',
 	'backend_searchjass',
 	'backend_searchdoo',
+	'backend_computed',
 }
 
 for _, name in ipairs(convertors) do

@@ -52,6 +52,7 @@ end
 
 local function to_slk(w2l, archive, slk, on_lni)
     w2l:backend_mark(archive, slk)
+    w2l:backend_computed(slk)
     --转换物编
     local count = 0
     local has_set = {}
