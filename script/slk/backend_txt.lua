@@ -122,6 +122,9 @@ local function add_data(name, obj, key, id, value, values)
     end
     if type(value) == 'table' then
         value = get_index_data(tp, table_unpack(value))
+        if value == '' then
+            value = ','
+        end
     else
         value = to_type(tp, value)
     end
@@ -163,10 +166,9 @@ local function add_obj(name, obj)
         return a[1]:lower() < b[1]:lower()
     end)
     for _, value in ipairs(values) do
-        if value[2] == '' then
-            value[2] = ','
+        if value[2] ~= '' then
+            lines[#lines+1] = value[1] .. '=' .. value[2]
         end
-        lines[#lines+1] = value[1] .. '=' .. value[2]
     end
     lines[#lines+1] = ''
 end
