@@ -131,6 +131,7 @@ return function (w2l_, type, wts_, buf)
 	metadata = w2l:read_metadata(type)
 	unpack_buf = buf
 	unpack_pos = 1
+	force_slk = false
 	local data    = {}
 	-- 版本号
 	read_version()

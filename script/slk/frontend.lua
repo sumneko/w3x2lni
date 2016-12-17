@@ -1,5 +1,8 @@
 local progress = require 'progress'
 
+local setmetatable = setmetatable
+local rawset = rawset
+
 local function merge(a, b)
     for k, v in pairs(b) do
         a[k] = v
@@ -87,8 +90,17 @@ local function load_slk(w2l, archive, force_slk)
         return datas
     else
         local datas = {}
+        local all = {}
+        datas.all = all
+        local all_mt = {}
+        function all_mt:__newindex(key, value)
+            rawset(self, key, value)
+            all[key] = value
+        end
         for type in pairs(w2l.info.template.slk) do
-            datas[type] = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')))
+            datas[type] = setmetatable({}, all_mt)
+            w2l:parse_lni(io.load(w2l.default / (type .. '.ini')), type, datas[type])
+            setmetatable(datas[type], nil)
         end
         return datas
     end
