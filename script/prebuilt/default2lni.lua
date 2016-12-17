@@ -49,23 +49,27 @@ local function add_obj(lines, name, obj)
     lines[#lines+1] = ''
 end
 
-local function add_chunk(lines, tbl)
+local function add_chunk(lines, type, tbl)
     local names = {}
     for name in pairs(tbl) do
         names[#names+1] = name
     end
-    table.sort(names, function(a, b)
-        return tbl[a]['_id'] < tbl[b]['_id']
-    end)
+    if type == 'txt' then
+        table.sort(names)
+    else
+        table.sort(names, function(a, b)
+            return tbl[a]['_id'] < tbl[b]['_id']
+        end)
+    end
     for _, name in ipairs(names) do
         add_obj(lines, name, tbl[name])
     end
 end
 
-return function (tbl)
+return function (type, tbl)
     local lines = {}
 
-    add_chunk(lines, tbl)
+    add_chunk(lines, type, tbl)
 
     return table.concat(lines, '\r\n')
 end

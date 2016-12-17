@@ -172,8 +172,12 @@ end
 
 local function txt_read(table, txt, txt_keys, txt_meta, type)
     for lname, obj in pairs(table) do
+        local txt_data = txt[lname]
+        if type ~= 'unit' then
+            txt[lname] = nil
+        end
         for i = 1, #txt_keys do
-            txt_read_data(lname, obj, txt_keys[i], txt_meta[i], txt[lname])
+            txt_read_data(lname, obj, txt_keys[i], txt_meta[i], txt_data)
         end
     end
 end
@@ -234,5 +238,5 @@ return function(w2l_, loader)
             end
         end
     end
-    return datas
+    return datas, txt
 end

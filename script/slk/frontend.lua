@@ -79,7 +79,7 @@ end
 
 local function load_slk(w2l, archive, force_slk)
     if force_slk or w2l.config.read_slk then
-        local datas = w2l:frontend_slk(function(name)
+        local datas, txt = w2l:frontend_slk(function(name)
             message('正在转换', name)
             local buf = archive:get(name)
             if buf then
@@ -87,7 +87,7 @@ local function load_slk(w2l, archive, force_slk)
             end
             return io.load(w2l.mpq / name)
         end)
-        return datas
+        return datas, txt
     else
         local datas = {}
         local all = {}
@@ -102,7 +102,8 @@ local function load_slk(w2l, archive, force_slk)
             w2l:parse_lni(io.load(w2l.default / (type .. '.ini')), type, datas[type])
             setmetatable(datas[type], nil)
         end
-        return datas
+        local txt = w2l:parse_lni(io.load(w2l.default / 'txt.ini'))
+        return datas, txt
     end
 end
 
@@ -127,7 +128,7 @@ return function(w2l, archive, slk)
     --读取字符串
     slk.wts = w2l:frontend_wts(archive)
     local objs, force_slk = load_obj(w2l, archive, slk.wts)
-    local datas = load_slk(w2l, archive, force_slk)
+    local datas, txt = load_slk(w2l, archive, force_slk)
     for type, data in pairs(datas) do
         if type ~= 'all' then
             if objs then
@@ -136,4 +137,5 @@ return function(w2l, archive, slk)
         end
         slk[type] = data
     end
+    slk.txt = txt
 end

@@ -95,19 +95,20 @@ local function main()
 	fs.create_directories(w2l.default)
 	fs.create_directories(w2l.template)
 	local usable_code = {}
-	local datas = w2l:frontend_slk(function(name)
+	local datas, txt = w2l:frontend_slk(function(name)
 		return io.load(w2l.mpq / name)
 	end)
 	for ttype in pairs(w2l.info['metadata']) do
 		message('正在生成模板', ttype)
 		local data = datas[ttype]
-		io.save(w2l.default / (ttype .. '.ini'), default2lni(data))
+		io.save(w2l.default / (ttype .. '.ini'), default2lni(ttype, data))
 		io.save(w2l.template / (ttype .. '.ini'), w2l:backend_lni(ttype, data))
 		for name, obj in pairs(data) do
 			usable_code[obj._id] = true
 		end
 	end
 	io.save(w2l.prebuilt / 'usable_code.ini', pack_table(usable_code))
+	io.save(w2l.prebuilt / 'txt.ini', default2lni('txt', txt))
 
 	-- 生成技能命令映射
 	local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'))
