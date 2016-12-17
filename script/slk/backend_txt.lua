@@ -163,6 +163,9 @@ local function add_obj(name, obj)
         return a[1]:lower() < b[1]:lower()
     end)
     for _, value in ipairs(values) do
+        if value[2] == '' then
+            value[2] = ','
+        end
         lines[#lines+1] = value[1] .. '=' .. value[2]
     end
     lines[#lines+1] = ''
