@@ -94,6 +94,7 @@ function mark_known_type(slk, type, name)
 end
 
 local function mark(slk, name)
+    name = name:lower()
     for _, type in ipairs {'ability', 'unit', 'buff', 'item', 'upgrade', 'doodad', 'destructable'} do
         if mark_known_type(slk, type, name) then
             return true
