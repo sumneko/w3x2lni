@@ -108,7 +108,7 @@ local function main()
 		end
 	end
 	io.save(w2l.prebuilt / 'usable_code.ini', pack_table(usable_code))
-	io.save(w2l.prebuilt / 'txt.ini', default2lni('txt', txt))
+	io.save(w2l.default / 'txt.ini', default2lni('txt', txt))
 
 	-- 生成技能命令映射
 	local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'))
