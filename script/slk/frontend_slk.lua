@@ -183,9 +183,13 @@ return function(w2l_, loader)
     local datas = {}
     datas.all = {}
     local txt = {}
+    local has_readed = {}
     for type, names in pairs(w2l.info.template.txt) do
         for _, filename in ipairs(names) do
-            w2l:parse_txt(loader(filename), filename, txt)
+            if not has_readed[filename] then
+                has_readed[filename] = true
+                w2l:parse_txt(loader(filename), filename, txt)
+            end
         end
     end
 

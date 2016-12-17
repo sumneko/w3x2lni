@@ -6,6 +6,7 @@ local slk = w3xparser.slk
 local txt = w3xparser.txt
 local ini = w3xparser.ini
 local pairs = pairs
+local string_lower = string.lower
 
 local mt = {}
 
@@ -61,7 +62,7 @@ function mt:get_id_type(type)
 	if not id_type then
 		id_type = lni(io.load(self.prebuilt / 'id_type.ini'))
 	end
-    return id_type[type] or 3
+    return id_type[string_lower(type)] or 3
 end
 
 function mt:is_usable_code(code)
