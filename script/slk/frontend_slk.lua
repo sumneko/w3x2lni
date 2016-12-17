@@ -185,52 +185,69 @@ local function txt_read(table, txt, txt_keys, txt_meta, type)
     end
 end
 
-return function (w2l_, type, loader)
-    w2l = w2l_
-    metadata = w2l:read_metadata(type)
-    has_level = w2l.info.key.max_level[type]
-    keyconvert = w2l:keyconvert(type)
-    slk_type = type
+local function load_slk(datas, loader)
+    for type, names in pairs(w2l.info.template.slk) do
+        metadata = w2l:read_metadata(type)
+        has_level = w2l.info.key.max_level[type]
+        keyconvert = w2l:keyconvert(type)
+        slk_type = type
 
-    local data = {}
-    for _, filename in ipairs(w2l.info.template.slk[type]) do
-        local update_level
-        local slk_keys = {}
-        local slk_meta = {}
-        for key, id in pairs(keyconvert[filename]) do
-            local meta = metadata[id]
-            slk_keys[#slk_keys+1] = key
-            slk_meta[#slk_meta+1] = {
-                ['type'] = w2l:get_id_type(meta.type),
-                ['repeat'] = has_level and meta['repeat'] and meta['repeat'] > 0,
-                ['index'] = meta.index,
-                ['appendIndex'] = meta.appendIndex,
-            }
-            if key == has_level then
-                update_level = has_level
+        datas[type] = {}
+        for _, filename in ipairs(names) do
+            local update_level
+            local slk_keys = {}
+            local slk_meta = {}
+            for key, id in pairs(keyconvert[filename]) do
+                local meta = metadata[id]
+                slk_keys[#slk_keys+1] = key
+                slk_meta[#slk_meta+1] = {
+                    ['type'] = w2l:get_id_type(meta.type),
+                    ['repeat'] = has_level and meta['repeat'] and meta['repeat'] > 0,
+                    ['index'] = meta.index,
+                    ['appendIndex'] = meta.appendIndex,
+                }
+                if key == has_level then
+                    update_level = has_level
+                end
             end
+            slk_read(datas[type], w2l:parse_slk(loader(filename)), slk_keys, slk_meta, update_level, type)
         end
-        slk_read(data, w2l:parse_slk(loader(filename)), slk_keys, slk_meta, update_level, type)
     end
-    
-    if keyconvert.profile then
-        local txt_keys = {}
-        local txt_meta = {}
-        for key, id in pairs(keyconvert.profile) do
-            local meta = metadata[id]
-            txt_keys[#txt_keys+1] = key
-            txt_meta[#txt_meta+1] = {
-                ['type'] = w2l:get_id_type(meta.type),
-                ['repeat'] = has_level and meta['repeat'] and meta['repeat'] > 0,
-                ['index'] = meta._has_index and (meta.index+1) or meta.index,
-                ['appendIndex'] = meta.appendIndex,
-            }
+end
+
+local function load_txt(datas, loader)
+    for type, names in pairs(w2l.info.template.txt) do
+        metadata = w2l:read_metadata(type)
+        has_level = w2l.info.key.max_level[type]
+        keyconvert = w2l:keyconvert(type)
+        slk_type = type
+
+        if keyconvert.profile then
+            local txt_keys = {}
+            local txt_meta = {}
+            for key, id in pairs(keyconvert.profile) do
+                local meta = metadata[id]
+                txt_keys[#txt_keys+1] = key
+                txt_meta[#txt_meta+1] = {
+                    ['type'] = w2l:get_id_type(meta.type),
+                    ['repeat'] = has_level and meta['repeat'] and meta['repeat'] > 0,
+                    ['index'] = meta._has_index and (meta.index+1) or meta.index,
+                    ['appendIndex'] = meta.appendIndex,
+                }
+            end
+            local txt = {}
+            for _, filename in ipairs(w2l.info.template.txt[type]) do
+                w2l:parse_txt(loader(filename), filename, txt)
+            end
+            txt_read(datas[type], txt, txt_keys, txt_meta, type)
         end
-        local txt = {}
-        for _, filename in ipairs(w2l.info.template.txt[type]) do
-            w2l:parse_txt(loader(filename), filename, txt)
-        end
-        txt_read(data, txt, txt_keys, txt_meta, type)
     end
-    return data
+end
+
+return function(w2l_, loader)
+    w2l = w2l_
+    local datas = {}
+    load_slk(datas, loader)
+    load_txt(datas, loader)
+    return datas
 end

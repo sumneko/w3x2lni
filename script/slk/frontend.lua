@@ -74,35 +74,24 @@ local function merge_obj(data, objs)
     end
 end
 
-local function load(w2l, wts, archive, type, target_progress)
-    progress:target(target_progress)
-    
-
-    if obj then
-        merge_obj(data, obj)
-    end
-    return data
-end
-
 local function load_slk(w2l, archive, force_slk)
-    local datas = {}
     if force_slk or w2l.config.read_slk then
-        for type in pairs(w2l.info.template.slk) do
-            datas[type] = w2l:frontend_slk(type, function(name)
-                message('正在转换', name)
-                local buf = archive:get(name)
-                if buf then
-                    return buf
-                end
-                return io.load(w2l.mpq / name)
-            end)
-        end
+        local datas = w2l:frontend_slk(function(name)
+            message('正在转换', name)
+            local buf = archive:get(name)
+            if buf then
+                return buf
+            end
+            return io.load(w2l.mpq / name)
+        end)
+        return datas
     else
+        local datas = {}
         for type in pairs(w2l.info.template.slk) do
             datas[type] = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')))
         end
+        return datas
     end
-    return datas
 end
 
 local function load_obj(w2l, archive, wts)

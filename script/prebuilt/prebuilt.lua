@@ -95,12 +95,13 @@ local function main()
 	fs.create_directories(w2l.default)
 	fs.create_directories(w2l.template)
 	local usable_code = {}
-	for ttype, meta in pairs(w2l.info['metadata']) do
+	local datas = w2l:frontend_slk(function(name)
+		return io.load(w2l.mpq / name)
+	end)
+	for ttype in pairs(w2l.info['metadata']) do
 		message('正在生成模板', ttype)
-		local data = w2l:frontend_slk(ttype, function(name)
-			return io.load(w2l.mpq / name)
-		end)
-		io.save(w2l.default / (ttype .. '.ini'),default2lni(data))
+		local data = datas[ttype]
+		io.save(w2l.default / (ttype .. '.ini'), default2lni(data))
 		io.save(w2l.template / (ttype .. '.ini'), w2l:backend_lni(ttype, data))
 		for name in pairs(data) do
 			usable_code[name] = true
