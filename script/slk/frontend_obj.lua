@@ -24,6 +24,9 @@ local character = { 'a','b','c','d','e','f','g','h','i' }
 
 local function get_id_name(id)
 	local meta  = metadata[id]
+	if not meta then
+		return
+	end
 	local name  = string_lower(meta.field)
 	local num   = meta.data
 	if num and num ~= 0 then
@@ -42,9 +45,11 @@ local function read_data(obj)
 	local value_type = unpack 'l'
 	local level = 0
 
-	local check_type = w2l:get_id_type(metadata[id].type)
-	if value_type ~= check_type and (value_type == 3 or check_type == 3) then
-		message(('数据类型错误:[%s],应该为[%s],错误的解析为了[%s]'):format(id, value_type, check_type))
+	if key then
+		local check_type = w2l:get_id_type(metadata[id].type)
+		if value_type ~= check_type and (value_type == 3 or check_type == 3) then
+			message(('数据类型错误:[%s],应该为[%s],错误的解析为了[%s]'):format(id, value_type, check_type))
+		end
 	end
 
 	--是否包含等级信息
@@ -71,7 +76,9 @@ local function read_data(obj)
 	-- 扔掉一个整数
 	unpack 'l'
 
-	
+	if not key then
+		return
+	end
 	if level == 0 then
 		obj[key] = value
 	else
