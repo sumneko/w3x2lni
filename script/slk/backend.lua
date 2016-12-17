@@ -1,5 +1,13 @@
 local progress = require 'progress'
 
+local out_put = {
+    unit    = 'units\\campaignunitstrings.txt',
+    ability = 'units\\campaignabilitystrings.txt',
+    buff    = 'units\\commonabilitystrings.txt',
+    upgrade = 'units\\campaignupgradestrings.txt',
+    item    = 'units\\itemstrings.txt',
+}
+
 local function to_lni(w2l, archive, slk, on_lni)
     --转换物编
     local count = 0
@@ -46,6 +54,7 @@ local function to_slk(w2l, archive, slk, on_lni)
     w2l:backend_mark(archive, slk)
     --转换物编
     local count = 0
+    local has_set = {}
     for type, meta in pairs(w2l.info['metadata']) do
         count = count + 1
         local target_progress = 66 + count * 2
@@ -60,22 +69,15 @@ local function to_slk(w2l, archive, slk, on_lni)
             local content = w2l:backend_slk(type, slk, data)
             archive:set(slk, content)
         end
+        if out_put[type] then
+            archive:set(out_put[type], w2l:backend_txt(type, data))
+            has_set[out_put[type]] = true
+        end
         if w2l.info['template']['txt'][type] then
             for i, txt in ipairs(w2l.info['template']['txt'][type]) do
-                if i == 1 then
-                    if type ~= 'buff' then
-                        local content = w2l:backend_txt(type, data)
-                        archive:set(txt, content)
-                    end
-                elseif i == 2 then
-                    if type == 'buff' then
-                        local content = w2l:backend_txt(type, data)
-                        archive:set(txt, content)
-                    elseif type ~= 'ability' then
-                        archive:set(txt, '')
-                    end
-                else
+                if not has_set[txt] then
                     archive:set(txt, '')
+                    has_set[txt] = true
                 end
             end
         end
