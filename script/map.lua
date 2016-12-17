@@ -275,8 +275,8 @@ function mt:save(output_dir)
     self:load_data()
     message('正在处理物编...')
     message('正在转换...')
+    w2l:backend_processing(self.slk)
     self:backend()
-    --w2l:backend_processing(self.slk)
 
     if w2l.config.target_storage == 'dir' then
         message('正在清空输出目录...')
