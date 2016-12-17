@@ -119,7 +119,7 @@ local function get_names()
         names[#names+1] = name
     end
     table_sort(names, function(a, b)
-        return slk[a]['_user_id'] < slk[b]['_user_id']
+        return slk[a]['_id'] < slk[b]['_id']
     end)
     return names
 end
@@ -161,14 +161,14 @@ local function load_data(name, code, obj, key, slk_data, slk_name)
         slk_data[skey] = obj[key]
         obj[key] = nil
     end
-    slk_data[extra_key[slk_name]] = obj['_user_id']
-    slk_data['code'] = obj['_code_id']
+    slk_data[extra_key[slk_name]] = obj['_id']
+    slk_data['code'] = obj['_code']
     slk_data['name'] = obj._name
-    slk_data['_user_id'] = obj._user_id
+    slk_data['_id'] = obj._id
 end
 
 local function load_obj(name, obj, slk_name)
-    local code = obj._origin_id
+    local code = obj._lower_code
     local slk_data = {}
     for key in pairs(keys) do
         load_data(name, code, obj, key, slk_data, slk_name)

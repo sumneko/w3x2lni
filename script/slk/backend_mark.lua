@@ -83,8 +83,8 @@ function mark_known_type(slk, type, name)
     end
     o._mark = 1
     mark_list(slk, o, search[type].common)
-    mark_list(slk, o, search[type][o._origin_id])
-    local marklist = mustmark[o._origin_id]
+    mark_list(slk, o, search[type][o._lower_code])
+    local marklist = mustmark[o._lower_code]
     if marklist then
         if not mark_known_type(slk, marklist[2], marklist[1]) then
             print(marklist[1])

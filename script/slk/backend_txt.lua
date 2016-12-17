@@ -157,7 +157,7 @@ local function add_obj(name, obj)
     if #values == 0 then
         return
     end
-    lines[#lines+1] = ('[%s]'):format(obj['_user_id'])
+    lines[#lines+1] = ('[%s]'):format(obj['_id'])
     table_sort(values)
     for _, value in ipairs(values) do
         lines[#lines+1] = value
@@ -178,7 +178,7 @@ local function get_names()
         names[#names+1] = name
     end
     table_sort(names, function(a, b)
-        return slk[a]['_user_id'] < slk[b]['_user_id']
+        return slk[a]['_id'] < slk[b]['_id']
     end)
     return names
 end
@@ -206,9 +206,9 @@ local function load_data(name, obj, key, txt_data)
     if not obj[key] then
         return
     end
-    local skey = get_key(key2id(name, obj['_origin_id'], key))
+    local skey = get_key(key2id(name, obj['_lower_code'], key))
     txt_data[skey] = obj[key]
-    txt_data['_user_id'] = obj['_user_id']
+    txt_data['_id'] = obj['_id']
     obj[key] = nil
 end
 

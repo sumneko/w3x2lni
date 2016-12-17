@@ -82,7 +82,7 @@ local function read_data(obj)
 	end
 end
 
-local function read_obj(chunk)
+local function read_obj(chunk, type)
 	local obj = {}
 	local code, name = unpack 'c4c4'
 	if name == '\0\0\0\0' then
@@ -95,10 +95,11 @@ local function read_obj(chunk)
 	if code then
 		obj._true_origin = true
 	end
-	obj['_user_id'] = name
+	obj['_id'] = name
+	obj['_type'] = type
 	if code then
-		obj['_origin_id'] = string_lower(code)
-		obj['_code_id'] = code
+		obj['_lower_code'] = string_lower(code)
+		obj['_code'] = code
 	end
 
 	local count = unpack 'l'
@@ -116,10 +117,10 @@ local function read_version()
 	return unpack 'l'
 end
 
-local function read_chunk(chunk)
+local function read_chunk(chunk, type)
 	local count = unpack 'l'
 	for i = 1, count do
-		read_obj(chunk)
+		read_obj(chunk, type)
 	end
 end
 
@@ -134,8 +135,8 @@ return function (w2l_, type, wts_, buf)
 	-- 版本号
 	read_version()
 	-- 默认数据
-	read_chunk(data)
+	read_chunk(data, type)
 	-- 自定义数据
-	read_chunk(data)
+	read_chunk(data, type)
 	return data, force_slk
 end

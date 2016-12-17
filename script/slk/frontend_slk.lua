@@ -78,11 +78,11 @@ end
 
 local function slk_read_obj(obj, lname, data, keys, metas)
     if data.code then
-        obj._origin_id = string_lower(data.code)
-        obj._code_id = data.code
-    elseif not obj._origin_id then
-        obj._origin_id = lname
-        obj._code_id = obj._user_id
+        obj._lower_code = string_lower(data.code)
+        obj._code = data.code
+    elseif not obj._lower_code then
+        obj._lower_code = lname
+        obj._code = obj._id
     end
     if slk_type == 'unit' and not obj._name then
         obj._name = data.name  -- 单位的反slk可以用name作为线索
@@ -92,7 +92,7 @@ local function slk_read_obj(obj, lname, data, keys, metas)
         slk_read_data(obj, keys[i], metas[i], data)
     end
 
-    local private = keyconvert[lname] or keyconvert[obj._origin_id]
+    local private = keyconvert[lname] or keyconvert[obj._lower_code]
     if private then
         for key, id in pairs(private) do
             slk_read_private_data(obj, key, metadata[id], data)
@@ -100,12 +100,13 @@ local function slk_read_obj(obj, lname, data, keys, metas)
     end
 end
 
-local function slk_read(table, slk, keys, metas, update_level)
+local function slk_read(table, slk, keys, metas, update_level, type)
     for name, data in pairs(slk) do
         local lname = string_lower(name)
         if not table[lname] then
             table[lname] = {}
-            table[lname]._user_id = name
+            table[lname]._id = name
+            table[lname]._type = type
         end
         local obj = table[lname]
         slk_read_obj(obj, lname, data, keys, metas)
@@ -168,9 +169,16 @@ local function txt_read_data(name, obj, key, meta, txt)
     end
 end
 
-local function txt_read(table, txt, txt_keys, txt_meta)
+local function txt_read(table, txt, txt_keys, txt_meta, type)
+    --function message() end
+    --for name in pairs(txt) do
+    --    if not table[name:lower()] then
+    --        print('+', name)
+    --    end
+    --end
     for lname, obj in pairs(table) do
-        local name = obj._user_id
+        local name = obj._id
+        obj._type = type
         for i = 1, #txt_keys do
             txt_read_data(lname, obj, txt_keys[i], txt_meta[i], txt[name])
         end
@@ -202,7 +210,7 @@ return function (w2l_, type, loader)
                 update_level = has_level
             end
         end
-        slk_read(data, w2l:parse_slk(loader(filename)), slk_keys, slk_meta, update_level)
+        slk_read(data, w2l:parse_slk(loader(filename)), slk_keys, slk_meta, update_level, type)
     end
     
     if keyconvert.profile then
@@ -222,7 +230,7 @@ return function (w2l_, type, loader)
         for _, filename in ipairs(w2l.info.template.txt[type]) do
             w2l:parse_txt(loader(filename), filename, txt)
         end
-        txt_read(data, txt, txt_keys, txt_meta)
+        txt_read(data, txt, txt_keys, txt_meta, type)
     end
     return data
 end

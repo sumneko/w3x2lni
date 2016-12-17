@@ -52,15 +52,15 @@ function mt:add_chunk(chunk)
 		end
 	end
 	table_sort(names, function(name1, name2)
-		local is_origin1 = name1 == chunk[name1]['_origin_id']
-		local is_origin2 = name2 == chunk[name2]['_origin_id']
+		local is_origin1 = name1 == chunk[name1]['_lower_code']
+		local is_origin2 = name2 == chunk[name2]['_lower_code']
 		if is_origin1 and not is_origin2 then
 			return true
 		end
 		if not is_origin1 and is_origin2 then
 			return false
 		end
-		return chunk[name1]['_user_id'] < chunk[name2]['_user_id']
+		return chunk[name1]['_id'] < chunk[name2]['_id']
 	end)
     local clock = os.clock()
 	for i = 1, #names do
@@ -76,8 +76,8 @@ end
 function mt:add_obj(obj)
 	local upper_obj = {}
     local keys = {}
-	local name = obj._user_id
-	local code = obj._origin_id
+	local name = obj._id
+	local code = obj._lower_code
     for key, data in pairs(obj) do
 		if key:sub(1, 1) ~= '_' then
 			local id = self:key2id(name, code, key)
@@ -98,8 +98,8 @@ function mt:add_obj(obj)
         return
     end
 
-	self:add('[%s]', obj['_user_id'])
-	self:add('%s = %q', '_id', obj['_code_id'])
+	self:add('[%s]', obj['_id'])
+	self:add('%s = %q', '_id', obj['_code'])
     if obj['_name'] then
         self:add('%s = %q', '_name', obj['_name'])
     end

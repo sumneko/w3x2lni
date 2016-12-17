@@ -69,7 +69,7 @@ local function merge_obj(data, objs)
         if data[name] then
             table_merge(data[name], obj)
         else
-            data[name] = table_copy(data[obj._origin_id:lower()], obj)
+            data[name] = table_copy(data[obj._lower_code:lower()], obj)
         end
     end
 end

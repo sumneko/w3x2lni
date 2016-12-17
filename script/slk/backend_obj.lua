@@ -93,7 +93,7 @@ function mt:add_obj(name, obj)
         end
     end
     
-    local code = obj._origin_id
+    local code = obj._lower_code
     self:add('c4', code)
     if name == code then
         self:add('c4', '\0\0\0\0')
@@ -125,7 +125,7 @@ local function sort_chunk(chunk)
     local origin = {}
     local user = {}
     for name, obj in pairs(chunk) do
-        local code = obj._origin_id
+        local code = obj._lower_code
         if name == code then
             origin[#origin+1] = name
         else
@@ -133,7 +133,7 @@ local function sort_chunk(chunk)
         end
     end
     local function sorter(a, b)
-        return chunk[a]['_user_id'] < chunk[b]['_user_id']
+        return chunk[a]['_id'] < chunk[b]['_id']
     end
     table_sort(origin, sorter)
     table_sort(user, sorter)
