@@ -62,9 +62,18 @@ local function to_slk(w2l, archive, slk, on_lni)
         end
         if w2l.info['template']['txt'][type] then
             for i, txt in ipairs(w2l.info['template']['txt'][type]) do
-                if i == 1 then 
-                    local content = w2l:backend_txt(type, data)
-                    archive:set(txt, content)
+                if i == 1 then
+                    if type ~= 'buff' then
+                        local content = w2l:backend_txt(type, data)
+                        archive:set(txt, content)
+                    end
+                elseif i == 2 then
+                    if type == 'buff' then
+                        local content = w2l:backend_txt(type, data)
+                        archive:set(txt, content)
+                    elseif type ~= 'ability' then
+                        archive:set(txt, '')
+                    end
                 else
                     archive:set(txt, '')
                 end
