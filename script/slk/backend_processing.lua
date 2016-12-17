@@ -41,16 +41,15 @@ local function get_revert_list(default, code)
     if not revert_list then
         revert_list = {}
         for lname, obj in pairs(default) do
-            local name = obj['_id']
             local code = obj['_lower_code']
             local list = revert_list[code]
             if not list then
-                revert_list[code] = name
+                revert_list[code] = lname
             else
                 if type(list) ~= 'table' then
                     revert_list[code] = {[list] = true}
                 end
-                revert_list[code][name] = true
+                revert_list[code][lname] = true
             end
         end
     end
@@ -62,16 +61,15 @@ local function get_unit_list(default, name)
         unit_list = {}
         for lname, obj in pairs(default) do
             local _name = obj['_name']
-            local name = obj['_id']
             if _name then
                 local list = unit_list[_name]
                 if not list then
-                    unit_list[_name] = name
+                    unit_list[_name] = lname
                 else
                     if type(list) ~= 'table' then
                         unit_list[_name] = {[list] = true}
                     end
-                    unit_list[_name][name] = true
+                    unit_list[_name][lname] = true
                 end
             end
         end
@@ -153,7 +151,7 @@ end
 
 local function find_code(name, obj, default, type)
     if obj['_true_origin'] then
-        local code = obj['_code']
+        local code = obj['_lower_code']
         return code
     end
     if default[name] then
