@@ -162,7 +162,7 @@ local function add_obj(name, obj)
     end
     lines[#lines+1] = ('[%s]'):format(obj['_id'])
     table_sort(values, function(a, b)
-        return a[1] < b[1]
+        return a[1]:lower() < b[1]:lower()
     end)
     for _, value in ipairs(values) do
         lines[#lines+1] = value[1] .. '=' .. value[2]
@@ -182,9 +182,7 @@ local function get_names()
     for name in pairs(slk) do
         names[#names+1] = name
     end
-    table_sort(names, function(a, b)
-        return slk[a]['_id'] < slk[b]['_id']
-    end)
+    table_sort(names)
     return names
 end
 
