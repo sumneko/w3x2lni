@@ -96,7 +96,7 @@ local function main()
 	fs.create_directories(w2l.default)
 	fs.create_directories(w2l.template)
 	local usable_code = {}
-	local datas, txt = w2l:frontend_slk(function(name)
+	local datas, txt = w2l:frontend_slk({}, function(name)
 		return io.load(w2l.mpq / name)
 	end)
 	for ttype in pairs(w2l.info['metadata']) do

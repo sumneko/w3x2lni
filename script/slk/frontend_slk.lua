@@ -182,10 +182,9 @@ local function txt_read(table, txt, txt_keys, txt_meta, type)
     end
 end
 
-return function(w2l_, loader)
+return function(w2l_, all, loader)
     w2l = w2l_
     local datas = {}
-    datas.all = {}
     local txt = {}
     local has_readed = {}
     for type, names in pairs(w2l.info.template.txt) do
@@ -219,7 +218,7 @@ return function(w2l_, loader)
                     update_level = has_level
                 end
             end
-            slk_read(datas[type], datas.all, w2l:parse_slk(loader(filename)), slk_keys, slk_meta, update_level, type)
+            slk_read(datas[type], all, w2l:parse_slk(loader(filename)), slk_keys, slk_meta, update_level, type)
 
             if keyconvert.profile then
                 local txt_keys = {}

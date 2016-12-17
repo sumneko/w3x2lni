@@ -67,19 +67,20 @@ local function table_copy(a, b)
     return c
 end
 
-local function merge_obj(data, objs)
+local function merge_obj(data, objs, all)
     for name, obj in pairs(objs) do
         if data[name] then
             table_merge(data[name], obj)
         else
-            data[name] = table_copy(data[obj._lower_code:lower()], obj)
+            data[name] = table_copy(data[obj._lower_code], obj)
+            all[name] = data[name]
         end
     end
 end
 
-local function load_slk(w2l, archive, force_slk)
+local function load_slk(w2l, archive, force_slk, all)
     if force_slk or w2l.config.read_slk then
-        local datas, txt = w2l:frontend_slk(function(name)
+        local datas, txt = w2l:frontend_slk(all, function(name)
             message('正在转换', name)
             local buf = archive:get(name)
             if buf then
@@ -90,8 +91,6 @@ local function load_slk(w2l, archive, force_slk)
         return datas, txt
     else
         local datas = {}
-        local all = {}
-        datas.all = all
         local all_mt = {}
         function all_mt:__newindex(key, value)
             rawset(self, key, value)
@@ -127,13 +126,12 @@ end
 return function(w2l, archive, slk)
     --读取字符串
     slk.wts = w2l:frontend_wts(archive)
+    slk.all = {}
     local objs, force_slk = load_obj(w2l, archive, slk.wts)
-    local datas, txt = load_slk(w2l, archive, force_slk)
+    local datas, txt = load_slk(w2l, archive, force_slk, slk.all)
     for type, data in pairs(datas) do
-        if type ~= 'all' then
-            if objs then
-                merge_obj(data, objs[type])
-            end
+        if objs then
+            merge_obj(data, objs[type], slk.all)
         end
         slk[type] = data
     end
