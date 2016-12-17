@@ -43,16 +43,16 @@ end
 local function get_index_data(tp, ...)
     local len = select('#', ...)
     local datas = {...}
-    for i = len, 1, -1 do
-        local value = to_type(tp, datas[i])
-        if not value then
-            datas[i] = ''
-        else
-            datas[i] = value
-        end
+    for i = 1, len do
+        datas[i] = to_type(tp, datas[i])
     end
     if #datas == 0 then
         return
+    end
+    for i = 1, #datas do
+        if not datas[i] then
+            datas[i] = ''
+        end
     end
     return table_concat(datas, ',')
 end
