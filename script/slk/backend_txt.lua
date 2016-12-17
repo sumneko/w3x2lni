@@ -21,17 +21,17 @@ local lines
 local function to_type(tp, value)
     if tp == 0 then
         if not value or value == 0 then
-            return ''
+            return nil
         end
         return value
     elseif tp == 1 or tp == 2 then
         if not value or value == 0 then
-            return ''
+            return nil
         end
         return ('%.4f'):format(value):gsub('[0]+$', ''):gsub('%.$', '')
     elseif tp == 3 then
-        if type(value) ~= 'string' then
-            return value or ''
+        if not value then
+            return
         end
         if value:find(',', nil, false) then
             value = '"' .. value .. '"'
@@ -43,13 +43,11 @@ end
 local function get_index_data(tp, ...)
     local len = select('#', ...)
     local datas = {...}
-    local need = false
     for i = len, 1, -1 do
         local value = to_type(tp, datas[i])
-        if not need and (not value or value == 0 or value == '') then
-            datas[i] = nil
+        if not value then
+            datas[i] = ''
         else
-            need = true
             datas[i] = value
         end
     end
@@ -91,7 +89,7 @@ local function add_data(name, obj, key, id, value, values)
                 if i > 1 then
                     key = key .. (i-1)
                 end
-                if value[i] and value[i] ~= 0 and value[i] ~= '' then
+                if value[i] then
                     flag = true
                     if meta['index'] == -1 then
                         values[#values+1] = {key, value[i]}
@@ -104,7 +102,7 @@ local function add_data(name, obj, key, id, value, values)
                 values[#values] = nil
             end
         else
-            if not value or value == 0 or value == '' then
+            if not value then
                 return
             end
             values[#values+1] = {key..'count', 1}
@@ -117,7 +115,7 @@ local function add_data(name, obj, key, id, value, values)
         return
     end
     if meta['index'] == -1 then
-        if value and value ~= '' and value ~= 0 then
+        if value then
             values[#values+1] = {key, value}
         end
         return
@@ -127,7 +125,7 @@ local function add_data(name, obj, key, id, value, values)
     else
         value = to_type(tp, value)
     end
-    if value and value ~= '' and value ~= 0 then
+    if value then
         values[#values+1] = {key, value}
     end
 end
