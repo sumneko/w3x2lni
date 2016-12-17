@@ -68,11 +68,13 @@ local function table_copy(a, b)
 end
 
 local function merge_obj(data, objs, all)
+    local template = {}
     for name, obj in pairs(objs) do
         if data[name] then
-            table_merge(data[name], obj)
+            template[name] = data[name]
+            data[name] = table_copy(data[name], obj)
         else
-            data[name] = table_copy(data[obj._lower_code], obj)
+            data[name] = table_copy(template[obj._lower_code] or data[obj._lower_code], obj)
             all[name] = data[name]
         end
     end
