@@ -99,10 +99,18 @@ end
 
 local function mark(slk, name)
     name = name:lower()
-    for _, type in ipairs {'ability', 'unit', 'buff', 'item', 'upgrade', 'doodad', 'destructable'} do
-        if mark_known_type(slk, type, name) then
-            return true
+    local o = slk.all[name]
+    if o then
+        if not mark_known_type(slk, o._type, name) then
+            print(name)
+            return false
         end
+        return true
+    end
+    local o = slk.txt[name]
+    if o then
+        o._mark = true
+        return true
     end
     print(name)
     return false
