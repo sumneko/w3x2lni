@@ -76,6 +76,10 @@ end
 function mark_known_type(slk, type, name)
     local o = slk[type][name]
     if not o then
+        if slk.txt[name] then
+            slk.txt[name]._mark = true
+            return true
+        end
         return false
     end
     if o._mark then
