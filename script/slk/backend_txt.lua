@@ -23,7 +23,7 @@ local function to_type(tp, value)
         if not value or value == 0 then
             return ''
         end
-        return value or ''
+        return value
     elseif tp == 1 or tp == 2 then
         if not value or value == 0 then
             return ''
