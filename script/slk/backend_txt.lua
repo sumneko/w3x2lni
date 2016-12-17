@@ -66,7 +66,7 @@ local function add_data(name, obj, key, id, value, values)
             if not value then
                 return
             end
-            values[#values+1] = ('%s=%s'):format(key, value)
+            values[#values+1] = {key, value}
         end
         return
     end
@@ -81,7 +81,7 @@ local function add_data(name, obj, key, id, value, values)
             if len == 0 then
                 return
             end
-            values[#values+1] = ('%s=%s'):format(key..'count', len)
+            values[#values+1] = {key..'count', len}
             local flag
             for i = 1, len do
                 local key = key
@@ -91,9 +91,9 @@ local function add_data(name, obj, key, id, value, values)
                 if value[i] and value[i] ~= 0 and value[i] ~= '' then
                     flag = true
                     if meta['index'] == -1 then
-                        values[#values+1] = ('%s=%s'):format(key, value[i])
+                        values[#values+1] = {key, value[i]}
                     else
-                        values[#values+1] = ('%s=%s'):format(key, to_type(tp, value[i]))
+                        values[#values+1] = {key, to_type(tp, value[i])}
                     end
                 end
             end
@@ -104,18 +104,18 @@ local function add_data(name, obj, key, id, value, values)
             if not value or value == 0 or value == '' then
                 return
             end
-            values[#values+1] = ('%s=%s'):format(key..'count', 1)
+            values[#values+1] = {key..'count', 1}
             if meta['index'] == -1 then
-                values[#values+1] = ('%s=%s'):format(key, value)
+                values[#values+1] = {key, value}
             else
-                values[#values+1] = ('%s=%s'):format(key, to_type(tp, value))
+                values[#values+1] = {key, to_type(tp, value)}
             end
         end
         return
     end
     if meta['index'] == -1 then
         if value and value ~= '' and value ~= 0 then
-            values[#values+1] = ('%s=%s'):format(key, value)
+            values[#values+1] = {key, value}
         end
         return
     end
@@ -125,7 +125,7 @@ local function add_data(name, obj, key, id, value, values)
         value = to_type(tp, value)
     end
     if value and value ~= '' and value ~= 0 then
-        values[#values+1] = ('%s=%s'):format(key, value)
+        values[#values+1] = {key, value}
     end
 end
 
@@ -158,9 +158,11 @@ local function add_obj(name, obj)
         return
     end
     lines[#lines+1] = ('[%s]'):format(obj['_id'])
-    table_sort(values)
+    table_sort(values, function(a, b)
+        return a[1] < b[1]
+    end)
     for _, value in ipairs(values) do
-        lines[#lines+1] = value
+        lines[#lines+1] = value[1] .. '=' .. value[2]
     end
     lines[#lines+1] = ''
 end
