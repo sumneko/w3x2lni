@@ -20,10 +20,13 @@ local lines
 
 local function to_type(tp, value)
     if tp == 0 then
-        return value or 0
+        if not value or value == 0 then
+            return ''
+        end
+        return value or ''
     elseif tp == 1 or tp == 2 then
-        if not value then
-            return 0
+        if not value or value == 0 then
+            return ''
         end
         return ('%.4f'):format(value):gsub('[0]+$', ''):gsub('%.$', '')
     elseif tp == 3 then
