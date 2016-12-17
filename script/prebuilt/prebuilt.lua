@@ -104,7 +104,7 @@ local function main()
 		io.save(w2l.default / (ttype .. '.ini'), default2lni(data))
 		io.save(w2l.template / (ttype .. '.ini'), w2l:backend_lni(ttype, data))
 		for name, obj in pairs(data) do
-			usable_code[name] = true
+			usable_code[obj._id] = true
 		end
 	end
 	io.save(w2l.prebuilt / 'usable_code.ini', pack_table(usable_code))
