@@ -178,12 +178,19 @@ local function add_obj(name, obj)
     if #values == 0 then
         return
     end
-    lines[#lines+1] = ('[%s]'):format(obj['_id'])
+    local value_lines = {}
     table_sort(values, function(a, b)
         return a[1]:lower() < b[1]:lower()
     end)
     for _, value in ipairs(values) do
-        lines[#lines+1] = format_value(value[1], value[2])
+        value_lines[#value_lines+1] = format_value(value[1], value[2])
+    end
+    if #value_lines == 0 then
+        return
+    end
+    lines[#lines+1] = ('[%s]'):format(obj['_id'])
+    for _, value in ipairs(value_lines) do
+        lines[#lines+1] = value
     end
     lines[#lines+1] = ''
 end
