@@ -175,12 +175,13 @@ local function txt_read_data(name, obj, key, meta, txt)
     end
 end
 
-local function txt_read(table, txt, txt_keys, txt_meta, type)
+local function txt_read(table, txt, unit, txt_keys, txt_meta, type)
     for lname, obj in pairs(table) do
-        local txt_data = txt[lname]
-        if type ~= 'unit' then
-            txt[lname] = nil
+        local txt_data = txt[lname] or unit[lname]
+        if type == 'unit' then
+            unit[lname] = txt_data
         end
+        txt[lname] = nil
         for i = 1, #txt_keys do
             txt_read_data(lname, obj, txt_keys[i], txt_meta[i], txt_data)
         end
@@ -191,6 +192,7 @@ return function(w2l_, all, loader)
     w2l = w2l_
     local datas = {}
     local txt = {}
+    local unit = {}
     local has_readed = {}
     for type, names in pairs(w2l.info.template.txt) do
         for _, filename in ipairs(names) do
@@ -238,7 +240,7 @@ return function(w2l_, all, loader)
                         ['appendindex'] = meta.appendindex,
                     }
                 end
-                txt_read(datas[type], txt, txt_keys, txt_meta, type)
+                txt_read(datas[type], txt, unit, txt_keys, txt_meta, type)
             end
         end
     end
