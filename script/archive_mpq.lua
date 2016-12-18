@@ -29,14 +29,24 @@ function mt:close()
 end
 
 function mt:__pairs()
-    local function next_file(tbl, key)
-        local new_key, value = next(tbl, key)
+    local cache = self.cache
+    if not self.cached_all then
+        self.cached_all = true
+        for filename in pairs(self.handle) do
+            local filename = filename:lower()
+            if cache[filename] == nil then
+                cache[filename] = self.handle:load_file(filename)
+            end
+        end
+    end
+    local function next_file(_, key)
+        local new_key, value = next(cache, key)
         if value == false then
-            return next_file(tbl, new_key)
+            return next_file(cache, new_key)
         end
         return new_key, value
     end
-    return next_file, self.cache
+    return next_file, cache
 end
 
 return function (pathorhandle)

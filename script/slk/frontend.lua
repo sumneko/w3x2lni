@@ -98,6 +98,7 @@ local function load_slk(w2l, archive, force_slk, all)
             message('正在转换', name)
             local buf = archive:get(name)
             if buf then
+                archive:set(name, false)
                 return buf
             end
             return io.load(w2l.mpq / name)
@@ -132,6 +133,7 @@ local function load_obj(w2l, archive, wts)
             if force then
                 force_slk = true
             end
+            archive:set(name, false)
         end
     end
     return objs, force_slk
