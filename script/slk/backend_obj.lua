@@ -151,6 +151,9 @@ return function (w2l, type, data)
     end
 
     local origin_id, user_id = sort_chunk(data)
+    if #origin_id == 0 and #user_id == 0 then
+        return
+    end
     tbl:add_head(data)
     tbl:add_chunk(origin_id, data)
     tbl:add_chunk(user_id, data)
