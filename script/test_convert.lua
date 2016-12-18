@@ -18,7 +18,7 @@ local function fixstring(str)
 			r[#r+1] = w
 		end
 	end)
-    return table.concat(r, ',')
+	return table.concat(r, ',')
 end
 
 local function sortpairs(t)
@@ -83,6 +83,19 @@ for type, filelist in pairs(w2l.info.template.txt) do
 	end
 end
 
+local function merge(o, name)
+	name = name:lower()
+	for i = 1, 4 do
+		if o[name..i] then
+			if not o[name] then
+				o[name] = {}
+			end
+			o[name][i] = o[name..i]
+			o[name..i] = nil
+		end
+	end
+end
+
 w2l.info.template.slk.doodad = nil
 for type, filelist in pairs(w2l.info.template.slk) do
 	for _, filename in ipairs(filelist) do
@@ -97,6 +110,28 @@ for type, filelist in pairs(w2l.info.template.slk) do
 			elseif not o._lower_code then
 				o._lower_code = id:lower()
 				o._code = o._id
+			end
+			if type == 'ability' then
+				merge(o, 'Area')
+				merge(o, 'BuffID')
+				merge(o, 'Cast')
+				merge(o, 'Cool')
+				merge(o, 'Cost')
+				merge(o, 'DataA')
+				merge(o, 'DataB')
+				merge(o, 'DataC')
+				merge(o, 'DataD')
+				merge(o, 'DataE')
+				merge(o, 'DataF')
+				merge(o, 'DataG')
+				merge(o, 'DataH')
+				merge(o, 'DataI')
+				merge(o, 'Dur')
+				merge(o, 'EfctID')
+				merge(o, 'HeroDur')
+				merge(o, 'Rng')
+				merge(o, 'UnitID')
+				merge(o, 'targs')
 			end
 		end
 		io.save(outf, w2l:backend_slk(type, filename, t))
