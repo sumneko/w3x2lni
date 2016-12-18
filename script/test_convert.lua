@@ -41,8 +41,7 @@ local function sortpairs(t)
 end
 
 local function convert_txt(inf, outf)
-    local buf = assert(io.load(inf))
-	local t = w2l:parse_ini(buf)
+	local t = w2l:parse_ini(assert(io.load(inf)))
 	local str = {}
 	for id, o in sortpairs(t) do
 		str[#str+1] = ('[%s]'):format(id)
@@ -81,5 +80,25 @@ for type, filelist in pairs(w2l.info.template.txt) do
 		else
 			io.save(input / 'units2' / fs.path(filename):filename(), '')
 		end
+	end
+end
+
+w2l.info.template.slk.doodad = nil
+for type, filelist in pairs(w2l.info.template.slk) do
+	for _, filename in ipairs(filelist) do
+		local inf = input / filename
+		local outf = input / 'units2' / fs.path(filename):filename()
+		local t = w2l:parse_slk(assert(io.load(inf)))
+		for id, o in pairs(t) do
+			o._id = id
+			if o.code then
+				o._lower_code = o.code:lower()
+				o._code = o.code
+			elseif not o._lower_code then
+				o._lower_code = id:lower()
+				o._code = o._id
+			end
+		end
+		io.save(outf, w2l:backend_slk(type, filename, t))
 	end
 end
