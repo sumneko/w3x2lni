@@ -27,9 +27,9 @@
             "cpath": "${workspaceRoot}/bin/?.dll;",
             "arg0": "${workspaceRoot}/w3x2lni.exe",
             "arg": [
-                "${workspaceRoot}/1_All_Star_Battle_3.1d_editor.w3x"
+                "${workspaceRoot}/All_Star_Battle_3.1d_editor2.w3x"
             ],
-            "console": "ansi"
+            "console": "utf8"
         },
         {
             "name": "预生成",
