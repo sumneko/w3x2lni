@@ -1,6 +1,6 @@
 local progress = require 'progress'
 
-local out_put = {
+local output = {
     unit    = 'units\\campaignunitstrings.txt',
     ability = 'units\\campaignabilitystrings.txt',
     buff    = 'units\\commonabilitystrings.txt',
@@ -70,9 +70,9 @@ local function to_slk(w2l, archive, slk, on_lni)
             local content = w2l:backend_slk(type, slk, data)
             archive:set(slk, content)
         end
-        if out_put[type] then
-            archive:set(out_put[type], w2l:backend_txt(type, data))
-            has_set[out_put[type]] = true
+        if output[type] then
+            archive:set(output[type], w2l:backend_txt(type, data))
+            has_set[output[type]] = true
         end
         if w2l.info['template']['txt'][type] then
             for i, txt in ipairs(w2l.info['template']['txt'][type]) do
