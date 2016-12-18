@@ -1,9 +1,14 @@
+local w3xparser = require 'w3xparser'
+
 local table_concat = table.concat
 local ipairs = ipairs
 local string_char = string.char
 local pairs = pairs
+local type = type
 local table_sort = table.sort
 local table_insert = table.insert
+local math_floor = math.floor
+local wtonumber = w3xparser.tonumber
 
 local slk
 local w2l
@@ -164,26 +169,45 @@ local function key2id(name, code, key)
     return nil
 end
 
-local function load_data(name, code, obj, key, slk_data)
+local function to_type(tp, value)
+    if tp == 0 then
+        if not value or value == 0 then
+            return nil
+        end
+        return math_floor(wtonumber(value))
+    elseif tp == 1 or tp == 2 then
+        if not value or value == 0 then
+            return nil
+        end
+        return wtonumber(value) + 0.0
+    elseif tp == 3 then
+        if not value then
+            return nil
+        end
+        if value == '' then
+            return nil
+        end
+        value = tostring(value)
+        if not value:match '[^ %-%_]' then
+            return nil
+        end
+        return value
+    end
+end
+
+local function load_data(name, code, obj, key, id, slk_data)
     if not obj[key] then
         return
     end
+    local tp = w2l:get_id_type(metadata[id].type)
     local skey = get_key(key2id(name, code, key))
     if type(obj[key]) == 'table' then
         for i = 1, 4 do
-            local value = obj[key][i]
-            if value == 0 then
-                value = nil
-            end
-            slk_data[skey..i] = value
+            slk_data[skey..i] = to_type(tp, obj[key][i])
             obj[key][i] = nil
         end
     else
-        local value = obj[key]
-        if value == 0 then
-            value = nil
-        end
-        slk_data[skey] = value
+        slk_data[skey] = to_type(tp, obj[key])
         obj[key] = nil
     end
 end
@@ -195,12 +219,12 @@ local function load_obj(name, obj, slk_name)
     slk_data['code'] = obj['_code']
     slk_data['name'] = obj._name
     slk_data['_id'] = obj._id
-    for key in pairs(keys) do
-        load_data(name, code, obj, key, slk_data)
+    for key, id in pairs(keys) do
+        load_data(name, code, obj, key, id, slk_data)
     end
     if keydata[code] then
-        for key in pairs(keydata[code]) do
-            load_data(name, code, obj, key, slk_data)
+        for key, id in pairs(keydata[code]) do
+            load_data(name, code, obj, key, id, slk_data)
         end
     end
     return slk_data
