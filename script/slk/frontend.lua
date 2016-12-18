@@ -67,11 +67,23 @@ local function table_copy(a, b)
     return c
 end
 
+local function copy_obj(b)
+    local a = {}
+    for k, v in pairs(b) do
+        if type(v) == 'table' then
+            a[k] = copy_obj(v)
+        else
+            a[k] = v
+        end
+    end
+    return a
+end
+
 local function merge_obj(data, objs, all)
     local template = {}
     for name, obj in pairs(objs) do
         if data[name] then
-            template[name] = copy(data[name])
+            template[name] = copy_obj(data[name])
             table_merge(data[name], obj)
         else
             data[name] = table_copy(template[obj._lower_code] or data[obj._lower_code], obj)
