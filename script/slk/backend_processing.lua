@@ -4,6 +4,8 @@ local table_sort   = table.sort
 local string_char  = string.char
 local revert_list
 local unit_list
+local metadata
+local keydata
 
 local mt = {}
 mt.__index = mt
@@ -88,11 +90,24 @@ local function remove_over_level(data, max_level)
     end
 end
 
-local function remove_same(key, data, default, obj)
+local function can_remove(is_slk, level, key)
+    if not is_slk then
+        return true
+    end
+    if level <= 4 then
+        return false
+    end
+    if keydata.profile and keydata.profile[key] then
+        return false
+    end
+    return true
+end
+
+local function remove_same(key, data, default, obj, is_slk)
     local dest = default[key]
     if type(dest) == 'table' then
         for i = 1, #data do
-            if data[i] == dest[i] then
+            if data[i] == dest[i] and can_remove(is_slk, i, key) then
                 data[i] = nil
             end
         end
@@ -100,7 +115,7 @@ local function remove_same(key, data, default, obj)
             obj[key] = nil
         end
     else
-        if data == dest then
+        if not is_slk and data == dest then
             obj[key] = nil
         end
     end
@@ -134,13 +149,14 @@ local function clean_obj(name, obj, default, config)
     local is_remove_over_level = config.remove_over_level
     local is_remove_same = config.remove_same
     local is_add_void  = config.add_void
+    local is_slk = config.target_format == 'slk'
     for key, data in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
             if is_remove_over_level and max_level then
                 remove_over_level(data, max_level)
             end
             if is_remove_same then
-                remove_same(key, data, default, obj)
+                remove_same(key, data, default, obj, is_slk)
             end
             if is_add_void then
                 add_void(key, data, default)
@@ -226,6 +242,8 @@ end
 
 local function processing(w2l, type, chunk, target_progress)
     local default = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')))
+    metadata = w2l:read_metadata(type)
+    keydata = w2l:keyconvert(type)
     local config = w2l.config
     local names = {}
     for name in pairs(chunk) do
