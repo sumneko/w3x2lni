@@ -164,7 +164,7 @@ local function key2id(name, code, key)
     return nil
 end
 
-local function load_data(name, code, obj, key, slk_data, slk_name)
+local function load_data(name, code, obj, key, slk_data)
     if not obj[key] then
         return
     end
@@ -186,26 +186,24 @@ local function load_data(name, code, obj, key, slk_data, slk_name)
         slk_data[skey] = value
         obj[key] = nil
     end
-    slk_data[extra_key[slk_name]] = obj['_id']
-    slk_data['code'] = obj['_code']
-    slk_data['name'] = obj._name
-    slk_data['_id'] = obj._id
 end
 
 local function load_obj(name, obj, slk_name)
     local code = obj._lower_code
     local slk_data = {}
+    slk_data[extra_key[slk_name]] = obj['_id']
+    slk_data['code'] = obj['_code']
+    slk_data['name'] = obj._name
+    slk_data['_id'] = obj._id
     for key in pairs(keys) do
-        load_data(name, code, obj, key, slk_data, slk_name)
+        load_data(name, code, obj, key, slk_data)
     end
     if keydata[code] then
         for key in pairs(keydata[code]) do
-            load_data(name, code, obj, key, slk_data, slk_name)
+            load_data(name, code, obj, key, slk_data)
         end
     end
-    if next(slk_data) then
-        return slk_data
-    end
+    return slk_data
 end
 
 local function load_chunk(chunk, slk_name)
