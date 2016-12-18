@@ -135,7 +135,8 @@ local function txt_read_data(name, obj, key, meta, txt)
 
     if meta['appendindex'] == 1 then
         local max_level = txt and txt[key..'count'] and txt[key..'count'][1] or 1
-        obj[key] = {}
+        local tbl = {}
+        local flag
         for i = 1, max_level do
             local new_key
             if i == 1 then
@@ -145,8 +146,12 @@ local function txt_read_data(name, obj, key, meta, txt)
             end
             local value = txt and txt[new_key]
             if value and #value > 0 then
-                obj[key][i] = table_concat(value, ',')
+                tbl[i] = table_concat(value, ',')
+                flag = true
             end
+        end
+        if flag then
+            obj[key] = tbl
         end
         return
     end
@@ -230,7 +235,7 @@ return function(w2l_, all, loader)
                         ['type'] = w2l:get_id_type(meta.type),
                         ['repeat'] = has_level and meta['repeat'] and meta['repeat'] > 0,
                         ['index'] = meta._has_index and (meta.index+1) or meta.index,
-                        ['appendIndex'] = meta.appendIndex,
+                        ['appendindex'] = meta.appendindex,
                     }
                 end
                 txt_read(datas[type], txt, txt_keys, txt_meta, type)
