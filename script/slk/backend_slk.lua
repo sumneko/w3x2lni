@@ -9,6 +9,7 @@ local table_sort = table.sort
 local table_insert = table.insert
 local math_floor = math.floor
 local wtonumber = w3xparser.tonumber
+local math_type = math.type
 
 local slk
 local w2l
@@ -49,10 +50,11 @@ local function add(x, y, k)
         strs[#strs+1] = 'Y' .. y
     end
     if type(k) == 'string' then
-        strs[#strs+1] = 'K"' .. k .. '"'
-    else
-        strs[#strs+1] = 'K' .. k
+        k = '"' .. k .. '"'
+    elseif math_type(k) == 'float' then
+        k = ('%.4f'):format(k):gsub('[0]+$', ''):gsub('%.$', '.0')
     end
+    strs[#strs+1] = 'K' .. k
     lines[#lines+1] = table_concat(strs, ';')
 end
 
