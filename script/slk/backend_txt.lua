@@ -116,7 +116,7 @@ local function add_data(name, obj, key, id, value, values)
         return
     end
     if meta['index'] == -1 then
-        if value then
+        if value and value ~= 0 then
             values[#values+1] = {key, value}
         end
         return
