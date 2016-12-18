@@ -157,6 +157,9 @@ local function format_value(key, val)
     if key == 'EditorSuffix' then
         return nil
     end
+    if key == 'EditorName' then
+        return nil
+    end
     if type(val) == 'string' then
         val = val:gsub('\r\n', '|n'):gsub('[\r\n]', '|n')
     end
