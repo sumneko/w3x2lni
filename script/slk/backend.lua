@@ -66,22 +66,25 @@ local function to_slk(w2l, archive, slk, on_lni)
             data = on_lni(w2l, type, data)
         end
         
-        for _, slk in ipairs(w2l.info['template']['slk'][type]) do
-            local content = w2l:backend_slk(type, slk, data)
-            archive:set(slk, content)
-        end
-        if output[type] then
-            archive:set(output[type], w2l:backend_txt(type, data))
-            has_set[output[type]] = true
-        end
-        if w2l.info['template']['txt'][type] then
-            for i, txt in ipairs(w2l.info['template']['txt'][type]) do
-                if not has_set[txt] then
-                    archive:set(txt, '')
-                    has_set[txt] = true
+        if type ~= 'doodad' then
+            for _, slk in ipairs(w2l.info['template']['slk'][type]) do
+                local content = w2l:backend_slk(type, slk, data)
+                archive:set(slk, content)
+            end
+            if output[type] then
+                archive:set(output[type], w2l:backend_txt(type, data))
+                has_set[output[type]] = true
+            end
+            if w2l.info['template']['txt'][type] then
+                for i, txt in ipairs(w2l.info['template']['txt'][type]) do
+                    if not has_set[txt] then
+                        archive:set(txt, '')
+                        has_set[txt] = true
+                    end
                 end
             end
         end
+        
         local content = w2l:backend_obj(type, data)
         if content then
             archive:set(w2l.info['template']['obj'][type], content)

@@ -142,14 +142,14 @@ local function add_void(key, data, default)
     end
 end
 
-local function clean_obj(name, obj, default, config)
+local function clean_obj(name, obj, type, default, config)
     local code = obj._lower_code
     local max_level = obj._max_level
     local default = default[code]
     local is_remove_over_level = config.remove_over_level
     local is_remove_same = config.remove_same
     local is_add_void  = config.add_void
-    local is_slk = config.target_format == 'slk'
+    local is_slk = config.target_format == 'slk' and type ~= 'doodad'
     for key, data in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
             if is_remove_over_level and max_level then
@@ -268,7 +268,7 @@ local function processing(w2l, type, chunk, target_progress)
     end
     progress:target(target_progress)
     for i, name in ipairs(names) do
-        clean_obj(name, chunk[name], default, config)
+        clean_obj(name, chunk[name], type, default, config)
         if os.clock() - clock >= 0.1 then
             clock = os.clock()
             message(('清理数据[%s] (%d/%d)'):format(name, i, #names))
