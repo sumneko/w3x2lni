@@ -93,6 +93,7 @@ end
 
 return function (w2l, archive, slk, on_lni)
     slk.w3i = w2l:read_w3i(archive:get 'war3map.w3i')
+    archive:set('war3map.w3i', false)
     if w2l.config.target_format == 'lni' then
         to_lni(w2l, archive, slk, on_lni)
     elseif w2l.config.target_format == 'obj' then
