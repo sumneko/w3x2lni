@@ -82,7 +82,9 @@ local function add_data(name, obj, key, id, value, values)
             if len == 0 then
                 return
             end
-            values[#values+1] = {key..'count', len}
+            if len > 1 then
+                values[#values+1] = {key..'count', len}
+            end
             local flag
             for i = 1, len do
                 local key = key
@@ -105,7 +107,6 @@ local function add_data(name, obj, key, id, value, values)
             if not value then
                 return
             end
-            values[#values+1] = {key..'count', 1}
             if meta['index'] == -1 then
                 values[#values+1] = {key, value}
             else
