@@ -50,7 +50,7 @@
             "name": "测试",
             "type": "lua",
             "request": "launch",
-            "program": "${workspaceRoot}/script/slk.lua",
+            "program": "${workspaceRoot}/script/test_convert.lua",
             "stopOnEntry": true,
             "cwd": "${workspaceRoot}/bin",
             "path": "",
@@ -58,7 +58,7 @@
             "luadll": "${workspaceRoot}/bin/luacore.dll",
             "arg0": "${workspaceRoot}/w3x2lni.exe",
             "arg": [
-                "${workspaceRoot}/DotA_v6.83dv_MU13.7.w3x"
+                "${workspaceRoot}/new_All_Star_Battle_3.1d_editor2/"
             ],
             "console": "utf8"
         }
