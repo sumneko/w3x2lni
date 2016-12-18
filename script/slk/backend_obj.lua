@@ -74,9 +74,7 @@ function mt:add_obj(name, obj)
             keys[#keys+1] = key
         end
     end
-    if #keys == 0 then
-        return
-    end
+    
     table_sort(keys)
 
     local count = 0
