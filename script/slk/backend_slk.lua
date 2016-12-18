@@ -171,11 +171,19 @@ local function load_data(name, code, obj, key, slk_data, slk_name)
     local skey = get_key(key2id(name, code, key))
     if type(obj[key]) == 'table' then
         for i = 1, 4 do
-            slk_data[skey..i] = obj[key][i]
+            local value = obj[key][i]
+            if value == 0 then
+                value = nil
+            end
+            slk_data[skey..i] = value
             obj[key][i] = nil
         end
     else
-        slk_data[skey] = obj[key]
+        local value = obj[key]
+        if value == 0 then
+            value = nil
+        end
+        slk_data[skey] = value
         obj[key] = nil
     end
     slk_data[extra_key[slk_name]] = obj['_id']
