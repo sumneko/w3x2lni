@@ -69,14 +69,25 @@ local function computed_value(slk, str)
     return res
 end
 
+local function computed(slk, input)
+    return input:gsub('<([^>]*)>', function(str) return computed_value(slk, str) end)
+end
+
 return function(w2l, slk)
     for _, o in pairs(slk.ability) do
         if o.researchubertip then
-            o.researchubertip = o.researchubertip:gsub('<([^>]*)>', function(str) return computed_value(slk, str) end)
+            o.researchubertip = computed(slk, o.researchubertip)
         end
         if o.ubertip then
             for k, v in pairs(o.ubertip) do
-                o.ubertip[k] = v:gsub('<([^>]*)>', function(str) return computed_value(slk, str) end)
+                o.ubertip[k] = computed(slk, v)
+            end
+        end
+    end
+    for _, o in pairs(slk.upgrade) do
+        if o.ubertip then
+            for k, v in pairs(o.ubertip) do
+                o.ubertip[k] = computed(slk, v)
             end
         end
     end
