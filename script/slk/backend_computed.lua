@@ -84,6 +84,11 @@ return function(w2l, slk)
             end
         end
     end
+    for _, o in pairs(slk.item) do
+        if o.ubertip then
+            o.ubertip = computed(slk, o.ubertip)
+        end
+    end
     for _, o in pairs(slk.upgrade) do
         if o.ubertip then
             for k, v in pairs(o.ubertip) do
