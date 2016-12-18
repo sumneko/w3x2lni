@@ -102,9 +102,26 @@ local function get_keys(slk_name)
             skeys[#skeys+1] = get_key(id)
         end
     end
+    if slk_name == 'units\\abilitydata.slk' then
+        for i = 1, 4 do
+            skeys[#skeys+1] = 'DataA' .. i
+            skeys[#skeys+1] = 'DataB' .. i
+            skeys[#skeys+1] = 'DataC' .. i
+            skeys[#skeys+1] = 'DataD' .. i
+            skeys[#skeys+1] = 'DataE' .. i
+            skeys[#skeys+1] = 'DataF' .. i
+            skeys[#skeys+1] = 'DataG' .. i
+            skeys[#skeys+1] = 'DataH' .. i
+            skeys[#skeys+1] = 'DataI' .. i
+            skeys[#skeys+1] = 'UnitID' .. i
+        end
+    end
     table_sort(skeys)
     table_insert(skeys, 1, extra_key[slk_name])
-    if slk_name == 'units\\abilitydata.slk' or type == 'units\\abilitybuffdata.slk' then
+    if slk_name == 'units\\abilitydata.slk' then
+        table_insert(skeys, 2, 'code')
+    end
+    if type == 'units\\abilitybuffdata.slk' then
         table_insert(skeys, 2, 'code')
     end
     if slk_name == 'units\\unitui.slk' then
@@ -172,6 +189,11 @@ local function load_obj(name, obj, slk_name)
     local slk_data = {}
     for key in pairs(keys) do
         load_data(name, code, obj, key, slk_data, slk_name)
+    end
+    if keydata[code] then
+        for key in pairs(keydata[code]) do
+            load_data(name, code, obj, key, slk_data, slk_name)
+        end
     end
     if next(slk_data) then
         return slk_data
