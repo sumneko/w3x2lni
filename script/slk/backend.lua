@@ -84,7 +84,20 @@ local function to_slk(w2l, archive, slk, on_lni)
                 end
             end
         end
-        
+
+        for name, obj in pairs(data) do
+            local empty = true
+            for k in pairs(obj) do
+                if k:sub(1, 1) ~= '_' then
+                    empty = false
+                    break
+                end
+            end
+            if empty then
+                data[name] = nil
+            end
+        end
+
         local content = w2l:backend_obj(type, data)
         if content then
             archive:set(w2l.info['template']['obj'][type], content)
