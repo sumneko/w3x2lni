@@ -219,22 +219,16 @@ local function convert_txt()
     add_chunk(names)
 end
 
-local function key2id(name, para, key)
-    name = name:lower()
-    para = para:lower()
-    key = key:lower()
-    local id = para and keydata[para] and keydata[para][key] or keydata[name] and keydata[name][key] or keydata['common'][key]
-    if id then
-        return id
-    end
-    return nil
+local function key2id(para, key)
+    local id = para and keydata[para] and keydata[para][key] or keydata['common'][key]
+    return id
 end
 
 local function load_data(name, obj, key, txt_data)
     if not obj[key] then
         return
     end
-    local skey = get_key(key2id(name, obj['_lower_para'], key))
+    local skey = get_key(key2id(obj._lower_para, key))
     txt_data[skey] = obj[key]
     txt_data['_id'] = obj['_id']
     obj[key] = nil
