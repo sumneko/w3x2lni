@@ -130,6 +130,8 @@ local convertors = {
 	'backend_searchdoo',
 	'backend_computed',
 	'backend_extra_txt',
+	'backend_misc',
+	'backend_skin',
 }
 
 for _, name in ipairs(convertors) do

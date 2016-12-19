@@ -115,16 +115,8 @@ return function (w2l, archive, slk)
             archive:set(filename, false)
         end
     end
-    slk.w3i = w2l:read_w3i(archive:get 'war3map.w3i')
-    if w2l.config.target_format == 'lni' then
-        to_lni(w2l, archive, slk)
-    elseif w2l.config.target_format == 'obj' then
-        to_obj(w2l, archive, slk)
-    elseif w2l.config.target_format == 'slk' then
-        to_slk(w2l, archive, slk)
-    end
 
-    --转换其他文件
+    slk.w3i = w2l:read_w3i(archive:get 'war3map.w3i')
     if slk.w3i then
         local lni = w2l:w3i2lni(slk.w3i, slk.wts)
         if w2l.config.target_format == 'lni' then
@@ -132,6 +124,20 @@ return function (w2l, archive, slk)
         end
         archive:set('war3map.w3i', w2l:lni2w3i(w2l:parse_lni(lni)))
     end
+
+    if w2l.config.target_format == 'lni' then
+        to_lni(w2l, archive, slk, on_lni)
+    elseif w2l.config.target_format == 'obj' then
+        to_obj(w2l, archive, slk, on_lni)
+    elseif w2l.config.target_format == 'slk' then
+        to_slk(w2l, archive, slk, on_lni)
+    end
+
+    local misc = w2l:parse_ini(archive:get 'war3mapmisc.txt')
+    archive:set('war3mapmisc.txt', w2l:backend_misc(misc, slk.txt, slk.wts))
+
+    local skin = w2l:parse_ini(archive:get 'war3mapskin.txt')
+    archive:set('war3mapskin.txt', w2l:backend_skin(skin, slk.wts))
 
 	--刷新字符串
 	if slk.wts then
