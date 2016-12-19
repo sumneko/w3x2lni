@@ -101,9 +101,15 @@ local function get_keys(slk_name)
     local skeys = {}
     for _, id in pairs(keys) do
         local key = get_key(id)
+        if not (slk_name == 'units\\unitui.slk' and (key == 'campaign' or key == 'dropItems'  or key == 'inEditor' or key == 'special' or key == 'hostilePal' or key == 'useClickHelper')) then
+            local meta = metadata[id]
+            if meta['repeat'] and meta['repeat'] > 0 then
+                for i = 1, 4 do
+                    skeys[#skeys+1] = key .. i
+                end
+            else
+                skeys[#skeys+1] = key
             end
-        else
-            skeys[#skeys+1] = get_key(id)
         end
     end
     if slk_name == 'units\\abilitydata.slk' then
