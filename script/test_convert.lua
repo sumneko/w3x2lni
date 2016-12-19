@@ -100,6 +100,8 @@ local function merge(o, name)
 	end
 end
 
+local cache = {}
+
 w2l.info.template.slk.doodad = nil
 for type, filelist in pairs(w2l.info.template.slk) do
 	for _, filename in ipairs(filelist) do
@@ -116,9 +118,10 @@ for type, filelist in pairs(w2l.info.template.slk) do
 		for id, o in pairs(t) do
 			o._id = id
 			o._lower_para = id:lower()
+			cache[id] = o
 			if type == 'ability' then
 				if not keydata[o._lower_para] then
-					o._lower_para = o._code:lower()
+					o._lower_para = o.code:lower()
 				end
 				merge(o, 'Area')
 				merge(o, 'BuffID')
@@ -145,5 +148,22 @@ for type, filelist in pairs(w2l.info.template.slk) do
 			end
 		end
 		io.save(outf, w2l:backend_slk(type, filename, t))
+	end
+end
+
+for type, filename in pairs(w2l.info.template.obj) do
+	local inf = input / filename
+	local outf = input / 'units2' / (fs.path(filename):filename():string() .. '.ini')
+	local buf = io.load(inf)
+	if buf then
+		local data = w2l:frontend_obj(type, nil, buf)
+		for id, o in pairs(data) do
+			if cache[id] then
+				o._lower_para = cache[id]._lower_para
+			else
+				o._lower_para = id
+			end
+		end
+		io.save(outf, w2l:backend_lni(type, data))
 	end
 end
