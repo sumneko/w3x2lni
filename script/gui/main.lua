@@ -30,7 +30,6 @@ local root = fs.get(fs.DIR_EXE):remove_filename()
 local config = lni(io.load(root / 'config.ini'))
 
 local config_content = [[
-[root]
 -- 是否分析slk文件
 read_slk = $read_slk$
 -- 分析slk时寻找id最优解的次数,0表示无限,寻找次数越多速度越慢
@@ -41,15 +40,13 @@ remove_same = $remove_same$
 add_void = $add_void$
 -- 移除超出等级的数据
 remove_over_level = $remove_over_level$
--- 转换后的目标格式('lni', 'obj', 'slk')
-target_format = $target_format$
 -- 转换为地图还是目录('map', 'dir')
 target_storage = $target_storage$
 ]]
 
-local function save_config()
-	local content = config_content:gsub('%$(.-)%$', function(str)
-		local value = config
+local function build_config(cfg)
+	return config_content:gsub('%$(.-)%$', function(str)
+		local value = cfg
 		for key in str:gmatch '[^%.]*' do
 			value = value[key]
 		end
@@ -59,7 +56,24 @@ local function save_config()
 			return tostring(value)
 		end
 	end)
-	io.save(root / 'config.ini', content)
+end
+
+local function save_config()
+	local newline = [[
+
+]]
+	local str = {}
+	str[#str+1] = ([[
+[root]
+-- 转换后的目标格式('lni', 'obj', 'slk')
+target_format = %s
+]]):format(config.target_format)
+
+	for _, type in ipairs {'slk', 'lni', 'obj'} do
+		str[#str+1] = ('[%s]'):format(type)
+		str[#str+1] = build_config(config[type])
+	end
+	io.save(root / 'config.ini', table.concat(str, newline))
 end
 
 local window = nk.window('W3x2Lni', 400, 600)
@@ -117,11 +131,11 @@ local function window_select(canvas)
 		uitype = 'convert'
 		window:set_title('W3x2Lni')
 		config.target_format = 'lni'
-		config.target_storage = 'dir'
-		config.read_slk = false
-		config.remove_same = false
-		config.remove_over_level = false
-		config.add_void = true
+		config.lni.target_storage = 'dir'
+		config.lni.read_slk = false
+		config.lni.remove_same = false
+		config.lni.remove_over_level = false
+		config.lni.add_void = true
 		save_config()
 		return
 	end
@@ -130,11 +144,11 @@ local function window_select(canvas)
 		uitype = 'convert'
 		window:set_title('W3x2Slk')
 		config.target_format = 'slk'
-		config.target_storage = 'map'
-		config.read_slk = true
-		config.remove_same = true
-		config.remove_over_level = true
-		config.add_void = false
+		config.slk.target_storage = 'map'
+		config.slk.read_slk = true
+		config.slk.remove_same = true
+		config.slk.remove_over_level = true
+		config.slk.add_void = false
 		save_config()
 		return
 	end
@@ -143,11 +157,11 @@ local function window_select(canvas)
 		uitype = 'convert'
 		window:set_title('W3x2Obj')
 		config.target_format = 'obj'
-		config.target_storage = 'map'
-		config.read_slk = false
-		config.remove_same = true
-		config.remove_over_level = false
-		config.add_void = false
+		config.obj.target_storage = 'map'
+		config.obj.read_slk = false
+		config.obj.remove_same = true
+		config.obj.remove_over_level = false
+		config.obj.add_void = false
 		save_config()
 		return
 	end
