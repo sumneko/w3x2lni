@@ -100,10 +100,7 @@ end
 local function get_keys(slk_name)
     local skeys = {}
     for _, id in pairs(keys) do
-        local meta = metadata[id]
-        if meta['repeat'] and meta['repeat'] > 0 then
-            for i = 1, 4 do
-                skeys[#skeys+1] = get_key(id) .. i
+        local key = get_key(id)
             end
         else
             skeys[#skeys+1] = get_key(id)
@@ -128,7 +125,7 @@ local function get_keys(slk_name)
     if slk_name == 'units\\abilitydata.slk' then
         table_insert(skeys, 2, 'code')
     end
-    if type == 'units\\abilitybuffdata.slk' then
+    if slk_name == 'units\\abilitybuffdata.slk' then
         table_insert(skeys, 2, 'code')
     end
     if slk_name == 'units\\unitui.slk' then
