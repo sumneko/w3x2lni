@@ -92,7 +92,7 @@ local function slk_read_obj(obj, lname, data, keys, metas)
         slk_read_data(obj, keys[i], metas[i], data)
     end
 
-    local private = keyconvert[lname] or keyconvert[obj._lower_para]
+    local private = keyconvert[obj._lower_para]
     if private then
         for key, id in pairs(private) do
             slk_read_private_data(obj, key, metadata[id], data)
