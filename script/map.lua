@@ -68,11 +68,8 @@ function mt:save_dir(output_dir)
             name, path = self:on_save(name)
         end
         if name and path then
-            local ex = name:sub(-4)
-            if ex == '.slk' or ex == '.txt' then
-                paths[name] = path
-                max_count = max_count + 1
-            end
+            paths[name] = path
+            max_count = max_count + 1
         end
 	end
 
