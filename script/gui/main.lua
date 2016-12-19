@@ -40,7 +40,7 @@ remove_same = $remove_same$
 -- 移除超出等级的数据
 remove_exceeds_level = $remove_exceeds_level$
 -- 补全空缺的数据
-add_void = $add_void$
+remove_nil_value = $remove_nil_value$
 -- 转换为地图还是目录('map', 'dir')
 target_storage = $target_storage$
 ]]
@@ -137,7 +137,7 @@ local function window_select(canvas)
 		config.lni.read_slk = false
 		config.lni.remove_same = false
 		config.lni.remove_exceeds_level = false
-		config.lni.add_void = true
+		config.lni.remove_nil_value = true
 		save_config()
 		return
 	end
@@ -151,7 +151,7 @@ local function window_select(canvas)
 		config.slk.read_slk = true
 		config.slk.remove_same = true
 		config.slk.remove_exceeds_level = true
-		config.slk.add_void = false
+		config.slk.remove_nil_value = false
 		save_config()
 		return
 	end
@@ -165,7 +165,7 @@ local function window_select(canvas)
 		config.obj.read_slk = false
 		config.obj.remove_same = true
 		config.obj.remove_exceeds_level = false
-		config.obj.add_void = false
+		config.obj.remove_nil_value = false
 		save_config()
 		return
 	end
