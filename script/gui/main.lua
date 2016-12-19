@@ -28,6 +28,7 @@ NK_TEXT_RIGHT          = NK_TEXT_ALIGN_MIDDLE | NK_TEXT_ALIGN_RIGHT
 
 local root = fs.get(fs.DIR_EXE):remove_filename()
 local config = lni(io.load(root / 'config.ini'))
+local fmt = nil
 
 local config_content = [[
 -- 是否分析slk文件
@@ -129,6 +130,7 @@ local function window_select(canvas)
 	canvas:layout_row_dynamic(100, 1)
 	if canvas:button('转为Lni') then
 		uitype = 'convert'
+		fmt = 'lni'
 		window:set_title('W3x2Lni')
 		config.target_format = 'lni'
 		config.lni.target_storage = 'dir'
@@ -142,6 +144,7 @@ local function window_select(canvas)
 	window:set_style(0, 173, 60)
 	if canvas:button('转为Slk') then
 		uitype = 'convert'
+		fmt = 'slk'
 		window:set_title('W3x2Slk')
 		config.target_format = 'slk'
 		config.slk.target_storage = 'map'
@@ -155,6 +158,7 @@ local function window_select(canvas)
 	window:set_style(217, 163, 60)
 	if canvas:button('转为Obj') then
 		uitype = 'convert'
+		fmt = 'obj'
 		window:set_title('W3x2Obj')
 		config.target_format = 'obj'
 		config.obj.target_storage = 'map'
@@ -182,60 +186,38 @@ end
 local function window_mpq(canvas, height)
 	height = height - 90
 	canvas:layout_row_dynamic(10, 1)
-	canvas:layout_row_dynamic(30, 1)
-	if canvas:checkbox('分析slk文件', config.read_slk) then
-		config.read_slk = not config.read_slk
-		save_config()
-	end
-	if config.target_format == 'lni' then
+	if fmt == 'lni' or fmt == 'obj' then
 		height = height - 34
-		if canvas:checkbox('删除和模板一致的数据', config.remove_same) then
-			config.remove_same = not config.remove_same
-			save_config()
-		end
-	end
-	if config.target_format == 'lni' or config.target_format == 'obj' then
-		height = height - 34
-		if canvas:checkbox('删除超过最大等级的数据', config.remove_over_level) then
-			config.remove_over_level = not config.remove_over_level
-			save_config()
-		end
-	end
-	if config.target_format == 'lni' then
-		height = height - 34
-		if canvas:checkbox('补全多等级数据中的空位', config.add_void) then
-			config.add_void = not config.add_void
+		canvas:layout_row_dynamic(30, 1)
+		if canvas:checkbox('分析slk文件', config[fmt].read_slk) then
+			config[fmt].read_slk = not config[fmt].read_slk
 			save_config()
 		end
 	end
 	canvas:layout_row_dynamic(10, 1)
 	canvas:tree('高级', 1, function()
 		canvas:layout_row_dynamic(30, 1)
-		if canvas:checkbox('限制搜索最优模板的次数', config.find_id_times ~= 0) then
-			if config.find_id_times == 0 then
-				config.find_id_times = 10
+		if canvas:checkbox('限制搜索最优模板的次数', config[fmt].find_id_times ~= 0) then
+			if config[fmt].find_id_times == 0 then
+				config[fmt].find_id_times = 10
 			else
-				config.find_id_times = 0
+				config[fmt].find_id_times = 0
 			end
 			save_config()
 		end
-		if config.find_id_times == 0 then
+		if config[fmt].find_id_times == 0 then
 			canvas:edit('', 0, function ()
 				return false
 			end)
 		else
-			local r = canvas:edit(tostring(config.find_id_times), 10, function (c)
+			local r = canvas:edit(tostring(config[fmt].find_id_times), 10, function (c)
 				return 48 <= c and c <= 57
 			end)
-			config.find_id_times = tonumber(r) or 1
+			config[fmt].find_id_times = tonumber(r) or 1
 			save_config()
 		end
 		height = height - 68
 	end)
-	return height
-end
-
-local function window_dir(canvas, height)
 	return height
 end
 
@@ -252,7 +234,6 @@ function window:draw(canvas)
 	end
 	local height = button_mapname(canvas, 358)
 	height = window_mpq(canvas, height)
-	--height = window_dir(canvas, height)
 	canvas:layout_row_dynamic(height, 1)
 	canvas:layout_row_dynamic(30, 1)
 	canvas:label(backend and backend.message or '', NK_TEXT_LEFT)
