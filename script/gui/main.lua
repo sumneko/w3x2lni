@@ -3,8 +3,12 @@ require 'sys'
 require 'utility'
 require 'gui.backend'
 local lni = require 'lni-c'
+local uni = require 'ffi.unicode'
 local nk = require 'nuklear'
-nk:console()
+local debug = true
+if debug then
+	nk:console()
+end
 
 NK_WIDGET_STATE_MODIFIED = 1 << 1
 NK_WIDGET_STATE_INACTIVE = 1 << 2
@@ -157,6 +161,10 @@ local function update_backendmsg(pos)
 	end)
 	if #msg > 0 then
 		backend_lastmsg = msg
+		if debug then
+			io.stdout:write(uni.u2a(msg) .. '\n')
+			io.stdout:flush()
+		end
 	end
 	backend.output = backend.output:sub(pos+1)
 	return true

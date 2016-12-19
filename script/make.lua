@@ -9,17 +9,12 @@ local uni = require 'ffi.unicode'
 local w2l = require 'w3x2lni'
 local map = require 'map'
 
-io.stderr:setvbuf('no')
 function message(...)
-	local tbl = {...}
-	local err = {}
-	local count = select('#', ...)
-	for i = 1, count do
-		tbl[i] = tostring(tbl[i])
-		err[i] = uni.u2a(tbl[i])
+	local t = {...}
+	for i = 1, select('#', ...) do
+		t[i] = tostring(t[i])
 	end
-	io.stderr:write(table.concat(err, ' ')..'\r\n')
-	print(table.concat(tbl, ' '))
+	print(table.concat(t, ' '))
 end
 
 local function main()
