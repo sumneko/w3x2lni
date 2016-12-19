@@ -1,10 +1,3 @@
-local function merge_constant(misc, txt)
-    for _, name in ipairs {'TWN2', 'TWN3', 'HERO', 'TALT', 'TWN1'} do
-        local lname = name:lower()
-        misc[name].Name = txt[lname].name[1]
-    end
-end
-
 local function add_obj(name, obj, lines, wts)
     local keys = {}
     for key in pairs(obj) do
@@ -22,23 +15,22 @@ local function add_obj(name, obj, lines, wts)
     end
 end
 
-local function convert(misc, wts)
+local function convert(skin, wts)
     local lines = {}
     local names = {}
-    for name in pairs(misc) do
+    for name in pairs(skin) do
         names[#names+1] = name
     end
     table.sort(names)
 
     for _, name in ipairs(names) do
-        add_obj(name, misc[name], lines, wts)
+        add_obj(name, skin[name], lines, wts)
     end
 
     return table.concat(lines, '\r\n')
 end
 
-return function(w2l, misc, txt, wts)
-    merge_constant(misc, txt)
-    local buf = convert(misc, wts)
+return function(w2l, skin, wts)
+    local buf = convert(skin, wts)
     return buf
 end
