@@ -58,13 +58,18 @@ local function add(x, y, k)
     lines[#lines+1] = table_concat(strs, ';')
 end
 
-local function add_values(names, skeys)
+local function add_values(names, skeys, slk_name)
     for y, name in ipairs(names) do
         local obj = slk[name]
         for x, key in ipairs(skeys) do
             local value = obj[key]
             if value then
                 add(x, y+1, value)
+            elseif slk_name == 'units\\unitabilities.slk' and key == 'auto'
+                or slk_name == 'units\\unitbalance.slk' and (key == 'Primary' or key == 'preventPlace' or key == 'requirePlace')
+                or slk_name == 'units\\destructabledata.slk' and key == 'texFile'
+            then
+                add(x, y+1, '_')
             end
         end
     end
@@ -162,7 +167,7 @@ local function convert_slk(slk_name)
     local skeys = get_keys(slk_name)
     add_head(names, skeys)
     add_title(skeys)
-    add_values(names, skeys)
+    add_values(names, skeys, slk_name)
     add_end()
 end
 
