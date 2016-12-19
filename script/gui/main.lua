@@ -4,7 +4,10 @@ require 'utility'
 require 'gui.backend'
 local lni = require 'lni-c'
 local nk = require 'nuklear'
-nk:console()
+local debug = true
+if debug then
+	nk:console()
+end
 
 NK_WIDGET_STATE_MODIFIED = 1 << 1
 NK_WIDGET_STATE_INACTIVE = 1 << 2
@@ -27,7 +30,6 @@ local root = fs.get(fs.DIR_EXE):remove_filename()
 local config = lni(io.load(root / 'config.ini'))
 
 local config_content = [[
-[root]
 -- 是否分析slk文件
 read_slk = $read_slk$
 -- 分析slk时寻找id最优解的次数,0表示无限,寻找次数越多速度越慢
@@ -38,15 +40,13 @@ remove_same = $remove_same$
 add_void = $add_void$
 -- 移除超出等级的数据
 remove_over_level = $remove_over_level$
--- 转换后的目标格式('lni', 'obj', 'slk')
-target_format = $target_format$
 -- 转换为地图还是目录('map', 'dir')
 target_storage = $target_storage$
 ]]
 
-local function save_config()
-	local content = config_content:gsub('%$(.-)%$', function(str)
-		local value = config
+local function build_config(cfg)
+	return config_content:gsub('%$(.-)%$', function(str)
+		local value = cfg
 		for key in str:gmatch '[^%.]*' do
 			value = value[key]
 		end
@@ -56,7 +56,24 @@ local function save_config()
 			return tostring(value)
 		end
 	end)
-	io.save(root / 'config.ini', content)
+end
+
+local function save_config()
+	local newline = [[
+
+]]
+	local str = {}
+	str[#str+1] = ([[
+[root]
+-- 转换后的目标格式('lni', 'obj', 'slk')
+target_format = %s
+]]):format(config.target_format)
+
+	for _, type in ipairs {'slk', 'lni', 'obj'} do
+		str[#str+1] = ('[%s]'):format(type)
+		str[#str+1] = build_config(config[type])
+	end
+	io.save(root / 'config.ini', table.concat(str, newline))
 end
 
 local window = nk.window('W3x2Lni', 400, 600)
@@ -114,6 +131,11 @@ local function window_select(canvas)
 		uitype = 'convert'
 		window:set_title('W3x2Lni')
 		config.target_format = 'lni'
+		config.lni.target_storage = 'dir'
+		config.lni.read_slk = false
+		config.lni.remove_same = false
+		config.lni.remove_over_level = false
+		config.lni.add_void = true
 		save_config()
 		return
 	end
@@ -122,9 +144,11 @@ local function window_select(canvas)
 		uitype = 'convert'
 		window:set_title('W3x2Slk')
 		config.target_format = 'slk'
-		config.remove_same = true
-		config.remove_over_level = true
-		config.add_void = false
+		config.slk.target_storage = 'map'
+		config.slk.read_slk = true
+		config.slk.remove_same = true
+		config.slk.remove_over_level = true
+		config.slk.add_void = false
 		save_config()
 		return
 	end
@@ -133,8 +157,11 @@ local function window_select(canvas)
 		uitype = 'convert'
 		window:set_title('W3x2Obj')
 		config.target_format = 'obj'
-		config.remove_same = true
-		config.add_void = false
+		config.obj.target_storage = 'map'
+		config.obj.read_slk = false
+		config.obj.remove_same = true
+		config.obj.remove_over_level = false
+		config.obj.add_void = false
 		save_config()
 		return
 	end
@@ -142,53 +169,12 @@ local function window_select(canvas)
 end
 
 local backend
-local backend_lastmsg = ''
-local backend_msgs = {}
-
-local function update_backendmsg(pos)
-	local msg = backend.output:sub(1, pos):gsub("^%s*(.-)%s*$", "%1"):gsub('[^\r\n]+[\r\n]*', function(str)
-		if str:sub(1, 1) == '-' then
-			local key, value = str:match('%-(%S+)%s(.+)')
-			if key then
-				backend_msgs[key] = value
-				return ''
-			end
-		end
-	end)
-	if #msg > 0 then
-		backend_lastmsg = msg
-	end
-	backend.output = backend.output:sub(pos+1)
-	return true
-end
 
 local function update_backend()
 	if not backend then
 		return
 	end
-	if not backend.closed then
-		backend.closed = backend:update()
-	end
-	if #backend.output > 0 then
-		local pos = backend.output:find('\n')
-		if pos then
-			update_backendmsg(pos)
-		end
-	end
-	if #backend.error > 0 then
-		io.stdout:write(backend.error)
-		io.stdout:flush()
-		backend.error = ''
-	end
-	if backend.closed then
-		while true do
-			local pos = backend.output:find('\n')
-			if not pos then
-				break
-			end
-			update_backendmsg(pos)
-		end
-		update_backendmsg(-1)
+	if backend:update() then
 		backend = nil
 	end
 end
@@ -269,20 +255,20 @@ function window:draw(canvas)
 	--height = window_dir(canvas, height)
 	canvas:layout_row_dynamic(height, 1)
 	canvas:layout_row_dynamic(30, 1)
-	canvas:label(backend_lastmsg, NK_TEXT_LEFT)
+	canvas:label(backend and backend.message or '', NK_TEXT_LEFT)
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(30, 1)
-	canvas:progress(math.floor(backend_msgs['progress'] or 0), 100)
+	canvas:progress(math.floor(backend and (backend.attribute['progress'] or 0) or 0), 100)
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(50, 1)
 	if backend then
 		canvas:button('正在处理...')
 	else
 		if canvas:button('开始') then
-			backend_msgs['progress'] = nil
 			canvas:progress(0, 100)
-			backend_lastmsg = '正在初始化...'
 			backend = sys.async_popen(('%q -backend %q'):format(arg[0], mappath:string()))
+			backend.message = '正在初始化...'
+			backend.attribute['progress'] = nil
 		end
 	end
 end

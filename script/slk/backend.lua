@@ -9,7 +9,7 @@ local output = {
     txt     = 'units\\itemabilitystrings.txt',
 }
 
-local function to_lni(w2l, archive, slk, on_lni)
+local function to_lni(w2l, archive, slk)
     --转换物编
     local count = 0
     for ttype, meta in pairs(w2l.info['metadata']) do
@@ -18,9 +18,6 @@ local function to_lni(w2l, archive, slk, on_lni)
         progress:target(target_progress)
         
         local data = slk[ttype]
-        if on_lni then
-            data = on_lni(w2l, ttype, data)
-        end
         
         local content = w2l:backend_lni(ttype, data)
         if content then
@@ -30,7 +27,7 @@ local function to_lni(w2l, archive, slk, on_lni)
     end
 end
 
-local function to_obj(w2l, archive, slk, on_lni)
+local function to_obj(w2l, archive, slk)
     --转换物编
     local count = 0
     for type, meta in pairs(w2l.info['metadata']) do
@@ -39,10 +36,6 @@ local function to_obj(w2l, archive, slk, on_lni)
         progress:target(target_progress)
         
         local data = slk[type]
-        if on_lni then
-            data = on_lni(w2l, type, data)
-        end
-        
         local content = w2l:backend_obj(type, data)
         if content then
             archive:set(w2l.info['template']['obj'][type], content)
@@ -51,7 +44,7 @@ local function to_obj(w2l, archive, slk, on_lni)
     end
 end
 
-local function to_slk(w2l, archive, slk, on_lni)
+local function to_slk(w2l, archive, slk)
     w2l:backend_mark(archive, slk)
     w2l:backend_computed(slk)
     --转换物编
@@ -62,11 +55,7 @@ local function to_slk(w2l, archive, slk, on_lni)
         local target_progress = 66 + count * 2
         progress:target(target_progress)
         
-        local data = slk[type]
-        if on_lni then
-            data = on_lni(w2l, type, data)
-        end
-        
+        local data = slk[type]        
         if type ~= 'doodad' then
             for _, slk in ipairs(w2l.info['template']['slk'][type]) do
                 local content = w2l:backend_slk(type, slk, data)
@@ -112,7 +101,7 @@ local function to_slk(w2l, archive, slk, on_lni)
     end
 end
 
-return function (w2l, archive, slk, on_lni)
+return function (w2l, archive, slk)
     for type, filename in pairs(w2l.info.template.obj) do
         archive:set(filename, false)
     end

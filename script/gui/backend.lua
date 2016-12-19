@@ -1,4 +1,5 @@
 require 'sys'
+local uni = require 'ffi.unicode'
 
 local mt = {}
 mt.__index = mt
@@ -37,13 +38,62 @@ function mt:update_err()
 	self.err_rd = nil
 end
 
-function mt:update()
+function mt:update_pipe()
 	self:update_out()
 	self:update_err()
 	if not self.process:is_running() then
 		self.output = self.output .. self.out_rd:read '*a'
 		self.error = self.error .. self.err_rd:read '*a'
 		self.process:close()
+		return true
+	end
+	return false
+end
+
+function mt:update_message(pos)
+	local msg = self.output:sub(1, pos):gsub("^%s*(.-)%s*$", "%1"):gsub('[^\r\n]+[\r\n]*', function(str)
+		if str:sub(1, 1) == '-' then
+			local key, value = str:match('%-(%S+)%s(.+)')
+			if key then
+				self.attribute[key] = value
+				return ''
+			end
+		end
+	end)
+	if #msg > 0 then
+		self.message = msg
+		if debug then
+			io.stdout:write(uni.u2a(msg) .. '\n')
+			io.stdout:flush()
+		end
+	end
+	self.output = self.output:sub(pos+1)
+end
+
+function mt:update()
+	if not self.closed then
+		self.closed = self:update_pipe()
+	end
+	if #self.output > 0 then
+		local pos = self.output:find('\n')
+		if pos then
+			self:update_message(pos)
+		end
+	end
+	if #self.error > 0 then
+		io.stdout:write(self.error)
+		io.stdout:flush()
+		self.error = ''
+	end
+	if self.closed then
+		while true do
+			local pos = self.output:find('\n')
+			if not pos then
+				break
+			end
+			self:update_message(pos)
+		end
+		self:update_message(-1)
 		return true
 	end
 	return false
@@ -73,6 +123,8 @@ function sys.async_popen(commandline)
 		out_rd = out_rd, 
 		err_rd = err_rd,
 		output = '',
-		error = ''
+		error = '',
+		message = '',
+		attribute = {},
 	}, mt)
 end

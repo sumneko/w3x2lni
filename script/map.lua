@@ -24,39 +24,8 @@ local function remove_then_create_dir(dir)
 	task(fs.create_directories, dir)
 end
 
-local function add_table(tbl1, tbl2)
-    for k, v in pairs(tbl2) do
-        if tbl1[k] then
-            if type(tbl1[k]) == 'table' and type(v) == 'table' then
-                add_table(tbl1[k], v)
-            else
-                tbl1[k] = v
-            end
-        else
-            tbl1[k] = v
-        end
-    end
-end
-
 local mt = {}
 mt.__index = mt
-
-function mt:add_input(input)
-    self.inputs[#self.inputs+1] = input
-end
-
-function mt:load_misc()
-    w2l:frontend_misc(self.archive, self.slk)
-end
-
-function mt:backend()
-    w2l:backend(self.archive, self.slk, self.on_lni)
-end
-
-function mt:load_data()
-    self.slk = {}
-	w2l:frontend(self.archive, self.slk)
-end
 
 function mt:save_dir(output_dir)
     local paths = {}
@@ -64,9 +33,6 @@ function mt:save_dir(output_dir)
 
     for name in pairs(self.archive) do
         local path = output_dir
-		if self.on_save then
-            name, path = self:on_save(name)
-        end
         if name and path then
             paths[name] = path
             max_count = max_count + 1
@@ -93,43 +59,42 @@ end
 
 function mt:save_map(output_path)
     local map = create_map(self.slk.w3i, w2l.info)
-
     for name, buf in pairs(self.archive) do
         map:add(name, buf)
     end
-
     map:save(output_path)
 end
 
-function mt:load_file()
-    self.archive = archive(self.inputs[1])
+function mt:load_file(input)
+    self.archive = archive(input)
     if not self.archive then
         return false
     end
     return true
 end
 
-function mt:save(output_dir)
+function mt:save(input)
     message('正在打开地图...')
-    if not self:load_file() then
+    if not self:load_file(input) then
         message('地图打开失败')
         return false
     end
     message('正在读取物编...')
-    self:load_data()
-    message('正在处理物编...')
+    self.slk = {}
+	w2l:frontend(self.archive, self.slk)
     message('正在转换...')
     w2l:backend_processing(self.slk)
-    self:backend()
+    w2l:backend(self.archive, self.slk)
 
+    local output = input:parent_path() / input:stem()
     if w2l.config.target_storage == 'dir' then
         message('正在清空输出目录...')
-        remove_then_create_dir(output_dir)
+        remove_then_create_dir(output)
         message('正在导出文件...')
-        self:save_dir(output_dir)
+        self:save_dir(output)
     elseif w2l.config.target_storage == 'map' then
         message('正在打包地图...')
-        self:save_map(output_dir:parent_path() / (output_dir:filename():string() .. '_slk.w3x'))
+        self:save_map(output:parent_path() / (output:filename():string() .. '_slk.w3x'))
     end
     self.archive:close()
     progress:target(100)
@@ -138,7 +103,6 @@ end
 
 return function ()
     local self = setmetatable({}, mt)
-    self.inputs = {}
     self.slk = {}
     return self
 end
