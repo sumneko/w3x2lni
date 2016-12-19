@@ -106,20 +106,13 @@ local function add_head(names, skeys)
     lines[#lines+1] = ('B;X%d;Y%d;D0'):format(#skeys, #names+1)
 end
 
-local function key2id(name, para, key)
-    name = name:lower()
-    para = para:lower()
-    key = key:lower()
-    local id = para and keydata[para] and keydata[para][key] or keydata[name] and keydata[name][key] or keydata['common'][key]
-    if id then
-        return id
-    end
-    return nil
+local function key2id(para, key)
+    local id = para and keydata[para] and keydata[para][key] or keydata['common'][key]
+    return id
 end
 
-
 local function get_displaykey(name, para, key)
-    local id = key2id(name, para, key)
+    local id = key2id(para, key)
 	local meta  = metadata[id]
 	if not meta then
 		return
