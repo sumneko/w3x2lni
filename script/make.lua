@@ -17,41 +17,8 @@ function message(...)
 	print(table.concat(t, ' '))
 end
 
-local function main()
-	if not arg[1] then
-		message('请将地图或文件夹拖动到bat中!')
-		return
-	end
-	
-	local input_path = fs.path(uni.a2u(arg[1]))
-	if fs.is_directory(input_path) then
-		local map_name = input_path:filename():string() .. '.w3x'
-		local map_file = map()
-		map_file:add_input(input_path)
-		function map_file:on_lni(name, lni)
-			return lni
-		end
-		function map_file:on_save(name, file, dir)
-			return name, file
-		end
-		if map_file:save(input_path:parent_path() / map_name) then
-			message('转换完毕,用时 ' .. os.clock() .. ' 秒') 
-		end
-	else
-		message('正在打开...')
-		local output_dir = input_path:parent_path() / input_path:stem()
-		local map_file = map()
-		map_file:add_input(input_path)
-		function map_file:on_lni(name, lni)
-			return lni
-		end
-		function map_file:on_save(name)
-			return name, output_dir
-		end
-		if map_file:save(output_dir) then
-			message('转换完毕,用时 ' .. os.clock() .. ' 秒') 
-		end
-	end
+local input = fs.path(uni.a2u(arg[1]))
+local map_file = map()
+if map_file:save(input) then
+	message('转换完毕,用时 ' .. os.clock() .. ' 秒') 
 end
-
-main()
