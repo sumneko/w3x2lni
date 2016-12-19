@@ -217,6 +217,9 @@ local function load_data(name, para, obj, key, id, slk_data)
             slk_data[skey..i] = to_type(tp, obj[key][i])
             obj[key][i] = nil
         end
+        if not next(obj[key]) then
+            obj[key] = nil
+        end
     else
         slk_data[skey] = to_type(tp, obj[key])
         obj[key] = nil
