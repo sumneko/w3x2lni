@@ -80,6 +80,7 @@ local function slk_read_obj(obj, lname, data, keys, metas)
     if data.code then
         obj._lower_code = string_lower(data.code)
         obj._code = data.code
+        obj.code = data.code
     elseif not obj._lower_code then
         obj._lower_code = lname
         obj._code = obj._id
