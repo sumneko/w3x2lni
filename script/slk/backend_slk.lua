@@ -101,7 +101,20 @@ local function add_head(names, skeys)
     lines[#lines+1] = ('B;X%d;Y%d;D0'):format(#skeys, #names+1)
 end
 
-local function get_key(id)
+local function key2id(name, para, key)
+    name = name:lower()
+    para = para:lower()
+    key = key:lower()
+    local id = para and keydata[para] and keydata[para][key] or keydata[name] and keydata[name][key] or keydata['common'][key]
+    if id then
+        return id
+    end
+    return nil
+end
+
+
+local function get_displaykey(name, para, key)
+    local id = key2id(name, para, key)
 	local meta  = metadata[id]
 	if not meta then
 		return
@@ -140,17 +153,6 @@ local function convert_slk(slk_name)
     add_end()
 end
 
-local function key2id(name, para, key)
-    name = name:lower()
-    para = para:lower()
-    key = key:lower()
-    local id = para and keydata[para] and keydata[para][key] or keydata[name] and keydata[name][key] or keydata['common'][key]
-    if id then
-        return id
-    end
-    return nil
-end
-
 local function to_type(tp, value)
     if tp == 0 then
         if not value or value == 0 then
@@ -180,22 +182,21 @@ local function to_type(tp, value)
     end
 end
 
-local function load_data(name, para, obj, key, id, slk_data)
+local function load_data(displaykey, obj, key, id, slk_data)
     if not obj[key] then
         return
     end
     local tp = w2l:get_id_type(metadata[id].type)
-    local skey = get_key(key2id(name, para, key))
     if type(obj[key]) == 'table' then
         for i = 1, 4 do
-            slk_data[skey..i] = to_type(tp, obj[key][i])
+            slk_data[displaykey..i] = to_type(tp, obj[key][i])
             obj[key][i] = nil
         end
         if not next(obj[key]) then
             obj[key] = nil
         end
     else
-        slk_data[skey] = to_type(tp, obj[key])
+        slk_data[displaykey] = to_type(tp, obj[key])
         obj[key] = nil
     end
 end
@@ -209,11 +210,13 @@ local function load_obj(name, obj, slk_name)
     slk_data['_id'] = obj._id
     obj._slk = true
     for key, id in pairs(keys) do
-        load_data(name, para, obj, key, id, slk_data)
+        local displaykey = get_displaykey(name, para, key)
+        load_data(displaykey, obj, key, id, slk_data)
     end
     if keydata[para] then
         for key, id in pairs(keydata[para]) do
-            load_data(name, para, obj, key, id, slk_data)
+            local displaykey = get_displaykey(name, para, key)
+            load_data(displaykey, obj, key, id, slk_data)
         end
     end
     return slk_data
