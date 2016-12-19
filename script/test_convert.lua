@@ -102,6 +102,12 @@ for type, filelist in pairs(w2l.info.template.slk) do
 		local inf = input / filename
 		local outf = input / 'units2' / fs.path(filename):filename()
 		local t = w2l:parse_slk(assert(io.load(inf)))
+		if type == 'buff' then
+			if t.XEsn then
+				t.Xesn = t.XEsn
+				t.XEsn = nil
+			end
+		end
 		for id, o in pairs(t) do
 			o._id = id
 			if o.code then
