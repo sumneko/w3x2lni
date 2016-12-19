@@ -24,38 +24,11 @@ local function remove_then_create_dir(dir)
 	task(fs.create_directories, dir)
 end
 
-local function add_table(tbl1, tbl2)
-    for k, v in pairs(tbl2) do
-        if tbl1[k] then
-            if type(tbl1[k]) == 'table' and type(v) == 'table' then
-                add_table(tbl1[k], v)
-            else
-                tbl1[k] = v
-            end
-        else
-            tbl1[k] = v
-        end
-    end
-end
-
 local mt = {}
 mt.__index = mt
 
 function mt:add_input(input)
     self.inputs[#self.inputs+1] = input
-end
-
-function mt:load_misc()
-    w2l:frontend_misc(self.archive, self.slk)
-end
-
-function mt:backend()
-    w2l:backend(self.archive, self.slk, self.on_lni)
-end
-
-function mt:load_data()
-    self.slk = {}
-	w2l:frontend(self.archive, self.slk)
 end
 
 function mt:save_dir(output_dir)
@@ -93,11 +66,9 @@ end
 
 function mt:save_map(output_path)
     local map = create_map(self.slk.w3i, w2l.info)
-
     for name, buf in pairs(self.archive) do
         map:add(name, buf)
     end
-
     map:save(output_path)
 end
 
@@ -116,11 +87,11 @@ function mt:save(output_dir)
         return false
     end
     message('正在读取物编...')
-    self:load_data()
-    message('正在处理物编...')
+    self.slk = {}
+	w2l:frontend(self.archive, self.slk)
     message('正在转换...')
     w2l:backend_processing(self.slk)
-    self:backend()
+    w2l:backend(self.archive, self.slk, self.on_lni)
 
     if w2l.config.target_storage == 'dir' then
         message('正在清空输出目录...')
