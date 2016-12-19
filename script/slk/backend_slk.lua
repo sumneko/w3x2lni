@@ -20,18 +20,38 @@ local lines
 local cx
 local cy
 
-local extra_key = {
-    ['units\\abilitydata.slk']      = 'alias',
-    ['units\\abilitybuffdata.slk']  = 'alias',
-    ['units\\destructabledata.slk'] = 'DestructableID',
-    ['units\\itemdata.slk']         = 'itemID',
-    ['units\\upgradedata.slk']      = 'upgradeid',
-    ['units\\unitabilities.slk']    = 'unitAbilID',
-    ['units\\unitbalance.slk']      = 'unitBalanceID',
-    ['units\\unitdata.slk']         = 'unitID',
-    ['units\\unitui.slk']           = 'unitUIID',
-    ['units\\unitweapons.slk']      = 'unitWeapID',
-    ['doodads\\doodads.slk']        = 'doodID',
+local slk_keys = {
+    ['units\\abilitydata.slk']      = {
+        'alias','code','Area1','Area2','Area3','Area4','BuffID1','BuffID2','BuffID3','BuffID4','Cast1','Cast2','Cast3','Cast4','Cool1','Cool2','Cool3','Cool4','Cost1','Cost2','Cost3','Cost4','DataA1','DataA2','DataA3','DataA4','DataB1','DataB2','DataB3','DataB4','DataC1','DataC2','DataC3','DataC4','DataD1','DataD2','DataD3','DataD4','DataE1','DataE2','DataE3','DataE4','DataF1','DataF2','DataF3','DataF4','DataG1','DataG2','DataG3','DataG4','DataH1','DataH2','DataH3','DataH4','DataI1','DataI2','DataI3','DataI4','Dur1','Dur2','Dur3','Dur4','EfctID1','EfctID2','EfctID3','EfctID4','HeroDur1','HeroDur2','HeroDur3','HeroDur4','Rng1','Rng2','Rng3','Rng4','UnitID1','UnitID2','UnitID3','UnitID4','checkDep','levelSkip','levels','priority','reqLevel','targs1','targs2','targs3','targs4',
+    },
+    ['units\\abilitybuffdata.slk']  = {
+        'alias',
+    },
+    ['units\\destructabledata.slk'] = {
+        'DestructableID','HP','MMBlue','MMGreen','MMRed','Name','armor','cliffHeight','colorB','colorG','colorR','deathSnd','fatLOS','file','fixedRot','flyH','fogRadius','fogVis','lightweight','maxPitch','maxRoll','maxScale','minScale','numVar','occH','pathTex','pathTexDeath','portraitmodel','radius','selcircsize','selectable','shadow','showInMM','targType','texFile','texID','tilesetSpecific','useMMColor','walkable',
+    },
+    ['units\\itemdata.slk']         = {
+        'itemID','HP','Level','abilList','armor','class','colorB','colorG','colorR','cooldownID','drop','droppable','file','goldcost','ignoreCD','lumbercost','morph','oldLevel','pawnable','perishable','pickRandom','powerup','prio','scale','sellable','stockMax','stockRegen','stockStart','usable','uses',
+    },
+    ['units\\upgradedata.slk']      = {
+        'upgradeid','base1','base2','base3','base4','class','code1','code2','code3','code4','effect1','effect2','effect3','effect4','global','goldbase','goldmod','inherit','lumberbase','lumbermod','maxlevel','mod1','mod2','mod3','mod4','timebase','timemod',
+    },
+    ['units\\unitabilities.slk']    = {
+        'unitAbilID','abilList','auto','heroAbilList',
+    },
+    ['units\\unitbalance.slk']      = {
+        'unitBalanceID','AGI','AGIplus','HP','INT','INTplus','Primary','STR','STRplus','bldtm','bountydice','bountyplus','bountysides','collision','def','defType','defUp','fmade','fused','goldRep','goldcost','isbldg','level','lumberRep','lumberbountydice','lumberbountyplus','lumberbountysides','lumbercost','mana0','manaN','maxSpd','minSpd','nbrandom','nsight','preventPlace','regenHP','regenMana','regenType','reptm','repulse','repulseGroup','repulseParam','repulsePrio','requirePlace','sight','spd','stockMax','stockRegen','stockStart','tilesets','type','upgrades',
+    },
+    ['units\\unitdata.slk']         = {
+        'unitID','buffRadius','buffType','canBuildOn','canFlee','canSleep','cargoSize','death','deathType','fatLOS','formation','isBuildOn','moveFloor','moveHeight','movetp','nameCount','orientInterp','pathTex','points','prio','propWin','race','requireWaterRadius','targType','turnRate',
+    },
+    ['units\\unitui.slk']           = {
+        'unitUIID','name','armor','blend','blue','buildingShadow','customTeamColor','elevPts','elevRad','file','fileVerFlags','fogRad','green','hideHeroBar','hideHeroDeathMsg','hideHeroMinimap','hideOnMinimap','maxPitch','maxRoll','modelScale','nbmmIcon','occH','red','run','scale','scaleBull','selCircOnWater','selZ','shadowH','shadowOnWater','shadowW','shadowX','shadowY','teamColor','tilesetSpecific','uberSplat','unitShadow','unitSound','walk',
+    },
+    ['units\\unitweapons.slk']      = {
+        'unitWeapID','Farea1','Farea2','Harea1','Harea2','Hfact1','Hfact2','Qarea1','Qarea2','Qfact1','Qfact2','RngBuff1','RngBuff2','acquire','atkType1','atkType2','backSw1','backSw2','castbsw','castpt','cool1','cool2','damageLoss1','damageLoss2','dice1','dice2','dmgUp1','dmgUp2','dmgplus1','dmgplus2','dmgpt1','dmgpt2','impactSwimZ','impactZ','launchSwimZ','launchX','launchY','launchZ','minRange','rangeN1','rangeN2','showUI1','showUI2','sides1','sides2','spillDist1','spillDist2','spillRadius1','spillRadius2','splashTargs1','splashTargs2','targCount1','targCount2','targs1','targs2','weapTp1','weapTp2','weapType1','weapType2','weapsOn',
+    },
+    --['doodads\\doodads.slk']        = 'doodID',
 }
 
 local function add_end()
@@ -86,8 +106,8 @@ local function get_key(id)
 	if not meta then
 		return
 	end
-	local key  = meta.field
-	local num   = meta.data
+	local key = meta.field
+	local num = meta.data
 	if num and num ~= 0 then
 		key = key .. string_char(('A'):byte() + num - 1)
 	end
@@ -95,52 +115,6 @@ local function get_key(id)
 		key = key .. ':' .. (meta.index + 1)
 	end
 	return key
-end
-
-local function get_keys(slk_name)
-    local skeys = {}
-    for _, id in pairs(keys) do
-        local key = get_key(id)
-        if not (slk_name == 'units\\unitui.slk' and (key == 'campaign' or key == 'dropItems'  or key == 'inEditor' or key == 'special' or key == 'hostilePal' or key == 'useClickHelper')) 
-            and not (slk_name == 'units\\itemdata.slk' and key == 'selSize')
-            and not (slk_name == 'units\\upgradedata.slk' and key == 'race')
-            and not (slk_name == 'units\\destructabledata.slk' and (key == 'EditorSuffix' or key == 'canPlaceRandScale' or key == 'category' or key == 'onCliffs' or key == 'onWater' or key == 'tilesets' or key == 'UserList' or key == 'buildTime' or key == 'goldRep' or key == 'lumberRep' or key == 'repairTime' or key == 'canPlaceDead' or key == 'selSize' or key == 'useClickHelper'))
-            and not (slk_name == 'units\\abilitybuffdata.slk' and (key == 'isEffect' or key == 'race'))
-            and not (slk_name == 'units\\abilitydata.slk' and (key == 'hero' or key == 'item' or key == 'race'))
-        then
-            local meta = metadata[id]
-            if meta['repeat'] and meta['repeat'] > 0 then
-                for i = 1, 4 do
-                    skeys[#skeys+1] = key .. i
-                end
-            else
-                skeys[#skeys+1] = key
-            end
-        end
-    end
-    if slk_name == 'units\\abilitydata.slk' then
-        for i = 1, 4 do
-            skeys[#skeys+1] = 'DataA' .. i
-            skeys[#skeys+1] = 'DataB' .. i
-            skeys[#skeys+1] = 'DataC' .. i
-            skeys[#skeys+1] = 'DataD' .. i
-            skeys[#skeys+1] = 'DataE' .. i
-            skeys[#skeys+1] = 'DataF' .. i
-            skeys[#skeys+1] = 'DataG' .. i
-            skeys[#skeys+1] = 'DataH' .. i
-            skeys[#skeys+1] = 'DataI' .. i
-            skeys[#skeys+1] = 'UnitID' .. i
-        end
-    end
-    table_sort(skeys)
-    table_insert(skeys, 1, extra_key[slk_name])
-    if slk_name == 'units\\abilitydata.slk' then
-        table_insert(skeys, 2, 'code')
-    end
-    if slk_name == 'units\\unitui.slk' then
-        table_insert(skeys, 2, 'name')
-    end
-    return skeys
 end
 
 local function get_names()
@@ -159,7 +133,7 @@ local function convert_slk(slk_name)
         return
     end
     local names = get_names()
-    local skeys = get_keys(slk_name)
+    local skeys = slk_keys[slk_name]
     add_head(names, skeys)
     add_title(skeys)
     add_values(names, skeys)
@@ -229,7 +203,7 @@ end
 local function load_obj(name, obj, slk_name)
     local para = obj._lower_para
     local slk_data = {}
-    slk_data[extra_key[slk_name]] = obj['_id']
+    slk_data[slk_keys[slk_name][1]] = obj['_id']
     slk_data['code'] = obj._code
     slk_data['name'] = obj._name
     slk_data['_id'] = obj._id
