@@ -139,6 +139,8 @@ return function (w2l, archive, slk)
     local skin = w2l:parse_ini(archive:get 'war3mapskin.txt')
     archive:set('war3mapskin.txt', w2l:backend_skin(skin, slk.wts))
 
+    w2l:backend_convertjass(archive, slk.wts)
+
 	--刷新字符串
 	if slk.wts then
 		local content = slk.wts:refresh()

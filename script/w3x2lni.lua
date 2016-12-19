@@ -127,6 +127,7 @@ local convertors = {
 	'backend_txt',
 	'backend_obj',
 	'backend_searchjass',
+	'backend_convertjass',
 	'backend_searchdoo',
 	'backend_computed',
 	'backend_extra_txt',
