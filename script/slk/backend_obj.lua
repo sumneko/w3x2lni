@@ -70,7 +70,7 @@ end
 function mt:add_obj(name, obj)    
     local keys = {}
     for key in pairs(obj) do
-        if key:sub(1, 1) ~= '_' then
+        if key:sub(1, 1) ~= '_' and key ~= 'code' then
             keys[#keys+1] = key
         end
     end

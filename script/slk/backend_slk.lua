@@ -227,7 +227,7 @@ local function load_obj(name, obj, slk_name)
     local code = obj._lower_code
     local slk_data = {}
     slk_data[extra_key[slk_name]] = obj['_id']
-    slk_data['code'] = obj['_code']
+    slk_data['code'] = obj.code
     slk_data['name'] = obj._name
     slk_data['_id'] = obj._id
     for key, id in pairs(keys) do
