@@ -262,7 +262,7 @@ local function processing(w2l, type, chunk, target_progress)
         parse_obj(name, chunk[name], default, config, type)
         if os.clock() - clock >= 0.1 then
             clock = os.clock()
-            message(('搜索最优模板[%s] (%d/%d)'):format(name, i, #names))
+            message(('搜索最优模板[%s] (%d/%d)'):format(chunk[name]._id, i, #names))
             progress(i / #names)
         end
     end
@@ -271,7 +271,7 @@ local function processing(w2l, type, chunk, target_progress)
         clean_obj(name, chunk[name], type, default, config)
         if os.clock() - clock >= 0.1 then
             clock = os.clock()
-            message(('清理数据[%s] (%d/%d)'):format(name, i, #names))
+            message(('清理数据[%s] (%d/%d)'):format(chunk[name]._id, i, #names))
             progress(i / #names)
         end
     end

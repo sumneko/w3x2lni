@@ -64,10 +64,11 @@ function mt:add_chunk(chunk)
 	end)
     local clock = os.clock()
 	for i = 1, #names do
-		self:add_obj(chunk[names[i]])
+		local obj = chunk[names[i]]
+		self:add_obj(obj)
         if os.clock() - clock >= 0.1 then
             clock = os.clock()
-            message(('正在转换%s: [%s] (%d/%d)'):format(self.file_name, names[i], i, #names))
+            message(('正在转换%s: [%s] (%d/%d)'):format(self.file_name, obj._id, i, #names))
             progress(i / #names)
         end
 	end

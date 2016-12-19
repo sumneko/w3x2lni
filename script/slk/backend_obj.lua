@@ -67,7 +67,7 @@ function mt:key2id(para, skill, key)
     return nil
 end
 
-function mt:add_obj(name, obj)    
+function mt:add_obj(lname, obj)    
     local keys = {}
     for key in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
@@ -91,7 +91,9 @@ function mt:add_obj(name, obj)
         end
     end
     
-    local para = obj._lower_para
+    local name = obj._id
+    local para = obj._para
+    local lpara = obj._lower_para
     self:add('c4', para)
     if name == para then
         self:add('c4', '\0\0\0\0')
@@ -102,7 +104,7 @@ function mt:add_obj(name, obj)
     for _, key in ipairs(keys) do
         local data = obj[key]
         if data then
-            local id = self:key2id(para, name, key)
+            local id = self:key2id(lpara, lname, key)
             self:add_data(key, id, obj[key])
         end
     end
