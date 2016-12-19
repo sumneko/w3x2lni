@@ -228,16 +228,16 @@ function mt:add_randomitem(data)
 	end
 end
 
-return function (w2l, data)
+return function (w2l, data, wts)
     local tbl = setmetatable({}, mt)
     tbl.lines = {}
     tbl.self = w2l
 
     function tbl:convert_wts(str)
-		if not w2l.wts then
+		if not wts then
 			return str
 		end
-		return w2l.wts:load(str)
+		return wts:load(str)
 	end
 
     tbl:add_head(data)

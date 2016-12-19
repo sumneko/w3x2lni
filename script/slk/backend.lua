@@ -136,15 +136,17 @@ return function (w2l, archive, slk, on_lni)
     end
 
     --转换其他文件
-    if archive:get 'war3map.w3i' then
-        local lni = w2l:w3i2lni(slk.w3i)
-        archive:set('mapinfo.ini', lni)
-        --archive:set('war3map.w3i', false)
+    if slk.w3i then
+        local lni = w2l:w3i2lni(slk.w3i, slk.wts)
+        if w2l.config.target_format == 'lni' then
+            archive:set('mapinfo.ini', lni)
+        end
+        archive:set('war3map.w3i', w2l:lni2w3i(w2l:parse_lni(lni)))
     end
 
 	--刷新字符串
-	if w2l.wts then
-		local content = w2l.wts:refresh()
+	if slk.wts then
+		local content = slk.wts:refresh()
 		archive:set('war3map.wts', content)
 	end
 end
