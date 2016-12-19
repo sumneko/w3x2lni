@@ -85,7 +85,11 @@ end
 
 local function merge(o, name)
 	name = name:lower()
-	for i = 1, 4 do
+	if not o.levels then
+		o[name] = {}
+		return
+	end
+	for i = 1, o.levels do
 		if o[name..i] then
 			if not o[name] then
 				o[name] = {}

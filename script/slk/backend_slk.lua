@@ -106,7 +106,7 @@ local function get_keys(slk_name)
             and not (slk_name == 'units\\upgradedata.slk' and key == 'race')
             and not (slk_name == 'units\\destructabledata.slk' and (key == 'EditorSuffix' or key == 'canPlaceRandScale' or key == 'category' or key == 'onCliffs' or key == 'onWater' or key == 'tilesets' or key == 'buildTime' or key == 'goldRep' or key == 'lumberRep' or key == 'repairTime' or key == 'canPlaceDead' or key == 'selSize' or key == 'useClickHelper'))
             and not (slk_name == 'units\\abilitybuffdata.slk' and (key == 'isEffect' or key == 'race'))
-            and not (slk_name == 'units\\abilitydata.slk' and (key == 'hero' or key == 'race'))
+            and not (slk_name == 'units\\abilitydata.slk' and (key == 'hero' or key == 'item' or key == 'race'))
         then
             local meta = metadata[id]
             if meta['repeat'] and meta['repeat'] > 0 then
