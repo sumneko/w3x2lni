@@ -244,5 +244,9 @@ return function(w2l_, all, loader)
             end
         end
     end
+
+    datas.unit.nrmf = nil
+    all.nrmf = nil
+
     return datas, txt
 end
