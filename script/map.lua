@@ -131,6 +131,7 @@ function mt:save(output_dir)
         message('正在打包地图...')
         self:save_map(output_dir:parent_path() / (output_dir:filename():string() .. '_slk.w3x'))
     end
+    self.archive:close()
     progress:target(100)
     return true
 end

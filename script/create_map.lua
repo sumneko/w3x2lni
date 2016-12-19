@@ -25,6 +25,10 @@ function mt:save(map_path)
 
     io.save(map_path, table.concat(hexs))
     local map = stormlib.create(map_path, #self.files + 8)
+    if not map then
+        message('创建新地图失败,可能文件被占用了')
+        return
+    end
 
     progress:target(100)
     local clock = os.clock()
