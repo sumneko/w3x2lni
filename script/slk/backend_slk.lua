@@ -104,7 +104,7 @@ local function get_keys(slk_name)
         if not (slk_name == 'units\\unitui.slk' and (key == 'campaign' or key == 'dropItems'  or key == 'inEditor' or key == 'special' or key == 'hostilePal' or key == 'useClickHelper')) 
             and not (slk_name == 'units\\itemdata.slk' and key == 'selSize')
             and not (slk_name == 'units\\upgradedata.slk' and key == 'race')
-            and not (slk_name == 'units\\destructabledata.slk' and (key == 'EditorSuffix' or key == 'canPlaceRandScale' or key == 'category' or key == 'onCliffs' or key == 'onWater' or key == 'tilesets' or key == 'buildTime' or key == 'goldRep' or key == 'lumberRep' or key == 'repairTime' or key == 'canPlaceDead' or key == 'selSize' or key == 'useClickHelper'))
+            and not (slk_name == 'units\\destructabledata.slk' and (key == 'EditorSuffix' or key == 'canPlaceRandScale' or key == 'category' or key == 'onCliffs' or key == 'onWater' or key == 'tilesets' or key == 'UserList' or key == 'buildTime' or key == 'goldRep' or key == 'lumberRep' or key == 'repairTime' or key == 'canPlaceDead' or key == 'selSize' or key == 'useClickHelper'))
             and not (slk_name == 'units\\abilitybuffdata.slk' and (key == 'isEffect' or key == 'race'))
             and not (slk_name == 'units\\abilitydata.slk' and (key == 'hero' or key == 'item' or key == 'race'))
         then
