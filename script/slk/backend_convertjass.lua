@@ -3,7 +3,7 @@ local line_count
 local wts
 
 local function fwts(str)
-    return wts:load(str)
+    return wts:load(str):gsub('\\', '\\\\'):gsub('"', '\\"')
 end
 
 lpeg.locale(lpeg)
