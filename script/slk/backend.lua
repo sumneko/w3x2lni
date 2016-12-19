@@ -126,22 +126,25 @@ return function (w2l, archive, slk, on_lni)
             archive:set(filename, false)
         end
     end
-    slk.w3i = w2l:read_w3i(archive:get 'war3map.w3i')
-    if w2l.config.target_format == 'lni' then
-        to_lni(w2l, archive, slk, on_lni)
-    elseif w2l.config.target_format == 'obj' then
-        to_obj(w2l, archive, slk, on_lni)
-    elseif w2l.config.target_format == 'slk' then
-        to_slk(w2l, archive, slk, on_lni)
-    end
 
-    --转换其他文件
+    slk.w3i = w2l:read_w3i(archive:get 'war3map.w3i')
     if slk.w3i then
         local lni = w2l:w3i2lni(slk.w3i, slk.wts)
         if w2l.config.target_format == 'lni' then
             archive:set('mapinfo.ini', lni)
         end
         archive:set('war3map.w3i', w2l:lni2w3i(w2l:parse_lni(lni)))
+    end
+
+    slk.misc = w2l:parse_ini(archive:get 'war3mapmisc.txt')
+    archive:set('war3mapmisc.txt', w2l:backend_misc(slk.misc, slk.txt, slk.wts))
+
+    if w2l.config.target_format == 'lni' then
+        to_lni(w2l, archive, slk, on_lni)
+    elseif w2l.config.target_format == 'obj' then
+        to_obj(w2l, archive, slk, on_lni)
+    elseif w2l.config.target_format == 'slk' then
+        to_slk(w2l, archive, slk, on_lni)
     end
 
 	--刷新字符串
