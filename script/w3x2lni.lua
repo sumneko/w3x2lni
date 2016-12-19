@@ -108,7 +108,7 @@ function mt:initialize(root)
 	self.config = lni(assert(io.load(self.root / 'config.ini')), 'config')
 	local fmt = self.config.target_format
 	self.config = self.config[fmt]
-	self.target_format = fmt
+	self.config.target_format = fmt
 end
 
 -- 加载脚本
@@ -127,6 +127,7 @@ local convertors = {
 	'backend_txt',
 	'backend_obj',
 	'backend_searchjass',
+	'backend_convertjass',
 	'backend_searchdoo',
 	'backend_computed',
 	'backend_extra_txt',
