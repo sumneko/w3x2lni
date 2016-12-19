@@ -41,6 +41,10 @@ remove_same = $remove_same$
 remove_exceeds_level = $remove_exceeds_level$
 -- 补全空缺的数据
 remove_nil_value = $remove_nil_value$
+-- 移除只在WE使用的文件
+remove_we_only = $remove_we_only$
+-- 移除没有引用的对象
+remove_unuse_object = $remove_unuse_object$
 -- 转换为地图还是目录('map', 'dir')
 target_storage = $target_storage$
 ]]
@@ -138,6 +142,8 @@ local function window_select(canvas)
 		config.lni.remove_same = false
 		config.lni.remove_exceeds_level = false
 		config.lni.remove_nil_value = true
+		config.lni.remove_we_only = false
+		config.lni.remove_unuse_object = false
 		save_config()
 		return
 	end
@@ -166,6 +172,8 @@ local function window_select(canvas)
 		config.obj.remove_same = true
 		config.obj.remove_exceeds_level = false
 		config.obj.remove_nil_value = false
+		config.obj.remove_we_only = false
+		config.obj.remove_unuse_object = false
 		save_config()
 		return
 	end
@@ -189,8 +197,20 @@ local function window_mpq(canvas, height)
 	if fmt == 'lni' or fmt == 'obj' then
 		height = height - 34
 		canvas:layout_row_dynamic(30, 1)
-		if canvas:checkbox('分析slk文件', config[fmt].read_slk) then
+		if canvas:checkbox('读取slk文件', config[fmt].read_slk) then
 			config[fmt].read_slk = not config[fmt].read_slk
+			save_config()
+		end
+	else
+		height = height - 60
+		canvas:layout_row_dynamic(30, 1)
+		if canvas:checkbox('简化', config[fmt].remove_unuse_object) then
+			config[fmt].remove_unuse_object = not config[fmt].remove_unuse_object
+			save_config()
+		end
+		canvas:layout_row_dynamic(30, 1)
+		if canvas:checkbox('删除只在WE中使用的文件', config[fmt].remove_we_only) then
+			config[fmt].remove_we_only = not config[fmt].remove_we_only
 			save_config()
 		end
 	end
