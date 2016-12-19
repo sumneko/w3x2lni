@@ -106,6 +106,10 @@ local function to_slk(w2l, archive, slk, on_lni)
         
         progress(1)
     end
+    local content = w2l:backend_extra_txt(slk['txt'])
+    if content then
+        archive:set(output['txt'], content)
+    end
 end
 
 return function (w2l, archive, slk, on_lni)
