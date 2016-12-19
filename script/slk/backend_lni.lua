@@ -52,8 +52,8 @@ function mt:add_chunk(chunk)
 		end
 	end
 	table_sort(names, function(name1, name2)
-		local is_origin1 = name1 == chunk[name1]['_lower_code']
-		local is_origin2 = name2 == chunk[name2]['_lower_code']
+		local is_origin1 = name1 == chunk[name1]['_lower_para']
+		local is_origin2 = name2 == chunk[name2]['_lower_para']
 		if is_origin1 and not is_origin2 then
 			return true
 		end
@@ -77,10 +77,10 @@ function mt:add_obj(obj)
 	local upper_obj = {}
     local keys = {}
 	local name = obj._id
-	local code = obj._lower_code
+	local para = obj._lower_para
     for key, data in pairs(obj) do
 		if key:sub(1, 1) ~= '_' then
-			local id = self:key2id(name, code, key)
+			local id = self:key2id(name, para, key)
 			local key = self:get_key(id)
 			if key then
 				keys[#keys+1] = key
@@ -91,7 +91,7 @@ function mt:add_obj(obj)
     table_sort(keys)
     local lines = {}
 	for _, key in ipairs(keys) do
-		local id = self:key2id(name, code, key:lower())
+		local id = self:key2id(name, para, key:lower())
 		self:add_data(key, id, upper_obj[key], lines)
 	end
     if not lines or #lines == 0 then
@@ -99,7 +99,7 @@ function mt:add_obj(obj)
     end
 
 	self:add('[%s]', obj['_id'])
-	self:add('%s = %q', '_id', obj['_code'])
+	self:add('%s = %q', '_id', obj['_para'])
     if obj['_name'] then
         self:add('%s = %q', '_name', obj['_name'])
     end
@@ -151,11 +151,11 @@ function mt:add_data(key, id, data, lines)
 	lines[#lines+1] = {'%s = {%s}', key, table_concat(values, ', ')}
 end
 
-function mt:key2id(name, code, key)
+function mt:key2id(name, para, key)
 	name = name:lower()
-	code = code:lower()
+	para = para:lower()
     key = key:lower()
-    local id = code and self.key[code] and self.key[code][key] or self.key[name] and self.key[name][key] or self.key['common'][key]
+    local id = para and self.key[para] and self.key[para][key] or self.key[name] and self.key[name][key] or self.key['common'][key]
     if id then
         return id
     end

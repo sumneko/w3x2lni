@@ -30,8 +30,8 @@ end
 return function (w2l, slk_data, obj_data)
     for name, obj in pairs(obj_data) do
         if not slk_data[name] then
-            local code = obj._lower_code
-            slk_data[name] = table_copy(slk_data[code])
+            local para = obj._lower_para
+            slk_data[name] = table_copy(slk_data[para])
         end
         table_merge(slk_data[name], obj)
     end

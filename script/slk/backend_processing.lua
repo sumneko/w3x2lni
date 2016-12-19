@@ -39,23 +39,23 @@ local function add_table(tbl1, tbl2)
     end
 end
 
-local function get_revert_list(default, code)
+local function get_revert_list(default, para)
     if not revert_list then
         revert_list = {}
         for lname, obj in pairs(default) do
-            local code = obj['_lower_code']
-            local list = revert_list[code]
+            local para = obj['_lower_para']
+            local list = revert_list[para]
             if not list then
-                revert_list[code] = lname
+                revert_list[para] = lname
             else
                 if type(list) ~= 'table' then
-                    revert_list[code] = {[list] = true}
+                    revert_list[para] = {[list] = true}
                 end
-                revert_list[code][lname] = true
+                revert_list[para][lname] = true
             end
         end
     end
-    return revert_list[code]
+    return revert_list[para]
 end
 
 local function get_unit_list(default, name)
@@ -143,9 +143,9 @@ local function add_void(key, data, default)
 end
 
 local function clean_obj(name, obj, type, default, config)
-    local code = obj._lower_code
+    local para = obj._lower_para
     local max_level = obj._max_level
-    local default = default[code]
+    local default = default[para]
     local is_remove_over_level = config.remove_over_level
     local is_remove_same = config.remove_same
     local is_add_void  = config.add_void
@@ -165,17 +165,17 @@ local function clean_obj(name, obj, type, default, config)
     end
 end
 
-local function find_code(name, obj, default, type)
+local function find_para(name, obj, default, type)
     if obj['_true_origin'] then
-        local code = obj['_lower_code']
-        return code
+        local para = obj['_lower_para']
+        return para
     end
     if default[name] then
         return name
     end
-    local code = obj['_lower_code']
-    if code then
-        local list = get_revert_list(default, code)
+    local para = obj['_lower_para']
+    if para then
+        local list = get_revert_list(default, para)
         if list then
             return list
         end
@@ -216,20 +216,20 @@ local function try_obj(obj, may_obj)
 end
 
 local function parse_obj(name, obj, default, config, ttype)
-    local code
+    local para
     local count
     local find_times = config.find_id_times
-    local maybe = find_code(name, obj, default, ttype)
+    local maybe = find_para(name, obj, default, ttype)
     if type(maybe) ~= 'table' then
-        obj._lower_code = maybe
+        obj._lower_para = maybe
         return
     end
 
     for try_name in pairs(maybe) do
         local new_count = try_obj(obj, default[try_name])
-        if not count or count > new_count or (count == new_count and code > try_name) then
+        if not count or count > new_count or (count == new_count and para > try_name) then
             count = new_count
-            code = try_name
+            para = try_name
         end
         find_times = find_times - 1
         if find_times == 0 then
@@ -237,7 +237,7 @@ local function parse_obj(name, obj, default, config, ttype)
         end
     end
 
-    obj._lower_code = code
+    obj._lower_para = para
 end
 
 local function processing(w2l, type, chunk, target_progress)

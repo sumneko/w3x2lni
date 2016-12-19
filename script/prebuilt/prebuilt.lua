@@ -95,7 +95,7 @@ local function main()
 	-- 生成模板lni
 	fs.create_directories(w2l.default)
 	fs.create_directories(w2l.template)
-	local usable_code = {}
+	local usable_para = {}
 	local datas, txt = w2l:frontend_slk({}, function(name)
 		return io.load(w2l.mpq / name)
 	end)
@@ -105,10 +105,10 @@ local function main()
 		io.save(w2l.default / (ttype .. '.ini'), default2lni(ttype, data))
 		io.save(w2l.template / (ttype .. '.ini'), w2l:backend_lni(ttype, data))
 		for name, obj in pairs(data) do
-			usable_code[obj._id] = true
+			usable_para[obj._id] = true
 		end
 	end
-	io.save(w2l.prebuilt / 'usable_code.ini', pack_table(usable_code))
+	io.save(w2l.prebuilt / 'usable_para.ini', pack_table(usable_para))
 	io.save(w2l.default / 'txt.ini', default2lni('txt', txt))
 	io.save(w2l.template / 'txt.ini', txt2teamplate('txt', txt))
 

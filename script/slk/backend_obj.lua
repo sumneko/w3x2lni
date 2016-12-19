@@ -55,15 +55,15 @@ function mt:add_data(key, id, data)
     end
 end
 
-function mt:key2id(code, skill, key)
+function mt:key2id(para, skill, key)
 	skill = skill:lower()
-	code = code:lower()
+	para = para:lower()
     key = key:lower()
-    local id = self.key[code] and self.key[code][key] or self.key[skill] and self.key[skill][key] or self.key['common'][key]
+    local id = self.key[para] and self.key[para][key] or self.key[skill] and self.key[skill][key] or self.key['common'][key]
     if id then
         return id
     end
-    message(('警告: 技能[%s](模板为[%s])并不支持数据项[%s]'):format(skill, code, key))
+    message(('警告: 技能[%s](模板为[%s])并不支持数据项[%s]'):format(skill, para, key))
     return nil
 end
 
@@ -91,9 +91,9 @@ function mt:add_obj(name, obj)
         end
     end
     
-    local code = obj._lower_code
-    self:add('c4', code)
-    if name == code then
+    local para = obj._lower_para
+    self:add('c4', para)
+    if name == para then
         self:add('c4', '\0\0\0\0')
     else
         self:add('c4', name)
@@ -102,7 +102,7 @@ function mt:add_obj(name, obj)
     for _, key in ipairs(keys) do
         local data = obj[key]
         if data then
-            local id = self:key2id(code, name, key)
+            local id = self:key2id(para, name, key)
             self:add_data(key, id, obj[key])
         end
     end
@@ -123,8 +123,8 @@ local function sort_chunk(chunk)
     local origin = {}
     local user = {}
     for name, obj in pairs(chunk) do
-        local code = obj._lower_code
-        if name == code then
+        local para = obj._lower_para
+        if name == para then
             origin[#origin+1] = name
         else
             user[#user+1] = name

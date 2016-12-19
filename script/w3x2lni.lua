@@ -12,7 +12,7 @@ local mt = {}
 
 local metadatas = {}
 local id_type
-local usable_code
+local usable_para
 local editstring
 local keyconvert = {}
 
@@ -65,11 +65,11 @@ function mt:get_id_type(type)
     return id_type[string_lower(type)] or 3
 end
 
-function mt:is_usable_code(code)
-	if not usable_code then
-		usable_code = lni(io.load(self.prebuilt / 'usable_code.ini'))
+function mt:is_usable_para(para)
+	if not usable_para then
+		usable_para = lni(io.load(self.prebuilt / 'usable_para.ini'))
 	end
-	return usable_code[code]
+	return usable_para[para]
 end
 
 function mt:editstring(str)

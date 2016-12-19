@@ -91,22 +91,22 @@ end
 
 local function read_obj(chunk, type)
 	local obj = {}
-	local code, name = unpack 'c4c4'
+	local para, name = unpack 'c4c4'
 	if name == '\0\0\0\0' then
-		name = code
-		if not w2l:is_usable_code(code) then
-			code = nil
+		name = para
+		if not w2l:is_usable_para(para) then
+			para = nil
 			force_slk = true
 		end
 	end
-	if code then
+	if para then
 		obj._true_origin = true
 	end
 	obj['_id'] = name
 	obj['_type'] = type
-	if code then
-		obj['_lower_code'] = string_lower(code)
-		obj['_code'] = code
+	if para then
+		obj['_lower_para'] = string_lower(para)
+		obj['_para'] = para
 	end
 
 	local count = unpack 'l'

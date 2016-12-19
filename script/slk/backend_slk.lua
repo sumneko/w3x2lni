@@ -166,11 +166,11 @@ local function convert_slk(slk_name)
     add_end()
 end
 
-local function key2id(name, code, key)
+local function key2id(name, para, key)
     name = name:lower()
-    code = code:lower()
+    para = para:lower()
     key = key:lower()
-    local id = code and keydata[code] and keydata[code][key] or keydata[name] and keydata[name][key] or keydata['common'][key]
+    local id = para and keydata[para] and keydata[para][key] or keydata[name] and keydata[name][key] or keydata['common'][key]
     if id then
         return id
     end
@@ -206,12 +206,12 @@ local function to_type(tp, value)
     end
 end
 
-local function load_data(name, code, obj, key, id, slk_data)
+local function load_data(name, para, obj, key, id, slk_data)
     if not obj[key] then
         return
     end
     local tp = w2l:get_id_type(metadata[id].type)
-    local skey = get_key(key2id(name, code, key))
+    local skey = get_key(key2id(name, para, key))
     if type(obj[key]) == 'table' then
         for i = 1, 4 do
             slk_data[skey..i] = to_type(tp, obj[key][i])
@@ -224,18 +224,18 @@ local function load_data(name, code, obj, key, id, slk_data)
 end
 
 local function load_obj(name, obj, slk_name)
-    local code = obj._lower_code
+    local para = obj._lower_para
     local slk_data = {}
     slk_data[extra_key[slk_name]] = obj['_id']
     slk_data['code'] = obj.code
     slk_data['name'] = obj._name
     slk_data['_id'] = obj._id
     for key, id in pairs(keys) do
-        load_data(name, code, obj, key, id, slk_data)
+        load_data(name, para, obj, key, id, slk_data)
     end
-    if keydata[code] then
-        for key, id in pairs(keydata[code]) do
-            load_data(name, code, obj, key, id, slk_data)
+    if keydata[para] then
+        for key, id in pairs(keydata[para]) do
+            load_data(name, para, obj, key, id, slk_data)
         end
     end
     return slk_data

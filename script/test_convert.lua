@@ -115,10 +115,10 @@ for type, filelist in pairs(w2l.info.template.slk) do
     	local keydata = w2l:keyconvert(type)
 		for id, o in pairs(t) do
 			o._id = id
-			o._lower_code = id:lower()
+			o._lower_para = id:lower()
 			if type == 'ability' then
-				if not keydata[o._lower_code] then
-					o._lower_code = o.code:lower()
+				if not keydata[o._lower_para] then
+					o._lower_para = o.code:lower()
 				end
 				merge(o, 'Area')
 				merge(o, 'BuffID')

@@ -78,12 +78,11 @@ end
 
 local function slk_read_obj(obj, lname, data, keys, metas)
     if data.code then
-        obj._lower_code = string_lower(data.code)
-        obj._code = data.code
         obj.code = data.code
-    elseif not obj._lower_code then
-        obj._lower_code = lname
-        obj._code = obj._id
+    end
+    if not obj._lower_para then
+        obj._lower_para = lname
+        obj._para = obj._id
     end
     if slk_type == 'unit' and not obj._name then
         obj._name = data.name  -- 单位的反slk可以用name作为线索
@@ -93,7 +92,7 @@ local function slk_read_obj(obj, lname, data, keys, metas)
         slk_read_data(obj, keys[i], metas[i], data)
     end
 
-    local private = keyconvert[lname] or keyconvert[obj._lower_code]
+    local private = keyconvert[lname] or keyconvert[obj._lower_para]
     if private then
         for key, id in pairs(private) do
             slk_read_private_data(obj, key, metadata[id], data)
