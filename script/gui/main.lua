@@ -3,7 +3,6 @@ require 'sys'
 require 'utility'
 require 'gui.backend'
 local lni = require 'lni-c'
-local uni = require 'ffi.unicode'
 local nk = require 'nuklear'
 local debug = true
 if debug then
@@ -146,57 +145,12 @@ local function window_select(canvas)
 end
 
 local backend
-local backend_lastmsg = ''
-local backend_msgs = {}
-
-local function update_backendmsg(pos)
-	local msg = backend.output:sub(1, pos):gsub("^%s*(.-)%s*$", "%1"):gsub('[^\r\n]+[\r\n]*', function(str)
-		if str:sub(1, 1) == '-' then
-			local key, value = str:match('%-(%S+)%s(.+)')
-			if key then
-				backend_msgs[key] = value
-				return ''
-			end
-		end
-	end)
-	if #msg > 0 then
-		backend_lastmsg = msg
-		if debug then
-			io.stdout:write(uni.u2a(msg) .. '\n')
-			io.stdout:flush()
-		end
-	end
-	backend.output = backend.output:sub(pos+1)
-	return true
-end
 
 local function update_backend()
 	if not backend then
 		return
 	end
-	if not backend.closed then
-		backend.closed = backend:update()
-	end
-	if #backend.output > 0 then
-		local pos = backend.output:find('\n')
-		if pos then
-			update_backendmsg(pos)
-		end
-	end
-	if #backend.error > 0 then
-		io.stdout:write(backend.error)
-		io.stdout:flush()
-		backend.error = ''
-	end
-	if backend.closed then
-		while true do
-			local pos = backend.output:find('\n')
-			if not pos then
-				break
-			end
-			update_backendmsg(pos)
-		end
-		update_backendmsg(-1)
+	if backend:update() then
 		backend = nil
 	end
 end
@@ -277,20 +231,20 @@ function window:draw(canvas)
 	--height = window_dir(canvas, height)
 	canvas:layout_row_dynamic(height, 1)
 	canvas:layout_row_dynamic(30, 1)
-	canvas:label(backend_lastmsg, NK_TEXT_LEFT)
+	canvas:label(backend and backend.message or '', NK_TEXT_LEFT)
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(30, 1)
-	canvas:progress(math.floor(backend_msgs['progress'] or 0), 100)
+	canvas:progress(math.floor(backend and (backend.attribute['progress'] or 0) or 0), 100)
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(50, 1)
 	if backend then
 		canvas:button('正在处理...')
 	else
 		if canvas:button('开始') then
-			backend_msgs['progress'] = nil
 			canvas:progress(0, 100)
-			backend_lastmsg = '正在初始化...'
 			backend = sys.async_popen(('%q -backend %q'):format(arg[0], mappath:string()))
+			backend.message = '正在初始化...'
+			backend.attribute['progress'] = nil
 		end
 	end
 end
