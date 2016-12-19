@@ -112,16 +112,14 @@ for type, filelist in pairs(w2l.info.template.slk) do
 				t.XEsn = nil
 			end
 		end
+    	local keydata = w2l:keyconvert(type)
 		for id, o in pairs(t) do
 			o._id = id
-			if o.code then
-				o._lower_code = o.code:lower()
-				o._code = o.code
-			elseif not o._lower_code then
-				o._lower_code = id:lower()
-				o._code = o._id
-			end
+			o._lower_code = id:lower()
 			if type == 'ability' then
+				if not keydata[o._lower_code] then
+					o._lower_code = o.code:lower()
+				end
 				merge(o, 'Area')
 				merge(o, 'BuffID')
 				merge(o, 'Cast')
