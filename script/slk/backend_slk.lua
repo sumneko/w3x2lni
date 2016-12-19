@@ -100,13 +100,22 @@ end
 local function get_keys(slk_name)
     local skeys = {}
     for _, id in pairs(keys) do
-        local meta = metadata[id]
-        if meta['repeat'] and meta['repeat'] > 0 then
-            for i = 1, 4 do
-                skeys[#skeys+1] = get_key(id) .. i
+        local key = get_key(id)
+        if not (slk_name == 'units\\unitui.slk' and (key == 'campaign' or key == 'dropItems'  or key == 'inEditor' or key == 'special' or key == 'hostilePal' or key == 'useClickHelper')) 
+            and not (slk_name == 'units\\itemdata.slk' and key == 'selSize')
+            and not (slk_name == 'units\\upgradedata.slk' and key == 'race')
+            and not (slk_name == 'units\\destructabledata.slk' and (key == 'EditorSuffix' or key == 'canPlaceRandScale' or key == 'category' or key == 'onCliffs' or key == 'onWater' or key == 'tilesets' or key == 'buildTime' or key == 'goldRep' or key == 'lumberRep' or key == 'repairTime' or key == 'canPlaceDead' or key == 'selSize' or key == 'useClickHelper'))
+            and not (slk_name == 'units\\abilitybuffdata.slk' and (key == 'isEffect' or key == 'race'))
+            and not (slk_name == 'units\\abilitydata.slk' and (key == 'hero' or key == 'race'))
+        then
+            local meta = metadata[id]
+            if meta['repeat'] and meta['repeat'] > 0 then
+                for i = 1, 4 do
+                    skeys[#skeys+1] = key .. i
+                end
+            else
+                skeys[#skeys+1] = key
             end
-        else
-            skeys[#skeys+1] = get_key(id)
         end
     end
     if slk_name == 'units\\abilitydata.slk' then
@@ -126,9 +135,6 @@ local function get_keys(slk_name)
     table_sort(skeys)
     table_insert(skeys, 1, extra_key[slk_name])
     if slk_name == 'units\\abilitydata.slk' then
-        table_insert(skeys, 2, 'code')
-    end
-    if type == 'units\\abilitybuffdata.slk' then
         table_insert(skeys, 2, 'code')
     end
     if slk_name == 'units\\unitui.slk' then
