@@ -6,6 +6,7 @@ local output = {
     buff    = 'units\\commonabilitystrings.txt',
     upgrade = 'units\\campaignupgradestrings.txt',
     item    = 'units\\itemstrings.txt',
+    txt     = 'units\\itemabilitystrings.txt',
 }
 
 local function to_lni(w2l, archive, slk, on_lni)
