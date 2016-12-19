@@ -113,8 +113,20 @@ local function to_slk(w2l, archive, slk, on_lni)
 end
 
 return function (w2l, archive, slk, on_lni)
+    for type, filename in pairs(w2l.info.template.obj) do
+        archive:set(filename, false)
+    end
+    for type, filelist in pairs(w2l.info.template.slk) do
+        for _, filename in ipairs(filelist) do
+            archive:set(filename, false)
+        end
+    end
+    for type, filelist in pairs(w2l.info.template.txt) do
+        for _, filename in ipairs(filelist) do
+            archive:set(filename, false)
+        end
+    end
     slk.w3i = w2l:read_w3i(archive:get 'war3map.w3i')
-    archive:set('war3map.w3i', false)
     if w2l.config.target_format == 'lni' then
         to_lni(w2l, archive, slk, on_lni)
     elseif w2l.config.target_format == 'obj' then
@@ -127,7 +139,7 @@ return function (w2l, archive, slk, on_lni)
     if archive:get 'war3map.w3i' then
         local lni = w2l:w3i2lni(slk.w3i)
         archive:set('mapinfo.ini', lni)
-        archive:set('war3map.w3i', false)
+        --archive:set('war3map.w3i', false)
     end
 
 	--刷新字符串
