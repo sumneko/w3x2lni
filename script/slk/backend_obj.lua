@@ -94,10 +94,11 @@ function mt:add_obj(lname, obj)
     local name = obj._id
     local para = obj._para
     local lpara = obj._lower_para
-    self:add('c4', para)
-    if name == para then
+    if name == para or obj._slk then
+        self:add('c4', name)
         self:add('c4', '\0\0\0\0')
     else
+        self:add('c4', para)
         self:add('c4', name)
     end
     self:add('l', count)

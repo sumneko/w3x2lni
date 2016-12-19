@@ -230,6 +230,7 @@ local function load_obj(name, obj, slk_name)
     slk_data['code'] = obj._code
     slk_data['name'] = obj._name
     slk_data['_id'] = obj._id
+    obj._slk = true
     for key, id in pairs(keys) do
         load_data(name, para, obj, key, id, slk_data)
     end
