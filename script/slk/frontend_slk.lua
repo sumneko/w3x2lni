@@ -78,7 +78,7 @@ end
 
 local function slk_read_obj(obj, lname, data, keys, metas)
     if data.code then
-        obj.code = data.code
+        obj._code = data.code
     end
     if not obj._lower_para then
         obj._lower_para = lname

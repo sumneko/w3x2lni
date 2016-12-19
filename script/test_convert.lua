@@ -118,7 +118,7 @@ for type, filelist in pairs(w2l.info.template.slk) do
 			o._lower_para = id:lower()
 			if type == 'ability' then
 				if not keydata[o._lower_para] then
-					o._lower_para = o.code:lower()
+					o._lower_para = o._code:lower()
 				end
 				merge(o, 'Area')
 				merge(o, 'BuffID')
