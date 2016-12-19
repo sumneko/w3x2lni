@@ -37,10 +37,10 @@ read_slk = $read_slk$
 find_id_times = $find_id_times$
 -- 移除与模板完全相同的数据
 remove_same = $remove_same$
+-- 移除超出等级的数据
+remove_exceeds_level = $remove_exceeds_level$
 -- 补全空缺的数据
 add_void = $add_void$
--- 移除超出等级的数据
-remove_over_level = $remove_over_level$
 -- 转换为地图还是目录('map', 'dir')
 target_storage = $target_storage$
 ]]
@@ -136,7 +136,7 @@ local function window_select(canvas)
 		config.lni.target_storage = 'dir'
 		config.lni.read_slk = false
 		config.lni.remove_same = false
-		config.lni.remove_over_level = false
+		config.lni.remove_exceeds_level = false
 		config.lni.add_void = true
 		save_config()
 		return
@@ -150,7 +150,7 @@ local function window_select(canvas)
 		config.slk.target_storage = 'map'
 		config.slk.read_slk = true
 		config.slk.remove_same = true
-		config.slk.remove_over_level = true
+		config.slk.remove_exceeds_level = true
 		config.slk.add_void = false
 		save_config()
 		return
@@ -164,7 +164,7 @@ local function window_select(canvas)
 		config.obj.target_storage = 'map'
 		config.obj.read_slk = false
 		config.obj.remove_same = true
-		config.obj.remove_over_level = false
+		config.obj.remove_exceeds_level = false
 		config.obj.add_void = false
 		save_config()
 		return

@@ -79,7 +79,7 @@ local function get_unit_list(default, name)
     return unit_list[name]
 end
 
-local function remove_over_level(data, max_level)
+local function remove_exceeds_level(data, max_level)
     if type(data) ~= 'table' then
         return
     end
@@ -146,14 +146,14 @@ local function clean_obj(name, obj, type, default, config)
     local para = obj._lower_para
     local max_level = obj._max_level
     local default = default[para]
-    local is_remove_over_level = config.remove_over_level
+    local is_remove_exceeds_level = config.remove_exceeds_level
     local is_remove_same = config.remove_same
     local is_add_void  = config.add_void
     local is_slk = config.target_format == 'slk' and type ~= 'doodad'
     for key, data in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
-            if is_remove_over_level and max_level then
-                remove_over_level(data, max_level)
+            if is_remove_exceeds_level and max_level then
+                remove_exceeds_level(data, max_level)
             end
             if is_remove_same then
                 remove_same(key, data, default, obj, is_slk)
