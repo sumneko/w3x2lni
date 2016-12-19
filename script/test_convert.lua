@@ -132,6 +132,8 @@ for type, filelist in pairs(w2l.info.template.slk) do
 				merge(o, 'Rng')
 				merge(o, 'UnitID')
 				merge(o, 'targs')
+			elseif type == 'unit' then
+				o._name = o.name
 			end
 		end
 		io.save(outf, w2l:backend_slk(type, filename, t))
