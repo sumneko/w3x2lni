@@ -45,7 +45,7 @@ remove_nil_value = $remove_nil_value$
 remove_we_only = $remove_we_only$
 -- 移除没有引用的对象
 remove_unuse_object = $remove_unuse_object$
--- 转换为地图还是目录('map', 'dir')
+-- 转换为地图还是目录(map, dir)
 target_storage = $target_storage$
 ]]
 
@@ -55,11 +55,7 @@ local function build_config(cfg)
 		for key in str:gmatch '[^%.]*' do
 			value = value[key]
 		end
-		if type(value) == 'string' then
-			return ('%q'):format(value)
-		else
-			return tostring(value)
-		end
+		return tostring(value)
 	end)
 end
 
@@ -70,7 +66,7 @@ local function save_config()
 	local str = {}
 	str[#str+1] = ([[
 [root]
--- 转换后的目标格式('lni', 'obj', 'slk')
+-- 转换后的目标格式(lni, obj, slk)
 target_format = %s
 ]]):format(config.target_format)
 
