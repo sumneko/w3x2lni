@@ -54,7 +54,7 @@ return function (pathorhandle)
     if type(pathorhandle) == 'number' then
         ar.handle = stormlib.attach(pathorhandle)
     else
-        ar.handle = stormlib.open(pathorhandle)
+        ar.handle = stormlib.open(pathorhandle, true)
     end
     if not ar.handle then
         return nil
