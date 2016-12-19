@@ -146,7 +146,7 @@ return function(w2l, archive, slk)
     local objs, force_slk = load_obj(w2l, archive, slk.wts)
     local datas, txt = load_slk(w2l, archive, force_slk, slk.all)
     for type, data in pairs(datas) do
-        if objs then
+        if objs[type] then
             merge_obj(data, objs[type], slk.all)
         end
         slk[type] = data
