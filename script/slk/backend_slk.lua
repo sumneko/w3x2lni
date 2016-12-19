@@ -193,6 +193,9 @@ local function to_type(tp, value)
         if not value:match '[^ %-%_]' then
             return nil
         end
+        if value:match '^%.[mM][dD][lLxX]$' then
+            return nil
+        end
         return value
     end
 end
