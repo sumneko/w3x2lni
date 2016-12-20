@@ -143,7 +143,7 @@ return function (w2l, archive, slk)
 
 	--刷新字符串
 	if slk.wts then
-		local content = slk.wts:refresh()
-		archive:set('war3map.wts', content)
+		--local content = slk.wts:refresh()
+		archive:set('war3map.wts', false)
 	end
 end
