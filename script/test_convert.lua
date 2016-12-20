@@ -83,6 +83,150 @@ for type, filelist in pairs(w2l.info.template.txt) do
 	end
 end
 
+local cache = {}
+
+local slkheader = {
+    ['units\\abilitydata.slk']      = 'alias',
+    ['units\\abilitybuffdata.slk']  = 'alias',
+    ['units\\destructabledata.slk'] = 'DestructableID',
+    ['units\\itemdata.slk']         = 'itemID',
+    ['units\\upgradedata.slk']      = 'upgradeid',
+    ['units\\unitabilities.slk']    = 'unitAbilID',
+    ['units\\unitbalance.slk']      = 'unitBalanceID',
+    ['units\\unitdata.slk']         = 'unitID',
+    ['units\\unitui.slk']           = 'unitUIID',
+    ['units\\unitweapons.slk']      = 'unitWeapID',
+    ['doodads\\doodads.slk']        = 'doodID',
+}
+
+local slk_keys = {
+    ['units\\abilitydata.slk']      = {
+        'alias','code','Area1','Area2','Area3','Area4','BuffID1','BuffID2','BuffID3','BuffID4','Cast1','Cast2','Cast3','Cast4','checkDep','Cool1','Cool2','Cool3','Cool4','Cost1','Cost2','Cost3','Cost4','DataA1','DataA2','DataA3','DataA4','DataB1','DataB2','DataB3','DataB4','DataC1','DataC2','DataC3','DataC4','DataD1','DataD2','DataD3','DataD4','DataE1','DataE2','DataE3','DataE4','DataF1','DataF2','DataF3','DataF4','DataG1','DataG2','DataG3','DataG4','DataH1','DataH2','DataH3','DataH4','DataI1','DataI2','DataI3','DataI4','Dur1','Dur2','Dur3','Dur4','EfctID1','EfctID2','EfctID3','EfctID4','HeroDur1','HeroDur2','HeroDur3','HeroDur4','levels','levelSkip','priority','reqLevel','Rng1','Rng2','Rng3','Rng4','targs1','targs2','targs3','targs4','UnitID1','UnitID2','UnitID3','UnitID4',
+    },
+    ['units\\abilitybuffdata.slk']  = {
+        'alias',
+    },
+    ['units\\destructabledata.slk'] = {
+        'DestructableID','armor','cliffHeight','colorB','colorG','colorR','deathSnd','fatLOS','file','fixedRot','flyH','fogRadius','fogVis','HP','lightweight','maxPitch','maxRoll','maxScale','minScale','MMBlue','MMGreen','MMRed','Name','numVar','occH','pathTex','pathTexDeath','portraitmodel','radius','selcircsize','selectable','shadow','showInMM','targType','texFile','texID','tilesetSpecific','useMMColor','walkable',
+    },
+    ['units\\itemdata.slk']         = {
+        'itemID','abilList','armor','class','colorB','colorG','colorR','cooldownID','drop','droppable','file','goldcost','HP','ignoreCD','Level','lumbercost','morph','oldLevel','pawnable','perishable','pickRandom','powerup','prio','scale','sellable','stockMax','stockRegen','stockStart','usable','uses',
+    },
+    ['units\\upgradedata.slk']      = {
+        'upgradeid','base1','base2','base3','base4','class','code1','code2','code3','code4','effect1','effect2','effect3','effect4','global','goldbase','goldmod','inherit','lumberbase','lumbermod','maxlevel','mod1','mod2','mod3','mod4','timebase','timemod',
+    },
+    ['units\\unitabilities.slk']    = {
+        'unitAbilID','abilList','auto','heroAbilList',
+    },
+    ['units\\unitbalance.slk']      = {
+        'unitBalanceID','AGI','AGIplus','bldtm','bountydice','bountyplus','bountysides','collision','def','defType','defUp','fmade','fused','goldcost','goldRep','HP','INT','INTplus','isbldg','level','lumberbountydice','lumberbountyplus','lumberbountysides','lumbercost','lumberRep','mana0','manaN','maxSpd','minSpd','nbrandom','nsight','preventPlace','Primary','regenHP','regenMana','regenType','reptm','repulse','repulseGroup','repulseParam','repulsePrio','requirePlace','sight','spd','stockMax','stockRegen','stockStart','STR','STRplus','tilesets','type','upgrades',
+    },
+    ['units\\unitdata.slk']         = {
+        'unitID','buffRadius','buffType','canBuildOn','canFlee','canSleep','cargoSize','death','deathType','fatLOS','formation','isBuildOn','moveFloor','moveHeight','movetp','nameCount','orientInterp','pathTex','points','prio','propWin','race','requireWaterRadius','targType','turnRate',
+    },
+    ['units\\unitui.slk']           = {
+        'unitUIID','name','armor','blend','blue','buildingShadow','customTeamColor','elevPts','elevRad','file','fileVerFlags','fogRad','green','hideHeroBar','hideHeroDeathMsg','hideHeroMinimap','hideOnMinimap','maxPitch','maxRoll','modelScale','nbmmIcon','occH','red','run','scale','scaleBull','selCircOnWater','selZ','shadowH','shadowOnWater','shadowW','shadowX','shadowY','teamColor','tilesetSpecific','uberSplat','unitShadow','unitSound','walk',
+    },
+    ['units\\unitweapons.slk']      = {
+        'unitWeapID','acquire','atkType1','atkType2','backSw1','backSw2','castbsw','castpt','cool1','cool2','damageLoss1','damageLoss2','dice1','dice2','dmgUp1','dmgUp2','dmgplus1','dmgplus2','dmgpt1','dmgpt2','Farea1','Farea2','Harea1','Harea2','Hfact1','Hfact2','impactSwimZ','impactZ','launchSwimZ','launchX','launchY','launchZ','minRange','Qarea1','Qarea2','Qfact1','Qfact2','rangeN1','rangeN2','RngBuff1','RngBuff2','showUI1','showUI2','sides1','sides2','spillDist1','spillDist2','spillRadius1','spillRadius2','splashTargs1','splashTargs2','targCount1','targCount2','targs1','targs2','weapsOn','weapTp1','weapTp2','weapType1','weapType2',
+    },
+    ['doodads\\doodads.slk']        = {'doodID', --todo
+	},
+}
+
+local abilkey = {'Area', 'BuffID','Cast','Cool','Cost','DataA','DataB','DataC','DataD','DataE','DataF','DataG','DataH','DataI','Dur','EfctID','HeroDur','Rng','UnitID','targs'}
+
+local cx, cy
+local function write_slk_line(x, y, k)
+    local s = 'C'
+    if x ~= cx then
+        cx = x
+        s = s .. ';X' .. x
+    end
+    if y ~= cy then
+        cy = y
+        s = s .. ';Y' .. y
+    end
+	return s .. ';K' .. (tonumber(k) or ('"' .. k .. '"'))
+end
+
+local function write_slk(_, slkname, t)
+	local convert = {}
+	if slk_keys[slkname] then
+		for _, key in ipairs(slk_keys[slkname]) do
+			convert[key:lower()] = key
+		end
+	end
+
+	local rows = {}
+	local cols = {}
+	local colhash = {}
+	for y, l in pairs(t) do
+		cache[y] = l
+		rows[#rows+1] = y
+		for x, v in pairs(l) do
+			colhash[x] = true
+		end
+		if slkname == 'units\\abilitydata.slk' then
+			for i = (l.levels or 0) + 1, 4 do
+				for _, k in ipairs(abilkey) do
+					l[k:lower() .. i] = nil
+				end
+			end
+		end
+		l[slk_keys[slkname][1]] = y
+	end
+	for x in pairs(colhash) do
+		cols[#cols+1] = x
+	end
+	table.sort(rows, function (a, b)
+		return a:lower() < b:lower()
+	end)
+	if slkname == 'units\\abilitydata.slk' then
+		table.sort(cols, function (a, b)
+			if a == 'alias' or b == 'alias' then
+				return a == 'alias'
+			end
+			if a == 'code' or b == 'code' then
+				return a == 'code'
+			end
+			return a < b
+		end)
+	elseif slkname == 'units\\unitui.slk' then
+		table.sort(cols, function (a, b)
+			if a == 'unituiid' or b == 'unituiid' then
+				return a == 'unituiid'
+			end
+			if a == 'name' or b == 'name' then
+				return a == 'name'
+			end
+			return a < b
+		end)
+	else
+		table.sort(cols)
+	end
+	table.insert(cols, 1, slk_keys[slkname][1])
+	cx = nil
+	cy = nil
+	local str = {}
+    str[#str+1] = 'ID;PWXL;N;E'
+    str[#str+1] = ('B;X%d;Y%d;D0'):format(#cols, #rows+1)
+	for x, col in ipairs(cols) do
+		str[#str+1] = write_slk_line(x, 1, convert[col] or col)
+	end
+    for y, row in ipairs(rows) do
+        local l = t[row]
+        for x, col in ipairs(cols) do
+            local v = l[col]
+            if v then
+                str[#str+1] = write_slk_line(x, y + 1, v)
+            end
+        end
+    end
+    str[#str+1] = 'E'
+	return table.concat(str, '\r\n')
+end
+
 local function merge(o, name)
 	name = name:lower()
 	if not o.levels then
@@ -100,7 +244,43 @@ local function merge(o, name)
 	end
 end
 
-local cache = {}
+local function write_slk2(type, slkname, t)
+	local keydata = w2l:keyconvert(type)
+	for id, o in pairs(t) do
+		o._id = id
+		o._lower_para = id:lower()
+		cache[id] = o
+		if type == 'ability' then
+			o._code = o.code
+			if not keydata[o._lower_para] then
+				o._lower_para = o.code:lower()
+			end
+			merge(o, 'Area')
+			merge(o, 'BuffID')
+			merge(o, 'Cast')
+			merge(o, 'Cool')
+			merge(o, 'Cost')
+			merge(o, 'DataA')
+			merge(o, 'DataB')
+			merge(o, 'DataC')
+			merge(o, 'DataD')
+			merge(o, 'DataE')
+			merge(o, 'DataF')
+			merge(o, 'DataG')
+			merge(o, 'DataH')
+			merge(o, 'DataI')
+			merge(o, 'Dur')
+			merge(o, 'EfctID')
+			merge(o, 'HeroDur')
+			merge(o, 'Rng')
+			merge(o, 'UnitID')
+			merge(o, 'targs')
+		elseif type == 'unit' then
+			o._name = o.name
+		end
+	end
+	return w2l:backend_slk(type, slkname, t)
+end
 
 w2l.info.template.slk.doodad = nil
 for type, filelist in pairs(w2l.info.template.slk) do
@@ -114,40 +294,8 @@ for type, filelist in pairs(w2l.info.template.slk) do
 				t.XEsn = nil
 			end
 		end
-    	local keydata = w2l:keyconvert(type)
-		for id, o in pairs(t) do
-			o._id = id
-			o._lower_para = id:lower()
-			cache[id] = o
-			if type == 'ability' then
-				if not keydata[o._lower_para] then
-					o._lower_para = o.code:lower()
-				end
-				merge(o, 'Area')
-				merge(o, 'BuffID')
-				merge(o, 'Cast')
-				merge(o, 'Cool')
-				merge(o, 'Cost')
-				merge(o, 'DataA')
-				merge(o, 'DataB')
-				merge(o, 'DataC')
-				merge(o, 'DataD')
-				merge(o, 'DataE')
-				merge(o, 'DataF')
-				merge(o, 'DataG')
-				merge(o, 'DataH')
-				merge(o, 'DataI')
-				merge(o, 'Dur')
-				merge(o, 'EfctID')
-				merge(o, 'HeroDur')
-				merge(o, 'Rng')
-				merge(o, 'UnitID')
-				merge(o, 'targs')
-			elseif type == 'unit' then
-				o._name = o.name
-			end
-		end
-		io.save(outf, w2l:backend_slk(type, filename, t))
+		io.save(outf, write_slk2(type, filename, t))
+		--io.save(outf, write_slk(type, filename, t))
 	end
 end
 
