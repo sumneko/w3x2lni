@@ -58,28 +58,12 @@ end
 
 function mt:save_map(output_path)
     local map = archive(output_path, 'w')
-    local imp = {}
-    local packignore = w2l.info.pack.packignore
-    local impignore = w2l.info.pack.impignore
     for name, buf in pairs(self.archive) do
-        if not packignore[name] then
-            map:set(name, buf)
-            if not impignore[name] then
-                imp[#imp+1] = name
-            end
-        end
+        map:set(name, buf)
     end
 
     progress:target(100)
-    table.sort(imp)
-    local hex = {}
-    hex[1] = ('ll'):pack(1, #imp)
-    for _, name in ipairs(imp) do
-        hex[#hex+1] = ('z'):pack(name)
-        hex[#hex+1] = '\r'
-    end
-    map:set('war3map.imp', table.concat(hex))
-    map:save(self.slk.w3i)
+    map:save(w2l.info, self.slk)
     map:close()
 end
 

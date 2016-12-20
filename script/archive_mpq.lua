@@ -29,7 +29,11 @@ function mt:close()
     self.handle:close()
 end
 
-function mt:save(w3i)
+function mt:save(info, slk)
+    local w3i = slk.w3i
+    local packignore = info.pack.packignore
+    local impignore = info.pack.impignore
+
     local hexs = {}
 
     hexs[#hexs+1] = ('c4'):pack('HM3W')
@@ -41,10 +45,18 @@ function mt:save(w3i)
     io.save(self.path, table.concat(hexs))
 
     local files = {}
+    local imp = {}
     for name in pairs(self.cache) do
-        files[#files+1] = name
+        if not packignore[name] then
+            files[#files+1] = name
+            if not impignore[name] then
+                imp[#imp+1] = name
+            end
+        end
     end
     table.sort(files)
+    table.sort(imp)
+
     self.handle = stormlib.create(self.path, #files + 8)
     if not self.handle then
         message('创建新地图失败,可能文件被占用了')
@@ -59,6 +71,14 @@ function mt:save(w3i)
             message(('正在打包文件... (%d/%d)'):format(i, #files))
 		end
     end
+
+    local hex = {}
+    hex[1] = ('ll'):pack(1, #imp)
+    for _, name in ipairs(imp) do
+        hex[#hex+1] = ('z'):pack(name)
+        hex[#hex+1] = '\r'
+    end
+    self.handle:save_file('war3map.imp', table.concat(hex))
 end
 
 function mt:__pairs()
