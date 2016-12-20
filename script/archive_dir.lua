@@ -1,6 +1,17 @@
 local stormlib = require 'ffi.stormlib'
 local progress = require 'progress'
 
+local sleep = require 'ffi.sleep'
+function task(f, ...)
+	for i = 1, 99 do
+		if pcall(f, ...) then
+			return
+		end
+		sleep(10)
+	end
+	f(...)
+end
+
 local function scan_dir(dir, callback)
     for path in dir:list_directory() do
         if fs.is_directory(path) then
