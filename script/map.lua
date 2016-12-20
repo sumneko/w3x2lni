@@ -1,7 +1,6 @@
 local progress = require 'progress'
 local w2l = require 'w3x2lni'
 local archive = require 'archive'
-local create_map = require 'create_map'
 w2l:initialize()
 
 local table_insert = table.insert
@@ -58,11 +57,30 @@ function mt:save_dir(output_dir)
 end
 
 function mt:save_map(output_path)
-    local map = create_map(self.slk.w3i, w2l.info)
+    local map = archive(output_path, 'w')
+    local imp = {}
+    local packignore = w2l.info.pack.packignore
+    local impignore = w2l.info.pack.impignore
     for name, buf in pairs(self.archive) do
-        map:add(name, buf)
+        if not packignore[name] then
+            map:set(name, buf)
+            if not impignore[name] then
+                imp[#imp+1] = name
+            end
+        end
     end
-    map:save(output_path)
+
+    progress:target(100)
+    table.sort(imp)
+    local hex = {}
+    hex[1] = ('ll'):pack(1, #imp)
+    for _, name in ipairs(imp) do
+        hex[#hex+1] = ('z'):pack(name)
+        hex[#hex+1] = '\r'
+    end
+    map:set('war3map.imp', table.concat(hex))
+    map:save(self.slk.w3i)
+    map:close()
 end
 
 function mt:load_file(input)
