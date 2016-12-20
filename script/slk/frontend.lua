@@ -44,9 +44,6 @@ local function table_copy(a, b)
     for k, v in pairs(a) do
         if b[k] then
             if type(v) == 'table' then
-                if type(b[k]) ~= 'table' then
-                    b[k] = {b[k]}
-                end
                 c[k] = copy2(v, b[k])
             else
                 c[k] = b[k]
@@ -159,9 +156,9 @@ return function(w2l, archive, slk)
     --读取字符串
     slk.wts = w2l:frontend_wts(archive)
     slk.all = {}
-    local objs, force_slk = load_obj(w2l, archive, slk.wts)
-    local lnis = load_lni(w2l, archive)
-    local datas, txt = load_slk(w2l, archive, force_slk, slk.all)
+    local objs, force_slk1 = load_obj(w2l, archive, slk.wts)
+    local lnis, force_slk2 = load_lni(w2l, archive)
+    local datas, txt = load_slk(w2l, archive, force_slk1 or force_slk2, slk.all)
     for type, data in pairs(datas) do
         local obj = objs[type] or {}
         if lnis[type] then
