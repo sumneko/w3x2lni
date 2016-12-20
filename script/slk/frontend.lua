@@ -156,12 +156,13 @@ return function(w2l, archive, slk)
     --读取字符串
     slk.wts = w2l:frontend_wts(archive)
     slk.all = {}
-    local objs, force_slk = load_obj(w2l, archive, slk.wts)
-    local lnis = load_lni(w2l, archive)
-    local datas, txt = load_slk(w2l, archive, force_slk, slk.all)
+    local objs, force_slk1 = load_obj(w2l, archive, slk.wts)
+    local lnis, force_slk2 = load_lni(w2l, archive)
+    local datas, txt = load_slk(w2l, archive, force_slk1 or force_slk2, slk.all)
     for type, data in pairs(datas) do
         local obj = objs[type] or {}
         if lnis[type] then
+            w2l:frontend_updatelni(type, lnis[type], data)
             merge(obj, lnis[type])
         end
         merge_obj(data, obj, slk.all)

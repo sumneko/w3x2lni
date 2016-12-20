@@ -113,9 +113,9 @@ local function main()
 	io.save(w2l.template / 'txt.ini', txt2teamplate('txt', txt))
 
 	-- 生成技能命令映射
-	local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'))
-	local order_list = order_prebuilt(skill_data)
-	io.save(w2l.root / 'script' / 'order' / 'order_list.lua', order_list)
+	--local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'))
+	--local order_list = order_prebuilt(skill_data)
+	--io.save(w2l.root / 'script' / 'order' / 'order_list.lua', order_list)
 
 	message('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
 end
