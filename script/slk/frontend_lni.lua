@@ -12,11 +12,13 @@ local function add_obj(type, name, level_key, obj)
     new_obj._lower_para = string_lower(obj._id)
     new_obj._max_level = obj[level_key]
     new_obj._type = type
+
+    return new_obj
 end
 
 local function convert(data, type, level_key, lni)
     for name, obj in pairs(lni) do
-        data[name] = add_obj(type, name, level_key, obj)
+        data[string_lower(name)] = add_obj(type, name, level_key, obj)
     end
 end
 

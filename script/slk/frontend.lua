@@ -44,6 +44,9 @@ local function table_copy(a, b)
     for k, v in pairs(a) do
         if b[k] then
             if type(v) == 'table' then
+                if type(b[k]) ~= 'table' then
+                    b[k] = {b[k]}
+                end
                 c[k] = copy2(v, b[k])
             else
                 c[k] = b[k]
