@@ -20,6 +20,25 @@ local lines
 local cx
 local cy
 
+local character = { 'A','B','C','D','E','F','G','H','I' }
+
+local function get_displaykey(code, key)
+    local id = keydata[code] and keydata[code][key] or keydata['common'][key]
+    local meta = metadata[id]
+    if not meta then
+        return
+    end
+    local key = meta.field
+    local num = meta.data
+    if num and num ~= 0 then
+        key = key .. character[num]
+    end
+    if meta._has_index then
+        key = key .. ':' .. (meta.index + 1)
+    end
+    return key
+end
+
 local slk_keys = {
     ['units\\abilitydata.slk']      = {
         'alias','code','Area1','Area2','Area3','Area4','BuffID1','BuffID2','BuffID3','BuffID4','Cast1','Cast2','Cast3','Cast4','checkDep','Cool1','Cool2','Cool3','Cool4','Cost1','Cost2','Cost3','Cost4','DataA1','DataA2','DataA3','DataA4','DataB1','DataB2','DataB3','DataB4','DataC1','DataC2','DataC3','DataC4','DataD1','DataD2','DataD3','DataD4','DataE1','DataE2','DataE3','DataE4','DataF1','DataF2','DataF3','DataF4','DataG1','DataG2','DataG3','DataG4','DataH1','DataH2','DataH3','DataH4','DataI1','DataI2','DataI3','DataI4','Dur1','Dur2','Dur3','Dur4','EfctID1','EfctID2','EfctID3','EfctID4','HeroDur1','HeroDur2','HeroDur3','HeroDur4','levels','levelSkip','priority','reqLevel','Rng1','Rng2','Rng3','Rng4','targs1','targs2','targs3','targs4','UnitID1','UnitID2','UnitID3','UnitID4',
@@ -106,28 +125,6 @@ local function add_head(names, skeys)
     lines[#lines+1] = ('B;X%d;Y%d;D0'):format(#skeys, #names+1)
 end
 
-local function key2id(code, key)
-    local id = keydata[code] and keydata[code][key] or keydata['common'][key]
-    return id
-end
-
-local function get_displaykey(name, code, key)
-    local id = key2id(code, key)
-	local meta  = metadata[id]
-	if not meta then
-		return
-	end
-	local key = meta.field
-	local num = meta.data
-	if num and num ~= 0 then
-		key = key .. string_char(('A'):byte() + num - 1)
-	end
-	if meta._has_index then
-		key = key .. ':' .. (meta.index + 1)
-	end
-	return key
-end
-
 local function get_names()
     local names = {}
     for name in pairs(slk) do
@@ -208,12 +205,12 @@ local function load_obj(name, obj, slk_name)
     slk_data['_id'] = obj._id
     obj._slk = true
     for key, id in pairs(keys) do
-        local displaykey = get_displaykey(name, code, key)
+        local displaykey = get_displaykey(code, key)
         load_data(displaykey, obj, key, id, slk_data)
     end
     if keydata[code] then
         for key, id in pairs(keydata[code]) do
-            local displaykey = get_displaykey(name, code, key)
+            local displaykey = get_displaykey(code, key)
             load_data(displaykey, obj, key, id, slk_data)
         end
     end

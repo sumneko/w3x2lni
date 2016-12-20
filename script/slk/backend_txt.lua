@@ -18,6 +18,24 @@ local keydata
 local keys
 local lines
 
+local character = { 'A','B','C','D','E','F','G','H','I' }
+
+local function get_displaykey(id)
+    local meta = metadata[id]
+    if not meta then
+        return
+    end
+    local key = meta.field
+    local num = meta.data
+    if num and num ~= 0 then
+        key = key .. character[num]
+    end
+    if meta._has_index then
+        key = key .. ':' .. (meta.index + 1)
+    end
+    return key
+end
+
 local function to_type(tp, value)
     if tp == 0 then
         if not value or value == 0 then
@@ -134,22 +152,6 @@ local function add_data(name, obj, key, id, value, values)
     end
 end
 
-local function get_key(id)
-	local meta  = metadata[id]
-	if not meta then
-		return
-	end
-	local key  = meta.field
-	local num   = meta.data
-	if num and num ~= 0 then
-		key = key .. string_char(('A'):byte() + num - 1)
-	end
-	if meta._has_index then
-		key = key .. ':' .. (meta.index + 1)
-	end
-	return key
-end
-
 local function format_value(key, val)
     if val == '' then
         return nil
@@ -169,7 +171,7 @@ end
 local function add_obj(name, obj)
     local values = {}
     for _, id in pairs(keys) do
-        local key = get_key(id)
+        local key = get_displaykey(id)
         local data = obj[key]
         if data then
             add_data(name, obj, key, id, data, values)
@@ -228,7 +230,7 @@ local function load_data(name, obj, key, txt_data)
     if not obj[key] then
         return
     end
-    local skey = get_key(key2id(obj._code, key))
+    local skey = get_displaykey(key2id(obj._code, key))
     txt_data[skey] = obj[key]
     txt_data['_id'] = obj['_id']
     obj[key] = nil

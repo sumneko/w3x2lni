@@ -20,32 +20,33 @@ local function unpack(str)
 	return set_pos(string_unpack(str, unpack_buf, unpack_pos))
 end
 
-local character = { 'a','b','c','d','e','f','g','h','i' }
+local character = { 'A','B','C','D','E','F','G','H','I' }
 
-local function get_id_name(id)
-	local meta  = metadata[id]
-	if not meta then
-		return
-	end
-	local name  = string_lower(meta.field)
-	local num   = meta.data
-	if num and num ~= 0 then
-		name = name .. character[num]
-	end
-	if meta._has_index then
-		name = name .. ':' .. (meta.index + 1)
-	end
-	return name
+local function get_displaykey(id)
+    local meta = metadata[id]
+    if not meta then
+        return
+    end
+    local key = meta.field
+    local num = meta.data
+    if num and num ~= 0 then
+        key = key .. character[num]
+    end
+    if meta._has_index then
+        key = key .. ':' .. (meta.index + 1)
+    end
+    return key
 end
 
 local function read_data(obj)
 	local data = {}
 	local id = string_match(unpack 'c4', '^[^\0]+')
-	local key = get_id_name(id)
+	local key = get_displaykey(id)
 	local value_type = unpack 'l'
 	local level = 0
 
 	if key then
+		key = string_lower(key)
 		local check_type = w2l:get_id_type(metadata[id].type)
 		if value_type ~= check_type and (value_type == 3 or check_type == 3) then
 			message(('数据类型错误:[%s],应该为[%s],错误的解析为了[%s]'):format(id, value_type, check_type))

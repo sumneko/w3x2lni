@@ -7,6 +7,28 @@ local table_concat = table.concat
 local string_char = string.char
 local type = type
 
+local keydata
+local metadata
+
+local character = { 'A','B','C','D','E','F','G','H','I' }
+
+local function get_displaykey(code, key)
+    local id = keydata[code] and keydata[code][key] or keydata['common'][key]
+    local meta = metadata[id]
+    if not meta then
+        return
+    end
+    local key = meta.field
+    local num = meta.data
+    if num and num ~= 0 then
+        key = key .. character[num]
+    end
+    if meta._has_index then
+        key = key .. ':' .. (meta.index + 1)
+    end
+    return key
+end
+
 local mt = {}
 mt.__index = mt
 
@@ -81,8 +103,7 @@ function mt:add_obj(obj)
 	local code = obj._code
     for key, data in pairs(obj) do
 		if key:sub(1, 1) ~= '_' then
-			local id = self:key2id(code, key)
-			local key = self:get_key(id)
+			local key = get_displaykey(code, key)
 			if key then
 				keys[#keys+1] = key
 				upper_obj[key] = data
@@ -153,28 +174,12 @@ function mt:add_data(key, id, data, lines)
 end
 
 function mt:key2id(code, key)
-    local id = self.key[code] and self.key[code][key] or self.key['common'][key]
+    local id = keydata[code] and keydata[code][key] or keydata['common'][key]
     return id
 end
 
-function mt:get_key(id)
-	local meta  = self.meta[id]
-	if not meta then
-		return
-	end
-	local key  = meta.field
-	local num   = meta.data
-	if num and num ~= 0 then
-		key = key .. string_char(('A'):byte() + num - 1)
-	end
-	if meta._has_index then
-		key = key .. ':' .. (meta.index + 1)
-	end
-	return key
-end
-
 function mt:get_comment(id)
-	local comment = self.meta[id].displayname
+	local comment = metadata[id].displayname
 	return self.w2l:editstring(comment)
 end
 
@@ -182,12 +187,9 @@ return function (w2l, type, data)
 	local tbl = setmetatable({}, mt)
 	tbl.lines = {}
 	tbl.w2l = w2l
-
-	tbl.meta = w2l:read_metadata(type)
-    tbl.key = w2l:keyconvert(type)
-    tbl.file_name = type
-
+	metadata = w2l:read_metadata(type)
+	keydata = w2l:keyconvert(type)
+	tbl.file_name = type
 	tbl:add_chunk(data)
-
 	return table_concat(tbl.lines, '\r\n')
 end
