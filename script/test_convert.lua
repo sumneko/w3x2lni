@@ -197,8 +197,10 @@ local function write_slk(_, slkname, t)
 		colhash.lumberbountyplus = true
 		colhash.lumberbountysides = true
 		colhash.repulseprio = true
+	elseif slkname == 'units\\unitui.slk' then
+		colhash.weap1 = nil
+		colhash.weap2 = nil
 	end
-
 	for x in pairs(colhash) do
 		cols[#cols+1] = x
 	end
