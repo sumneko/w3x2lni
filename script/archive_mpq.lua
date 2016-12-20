@@ -31,8 +31,8 @@ end
 
 function mt:save(info, slk)
     local w3i = slk.w3i
-    local packignore = info.pack.packignore
-    local impignore = info.pack.impignore
+    local packignore = info and info.pack.packignore
+    local impignore = info and info.pack.impignore
 
     local hexs = {}
 
