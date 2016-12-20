@@ -3,6 +3,8 @@
 	package.path = package.path .. ';' .. exepath .. '..\\script\\?.lua'
 end)()
 
+local w3xparser = require 'w3xparser'
+local wtonumber = w3xparser.tonumber
 require 'filesystem'
 local uni = require 'ffi.unicode'
 local w2l = require 'w3x2lni'
@@ -139,8 +141,55 @@ local slk_keys = {
 
 local abilkey = {'Area', 'BuffID','Cast','Cool','Cost','DataA','DataB','DataC','DataD','DataE','DataF','DataG','DataH','DataI','Dur','EfctID','HeroDur','Rng','UnitID','targs'}
 
+local metadata
+local keydata1
+local keydata2
+local firstkey
+local function get_key_type(key, code)
+	if firstkey == key then
+		return 3
+	end
+	if 'name' == key then
+		return 3
+	end
+	if 'code' == key then
+		return 3
+	end
+	local id = keydata2[key]
+	if not id then
+		key = key:sub(1, key:find("%d+$")-1) 
+		id = keydata2[key] or keydata1[code][key]
+	end
+	if not id then
+		return 4
+	end
+	return w2l:get_id_type(metadata[id].type)
+end
+
+local function to_type(tp, value)
+    if tp == 0 then
+        if not value or value == 0 then
+            return nil
+        end
+        return math.floor(wtonumber(value))
+    elseif tp == 1 or tp == 2 then
+        if not value or value == 0 then
+            return nil
+        end
+        return wtonumber(value) + 0.0
+    elseif tp == 3 then
+        if not value then
+            return nil
+        end
+        return tostring(value)
+    end
+end
+
 local cx, cy
 local function write_slk_line(x, y, k)
+	if not k then
+		return
+	end
     local s = 'C'
     if x ~= cx then
         cx = x
@@ -150,16 +199,25 @@ local function write_slk_line(x, y, k)
         cy = y
         s = s .. ';Y' .. y
     end
-	return s .. ';K' .. (tonumber(k) or ('"' .. k .. '"'))
+    if type(k) == 'string' then
+        k = '"' .. k .. '"'
+    elseif math.type(k) == 'float' then
+        k = ('%.4f'):format(k):gsub('[0]+$', ''):gsub('%.$', '.0')
+    end
+	return s .. ';K' .. k
 end
 
-local function write_slk(_, slkname, t)
+local function write_slk(type, slkname, t)
 	local convert = {}
 	if slk_keys[slkname] then
 		for _, key in ipairs(slk_keys[slkname]) do
 			convert[key:lower()] = key
 		end
 	end
+	metadata = w2l:read_metadata(type)
+	keydata1 = w2l:keyconvert(type)
+	keydata2 = keydata1[slkname]
+	firstkey = slk_keys[slkname][1]
 
 	local rows = {}
 	local cols = {}
@@ -200,6 +258,8 @@ local function write_slk(_, slkname, t)
 	elseif slkname == 'units\\unitui.slk' then
 		colhash.weap1 = nil
 		colhash.weap2 = nil
+	elseif slkname == 'units\\upgradedata.slk' then
+		colhash.used = nil
 	end
 	for x in pairs(colhash) do
 		cols[#cols+1] = x
@@ -244,7 +304,12 @@ local function write_slk(_, slkname, t)
         for x, col in ipairs(cols) do
             local v = l[col]
             if v then
-                str[#str+1] = write_slk_line(x, y + 1, v)
+                str[#str+1] = write_slk_line(x, y + 1, to_type(get_key_type(col, l.code), v))
+			elseif slkname == 'units\\unitabilities.slk' and col == 'auto'
+ 				or slkname == 'units\\unitbalance.slk' and (col == 'primary' or col == 'preventplace' or col == 'requireplace')
+ 				or slkname == 'units\\destructabledata.slk' and col == 'texfile'
+ 			then
+                str[#str+1] = write_slk_line(x, y + 1, '_')
             end
         end
     end
@@ -319,8 +384,8 @@ for type, filelist in pairs(w2l.info.template.slk) do
 				t.XEsn = nil
 			end
 		end
-		io.save(outf, write_slk2(type, filename, t))
-		--io.save(outf, write_slk(type, filename, t))
+		--io.save(outf, write_slk2(type, filename, t))
+		io.save(outf, write_slk(type, filename, t))
 	end
 end
 
