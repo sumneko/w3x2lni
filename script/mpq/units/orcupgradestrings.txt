@@ -1,118 +1,118 @@
-[Roch]
-Name=Chaos
+﻿[Roch]
+Name=混乱的
 
 [Rome]
-Name=Steel Melee Weapons,Thorium Melee Weapons,Arcanite Melee Weapons
-Tip=Upgrade to Steel |cffffcc00M|relee Weapons,Upgrade to Thorium |cffffcc00M|relee Weapons,Upgrade to Arcanite |cffffcc00M|relee Weapons
-Ubertip="Increases the melee attack damage of Grunts, Raiders and Tauren.","Further increases the melee attack damage of Grunts, Raiders and Tauren.","Further increases the melee attack damage of Grunts, Raiders and Tauren."
+Name=钢铁近战武器,金属近战武器,终极近战武器
+Tip=升级到钢铁近战武器(|cffffcc00M|r),升级到金属近战武器(|cffffcc00M|r),升级到终极近战武器(|cffffcc00M|r)
+Ubertip="增加兽族步兵，掠夺者，牛头人的攻击力。","进一步增加兽族步兵，掠夺者，牛头人的攻击力。","进一步增加兽族步兵，掠夺者，牛头人的攻击力。"
 Hotkey=M,M,M
 
 [Rora]
-Name=Steel Ranged Weapons,Thorium Ranged Weapons,Arcanite Ranged Weapons
-Tip=Upgrade to Steel |cffffcc00R|ranged Weapons,Upgrade to Thorium |cffffcc00R|ranged Weapons,Upgrade to Arcanite |cffffcc00R|ranged Weapons
-Ubertip="Increases the ranged attack damage of Headhunters, Wind Riders, Troll Batriders and Demolishers.","Further increases the ranged attack damage of Headhunters, Wind Riders, Troll Batriders and Demolishers.","Further increases the ranged attack damage of Headhunters, Wind Riders, Troll Batriders and Demolishers."
+Name=钢铁远程武器,金属远程武器,终极远程武器
+Tip=升级到钢铁远程武器(|cffffcc00R|r),升级到金属远程武器(|cffffcc00R|r),升级到终极远程武器(|cffffcc00R|r)
+Ubertip="能增加巨魔猎头者，风骑士，粉碎者和巨魔蝙蝠骑士的远程攻击力。","进一步增加巨魔猎头者，风骑士，粉碎者和巨魔蝙蝠骑士的远程攻击力。","进一步增加巨魔猎头者，风骑士，粉碎者和巨魔蝙蝠骑士的远程攻击力。"
 Hotkey=R,R,R
 
 [Roar]
-Name=Steel Armor,Thorium Armor,Arcanite Armor
-Tip=Upgrade to Steel Unit |cffffcc00A|rrmor,Upgrade to Thorium Unit |cffffcc00A|rrmor,Upgrade to Arcanite Unit |cffffcc00A|rrmor
-Ubertip="Increases the armor of Grunts, Raiders, Troll Batriders, Tauren, Headhunters, Wind Riders and Demolishers.","Further increases the armor of Grunts, Raiders, Troll Batriders, Tauren, Headhunters, Wind Riders and Demolishers.","Further increases the armor of Grunts, Raiders, Troll Batriders, Tauren, Headhunters, Wind Riders and Demolishers."
+Name=钢铁护甲,金属护甲,终极护甲
+Tip=升级到钢铁护甲(|cffffcc00A|r),升级到钢铁护甲(|cffffcc00A|r),升级到终极护甲(|cffffcc00A|r)
+Ubertip="增加兽族步兵，掠夺者，牛头人，巨魔猎头者，巨魔蝙蝠骑士，风骑士和粉碎者的护甲。","进一步增加兽族步兵，掠夺者，牛头人，巨魔猎头者，巨魔蝙蝠骑士，风骑士和粉碎者的护甲。","进一步增加兽族步兵，掠夺者，牛头人，巨魔猎头者，巨魔蝙蝠骑士，风骑士和粉碎者的护甲。"
 Hotkey=A,A,A
 
 [Rwdm]
-Name=War Drums Damage Increase
-Tip=Upgrade War |cffffcc00D|rrums
-Ubertip="Increases the damage bonus that the War Drums aura on the Kodo Beast gives. War Drums increases the damage of friendly units around Kodo Beasts."
+Name=战鼓攻击力升级
+Tip=升级战鼓(|cffffcc00D|r)
+Ubertip="经过升级以后，科多兽的战鼓光环能给予周围的单位更多的攻击力附加值。"
 Hotkey=D
 
 // pillage
 [Ropg]
-Name=Pillage
-Tip=Pilla|cffffcc00g|re
-Ubertip="Causes Peons', Grunts', and Raiders' attacks to gain resources when hitting enemy buildings."
+Name=掠夺
+Tip=掠夺(|cffffcc00G|r)
+Ubertip="使得苦工，兽族步兵和掠夺者对敌人建筑物的攻击能掠夺到一定的资源。"
 Hotkey=G
 
 [Robs]
-Name=Berserker Strength
-Tip=Research |cffffcc00B|rerserker Strength
-Ubertip="Improves the fighting capabilities of Grunts with a <Robs,base1> hit point increase, and <Robs,base2> bonus attack damage."
+Name=狂暴力量
+Tip=研究狂暴力量(|cffffcc00B|r)
+Ubertip="能增加兽族步兵<Robs,base1>点的生命值和<Robs,base2>点的攻击力。"
 Hotkey=B
 
 [Rows]
-Name=Pulverize
-Tip=Research |cffffcc00P|rulverize
-Ubertip="Gives Tauren the Pulverize ability. Pulverize gives Tauren a chance of dealing area effect damage on their attacks."
+Name=粉碎
+Tip=研究粉碎(|cffffcc00P|r)
+Ubertip="让牛头人具有粉碎技能，从而使得牛头人具有一定的概率造成范围性攻击。"
 Hotkey=P
 
 [Roen]
-Name=Ensnare
-Tip=Research E|cffffcc00n|rsnare
-Ubertip="Enables Raiders to use the Ensnare ability. Ensnare causes a target enemy unit to be bound to the ground so that it cannot move. Air units that are ensnared can be attacked as though they were land units."
+Name=诱捕
+Tip=诱捕(|cffffcc00N|r)
+Ubertip="使得掠夺者能将目标空中单位困在地面上而不能移动。"
 Hotkey=N
 
 [Rovs]
-Name=Envenomed Spears
-Tip=Research |cffffcc00E|rnvenomed Spears
-Ubertip="Adds an additional poison effect to Wind Riders' attacks. A unit poisoned by Envenomed Spears takes damage over time."
+Name=浸毒武器
+Tip=研究浸毒武器(|cffffcc00E|r)
+Ubertip="使得风骑士的攻击带有毒性。一个被浸毒武器攻击到的单位会在一段时间内持续受到伤害。"
 Hotkey=E
 
 [Rowd]
-Name=Witch Doctor Adept Training,Witch Doctor Master Training
-Tip=Witch |cffffcc00D|roctor Adept Training,Witch |cffffcc00D|roctor Master Training
-Ubertip="Increases Witch Doctors' mana capacity, mana regeneration rate, hit points, and gives them the ability to cast Stasis Trap.","Increases Witch Doctors' mana capacity, mana regeneration rate, hit points, and gives them the ability to cast Healing Ward."
+Name=巫医专家训练,巫医大师训练
+Tip=巫医专家训练(|cffffcc00D|r),巫医大师训练(|cffffcc00D|r)
+Ubertip="增加巫医的魔法最大值，魔法恢复速度，生命值和攻击力。还能使其获得静止陷阱技能。","增加巫医的魔法最大值，魔法恢复速度，生命值和攻击力。还能使其获得静止治疗守卫技能。"
 Hotkey=D,D
 
 [Rost]
-Name=Shaman Adept Training,Shaman Master Training
-Tip=Sha|cffffcc00m|ran Adept Training,Sha|cffffcc00m|ran Master Training
-Ubertip="Increases Shaman mana capacity, mana regeneration rate, hit points, and gives them the ability to cast Lightning Shield.","Increases Shaman mana capacity, mana regeneration rate, hit points, and gives them the ability to cast Bloodlust."
+Name=萨满祭司专家训练,萨满祭司大师训练
+Tip=萨满祭司专家训练(|cffffcc00M|r), 萨满祭司大师训练(|cffffcc00M|r)
+Ubertip="增加萨满祭司的魔法最大值，魔法恢复速度，生命值和攻击力。还能使其获得闪电护盾技能。","增加萨满祭司的魔法最大值，魔法恢复速度，生命值和攻击力。还能使其获得嗜血术。"
 Hotkey=M,M
 
 [Rosp]
-Name=Spiked Barricades,Improved Spiked Barricades,Advanced Spiked Barricades
-Tip=Upgrade to |cffffcc00S|rpiked Barricades,Upgrade to Improved |cffffcc00S|rpiked Barricades,Upgrade to Advanced |cffffcc00S|rpiked Barricades
-Ubertip="Surrounds Orc buildings with spikes that damage enemy melee attackers. Deals <Rosp,base1> damage per attack.","Increases the amount of damage inflicted on melee attackers by <Rosp,mod1>.","Further increases the amount of damage inflicted on melee attackers by <Rosp,mod1>."
+Name=尖刺障碍,中级尖刺障碍,高级尖刺障碍
+Tip=升级到尖刺障碍(|cffffcc00S|r),升级到中级尖刺障碍(|cffffcc00S|r),升级到高级尖刺障碍(|cffffcc00S|r)
+Ubertip="使得兽族的建筑物周围都布满了具有攻击力的尖刺，如果敌人每进行一次近战攻击就会受到<Rosp,base1>点伤害。","使得兽族的建筑物周围都布满了具有攻击力的尖刺，如果敌人每进行一次近战攻击就会受到<Rosp,mod1>点伤害。","使得兽族的建筑物周围都布满了具有攻击力的尖刺，如果敌人每进行一次近战攻击就会受到<Rosp,mod1>点伤害。"
 Hotkey=S,S,S
 
 [Rotr]
-Name=Troll Regeneration,Improved Troll Regeneration,Advanced Troll Regeneration
-Tip=Research Troll |cffffcc00R|regeneration, Research Improved Troll |cffffcc00R|regeneration, Research Advanced Troll |cffffcc00R|regeneration
-Ubertip="Increases the hit point regeneration rate of Headhunters, Witch Doctors and Troll Batriders.","Further increases the hit point regeneration rate of Headhunters, Witch Doctors and Troll Batriders.","Further increases the hit point regeneration rate of Headhunters, Witch Doctors and Troll Batriders."
+Name=巨魔再生,中级巨魔再生,高级巨魔再生
+Tip=研究巨魔再生(|cffffcc00R|r),研究中级巨魔再生(|cffffcc00R|r),研究高级巨魔再生(|cffffcc00R|r)
+Ubertip="加快巫医，巨魔蝙蝠骑士和巨魔猎头者的生命值恢复。","进一步加快巫医，巨魔蝙蝠骑士和巨魔猎头者的生命值恢复。","进一步加快巫医，巨魔蝙蝠骑士和巨魔猎头者的生命值恢复。"
 Hotkey=R
 
 [Rolf]
-Name=Liquid Fire
-Tip=Research |cffffcc00L|riquid Fire
-Ubertip="Gives Troll Batriders the Liquid Fire attack, which deals damage over time to enemy buildings, stops them from being repaired, and reduces the attack rate of enemy buildings."
+Name=液体炸弹
+Tip=研究液体炸弹(|cffffcc00L|r)
+Ubertip="让巨魔蝙蝠骑士具有液体炸弹技能，从而可以对敌人的建筑物造成持续性的伤害，被液体炸弹攻击到的各类防御塔都会被减慢攻击速度。"
 Hotkey=L
 
 [Ropm]
-Name=Backpack
-EditorSuffix= (Orc)
-Tip=Research |cffffcc00B|rackpack
-Ubertip="Gives specific Orc ground units the ability to carry items."
+Name=背包技能
+EditorSuffix= (兽族)
+Tip=研究背包技能(|cffffcc00B|r)
+Ubertip="让某个特定的兽族地面单位能替英雄携带物品。"
 Hotkey=B
 
 [Rowt]
-Name=Spirit Walker Adept Training,Spirit Walker Master Training
-Tip=Spi|cffffcc00r|rit Walker Adept Training,Spi|cffffcc00r|rit Walker Master Training
-Ubertip="Increases Spirit Walkers' mana capacity, mana regeneration rate, hit points, and gives them the ability to cast Disenchant.","Increases Spirit Walkers' mana capacity, mana regeneration rate, hit points, and gives them the ability to cast Ancestral Spirit."
+Name=灵魂行者专家训练,灵魂行者大师训练
+Tip=灵魂行者专家训练(|cffffcc00R|r),)灵魂行者大师训练(|cffffcc00R|r)
+Ubertip="增加灵魂行者的最大魔法值，魔法恢复速度和最大生命值。并让其具有消魔技能。","增加灵魂行者的最大魔法值，魔法恢复速度和最大生命值。并让其具有先祖幽灵技能。"
 Hotkey=R,R
 
 [Robk]
-Name=Berserker Upgrade
-Tip=B|cffffcc00e|rrserker Upgrade
-Ubertip="Transforms Headhunters into Troll Berserkers, giving them increased hit points and the Berserk ability."
+Name=狂暴愤怒升级
+Tip=升级狂战士(|cffffcc00E|r)
+Ubertip="将巨魔猎头者变为巨魔狂暴战士。使其拥有更多的生命值和狂暴愤怒技能。"
 Hotkey=E
 
 [Rorb]
-Name=Reinforced Defenses
-Tip=Reinforced |cffffcc00D|refenses
-Ubertip="Upgrades Burrows and Watch Towers so that they have Fortified armor."
+Name=加强型防御
+Tip=加强型防御(|cffffcc00D|r)
+Ubertip="升级地洞和了望塔从而让它们拥有加强型的护甲。"
 Hotkey=D
 
 [Robf]
-Name=Burning Oil
-Tip=Bur|cffffcc00n|ring Oil
-Ubertip="Upgrades Demolishers to fire rocks smothered in burning oil, which causes the ground to burn."
+Name=燃烧之油
+Tip=燃烧之油(|cffffcc00N|r)
+Ubertip="升级粉碎者，使其能投出包裹石油的燃烧石块，从而能燃烧地面。"
 Hotkey=N
