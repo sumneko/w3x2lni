@@ -1,5 +1,6 @@
-
-if not io.load then
+if io.load then
+	return
+end
 
 local uni = require 'ffi.unicode'
 local real_io_open = io.open
@@ -32,16 +33,4 @@ function io.save(file_path, content)
 	else
 		return false, e
 	end
-end
-end
-
-local sleep = require 'ffi.sleep'
-function task(f, ...)
-	for i = 1, 99 do
-		if pcall(f, ...) then
-			return
-		end
-		sleep(10)
-	end
-	f(...)
 end
