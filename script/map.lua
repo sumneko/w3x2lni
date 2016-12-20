@@ -33,13 +33,17 @@ w2l:frontend(input_ar, slk)
 message('正在转换...')
 w2l:backend_processing(slk)
 w2l:backend(input_ar, slk)
+if not fs.is_directory(input) then
+    input = input:parent_path() / input:stem()
+end
 local output
 if w2l.config.target_storage == 'dir' then
     message('正在导出文件...')
-    output = input:parent_path() / input:stem()
+    output = input:parent_path() / (input:filename():string() .. '_w2l')
+    fs.create_directory(output)
 elseif w2l.config.target_storage == 'map' then
     message('正在打包地图...')
-    output = input:parent_path() / (input:stem():string() .. '_slk.w3x')
+    output = input:parent_path() / (input:string() .. '_w2l.w3x')
 end
 local output_ar = archive(output, 'w')
 for name, buf in pairs(input_ar) do
