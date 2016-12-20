@@ -4,6 +4,17 @@ local progress = require 'progress'
 local mt = {}
 mt.__index = mt
 
+local function load_file(self, filename)
+    local buf = self.handle:load_file(filename)
+    if buf then
+        if not self.listfile[filename] then
+            self.listfile[filename] = true
+            self.file_number = self.file_number + 1
+        end
+    end
+    return buf
+end
+
 function mt:set(filename, content)
     self.cache[filename] = content
 end
@@ -16,7 +27,7 @@ function mt:get(filename)
         end
         return false, ('文件 %q 不存在'):format(filename)
     end
-    local buf = self.handle:load_file(filename)
+    local buf = load_file(self, filename)
     if buf then
         self.cache[filename] = buf
         return buf
@@ -88,7 +99,7 @@ function mt:__pairs()
         for filename in pairs(self.handle) do
             local filename = filename:lower()
             if cache[filename] == nil then
-                cache[filename] = self.handle:load_file(filename)
+                cache[filename] = load_file(self, filename)
             end
         end
     end
@@ -102,6 +113,14 @@ function mt:__pairs()
     return next_file, cache
 end
 
+function mt:sucess()
+    local total = self.handle:number_of_files()
+    if self.file_number < total then
+        return false, ('读取(%d/%d)个文件，还有%d个文件没有读取'):format(self.file_number, total, total - self.file_number)
+    end
+    return true
+end
+
 return function (pathorhandle, tp)
     local ar = { cache = {}, path = pathorhandle }
     if tp ~= 'w' then
@@ -113,6 +132,8 @@ return function (pathorhandle, tp)
         if not ar.handle then
             return nil
         end
+        ar.listfile = {}
+        ar.file_number = 0
     end
     return setmetatable(ar, mt)
 end

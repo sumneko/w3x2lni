@@ -45,6 +45,10 @@ local output_ar = archive(output, 'w')
 for name, buf in pairs(input_ar) do
     output_ar:set(name, buf)
 end
+local ok, e = input_ar:sucess()
+if not ok then
+    message(e)
+end
 progress:target(100)
 output_ar:save(w2l.info, slk)
 output_ar:close()

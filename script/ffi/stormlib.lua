@@ -14,7 +14,7 @@ ffi.cdef[[
     	unsigned long dwRawChunkSize; // Size of raw data chunk
     	unsigned long dwMaxFileCount; // File limit for the MPQ
 	};
-
+	
 	bool SFileCreateArchive2(const wchar_t* szMpqName, struct SFILE_CREATE_MPQ* pCreateInfo, uint32_t* phMpq);
 	bool SFileOpenArchive(const wchar_t* szMpqName, unsigned long dwPriority, unsigned long dwFlags, uint32_t* phMpq);
 	bool SFileCloseArchive(uint32_t hMpq);
@@ -30,6 +30,8 @@ ffi.cdef[[
 	bool SFileReadFile(uint32_t hFile, void* lpBuffer, unsigned long dwToRead, unsigned long* pdwRead, void* lpOverlapped);
 	unsigned long SFileGetFileSize(uint32_t hFile, unsigned long* pdwFileSizeHigh);
 	bool SFileCloseFile(uint32_t hFile);
+
+	bool SFileGetFileInfo(uint32_t hMpqOrFile, int InfoClass, void * pvFileInfo, unsigned long cbFileInfo, unsigned long* pcbLengthNeeded);
 
 	unsigned long SFileGetLocale();
 
@@ -53,6 +55,8 @@ ffi.cdef[[
     void GetSystemTime(struct SYSTEMTIME* lpSystemTime);
     int SystemTimeToFileTime(const struct SYSTEMTIME* lpSystemTime, struct FILETIME*lpFileTime);
 ]]
+
+local SFileMpqNumberOfFiles = 36
 
 require 'filesystem'
 local uni = require 'ffi.unicode'
@@ -215,6 +219,17 @@ function archive:save_file(name, buf, filetime)
 	file:write(buf)
 	file:close()
 	return true
+end
+
+function archive:number_of_files()
+	if self.handle == 0 then
+		return 0
+	end
+	local pinfo = ffi.new('uint32_t[1]', 0)
+	if not stormlib.SFileGetFileInfo(self.handle, SFileMpqNumberOfFiles, pinfo, 4, nil) then
+		return 0
+	end
+	return pinfo[0]
 end
 
 function archive:__pairs()
