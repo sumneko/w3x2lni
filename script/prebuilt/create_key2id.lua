@@ -20,12 +20,12 @@ local enable_type = {
 local mt = {}
 
 function mt:canadd(skl, id)
-    if skl == 'ailb' or skl == 'aipb' then
+    if skl == 'AIlb' or skl == 'AIpb' then
         -- AIlb与AIpb有2个DataA,进行特殊处理
         if id == 'Idam' then
             return false
         end
-    elseif skl == 'ails' then
+    elseif skl == 'AIls' then
     -- AIls有2个DataA,进行特殊处理
         if id == 'Idps' then
             return false
@@ -81,7 +81,7 @@ function mt:add_data(id, meta, common, special, type)
         special[filename][name] = {id}
     else
         for skl in skill:gmatch '%w+' do
-            skl = skl:lower()
+            skl = skl
             if self:canadd(skl, id) then
                 if not special[skl] then
                     special[skl] = {}
@@ -157,22 +157,22 @@ end
 
 local function copy_code(special, template)
     for skill, data in pairs(template) do
-        local skill = skill:lower()
-        local code = data['code']:lower()
-        if skill ~= code and special[code] then
-            if not special[skill] then
-                special[skill] = {}
+        local skill = skill
+        local code = data['code']
+        if skill ~= code and special[skill] then
+            if not special[code] then
+                special[code] = {}
             end
-            for k, v in pairs(special[code]) do
-                if not special[skill][k] then
-                    special[skill][k] = v
+            for k, v in pairs(special[skill]) do
+                if not special[code][k] then
+                    special[code][k] = v
+                elseif v[1] ~= special[code][k][1] then
+                    error('id不同:', k, 'skill:', skill, v[1], 'code:', code, special[code][k][1])
                 end
             end
+            special[skill] = nil
         end
     end
-
-    -- AOac进行特殊处理
-    special['aoac'] = special['acac']
 end
 
 local function read_list(metadata, template, ttype)

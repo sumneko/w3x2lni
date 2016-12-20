@@ -106,13 +106,13 @@ local function add_head(names, skeys)
     lines[#lines+1] = ('B;X%d;Y%d;D0'):format(#skeys, #names+1)
 end
 
-local function key2id(para, key)
-    local id = para and keydata[para] and keydata[para][key] or keydata['common'][key]
+local function key2id(code, key)
+    local id = keydata[code] and keydata[code][key] or keydata['common'][key]
     return id
 end
 
-local function get_displaykey(name, para, key)
-    local id = key2id(para, key)
+local function get_displaykey(name, code, key)
+    local id = key2id(code, key)
 	local meta  = metadata[id]
 	if not meta then
 		return
@@ -200,7 +200,7 @@ local function load_data(displaykey, obj, key, id, slk_data)
 end
 
 local function load_obj(name, obj, slk_name)
-    local para = obj._lower_para
+    local code = obj._code
     local slk_data = {}
     slk_data[slk_keys[slk_name][1]] = obj['_id']
     slk_data['code'] = obj._code
@@ -208,12 +208,12 @@ local function load_obj(name, obj, slk_name)
     slk_data['_id'] = obj._id
     obj._slk = true
     for key, id in pairs(keys) do
-        local displaykey = get_displaykey(name, para, key)
+        local displaykey = get_displaykey(name, code, key)
         load_data(displaykey, obj, key, id, slk_data)
     end
-    if keydata[para] then
-        for key, id in pairs(keydata[para]) do
-            local displaykey = get_displaykey(name, para, key)
+    if keydata[code] then
+        for key, id in pairs(keydata[code]) do
+            local displaykey = get_displaykey(name, code, key)
             load_data(displaykey, obj, key, id, slk_data)
         end
     end

@@ -55,12 +55,12 @@ function mt:add_data(key, id, data)
     end
 end
 
-function mt:key2id(para, key)
-    local id = self.key[para] and self.key[para][key] or self.key['common'][key]
+function mt:key2id(code, key)
+    local id = self.key[code] and self.key[code][key] or self.key['common'][key]
     if id then
         return id
     end
-    message(('警告: 模板[%s]并不支持数据项[%s]'):format(para, key))
+    message(('警告: 模板[%s]并不支持数据项[%s]'):format(code, key))
     return nil
 end
 
@@ -90,7 +90,7 @@ function mt:add_obj(lname, obj)
     
     local name = obj._id
     local para = obj._para
-    local lpara = obj._lower_para
+    local code = obj._code
     if name == para or obj._slk then
         self:add('c4', name)
         self:add('c4', '\0\0\0\0')
@@ -102,7 +102,7 @@ function mt:add_obj(lname, obj)
     for _, key in ipairs(keys) do
         local data = obj[key]
         if data then
-            local id = self:key2id(lpara, key)
+            local id = self:key2id(code, key)
             self:add_data(key, id, obj[key])
         end
     end

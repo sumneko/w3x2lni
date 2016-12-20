@@ -78,10 +78,10 @@ function mt:add_obj(obj)
 	local upper_obj = {}
     local keys = {}
 	local name = obj._id
-	local para = obj._lower_para
+	local code = obj._code
     for key, data in pairs(obj) do
 		if key:sub(1, 1) ~= '_' then
-			local id = self:key2id(para, key)
+			local id = self:key2id(code, key)
 			local key = self:get_key(id)
 			if key then
 				keys[#keys+1] = key
@@ -92,7 +92,7 @@ function mt:add_obj(obj)
     table_sort(keys)
     local lines = {}
 	for _, key in ipairs(keys) do
-		local id = self:key2id(para, key:lower())
+		local id = self:key2id(code, key:lower())
 		self:add_data(key, id, upper_obj[key], lines)
 	end
     if not lines or #lines == 0 then
@@ -152,8 +152,8 @@ function mt:add_data(key, id, data, lines)
 	lines[#lines+1] = {'%s = {%s}', key, table_concat(values, ', ')}
 end
 
-function mt:key2id(para, key)
-    local id = para and self.key[para] and self.key[para][key] or self.key['common'][key]
+function mt:key2id(code, key)
+    local id = self.key[code] and self.key[code][key] or self.key['common'][key]
     return id
 end
 
