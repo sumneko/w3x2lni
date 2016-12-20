@@ -106,6 +106,10 @@ function mt:__pairs()
     return next_file, cache
 end
 
+function mt:sucess()
+    return true
+end
+
 return function (path, tp)
     local ar = { cache = {}, path = path }
     return setmetatable(ar, mt)

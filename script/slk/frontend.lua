@@ -162,6 +162,7 @@ return function(w2l, archive, slk)
     for type, data in pairs(datas) do
         local obj = objs[type] or {}
         if lnis[type] then
+            w2l:frontend_updatelni(type, lnis[type], data)
             merge(obj, lnis[type])
         end
         merge_obj(data, obj, slk.all)
