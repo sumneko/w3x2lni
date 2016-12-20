@@ -38,14 +38,15 @@ function mt:save(input)
     w2l:backend_processing(self.slk)
     w2l:backend(self.archive, self.slk)
 
-    local output = input:parent_path() / input:stem()
+    local output
     if w2l.config.target_storage == 'dir' then
         message('正在导出文件...')
-        self:save_map(output)
+        output = input:parent_path() / input:stem()
     elseif w2l.config.target_storage == 'map' then
         message('正在打包地图...')
-        self:save_map(output:parent_path() / (output:filename():string() .. '_slk.w3x'))
+        output = input:parent_path() / (input:stem():string() .. '_slk.w3x')
     end
+    self:save_map(output)
     self.archive:close()
     progress:target(100)
     return true
