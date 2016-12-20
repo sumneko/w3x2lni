@@ -179,6 +179,13 @@ local function write_slk(_, slkname, t)
 		end
 		l[slk_keys[slkname][1]] = y
 	end
+	if slkname == 'units\\unitbalance.slk' then
+		colhash.lumberbountydice = true
+		colhash.lumberbountyplus = true
+		colhash.lumberbountysides = true
+		colhash.repulseprio = true
+	end
+
 	for x in pairs(colhash) do
 		cols[#cols+1] = x
 	end
