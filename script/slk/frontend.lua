@@ -139,16 +139,32 @@ local function load_obj(w2l, archive, wts)
     return objs, force_slk
 end
 
+local function load_lni(w2l, archive)
+    local lnis = {}
+    for type, name in pairs(w2l.info.template.lni) do
+        local buf = archive:get(name)
+        if buf then
+            message('正在转换', name)
+            lnis[type] = w2l:frontend_lni(type, buf)
+            archive:set(name, false)
+        end
+    end
+    return lnis
+end
+
 return function(w2l, archive, slk)
     --读取字符串
     slk.wts = w2l:frontend_wts(archive)
     slk.all = {}
     local objs, force_slk = load_obj(w2l, archive, slk.wts)
+    local lnis = load_lni(w2l, archive)
     local datas, txt = load_slk(w2l, archive, force_slk, slk.all)
     for type, data in pairs(datas) do
-        if objs[type] then
-            merge_obj(data, objs[type], slk.all)
+        local obj = objs[type] or {}
+        if lnis[type] then
+            merge(obj, lnis[type])
         end
+        merge_obj(data, obj, slk.all)
         slk[type] = data
     end
     slk.txt = txt
