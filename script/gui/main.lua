@@ -1,7 +1,7 @@
 require 'filesystem'
 require 'sys'
 require 'utility'
-require 'gui.backend'
+local srv = require 'gui.backend'
 local lni = require 'lni-c'
 local nk = require 'nuklear'
 local debug = true
@@ -149,7 +149,7 @@ local function window_select(canvas)
 		fmt = 'slk'
 		window:set_title('W3x2Slk')
 		config.target_format = 'slk'
-		config.slk.target_storage = 'map'
+		config.slk.target_storage = 'dir'
 		config.slk.read_slk = true
 		config.slk.remove_same = true
 		config.slk.remove_exceeds_level = true
@@ -252,10 +252,10 @@ function window:draw(canvas)
 	height = window_mpq(canvas, height)
 	canvas:layout_row_dynamic(height, 1)
 	canvas:layout_row_dynamic(30, 1)
-	canvas:label(backend and backend.message or '', NK_TEXT_LEFT)
+	canvas:label(srv.message, NK_TEXT_LEFT)
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(30, 1)
-	canvas:progress(math.floor(backend and (backend.attribute['progress'] or 0) or 0), 100)
+	canvas:progress(math.floor(srv.attribute['progress'] or 0), 100)
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(50, 1)
 	if backend then
@@ -263,9 +263,9 @@ function window:draw(canvas)
 	else
 		if canvas:button('开始') then
 			canvas:progress(0, 100)
-			backend = sys.async_popen(('%q -backend %q'):format(arg[0], mappath:string()))
-			backend.message = '正在初始化...'
-			backend.attribute['progress'] = nil
+			backend = srv.async_popen(('%q -backend %q'):format(arg[0], mappath:string()))
+			srv.message = '正在初始化...'
+			srv.attribute['progress'] = nil
 		end
 	end
 end

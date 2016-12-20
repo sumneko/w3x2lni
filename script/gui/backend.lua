@@ -1,6 +1,10 @@
 require 'sys'
 local uni = require 'ffi.unicode'
 
+local srv = {}
+srv.message = ''
+srv.attribute = {}
+
 local mt = {}
 mt.__index = mt
 
@@ -55,13 +59,13 @@ function mt:update_message(pos)
 		if str:sub(1, 1) == '-' then
 			local key, value = str:match('%-(%S+)%s(.+)')
 			if key then
-				self.attribute[key] = value
+				srv.attribute[key] = value
 				return ''
 			end
 		end
 	end)
 	if #msg > 0 then
-		self.message = msg
+		srv.message = msg
 		if debug then
 			io.stdout:write(uni.u2a(msg) .. '\n')
 			io.stdout:flush()
@@ -99,7 +103,7 @@ function mt:update()
 	return false
 end
 
-function sys.popen(commandline)		
+function srv.popen(commandline)		
 	local in_rd,  in_wr  = sys.open_pipe()
 	local out_rd, out_wr = sys.open_pipe()
 	local err_rd, err_wr = sys.open_pipe()
@@ -115,8 +119,8 @@ function sys.popen(commandline)
 	return p, out_rd, err_rd, in_wr
 end
 
-function sys.async_popen(commandline)
-	local process, out_rd, err_rd, in_wr = sys.popen(commandline)
+function srv.async_popen(commandline)
+	local process, out_rd, err_rd, in_wr = srv.popen(commandline)
 	in_wr:close()
 	return setmetatable({
 		process = process,
@@ -124,7 +128,7 @@ function sys.async_popen(commandline)
 		err_rd = err_rd,
 		output = '',
 		error = '',
-		message = '',
-		attribute = {},
 	}, mt)
 end
+
+return srv
