@@ -840,8 +840,3 @@ Targetattach3=sprite,third
 Targetattach4=sprite,fourth
 Targetattach5=sprite,sixth
 Effectsoundlooped=NightElfFireLarge
-
-[Aimp]
-Requires=Repb
-Art=ReplaceableTextures\PassiveButtons\PASBTNVorpalBlades.blp
-Buttonpos=0,2
