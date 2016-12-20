@@ -12,7 +12,7 @@ local output = {
 local function to_lni(w2l, archive, slk)
     --转换物编
     local count = 0
-    for ttype, meta in pairs(w2l.info['metadata']) do
+    for ttype, filename in pairs(w2l.info['template']['lni']) do
         count = count + 1
         local target_progress = 66 + count * 2
         progress:target(target_progress)
@@ -21,7 +21,7 @@ local function to_lni(w2l, archive, slk)
         
         local content = w2l:backend_lni(ttype, data)
         if content then
-            archive:set(ttype .. '.ini', content)
+            archive:set(filename, content)
         end
         progress(1)
     end
