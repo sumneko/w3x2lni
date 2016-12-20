@@ -18,7 +18,6 @@ function message(...)
 end
 
 local input = fs.path(uni.a2u(arg[1]))
-local map_file = map()
-if map_file:save(input) then
+if map(input) then
 	message('转换完毕,用时 ' .. os.clock() .. ' 秒') 
 end
