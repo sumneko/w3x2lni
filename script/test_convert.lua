@@ -260,6 +260,8 @@ local function write_slk(type, slkname, t)
 		colhash.weap2 = nil
 	elseif slkname == 'units\\upgradedata.slk' then
 		colhash.used = nil
+		colhash.code3 = true
+		colhash.code4 = true
 	end
 	for x in pairs(colhash) do
 		cols[#cols+1] = x
