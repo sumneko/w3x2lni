@@ -1,6 +1,6 @@
 if arg[1] == '-backend' then
 	table.remove(arg, 1)
-	require 'make'
+	require 'map'
 elseif arg[1] == '-prebuilt' then
 	local nk = require 'nuklear'
 	nk:console()
