@@ -8,6 +8,9 @@ local uni = require 'ffi.unicode'
 local w2l = require 'w3x2lni'
 w2l:initialize()
 
+function message(...)
+end
+
 local function fixstring(str)
     local r = {}
 	str:gsub('[^,]*', function (w)
