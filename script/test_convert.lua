@@ -167,8 +167,21 @@ local function write_slk(_, slkname, t)
 	for y, l in pairs(t) do
 		cache[y] = l
 		rows[#rows+1] = y
+		local clean = {}
 		for x, v in pairs(l) do
 			colhash[x] = true
+			if v == '_' then
+ 				if slkname == 'units\\unitabilities.slk' and key == 'auto'
+ 					or slkname == 'units\\unitbalance.slk' and (key == 'primary' or key == 'preventplace' or key == 'requireplace')
+ 					or slkname == 'units\\destructabledata.slk' and key == 'texfile'
+ 				then
+				else
+					clean[x] = true
+				end
+			end
+		end
+		for x in pairs(clean) do
+			l[x] = nil
 		end
 		if slkname == 'units\\abilitydata.slk' then
 			for i = (l.levels or 0) + 1, 4 do
@@ -178,6 +191,15 @@ local function write_slk(_, slkname, t)
 			end
 		end
 		l[slk_keys[slkname][1]] = y
+	end
+	if slkname == 'units\\unitbalance.slk' then
+		colhash.lumberbountydice = true
+		colhash.lumberbountyplus = true
+		colhash.lumberbountysides = true
+		colhash.repulseprio = true
+	elseif slkname == 'units\\unitui.slk' then
+		colhash.weap1 = nil
+		colhash.weap2 = nil
 	end
 	for x in pairs(colhash) do
 		cols[#cols+1] = x
