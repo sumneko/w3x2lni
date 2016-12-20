@@ -148,7 +148,7 @@ local function clean_obj(name, obj, type, default, config)
     local default = default[para]
     local is_remove_exceeds_level = config.remove_exceeds_level
     local is_remove_same = config.remove_same
-    local is_remove_nil_value  = config.remove_nil_value
+    local is_remove_nil_value = config.remove_nil_value
     local is_slk = config.target_format == 'slk' and type ~= 'doodad'
     for key, data in pairs(obj) do
         if key:sub(1, 1) ~= '_' then

@@ -134,7 +134,7 @@ local function get_names()
         names[#names+1] = name
     end
     table_sort(names, function(a, b)
-        return a < b
+        return a:lower() < b:lower()
     end)
     return names
 end
