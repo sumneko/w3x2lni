@@ -65,10 +65,7 @@ end
 
 -- TODO: 待重构，数据和操作分离 
 return function (w2l, archive)
-	local buf = archive:get('war3map.wts')
-	if not buf then
-		return
-	end
+	local buf = archive:get('war3map.wts') or ''
 	local tbl = {}
 	for string in buf:gmatch 'STRING.-%c*%}' do
 		local i, s = string:match 'STRING (%d+).-%{\r\n(.-)%\r\n}'

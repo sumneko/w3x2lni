@@ -158,8 +158,6 @@ return function (w2l, archive, slk)
     end
 
 	--刷新字符串
-	if slk.wts then
-		--local content = slk.wts:refresh()
-		archive:set('war3map.wts', false)
-	end
+	--local content = slk.wts:refresh()
+	archive:set('war3map.wts', false)
 end

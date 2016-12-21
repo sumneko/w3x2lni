@@ -67,11 +67,7 @@ local function read_data(obj)
 		value = unpack 'f'
 	else
 		local str = unpack 'z'
-		if wts then
-			value = wts:load(str)
-		else
-			value = str
-		end
+		value = wts:load(str)
 	end
 	
 	-- 扔掉一个整数

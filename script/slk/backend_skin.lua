@@ -8,9 +8,7 @@ local function add_obj(name, obj, lines, wts)
     lines[#lines+1] = '[' .. name .. ']'
     for _, key in ipairs(keys) do
         local value = obj[key]
-        if wts then
-            value = wts:load(value)
-        end
+        value = wts:load(value)
         lines[#lines+1] = key .. '=' .. value
     end
 end

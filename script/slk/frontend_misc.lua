@@ -55,7 +55,7 @@ local function add_data(id, meta, misc, chunk, slk)
     else
         local tp = w2l:get_id_type(meta.type)
         value = to_type(tp, value[1])
-        if tp == 3 and value and slk.wts then
+        if tp == 3 and value then
             value = slk.wts:load(value)
         end
     end

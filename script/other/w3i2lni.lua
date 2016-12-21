@@ -234,9 +234,6 @@ return function (w2l, data, wts)
     tbl.self = w2l
 
     function tbl:convert_wts(str)
-		if not wts then
-			return str
-		end
 		return wts:load(str)
 	end
 
