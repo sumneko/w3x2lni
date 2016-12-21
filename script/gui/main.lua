@@ -187,8 +187,8 @@ local function update_backend()
 	end
 end
 	
-local function window_mpq(canvas, height)
-	height = height - 90
+local function window_convert(canvas)
+	local height = button_mapname(canvas, 260)
 	canvas:layout_row_dynamic(10, 1)
 	if fmt == 'lni' or fmt == 'obj' then
 		height = height - 34
@@ -234,22 +234,10 @@ local function window_mpq(canvas, height)
 		end
 		height = height - 68
 	end)
-	return height
-end
+	canvas:tree('详情', 2, function()
+		uitype = 'report'
+	end)
 
-local dot = 0
-function window:draw(canvas)
-	update_backend()
-	if uitype == 'none' then
-		window_none(canvas)
-		return
-	end
-	if uitype == 'select' then
-		window_select(canvas)
-		return
-	end
-	local height = button_mapname(canvas, 358)
-	height = window_mpq(canvas, height)
 	canvas:layout_row_dynamic(height, 1)
 	canvas:layout_row_dynamic(30, 1)
 	canvas:label(srv.message, NK_TEXT_LEFT)
@@ -268,6 +256,31 @@ function window:draw(canvas)
 			srv.attribute['progress'] = nil
 		end
 	end
+end
+
+local function window_report(canvas)
+	canvas:layout_row_dynamic(30, 1)
+	if canvas:button('返回') then
+		uitype = 'convert'
+	end
+end
+
+local dot = 0
+function window:draw(canvas)
+	update_backend()
+	if uitype == 'none' then
+		window_none(canvas)
+		return
+	end
+	if uitype == 'select' then
+		window_select(canvas)
+		return
+	end
+	if uitype == 'report' then
+		window_report(canvas)
+		return
+	end
+	window_convert(canvas)
 end
 
 window:run()
