@@ -148,6 +148,16 @@ return function (w2l, archive, slk)
 
     w2l:backend_convertjass(archive, slk.wts)
 
+    if w2l.config.remove_we_only then
+        archive:set('war3map.wtg', false)
+        archive:set('war3map.wct', false)
+        archive:set('war3map.imp', false)
+        archive:set('war3map.w3s', false)
+        archive:set('war3map.w3r', false)
+        archive:set('war3map.w3c', false)
+        archive:set('war3mapunits.doo', false)
+    end
+
 	--刷新字符串
 	if slk.wts then
 		--local content = slk.wts:refresh()
