@@ -1,10 +1,13 @@
 require 'sys'
 local uni = require 'ffi.unicode'
+local nk = require 'nuklear'
+local debug = true
 
 local srv = {}
 srv.message = ''
 srv.progress = nil
 srv.report = {}
+srv.debug = debug
 
 local mt = {}
 mt.__index = mt
@@ -90,6 +93,9 @@ function mt:update()
 		end
 	end
 	if #self.error > 0 then
+		if not debug then
+			nk:console()
+		end
 		io.stdout:write(self.error)
 		io.stdout:flush()
 		self.error = ''

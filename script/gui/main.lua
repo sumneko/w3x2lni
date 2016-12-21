@@ -1,13 +1,10 @@
 require 'filesystem'
 require 'sys'
 require 'utility'
+local nk = require 'nuklear'
 local srv = require 'gui.backend'
 local lni = require 'lni-c'
-local nk = require 'nuklear'
-local debug = true
-if debug then
-	nk:console()
-end
+local showconsole = srv.debug
 
 NK_WIDGET_STATE_MODIFIED = 1 << 1
 NK_WIDGET_STATE_INACTIVE = 1 << 2
@@ -179,6 +176,10 @@ end
 local backend
 
 local function update_backend()
+	if showconsole then
+		showconsole = false
+		nk:console()
+	end
 	if not backend then
 		return
 	end
