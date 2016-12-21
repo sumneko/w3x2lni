@@ -169,4 +169,5 @@ return function(w2l, archive, slk)
         slk[type] = data
     end
     slk.txt = txt
+    w2l:frontend_misc(archive, slk)
 end

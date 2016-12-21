@@ -55,6 +55,9 @@ local function add_data(id, meta, misc, chunk, slk)
     else
         local tp = w2l:get_id_type(meta.type)
         value = to_type(tp, value[1])
+        if tp == 3 and value and slk.wts then
+            value = slk.wts:load(value)
+        end
     end
     obj[lkey] = value
 end
@@ -64,33 +67,16 @@ local function convert(misc, metadata, slk)
     for id, meta in pairs(metadata) do
         add_data(id, meta, misc, chunk, slk)
     end
-    return chunk
-end
-
-local function table_merge(a, b)
-    for k, v in pairs(b) do
-        if a[k] then
-            if type(a[k]) == 'table' and type(v) == 'table' then
-                table_merge(a[k], v)
-            else
-                a[k] = v
-            end
-        else
-            a[k] = v
-        end
+    for lname in pairs(chunk) do
+        slk.txt[lname] = nil
     end
+    return chunk
 end
 
 return function (w2l_, archive, slk)
     w2l = w2l_
-    local misc = {}
-    for _, name in ipairs {"ui\\miscdata.txt", "units\\miscdata.txt", "units\\miscgame.txt"} do
-        table_merge(misc, w2l:parse_txt(io.load(w2l.mpq / name)))
-    end
     local buf = archive:get('war3mapmisc.txt')
-    if buf then
-        table_merge(misc, w2l:parse_txt(buf))
-    end
+    local misc = w2l:parse_txt(buf)
     local metadata = w2l:read_metadata 'misc'
     slk.misc = convert(misc, metadata, slk)
 end

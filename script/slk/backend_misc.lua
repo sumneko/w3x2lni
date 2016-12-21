@@ -1,111 +1,80 @@
-local string_lower = string.lower
 local table_concat = table.concat
+local table_sort = table.sort
+local next = next
+local pairs = pairs
 
-local w2l
 local metadata
 local keydata
 
-local function to_type(tp, value)
-    if tp == 0 then
-        if not value then
-            return 0
-        end
-        return math_floor(wtonumber(value))
-    elseif tp == 1 or tp == 2 then
-        if not value then
-            return 0.0
-        end
-        return wtonumber(value) + 0.0
-    elseif tp == 3 then
-        if not value then
-            return nil
-        end
-        if value == '' then
-            return value
-        end
-        value = tostring(value)
-        if not value:match '[^ %-%_]' then
-            return nil
-        end
-        return value
-    end
-end
-
-local function merge_data(lkey, id, obj, txt_data)
-    if not txt_data[lkey] then
+local function add_data(lname, lkey, id, obj, data)
+    if not obj[lkey] then
         return
     end
     local meta = metadata[id]
     local key = meta.field
-    local value = txt_data[lkey]
-    if meta.index == -1 then
-        value = table_concat(value, ',')
-    else
-        local tp = w2l:get_id_type(meta.type)
-        value = to_type(tp, value[1])
-    end
-    obj[key] = value
+    data[key] = obj[lkey]
 end
 
-local function merge_obj(name, obj, txt)
-    local lname = string_lower(name)
-    local txt_data = txt[lname]
-    if not txt_data then
-        return
-    end
+local function add_obj(lname, obj, data)
+    local name = obj._id
+    local new_obj = {}
+
     for lkey, id in pairs(keydata.common) do
-        merge_data(lkey, id, obj, txt_data)
+        add_data(lname, lkey, id, obj, new_obj)
     end
+
     if keydata[name] then
         for lkey, id in pairs(keydata[name]) do
-            merge_data(lkey, id, obj, txt_data)
+            add_data(lname, lkey, id, obj, new_obj)
         end
     end
-end
 
-local function merge_constant(misc, txt)
-    for name, obj in pairs(misc) do
-        merge_obj(name, obj, txt)
+    if next(new_obj) then
+        data[name] = new_obj
     end
 end
 
-local function add_obj(name, obj, lines, wts)
+local function convert(misc)
+    local data = {}
+    for lname, obj in pairs(misc) do
+        add_obj(lname, obj, data)
+    end
+    return data
+end
+
+local function concat_obj(name, obj, lines)
     local keys = {}
     for key in pairs(obj) do
         keys[#keys+1] = key
     end
-    table.sort(keys)
+    table_sort(keys)
 
     lines[#lines+1] = '[' .. name .. ']'
     for _, key in ipairs(keys) do
         local value = obj[key]
-        if wts then
-            value = wts:load(value)
-        end
         lines[#lines+1] = key .. '=' .. value
     end
 end
 
-local function convert(misc, wts)
+local function concat(misc)
     local lines = {}
     local names = {}
     for name in pairs(misc) do
         names[#names+1] = name
     end
-    table.sort(names)
+    table_sort(names)
 
     for _, name in ipairs(names) do
-        add_obj(name, misc[name], lines, wts)
+        concat_obj(name, misc[name], lines)
     end
 
-    return table.concat(lines, '\r\n')
+    return table_concat(lines, '\r\n')
 end
 
-return function(w2l_, misc, txt, wts)
-    w2l = w2l_
+return function(w2l, misc, txt)
     metadata = w2l:read_metadata 'misc'
     keydata = w2l:parse_lni(io.load(w2l.key / 'misc.ini'))
-    merge_constant(misc, txt)
-    local buf = convert(misc, wts)
+    local data = convert(misc)
+    local buf = concat(data)
     return buf
 end

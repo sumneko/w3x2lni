@@ -140,8 +140,7 @@ return function (w2l, archive, slk)
         to_slk(w2l, archive, slk, on_lni)
     end
 
-    local misc = w2l:parse_ini(archive:get 'war3mapmisc.txt')
-    archive:set('war3mapmisc.txt', w2l:backend_misc(misc, slk.txt, slk.wts))
+    archive:set('war3mapmisc.txt', w2l:backend_misc(slk.misc, slk.txt, slk.wts))
 
     local skin = w2l:parse_ini(archive:get 'war3mapskin.txt')
     archive:set('war3mapskin.txt', w2l:backend_skin(skin, slk.wts))
