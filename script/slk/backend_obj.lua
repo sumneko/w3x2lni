@@ -10,39 +10,51 @@ local type = type
 local pairs = pairs
 local setmetatable = setmetatable
 
-local mt = {}
-mt.__index = mt
+local w2l
+local has_level
+local metadata
+local keydata
+local hexs
 
-function mt:add(format, ...)
-    self.hexs[#self.hexs+1] = (format):pack(...)
+local function key2id(code, key)
+    local id = keydata[code] and keydata[code][key] or keydata['common'][key]
+    if id then
+        return id
+    end
+    message(('警告: 模板[%s]并不支持数据项[%s]'):format(code, key))
+    return nil
 end
 
-function mt:add_value(key, id, level, value)
-    local meta = self.meta[id]
-    local tp = self:get_id_type(id)
-    self:add('c4l', id .. ('\0'):rep(4 - #id), tp)
-    if self.has_level then
-        self:add('l', level)
-        self:add('l', meta['data'] or 0)
+local function write(format, ...)
+    hexs[#hexs+1] = (format):pack(...)
+end
+
+local function write_value(key, id, level, value)
+    local meta = metadata[id]
+    local tp = w2l:get_id_type(meta.type)
+    write('c4l', id .. ('\0'):rep(4 - #id), tp)
+    if has_level then
+        write('l', level)
+        write('l', meta['data'] or 0)
     end
     if tp == 0 then
         if math_type(value) ~= 'integer' then
             value = math_floor(wtonumber(value))
         end
-        self:add('l', value)
+        write('l', value)
     elseif tp == 1 or tp == 2 then
         if type(value) ~= 'number' then
             value = wtonumber(value)
         end
-        self:add('f', value)
+        write('f', value)
     else
-        self:add('z', value)
+        write('z', value)
     end
-    self:add('c4', '\0\0\0\0')
+    write('c4', '\0\0\0\0')
 end
 
-function mt:add_data(key, id, data)
-    local meta = self.meta[id]
+local function write_data(key, id, data)
+    local meta = metadata[id]
     if meta['repeat'] and meta['repeat'] > 0 then
         if type(data) ~= 'table' then
             data = {data}
@@ -57,24 +69,15 @@ function mt:add_data(key, id, data)
         end
         for level = 1, max_level do
             if data[level] then
-                self:add_value(key, id, level, data[level])
+                write_value(key, id, level, data[level])
             end
         end
     else
-        self:add_value(key, id, 0, data)
+        write_value(key, id, 0, data)
     end
 end
 
-function mt:key2id(code, key)
-    local id = self.key[code] and self.key[code][key] or self.key['common'][key]
-    if id then
-        return id
-    end
-    message(('警告: 模板[%s]并不支持数据项[%s]'):format(code, key))
-    return nil
-end
-
-function mt:add_obj(lname, obj)    
+local function write_object(lname, obj)    
     local keys = {}
     for key in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
@@ -102,31 +105,31 @@ function mt:add_obj(lname, obj)
     local para = obj._para
     local code = obj._code
     if name == para or obj._slk then
-        self:add('c4', name)
-        self:add('c4', '\0\0\0\0')
+        write('c4', name)
+        write('c4', '\0\0\0\0')
     else
-        self:add('c4', para)
-        self:add('c4', name)
+        write('c4', para)
+        write('c4', name)
     end
-    self:add('l', count)
+    write('l', count)
     for _, key in ipairs(keys) do
         local data = obj[key]
         if data then
-            local id = self:key2id(code, key)
-            self:add_data(key, id, obj[key])
+            local id = key2id(code, key)
+            write_data(key, id, obj[key])
         end
     end
 end
 
-function mt:add_chunk(names, data)
-    self:add('l', #names)
+local function write_chunk(names, data)
+    write('l', #names)
     for _, name in ipairs(names) do
-        self:add_obj(name, data[name])
+        write_object(name, data[name])
     end
 end
 
-function mt:add_head(data)
-    self:add('l', 2)
+local function write_head()
+    write('l', 2)
 end
 
 local function sort_chunk(chunk, remove_unuse_object)
@@ -150,25 +153,19 @@ local function sort_chunk(chunk, remove_unuse_object)
     return origin, user
 end
 
-return function (w2l, type, data)
-    local meta = w2l:read_metadata(type)
-    local tbl = setmetatable({}, mt)
-    tbl.hexs = {}
-    tbl.meta = meta
-    tbl.key = w2l:keyconvert(type)
-    tbl.has_level = w2l.info.key.max_level[type]
-
-    function tbl:get_id_type(id)
-        return w2l:get_id_type(meta[id].type)
-    end
+return function (w2l_, type, data)
+    w2l = w2l_
+	has_level = w2l.info.key.max_level[type]
+    metadata = w2l:read_metadata(type)
+    keydata = w2l:keyconvert(type)
 
     local origin_id, user_id = sort_chunk(data, w2l.config.remove_unuse_object)
     if #origin_id == 0 and #user_id == 0 then
         return
     end
-    tbl:add_head(data)
-    tbl:add_chunk(origin_id, data)
-    tbl:add_chunk(user_id, data)
-
-    return table_concat(tbl.hexs)
+    hexs = {}
+    write_head()
+    write_chunk(origin_id, data)
+    write_chunk(user_id, data)
+    return table_concat(hexs)
 end
