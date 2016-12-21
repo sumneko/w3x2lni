@@ -40,7 +40,7 @@ function mt:close()
     self.handle:close()
 end
 
-function mt:save(info, slk)
+function mt:save(slk, info, config)
     local w3i = slk.w3i
     local packignore = info and info.pack.packignore
     local impignore = info and info.pack.impignore
@@ -83,13 +83,15 @@ function mt:save(info, slk)
 		end
     end
 
-    local hex = {}
-    hex[1] = ('ll'):pack(1, #imp)
-    for _, name in ipairs(imp) do
-        hex[#hex+1] = ('z'):pack(name)
-        hex[#hex+1] = '\r'
+    if not config or not config.remove_we_only then
+        local hex = {}
+        hex[1] = ('ll'):pack(1, #imp)
+        for _, name in ipairs(imp) do
+            hex[#hex+1] = ('z'):pack(name)
+            hex[#hex+1] = '\r'
+        end
+        self.handle:save_file('war3map.imp', table.concat(hex))
     end
-    self.handle:save_file('war3map.imp', table.concat(hex))
 end
 
 function mt:__pairs()

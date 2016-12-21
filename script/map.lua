@@ -59,7 +59,7 @@ if not ok then
     message(e)
 end
 progress:target(100)
-output_ar:save(w2l.info, slk)
+output_ar:save(slk, w2l.info, w2l.config)
 output_ar:close()
 input_ar:close()
 progress:target(100)

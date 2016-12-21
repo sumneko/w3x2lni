@@ -56,7 +56,7 @@ end
 function mt:close()
 end
 
-function mt:save(info, slk)
+function mt:save(slk, info, config)
     local output = self.path
     message('正在清空输出目录...')
     remove_then_create_dir(output)
