@@ -59,7 +59,7 @@ function mt:add_data(id, meta, common, special, type)
     end
     local name  = meta['field']:lower()
     local num   = meta['data']
-    local skill = meta['usespecific']
+    local skill = meta['usespecific'] or meta['section']
     if num and num ~= 0 then
         name = name .. string_char(('a'):byte() + num - 1)
     end
@@ -81,7 +81,6 @@ function mt:add_data(id, meta, common, special, type)
         special[filename][name] = {id}
     else
         for skl in skill:gmatch '%w+' do
-            skl = skl
             if self:canadd(skl, id) then
                 if not special[skl] then
                     special[skl] = {}
@@ -158,7 +157,7 @@ end
 local function copy_code(special, template)
     for skill, data in pairs(template) do
         local skill = skill
-        local code = data['code']
+        local code = data['code'] or data['section']
         if skill ~= code and special[skill] then
             if not special[code] then
                 special[code] = {}
@@ -187,7 +186,7 @@ local function read_list(metadata, template, ttype)
             tbl:add_data(id, meta, common, special, ttype)
         end
     end
-    if ttype == 'ability' then
+    if ttype == 'ability' or ttype == 'misc' then
         copy_code(special, template)
     end
     return common, special

@@ -39,6 +39,7 @@ local function add_data(id, meta, misc, chunk, slk)
     if not chunk[lname] then
         chunk[lname] = {
             _id = name,
+            _code = name,
             _type = 'misc',
         }
     end
