@@ -76,7 +76,12 @@ end
 return function (w2l_, archive, slk)
     w2l = w2l_
     local buf = archive:get('war3mapmisc.txt')
-    local misc = w2l:parse_txt(buf)
+    local misc
+    if buf then
+        misc = w2l:parse_txt(buf)
+    else
+        misc = {}
+    end
     local metadata = w2l:read_metadata 'misc'
     slk.misc = convert(misc, metadata, slk)
 end

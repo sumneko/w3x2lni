@@ -75,7 +75,7 @@ end
 local function set_config()
 	local config = w2l.config
 	-- 是否分析slk文件
-	config.read_slk = false
+	config.read_slk = true
 	-- 分析slk时寻找id最优解的次数,0表示无限,寻找次数越多速度越慢
 	config.find_id_times = 0
 	-- 移除与模板完全相同的数据
@@ -99,6 +99,10 @@ local function main()
 	local content = prebuilt_id_type(id_data)
 	io.save(w2l.prebuilt / 'id_type.ini', content)
 
+	fs.create_directories(w2l.default)
+	fs.create_directories(w2l.template)
+	fs.create_directories(w2l.key)
+
 	-- 生成key2id
     for type, slk in pairs(w2l.info['template']['slk']) do
 		message('正在生成key2id', type)
@@ -113,15 +117,13 @@ local function main()
 	end
 
 	-- 生成模板lni
-	fs.create_directories(w2l.default)
-	fs.create_directories(w2l.template)
+	local ar = archive(w2l.mpq)
+	local slk = {}
+	w2l:frontend(ar, slk)
 	local usable_para = {}
-	local datas, txt = w2l:frontend_slk({}, function(name)
-		return io.load(w2l.mpq / name)
-	end)
 	for ttype in pairs(w2l.info['template']['slk']) do
 		message('正在生成模板', ttype)
-		local data = datas[ttype]
+		local data = slk[ttype]
 		io.save(w2l.default / (ttype .. '.ini'), default2lni(ttype, data))
 		io.save(w2l.template / (ttype .. '.ini'), w2l:backend_lni(ttype, data))
 		for name, obj in pairs(data) do
@@ -130,19 +132,14 @@ local function main()
 	end
 
 	-- 生成misc的文件
-	local ar = archive(w2l.mpq)
-	datas.txt = txt
-	w2l:frontend_misc(ar, datas)
-	local data = datas['misc']
+	local data = slk['misc']
 	
 	local content1, content2 = create_key2id('misc', w2l:read_metadata 'misc', data)
 	io.save(w2l.key / 'misc.ini', content1)
 	io.save(w2l.key / 'misc_type.ini', content2)
-	io.save(w2l.default / 'misc.ini', default2lni('misc', data))
-	io.save(w2l.template / 'misc.ini', w2l:backend_lni('misc', data))
-	io.save(w2l.prebuilt / 'usable_para.ini', pack_table(usable_para))
-	io.save(w2l.default / 'txt.ini', default2lni('txt', txt))
-	io.save(w2l.template / 'txt.ini', txt2teamplate('txt', txt))
+
+	io.save(w2l.default / 'txt.ini', default2lni('txt', slk.txt))
+	io.save(w2l.template / 'txt.ini', txt2teamplate('txt', slk.txt))
 
 	-- 生成技能命令映射
 	--local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'))
