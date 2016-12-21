@@ -258,10 +258,30 @@ local function write_slk(type, slkname, t)
 	elseif slkname == 'units\\unitui.slk' then
 		colhash.weap1 = nil
 		colhash.weap2 = nil
+		colhash.customteamcolor = true
+		colhash.fograd = true
+	elseif slkname == 'units\\unitdata.slk' then
+		colhash.canbuildon = true
+		colhash.requirewaterradius = true
+	elseif slkname == 'units\\unitweapons.slk' then
+		colhash.impactswimz = true
+		colhash.launchswimz = true
+	elseif slkname == 'units\\destructabledata.slk' then
+		colhash.fatlos = true
+		colhash.maxpitch = true
+		colhash.maxroll = true
 	elseif slkname == 'units\\upgradedata.slk' then
 		colhash.used = nil
 		colhash.code3 = true
 		colhash.code4 = true
+	elseif slkname == 'units\\itemdata.slk' then
+		colhash.ignorecd = true
+		colhash.morph = true
+	elseif slkname == 'units\\abilitydata.slk' then
+		colhash.datai1 = true
+		colhash.datai2 = true
+		colhash.datai3 = true
+		colhash.datai4 = true
 	end
 	for x in pairs(colhash) do
 		cols[#cols+1] = x
