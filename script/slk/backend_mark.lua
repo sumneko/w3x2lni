@@ -74,6 +74,7 @@ local function mark_list(slk, o, list)
 end
 
 function mark_known_type(slk, type, name)
+    name = name:lower()
     local o = slk[type][name]
     if not o then
         if slk.txt[name] then
