@@ -188,7 +188,7 @@ local function update_backend()
 end
 	
 local function window_convert(canvas)
-	local height = button_mapname(canvas, 260)
+	local height = button_mapname(canvas, 290)
 	canvas:layout_row_dynamic(10, 1)
 	if fmt == 'lni' or fmt == 'obj' then
 		height = height - 34
@@ -234,16 +234,19 @@ local function window_convert(canvas)
 		end
 		height = height - 68
 	end)
-	canvas:tree('详情', 2, function()
-		uitype = 'report'
-	end)
 
 	canvas:layout_row_dynamic(height, 1)
 	canvas:layout_row_dynamic(30, 1)
 	canvas:label(srv.message, NK_TEXT_LEFT)
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(30, 1)
-	canvas:progress(math.floor(srv.attribute['progress'] or 0), 100)
+	if false then
+		canvas:progress(math.floor(srv.attribute['progress'] or 0), 100)
+	else
+		if canvas:button('详情') then
+			uitype = 'report'
+		end
+	end
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(50, 1)
 	if backend then
@@ -259,6 +262,29 @@ local function window_convert(canvas)
 end
 
 local function window_report(canvas)
+	canvas:layout_row_dynamic(500, 1)
+	canvas:group('详情', function()
+		canvas:layout_row_dynamic(30, 1)
+		canvas:label('测试', NK_TEXT_LEFT)
+		canvas:label('测试', NK_TEXT_LEFT)
+		canvas:label('测试', NK_TEXT_LEFT)
+		canvas:label('测试', NK_TEXT_LEFT)
+		canvas:label('测试', NK_TEXT_LEFT)
+		canvas:label('测试', NK_TEXT_LEFT)
+		canvas:label('测试', NK_TEXT_LEFT)
+		canvas:label('测试', NK_TEXT_LEFT)
+		canvas:label('测试', NK_TEXT_LEFT)
+		canvas:label('测试', NK_TEXT_LEFT)
+		canvas:label('测试', NK_TEXT_LEFT)
+		canvas:label('测试', NK_TEXT_LEFT)
+		canvas:label('测试', NK_TEXT_LEFT)
+		canvas:label('测试', NK_TEXT_LEFT)
+		canvas:label('测试', NK_TEXT_LEFT)
+		canvas:label('测试', NK_TEXT_LEFT)
+		canvas:label('测试', NK_TEXT_LEFT)
+		canvas:label('测试', NK_TEXT_LEFT)
+	end)
+	canvas:layout_row_dynamic(20, 1)
 	canvas:layout_row_dynamic(30, 1)
 	if canvas:button('返回') then
 		uitype = 'convert'
