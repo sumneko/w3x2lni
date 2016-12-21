@@ -97,6 +97,9 @@ function mt:add_chunk(chunk)
 end
 
 function mt:add_obj(obj)
+	if self.remove_unuse_object and not obj._mark then
+		return
+	end
 	local upper_obj = {}
     local keys = {}
 	local name = obj._id
@@ -187,6 +190,7 @@ return function (w2l, type, data)
 	local tbl = setmetatable({}, mt)
 	tbl.lines = {}
 	tbl.w2l = w2l
+	tbl.remove_unuse_object = w2l.config.remove_unuse_object
 	metadata = w2l:read_metadata(type)
 	keydata = w2l:keyconvert(type)
 	tbl.file_name = type

@@ -19,6 +19,7 @@ local keys
 local lines
 local cx
 local cy
+local remove_unuse_object
 
 local character = { 'A','B','C','D','E','F','G','H','I' }
 
@@ -197,6 +198,9 @@ local function load_data(displaykey, obj, key, id, slk_data)
 end
 
 local function load_obj(name, obj, slk_name)
+    if remove_unuse_object and not obj._mark then
+        return nil
+    end
     local code = obj._code
     local slk_data = {}
     slk_data[slk_keys[slk_name][1]] = obj['_id']
@@ -228,6 +232,7 @@ return function(w2l_, type, slk_name, chunk)
     w2l = w2l_
     cx = nil
     cy = nil
+    remove_unuse_object = w2l.config.remove_unuse_object
     lines = {}
     metadata = w2l:read_metadata(type)
     keydata = w2l:keyconvert(type)

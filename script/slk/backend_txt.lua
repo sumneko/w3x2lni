@@ -17,6 +17,7 @@ local metadata
 local keydata
 local keys
 local lines
+local remove_unuse_object
 
 local character = { 'A','B','C','D','E','F','G','H','I' }
 
@@ -237,6 +238,9 @@ local function load_data(name, obj, key, txt_data)
 end
 
 local function load_obj(name, obj)
+    if remove_unuse_object and not obj._mark then
+        return nil
+    end
     local txt_data = {}
     for key in pairs(keys) do
         load_data(name, obj, key, txt_data)
@@ -257,6 +261,7 @@ return function(w2l_, type, chunk)
     w2l = w2l_
     cx = nil
     cy = nil
+    remove_unuse_object = w2l.config.remove_unuse_object
     lines = {}
     metadata = w2l:read_metadata(type)
     keydata = w2l:keyconvert(type)

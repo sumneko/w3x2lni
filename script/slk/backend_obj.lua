@@ -119,15 +119,17 @@ function mt:add_head(data)
     self:add('l', 2)
 end
 
-local function sort_chunk(chunk)
+local function sort_chunk(chunk, remove_unuse_object)
     local origin = {}
     local user = {}
     for name, obj in pairs(chunk) do
-        local para = obj._lower_para
-        if name == para then
-            origin[#origin+1] = name
-        else
-            user[#user+1] = name
+        if not remove_unuse_object or obj._mark then
+            local para = obj._lower_para
+            if name == para then
+                origin[#origin+1] = name
+            else
+                user[#user+1] = name
+            end
         end
     end
     local function sorter(a, b)
@@ -150,7 +152,7 @@ return function (w2l, type, data)
         return w2l:get_id_type(meta[id].type)
     end
 
-    local origin_id, user_id = sort_chunk(data)
+    local origin_id, user_id = sort_chunk(data, w2l.config.remove_unuse_object)
     if #origin_id == 0 and #user_id == 0 then
         return
     end

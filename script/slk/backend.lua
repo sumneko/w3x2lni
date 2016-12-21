@@ -45,7 +45,9 @@ local function to_obj(w2l, archive, slk)
 end
 
 local function to_slk(w2l, archive, slk)
-    w2l:backend_mark(archive, slk)
+    if w2l.config.remove_unuse_object then
+        w2l:backend_mark(archive, slk)
+    end
     w2l:backend_computed(slk)
     --转换物编
     local count = 0
@@ -111,6 +113,11 @@ return function (w2l, archive, slk)
         end
     end
     for type, filelist in pairs(w2l.info.template.txt) do
+        for _, filename in ipairs(filelist) do
+            archive:set(filename, false)
+        end
+    end
+    for type, filelist in pairs(w2l.info.template.lni) do
         for _, filename in ipairs(filelist) do
             archive:set(filename, false)
         end
