@@ -122,6 +122,12 @@ local function window_none(canvas)
 	canvas:label('', NK_TEXT_RIGHT) canvas:label('后端: 最萌小汐', NK_TEXT_LEFT)
 end
 
+local function clean_convert_ui()
+	srv.message = ''
+	srv.progress = nil
+	srv.report = {}
+end
+
 local function window_select(canvas)
 	canvas:layout_row_dynamic(2, 1)
 	canvas:layout_row_dynamic(100, 1)
@@ -138,6 +144,7 @@ local function window_select(canvas)
 		config.lni.remove_we_only = false
 		config.lni.remove_unuse_object = false
 		save_config()
+		clean_convert_ui()
 		return
 	end
 	window:set_style(0, 173, 60)
@@ -152,6 +159,7 @@ local function window_select(canvas)
 		config.slk.remove_exceeds_level = true
 		config.slk.remove_nil_value = false
 		save_config()
+		clean_convert_ui()
 		return
 	end
 	window:set_style(217, 163, 60)
@@ -168,6 +176,7 @@ local function window_select(canvas)
 		config.obj.remove_we_only = false
 		config.obj.remove_unuse_object = false
 		save_config()
+		clean_convert_ui()
 		return
 	end
 	window:set_style(0, 173, 217)
