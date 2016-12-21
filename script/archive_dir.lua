@@ -90,7 +90,7 @@ function mt:__pairs()
         self.cached_all = true
         local len = #self.path:string()
         scan_dir(self.path, function(path)
-            local filename = path:string():sub(len+1):lower()
+            local filename = path:string():sub(len+2):lower()
             if cache[filename] == nil then
                 cache[filename] = io.load(path)
             end
@@ -111,6 +111,6 @@ function mt:sucess()
 end
 
 return function (path, tp)
-    local ar = { cache = {}, path = path }
+    local ar = { cache = {}, path = fs.canonical(path) }
     return setmetatable(ar, mt)
 end
