@@ -124,7 +124,9 @@ function mt:add_obj(obj)
     end
 
 	self:add('[%s]', obj['_id'])
-	self:add('%s = %q', '_id', obj['_para'])
+	if obj['_para'] then
+		self:add('%s = %q', '_id', obj['_para'])
+	end
     if obj['_name'] then
         self:add('%s = %q', '_name', obj['_name'])
     end
