@@ -240,8 +240,8 @@ local function window_convert(canvas)
 	canvas:label(srv.message, NK_TEXT_LEFT)
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(30, 1)
-	if false then
-		canvas:progress(math.floor(srv.attribute['progress'] or 0), 100)
+	if backend or #srv.report == 0 then
+		canvas:progress(math.floor(srv.progress or 0), 100)
 	else
 		if canvas:button('详情') then
 			uitype = 'report'
@@ -256,7 +256,8 @@ local function window_convert(canvas)
 			canvas:progress(0, 100)
 			backend = srv.async_popen(('%q -backend %q'):format(arg[0], mappath:string()))
 			srv.message = '正在初始化...'
-			srv.attribute['progress'] = nil
+			srv.progress = nil
+			srv.report = {}
 		end
 	end
 end
@@ -265,24 +266,9 @@ local function window_report(canvas)
 	canvas:layout_row_dynamic(500, 1)
 	canvas:group('详情', function()
 		canvas:layout_row_dynamic(30, 1)
-		canvas:label('测试', NK_TEXT_LEFT)
-		canvas:label('测试', NK_TEXT_LEFT)
-		canvas:label('测试', NK_TEXT_LEFT)
-		canvas:label('测试', NK_TEXT_LEFT)
-		canvas:label('测试', NK_TEXT_LEFT)
-		canvas:label('测试', NK_TEXT_LEFT)
-		canvas:label('测试', NK_TEXT_LEFT)
-		canvas:label('测试', NK_TEXT_LEFT)
-		canvas:label('测试', NK_TEXT_LEFT)
-		canvas:label('测试', NK_TEXT_LEFT)
-		canvas:label('测试', NK_TEXT_LEFT)
-		canvas:label('测试', NK_TEXT_LEFT)
-		canvas:label('测试', NK_TEXT_LEFT)
-		canvas:label('测试', NK_TEXT_LEFT)
-		canvas:label('测试', NK_TEXT_LEFT)
-		canvas:label('测试', NK_TEXT_LEFT)
-		canvas:label('测试', NK_TEXT_LEFT)
-		canvas:label('测试', NK_TEXT_LEFT)
+		for _, s in ipairs(srv.report) do
+			canvas:label(s, NK_TEXT_LEFT)
+		end
 	end)
 	canvas:layout_row_dynamic(20, 1)
 	canvas:layout_row_dynamic(30, 1)

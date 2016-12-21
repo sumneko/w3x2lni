@@ -3,7 +3,8 @@ local uni = require 'ffi.unicode'
 
 local srv = {}
 srv.message = ''
-srv.attribute = {}
+srv.progress = nil
+srv.report = {}
 
 local mt = {}
 mt.__index = mt
@@ -59,7 +60,11 @@ function mt:update_message(pos)
 		if str:sub(1, 1) == '-' then
 			local key, value = str:match('%-(%S+)%s(.+)')
 			if key then
-				srv.attribute[key] = value
+				if key == 'progress' then
+					srv.progress = value
+				elseif key == 'report' then
+					table.insert(srv.report, value)
+				end
 				return ''
 			end
 		end
