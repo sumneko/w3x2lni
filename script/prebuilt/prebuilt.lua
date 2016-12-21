@@ -71,18 +71,37 @@ local function pack_table(tbl)
 	return '[root]\r\n' .. table.concat(lines, '\r\n')
 end
 
+local function set_config()
+	local config = w2l.config
+	-- 是否分析slk文件
+	config.read_slk = false
+	-- 分析slk时寻找id最优解的次数,0表示无限,寻找次数越多速度越慢
+	config.find_id_times = 0
+	-- 移除与模板完全相同的数据
+	config.remove_same = false
+	-- 移除超出等级的数据
+	config.remove_exceeds_level = false
+	-- 补全空缺的数据
+	config.remove_nil_value = false
+	-- 移除只在WE使用的文件
+	config.remove_we_only = false
+	-- 移除没有引用的对象
+	config.remove_unuse_object = false
+	-- 转换为地图还是目录(map, dir)
+	config.target_storage = dir
+end
 
 local function main()
+	set_config()
 	-- 生成id_type
 	local id_data = w2l:parse_txt(io.load(w2l.mpq / 'ui' / 'uniteditordata.txt'))
 	local content = prebuilt_id_type(id_data)
 	io.save(w2l.prebuilt / 'id_type.ini', content)
 
 	-- 生成key2id
-    for type, meta in pairs(w2l.info['metadata']) do
+    for type, slk in pairs(w2l.info['template']['slk']) do
 		message('正在生成key2id', type)
 		local metadata = w2l:read_metadata(type)
-        local slk = w2l.info['template']['slk'][type]
         local template = {}
         for i = 1, #slk do
             add_table(template, w2l:parse_slk(io.load(w2l.mpq / slk[i])))
@@ -99,7 +118,7 @@ local function main()
 	local datas, txt = w2l:frontend_slk({}, function(name)
 		return io.load(w2l.mpq / name)
 	end)
-	for ttype in pairs(w2l.info['metadata']) do
+	for ttype in pairs(w2l.info['template']['slk']) do
 		message('正在生成模板', ttype)
 		local data = datas[ttype]
 		io.save(w2l.default / (ttype .. '.ini'), default2lni(ttype, data))
