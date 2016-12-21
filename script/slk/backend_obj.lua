@@ -2,6 +2,10 @@ local table_insert = table.insert
 local table_sort   = table.sort
 local table_concat = table.concat
 local string_char  = string.char
+local math_type    = math.type
+local math_floor   = math.floor
+local w3xparser = require 'w3xparser'
+local wtonumber = w3xparser.tonumber
 local type = type
 local pairs = pairs
 local setmetatable = setmetatable
@@ -15,15 +19,21 @@ end
 
 function mt:add_value(key, id, level, value)
     local meta = self.meta[id]
-    local type = self:get_id_type(id)
-    self:add('c4l', id .. ('\0'):rep(4 - #id), type)
+    local tp = self:get_id_type(id)
+    self:add('c4l', id .. ('\0'):rep(4 - #id), tp)
     if self.has_level then
         self:add('l', level)
         self:add('l', meta['data'] or 0)
     end
-    if type == 0 then
+    if tp == 0 then
+        if math_type(value) ~= 'integer' then
+            value = math_floor(wtonumber(value))
+        end
         self:add('l', value)
-    elseif type == 1 or type == 2 then
+    elseif tp == 1 or tp == 2 then
+        if type(value) ~= 'number' then
+            value = wtonumber(value)
+        end
         self:add('f', value)
     else
         self:add('z', value)
