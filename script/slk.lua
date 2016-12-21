@@ -102,7 +102,8 @@ function slk_proxy:initialize(mappath)
 	local ar = archive(mappath)
 	slk = {}
 	w2l:frontend(ar, slk)
-	for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
+	w2l:frontend_misc(ar, slk)
+	for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
 		slk_proxy[name] = create_proxy(name)
 	end
 end

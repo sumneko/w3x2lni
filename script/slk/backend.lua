@@ -52,12 +52,12 @@ local function to_slk(w2l, archive, slk)
     --转换物编
     local count = 0
     local has_set = {}
-    for type, meta in pairs(w2l.info['metadata']) do
+    for type in pairs(w2l.info['template']['slk']) do
         count = count + 1
         local target_progress = 66 + count * 2
         progress:target(target_progress)
         
-        local data = slk[type]        
+        local data = slk[type]
         if type ~= 'doodad' then
             for _, slk in ipairs(w2l.info['template']['slk'][type]) do
                 local content = w2l:backend_slk(type, slk, data)
