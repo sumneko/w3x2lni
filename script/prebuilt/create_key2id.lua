@@ -141,10 +141,8 @@ local function ignore(name, key)
     end
     
     if key == 'dataa' 
-        -- 变身允许单位类型
-        and (name == 'AEme' or name == 'AEIl' or name == 'AEvi' or name == 'Abrf' or name == 'Arav' or name == 'Amrf' or name == 'Astn' or name == 'Aspx' or name == 'Aave' or name == 'Abur' or name == 'Abu2' or name == 'Abu3' or name == 'Aetf' or name == 'Acpf' or name == 'Aphx' or name == 'Asb1' or name == 'Asb2' or name == 'Asb3' or name == 'ANcr' or name == 'ANrg' or name == 'ANg1' or name == 'ANg2' or name == 'ANg3' or name == 'Asb2' or name == 'Asb3' 
         -- 战斗号召允许单位
-        or name == 'Amil'
+        and (name == 'Amil'
         -- 骑乘角鹰兽指定单位类型
         or name == 'Acoa' or name == 'AcohSloa' or name == 'Aco2' or name == 'Aco3'
     ) then
