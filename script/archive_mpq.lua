@@ -11,8 +11,20 @@ local function load_file(self, filename)
             self.listfile[filename] = true
             self.file_number = self.file_number + 1
         end
+        return buf
     end
-    return buf
+    return false
+end
+
+local function has_file(self, filename)
+    local ok = self.handle:has_file(filename)
+    if ok then
+        if not self.listfile[filename] then
+            self.listfile[filename] = true
+            self.file_number = self.file_number + 1
+        end
+    end
+    return ok
 end
 
 function mt:set(filename, content)
@@ -102,6 +114,8 @@ function mt:__pairs()
             local filename = filename:lower()
             if cache[filename] == nil then
                 cache[filename] = load_file(self, filename)
+            else
+                has_file(self, filename)
             end
         end
     end
@@ -117,14 +131,8 @@ end
 
 function mt:sucess()
     local total = self.handle:number_of_files()
-    local finded = 0
-    for name in pairs(self.cache) do
-        if self.handle:has_file(name) then
-            finded = finded + 1
-        end
-    end
     if self.file_number < total then
-        return false, ('读取(%d/%d)个文件，还有%d个文件没有读取，有%d个文件没有找到'):format(self.file_number, total, total - self.file_number, total - finded)
+        return false, ('读取(%d/%d)个文件，还有%d个文件没有读取'):format(self.file_number, total, total - self.file_number)
     end
     return true
 end
