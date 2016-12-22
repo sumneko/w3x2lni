@@ -117,8 +117,14 @@ end
 
 function mt:sucess()
     local total = self.handle:number_of_files()
+    local finded = 0
+    for name in pairs(self.cache) do
+        if self.handle:has_file(name) then
+            finded = finded + 1
+        end
+    end
     if self.file_number < total then
-        return false, ('读取(%d/%d)个文件，还有%d个文件没有读取'):format(self.file_number, total, total - self.file_number)
+        return false, ('读取(%d/%d)个文件，还有%d个文件没有读取，有%d个文件没有找到'):format(self.file_number, total, total - self.file_number, total - finded)
     end
     return true
 end
