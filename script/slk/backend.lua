@@ -44,12 +44,42 @@ local function to_obj(w2l, archive, slk)
     end
 end
 
+local function report_list(list, name, n)
+    for i = 1, math.min(n, #list) do
+        if name == '魔法效果' then
+            message('-report', list[i]._id, name, list[i].bufftip or list[i].editorname or '')
+        elseif name == '科技' then
+            message('-report', list[i]._id, name, list[i].name[1] or '')
+        else
+            message('-report', list[i]._id, name, list[i].name or '')
+        end
+    end
+end
+
 local function remove_unuse(w2l, slk)
-    local unuse_list = {}
+    local unuse_list = {
+        ability = {},
+        unit = {},
+        item = {},
+        buff = {},
+        upgrade = {},
+        doodad = {},
+        destructable = {},
+    }
+    local origin_list = {
+        ability = {},
+        unit = {},
+        item = {},
+        buff = {},
+        upgrade = {},
+        doodad = {},
+        destructable = {},
+    }
     local user_count = 0
     local count = 0
     local unuse_count = 0
-    local origin_list = {}
+    local unuse_user_count = 0
+    local origin_count = 0
     for type in pairs(w2l.info['template']['slk']) do
         local data = slk[type]
         for name, obj in pairs(data) do
@@ -57,13 +87,15 @@ local function remove_unuse(w2l, slk)
             if obj._true_origin then
                 user_count = user_count + 1
                 if not obj._mark then
-                    unuse_list[#unuse_list+1] = obj
+                    unuse_user_count = unuse_user_count + 1
+                    unuse_list[type][#unuse_list[type]+1] = obj
                 end
             else
                 if not obj._mark then
                     unuse_count = unuse_count + 1
                 else
-                    origin_list[#origin_list+1] = obj
+                    origin_count = origin_count + 1
+                    origin_list[type][#origin_list[type]+1] = obj
                 end
             end
         end
@@ -72,17 +104,21 @@ local function remove_unuse(w2l, slk)
     if unuse_count > 0 then
         message('-report', ('简化掉的对象数: %d/%d'):format(unuse_count, count))
     end
-    if #unuse_list > 0 then
-        message('-report', ('简化掉的自定义对象数: %d/%d'):format(#unuse_list, user_count))
-        for i = 1, math.min(10, #unuse_list) do
-            message('-report', unuse_list[i]._id, unuse_list[i]._type, unuse_list[i].name or unuse_list[i].bufftip)
-        end
+    if unuse_user_count > 0 then
+        message('-report', ('简化掉的自定义对象数: %d/%d'):format(unuse_user_count, user_count))
+        report_list(unuse_list.unit, '单位', 5)
+        report_list(unuse_list.ability, '技能', 5)
+        report_list(unuse_list.item, '物品', 5)
+        report_list(unuse_list.buff, '魔法效果', 1)
+        report_list(unuse_list.upgrade, '科技', 1)
     end
-    if #origin_list > 0 then
-        message('-report', ('保留的默认对象数: %d/%d'):format(#origin_list, count - user_count))
-        for i = 1, math.min(10, #origin_list) do
-            message('-report', origin_list[i]._id, origin_list[i]._type, origin_list[i].name or origin_list[i].bufftip)
-        end
+    if origin_count > 0 then
+        message('-report', ('保留的默认对象数: %d/%d'):format(origin_count, count - user_count))
+        report_list(origin_list.unit, '单位', 5)
+        report_list(origin_list.ability, '技能', 5)
+        report_list(origin_list.item, '物品', 5)
+        report_list(origin_list.buff, '魔法效果', 1)
+        report_list(origin_list.upgrade, '科技', 1)
     end
 end
 
