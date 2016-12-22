@@ -54,7 +54,6 @@ end
 
 function mt:save(slk, info, config)
     local w3i = slk.w3i
-    local packignore = info and info.pack.packignore
     local impignore = info and info.pack.impignore
 
     local hexs = {}
@@ -70,11 +69,9 @@ function mt:save(slk, info, config)
     local files = {}
     local imp = {}
     for name in pairs(self.cache) do
-        if not packignore[name] then
-            files[#files+1] = name
-            if not impignore[name] then
-                imp[#imp+1] = name
-            end
+        files[#files+1] = name
+        if not impignore[name] then
+            imp[#imp+1] = name
         end
     end
     table.sort(files)
