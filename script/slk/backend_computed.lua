@@ -94,6 +94,9 @@ return function(w2l, slk)
         if o.ubertip then
             o.ubertip = computed(slk, o.ubertip)
         end
+        if o.description then
+            o.description = computed(slk, o.description)
+        end
     end
     for _, o in pairs(slk.upgrade) do
         if o.ubertip then
