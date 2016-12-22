@@ -201,7 +201,7 @@ return function (w2l, archive, slk)
 
     local buf = archive:get 'war3mapskin.txt'
     if buf then
-        local skin = w2l:parse_ini()
+        local skin = w2l:parse_ini(buf)
         archive:set('war3mapskin.txt', w2l:backend_skin(skin, slk.wts))
     end
 
