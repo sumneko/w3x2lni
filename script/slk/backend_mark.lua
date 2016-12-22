@@ -89,7 +89,7 @@ function mark_known_type(slk, type, name)
     o._mark = 1
     mark_list(slk, o, search[type].common)
     mark_list(slk, o, search[type][o._lower_para])
-    local marklist = mustmark[o._lower_para]
+    local marklist = mustmark[o._para]
     if marklist then
         if not mark_known_type(slk, marklist[2], marklist[1]) then
             print(marklist[1])
