@@ -100,12 +100,16 @@ end
 
 local function mark(slk, name)
     name = name:lower()
-    local o = slk.all[name]
-    if o then
-        if not mark_known_type(slk, o._type, name) then
-            return false
-        end
-        return true
+    if (mark_known_type(slk, 'ability', name)
+        or mark_known_type(slk, 'unit', name)
+        or mark_known_type(slk, 'buff', name)
+        or mark_known_type(slk, 'item', name)
+        or mark_known_type(slk, 'destructable', name)
+        or mark_known_type(slk, 'doodad', name)
+        or mark_known_type(slk, 'upgrade', name)
+        )
+    then
+         return true
     end
     local o = slk.txt[name]
     if o then
