@@ -13,16 +13,24 @@ local function remove_nil_value(key, id, data, default, max_level)
     if type(data) ~= 'table' then
         return
     end
+    local default_value = 0
+    local default_level = 0
     local dest = default[key]
+    if dest then
+        default_level = #dest
+    end
+    if default_level > 0 then
+        default_value = dest[default_level]
+    end
     local meta = metadata[id]
     local tp = w2l:get_id_type(meta.type)
     for i = 1, max_level do
         if not data[i] then
             if tp == 0 or tp == 1 or tp == 2 then
-                if i <= #dest then
-                    message('-report', '空洞位置小于模板技能等级')
+                if i <= default_level then
+                    error('空洞位置小于模板技能等级')
                 end
-                data[i] = dest[#dest]
+                data[i] = default_value
             end
         end
     end
