@@ -95,10 +95,11 @@ local function remove_unuse(w2l, slk)
     local unuse_user_count = 0
     local origin_count = 0
     for type in pairs(w2l.info['template']['slk']) do
+        local default = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')), type)
         local data = slk[type]
         for name, obj in pairs(data) do
             count = count + 1
-            if obj._true_origin then
+            if obj._true_origin or not default[name] then
                 user_count = user_count + 1
                 if not obj._mark then
                     unuse_user_count = unuse_user_count + 1
