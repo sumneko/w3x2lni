@@ -3,22 +3,23 @@ local progress = require 'progress'
 local type = type
 local pairs = pairs
 
+local w2l
 local revert_list
 local unit_list
+local metadata
+local keydata
 
-local mt = {}
-mt.__index = mt
-
-local function remove_nil_value(key, data, default, max_level)
+local function remove_nil_value(key, id, data, default, max_level)
     if type(data) ~= 'table' then
         return
     end
     local dest = default[key]
-    local tp = type(data[max_level])
+    local meta = metadata[id]
+    local tp = w2l:get_id_type(meta.type)
     for i = 1, max_level do
         if not data[i] then
-            if tp == 'number' then
-                data[i] = dest[#dest]
+            if tp == 0 or tp == 1 or tp == 2 then
+                data[i] = dest[i-1]
             end
         end
     end
@@ -28,9 +29,12 @@ local function fill_obj(name, obj, type, default, config)
     local parent = obj._lower_parent
     local max_level = obj._max_level
     local default = default[parent]
-    for key, data in pairs(obj) do
-        if key:sub(1, 1) ~= '_' then
-            remove_nil_value(key, data, default, max_level)
+    for key, id in pairs(keydata.common) do
+        remove_nil_value(key, id, obj[key], default, max_level)
+    end
+    if keydata[parent] then
+        for key, id in pairs(keydata[parent]) do
+            remove_nil_value(key, id, obj[key], default, max_level)
         end
     end
 end
@@ -153,6 +157,7 @@ end
 local function processing(w2l, type, chunk, target_progress)
     local default = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')))
     metadata = w2l:read_metadata(type)
+    keydata = w2l:keyconvert(type)
     local config = w2l.config
     local names = {}
     for name in pairs(chunk) do
@@ -183,7 +188,8 @@ local function processing(w2l, type, chunk, target_progress)
     end
 end
 
-return function (w2l, slk)
+return function (w2l_, slk)
+    w2l = w2l_
     local count = 0
     for type, name in pairs(w2l.info.obj) do
         count = count + 1
