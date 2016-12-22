@@ -59,7 +59,7 @@ function mt:update_pipe()
 end
 
 function mt:update_message(pos)
-	local msg = self.output:sub(1, pos):gsub("^%s*(.-)%s*$", "%1"):gsub('[^\r\n]+[\r\n]*', function(str)
+	local msg = self.output:sub(1, pos):gsub("^%s*(.-)%s*$", "%1"):gsub('\t', ' '):gsub('[^\r\n]+[\r\n]*', function(str)
 		if str:sub(1, 1) == '-' then
 			local key, value = str:match('%-(%S+)%s(.+)')
 			if key then

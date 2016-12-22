@@ -12,11 +12,7 @@ local archive = require 'archive'
 w2l:initialize()
 
 function message(...)
-	local t = {...}
-	for i = 1, select('#', ...) do
-		t[i] = tostring(t[i])
-	end
-	print(table.concat(t, ' '))
+	print(...)
 end
 
 local input = fs.path(uni.a2u(arg[1]))
