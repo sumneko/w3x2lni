@@ -30,7 +30,9 @@ local function mark_value(slk, type, value)
             for _, name in ipairs(split(value)) do
                 if not mark_known_type(slk, 'unit', name) then
                     if not mark_known_type(slk, 'upgrade', name) then
-                        print(name)
+                        if not mark_known_type(slk, 'misc', name) then
+                            print(name)
+                        end
                     end
                 end
             end
