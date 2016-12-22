@@ -113,7 +113,7 @@ local function add_common(tbl, tbl2, slktype, common)
         tbl[#tbl+1] = ('%s = %s'):format(name, id)
         if enable_type[type]
             and not (slktype == 'item' and name == 'cooldownid')
-            and not (slktype == 'unit' and (name == 'upgrades' or name == 'auto'))
+            and not (slktype == 'unit' and (name == 'upgrades' or name == 'auto' or name == 'dependencyor' or name == 'reviveat'))
         then
             tbl2[#tbl2+1] = ('%s = %s'):format(name, enable_type[type])
             flag = true
@@ -122,6 +122,35 @@ local function add_common(tbl, tbl2, slktype, common)
     if not flag then
         tbl2[#tbl2] = nil
     end
+end
+
+local function ignore(name, key)
+    if key == 'unitid' 
+        -- 复活死尸科技限制单位
+        and (name == 'Arai' or name == 'ACrd' or name == 'AIrd' or name == 'Avng'
+        -- 地洞战备状态允许单位
+        or name == 'Abtl' or name == 'Sbtl'
+        -- 装载允许目标单位
+        or name == 'Aloa' or name == 'Sloa' or name == 'Slo2' or name == 'Slo3'
+        -- 灵魂保存目标单位
+        or name == 'ANsl'
+        -- 地洞装载允许目标单位
+        or name == 'Achl'
+    ) then
+        return true
+    end
+    
+    if key == 'dataa' 
+        -- 变身允许单位类型
+        and (name == 'AEme' or name == 'AEIl' or name == 'AEvi' or name == 'Abrf' or name == 'Arav' or name == 'Amrf' or name == 'Astn' or name == 'Aspx' or name == 'Aave' or name == 'Abur' or name == 'Abu2' or name == 'Abu3' or name == 'Aetf' or name == 'Acpf' or name == 'Aphx' or name == 'Asb1' or name == 'Asb2' or name == 'Asb3' or name == 'ANcr' or name == 'ANrg' or name == 'ANg1' or name == 'ANg2' or name == 'ANg3' or name == 'Asb2' or name == 'Asb3' 
+        -- 战斗号召允许单位
+        or name == 'Amil'
+        -- 骑乘角鹰兽指定单位类型
+        or name == 'Acoa' or name == 'AcohSloa' or name == 'Aco2' or name == 'Aco3'
+    ) then
+        return true
+    end
+    return false
 end
 
 local function add_special(tbl, tbl2, special)
@@ -143,7 +172,7 @@ local function add_special(tbl, tbl2, special)
                 name_ = "'" .. name_ .. "'"
             end
             tbl[#tbl+1] = ('%s = %s'):format(name_, id)
-            if enable_type[type] and (name ~= 'Aloa') then
+            if enable_type[type] and not ignore(name, name_) then
                 tbl2[#tbl2+1] = ('%s = %s'):format(name_, enable_type[type])
                 flag = true
             end
