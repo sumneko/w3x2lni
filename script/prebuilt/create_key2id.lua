@@ -137,14 +137,14 @@ local function add_special(tbl, tbl2, special)
         end
         tbl2[#tbl2+1] = tbl[#tbl]
         local names = sort_table(data)
-        for _, name in ipairs(names) do
-            local id, type = data[name][1], data[name][2]
-            if name:find('[^_%w]') then
-                name = "'" .. name .. "'"
+        for _, name_ in ipairs(names) do
+            local id, type = data[name_][1], data[name_][2]
+            if name_:find('[^_%w]') then
+                name_ = "'" .. name_ .. "'"
             end
-            tbl[#tbl+1] = ('%s = %s'):format(name, id)
-            if enable_type[type] then
-                tbl2[#tbl2+1] = ('%s = %s'):format(name, enable_type[type])
+            tbl[#tbl+1] = ('%s = %s'):format(name_, id)
+            if enable_type[type] and (name ~= 'Aloa') then
+                tbl2[#tbl2+1] = ('%s = %s'):format(name_, enable_type[type])
                 flag = true
             end
         end
