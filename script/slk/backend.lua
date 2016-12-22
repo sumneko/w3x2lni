@@ -169,6 +169,12 @@ return function (w2l, archive, slk)
             archive:set('mapinfo.ini', lni)
         end
         archive:set('war3map.w3i', w2l:lni2w3i(w2l:parse_lni(lni)))
+        if slk.w3i.game_data_set == 1 then
+            message('-report', '只支持"默认(1.07)",地图为"自定义"')
+        end
+        if slk.w3i.game_data_set == 2 then
+            message('-report', '只支持"默认(1.07)",地图为"对战(最新版本)"')
+        end
     end
 
     w2l:backend_processing(slk)
