@@ -80,7 +80,7 @@ function mt:save(slk, info, config)
     table.sort(files)
     table.sort(imp)
 
-    self.handle = stormlib.create(self.path, #files + 8)
+    self.handle = stormlib.create(self.path, #files + 8, config.remove_we_only)
     if not self.handle then
         message('创建新地图失败,可能文件被占用了')
         return
