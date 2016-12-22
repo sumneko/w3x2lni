@@ -45,6 +45,9 @@ if not output_ar then
     return
 end
 
+message('-report', '输入路径为:', input:string())
+message('-report', '输出路径为:', output:string())
+
 message('正在读取物编...')
 w2l:frontend(input_ar, slk)
 message('正在转换...')

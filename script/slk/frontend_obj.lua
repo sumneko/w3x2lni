@@ -49,7 +49,7 @@ local function read_data(obj)
 		key = string_lower(key)
 		local check_type = w2l:get_id_type(metadata[id].type)
 		if value_type ~= check_type and (value_type == 3 or check_type == 3) then
-			message(('数据类型错误:[%s],应该为[%s],错误的解析为了[%s]'):format(id, value_type, check_type))
+			message('-report', ('数据类型错误:[%s],应该为[%s],错误的解析为了[%s]'):format(id, value_type, check_type))
 		end
 	end
 

@@ -21,7 +21,7 @@ local function key2id(code, key)
     if id then
         return id
     end
-    message(('警告: 模板[%s]并不支持数据项[%s]'):format(code, key))
+    message('-report', ('模板[%s]并不支持数据项[%s]'):format(code, key))
     return nil
 end
 
