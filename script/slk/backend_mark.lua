@@ -212,7 +212,7 @@ local function mark_lua(w2l, archive, slk)
         print(e)
         return
     end
-    local suc, list = pcall(f, archive)
+    local suc, list = pcall(f)
     if not suc then
         print(list)
         return
