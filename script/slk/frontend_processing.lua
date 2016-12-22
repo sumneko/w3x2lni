@@ -1,10 +1,45 @@
 local progress = require 'progress'
 
+local type = type
+local pairs = pairs
+
 local revert_list
 local unit_list
 
 local mt = {}
 mt.__index = mt
+
+local function remove_nil_value(key, data, default)
+    if type(data) ~= 'table' then
+        return
+    end
+    local len = 0
+    for n in pairs(data) do
+        if n > len then
+            len = n
+        end
+    end
+    local dest = default[key]
+    local tp = type(data[len])
+    for i = 1, len do
+        if not data[i] then
+            if tp == 'number' then
+                data[i] = dest[#dest]
+            end
+        end
+    end
+end
+
+local function fill_obj(name, obj, type, default, config)
+    local parent = obj._lower_parent
+    local max_level = obj._max_level
+    local default = default[parent]
+    for key, data in pairs(obj) do
+        if key:sub(1, 1) ~= '_' then
+            remove_nil_value(key, data, default)
+        end
+    end
+end
 
 local function get_revert_list(default, parent)
     if not revert_list then
@@ -143,6 +178,13 @@ local function processing(w2l, type, chunk, target_progress)
             clock = os.clock()
             message(('搜索最优模板[%s] (%d/%d)'):format(chunk[name]._id, i, #names))
             progress(i / #names)
+        end
+    end
+    for i, name in ipairs(names) do
+        fill_obj(name, chunk[name], type, default, config)
+        if os.clock() - clock >= 0.1 then
+            clock = os.clock()
+            message(('补全数据[%s] (%d/%d)'):format(chunk[name]._id, i, #names))
         end
     end
 end

@@ -47,34 +47,12 @@ local function remove_same(key, data, default, obj, is_slk)
     end
 end
 
-local function remove_nil_value(key, data, default)
-    if type(data) ~= 'table' then
-        return
-    end
-    local len = 0
-    for n in pairs(data) do
-        if n > len then
-            len = n
-        end
-    end
-    local dest = default[key]
-    local tp = type(data[len])
-    for i = 1, len do
-        if not data[i] then
-            if tp == 'number' then
-                data[i] = dest[#dest]
-            end
-        end
-    end
-end
-
 local function clean_obj(name, obj, type, default, config)
     local parent = obj._lower_parent
     local max_level = obj._max_level
     local default = default[parent]
     local is_remove_exceeds_level = config.remove_exceeds_level
     local is_remove_same = config.remove_same
-    local is_remove_nil_value = config.remove_nil_value
     local is_slk = config.target_format == 'slk' and type ~= 'doodad'
     for key, data in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
@@ -83,9 +61,6 @@ local function clean_obj(name, obj, type, default, config)
             end
             if is_remove_same then
                 remove_same(key, data, default, obj, is_slk)
-            end
-            if is_remove_nil_value then
-                remove_nil_value(key, data, default)
             end
         end
     end
