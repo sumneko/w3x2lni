@@ -231,7 +231,7 @@ return function(w2l, archive, slk)
     if not search then
         search = {}
         for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-            search[type] = w2l:parse_lni(assert(io.load(w2l.prebuilt / 'key' / (type .. '_type.ini'))))
+            search[type] = w2l:parse_lni(assert(io.load(w2l.prebuilt / 'search' / (type .. '.ini'))))
         end
     end
     mark_mustuse(slk)
