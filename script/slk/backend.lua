@@ -30,7 +30,7 @@ end
 local function to_obj(w2l, archive, slk)
     --转换物编
     local count = 0
-    for type, meta in pairs(w2l.info['metadata']) do
+    for type, filename in pairs(w2l.info.template.obj) do
         count = count + 1
         local target_progress = 66 + count * 2
         progress:target(target_progress)
@@ -38,7 +38,7 @@ local function to_obj(w2l, archive, slk)
         local data = slk[type]
         local content = w2l:backend_obj(type, data)
         if content then
-            archive:set(w2l.info['template']['obj'][type], content)
+            archive:set(filename, content)
         end
         progress(1)
     end
