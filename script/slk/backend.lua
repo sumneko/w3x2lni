@@ -75,6 +75,20 @@ local function remove_unuse(w2l, slk)
         doodad = {},
         destructable = {},
     }
+    local mustuse = {
+        ability = {},
+        unit = {},
+        item = {},
+        buff = {},
+        upgrade = {},
+        doodad = {},
+        destructable = {},
+    }
+    for type, list in pairs(slk.mustuse) do
+        for _, id in ipairs(list) do
+            mustuse[type][id] = true
+        end
+    end
     local user_count = 0
     local count = 0
     local unuse_count = 0
@@ -95,7 +109,9 @@ local function remove_unuse(w2l, slk)
                     unuse_count = unuse_count + 1
                 else
                     origin_count = origin_count + 1
-                    origin_list[type][#origin_list[type]+1] = obj
+                    if not mustuse[type][name] then
+                        origin_list[type][#origin_list[type]+1] = obj
+                    end
                 end
             end
         end
