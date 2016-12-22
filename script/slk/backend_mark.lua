@@ -103,7 +103,6 @@ local function mark(slk, name)
     local o = slk.all[name]
     if o then
         if not mark_known_type(slk, o._type, name) then
-            print(name)
             return false
         end
         return true
@@ -113,7 +112,6 @@ local function mark(slk, name)
         o._mark = true
         return true
     end
-    print(name)
     return false
 end
 
