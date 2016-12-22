@@ -113,7 +113,7 @@ local function add_common(tbl, tbl2, slktype, common)
         tbl[#tbl+1] = ('%s = %s'):format(name, id)
         if enable_type[type]
             and not (slktype == 'item' and name == 'cooldownid')
-            and not (slktype == 'unit' and name == 'upgrades')
+            and not (slktype == 'unit' and (name == 'upgrades' or name == 'auto'))
         then
             tbl2[#tbl2+1] = ('%s = %s'):format(name, enable_type[type])
             flag = true
