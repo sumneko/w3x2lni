@@ -150,7 +150,7 @@ local function window_select(canvas)
 		fmt = 'slk'
 		window:set_title('W3x2Slk')
 		config.target_format = 'slk'
-		config.slk.target_storage = 'dir'
+		config.slk.target_storage = 'map'
 		config.slk.read_slk = true
 		config.slk.remove_same = true
 		config.slk.remove_exceeds_level = true
