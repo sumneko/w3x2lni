@@ -14,9 +14,6 @@ local extra_func = {
     MeleeStartingUnitsUnknownRace = {'nshe'},
     MeleeStartingUnitsForPlayer = {'hpea', 'Hamg', 'Hpal', 'Hblm', 'Hmkg', 'htow', 'Amic', 'opeo', 'Obla', 'Ofar', 'ogre', 'Otch', 'Oshd', 'Udre', 'Udea', 'Ucrl', 'uaco', 'unpl', 'ugho', 'Ulic', 'etol', 'Edem', 'ewsp', 'Ewar', 'Emoo', 'Ekee', 'stwp'},
     MeleeStartingUnits = {'hpea', 'Hamg', 'Hpal', 'Hblm', 'Hmkg', 'htow', 'Amic', 'opeo', 'Obla', 'Ofar', 'ogre', 'Otch', 'Oshd', 'Udre', 'Udea', 'Ucrl', 'uaco', 'unpl', 'ugho', 'Ulic', 'etol', 'Edem', 'ewsp', 'Ewar', 'Emoo', 'Ekee', 'nshe', 'stwp'},
-
-    InitSummonableCaps = {'Rhrt', 'hrtt', 'Robk', 'otbk', 'uske'},
-    InitBlizzard = {'Rhrt', 'hrtt', 'Robk', 'otbk', 'uske'},
     
     MeleeGrantItemsToHero = {'stwp'},
     MeleeGrantItemsToTrainedHero = {'stwp'},
