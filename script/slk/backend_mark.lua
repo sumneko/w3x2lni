@@ -184,6 +184,29 @@ local function mark_doo(w2l, archive, slk)
     end
 end
 
+local function mark_lua(w2l, archive, slk)
+    local buf = archive:get('reference.lua')
+    if not buf then
+        return
+    end
+    local f, e = load(buf, 'reference.lua', 't')
+    if not f then
+        print(e)
+        return
+    end
+    local suc, list = pcall(f, archive)
+    if not suc then
+        print(list)
+        return
+    end
+    if type(list) ~= 'table' then
+        return
+    end
+    for name in pairs(list) do
+        mark(slk, name)
+    end
+end
+
 return function(w2l, archive, slk)
     if not search then
         search = {}
@@ -194,4 +217,5 @@ return function(w2l, archive, slk)
     mark_mustuse(slk)
     mark_jass(w2l, archive, slk)
     mark_doo(w2l, archive, slk)
+    mark_lua(w2l, archive, slk)
 end
