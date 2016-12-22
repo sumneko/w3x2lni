@@ -36,8 +36,6 @@ find_id_times = $find_id_times$
 remove_same = $remove_same$
 -- 移除超出等级的数据
 remove_exceeds_level = $remove_exceeds_level$
--- 补全空缺的数据
-remove_nil_value = $remove_nil_value$
 -- 移除只在WE使用的文件
 remove_we_only = $remove_we_only$
 -- 移除没有引用的对象
@@ -140,7 +138,6 @@ local function window_select(canvas)
 		config.lni.read_slk = false
 		config.lni.remove_same = false
 		config.lni.remove_exceeds_level = false
-		config.lni.remove_nil_value = true
 		config.lni.remove_we_only = false
 		config.lni.remove_unuse_object = false
 		save_config()
@@ -157,7 +154,6 @@ local function window_select(canvas)
 		config.slk.read_slk = true
 		config.slk.remove_same = true
 		config.slk.remove_exceeds_level = true
-		config.slk.remove_nil_value = false
 		save_config()
 		clean_convert_ui()
 		return
@@ -172,7 +168,6 @@ local function window_select(canvas)
 		config.obj.read_slk = false
 		config.obj.remove_same = true
 		config.obj.remove_exceeds_level = false
-		config.obj.remove_nil_value = false
 		config.obj.remove_we_only = false
 		config.obj.remove_unuse_object = false
 		save_config()
