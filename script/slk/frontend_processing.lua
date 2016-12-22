@@ -51,23 +51,23 @@ local function fill_obj(name, obj, type, default, config)
     end
 end
 
-local function get_revert_list(default, parent)
+local function get_revert_list(default, code)
     if not revert_list then
         revert_list = {}
         for lname, obj in pairs(default) do
-            local parent = obj['_lower_parent']
-            local list = revert_list[parent]
+            local code = obj['_code']
+            local list = revert_list[code]
             if not list then
-                revert_list[parent] = lname
+                revert_list[code] = lname
             else
                 if type(list) ~= 'table' then
-                    revert_list[parent] = {[list] = true}
+                    revert_list[code] = {[list] = true}
                 end
-                revert_list[parent][lname] = true
+                revert_list[code][lname] = true
             end
         end
     end
-    return revert_list[parent]
+    return revert_list[code]
 end
 
 local function get_unit_list(default, name)
@@ -99,9 +99,9 @@ local function find_para(name, obj, default, type)
     if default[name] then
         return name
     end
-    local parent = obj['_lower_parent']
-    if parent then
-        local list = get_revert_list(default, parent)
+    local code = obj['_code']
+    if code then
+        local list = get_revert_list(default, code)
         if list then
             return list
         end
