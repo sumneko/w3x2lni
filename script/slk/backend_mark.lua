@@ -18,8 +18,13 @@ local function split(str)
     return r
 end
 
-local function print(...)
-    message('-report', '简化时没有找到对象:', ...)
+local once = {}
+local function print(id)
+    if once[id] then
+        return
+    end
+    once[id] = true
+    message('-report', '简化时没有找到对象:', id)
 end
 
 local mark_known_type
