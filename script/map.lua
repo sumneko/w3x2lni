@@ -48,6 +48,16 @@ end
 message('-report', '输入路径为:', input:string())
 message('-report', '输出路径为:', output:string())
 
+message('-report', '转换格式:', w2l.config.target_format)
+message('-report', '输出方式:', w2l.config.target_storage)
+message('-report', '分析slk文件:', w2l.config.read_slk)
+message('-report', '搜索最优模板次数:', w2l.config.find_id_times)
+message('-report', '移除与模板完全相同的数据:', w2l.config.remove_same)
+message('-report', '移除超出等级的数据:', w2l.config.remove_exceeds_level)
+message('-report', '补全空缺的数据:', w2l.config.remove_nil_value)
+message('-report', '移除只在WE使用的文件:', w2l.config.remove_we_only)
+message('-report', '移除没有引用的对象:', w2l.config.remove_unuse_object)
+
 message('正在读取物编...')
 w2l:frontend(input_ar, slk)
 message('正在转换...')

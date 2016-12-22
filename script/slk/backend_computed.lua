@@ -72,6 +72,7 @@ local function computed_value(slk, str)
         end
         return math.floor(res)
     end
+    message('-report', '公式计算失败:', str)
     return res
 end
 
