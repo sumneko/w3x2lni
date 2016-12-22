@@ -155,6 +155,7 @@ local function mark_jass(w2l, archive, slk)
             if search_marketplace and obj._name == 'marketplace' then
                 flag.marketplace = true
                 search_marketplace = false
+                message('-report', '保留市场物品,由于使用了市场')
             end
         end
     end
