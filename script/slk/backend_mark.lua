@@ -102,27 +102,6 @@ function mark_known_type(slk, type, name)
     return true
 end
 
-local function mark(slk, name)
-    name = name:lower()
-    if (mark_known_type(slk, 'ability', name)
-        or mark_known_type(slk, 'unit', name)
-        or mark_known_type(slk, 'buff', name)
-        or mark_known_type(slk, 'item', name)
-        or mark_known_type(slk, 'destructable', name)
-        or mark_known_type(slk, 'doodad', name)
-        or mark_known_type(slk, 'upgrade', name)
-        )
-    then
-         return true
-    end
-    local o = slk.txt[name]
-    if o then
-        o._mark = true
-        return true
-    end
-    return false
-end
-
 local function mark_mustuse(slk)
     for type, list in pairs(mustuse) do
         for _, name in ipairs(list) do
@@ -139,7 +118,14 @@ local function mark_jass(w2l, archive, slk)
         return
     end
     for name in pairs(list) do
-        mark(slk, name)
+        name = name:lower()
+        mark_known_type(slk, 'ability', name)
+        mark_known_type(slk, 'unit', name)
+        mark_known_type(slk, 'buff', name)
+        mark_known_type(slk, 'item', name)
+        mark_known_type(slk, 'destructable', name)
+        mark_known_type(slk, 'doodad', name)
+        mark_known_type(slk, 'upgrade', name)
     end
     if flag.creeps or flag.building then
         local maptile = slk.w3i.map_main_ground_type
