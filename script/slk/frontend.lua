@@ -166,4 +166,5 @@ return function(w2l, archive, slk)
     end
     slk.txt = txt
     w2l:frontend_misc(archive, slk)
+    w2l:frontend_searchparent(slk)
 end
