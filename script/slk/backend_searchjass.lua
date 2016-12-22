@@ -78,6 +78,18 @@ local function fbj(id)
     end
     if need_mark[id] then
         marks[need_mark[id]] = true
+        if need_mark[id] == 'creeps' then
+            message('-report', '由于使用了BJ函数', id, ',将保留所有的野怪')
+        end
+        if need_mark[id] == 'building' then
+            message('-report', '由于使用了BJ函数', id, ',将保留所有的中立建筑')
+        end
+        if need_mark[id] == 'item' then
+            message('-report', '由于使用了BJ函数', id, ',将保留所有的可随机物品')
+        end
+        if need_mark[id] == 'marketplace' then
+            message('-report', '由于使用了BJ函数', id, ',将保留所有的市场出售物品')
+        end
     end
 end
 

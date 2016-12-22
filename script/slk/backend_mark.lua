@@ -18,6 +18,10 @@ local function split(str)
     return r
 end
 
+local function print(...)
+    message('-report', '简化时没有找到对象:', ...)
+end
+
 local mark_known_type
 
 local function mark_value(slk, type, value)
