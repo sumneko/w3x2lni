@@ -229,6 +229,7 @@ return function(w2l, archive, slk)
             search[type] = w2l:parse_lni(assert(io.load(w2l.prebuilt / 'search' / (type .. '.ini'))))
         end
     end
+    slk.mustuse = mustuse
     mark_mustuse(slk)
     mark_jass(w2l, archive, slk)
     mark_doo(w2l, archive, slk)
