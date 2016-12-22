@@ -187,7 +187,27 @@ local function mark_lua(w2l, archive, slk)
     if not buf then
         return
     end
-    local f, e = load(buf, 'reference.lua', 't')
+    local env = {
+        archive  = archive,
+        assert   = assert,
+        error    = error,
+        ipairs   = ipairs,
+        load     = load,
+        pairs    = pairs,
+        next     = next,
+        print    = print,
+        select   = select,
+        tonumber = tonumber,
+        tostring = tostring,
+        type     = type,
+        pcall    = pcall,
+        xpcall   = xpcall,
+        math     = math,
+        string   = string,
+        table    = table,
+        utf8     = utf8,
+    }
+    local f, e = load(buf, 'reference.lua', 't', env)
     if not f then
         print(e)
         return
