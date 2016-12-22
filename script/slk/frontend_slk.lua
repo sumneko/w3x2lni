@@ -193,7 +193,7 @@ return function(w2l_, loader)
     local txt = {}
     local unit = {}
     local has_readed = {}
-    for type, names in pairs(w2l.info.template.txt) do
+    for type, names in pairs(w2l.info.txt) do
         for _, filename in ipairs(names) do
             if not has_readed[filename] then
                 has_readed[filename] = true
@@ -202,7 +202,7 @@ return function(w2l_, loader)
         end
     end
 
-    for type, names in pairs(w2l.info.template.slk) do
+    for type, names in pairs(w2l.info.slk) do
         metadata = w2l:read_metadata(type)
         has_level = w2l.info.key.max_level[type]
         keyconvert = w2l:keyconvert(type)

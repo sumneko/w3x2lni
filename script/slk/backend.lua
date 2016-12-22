@@ -12,7 +12,7 @@ local output = {
 local function to_lni(w2l, archive, slk)
     --转换物编
     local count = 0
-    for ttype, filename in pairs(w2l.info['template']['lni']) do
+    for ttype, filename in pairs(w2l.info.lni) do
         count = count + 1
         local target_progress = 66 + count * 2
         progress:target(target_progress)
@@ -30,7 +30,7 @@ end
 local function to_obj(w2l, archive, slk)
     --转换物编
     local count = 0
-    for type, filename in pairs(w2l.info.template.obj) do
+    for type, filename in pairs(w2l.info.obj) do
         count = count + 1
         local target_progress = 66 + count * 2
         progress:target(target_progress)
@@ -94,7 +94,7 @@ local function remove_unuse(w2l, slk)
     local unuse_count = 0
     local unuse_user_count = 0
     local origin_count = 0
-    for type in pairs(w2l.info['template']['slk']) do
+    for type in pairs(w2l.info.slk) do
         local default = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')), type)
         local data = slk[type]
         for name, obj in pairs(data) do
@@ -143,14 +143,14 @@ local function to_slk(w2l, archive, slk)
     --转换物编
     local count = 0
     local has_set = {}
-    for type in pairs(w2l.info['template']['slk']) do
+    for type in pairs(w2l.info.slk) do
         count = count + 1
         local target_progress = 66 + count * 2
         progress:target(target_progress)
         
         local data = slk[type]
         if type ~= 'doodad' then
-            for _, slk in ipairs(w2l.info['template']['slk'][type]) do
+            for _, slk in ipairs(w2l.info.slk[type]) do
                 local content = w2l:backend_slk(type, slk, data)
                 archive:set(slk, content)
             end
@@ -158,8 +158,8 @@ local function to_slk(w2l, archive, slk)
                 archive:set(output[type], w2l:backend_txt(type, data))
                 has_set[output[type]] = true
             end
-            if w2l.info['template']['txt'][type] then
-                for i, txt in ipairs(w2l.info['template']['txt'][type]) do
+            if w2l.info.txt[type] then
+                for i, txt in ipairs(w2l.info.txt[type]) do
                     if not has_set[txt] then
                         archive:set(txt, '')
                         has_set[txt] = true
@@ -183,7 +183,7 @@ local function to_slk(w2l, archive, slk)
 
         local content = w2l:backend_obj(type, data)
         if content then
-            archive:set(w2l.info['template']['obj'][type], content)
+            archive:set(w2l.info.obj[type], content)
         end
         
         progress(1)
@@ -196,20 +196,20 @@ local function to_slk(w2l, archive, slk)
 end
 
 return function (w2l, archive, slk)
-    for type, filename in pairs(w2l.info.template.obj) do
+    for type, filename in pairs(w2l.info.obj) do
         archive:set(filename, false)
     end
-    for type, filelist in pairs(w2l.info.template.slk) do
+    for type, filelist in pairs(w2l.info.slk) do
         for _, filename in ipairs(filelist) do
             archive:set(filename, false)
         end
     end
-    for type, filelist in pairs(w2l.info.template.txt) do
+    for type, filelist in pairs(w2l.info.txt) do
         for _, filename in ipairs(filelist) do
             archive:set(filename, false)
         end
     end
-    for type, filelist in pairs(w2l.info.template.lni) do
+    for type, filelist in pairs(w2l.info.lni) do
         for _, filename in ipairs(filelist) do
             archive:set(filename, false)
         end

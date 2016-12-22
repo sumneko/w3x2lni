@@ -77,8 +77,8 @@ local input = fs.path(uni.a2u(arg[1]))
 
 --fs.remove_all(input / 'units2')
 fs.create_directories(input / 'units2')
-w2l.info.template.txt.buff = nil
-for type, filelist in pairs(w2l.info.template.txt) do
+w2l.info.txt.buff = nil
+for type, filelist in pairs(w2l.info.txt) do
 	for _, filename in ipairs(filelist) do
 		if txtmap[filename] then
 			convert_txt(input / txtmap[filename], input / 'units2' / fs.path(filename):filename())
@@ -394,8 +394,8 @@ local function write_slk2(type, slkname, t)
 	return w2l:backend_slk(type, slkname, t)
 end
 
-w2l.info.template.slk.doodad = nil
-for type, filelist in pairs(w2l.info.template.slk) do
+w2l.info.slk.doodad = nil
+for type, filelist in pairs(w2l.info.slk) do
 	for _, filename in ipairs(filelist) do
 		local inf = input / filename
 		local outf = input / 'units2' / fs.path(filename):filename()
@@ -411,7 +411,7 @@ for type, filelist in pairs(w2l.info.template.slk) do
 	end
 end
 
-for type, filename in pairs(w2l.info.template.obj) do
+for type, filename in pairs(w2l.info.obj) do
 	local inf = input / filename
 	local outf = input / 'units2' / (fs.path(filename):filename():string() .. '.ini')
 	local buf = io.load(inf)

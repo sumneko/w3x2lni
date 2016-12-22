@@ -108,7 +108,7 @@ local function load_slk(w2l, archive, force_slk)
         return datas, txt
     else
         local datas = {}
-        for type in pairs(w2l.info.template.slk) do
+        for type in pairs(w2l.info.slk) do
             datas[type] = {}
             w2l:parse_lni(io.load(w2l.default / (type .. '.ini')), type, datas[type])
             setmetatable(datas[type], nil)
@@ -121,7 +121,7 @@ end
 local function load_obj(w2l, archive, wts)
     local objs = {}
     local force_slk
-    for type, name in pairs(w2l.info.template.obj) do
+    for type, name in pairs(w2l.info.obj) do
         local buf = archive:get(name)
         local force
         if buf then
@@ -138,7 +138,7 @@ end
 
 local function load_lni(w2l, archive)
     local lnis = {}
-    for type, name in pairs(w2l.info.template.lni) do
+    for type, name in pairs(w2l.info.lni) do
         local buf = archive:get(name)
         if buf then
             message('正在转换', name)
