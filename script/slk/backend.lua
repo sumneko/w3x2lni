@@ -44,11 +44,49 @@ local function to_obj(w2l, archive, slk)
     end
 end
 
-local function to_slk(w2l, archive, slk)
-    if w2l.config.remove_unuse_object then
-        w2l:backend_mark(archive, slk)
+local function remove_unuse(w2l, slk)
+    local unuse_list = {}
+    local user_count = 0
+    local count = 0
+    local unuse_count = 0
+    local origin_list = {}
+    for type in pairs(w2l.info['template']['slk']) do
+        local data = slk[type]
+        for name, obj in pairs(data) do
+            count = count + 1
+            if obj._true_origin then
+                user_count = user_count + 1
+                if not obj._mark then
+                    unuse_list[#unuse_list+1] = obj
+                end
+            else
+                if not obj._mark then
+                    unuse_count = unuse_count + 1
+                else
+                    origin_list[#origin_list+1] = obj
+                end
+            end
+        end
     end
-    w2l:backend_computed(slk)
+
+    if unuse_count > 0 then
+        message('-report', ('简化掉的对象数: %d/%d'):format(unuse_count, count))
+    end
+    if #unuse_list > 0 then
+        message('-report', ('简化掉的自定义对象数: %d/%d'):format(#unuse_list, user_count))
+        for i = 1, math.min(10, #unuse_list) do
+            message('-report', unuse_list[i]._id, unuse_list[i]._type, unuse_list[i].name or unuse_list[i].bufftip)
+        end
+    end
+    if #origin_list > 0 then
+        message('-report', ('保留的默认对象数: %d'):format(#origin_list))
+        for i = 1, math.min(10, #origin_list) do
+            message('-report', origin_list[i]._id, origin_list[i]._type, origin_list[i].name or origin_list[i].bufftip)
+        end
+    end
+end
+
+local function to_slk(w2l, archive, slk)
     --转换物编
     local count = 0
     local has_set = {}
@@ -76,7 +114,7 @@ local function to_slk(w2l, archive, slk)
                 end
             end
         end
-
+        
         for name, obj in pairs(data) do
             local empty = true
             for k in pairs(obj) do
@@ -97,6 +135,7 @@ local function to_slk(w2l, archive, slk)
         
         progress(1)
     end
+
     local content = w2l:backend_extra_txt(slk['txt'])
     if content then
         archive:set(output['txt'], content)
