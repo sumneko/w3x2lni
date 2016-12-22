@@ -79,7 +79,7 @@ local function copy_obj(b)
     return a
 end
 
-local function merge_obj(data, objs, all)
+local function merge_obj(data, objs)
     local template = {}
     for name, obj in pairs(objs) do
         if data[name] then
@@ -87,14 +87,13 @@ local function merge_obj(data, objs, all)
             table_merge(data[name], obj)
         else
             data[name] = table_copy(template[obj._lower_para] or data[obj._lower_para], obj)
-            all[name] = data[name]
         end
     end
 end
 
-local function load_slk(w2l, archive, force_slk, all)
+local function load_slk(w2l, archive, force_slk)
     if force_slk or w2l.config.read_slk then
-        local datas, txt = w2l:frontend_slk(all, function(name)
+        local datas, txt = w2l:frontend_slk(function(name)
             message('正在转换', name)
             local buf = archive:get(name)
             if buf then
@@ -106,13 +105,8 @@ local function load_slk(w2l, archive, force_slk, all)
         return datas, txt
     else
         local datas = {}
-        local all_mt = {}
-        function all_mt:__newindex(key, value)
-            rawset(self, key, value)
-            all[key] = value
-        end
         for type in pairs(w2l.info.template.slk) do
-            datas[type] = setmetatable({}, all_mt)
+            datas[type] = {}
             w2l:parse_lni(io.load(w2l.default / (type .. '.ini')), type, datas[type])
             setmetatable(datas[type], nil)
         end
@@ -155,17 +149,16 @@ end
 return function(w2l, archive, slk)
     --读取字符串
     slk.wts = w2l:frontend_wts(archive)
-    slk.all = {}
     local objs, force_slk1 = load_obj(w2l, archive, slk.wts)
     local lnis, force_slk2 = load_lni(w2l, archive)
-    local datas, txt = load_slk(w2l, archive, force_slk1 or force_slk2, slk.all)
+    local datas, txt = load_slk(w2l, archive, force_slk1 or force_slk2)
     for type, data in pairs(datas) do
         local obj = objs[type] or {}
         if lnis[type] then
             w2l:frontend_updatelni(type, lnis[type], data)
             merge(obj, lnis[type])
         end
-        merge_obj(data, obj, slk.all)
+        merge_obj(data, obj)
         slk[type] = data
     end
     slk.txt = txt

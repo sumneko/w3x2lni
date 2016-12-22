@@ -100,14 +100,13 @@ local function slk_read_obj(obj, lname, data, keys, metas)
     end
 end
 
-local function slk_read(table, all, slk, keys, metas, update_level, type)
+local function slk_read(table, slk, keys, metas, update_level, type)
     for name, data in pairs(slk) do
         local lname = string_lower(name)
         if not table[lname] then
             table[lname] = {}
             table[lname]._id = name
             table[lname]._type = type
-            all[lname] = table[lname]
         end
         local obj = table[lname]
         slk_read_obj(obj, lname, data, keys, metas)
@@ -188,7 +187,7 @@ local function txt_read(table, txt, unit, txt_keys, txt_meta, type)
     end
 end
 
-return function(w2l_, all, loader)
+return function(w2l_, loader)
     w2l = w2l_
     local datas = {}
     local txt = {}
@@ -225,7 +224,7 @@ return function(w2l_, all, loader)
                     update_level = has_level
                 end
             end
-            slk_read(datas[type], all, w2l:parse_slk(loader(filename)), slk_keys, slk_meta, update_level, type)
+            slk_read(datas[type], w2l:parse_slk(loader(filename)), slk_keys, slk_meta, update_level, type)
 
             if keyconvert.profile then
                 local txt_keys = {}
@@ -245,8 +244,8 @@ return function(w2l_, all, loader)
         end
     end
 
+    -- 此单位只在一张单位slk里定义,是无效单位
     datas.unit.nrmf = nil
-    all.nrmf = nil
 
     return datas, txt
 end
