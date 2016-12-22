@@ -36,7 +36,13 @@ end
 
 local function computed_value(slk, str)
     local id, key, per = table.unpack(split(str))
-    local o = slk.all[id]
+    local o = slk.ability[id]
+           or slk.unit[id]
+           or slk.buff[id]
+           or slk.item[id]
+           or slk.destructable[id]
+           or slk.doodad[id]
+           or slk.upgrade[id]
     if not o then
         return
     end
