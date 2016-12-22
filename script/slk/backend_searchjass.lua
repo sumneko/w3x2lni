@@ -77,16 +77,16 @@ local function fbj(id)
         end
     end
     if need_mark[id] then
+        if need_mark[id] == 'creeps' and not marks.creeps then
+            message('-report', '保留野怪单位,原因', id)
+        end
+        if need_mark[id] == 'building' and not marks.building then
+            message('-report', '保留野怪建筑,原因', id)
+        end
+        if need_mark[id] == 'item' and not marks.item then
+            message('-report', '保留可随机物品,原因', id)
+        end
         marks[need_mark[id]] = true
-        if need_mark[id] == 'creeps' then
-            message('-report', '保留野怪单位,由于使用了函数', id)
-        end
-        if need_mark[id] == 'building' then
-            message('-report', '保留野怪建筑,由于使用了函数', id)
-        end
-        if need_mark[id] == 'item' then
-            message('-report', '保留可随机物品,由于使用了函数', id)
-        end
     end
 end
 

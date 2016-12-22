@@ -105,7 +105,7 @@ local function main()
 	fs.create_directories(w2l.prebuilt / 'search')
 
 	-- 生成key2id
-    for type, slk in pairs(w2l.info['template']['slk']) do
+    for type, slk in pairs(w2l.info.slk) do
 		message('正在生成key2id', type)
 		local metadata = w2l:read_metadata(type)
         local template = {}
@@ -122,7 +122,7 @@ local function main()
 	local slk = {}
 	w2l:frontend(ar, slk)
 	local usable_para = {}
-	for ttype in pairs(w2l.info['template']['slk']) do
+	for ttype in pairs(w2l.info.slk) do
 		message('正在生成模板', ttype)
 		local data = slk[ttype]
 		io.save(w2l.default / (ttype .. '.ini'), default2lni(ttype, data))

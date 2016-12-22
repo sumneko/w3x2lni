@@ -92,7 +92,7 @@ end
 
 return function (w2l, slk)
     local count = 0
-    for type, name in pairs(w2l.info.template.obj) do
+    for type, name in pairs(w2l.info.obj) do
         count = count + 1
         local target_progress = 17 + 7 * count
         processing(w2l, type, slk[type], target_progress)
