@@ -55,7 +55,6 @@ for name, buf in pairs(input_ar) do
 end
 local ok, e = input_ar:sucess()
 if not ok then
-    message('-report', e)
 end
 progress:target(100)
 output_ar:save(slk, w2l.info, w2l.config)

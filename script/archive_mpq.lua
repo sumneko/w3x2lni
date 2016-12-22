@@ -132,7 +132,9 @@ end
 function mt:sucess()
     local total = self.handle:number_of_files()
     if self.file_number < total then
-        return false, ('读取(%d/%d)个文件，还有%d个文件没有读取'):format(self.file_number, total, total - self.file_number)
+        message('-report', ('读取(%d/%d)个文件'):format(self.file_number, total))
+        message('-report', ('还有%d个文件没有读取'):format(total - self.file_number))
+        return false
     end
     return true
 end
