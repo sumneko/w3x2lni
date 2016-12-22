@@ -25,14 +25,8 @@ message('正在打开地图...')
 local slk = {}
 local input_ar = archive(input)
 if not input_ar then
-    message('地图打开失败')
     return
 end
-message('正在读取物编...')
-w2l:frontend(input_ar, slk)
-message('正在转换...')
-w2l:backend_processing(slk)
-w2l:backend(input_ar, slk)
 local output
 if w2l.config.target_storage == 'dir' then
     message('正在导出文件...')
@@ -51,6 +45,15 @@ elseif w2l.config.target_storage == 'map' then
     end
 end
 local output_ar = archive(output, 'w')
+if not output_ar then
+    return
+end
+
+message('正在读取物编...')
+w2l:frontend(input_ar, slk)
+message('正在转换...')
+w2l:backend_processing(slk)
+w2l:backend(input_ar, slk)
 for name, buf in pairs(input_ar) do
     output_ar:set(name, buf)
 end
