@@ -271,8 +271,12 @@ return function (w2l, archive, slk)
     end
 
 	--刷新字符串
-	--local content = slk.wts:refresh()
-	archive:set('war3map.wts', false)
+	local content = slk.wts:refresh()
+    if #content > 0 then
+	    archive:set('war3map.wts', content)
+    else
+	    archive:set('war3map.wts', false)
+    end
     for _, name in ipairs(w2l.info.pack.packignore) do
         archive:set(name, false)
     end

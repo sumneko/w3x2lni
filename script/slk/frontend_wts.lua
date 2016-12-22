@@ -6,7 +6,7 @@ mt.__index = mt
 -- TODO: 同时有英文逗号和英文双引号的字符串存在txt里会解析出错
 --       包含右打括号的字符串存在wts里会解析出错
 --       超过256字节的字符串存在二进制里会崩溃
-function mt:load(content, only_short, read_only)
+function mt:load(content, max)
 	local wts = self.wts
 	return content:gsub('TRIGSTR_(%d+)', function(i)
 		local str_data = wts[i]
@@ -15,10 +15,10 @@ function mt:load(content, only_short, read_only)
 			return
 		end
 		local text = str_data.text
-		if only_short and #text > 256 then
+		if max and #text > max then
+			str_data.mark = true
 			return
 		end
-		str_data.converted = not read_only
 		return text
 	end)
 end
@@ -32,6 +32,7 @@ function mt:insert(value)
 			wts[index] = {
 				index  = i,
 				text   = value,
+				mark   = true,
 			}
 			table_insert(wts, wts[index])
 			return 'TRIGSTR_' .. i
@@ -40,22 +41,10 @@ function mt:insert(value)
 	message('-report', '保存在wts里的字符串太多了')
 end
 
-function mt:save(data)
-	for key, value in pairs(data) do
-		if type(value) == 'string' then
-			if #value >= 1024 then
-				data[key] = self:insert(value)
-			end
-		elseif type(value) == 'table' then
-			self:save(value)
-		end
-	end
-end
-
 function mt:refresh()
 	local lines	= {}
 	for i, t in ipairs(self.wts) do
-		if t and not t.converted then
+		if t and t.mark then
 			table_insert(lines, ('STRING %d\r\n{\r\n%s\r\n}'):format(t.index, t.text))
 		end
 	end
