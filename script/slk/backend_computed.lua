@@ -13,7 +13,7 @@ local function get_value(t, key)
 	end
 	local level = tonumber(key:sub(pos))
 	if level > t._max_level then
-		return
+		return 0
 	end
 	return value[level]
 end
@@ -81,7 +81,11 @@ local function computed(slk, input)
 end
 
 return function(w2l, slk)
+    local remove_unuse = w2l.config.remove_unuse_object
     for _, o in pairs(slk.ability) do
+        if remove_unuse and not o._mark then
+            goto CONTINUE
+        end
         if o.researchubertip then
             o.researchubertip = computed(slk, o.researchubertip)
         end
@@ -90,20 +94,29 @@ return function(w2l, slk)
                 o.ubertip[k] = computed(slk, v)
             end
         end
+        ::CONTINUE::
     end
     for _, o in pairs(slk.item) do
+        if remove_unuse and not o._mark then
+            goto CONTINUE
+        end
         if o.ubertip then
             o.ubertip = computed(slk, o.ubertip)
         end
         if o.description then
             o.description = computed(slk, o.description)
         end
+        ::CONTINUE::
     end
     for _, o in pairs(slk.upgrade) do
+        if remove_unuse and not o._mark then
+            goto CONTINUE
+        end
         if o.ubertip then
             for k, v in pairs(o.ubertip) do
                 o.ubertip[k] = computed(slk, v)
             end
         end
+        ::CONTINUE::
     end
 end
