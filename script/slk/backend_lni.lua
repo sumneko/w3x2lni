@@ -74,8 +74,8 @@ function mt:add_chunk(chunk)
 		end
 	end
 	table_sort(names, function(name1, name2)
-		local is_origin1 = name1 == chunk[name1]['_lower_para']
-		local is_origin2 = name2 == chunk[name2]['_lower_para']
+		local is_origin1 = name1 == chunk[name1]['_lower_parent']
+		local is_origin2 = name2 == chunk[name2]['_lower_parent']
 		if is_origin1 and not is_origin2 then
 			return true
 		end
@@ -124,8 +124,8 @@ function mt:add_obj(obj)
     end
 
 	self:add('[%s]', obj['_id'])
-	if obj['_para'] then
-		self:add('%s = %q', '_id', obj['_para'])
+	if obj['_parent'] then
+		self:add('%s = %q', '_id', obj['_parent'])
 	end
     if obj['_name'] then
         self:add('%s = %q', '_name', obj['_name'])

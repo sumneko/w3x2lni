@@ -80,9 +80,9 @@ local function slk_read_obj(obj, lname, data, keys, metas)
     if data.code then
         obj._code = data.code
     end
-    if not obj._lower_para then
-        obj._lower_para = lname
-        obj._para = obj._id
+    if not obj._lower_parent then
+        obj._lower_parent = lname
+        obj._parent = obj._id
     end
     if slk_type == 'unit' and not obj._name then
         obj._name = data.name  -- 单位的反slk可以用name作为线索

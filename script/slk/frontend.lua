@@ -86,7 +86,7 @@ local function merge_obj(data, objs)
             template[name] = copy_obj(data[name])
             table_merge(data[name], obj)
         else
-            data[name] = table_copy(template[obj._lower_para] or data[obj._lower_para], obj)
+            data[name] = table_copy(template[obj._lower_parent] or data[obj._lower_parent], obj)
         end
     end
 end

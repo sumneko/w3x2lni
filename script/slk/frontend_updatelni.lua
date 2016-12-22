@@ -4,8 +4,8 @@ local metadata
 local keydata
 
 local function update_obj(name, obj, data)
-    local para = obj._lower_para
-    local temp = data[para]
+    local parent = obj._lower_parent
+    local temp = data[parent]
     local code = temp._code
     obj._code = code
     for key, id in pairs(keydata.common) do

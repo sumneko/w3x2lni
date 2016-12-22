@@ -102,13 +102,13 @@ local function write_object(lname, obj)
     end
     
     local name = obj._id
-    local para = obj._para
+    local parent = obj._parent
     local code = obj._code
-    if name == para or obj._slk then
+    if name == parent or obj._slk then
         write('c4', name)
         write('c4', '\0\0\0\0')
     else
-        write('c4', para)
+        write('c4', parent)
         write('c4', name)
     end
     write('l', count)
@@ -137,8 +137,8 @@ local function sort_chunk(chunk, remove_unuse_object)
     local user = {}
     for name, obj in pairs(chunk) do
         if not remove_unuse_object or obj._mark then
-            local para = obj._lower_para
-            if name == para or obj._slk then
+            local parent = obj._lower_parent
+            if name == parent or obj._slk then
                 origin[#origin+1] = name
             else
                 user[#user+1] = name
