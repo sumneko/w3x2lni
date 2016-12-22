@@ -9,19 +9,13 @@ local unit_list
 local mt = {}
 mt.__index = mt
 
-local function remove_nil_value(key, data, default)
+local function remove_nil_value(key, data, default, max_level)
     if type(data) ~= 'table' then
         return
     end
-    local len = 0
-    for n in pairs(data) do
-        if n > len then
-            len = n
-        end
-    end
     local dest = default[key]
-    local tp = type(data[len])
-    for i = 1, len do
+    local tp = type(data[max_level])
+    for i = 1, max_level do
         if not data[i] then
             if tp == 'number' then
                 data[i] = dest[#dest]
@@ -36,7 +30,7 @@ local function fill_obj(name, obj, type, default, config)
     local default = default[parent]
     for key, data in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
-            remove_nil_value(key, data, default)
+            remove_nil_value(key, data, default, max_level)
         end
     end
 end
