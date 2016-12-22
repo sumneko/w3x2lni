@@ -120,7 +120,7 @@ local function err(str)
 end
 
 local word = sp * (real + int + str + id) * sp
-local pjass = (ign + word + S'=+-*/><!()[],' + err'语法不正确')^0
+local pjass = (ign + word + S'=+-*/><!()[],' + err'syntax error')^0
 
 return function (w2l, archive)
     local buf = archive:get('war3map.j')
