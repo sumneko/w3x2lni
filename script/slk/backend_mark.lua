@@ -1,12 +1,8 @@
 local std_type = type
 local mustuse =  {
-    unit = { },
     ability = { 'avul','adda','aalr','aatk','anbu','ahbu','aobu','aebu','aubu','agbu','abdt','argd','aher','arev','aral','amnz','acsp','sloa','aetl','amov','afir','afih','afio','afin','afiu' },
     buff = { 'bpse','bstn','btlf','bdet','bvul','bspe','bfro','bsha','btrv','bbar','xbdt','xbli','xdis','xfhs','xfhm','xfhl','xfos','xfom','xfol','xfns','xfnm','xfnl','xfus','xfum','xful','bchd','bmil','bpxf','bphx','bhav','barm','bens','bstt','bcor','bspa','buns','bust','biwb','xesn','bivs','buad' },
     destructable = { 'volc' },
-    upgrade = { },
-    item = { },
-    doodad = { },
 }
 
 local mustmark = {
@@ -39,7 +35,9 @@ local function mark_value(slk, type, value)
         else
             if not mark_known_type(slk, 'unit', value) then
                 if not mark_known_type(slk, 'upgrade', value) then
-                    print(value)
+                    if not mark_known_type(slk, 'misc', value) then
+                        print(value)
+                    end
                 end
             end
         end
