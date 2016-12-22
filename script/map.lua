@@ -50,6 +50,9 @@ w2l:backend(input_ar, slk)
 for name, buf in pairs(input_ar) do
     output_ar:set(name, buf)
 end
+if not input_ar:sucess() then
+    -- do nothing
+end
 progress:target(100)
 message('正在生成文件...')
 output_ar:save(slk, w2l.info, w2l.config)
