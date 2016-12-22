@@ -79,7 +79,7 @@ local function remove_unuse(w2l, slk)
         end
     end
     if #origin_list > 0 then
-        message('-report', ('保留的默认对象数: %d'):format(#origin_list))
+        message('-report', ('保留的默认对象数: %d/%d'):format(#origin_list, count - user_count))
         for i = 1, math.min(10, #origin_list) do
             message('-report', origin_list[i]._id, origin_list[i]._type, origin_list[i].name or origin_list[i].bufftip)
         end
@@ -199,8 +199,11 @@ return function (w2l, archive, slk)
 
     archive:set('war3mapmisc.txt', w2l:backend_misc(slk.misc, slk.txt, slk.wts))
 
-    local skin = w2l:parse_ini(archive:get 'war3mapskin.txt')
-    archive:set('war3mapskin.txt', w2l:backend_skin(skin, slk.wts))
+    local buf = archive:get 'war3mapskin.txt'
+    if buf then
+        local skin = w2l:parse_ini(buf)
+        archive:set('war3mapskin.txt', w2l:backend_skin(skin, slk.wts))
+    end
 
     w2l:backend_convertjass(archive, slk.wts)
 

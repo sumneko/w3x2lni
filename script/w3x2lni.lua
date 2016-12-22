@@ -120,6 +120,7 @@ local convertors = {
 	'frontend_obj',
 	'frontend_misc',
 	'frontend_updatelni',
+	'frontend_searchparent',
 	'backend',
 	'backend_processing',
 	'backend_mark',
