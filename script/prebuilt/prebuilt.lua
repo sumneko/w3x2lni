@@ -102,6 +102,7 @@ local function main()
 	fs.create_directories(w2l.default)
 	fs.create_directories(w2l.template)
 	fs.create_directories(w2l.key)
+	fs.create_directories(w2l.prebuilt / 'search')
 
 	-- 生成key2id
     for type, slk in pairs(w2l.info['template']['slk']) do
@@ -113,7 +114,7 @@ local function main()
         end
 		local content1, content2 = create_key2id(type, metadata, template)
 		io.save(w2l.key / (type .. '.ini'), content1)
-		io.save(w2l.key / (type .. '_type.ini'), content2)
+		io.save(w2l.prebuilt / 'search' / (type .. '.ini'), content2)
 	end
 
 	-- 生成模板lni
