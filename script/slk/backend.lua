@@ -79,7 +79,7 @@ local function remove_unuse(w2l, slk)
         end
     end
     if #origin_list > 0 then
-        message('-report', ('保留的默认对象数: %d'):format(#origin_list))
+        message('-report', ('保留的默认对象数: %d/%d'):format(#origin_list, count - user_count))
         for i = 1, math.min(10, #origin_list) do
             message('-report', origin_list[i]._id, origin_list[i]._type, origin_list[i].name or origin_list[i].bufftip)
         end
