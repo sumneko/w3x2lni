@@ -28,7 +28,7 @@ local function remove_nil_value(key, id, data, default, max_level)
         if not data[i] then
             if tp == 0 or tp == 1 or tp == 2 then
                 if i <= default_level then
-                    error('空洞位置小于模板技能等级')
+                    error('value level error')
                 end
                 data[i] = default_value
             end
