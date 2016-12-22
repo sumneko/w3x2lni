@@ -260,7 +260,7 @@ function m.open(path, readonly, filecount)
 	end
 	return setmetatable({ handle = phandle[0] }, archive)
 end
-function m.create(path, filecount)
+function m.create(path, filecount, encrypt)
 	local wpath = uni.u2w(path:string())
 	local phandle = ffi.new('uint32_t[1]', 0)
 	local info = ffi.new('struct SFILE_CREATE_MPQ')
@@ -269,9 +269,15 @@ function m.create(path, filecount)
 	info.pvUserData     = nil
     info.cbUserData     = 0
 	info.dwStreamFlags  = 0 --STREAM_PROVIDER_FLAT | BASE_PROVIDER_FILE
-	info.dwFileFlags1   = 0x80000000 --MPQ_FILE_EXISTS
-	info.dwFileFlags2   = 0x80000000 --MPQ_FILE_EXISTS
-	info.dwFileFlags3   = 0x80000000 --MPQ_FILE_EXISTS
+	if encrypt then
+		info.dwFileFlags1   = 0
+		info.dwFileFlags2   = 0
+		info.dwFileFlags3   = 0
+	else
+		info.dwFileFlags1   = 0x80000000 --MPQ_FILE_EXISTS
+		info.dwFileFlags2   = 0x80000000 --MPQ_FILE_EXISTS
+		info.dwFileFlags3   = 0x80000000 --MPQ_FILE_EXISTS
+	end
 	info.dwAttrFlags    = 7 --MPQ_ATTRIBUTE_CRC32 | MPQ_ATTRIBUTE_FILETIME | MPQ_ATTRIBUTE_MD5
 	info.dwSectorSize   = 0x10000
 	info.dwRawChunkSize = 0
