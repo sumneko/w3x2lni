@@ -138,7 +138,7 @@ local function sort_chunk(chunk, remove_unuse_object)
     for name, obj in pairs(chunk) do
         if not remove_unuse_object or obj._mark then
             local para = obj._lower_para
-            if name == para then
+            if name == para or obj._slk then
                 origin[#origin+1] = name
             else
                 user[#user+1] = name
