@@ -171,6 +171,18 @@ return function (w2l, archive, slk)
         archive:set('war3map.w3i', w2l:lni2w3i(w2l:parse_lni(lni)))
     end
 
+    w2l:backend_processing(slk)
+
+    if w2l.config.remove_unuse_object then
+        w2l:backend_mark(archive, slk)
+    end
+    if w2l.config.target_format == 'slk' then
+        w2l:backend_computed(slk)
+    end
+    if w2l.config.remove_unuse_object then
+        remove_unuse(w2l, slk)
+    end
+    
     if w2l.config.target_format == 'lni' then
         to_lni(w2l, archive, slk, on_lni)
     elseif w2l.config.target_format == 'obj' then

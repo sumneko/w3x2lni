@@ -48,7 +48,6 @@ end
 message('正在读取物编...')
 w2l:frontend(input_ar, slk)
 message('正在转换...')
-w2l:backend_processing(slk)
 w2l:backend(input_ar, slk)
 for name, buf in pairs(input_ar) do
     output_ar:set(name, buf)
