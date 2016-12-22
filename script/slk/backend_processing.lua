@@ -16,12 +16,18 @@ local function remove_exceeds_level(data, max_level)
     end
 end
 
-local function can_remove(is_slk, level, key)
+local function can_remove(is_slk, ttype, level, key)
     if not is_slk then
         return true
     end
-    if level <= 4 then
-        return false
+    if ttype == 'doodad' then
+        if level <= 10 then
+            return false
+        end
+    else
+        if level <= 4 then
+            return false
+        end
     end
     if keydata.profile and keydata.profile[key] then
         return false
@@ -29,11 +35,11 @@ local function can_remove(is_slk, level, key)
     return true
 end
 
-local function remove_same(key, data, default, obj, is_slk)
+local function remove_same(key, data, default, obj, is_slk, ttype)
     local dest = default[key]
     if type(dest) == 'table' then
         for i = 1, #data do
-            if data[i] == dest[i] and can_remove(is_slk, i, key) then
+            if data[i] == dest[i] and can_remove(is_slk, ttype, i, key) then
                 data[i] = nil
             end
         end
@@ -60,7 +66,7 @@ local function clean_obj(name, obj, type, default, config)
                 remove_exceeds_level(data, max_level)
             end
             if is_remove_same then
-                remove_same(key, data, default, obj, is_slk)
+                remove_same(key, data, default, obj, is_slk, type)
             end
         end
     end

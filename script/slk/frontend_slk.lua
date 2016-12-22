@@ -44,12 +44,16 @@ end
 local function slk_read_data(obj, key, meta, data)
     if meta['repeat'] then
         local type = meta.type
-        local t = {
-            to_type(type, data[key..1]),
-            to_type(type, data[key..2]),
-            to_type(type, data[key..3]),
-            to_type(type, data[key..4]),
-        }
+        local t = {}
+        if slk_type == 'doodad' then
+            for i = 1, 10 do
+                t[i] = to_type(type, data[('%s%02d'):format(key, i)])
+            end
+        else
+            for i = 1, 4 do
+                t[i] = to_type(type, data[key..i])
+            end
+        end
         if next(t) then
             obj[key] = t
         end
@@ -62,12 +66,16 @@ local function slk_read_private_data(obj, key, meta, data)
     local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
     if has_repeat then
         local type = w2l:get_id_type(meta.type)
-        local t = {
-            to_type(type, data[key..1]),
-            to_type(type, data[key..2]),
-            to_type(type, data[key..3]),
-            to_type(type, data[key..4]),
-        }
+        local t = {}
+        if slk_type == 'doodad' then
+            for i = 1, 10 do
+                t[i] = to_type(type, data[('%s%02d'):format(key, i)])
+            end
+        else
+            for i = 1, 4 do
+                t[i] = to_type(type, data[key..i])
+            end
+        end
         if next(t) then
             obj[key] = t
         end

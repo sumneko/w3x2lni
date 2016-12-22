@@ -1,3 +1,5 @@
+local slk_type
+
 local function format_value(value)
     local tp = type(value)
     if tp == 'boolean' then
@@ -18,10 +20,19 @@ local function add_data(lines, key, data)
     if type(data) == 'table' then
         local values = {}
         local null
-        for i = 4, 1, -1 do
-            values[i] = format_value(data[i]) or null
-            if values[i] then
-                null = 'nil'
+        if slk_type == 'doodad' then
+            for i = 10, 1, -1 do
+                values[i] = format_value(data[i]) or null
+                if values[i] then
+                    null = 'nil'
+                end
+            end
+        else
+            for i = 4, 1, -1 do
+                values[i] = format_value(data[i]) or null
+                if values[i] then
+                    null = 'nil'
+                end
             end
         end
         lines[#lines+1] = ('%s={%s}'):format(key, table.concat(values, ','))
@@ -68,7 +79,7 @@ end
 
 return function (type, tbl)
     local lines = {}
-
+    slk_type = type
     add_chunk(lines, type, tbl)
 
     return table.concat(lines, '\r\n')

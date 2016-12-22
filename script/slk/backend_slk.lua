@@ -20,6 +20,7 @@ local lines
 local cx
 local cy
 local remove_unuse_object
+local slk_type
 
 local character = { 'A','B','C','D','E','F','G','H','I' }
 
@@ -184,9 +185,16 @@ local function load_data(displaykey, obj, key, id, slk_data)
     end
     local tp = w2l:get_id_type(metadata[id].type)
     if type(obj[key]) == 'table' then
-        for i = 1, 4 do
-            slk_data[displaykey..i] = to_type(tp, obj[key][i])
-            obj[key][i] = nil
+        if slk_type == 'doodad' then
+            for i = 1, 10 do
+                slk_data[('%s%02d'):format(displaykey, i)] = to_type(tp, obj[key][i])
+                obj[key][i] = nil
+            end
+        else
+            for i = 1, 4 do
+                slk_data[displaykey..i] = to_type(tp, obj[key][i])
+                obj[key][i] = nil
+            end
         end
         if not next(obj[key]) then
             obj[key] = nil
@@ -237,6 +245,7 @@ return function(w2l_, type, slk_name, chunk)
     metadata = w2l:read_metadata(type)
     keydata = w2l:keyconvert(type)
     keys = keydata[slk_name]
+    slk_type = type
 
     load_chunk(chunk, slk_name)
     convert_slk(slk_name)
