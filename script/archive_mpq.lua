@@ -146,6 +146,11 @@ return function (pathorhandle, tp)
             ar.handle = stormlib.open(pathorhandle, true)
         end
         if not ar.handle then
+            message('地图打开失败')
+            return nil
+        end
+        if not ar.handle:has_file('(listfile)') then
+            message('不支持没有(listfile)的地图')
             return nil
         end
         ar.listfile = {}
