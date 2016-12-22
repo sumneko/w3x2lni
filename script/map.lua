@@ -25,7 +25,6 @@ if not input_ar then
 end
 local output
 if w2l.config.target_storage == 'dir' then
-    message('正在导出文件...')
     if fs.is_directory(input) then
         output = input:parent_path() / (input:filename():string() .. '_' .. w2l.config.target_format)
     else
@@ -33,7 +32,6 @@ if w2l.config.target_storage == 'dir' then
     end
     fs.create_directory(output)
 elseif w2l.config.target_storage == 'map' then
-    message('正在打包地图...')
     if fs.is_directory(input) then
         output = input:parent_path() / (input:filename():string() .. '.w3x')
     else
@@ -52,10 +50,8 @@ w2l:backend(input_ar, slk)
 for name, buf in pairs(input_ar) do
     output_ar:set(name, buf)
 end
-local ok, e = input_ar:sucess()
-if not ok then
-end
 progress:target(100)
+message('正在生成文件...')
 output_ar:save(slk, w2l.info, w2l.config)
 output_ar:close()
 input_ar:close()

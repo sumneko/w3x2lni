@@ -99,6 +99,8 @@ function mt:update()
 		io.stdout:write(self.error)
 		io.stdout:flush()
 		self.error = ''
+		srv.message = '转换失败'
+		self:update_message(-1)
 	end
 	if self.closed then
 		while true do
