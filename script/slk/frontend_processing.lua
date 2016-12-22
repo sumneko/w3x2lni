@@ -19,7 +19,10 @@ local function remove_nil_value(key, id, data, default, max_level)
     for i = 1, max_level do
         if not data[i] then
             if tp == 0 or tp == 1 or tp == 2 then
-                data[i] = dest[i-1]
+                if i <= #dest then
+                    message('-report', '空洞位置小于模板技能等级')
+                end
+                data[i] = dest[#dest]
             end
         end
     end
@@ -27,13 +30,14 @@ end
 
 local function fill_obj(name, obj, type, default, config)
     local parent = obj._lower_parent
+    local code = obj._code
     local max_level = obj._max_level
     local default = default[parent]
     for key, id in pairs(keydata.common) do
         remove_nil_value(key, id, obj[key], default, max_level)
     end
-    if keydata[parent] then
-        for key, id in pairs(keydata[parent]) do
+    if keydata[code] then
+        for key, id in pairs(keydata[code]) do
             remove_nil_value(key, id, obj[key], default, max_level)
         end
     end
