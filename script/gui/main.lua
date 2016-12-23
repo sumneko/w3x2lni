@@ -305,7 +305,7 @@ local function window_convert(canvas)
 	else
 		if canvas:button('开始') then
 			canvas:progress(0, 100)
-			backend = srv.async_popen(('"%s" -backend "%s"'):format(arg[0], mappath:string()))
+			backend = srv.async_popen(('"%s" -backend "%s"'):format(fs.get(fs.DIR_EXE):string(), mappath:string()))
 			srv.message = '正在初始化...'
 			srv.progress = nil
 			srv.report = {}
