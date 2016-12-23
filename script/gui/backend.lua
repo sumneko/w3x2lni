@@ -97,10 +97,6 @@ function mt:update()
 		if not debug then
 			nk:console()
 		end
-		io.stdout:write(self.error)
-		io.stdout:flush()
-		self.error = ''
-		srv.message = '转换失败'
 		while true do
 			local pos = self.output:find('\n')
 			if not pos then
@@ -109,6 +105,13 @@ function mt:update()
 			self:update_message(pos)
 		end
 		self:update_message(-1)
+		self.output = ''
+		self.out_rd:close()
+		self.out_rd = nil
+		io.stdout:write(self.error)
+		io.stdout:flush()
+		self.error = ''
+		srv.message = '转换失败'
 	end
 	if self.closed then
 		while true do
