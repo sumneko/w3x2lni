@@ -44,15 +44,51 @@ local function to_obj(w2l, archive, slk)
     end
 end
 
-local function report_list(list, name, n)
-    for i = 1, math.min(n, #list) do
-        if name == '魔法效果' then
-            message('-report', list[i]._id, name, list[i].bufftip or list[i].editorname or '')
-        elseif name == '科技' then
-            message('-report', list[i]._id, name, list[i].name[1] or '')
-        else
-            message('-report', list[i]._id, name, list[i].name or '')
+local displaytype = {
+    unit = '单位',
+    ability = '技能',
+    item = '物品',
+    buff = '魔法效果',
+    upgrade = '科技',
+}
+
+local function slk_object_name(o)
+    if o._type == 'buff' then
+        return o.bufftip or o.editorname or ''
+    elseif o._type == 'upgrade' then
+        return o.name[1] or ''
+    else
+        return o.name or ''
+    end
+end
+
+local function slk_all(slk, id)
+    id = id:lower()
+    return slk.ability[id]
+           or slk.unit[id]
+           or slk.buff[id]
+           or slk.item[id]
+           or slk.destructable[id]
+           or slk.doodad[id]
+           or slk.upgrade[id]
+end
+
+local function report_object(slk, type, o)
+    message('-report', o._id, displaytype[type], slk_object_name(o))
+    if o._mark then
+        local p = slk_all(slk, o._mark[1])
+        if not p then
+            message('-tip', o._mark[2]:format('<unknown>', o._mark[1]))
+            return
         end
+        message('-tip', o._mark[2]:format(slk_object_name(p), p._id))
+    end
+end
+
+local function report_list(slk, list, type, n)
+    list = list[type]
+    for i = 1, math.min(n, #list) do
+        report_object(slk, type, list[i])
     end
 end
 
@@ -123,19 +159,19 @@ local function remove_unuse(w2l, slk)
     end
     if unuse_user_count > 0 then
         message('-report', ('简化掉的自定义对象数: %d/%d'):format(unuse_user_count, user_count))
-        report_list(unuse_list.unit, '单位', 5)
-        report_list(unuse_list.ability, '技能', 5)
-        report_list(unuse_list.item, '物品', 5)
-        report_list(unuse_list.buff, '魔法效果', 1)
-        report_list(unuse_list.upgrade, '科技', 1)
+        report_list(slk, unuse_list, 'unit', 5)
+        report_list(slk, unuse_list, 'ability', 5)
+        report_list(slk, unuse_list, 'item', 5)
+        report_list(slk, unuse_list, 'buff', 1)
+        report_list(slk, unuse_list, 'upgrade', 1)
     end
     if origin_count > 0 then
         message('-report', ('保留的默认对象数: %d/%d'):format(origin_count, count - user_count))
-        report_list(origin_list.unit, '单位', 5)
-        report_list(origin_list.ability, '技能', 5)
-        report_list(origin_list.item, '物品', 5)
-        report_list(origin_list.buff, '魔法效果', 1)
-        report_list(origin_list.upgrade, '科技', 1)
+        report_list(slk, origin_list, 'unit', 5)
+        report_list(slk, origin_list, 'ability', 5)
+        report_list(slk, origin_list, 'item', 5)
+        report_list(slk, origin_list, 'buff', 1)
+        report_list(slk, origin_list, 'upgrade', 1)
     end
 end
 

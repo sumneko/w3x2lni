@@ -12,6 +12,9 @@ Aspa = { 'bspa', 'buff' },
 }
 
 local search
+local mark_known_type
+local once = {}
+local current_root = ''
 
 local function split(str)
     local r = {}
@@ -19,7 +22,6 @@ local function split(str)
     return r
 end
 
-local once = {}
 local function print(id)
     if once[id] then
         return
@@ -27,8 +29,6 @@ local function print(id)
     once[id] = true
     message('-report', '简化时没有找到对象:', id)
 end
-
-local mark_known_type
 
 local function mark_value(slk, type, value)
     if type == 'upgrade,unit' then
@@ -88,7 +88,7 @@ function mark_known_type(slk, type, name)
     local o = slk[type][name]
     if not o then
         if slk.txt[name] then
-            slk.txt[name]._mark = 1
+            slk.txt[name]._mark = current_root
             return true
         end
         return false
@@ -96,7 +96,7 @@ function mark_known_type(slk, type, name)
     if o._mark then
         return true
     end
-    o._mark = 1
+    o._mark = current_root
     mark_list(slk, o, search[type].common)
     mark_list(slk, o, search[type][o._code])
     local marklist = mustmark[o._code]
@@ -111,6 +111,7 @@ end
 local function mark_mustuse(slk)
     for type, list in pairs(mustuse) do
         for _, name in ipairs(list) do
+            current_root = {name, "被标记为必须保留的'%s'[%s]引用了它"}
             if not mark_known_type(slk, type, name) then
                 print(name)
             end
@@ -135,6 +136,7 @@ local function mark_jass(w2l, archive, slk)
         return
     end
     for name in pairs(list) do
+            current_root = {name, "脚本里的'%s'[%s]引用了它"}
         mark(slk, name)
     end
     if flag.creeps or flag.building then
@@ -144,7 +146,11 @@ local function mark_jass(w2l, archive, slk)
         for _, obj in pairs(slk.unit) do
             local need_mark = false
             if obj.race == 'creeps' and obj.tilesets and (obj.tilesets == '*' or obj.tilesets:find(maptile)) then
-                if (flag.building and obj.isbldg == 1 and obj.nbrandom == 1) or (flag.creeps and obj.isbldg == 0) then
+                if flag.building and obj.isbldg == 1 and obj.nbrandom == 1 then
+                    current_root = {obj._id, "被保留的野怪建筑'%s'[%s]引用了它"}
+                    mark_known_type(slk, 'unit', obj._id)
+                elseif flag.creeps and obj.isbldg == 0 then
+                    current_root = {obj._id, "被保留的野怪单位'%s'[%s]引用了它"}
                     mark_known_type(slk, 'unit', obj._id)
                 end
             end
@@ -158,12 +164,14 @@ local function mark_jass(w2l, archive, slk)
     if flag.item then
         for _, obj in pairs(slk.item) do
             if obj.pickRandom == 1 then
+                current_root = {obj._id, "被保留的随机物品'%s'[%s]引用了它"}
                 mark_known_type(slk, 'item', obj._id)
             end
         end
     elseif flag.marketplace then
         for _, obj in pairs(slk.item) do
             if obj.pickRandom == 1 and obj.sellable == 1 then
+                current_root = {obj._id, "被保留的市场物品'%s'[%s]引用了它"}
                 mark_known_type(slk, 'item', obj._id)
             end
         end
@@ -176,11 +184,13 @@ local function mark_doo(w2l, archive, slk)
         return
     end
     for name in pairs(destructable) do
+        current_root = {name, "地图上放置的'%s'[%s]引用了它"}
         if not mark_known_type(slk, 'destructable', name) then
             mark_known_type(slk, 'doodad', name)
         end
     end
     for name in pairs(doodad) do
+        current_root = {name, "地图上放置的'%s'[%s]引用了它"}
         mark_known_type(slk, 'doodad', name)
     end
 end
@@ -224,6 +234,7 @@ local function mark_lua(w2l, archive, slk)
         return
     end
     for name in pairs(list) do
+        current_root = {name, "reference.lua指定保留的'%s'[%s]引用了它"}
         mark(slk, name)
     end
 end
