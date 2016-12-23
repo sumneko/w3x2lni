@@ -186,7 +186,8 @@ local function mark_jass(slk, list, flag)
             if search_marketplace and obj._name == 'marketplace' then
                 flag.marketplace = true
                 search_marketplace = false
-                message('-report', '保留市场物品,由于使用了市场')
+                message('-report', '保留市场物品')
+                message('-tip', ("使用的市场'%s'[%s]引用了它"):format(obj.name, obj._id))
             end
         end
     end

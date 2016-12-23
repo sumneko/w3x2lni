@@ -78,13 +78,16 @@ local function fbj(id)
     end
     if need_mark[id] then
         if need_mark[id] == 'creeps' and not marks.creeps then
-            message('-report', '保留野怪单位,原因', id)
+            message('-report', '保留野怪单位')
+            message('-tip', ("脚本里的'%s'引用了它"):format(id))
         end
         if need_mark[id] == 'building' and not marks.building then
-            message('-report', '保留野怪建筑,原因', id)
+            message('-report', '保留野怪建筑')
+            message('-tip', ("脚本里的'%s'引用了它"):format(id))
         end
         if need_mark[id] == 'item' and not marks.item then
-            message('-report', '保留可随机物品,原因', id)
+            message('-report', '保留可随机物品')
+            message('-tip', ("脚本里的'%s'引用了它"):format(id))
         end
         marks[need_mark[id]] = true
     end
