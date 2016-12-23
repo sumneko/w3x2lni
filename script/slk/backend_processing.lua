@@ -1,5 +1,8 @@
 local progress = require 'progress'
 
+local os_clock = os.clock
+local pairs = pairs
+
 local keydata
 
 local mt = {}
@@ -72,7 +75,7 @@ local function clean_obj(name, obj, type, default, config)
     end
 end
 
-local function processing(w2l, type, chunk, target_progress)
+local function processing(w2l, type, chunk)
     local default = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')))
     keydata = w2l:keyconvert(type)
     local config = w2l.config
@@ -84,12 +87,11 @@ local function processing(w2l, type, chunk, target_progress)
         return chunk[a]['_id'] < chunk[b]['_id']
     end)
     
-    local clock = os.clock()
-    progress:target(target_progress)
+    local clock = os_clock()
     for i, name in ipairs(names) do
         clean_obj(name, chunk[name], type, default, config)
-        if os.clock() - clock >= 0.1 then
-            clock = os.clock()
+        if os_clock() - clock >= 0.1 then
+            clock = os_clock()
             message(('清理数据[%s] (%d/%d)'):format(chunk[name]._id, i, #names))
             progress(i / #names)
         end
@@ -100,7 +102,8 @@ return function (w2l, slk)
     local count = 0
     for type, name in pairs(w2l.info.obj) do
         count = count + 1
-        local target_progress = 17 + 7 * count
-        processing(w2l, type, slk[type], target_progress)
+        progress:start(count / 7)
+        processing(w2l, type, slk[type])
+        progress:finish()
     end
 end

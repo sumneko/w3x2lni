@@ -1,14 +1,17 @@
+local w3xparser = require 'w3xparser'
+local progress = require 'progress'
+
 local table_insert = table.insert
 local table_sort   = table.sort
 local table_concat = table.concat
 local string_char  = string.char
 local math_type    = math.type
 local math_floor   = math.floor
-local w3xparser = require 'w3xparser'
 local wtonumber = w3xparser.tonumber
 local type = type
 local pairs = pairs
 local setmetatable = setmetatable
+local os_clock = os.clock
 
 local w2l
 local has_level
@@ -121,10 +124,16 @@ local function write_object(lname, obj)
     end
 end
 
-local function write_chunk(names, data)
+local function write_chunk(names, data, type, n, max)
+    local clock = os_clock()
     write('l', #names)
-    for _, name in ipairs(names) do
+    for i, name in ipairs(names) do
         write_object(name, data[name])
+        if os_clock() - clock > 0.1 then
+            clock = os_clock()
+            progress((i+n) / max)
+            message(('正在转换%s: [%s] (%d/%d)'):format(type, data[name]._id, i+n, max))
+        end
     end
 end
 
@@ -160,12 +169,13 @@ return function (w2l_, type, data)
     keydata = w2l:keyconvert(type)
 
     local origin_id, user_id = sort_chunk(data, w2l.config.remove_unuse_object)
-    if #origin_id == 0 and #user_id == 0 then
+    local max = #origin_id + #user_id
+    if max == 0 then
         return
     end
     hexs = {}
     write_head()
-    write_chunk(origin_id, data)
-    write_chunk(user_id, data)
+    write_chunk(origin_id, data, type, 0, max)
+    write_chunk(user_id, data, type, #origin_id, max)
     return table_concat(hexs)
 end

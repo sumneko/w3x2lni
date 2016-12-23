@@ -2,6 +2,7 @@ local progress = require 'progress'
 
 local type = type
 local pairs = pairs
+local os_clock = os.clock
 
 local w2l
 local revert_list
@@ -166,7 +167,7 @@ local function parse_obj(name, obj, default, config, ttype)
     obj._lower_parent = parent
 end
 
-local function processing(w2l, type, chunk, target_progress)
+local function processing(w2l, type, chunk)
     local default = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')))
     metadata = w2l:read_metadata(type)
     keydata = w2l:keyconvert(type)
@@ -181,23 +182,29 @@ local function processing(w2l, type, chunk, target_progress)
 
     revert_list = nil
     unit_list = nil
+    progress(0.1)
     
-    local clock = os.clock()
+    progress:start(0.9)
+    local clock = os_clock()
     for i, name in ipairs(names) do
         parse_obj(name, chunk[name], default, config, type)
-        if os.clock() - clock >= 0.1 then
-            clock = os.clock()
+        if os_clock() - clock >= 0.1 then
+            clock = os_clock()
             message(('搜索最优模板[%s] (%d/%d)'):format(chunk[name]._id, i, #names))
             progress(i / #names)
         end
     end
+    progress:finish()
+    progress:start(1)
     for i, name in ipairs(names) do
         fill_obj(name, chunk[name], type, default, config)
-        if os.clock() - clock >= 0.1 then
-            clock = os.clock()
+        if os_clock() - clock >= 0.1 then
+            clock = os_clock()
             message(('补全数据[%s] (%d/%d)'):format(chunk[name]._id, i, #names))
+            progress(i / #names)
         end
     end
+    progress:finish()
 end
 
 return function (w2l_, slk)
@@ -205,7 +212,8 @@ return function (w2l_, slk)
     local count = 0
     for type, name in pairs(w2l.info.obj) do
         count = count + 1
-        local target_progress = 17 + 7 * count
-        processing(w2l, type, slk[type], target_progress)
+        progress:start(count / 7)
+        processing(w2l, type, slk[type])
+        progress:finish()
     end
 end

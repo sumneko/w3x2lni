@@ -64,7 +64,7 @@ function mt:update_message(pos)
 			local key, value = str:match('%-(%S+)%s(.+)')
 			if key then
 				if key == 'progress' then
-					srv.progress = value
+					srv.progress = value * 100
 				elseif key == 'report' then
 					table.insert(srv.report, {value})
 				elseif key == 'tip' then

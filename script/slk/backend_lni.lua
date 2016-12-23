@@ -6,6 +6,7 @@ local math_type = math.type
 local table_concat = table.concat
 local string_char = string.char
 local type = type
+local os_clock = os.clock
 
 local keydata
 local metadata
@@ -66,7 +67,7 @@ function mt:add(format, ...)
 	self.lines[#self.lines+1] = format:format(...)
 end
 
-function mt:add_chunk(chunk)
+function mt:add_chunk(chunk, type)
 	local names = {}
 	for name, obj in pairs(chunk) do
 		if name:sub(1, 1) ~= '_' then
@@ -84,13 +85,13 @@ function mt:add_chunk(chunk)
 		end
 		return chunk[name1]['_id'] < chunk[name2]['_id']
 	end)
-    local clock = os.clock()
+    local clock = os_clock()
 	for i = 1, #names do
 		local obj = chunk[names[i]]
 		self:add_obj(obj)
-        if os.clock() - clock >= 0.1 then
-            clock = os.clock()
-            message(('正在转换%s: [%s] (%d/%d)'):format(self.file_name, obj._id, i, #names))
+        if os_clock() - clock >= 0.1 then
+            clock = os_clock()
+            message(('正在转换%s: [%s] (%d/%d)'):format(type, obj._id, i, #names))
             progress(i / #names)
         end
 	end
@@ -196,6 +197,6 @@ return function (w2l, type, data)
 	metadata = w2l:read_metadata(type)
 	keydata = w2l:keyconvert(type)
 	tbl.file_name = type
-	tbl:add_chunk(data)
+	tbl:add_chunk(data, type)
 	return table_concat(tbl.lines, '\r\n')
 end

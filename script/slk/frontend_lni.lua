@@ -1,4 +1,5 @@
 local string_lower = string.lower
+local pairs = pairs
 
 local w2l
 local force_slk
