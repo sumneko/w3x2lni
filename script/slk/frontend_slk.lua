@@ -1,4 +1,5 @@
 local w3xparser = require 'w3xparser'
+local progress = require 'progress'
 
 local math_floor = math.floor
 local pairs = pairs
@@ -201,15 +202,22 @@ return function(w2l_, loader)
     local txt = {}
     local unit = {}
     local has_readed = {}
+    local count = 0
+    progress:start(0.3)
     for type, names in pairs(w2l.info.txt) do
-        for _, filename in ipairs(names) do
+        for i, filename in ipairs(names) do
             if not has_readed[filename] then
                 has_readed[filename] = true
                 w2l:parse_txt(loader(filename), filename, txt)
             end
         end
+        count = count + 1
+        progress(count / 7)
     end
-
+    progress:finish()
+    
+    local count = 0
+    progress:start(1)
     for type, names in pairs(w2l.info.slk) do
         metadata = w2l:read_metadata(type)
         has_level = w2l.info.key.max_level[type]
@@ -217,7 +225,7 @@ return function(w2l_, loader)
         slk_type = type
 
         datas[type] = {}
-        for _, filename in ipairs(names) do
+        for i, filename in ipairs(names) do
             local update_level
             local slk_keys = {}
             local slk_meta = {}
@@ -250,7 +258,10 @@ return function(w2l_, loader)
                 txt_read(datas[type], txt, unit, txt_keys, txt_meta, type)
             end
         end
+        count = count + 1
+        progress(count / 7)
     end
+    progress:finish()
 
     -- 此单位只在一张单位slk里定义,是无效单位
     datas.unit.nrmf = nil

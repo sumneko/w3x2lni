@@ -1,6 +1,8 @@
 local stormlib = require 'ffi.stormlib'
 local progress = require 'progress'
 
+local os_clock = os.clock
+
 local mt = {}
 mt.__index = mt
 
@@ -82,11 +84,11 @@ function mt:save(slk, info, config)
         message('创建新地图失败,可能文件被占用了')
         return
     end
-    local clock = os.clock()
+    local clock = os_clock()
     for i, name in ipairs(files) do
         self.handle:save_file(name, self.cache[name])
-		if os.clock() - clock >= 0.1 then
-            clock = os.clock()
+		if os_clock() - clock >= 0.1 then
+            clock = os_clock()
             progress(i / #files)
             message(('正在打包文件... (%d/%d)'):format(i, #files))
 		end

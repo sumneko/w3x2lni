@@ -44,19 +44,25 @@ if not output_ar then
 end
 
 message('正在读取物编...')
+progress:start(0.4)
 w2l:frontend(input_ar, slk)
+progress:finish()
+
 message('正在转换...')
+progress:start(0.8)
 w2l:backend(input_ar, slk)
+progress:finish()
 for name, buf in pairs(input_ar) do
     output_ar:set(name, buf)
 end
 if not input_ar:sucess() then
     -- do nothing
 end
-progress:target(100)
+
 message('正在生成文件...')
+progress:start(1)
 output_ar:save(slk, w2l.info, w2l.config)
+progress:finish()
 output_ar:close()
 input_ar:close()
-progress:target(100)
 message('转换完毕,用时 ' .. os.clock() .. ' 秒') 

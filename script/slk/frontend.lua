@@ -97,7 +97,6 @@ local function load_slk(w2l, archive, force_slk)
     end
     if force_slk or w2l.config.read_slk then
         local datas, txt = w2l:frontend_slk(function(name)
-            message('正在转换', name)
             local buf = archive:get(name)
             if buf then
                 archive:set(name, false)
@@ -108,10 +107,13 @@ local function load_slk(w2l, archive, force_slk)
         return datas, txt
     else
         local datas = {}
+        local i = 0
         for type in pairs(w2l.info.slk) do
             datas[type] = {}
             w2l:parse_lni(io.load(w2l.default / (type .. '.ini')), type, datas[type])
             setmetatable(datas[type], nil)
+            i = i + 1
+            progress(i / 7)
         end
         local txt = w2l:parse_lni(io.load(w2l.default / 'txt.ini'))
         return datas, txt
@@ -121,12 +123,15 @@ end
 local function load_obj(w2l, archive, wts)
     local objs = {}
     local force_slk
+    local count = 0
     for type, name in pairs(w2l.info.obj) do
         local buf = archive:get(name)
         local force
+        local count = count + 1
         if buf then
             message('正在转换', name)
             objs[type], force = w2l:frontend_obj(type, wts, buf)
+            progress(count / 7)
             if force then
                 force_slk = true
             end
@@ -137,24 +142,23 @@ local function load_obj(w2l, archive, wts)
 end
 
 local function load_lni(w2l, archive)
+    local count = 0
     local lnis = {}
     for type, name in pairs(w2l.info.lni) do
+        count = count + 1
         local buf = archive:get(name)
         if buf then
             message('正在转换', name)
             lnis[type] = w2l:frontend_lni(type, buf)
+            progress(count / 7)
             archive:set(name, false)
         end
     end
     return lnis
 end
 
-return function(w2l, archive, slk)
-    --读取字符串
-    slk.wts = w2l:frontend_wts(archive)
-    local objs, force_slk1 = load_obj(w2l, archive, slk.wts)
-    local lnis, force_slk2 = load_lni(w2l, archive)
-    local datas, txt = load_slk(w2l, archive, force_slk1 or force_slk2)
+local function update_then_merge(datas, objs, lnis, slk)
+    local i = 0
     for type, data in pairs(datas) do
         local obj = objs[type] or {}
         if lnis[type] then
@@ -163,8 +167,40 @@ return function(w2l, archive, slk)
         end
         merge_obj(data, obj)
         slk[type] = data
+        i = i + 1
+        progress(i / 7)
     end
+end
+
+return function(w2l, archive, slk)
+    --读取字符串
+    slk.wts = w2l:frontend_wts(archive)
+    progress(0.1)
+
+    message('读取obj...')
+    progress:start(0.2)
+    local objs, force_slk1 = load_obj(w2l, archive, slk.wts)
+    progress:finish()
+
+    message('读取lni...')
+    progress:start(0.3)
+    local lnis, force_slk2 = load_lni(w2l, archive)
+    progress:finish()
+
+    message('读取slk...')
+    progress:start(0.4)
+    local datas, txt = load_slk(w2l, archive, force_slk1 or force_slk2)
+    progress:finish()
+    
+    message('合并物编数据...')
+    progress:start(0.5)
+    update_then_merge(datas, objs, lnis, slk)
+    progress:finish()
     slk.txt = txt
     w2l:frontend_misc(archive, slk)
+
+    message('处理物编数据...')
+    progress:start(1)
     w2l:frontend_processing(slk)
+    progress:finish()
 end

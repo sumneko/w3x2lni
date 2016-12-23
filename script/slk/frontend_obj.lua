@@ -115,6 +115,7 @@ local function read_obj(chunk, type)
     if obj._max_level == 0 then
         obj._max_level = 1
     end
+	return obj
 end
 
 local function read_version()
@@ -124,7 +125,7 @@ end
 local function read_chunk(chunk, type)
 	local count = unpack 'l'
 	for i = 1, count do
-		read_obj(chunk, type)
+		local obj = read_obj(chunk, type)
 	end
 end
 

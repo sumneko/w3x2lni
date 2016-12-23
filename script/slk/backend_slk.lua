@@ -1,4 +1,5 @@
 local w3xparser = require 'w3xparser'
+local progress = require 'progress'
 
 local table_concat = table.concat
 local ipairs = ipairs
@@ -10,6 +11,7 @@ local table_insert = table.insert
 local math_floor = math.floor
 local wtonumber = w3xparser.tonumber
 local math_type = math.type
+local os_clock = os.clock
 
 local slk
 local w2l
@@ -100,6 +102,7 @@ local function add(x, y, k)
 end
 
 local function add_values(names, skeys, slk_name)
+    local clock = os_clock()
     for y, name in ipairs(names) do
         local obj = slk[name]
         for x, key in ipairs(skeys) do
@@ -112,6 +115,11 @@ local function add_values(names, skeys, slk_name)
             then
                 add(x, y+1, '_')
             end
+        end
+        if os_clock() - clock > 0.1 then
+            clock = os_clock()
+            progress(y / #names)
+            message(('正在转换: [%s] (%d/%d)'):format(obj._id, y, #names))
         end
     end
 end

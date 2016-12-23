@@ -1,6 +1,8 @@
 local stormlib = require 'ffi.stormlib'
 local progress = require 'progress'
 
+local os_clock = os.clock
+
 local sleep = require 'ffi.sleep'
 function task(f, ...)
 	for i = 1, 99 do
@@ -66,7 +68,7 @@ function mt:save(slk, info, config)
         max_count = max_count + 1
 	end
 
-    local clock = os.clock()
+    local clock = os_clock()
     local count = 0
     for name, file in pairs(self) do
         local path = output / name
@@ -76,8 +78,8 @@ function mt:save(slk, info, config)
         end
         io.save(path, file)
         count = count + 1
-		if os.clock() - clock >= 0.1 then
-            clock = os.clock()
+		if os_clock - clock >= 0.1 then
+            clock = os_clock
             progress(count / max_count)
             message(('正在导出文件... (%d/%d)'):format(count, max_count))
 		end

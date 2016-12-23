@@ -1,4 +1,5 @@
 local w3xparser = require 'w3xparser'
+local progress = require 'progress'
 
 local table_concat = table.concat
 local ipairs = ipairs
@@ -10,6 +11,7 @@ local math_floor = math.floor
 local wtonumber = w3xparser.tonumber
 local select = select
 local table_unpack = table.unpack
+local os_clock = os.clock
 
 local slk
 local w2l

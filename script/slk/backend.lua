@@ -1,5 +1,7 @@
 local progress = require 'progress'
 
+local os_clock = os.clock
+
 local output = {
     unit    = 'units\\campaignunitstrings.txt',
     ability = 'units\\campaignabilitystrings.txt',
@@ -14,16 +16,13 @@ local function to_lni(w2l, archive, slk)
     local count = 0
     for ttype, filename in pairs(w2l.info.lni) do
         count = count + 1
-        local target_progress = 66 + count * 2
-        progress:target(target_progress)
-        
         local data = slk[ttype]
-        
+        progress:start(count / 7)
         local content = w2l:backend_lni(ttype, data)
+        progress:finish()
         if content then
             archive:set(filename, content)
         end
-        progress(1)
     end
 end
 
@@ -32,15 +31,13 @@ local function to_obj(w2l, archive, slk)
     local count = 0
     for type, filename in pairs(w2l.info.obj) do
         count = count + 1
-        local target_progress = 66 + count * 2
-        progress:target(target_progress)
-        
         local data = slk[type]
+        progress:start(count / 7)
         local content = w2l:backend_obj(type, data)
+        progress:finish()
         if content then
             archive:set(filename, content)
         end
-        progress(1)
     end
 end
 
@@ -125,11 +122,19 @@ local function remove_unuse(w2l, slk)
             mustuse[type][id] = true
         end
     end
+    local max = 0
+    for type in pairs(w2l.info.slk) do
+        for _ in pairs(slk[type]) do
+            max = max + 1
+        end
+    end
+    
     local user_count = 0
     local count = 0
     local unuse_count = 0
     local unuse_user_count = 0
     local origin_count = 0
+    local clock = os_clock()
     for type in pairs(w2l.info.slk) do
         local default = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')), type)
         local data = slk[type]
@@ -150,6 +155,10 @@ local function remove_unuse(w2l, slk)
                         origin_list[type][#origin_list[type]+1] = obj
                     end
                 end
+            end
+            if os_clock() - clock > 0.1 then
+                clock = os_clock()
+                progress(count / max)
             end
         end
     end
@@ -181,17 +190,20 @@ local function to_slk(w2l, archive, slk)
     local has_set = {}
     for type in pairs(w2l.info.slk) do
         count = count + 1
-        local target_progress = 66 + count * 2
-        progress:target(target_progress)
-        
+        progress:start(count / 7)
         local data = slk[type]
         if type ~= 'doodad' then
+            progress:start(0.4)
             for _, slk in ipairs(w2l.info.slk[type]) do
                 local content = w2l:backend_slk(type, slk, data)
                 archive:set(slk, content)
             end
+            progress:finish()
+
             if output[type] then
+                progress:start(0.8)
                 archive:set(output[type], w2l:backend_txt(type, data))
+                progress:finish()
                 has_set[output[type]] = true
             end
             if w2l.info.txt[type] then
@@ -216,13 +228,15 @@ local function to_slk(w2l, archive, slk)
                 data[name] = nil
             end
         end
-
+        progress(0.9)
+        
+        progress:start(1)
         local content = w2l:backend_obj(type, data)
+        progress:finish()
         if content then
             archive:set(w2l.info.obj[type], content)
         end
-        
-        progress(1)
+        progress:finish()
     end
 
     local content = w2l:backend_extra_txt(slk['txt'])
@@ -265,19 +279,32 @@ return function (w2l, archive, slk)
             message('-report', '只支持"默认(1.07)",地图为"对战(最新版本)"')
         end
     end
+    progress(0.1)
 
+    progress:start(0.2)
+    message('清理数据...')
     w2l:backend_processing(slk)
+    progress:finish()
 
     if w2l.config.remove_unuse_object then
+        message('标记简化对象...')
         w2l:backend_mark(archive, slk)
+        progress(0.3)
     end
     if w2l.config.target_format == 'slk' then
+        message('计算描述中的公式...')
         w2l:backend_computed(slk)
+        progress(0.4)
     end
     if w2l.config.remove_unuse_object then
+        message('移除简化对象...')
+        progress:start(0.7)
         remove_unuse(w2l, slk)
+        progress:finish()
     end
     
+    progress:start(0.9)
+    message('转换物编文件...')
     if w2l.config.target_format == 'lni' then
         to_lni(w2l, archive, slk, on_lni)
     elseif w2l.config.target_format == 'obj' then
@@ -285,16 +312,22 @@ return function (w2l, archive, slk)
     elseif w2l.config.target_format == 'slk' then
         to_slk(w2l, archive, slk, on_lni)
     end
+    progress:finish()
 
+    message('转换脚本...')
+    w2l:backend_convertjass(archive, slk.wts)
+    progress(0.94)
+
+    message('转换其他文件...')
     archive:set('war3mapmisc.txt', w2l:backend_misc(slk.misc, slk.txt, slk.wts))
+    progress(0.96)
 
     local buf = archive:get 'war3mapskin.txt'
     if buf then
         local skin = w2l:parse_ini(buf)
         archive:set('war3mapskin.txt', w2l:backend_skin(skin, slk.wts))
     end
-
-    w2l:backend_convertjass(archive, slk.wts)
+    progress(0.98)
 
     if w2l.config.remove_we_only then
         archive:set('war3map.wtg', false)
@@ -307,13 +340,16 @@ return function (w2l, archive, slk)
     end
 
 	--刷新字符串
+    message('重新生成字符串...')
 	local content = slk.wts:refresh()
     if #content > 0 then
 	    archive:set('war3map.wts', content)
     else
 	    archive:set('war3map.wts', false)
     end
+
     for _, name in ipairs(w2l.info.pack.packignore) do
         archive:set(name, false)
     end
+    progress(1)
 end
