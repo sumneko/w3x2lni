@@ -161,14 +161,12 @@ local function mark(slk, name)
     mark_known_type(slk, 'upgrade', name)
 end
 
-local function mark_jass(w2l, archive, slk)
-    local list, flag = w2l:backend_searchjass(archive)
-    if not list then
-        return
-    end
-    for name in pairs(list) do
+local function mark_jass(slk, list, flag)
+    if list then
+        for name in pairs(list) do
             current_root = {name, "脚本里的'%s'[%s]引用了它"}
-        mark(slk, name)
+            mark(slk, name)
+        end
     end
     if flag.creeps or flag.building then
         local maptile = slk.w3i.map_main_ground_type
@@ -279,8 +277,9 @@ return function(w2l, archive, slk_)
         end
     end
     slk.mustuse = mustuse
+    local jasslist, jassflag = w2l:backend_searchjass(archive)
     mark_mustuse(slk)
-    mark_jass(w2l, archive, slk)
+    mark_jass(slk, jasslist, jassflag)
     mark_doo(w2l, archive, slk)
     mark_lua(w2l, archive, slk)
 end
