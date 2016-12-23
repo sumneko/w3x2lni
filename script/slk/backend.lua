@@ -169,14 +169,6 @@ local function remove_unuse(w2l, slk)
     if unuse_count > 0 then
         message('-report', ('简化掉的对象数: %d/%d'):format(unuse_count, count))
     end
-    if unuse_user_count > 0 then
-        message('-report', ('简化掉的自定义对象数: %d/%d'):format(unuse_user_count, user_count))
-        report_list(slk, unuse_list, 'unit', 5)
-        report_list(slk, unuse_list, 'ability', 5)
-        report_list(slk, unuse_list, 'item', 5)
-        report_list(slk, unuse_list, 'buff', 1)
-        report_list(slk, unuse_list, 'upgrade', 1)
-    end
     if origin_count > 0 then
         message('-report', ('保留的默认对象数: %d/%d'):format(origin_count, count - user_count))
         report_list(slk, origin_list, 'unit', 5)
@@ -184,6 +176,14 @@ local function remove_unuse(w2l, slk)
         report_list(slk, origin_list, 'item', 5)
         report_list(slk, origin_list, 'buff', 1)
         report_list(slk, origin_list, 'upgrade', 1)
+    end
+    if unuse_user_count > 0 then
+        message('-report', ('简化掉的自定义对象数: %d/%d'):format(unuse_user_count, user_count))
+        report_list(slk, unuse_list, 'unit', 5)
+        report_list(slk, unuse_list, 'ability', 5)
+        report_list(slk, unuse_list, 'item', 5)
+        report_list(slk, unuse_list, 'buff', 1)
+        report_list(slk, unuse_list, 'upgrade', 1)
     end
 end
 
@@ -276,10 +276,12 @@ return function (w2l, archive, slk)
         end
         archive:set('war3map.w3i', w2l:lni2w3i(w2l:parse_lni(lni)))
         if slk.w3i.game_data_set == 1 then
-            message('-report', '只支持"默认(1.07)",地图为"自定义"')
+            message('-report', '不支持的游戏数据设置"自定义"')
+            message('-tip', '只支持"默认(1.07)",数据可能会出现差异')
         end
         if slk.w3i.game_data_set == 2 then
-            message('-report', '只支持"默认(1.07)",地图为"对战(最新版本)"')
+            message('-report', '不支持的游戏数据设置"对战(最新版本)"')
+            message('-tip', '只支持"默认(1.07)",数据可能会出现差异')
         end
     end
     progress(0.1)

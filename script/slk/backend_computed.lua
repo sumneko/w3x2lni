@@ -34,7 +34,7 @@ local function split(str)
     return r
 end
 
-local function computed_value(slk, str)
+local function computed_value(slk, str, name)
     local id, key, per = table.unpack(split(str))
     local o = slk.ability[id]
            or slk.unit[id]
@@ -72,12 +72,13 @@ local function computed_value(slk, str)
         end
         return math.floor(res)
     end
-    message('-report', '公式计算失败:', str)
+    message('-report', '公式计算失败:', name)
+    message('-tip', ('<%s>'):format(str))
     return res
 end
 
-local function computed(slk, input)
-    return input:gsub('<([^>]*)>', function(str) return computed_value(slk, str) end)
+local function computed(slk, input, name)
+    return input:gsub('<([^>]*)>', function(str) return computed_value(slk, str, name) end)
 end
 
 return function(w2l, slk)
@@ -87,11 +88,11 @@ return function(w2l, slk)
             goto CONTINUE
         end
         if o.researchubertip then
-            o.researchubertip = computed(slk, o.researchubertip)
+            o.researchubertip = computed(slk, o.researchubertip, o._id)
         end
         if o.ubertip then
             for k, v in pairs(o.ubertip) do
-                o.ubertip[k] = computed(slk, v)
+                o.ubertip[k] = computed(slk, v, o._id)
             end
         end
         ::CONTINUE::
@@ -101,10 +102,10 @@ return function(w2l, slk)
             goto CONTINUE
         end
         if o.ubertip then
-            o.ubertip = computed(slk, o.ubertip)
+            o.ubertip = computed(slk, o.ubertip, o._id)
         end
         if o.description then
-            o.description = computed(slk, o.description)
+            o.description = computed(slk, o.description, o._id)
         end
         ::CONTINUE::
     end
@@ -114,7 +115,7 @@ return function(w2l, slk)
         end
         if o.ubertip then
             for k, v in pairs(o.ubertip) do
-                o.ubertip[k] = computed(slk, v)
+                o.ubertip[k] = computed(slk, v, o._id)
             end
         end
         ::CONTINUE::
