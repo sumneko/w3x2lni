@@ -86,7 +86,6 @@ function window:dropfile(file)
 	mappath = fs.path(file)
 	mapname = mappath:filename():string()
 	uitype = 'select'
-	--window:set_title('W3x2Lni')
 end
 
 local function set_current_style(style)
@@ -140,6 +139,9 @@ local function window_about(canvas)
 	canvas:layout_row_dynamic(375, 1)
 	canvas:group('说明', function()
 		canvas:layout_row_dynamic(25, 1)
+		canvas:layout_row_dynamic(50, 4)
+		canvas:label('', NK_TEXT_RIGHT)
+		canvas:label('圣诞快乐！', NK_TEXT_CENTERED)
 	end)
 	canvas:layout_row_dynamic(30, 1)
 	if canvas:button('返回') then
