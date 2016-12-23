@@ -142,7 +142,7 @@ end
 local function mark_mustuse(slk)
     for type, list in pairs(mustuse) do
         for _, name in ipairs(list) do
-            current_root = {name, "被标记为必须保留的'%s'[%s]引用了它"}
+            current_root = {name, "必须保留的'%s'[%s]引用了它"}
             if not mark_known_type(slk, type, name) then
                 print(name)
             end

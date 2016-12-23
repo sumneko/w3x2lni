@@ -59,21 +59,20 @@ function mt:update_pipe()
 end
 
 function mt:update_message(pos)
-	local msg = self.output:sub(1, pos):gsub("^%s*(.-)%s*$", "%1"):gsub('\t', ' '):gsub('[^\r\n]+[\r\n]*', function(str)
-		if str:sub(1, 1) == '-' then
-			local key, value = str:match('%-(%S+)%s(.+)')
-			if key then
-				if key == 'progress' then
-					srv.progress = value * 100
-				elseif key == 'report' then
-					table.insert(srv.report, {value})
-				elseif key == 'tip' then
-					srv.report[#srv.report][2] = value
-				end
-				return ''
+	local msg = self.output:sub(1, pos):gsub("^%s*(.-)%s*$", "%1"):gsub('\t', ' ')
+	if msg:sub(1, 1) == '-' then
+		local key, value = msg:match('%-(%S+)%s(.+)')
+		if key then
+			if key == 'progress' then
+				srv.progress = tonumber(value) * 100
+			elseif key == 'report' then
+				table.insert(srv.report, {value})
+			elseif key == 'tip' then
+				srv.report[#srv.report][2] = value
 			end
+			msg = ''
 		end
-	end)
+	end
 	if #msg > 0 then
 		srv.message = msg
 		if debug then
@@ -102,6 +101,13 @@ function mt:update()
 		io.stdout:flush()
 		self.error = ''
 		srv.message = '转换失败'
+		while true do
+			local pos = self.output:find('\n')
+			if not pos then
+				break
+			end
+			self:update_message(pos)
+		end
 		self:update_message(-1)
 	end
 	if self.closed then
