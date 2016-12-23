@@ -145,6 +145,9 @@ end
 
 function srv.async_popen(commandline)
 	local process, out_rd, err_rd, in_wr = srv.popen(commandline)
+	if not process then
+		return
+	end
 	in_wr:close()
 	return setmetatable({
 		process = process,
