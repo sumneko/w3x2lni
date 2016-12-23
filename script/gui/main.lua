@@ -272,7 +272,7 @@ local function window_report(canvas)
 	canvas:group('详情', function()
 		canvas:layout_row_dynamic(25, 1)
 		for _, s in ipairs(srv.report) do
-			canvas:label(s, NK_TEXT_LEFT)
+			canvas:label(s[1], NK_TEXT_LEFT, s[2])
 		end
 	end)
 	canvas:layout_row_dynamic(20, 1)

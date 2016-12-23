@@ -66,7 +66,9 @@ function mt:update_message(pos)
 				if key == 'progress' then
 					srv.progress = value
 				elseif key == 'report' then
-					table.insert(srv.report, value)
+					table.insert(srv.report, {value})
+				elseif key == 'tip' then
+					srv.report[#srv.report][2] = value
 				end
 				return ''
 			end
