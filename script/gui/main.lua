@@ -109,15 +109,38 @@ local function button_mapname(canvas, height)
 	return height
 end
 
+local function window_about(canvas)
+	canvas:layout_row_dynamic(20, 1)
+	canvas:button_rect('作者', {-10, 0, 300, 30})
+	canvas:layout_row_dynamic(5, 1)
+	canvas:layout_row_dynamic(20, 4)
+	canvas:label('前端: ', NK_TEXT_RIGHT) canvas:label('actboy168', NK_TEXT_CENTERED) 
+	canvas:layout_row_dynamic(20, 4)
+	canvas:label('后端: ', NK_TEXT_RIGHT) canvas:label('最萌小汐', NK_TEXT_CENTERED)
+	canvas:layout_row_dynamic(5, 1)
+	canvas:button_rect('说明', {-10, 0, 300, 30})
+	canvas:layout_row_dynamic(375, 1)
+	canvas:group('说明', function()
+		canvas:layout_row_dynamic(25, 1)
+	end)
+	canvas:layout_row_dynamic(30, 1)
+	if canvas:button('返回') then
+		uitype = 'none'
+	end
+end
+
 local function window_none(canvas)
 	canvas:layout_row_dynamic(2, 1)
 	canvas:layout_row_dynamic(200, 1)
 	canvas:button('把地图拖进来')
-	canvas:layout_row_dynamic(280, 1)
+	canvas:layout_row_dynamic(320, 1)
 	canvas:layout_row_dynamic(20, 2)
-	canvas:label('', NK_TEXT_RIGHT) canvas:label('版本: 1.0.0', NK_TEXT_LEFT)
-	canvas:label('', NK_TEXT_RIGHT) canvas:label('前端: actboy168', NK_TEXT_LEFT)
-	canvas:label('', NK_TEXT_RIGHT) canvas:label('后端: 最萌小汐', NK_TEXT_LEFT)
+	window:set_style(51, 55, 67)
+	canvas:label('', NK_TEXT_RIGHT)
+	if canvas:button('版本: 1.0.0') then
+		uitype = 'about'
+	end
+	window:set_style(0, 173, 217)
 end
 
 local function clean_convert_ui()
@@ -287,6 +310,10 @@ function window:draw(canvas)
 	update_backend()
 	if uitype == 'none' then
 		window_none(canvas)
+		return
+	end
+	if uitype == 'about' then
+		window_about(canvas)
 		return
 	end
 	if uitype == 'select' then
