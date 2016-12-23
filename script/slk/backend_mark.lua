@@ -176,10 +176,10 @@ local function mark_jass(slk, list, flag)
             local need_mark = false
             if obj.race == 'creeps' and obj.tilesets and (obj.tilesets == '*' or obj.tilesets:find(maptile)) then
                 if flag.building and obj.isbldg == 1 and obj.nbrandom == 1 then
-                    current_root = {obj._id, "被保留的野怪建筑'%s'[%s]引用了它"}
+                    current_root = {obj._id, "保留的野怪建筑'%s'[%s]引用了它"}
                     mark_known_type(slk, 'unit', obj._id)
                 elseif flag.creeps and obj.isbldg == 0 then
-                    current_root = {obj._id, "被保留的野怪单位'%s'[%s]引用了它"}
+                    current_root = {obj._id, "保留的野怪单位'%s'[%s]引用了它"}
                     mark_known_type(slk, 'unit', obj._id)
                 end
             end
@@ -187,21 +187,21 @@ local function mark_jass(slk, list, flag)
                 flag.marketplace = true
                 search_marketplace = false
                 message('-report', '保留市场物品')
-                message('-tip', ("使用的市场'%s'[%s]引用了它"):format(obj.name, obj._id))
+                message('-tip', ("使用了市场'%s'[%s]"):format(obj.name, obj._id))
             end
         end
     end
     if flag.item then
         for _, obj in pairs(slk.item) do
             if obj.pickRandom == 1 then
-                current_root = {obj._id, "被保留的随机物品'%s'[%s]引用了它"}
+                current_root = {obj._id, "保留的随机物品'%s'[%s]引用了它"}
                 mark_known_type(slk, 'item', obj._id)
             end
         end
     elseif flag.marketplace then
         for _, obj in pairs(slk.item) do
             if obj.pickRandom == 1 and obj.sellable == 1 then
-                current_root = {obj._id, "被保留的市场物品'%s'[%s]引用了它"}
+                current_root = {obj._id, "保留的市场物品'%s'[%s]引用了它"}
                 mark_known_type(slk, 'item', obj._id)
             end
         end
