@@ -11,10 +11,40 @@ Alam = { 'ushd', 'unit' },
 Aspa = { 'bspa', 'buff' },
 }
 
+local slk
 local search
 local mark_known_type
 local once = {}
-local current_root = ''
+local current_root = {'', '%s%s'}
+
+local function slk_object_name(o)
+    if o._type == 'buff' then
+        return o.bufftip or o.editorname or ''
+    elseif o._type == 'upgrade' then
+        return o.name[1] or ''
+    else
+        return o.name or ''
+    end
+end
+
+local function slk_all(slk, id)
+    id = id:lower()
+    return slk.ability[id]
+           or slk.unit[id]
+           or slk.buff[id]
+           or slk.item[id]
+           or slk.destructable[id]
+           or slk.doodad[id]
+           or slk.upgrade[id]
+end
+
+local function format_marktip(slk, marktip)
+    local p = slk_all(slk, marktip[1])
+    if not p then
+        return marktip[2]:format('<unknown>', marktip[1])
+    end
+    return marktip[2]:format(slk_object_name(p), p._id)
+end
 
 local function split(str)
     local r = {}
@@ -28,6 +58,7 @@ local function print(id)
     end
     once[id] = true
     message('-report', '简化时没有找到对象:', id)
+    message('-tip', format_marktip(slk, current_root))
 end
 
 local function mark_value(slk, type, value)
@@ -239,7 +270,8 @@ local function mark_lua(w2l, archive, slk)
     end
 end
 
-return function(w2l, archive, slk)
+return function(w2l, archive, slk_)
+    slk = slk_
     if not search then
         search = {}
         for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do

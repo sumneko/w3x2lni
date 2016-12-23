@@ -70,15 +70,18 @@ local function slk_all(slk, id)
            or slk.upgrade[id]
 end
 
+local function format_marktip(slk, marktip)
+    local p = slk_all(slk, marktip[1])
+    if not p then
+        return marktip[2]:format('<unknown>', marktip[1])
+    end
+    return marktip[2]:format(slk_object_name(p), p._id)
+end
+
 local function report_object(slk, type, o)
     message('-report', o._id, displaytype[type], slk_object_name(o))
     if o._mark then
-        local p = slk_all(slk, o._mark[1])
-        if not p then
-            message('-tip', o._mark[2]:format('<unknown>', o._mark[1]))
-            return
-        end
-        message('-tip', o._mark[2]:format(slk_object_name(p), p._id))
+        message('-tip', format_marktip(slk, o._mark))
     end
 end
 
