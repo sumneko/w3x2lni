@@ -78,8 +78,8 @@ function mt:save(slk, info, config)
         end
         io.save(path, file)
         count = count + 1
-		if os_clock - clock >= 0.1 then
-            clock = os_clock
+		if os_clock() - clock >= 0.1 then
+            clock = os_clock()
             progress(count / max_count)
             message(('正在导出文件... (%d/%d)'):format(count, max_count))
 		end
