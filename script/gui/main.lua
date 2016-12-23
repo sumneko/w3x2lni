@@ -5,6 +5,7 @@ local nk = require 'nuklear'
 local srv = require 'gui.backend'
 local lni = require 'lni-c'
 local showconsole = srv.debug
+local currentstyle = {0, 173, 217}
 
 NK_WIDGET_STATE_MODIFIED = 1 << 1
 NK_WIDGET_STATE_INACTIVE = 1 << 2
@@ -85,7 +86,14 @@ function window:dropfile(file)
 	mappath = fs.path(file)
 	mapname = mappath:filename():string()
 	uitype = 'select'
-	window:set_title('W3x2Lni')
+	--window:set_title('W3x2Lni')
+end
+
+local function set_current_style(style)
+	if style then
+		currentstyle = style
+	end
+	window:set_style(table.unpack(currentstyle))
 end
 
 local function button_mapname(canvas, height)
@@ -109,6 +117,16 @@ local function button_mapname(canvas, height)
 	return height
 end
 
+local function button_about(canvas)
+	canvas:layout_row_dynamic(20, 2)
+	window:set_style(51, 55, 67)
+	canvas:label('', NK_TEXT_RIGHT)
+	if canvas:button('版本: 1.0.0') then
+		uitype = 'about'
+	end
+	set_current_style()
+end
+
 local function window_about(canvas)
 	canvas:layout_row_dynamic(20, 1)
 	canvas:button_rect('作者', {-10, 0, 300, 30})
@@ -125,7 +143,11 @@ local function window_about(canvas)
 	end)
 	canvas:layout_row_dynamic(30, 1)
 	if canvas:button('返回') then
-		uitype = 'none'
+		if mapname == '' then
+			uitype = 'none'
+		else
+			uitype = 'select'
+		end
 	end
 end
 
@@ -134,13 +156,7 @@ local function window_none(canvas)
 	canvas:layout_row_dynamic(200, 1)
 	canvas:button('把地图拖进来')
 	canvas:layout_row_dynamic(320, 1)
-	canvas:layout_row_dynamic(20, 2)
-	window:set_style(51, 55, 67)
-	canvas:label('', NK_TEXT_RIGHT)
-	if canvas:button('版本: 1.0.0') then
-		uitype = 'about'
-	end
-	window:set_style(0, 173, 217)
+	button_about(canvas)
 end
 
 local function clean_convert_ui()
@@ -152,6 +168,7 @@ end
 local function window_select(canvas)
 	canvas:layout_row_dynamic(2, 1)
 	canvas:layout_row_dynamic(100, 1)
+	window:set_style(0, 173, 217)
 	if canvas:button('转为Lni') then
 		uitype = 'convert'
 		fmt = 'lni'
@@ -165,6 +182,7 @@ local function window_select(canvas)
 		config.lni.remove_unuse_object = false
 		save_config()
 		clean_convert_ui()
+		set_current_style {0, 173, 217}
 		return
 	end
 	window:set_style(0, 173, 60)
@@ -179,6 +197,7 @@ local function window_select(canvas)
 		config.slk.remove_exceeds_level = true
 		save_config()
 		clean_convert_ui()
+		set_current_style {0, 173, 60}
 		return
 	end
 	window:set_style(217, 163, 60)
@@ -195,9 +214,11 @@ local function window_select(canvas)
 		config.obj.remove_unuse_object = false
 		save_config()
 		clean_convert_ui()
+		set_current_style {217, 163, 60}
 		return
 	end
-	window:set_style(0, 173, 217)
+	canvas:layout_row_dynamic(212, 1)
+	button_about(canvas)
 end
 
 local backend
