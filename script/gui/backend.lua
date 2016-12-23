@@ -109,7 +109,6 @@ function mt:update()
 			self:update_message(pos)
 		end
 		self:update_message(-1)
-		return true
 	end
 	if self.closed then
 		while true do
