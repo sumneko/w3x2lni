@@ -145,7 +145,7 @@ local function mark_jass(w2l, archive, slk)
             local need_mark = false
             if obj.race == 'creeps' and obj.tilesets and (obj.tilesets == '*' or obj.tilesets:find(maptile)) then
                 if (flag.building and obj.isbldg == 1 and obj.nbrandom == 1) or (flag.creeps and obj.isbldg == 0) then
-                    mark_known_type(slk, 'unit', obj)
+                    mark_known_type(slk, 'unit', obj._id)
                 end
             end
             if search_marketplace and obj._name == 'marketplace' then
@@ -158,13 +158,13 @@ local function mark_jass(w2l, archive, slk)
     if flag.item then
         for _, obj in pairs(slk.item) do
             if obj.pickRandom == 1 then
-                mark_known_type(slk, 'item', obj)
+                mark_known_type(slk, 'item', obj._id)
             end
         end
     elseif flag.marketplace then
         for _, obj in pairs(slk.item) do
             if obj.pickRandom == 1 and obj.sellable == 1 then
-                mark_known_type(slk, 'item', obj)
+                mark_known_type(slk, 'item', obj._id)
             end
         end
     end
