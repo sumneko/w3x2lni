@@ -171,7 +171,11 @@ local function add_special(tbl, tbl2, special)
             end
             tbl[#tbl+1] = ('%s = %s'):format(name_, id)
             if enable_type[type] and not ignore(name, name_) then
-                tbl2[#tbl2+1] = ('%s = %s'):format(name_, enable_type[type])
+        	    if name == 'ANvc' and name_ == 'unitid' then
+                    tbl2[#tbl2+1] = 'unitid = destructable'
+                else
+                    tbl2[#tbl2+1] = ('%s = %s'):format(name_, enable_type[type])
+                end
                 flag = true
             end
         end
