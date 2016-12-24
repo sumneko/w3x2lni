@@ -218,19 +218,6 @@ local function to_slk(w2l, archive, slk)
                 end
             end
         end
-        
-        for name, obj in pairs(data) do
-            local empty = true
-            for k in pairs(obj) do
-                if k:sub(1, 1) ~= '_' then
-                    empty = false
-                    break
-                end
-            end
-            if empty then
-                data[name] = nil
-            end
-        end
         progress(0.9)
         
         progress:start(1)
