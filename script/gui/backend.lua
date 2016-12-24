@@ -7,6 +7,7 @@ local srv = {}
 srv.message = ''
 srv.progress = nil
 srv.report = {}
+srv.lastreport = nil
 srv.debug = debug
 
 local mt = {}
@@ -66,9 +67,13 @@ function mt:update_message(pos)
 			if key == 'progress' then
 				srv.progress = tonumber(value) * 100
 			elseif key == 'report' then
-				table.insert(srv.report, {value})
+				srv.lastreport = {'info', value}
+				table.insert(srv.report, srv.lastreport)
+			elseif key == 'report|error' then
+				srv.lastreport = {'error', value}
+				table.insert(srv.report, 1, srv.lastreport)
 			elseif key == 'tip' then
-				srv.report[#srv.report][2] = value
+				srv.lastreport[3] = value
 			end
 			msg = ''
 		end

@@ -5,7 +5,7 @@ local nk = require 'nuklear'
 local srv = require 'gui.backend'
 local lni = require 'lni-c'
 local showconsole = srv.debug
-local currentstyle = {0, 173, 217}
+local currenttheme = {0, 173, 217}
 
 NK_WIDGET_STATE_MODIFIED = 1 << 1
 NK_WIDGET_STATE_INACTIVE = 1 << 2
@@ -74,7 +74,7 @@ target_format = %s
 end
 
 local window = nk.window('W3x2Lni', 400, 600)
-window:set_style(0, 173, 217)
+window:set_theme(0, 173, 217)
 
 local uitype = 'none'
 local showmappath = false
@@ -88,11 +88,11 @@ function window:dropfile(file)
 	uitype = 'select'
 end
 
-local function set_current_style(style)
-	if style then
-		currentstyle = style
+local function set_current_theme(theme)
+	if theme then
+		currenttheme = theme
 	end
-	window:set_style(table.unpack(currentstyle))
+	window:set_theme(table.unpack(currenttheme))
 end
 
 local function button_mapname(canvas, height)
@@ -118,30 +118,48 @@ end
 
 local function button_about(canvas)
 	canvas:layout_row_dynamic(20, 2)
-	window:set_style(51, 55, 67)
-	canvas:label('', NK_TEXT_RIGHT)
-	if canvas:button('版本: 1.0.0') then
+	window:set_theme(51, 55, 67)
+	canvas:text('', NK_TEXT_RIGHT)
+	if canvas:button('版本: 1.1.0') then
 		uitype = 'about'
 	end
-	set_current_style()
+	set_current_theme()
+end
+
+local color  = {
+	UI = {111, 77, 150},
+	SLK = {0, 173, 60},
+}
+
+local function window_about_line(canvas, type, msg)
+	window:set_style('button.color', table.unpack(color[type]))
+	canvas:layout_space(25, 2)
+	canvas:layout_space_push( 0, 0,  40, 25) canvas:button(type)
+	canvas:layout_space_push(50, 0, 320, 25) canvas:text(msg, NK_TEXT_LEFT)
 end
 
 local function window_about(canvas)
 	canvas:layout_row_dynamic(20, 1)
-	canvas:button_rect('作者', {-10, 0, 300, 30})
+	canvas:layout_space(30, 1)
+	canvas:layout_space_push(-10, 0, 300, 30)
+	canvas:button('作者')
 	canvas:layout_row_dynamic(5, 1)
 	canvas:layout_row_dynamic(20, 4)
-	canvas:label('前端: ', NK_TEXT_RIGHT) canvas:label('actboy168', NK_TEXT_CENTERED) 
+	canvas:text('前端: ', NK_TEXT_RIGHT) canvas:text('actboy168', NK_TEXT_CENTERED) 
 	canvas:layout_row_dynamic(20, 4)
-	canvas:label('后端: ', NK_TEXT_RIGHT) canvas:label('最萌小汐', NK_TEXT_CENTERED)
+	canvas:text('后端: ', NK_TEXT_RIGHT) canvas:text('最萌小汐', NK_TEXT_CENTERED)
 	canvas:layout_row_dynamic(5, 1)
-	canvas:button_rect('说明', {-10, 0, 300, 30})
+	canvas:layout_space(30, 1)
+	canvas:layout_space_push(-10, 0, 300, 30)
+	canvas:button('说明')
 	canvas:layout_row_dynamic(375, 1)
 	canvas:group('说明', function()
 		canvas:layout_row_dynamic(25, 1)
-		canvas:layout_row_dynamic(50, 4)
-		canvas:label('', NK_TEXT_RIGHT)
-		canvas:label('圣诞快乐！', NK_TEXT_CENTERED)
+		canvas:text('1.1.0', NK_TEXT_LEFT)
+		window_about_line(canvas, 'UI', '详情里的tip尽可能不会被截断')
+		window_about_line(canvas, 'UI', '重要的详情现在会更加显眼')
+		window_about_line(canvas, 'SLK', '无法放在txt中字符串会放在wts里')
+		set_current_theme()
 	end)
 	canvas:layout_row_dynamic(30, 1)
 	if canvas:button('返回') then
@@ -170,7 +188,7 @@ end
 local function window_select(canvas)
 	canvas:layout_row_dynamic(2, 1)
 	canvas:layout_row_dynamic(100, 1)
-	window:set_style(0, 173, 217)
+	window:set_theme(0, 173, 217)
 	if canvas:button('转为Lni') then
 		uitype = 'convert'
 		fmt = 'lni'
@@ -184,10 +202,10 @@ local function window_select(canvas)
 		config.lni.remove_unuse_object = false
 		save_config()
 		clean_convert_ui()
-		set_current_style {0, 173, 217}
+		set_current_theme {0, 173, 217}
 		return
 	end
-	window:set_style(0, 173, 60)
+	window:set_theme(0, 173, 60)
 	if canvas:button('转为Slk') then
 		uitype = 'convert'
 		fmt = 'slk'
@@ -199,10 +217,10 @@ local function window_select(canvas)
 		config.slk.remove_exceeds_level = true
 		save_config()
 		clean_convert_ui()
-		set_current_style {0, 173, 60}
+		set_current_theme {0, 173, 60}
 		return
 	end
-	window:set_style(217, 163, 60)
+	window:set_theme(217, 163, 60)
 	if canvas:button('转为Obj') then
 		uitype = 'convert'
 		fmt = 'obj'
@@ -216,7 +234,7 @@ local function window_select(canvas)
 		config.obj.remove_unuse_object = false
 		save_config()
 		clean_convert_ui()
-		set_current_style {217, 163, 60}
+		set_current_theme {217, 163, 60}
 		return
 	end
 	canvas:layout_row_dynamic(212, 1)
@@ -288,7 +306,7 @@ local function window_convert(canvas)
 
 	canvas:layout_row_dynamic(height, 1)
 	canvas:layout_row_dynamic(30, 1)
-	canvas:label(srv.message, NK_TEXT_LEFT)
+	canvas:text(srv.message, NK_TEXT_LEFT)
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(30, 1)
 	if backend or #srv.report == 0 then
@@ -318,7 +336,13 @@ local function window_report(canvas)
 	canvas:group('详情', function()
 		canvas:layout_row_dynamic(25, 1)
 		for _, s in ipairs(srv.report) do
-			canvas:label(s[1], NK_TEXT_LEFT, s[2])
+			if s[1] == 'error' then
+				window:set_style('text.color', 190, 30, 30)
+				canvas:text(s[2], NK_TEXT_LEFT, s[3])
+				window:set_style('text.color', 190, 190, 190)
+			else
+				canvas:text(s[2], NK_TEXT_LEFT, s[3])
+			end
 		end
 	end)
 	canvas:layout_row_dynamic(20, 1)
