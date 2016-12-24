@@ -2,9 +2,10 @@ local window
 local canvas
 
 local color  = {
+	NEW = {0, 173, 60},
+	CHG = {217, 163, 60},
+	FIX = {200, 30, 30},
 	UI = {111, 77, 150},
-	SLK = {0, 173, 60},
-	OBJ = {217, 163, 60},
 }
 
 local function version(msg)
@@ -25,9 +26,11 @@ return function(window_, canvas_)
     window = window_
     canvas = canvas_
 	version('1.0.1')
-	log('UI',  '详情里的tip尽可能不会被截断')
-	log('UI',  '重要的详情现在会更加显眼')
-	log('SLK', '无法放在txt中字符串会放在wts里')
-	log('SLK', '修正无法读取南瓜头生成的txt的问题')
-	log('OBJ', '修正读取0级技会出错的问题')
+	log('NEW', '支持模型压缩')
+	log('NEW', '无法放在txt中字符串会放在wts里')
+	log('NEW', '增加部分选项的提示')
+	log('CHG', '重要的详情现在会更加显眼')
+	log('FIX', '修正无法读取南瓜头生成的txt的问题')
+	log('FIX', '修正读取0级技会出错的问题')
+	log('FIX', '修正详情里的tip被截断的问题')
 end
