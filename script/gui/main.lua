@@ -120,28 +120,46 @@ local function button_about(canvas)
 	canvas:layout_row_dynamic(20, 2)
 	window:set_theme(51, 55, 67)
 	canvas:text('', NK_TEXT_RIGHT)
-	if canvas:button('版本: 1.0.0') then
+	if canvas:button('版本: 1.1.0') then
 		uitype = 'about'
 	end
 	set_current_theme()
 end
 
+local color  = {
+	UI = {111, 77, 150},
+	SLK = {0, 173, 60},
+}
+
+local function window_about_line(canvas, type, msg)
+	window:set_style('button.color', table.unpack(color[type]))
+	canvas:layout_space(25, 2)
+	canvas:layout_space_push( 0, 0,  40, 25) canvas:button(type)
+	canvas:layout_space_push(50, 0, 320, 25) canvas:text(msg, NK_TEXT_LEFT)
+end
+
 local function window_about(canvas)
 	canvas:layout_row_dynamic(20, 1)
-	canvas:button_rect('作者', {-10, 0, 300, 30})
+	canvas:layout_space(30, 1)
+	canvas:layout_space_push(-10, 0, 300, 30)
+	canvas:button('作者')
 	canvas:layout_row_dynamic(5, 1)
 	canvas:layout_row_dynamic(20, 4)
 	canvas:text('前端: ', NK_TEXT_RIGHT) canvas:text('actboy168', NK_TEXT_CENTERED) 
 	canvas:layout_row_dynamic(20, 4)
 	canvas:text('后端: ', NK_TEXT_RIGHT) canvas:text('最萌小汐', NK_TEXT_CENTERED)
 	canvas:layout_row_dynamic(5, 1)
-	canvas:button_rect('说明', {-10, 0, 300, 30})
+	canvas:layout_space(30, 1)
+	canvas:layout_space_push(-10, 0, 300, 30)
+	canvas:button('说明')
 	canvas:layout_row_dynamic(375, 1)
 	canvas:group('说明', function()
 		canvas:layout_row_dynamic(25, 1)
-		canvas:layout_row_dynamic(50, 4)
-		canvas:text('', NK_TEXT_RIGHT)
-		canvas:text('圣诞快乐！', NK_TEXT_CENTERED)
+		canvas:text('1.1.0', NK_TEXT_LEFT)
+		window_about_line(canvas, 'UI', '详情里的tip尽可能不会被截断')
+		window_about_line(canvas, 'UI', '重要的详情现在会更加显眼')
+		window_about_line(canvas, 'SLK', '无法放在txt中字符串会放在wts里')
+		set_current_theme()
 	end)
 	canvas:layout_row_dynamic(30, 1)
 	if canvas:button('返回') then
