@@ -28,5 +28,6 @@ return function(window_, canvas_)
 	log('UI',  '详情里的tip尽可能不会被截断')
 	log('UI',  '重要的详情现在会更加显眼')
 	log('SLK', '无法放在txt中字符串会放在wts里')
+	log('SLK', '修正无法读取南瓜头生成的txt的问题')
 	log('OBJ', '修正读取0级技会出错的问题')
 end
