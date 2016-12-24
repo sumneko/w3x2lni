@@ -96,6 +96,10 @@ local function set_current_theme(theme)
 	window:set_theme(table.unpack(currenttheme))
 end
 
+local function reset_button_color()
+	window:set_style('button.color', table.unpack(currenttheme))
+end
+
 local function button_mapname(canvas, height)
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(40, 1)
@@ -119,12 +123,12 @@ end
 
 local function button_about(canvas)
 	canvas:layout_row_dynamic(20, 2)
-	window:set_theme(51, 55, 67)
 	canvas:text('', NK_TEXT_RIGHT)
-	if canvas:button('版本: 1.1.0') then
+	window:set_style('button.color', 51, 55, 67)
+	if canvas:button('版本: 1.0.1') then
 		uitype = 'about'
 	end
-	set_current_theme()
+	reset_button_color()
 end
 
 local function window_about(canvas)
@@ -146,7 +150,7 @@ local function window_about(canvas)
 	canvas:group('说明', function()
 		changelog(window, canvas)
 	end)
-	set_current_theme()
+	reset_button_color()
 	canvas:layout_row_dynamic(30, 1)
 	if canvas:button('返回') then
 		if mapname == '' then
