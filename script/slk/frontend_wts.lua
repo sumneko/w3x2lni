@@ -11,7 +11,7 @@ function mt:load(content, max)
 	return content:gsub('TRIGSTR_(%d+)', function(i)
 		local str_data = wts[i]
 		if not str_data then
-			message('-report', '没有找到字符串:', i)
+			message('-report', '没有找到字符串定义:', ('TRIGSTR_%03d'):format(i))
 			return
 		end
 		local text = str_data.text
