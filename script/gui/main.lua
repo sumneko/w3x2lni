@@ -248,12 +248,16 @@ end
 
 local current_tip
 
-local function checkbox_tip(canvas, text, tip, data)
-	local ok, _, state = canvas:checkbox(text, config[fmt][data])
+local function checkbox_tip(canvas, text, tip, active)
+	local ok, _, state = canvas:checkbox(text, active)
 	if state & NK_WIDGET_STATE_LEFT ~= 0 then
 		current_tip = tip
 	end
-	if ok then
+	return ok
+end
+
+local function checkbox_simple(canvas, text, tip, data)
+	if checkbox_tip(canvas, text, tip, config[fmt][data]) then
 		config[fmt][data] = not config[fmt][data]
 		save_config()
 	end
@@ -266,17 +270,17 @@ local function window_convert(canvas)
 	if fmt == 'lni' or fmt == 'obj' then
 		height = height - 34
 		canvas:layout_row_dynamic(30, 1)
-		checkbox_tip(canvas, '读取slk文件', '', 'read_slk')
+		checkbox_simple(canvas, '读取slk文件', '', 'read_slk')
 	else
 		height = height - 60
 		canvas:layout_row_dynamic(30, 1)
-		checkbox_tip(canvas, '简化', '删除没有使用的对象', 'remove_unuse_object')
-		checkbox_tip(canvas, '删除只在WE中使用的文件', '', 'remove_we_only')
+		checkbox_simple(canvas, '简化', '删除没有使用的对象', 'remove_unuse_object')
+		checkbox_simple(canvas, '删除只在WE中使用的文件', '', 'remove_we_only')
 	end
 	canvas:layout_row_dynamic(10, 1)
 	canvas:tree('高级', 1, function()
 		canvas:layout_row_dynamic(30, 1)
-		if canvas:checkbox('限制搜索最优模板的次数', config[fmt].find_id_times ~= 0) then
+		if checkbox_tip(canvas, '限制搜索最优模板的次数', '', config[fmt].find_id_times ~= 0) then
 			if config[fmt].find_id_times == 0 then
 				config[fmt].find_id_times = 10
 			else
