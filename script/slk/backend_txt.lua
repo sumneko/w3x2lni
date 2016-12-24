@@ -12,6 +12,8 @@ local wtonumber = w3xparser.tonumber
 local select = select
 local table_unpack = table.unpack
 local os_clock = os.clock
+local type = type
+local next = next
 
 local slk
 local w2l
@@ -234,9 +236,32 @@ local function load_data(name, obj, key, txt_data)
         return
     end
     local skey = get_displaykey(key2id(obj._code, key))
-    txt_data[skey] = obj[key]
-    txt_data['_id'] = obj['_id']
-    obj[key] = nil
+    if type(obj[key]) == 'table' then
+        local tbl = {}
+        for k, v in pairs(obj[key]) do
+            if type(v) == 'string' and v:find(',', nil, false) and v:find('"', nil, false) then
+                message('-report', ("SLK化失败: %s - %s"):format(obj._id, skey))
+                message('-tip', '文本内容同时包含了逗号和双引号')
+            else
+                tbl[k] = v
+                obj[key][k] = nil
+            end
+        end
+        if not next(obj[key]) then
+            obj[key] = nil
+        end
+        if next(tbl) then
+            txt_data[skey] = tbl
+        end
+    else
+        if type(obj[key]) == 'string' and obj[key]:find(',', nil, false) and obj[key]:find('"', nil, false) then
+            message('-report', ("SLK化失败: %s - %s"):format(obj._id, skey))
+            message('-tip', '文本内容同时包含了逗号和双引号')
+            return
+        end
+        txt_data[skey] = obj[key]
+        obj[key] = nil
+    end
 end
 
 local function load_obj(name, obj)
@@ -248,6 +273,7 @@ local function load_obj(name, obj)
         load_data(name, obj, key, txt_data)
     end
     if next(txt_data) then
+        txt_data['_id'] = obj['_id']
         return txt_data
     end
 end
