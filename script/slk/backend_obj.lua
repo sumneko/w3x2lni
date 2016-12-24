@@ -18,6 +18,7 @@ local has_level
 local metadata
 local keydata
 local hexs
+local wts
 
 local function key2id(code, key)
     local id = keydata[code] and keydata[code][key] or keydata['common'][key]
@@ -51,6 +52,9 @@ local function write_value(key, id, level, value)
         end
         write('f', value)
     else
+        if #value > 1023 then
+            value = wts:insert(value)
+        end
         write('z', value)
     end
     write('c4', '\0\0\0\0')
@@ -162,8 +166,9 @@ local function sort_chunk(chunk, remove_unuse_object)
     return origin, user
 end
 
-return function (w2l_, type, data)
+return function (w2l_, type, data, wts_)
     w2l = w2l_
+    wts = wts_
 	has_level = w2l.info.key.max_level[type]
     metadata = w2l:read_metadata(type)
     keydata = w2l:keyconvert(type)

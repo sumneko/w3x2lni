@@ -33,7 +33,7 @@ local function to_obj(w2l, archive, slk)
         count = count + 1
         local data = slk[type]
         progress:start(count / 7)
-        local content = w2l:backend_obj(type, data)
+        local content = w2l:backend_obj(type, data, slk.wts)
         progress:finish()
         if content then
             archive:set(filename, content)
