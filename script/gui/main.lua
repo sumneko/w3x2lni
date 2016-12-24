@@ -143,7 +143,9 @@ local function window_about(canvas)
 	canvas:button('说明')
 	canvas:layout_row_dynamic(375, 1)
 	
-	changelog(window, canvas)
+	canvas:group('说明', function()
+		changelog(window, canvas)
+	end)
 	set_current_theme()
 	canvas:layout_row_dynamic(30, 1)
 	if canvas:button('返回') then

@@ -287,8 +287,6 @@ end
 return function(w2l_, type, chunk)
     slk = {}
     w2l = w2l_
-    cx = nil
-    cy = nil
     remove_unuse_object = w2l.config.remove_unuse_object
     lines = {}
     metadata = w2l:read_metadata(type)
