@@ -131,9 +131,9 @@ end
 function mt:sucess()
     local total = self.handle:number_of_files()
     if self.file_number < total then
-        message('-report', ('读取(%d/%d)个文件'):format(self.file_number, total))
-        message('-report', ('还有%d个文件没有读取'):format(total - self.file_number))
+        message('-report|error', ('还有%d个文件没有读取'):format(total - self.file_number))
         message('-tip', '这些文件被丢弃了,请包含完整(listfile)')
+        message('-report|error', ('读取(%d/%d)个文件'):format(self.file_number, total))
         return false
     end
     return true

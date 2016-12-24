@@ -318,7 +318,13 @@ local function window_report(canvas)
 	canvas:group('详情', function()
 		canvas:layout_row_dynamic(25, 1)
 		for _, s in ipairs(srv.report) do
-			canvas:text(s[1], NK_TEXT_LEFT, s[2])
+			if s[1] == 'error' then
+				window:set_style('text.color', 190, 30, 30)
+				canvas:text(s[2], NK_TEXT_LEFT, s[3])
+				window:set_style('text.color', 190, 190, 190)
+			else
+				canvas:text(s[2], NK_TEXT_LEFT, s[3])
+			end
 		end
 	end)
 	canvas:layout_row_dynamic(20, 1)
