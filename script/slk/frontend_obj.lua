@@ -41,13 +41,14 @@ end
 local function read_data(obj)
 	local data = {}
 	local id = string_match(unpack 'c4', '^[^\0]+')
+	local meta = metadata[id]
 	local key = get_displaykey(id)
 	local value_type = unpack 'l'
 	local level = 0
 
 	if key then
 		key = string_lower(key)
-		local check_type = w2l:get_id_type(metadata[id].type)
+		local check_type = w2l:get_id_type(meta.type)
 		if value_type ~= check_type and (value_type == 3 or check_type == 3) then
 			message('-report', ('数据类型错误:[%s],应该为[%s],错误的解析为了[%s]'):format(id, value_type, check_type))
 		end
@@ -76,13 +77,16 @@ local function read_data(obj)
 	if not key then
 		return
 	end
-	if level == 0 then
-		obj[key] = value
-	else
+	if meta['repeat'] and meta['repeat'] > 0 then
+		if level == 0 then
+			level = 1
+		end
 		if not obj[key] then
 			obj[key] = {}
 		end
 		obj[key][level] = value
+	else
+		obj[key] = value
 	end
 end
 
