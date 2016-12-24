@@ -245,29 +245,33 @@ local function update_backend()
 		backend = nil
 	end
 end
-	
+
+local current_tip
+
+local function checkbox_tip(canvas, text, tip, data)
+	local ok, _, state = canvas:checkbox(text, config[fmt][data])
+	if state & NK_WIDGET_STATE_LEFT ~= 0 then
+		current_tip = tip
+	end
+	if ok then
+		config[fmt][data] = not config[fmt][data]
+		save_config()
+	end
+end
+
 local function window_convert(canvas)
+	current_tip = nil
 	local height = button_mapname(canvas, 290)
 	canvas:layout_row_dynamic(10, 1)
 	if fmt == 'lni' or fmt == 'obj' then
 		height = height - 34
 		canvas:layout_row_dynamic(30, 1)
-		if canvas:checkbox('读取slk文件', config[fmt].read_slk) then
-			config[fmt].read_slk = not config[fmt].read_slk
-			save_config()
-		end
+		checkbox_tip(canvas, '读取slk文件', '', 'read_slk')
 	else
 		height = height - 60
 		canvas:layout_row_dynamic(30, 1)
-		if canvas:checkbox('简化', config[fmt].remove_unuse_object) then
-			config[fmt].remove_unuse_object = not config[fmt].remove_unuse_object
-			save_config()
-		end
-		canvas:layout_row_dynamic(30, 1)
-		if canvas:checkbox('删除只在WE中使用的文件', config[fmt].remove_we_only) then
-			config[fmt].remove_we_only = not config[fmt].remove_we_only
-			save_config()
-		end
+		checkbox_tip(canvas, '简化', '删除没有使用的对象', 'remove_unuse_object')
+		checkbox_tip(canvas, '删除只在WE中使用的文件', '', 'remove_we_only')
 	end
 	canvas:layout_row_dynamic(10, 1)
 	canvas:tree('高级', 1, function()
@@ -300,7 +304,11 @@ local function window_convert(canvas)
 	canvas:layout_row_dynamic(10, 1)
 	canvas:layout_row_dynamic(30, 1)
 	if backend or #srv.report == 0 then
-		canvas:progress(math.floor(srv.progress or 0), 100)
+		if srv.progress then
+			canvas:progress(math.floor(srv.progress), 100)
+		else
+			canvas:text(current_tip or '', NK_TEXT_LEFT)
+		end
 	else
 		if canvas:button('详情') then
 			uitype = 'report'
