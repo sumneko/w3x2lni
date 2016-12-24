@@ -42,6 +42,8 @@ remove_exceeds_level = $remove_exceeds_level$
 remove_we_only = $remove_we_only$
 -- 移除没有引用的对象
 remove_unuse_object = $remove_unuse_object$
+-- mdx压缩
+mdx_squf = $mdx_squf$
 -- 转换为地图还是目录(map, dir)
 target_storage = $target_storage$
 ]]
@@ -190,6 +192,7 @@ local function window_select(canvas)
 		config.lni.remove_exceeds_level = false
 		config.lni.remove_we_only = false
 		config.lni.remove_unuse_object = false
+		config.lni.mdx_squf = false
 		save_config()
 		clean_convert_ui()
 		set_current_theme {0, 173, 217}
@@ -222,6 +225,7 @@ local function window_select(canvas)
 		config.obj.remove_exceeds_level = false
 		config.obj.remove_we_only = false
 		config.obj.remove_unuse_object = false
+		config.lni.mdx_squf = false
 		save_config()
 		clean_convert_ui()
 		set_current_theme {217, 163, 60}
@@ -272,9 +276,10 @@ local function window_convert(canvas)
 		canvas:layout_row_dynamic(30, 1)
 		checkbox_simple(canvas, '读取slk文件', '', 'read_slk')
 	else
-		height = height - 60
+		height = height - 90
 		canvas:layout_row_dynamic(30, 1)
 		checkbox_simple(canvas, '简化', '删除没有使用的对象', 'remove_unuse_object')
+		checkbox_simple(canvas, '压缩模型', '有损压缩', 'mdx_squf')
 		checkbox_simple(canvas, '删除只在WE中使用的文件', '', 'remove_we_only')
 	end
 	canvas:layout_row_dynamic(10, 1)
