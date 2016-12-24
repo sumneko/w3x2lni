@@ -27,10 +27,10 @@ return function(window_, canvas_)
     canvas = canvas_
 	version('1.0.1')
 	log('NEW', '支持模型压缩')
-	log('NEW', '无法放在txt中字符串会放在wts里')
+	log('NEW', '无法放在txt中的字符串会放在wts里')
 	log('NEW', '增加部分选项的提示')
 	log('CHG', '重要的详情现在会更加显眼')
 	log('FIX', '修正无法读取南瓜头生成的txt的问题')
-	log('FIX', '修正读取0级技会出错的问题')
+	log('FIX', '修正读取0级技能会出错的问题')
 	log('FIX', '修正详情里的tip被截断的问题')
 end
