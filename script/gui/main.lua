@@ -128,7 +128,7 @@ local function button_about(canvas)
 	if canvas:button('版本: 1.0.1') then
 		uitype = 'about'
 	end
-	reset_button_color()
+	set_current_theme()
 end
 
 local function window_about(canvas)
