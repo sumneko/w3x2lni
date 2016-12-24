@@ -33,7 +33,7 @@ local function to_obj(w2l, archive, slk)
         count = count + 1
         local data = slk[type]
         progress:start(count / 7)
-        local content = w2l:backend_obj(type, data)
+        local content = w2l:backend_obj(type, data, slk.wts)
         progress:finish()
         if content then
             archive:set(filename, content)
@@ -216,19 +216,6 @@ local function to_slk(w2l, archive, slk)
                         has_set[txt] = true
                     end
                 end
-            end
-        end
-        
-        for name, obj in pairs(data) do
-            local empty = true
-            for k in pairs(obj) do
-                if k:sub(1, 1) ~= '_' then
-                    empty = false
-                    break
-                end
-            end
-            if empty then
-                data[name] = nil
             end
         end
         progress(0.9)
