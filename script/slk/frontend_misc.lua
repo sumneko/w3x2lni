@@ -46,7 +46,7 @@ local function add_data(id, meta, misc, chunk, slk)
     local obj = chunk[lname]
     local key = meta.field
     local lkey = string_lower(key)
-    value = misc[lname] and misc[lname][lkey] or slk.txt[lname] and slk.txt[lname][lkey]
+    local value = misc[lname] and misc[lname][lkey] or slk.txt[lname] and slk.txt[lname][lkey]
     if not value then
         return
     end

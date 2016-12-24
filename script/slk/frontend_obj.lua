@@ -62,6 +62,7 @@ local function read_data(obj)
 		unpack 'l'
 	end
 
+	local value
 	if value_type == 0 then
 		value = unpack 'l'
 	elseif value_type == 1 or value_type == 2 then

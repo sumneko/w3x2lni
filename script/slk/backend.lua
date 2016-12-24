@@ -298,11 +298,11 @@ return function (w2l, archive, slk)
     progress:start(0.9)
     message('转换物编文件...')
     if w2l.config.target_format == 'lni' then
-        to_lni(w2l, archive, slk, on_lni)
+        to_lni(w2l, archive, slk)
     elseif w2l.config.target_format == 'obj' then
-        to_obj(w2l, archive, slk, on_lni)
+        to_obj(w2l, archive, slk)
     elseif w2l.config.target_format == 'slk' then
-        to_slk(w2l, archive, slk, on_lni)
+        to_slk(w2l, archive, slk)
     end
     progress:finish()
 
