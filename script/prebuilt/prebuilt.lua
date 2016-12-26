@@ -120,7 +120,20 @@ local function main()
 	-- 生成模板lni
 	local ar = archive(w2l.mpq)
 	local slk = {}
-	w2l:frontend(ar, slk)
+    slk.wts = w2l:frontend_wts(ar)
+	local datas, txt = w2l:frontend_slk(function(name)
+		local buf = ar:get(name)
+		if buf then
+			ar:set(name, false)
+			return buf
+		end
+		return io.load(w2l.mpq / name)
+	end)
+	for type, data in pairs(datas) do
+		slk[type] = data
+	end
+	slk.txt = txt
+    w2l:frontend_misc(ar, slk)
 	local usable_para = {}
 	for ttype in pairs(w2l.info.slk) do
 		message('正在生成模板', ttype)
