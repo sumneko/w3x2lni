@@ -241,22 +241,21 @@ return function(w2l_, loader)
                 end
             end
             slk_read(datas[type], w2l:parse_slk(loader(filename)), slk_keys, slk_meta, update_level, type)
-
-            if keyconvert.profile then
-                local txt_keys = {}
-                local txt_meta = {}
-                for key, id in pairs(keyconvert.profile) do
-                    local meta = metadata[id]
-                    txt_keys[#txt_keys+1] = key
-                    txt_meta[#txt_meta+1] = {
-                        ['type'] = w2l:get_id_type(meta.type),
-                        ['repeat'] = has_level and meta['repeat'] and meta['repeat'] > 0,
-                        ['index'] = meta._has_index and (meta.index+1) or meta.index,
-                        ['appendindex'] = meta.appendindex,
-                    }
-                end
-                txt_read(datas[type], txt, unit, txt_keys, txt_meta, type)
+        end
+        if keyconvert.profile then
+            local txt_keys = {}
+            local txt_meta = {}
+            for key, id in pairs(keyconvert.profile) do
+                local meta = metadata[id]
+                txt_keys[#txt_keys+1] = key
+                txt_meta[#txt_meta+1] = {
+                    ['type'] = w2l:get_id_type(meta.type),
+                    ['repeat'] = has_level and meta['repeat'] and meta['repeat'] > 0,
+                    ['index'] = meta._has_index and (meta.index+1) or meta.index,
+                    ['appendindex'] = meta.appendindex,
+                }
             end
+            txt_read(datas[type], txt, unit, txt_keys, txt_meta, type)
         end
         count = count + 1
         progress(count / 7)
