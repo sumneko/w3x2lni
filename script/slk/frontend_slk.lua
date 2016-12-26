@@ -29,14 +29,14 @@ local function to_type(tp, value)
         return wtonumber(value) + 0.0
     elseif tp == 3 then
         if not value then
-            return nil
+            return ''
         end
         if value == '' then
             return value
         end
         value = tostring(value)
         if not value:match '[^ %-%_]' then
-            return nil
+            return ''
         end
         return value
     end
@@ -166,20 +166,28 @@ local function txt_read_data(name, obj, key, meta, txt)
 
     local value = txt and txt[key]
     if not value or #value == 0 then
-        obj[key] = to_type(meta.type)
+        if meta['repeat'] then
+            obj[key] = {to_type(meta.type)}
+        else
+            obj[key] = to_type(meta.type)
+        end
         return
     end
-    if meta['index'] == -1 and #value > 1 then
-        obj[key] = table_concat(value, ',')
+    if meta['index'] == -1 then
+        if #value > 1 then
+            obj[key] = table_concat(value, ',')
+        else
+            obj[key] = to_type(meta.type, value[1])
+        end
         return
     end
-    if not meta['repeat'] then
+    if meta['repeat'] then
+        obj[key] = {}
+        for i = 1, #value do
+            obj[key][i] = value[i]
+        end
+    else
         obj[key] = to_type(meta.type, value[1])
-        return
-    end
-    obj[key] = {}
-    for i = 1, #value do
-        obj[key][i] = value[i]
     end
 end
 
