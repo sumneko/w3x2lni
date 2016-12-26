@@ -186,7 +186,7 @@ end
 
 function mt:get_comment(id)
 	local comment = metadata[id].displayname
-	return self.w2l:editstring(comment)
+	return self.w2l:editstring(comment):gsub('^%s*(.-)%s*$', '%1')
 end
 
 return function (w2l, type, data)
