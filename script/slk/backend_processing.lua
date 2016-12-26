@@ -38,16 +38,21 @@ local function can_remove(is_slk, ttype, level, key)
     return true
 end
 
-local function remove_same(key, data, default, obj, is_slk, ttype)
+local function remove_same(key, data, default, obj, is_slk, ttype, is_remove_same)
     local dest = default[key]
     if type(dest) == 'table' then
+        local new_data = {}
         for i = 1, #data do
-            if data[i] == dest[i] and can_remove(is_slk, ttype, i, key) then
-                data[i] = nil
+            if data[i] ~= dest[i] or not can_remove(is_slk, ttype, i, key) then
+                new_data[i] = data[i]
             end
         end
-        if not next(data) then
+        if not next(new_data) then
             obj[key] = nil
+            return
+        end
+        if is_remove_same then
+            obj[key] = new_data
         end
     else
         if not is_slk and data == dest then
@@ -68,9 +73,7 @@ local function clean_obj(name, obj, type, default, config)
             if is_remove_exceeds_level and max_level then
                 remove_exceeds_level(data, max_level)
             end
-            if is_remove_same then
-                remove_same(key, data, default, obj, is_slk, type)
-            end
+            remove_same(key, data, default, obj, is_slk, type, is_remove_same)
         end
     end
 end
