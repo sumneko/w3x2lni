@@ -51,33 +51,33 @@ local mark_known_type
 local once = {}
 local current_root = {'', '%s%s'}
 
-local function slk_object_name(o)
+local function get_displayname(o)
     if o._type == 'buff' then
-        return o.bufftip or o.editorname or ''
+        return o._id, o.bufftip or o.editorname or ''
     elseif o._type == 'upgrade' then
-        return o.name[1] or ''
+        return o._id, o.name[1] or ''
     else
-        return o.name or ''
+        return o._id, o.name or ''
     end
 end
 
-local function slk_all(slk, id)
+local function get_displayname_by_id(slk, id)
     id = id:lower()
-    return slk.ability[id]
+    local o = slk.ability[id]
            or slk.unit[id]
            or slk.buff[id]
            or slk.item[id]
            or slk.destructable[id]
            or slk.doodad[id]
            or slk.upgrade[id]
+    if not o then
+        return id, '<unknown>'
+    end
+    return get_displayname(o)
 end
 
 local function format_marktip(slk, marktip)
-    local p = slk_all(slk, marktip[1])
-    if not p then
-        return marktip[2]:format('<unknown>', marktip[1])
-    end
-    return marktip[2]:format(slk_object_name(p), p._id)
+    return marktip[2]:format(get_displayname_by_id(slk, marktip[1]))
 end
 
 local function split(str)
