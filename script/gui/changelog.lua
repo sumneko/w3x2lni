@@ -36,6 +36,4 @@ return function(window_, canvas_)
 	log('FIX', '修正无法读取南瓜头生成的txt的问题')
 	log('FIX', '修正读取0级技能会出错的问题')
 	log('FIX', '修正详情里的tip被截断的问题')
-	log('FIX', '修正部分选项会被重置的问题')
-	log('FIX', '修正字符串可能出现差异的问题')
 end
