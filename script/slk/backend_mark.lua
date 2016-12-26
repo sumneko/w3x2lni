@@ -168,7 +168,7 @@ local function mark_jass(slk, list, flag)
         end
     end
     if flag.creeps or flag.building then
-        local maptile = slk.w3i.map_main_ground_type
+        local maptile = slk.w3i['地形']['地形类型']
         local search_marketplace = flag.marketplace and flag.item
         flag.marketplace = nil
         for _, obj in pairs(slk.unit) do
