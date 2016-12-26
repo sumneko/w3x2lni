@@ -1,3 +1,28 @@
+local function get_displayname(o)
+    if o._type == 'buff' then
+        return o._id, o.bufftip or o.editorname or ''
+    elseif o._type == 'upgrade' then
+        return o._id, o.name[1] or ''
+    else
+        return o._id, o.name or ''
+    end
+end
+
+local function get_displayname_by_id(slk, id)
+    id = id:lower()
+    local o = slk.ability[id]
+           or slk.unit[id]
+           or slk.buff[id]
+           or slk.item[id]
+           or slk.destructable[id]
+           or slk.doodad[id]
+           or slk.upgrade[id]
+    if not o then
+        return id, '<unknown>'
+    end
+    return get_displayname(o)
+end
+
 local function get_value(t, key)
 	local value = t[key]
 	if value and type(value) ~= 'table' then
@@ -72,13 +97,13 @@ local function computed_value(slk, str, name)
         end
         return math.floor(res)
     end
-    message('-report', '公式计算失败:', name)
+    message('-report', '公式计算失败在', get_displayname_by_id(slk, id))
     message('-tip', ('<%s>'):format(str))
     return res
 end
 
-local function computed(slk, input, name)
-    return input:gsub('<([^>]*)>', function(str) return computed_value(slk, str, name) end)
+local function computed(slk, input, id)
+    return input:gsub('<([^>]*)>', function(str) return computed_value(slk, str, id) end)
 end
 
 return function(w2l, slk)
