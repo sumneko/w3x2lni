@@ -29,14 +29,14 @@ local function to_type(tp, value)
         return wtonumber(value) + 0.0
     elseif tp == 3 then
         if not value then
-            return nil
+            return ''
         end
         if value == '' then
             return value
         end
         value = tostring(value)
         if not value:match '[^ %-%_]' then
-            return nil
+            return ''
         end
         return value
     end
