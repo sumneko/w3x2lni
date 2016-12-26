@@ -55,7 +55,7 @@ local function remove_nil_value(key, id, obj, default, max_level)
                 end
                 data[i] = default_value or 0.0
             else
-                if default_value then
+                if dest and dest[i] then
                     data[i] = ''
                 end
             end
