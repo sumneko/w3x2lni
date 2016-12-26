@@ -31,7 +31,7 @@ local function remove_nil_value(key, id, obj, default, max_level)
         data = {}
         obj[key] = data
     end
-    local default_value = 0
+    local default_value
     local default_level = 0
     if dest then
         default_level = #dest
@@ -44,13 +44,20 @@ local function remove_nil_value(key, id, obj, default, max_level)
     end
     for i = 1, max_level do
         if not data[i] then
-            if tp == 0 or tp == 1 or tp == 2 then
+            if tp == 0 then
                 if i <= default_level then
                     error('value level error')
                 end
-                data[i] = default_value
+                data[i] = default_value or 0
+            elseif tp == 1 or tp == 2 then
+                if i <= default_level then
+                    error('value level error')
+                end
+                data[i] = default_value or 0.0
             else
-                data[i] = ''
+                if default_value then
+                    data[i] = ''
+                end
             end
         end
     end
