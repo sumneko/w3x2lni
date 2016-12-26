@@ -7,6 +7,15 @@ local min_rate = 0
 local max_rate = 1
 local min = {}
 local max = {}
+local progress = 0
+
+local function send_progress()
+    local newprogress = current * (max_rate - min_rate) + min_rate
+    if progress + 0.01 < newprogress then
+        message('-progress', newprogress)
+        progress = newprogress
+    end
+end
 
 local function refresh_rate()
     min_rate = 0
@@ -15,7 +24,6 @@ local function refresh_rate()
         min_rate = min_rate * (max[i] - min[i]) + min[i]
         max_rate = max_rate * (max[i] - min[i]) + min[i]
     end
-    message('-progress', current * (max_rate - min_rate) + min_rate)
 end
 
 -- 开启新任务,新任务完成时当前任务的完成进度
@@ -32,12 +40,13 @@ function mt:finish()
     current = max[level]
     level = level - 1
     refresh_rate()
+    send_progress()
 end
 
 -- 设置当前任务进度
 function mt:__call(n)
     current = n
-    message('-progress', current * (max_rate - min_rate) + min_rate)
+    send_progress()
 end
 
 return mt
