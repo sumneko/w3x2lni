@@ -33,7 +33,7 @@ local mustuse =  {
         'afir','afih','afio','afin','afiu'
     },
     buff = {
-        'bpse','bstn','btlf','bdet','bvul','bspe','bfro','bsha','btrv','bbar','xbdt','xbli','xdis','xfhs','xfhm','xfhl','xfos','xfom','xfol','xfns','xfnm','xfnl','xfus','xfum','xful','bchd','bmil','bpxf','bphx','bhav','barm','bens','bstt','bcor','buns','bust','biwb','xesn','bivs','buad' 
+        'bpse','bstn','btlf','bdet','bvul','bspe','bfro','bsha','btrv','xbdt','xbli','xdis','xfhs','xfhm','xfhl','xfos','xfom','xfol','xfns','xfnm','xfnl','xfus','xfum','xful','bmil','bpxf','bphx','bhav','barm','bens','bstt','bcor','buns','bust','xesn','bivs', 
     },
 }
 
