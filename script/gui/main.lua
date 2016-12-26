@@ -272,18 +272,18 @@ local function window_convert(canvas)
 	if fmt == 'lni' or fmt == 'obj' then
 		height = height - 34
 		canvas:layout_row_dynamic(30, 1)
-		checkbox_simple(canvas, '读取slk文件', '', 'read_slk')
+		checkbox_simple(canvas, '读取slk文件', '外部导入的slk文件，如万能属性', 'read_slk')
 	else
 		height = height - 90
 		canvas:layout_row_dynamic(30, 1)
 		checkbox_simple(canvas, '简化', '删除没有使用的对象', 'remove_unuse_object')
 		checkbox_simple(canvas, '压缩模型', '有损压缩', 'mdx_squf')
-		checkbox_simple(canvas, '删除只在WE中使用的文件', '', 'remove_we_only')
+		checkbox_simple(canvas, '删除只在WE中使用的文件', '编辑器和本工具都将无法打开此地图', 'remove_we_only')
 	end
 	canvas:layout_row_dynamic(10, 1)
 	canvas:tree('高级', 1, function()
 		canvas:layout_row_dynamic(30, 1)
-		if checkbox_tip(canvas, '限制搜索最优模板的次数', '', config[fmt].find_id_times ~= 0) then
+		if checkbox_tip(canvas, '限制搜索最优模板的次数', '次数越多质量越好，但某些地图搜索会很慢', config[fmt].find_id_times ~= 0) then
 			if config[fmt].find_id_times == 0 then
 				config[fmt].find_id_times = 10
 			else
