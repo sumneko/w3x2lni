@@ -346,7 +346,12 @@ return function (w2l, archive, slk)
         archive:set('war3map.w3r', false)
         archive:set('war3map.w3c', false)
         archive:set('war3mapunits.doo', false)
+    else
+        if not archive:get 'war3mapunits.doo' then
+            archive:set('war3mapunits.doo', w2l:create_unitsdoo())
+        end
     end
+
 
     message('重新生成字符串...')
 	local content = slk.wts:refresh()
