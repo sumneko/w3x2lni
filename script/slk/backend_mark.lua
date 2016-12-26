@@ -1,13 +1,48 @@
 local std_type = type
 local mustuse =  {
-    ability = { 'avul','adda','aalr','aatk','anbu','ahbu','aobu','aebu','aubu','agbu','abdt','argd','aher','arev','aral','amnz','acsp','sloa','aetl','amov','afir','afih','afio','afin','afiu' },
-    buff = { 'bpse','bstn','btlf','bdet','bvul','bspe','bfro','bsha','btrv','bbar','xbdt','xbli','xdis','xfhs','xfhm','xfhl','xfos','xfom','xfol','xfns','xfnm','xfnl','xfus','xfum','xful','bchd','bmil','bpxf','bphx','bhav','barm','bens','bstt','bcor','buns','bust','biwb','xesn','bivs','buad' },
+    ability = {
+        -- 无敌
+        'avul',
+        -- 范围性攻击伤害
+        'adda','amnz',
+        -- 警报
+        'aalr',
+        -- 攻击
+        'aatk',
+        -- 建造
+        'anbu','ahbu','aobu','aebu','aubu','agbu',
+        -- 地洞探测
+        'abdt',
+        -- 送回黄金
+        'argd',
+        -- 英雄
+        'aher',
+        -- 复活英雄
+        'arev',
+        -- 集结
+        'aral',
+        -- 睡眠
+        'acsp',
+        -- 装载
+        'sloa',
+        -- 虚无
+        'aetl',
+        -- 移动
+        'amov',
+        -- 开火
+        'afir','afih','afio','afin','afiu'
+    },
+    buff = {
+        'bpse','bstn','btlf','bdet','bvul','bspe','bfro','bsha','btrv','bbar','xbdt','xbli','xdis','xfhs','xfhm','xfhl','xfos','xfom','xfol','xfns','xfnm','xfnl','xfus','xfum','xful','bchd','bmil','bpxf','bphx','bhav','barm','bens','bstt','bcor','buns','bust','biwb','xesn','bivs','buad' 
+    },
 }
 
 local mustmark = {
-Asac = { 'ushd', 'unit' },
-Alam = { 'ushd', 'unit' },
-Aspa = { 'bspa', 'buff' },
+    -- 牺牲深渊 => 阴影
+    Asac = { 'ushd', 'unit' },
+    Alam = { 'ushd', 'unit' },
+    -- 蜘蛛攻击
+    Aspa = { 'bspa', 'buff' },
 }
 
 local slk
