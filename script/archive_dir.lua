@@ -1,6 +1,5 @@
 local stormlib = require 'ffi.stormlib'
 local progress = require 'progress'
-local w3xparser = require 'w3xparser'
 
 local os_clock = os.clock
 
@@ -77,11 +76,7 @@ function mt:save(slk, info, config)
         if not fs.exists(dir) then
             fs.create_directories(dir)
         end
-        if config.mdx_squf and (name:sub(-4) == '.mdx' or name:sub(-4) == '.mdl') then
-            io.save(path, w3xparser.mdxopt(file))
-        else
-            io.save(path, file)
-        end
+        io.save(path, file)
         count = count + 1
 		if os_clock() - clock >= 0.1 then
             clock = os_clock()

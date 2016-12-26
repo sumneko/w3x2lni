@@ -1,4 +1,5 @@
 local progress = require 'progress'
+local w3xparser = require 'w3xparser'
 
 local os_clock = os.clock
 
@@ -324,18 +325,18 @@ return function (w2l, archive, slk)
 
     message('转换脚本...')
     w2l:backend_convertjass(archive, slk.wts)
-    progress(0.94)
+    progress(0.92)
 
     message('转换其他文件...')
     archive:set('war3mapmisc.txt', w2l:backend_misc(slk.misc, slk.txt, slk.wts))
-    progress(0.96)
+    progress(0.94)
 
     local buf = archive:get 'war3mapskin.txt'
     if buf then
         local skin = w2l:parse_ini(buf)
         archive:set('war3mapskin.txt', w2l:backend_skin(skin, slk.wts))
     end
-    progress(0.98)
+    progress(0.96)
 
     if w2l.config.remove_we_only then
         archive:set('war3map.wtg', false)
@@ -347,7 +348,6 @@ return function (w2l, archive, slk)
         archive:set('war3mapunits.doo', false)
     end
 
-	--刷新字符串
     message('重新生成字符串...')
 	local content = slk.wts:refresh()
     if #content > 0 then
@@ -358,6 +358,16 @@ return function (w2l, archive, slk)
 
     for _, name in ipairs(w2l.info.pack.packignore) do
         archive:set(name, false)
+    end
+    progress(0.98)
+
+    if w2l.config.mdx_squf then
+        message('压缩模型...')
+        for name, file in pairs(archive) do
+            if name:sub(-4) == '.mdx' then
+                archive:set(name, w3xparser.mdxopt(file))
+            end
+        end
     end
     progress(1)
 end
