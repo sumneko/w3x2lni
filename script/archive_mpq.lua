@@ -1,5 +1,6 @@
 local stormlib = require 'ffi.stormlib'
 local progress = require 'progress'
+local w3xparser = require 'w3xparser'
 
 local os_clock = os.clock
 
@@ -86,7 +87,11 @@ function mt:save(slk, info, config)
     end
     local clock = os_clock()
     for i, name in ipairs(files) do
-        self.handle:save_file(name, self.cache[name])
+        if config.mdx_squf and (name:sub(-4) == '.mdx' or name:sub(-4) == '.mdl') then
+            self.handle:save_file(name, w3xparser.mdxopt(self.cache[name]))
+        else
+            self.handle:save_file(name, self.cache[name])
+        end
 		if os_clock() - clock >= 0.1 then
             clock = os_clock()
             progress(i / #files)
@@ -94,7 +99,7 @@ function mt:save(slk, info, config)
 		end
     end
 
-    if not config or not config.remove_we_only then
+    if not config.remove_we_only then
         local hex = {}
         hex[1] = ('ll'):pack(1, #imp)
         for _, name in ipairs(imp) do
