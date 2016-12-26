@@ -187,7 +187,6 @@ local function window_select(canvas)
 		window:set_title('W3x2Lni')
 		config.target_format = 'lni'
 		config.lni.target_storage = 'dir'
-		config.lni.read_slk = false
 		config.lni.remove_same = false
 		config.lni.remove_exceeds_level = false
 		config.lni.remove_we_only = false
@@ -220,7 +219,6 @@ local function window_select(canvas)
 		window:set_title('W3x2Obj')
 		config.target_format = 'obj'
 		config.obj.target_storage = 'map'
-		config.obj.read_slk = false
 		config.obj.remove_same = true
 		config.obj.remove_exceeds_level = false
 		config.obj.remove_we_only = false
