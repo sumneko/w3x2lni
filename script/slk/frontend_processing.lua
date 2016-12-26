@@ -10,21 +10,38 @@ local unit_list
 local metadata
 local keydata
 
-local function remove_nil_value(key, id, data, default, max_level)
-    if type(data) ~= 'table' then
+local function remove_nil_value(key, id, obj, default, max_level)
+    local data = obj[key]
+    local meta = metadata[id]
+    local tp = w2l:get_id_type(meta.type)
+    local dest = default[key]
+    if not meta['repeat'] or meta['repeat'] == 0 then
+        if not data and dest then
+            if tp == 0 then
+                obj[key] = 0
+            elseif tp == 1 or tp == 2 then
+                obj[key] = 0.0
+            else
+                obj[key] = ''
+            end
+        end
         return
+    end
+    if not data then
+        data = {}
+        obj[key] = data
     end
     local default_value = 0
     local default_level = 0
-    local dest = default[key]
     if dest then
         default_level = #dest
     end
     if default_level > 0 then
         default_value = dest[default_level]
+        if max_level < default_level then
+            max_level = default_level
+        end
     end
-    local meta = metadata[id]
-    local tp = w2l:get_id_type(meta.type)
     for i = 1, max_level do
         if not data[i] then
             if tp == 0 or tp == 1 or tp == 2 then
@@ -32,6 +49,8 @@ local function remove_nil_value(key, id, data, default, max_level)
                     error('value level error')
                 end
                 data[i] = default_value
+            else
+                data[i] = ''
             end
         end
     end
@@ -43,11 +62,11 @@ local function fill_obj(name, obj, type, default, config)
     local max_level = obj._max_level
     local default = default[parent]
     for key, id in pairs(keydata.common) do
-        remove_nil_value(key, id, obj[key], default, max_level)
+        remove_nil_value(key, id, obj, default, max_level)
     end
     if keydata[code] then
         for key, id in pairs(keydata[code]) do
-            remove_nil_value(key, id, obj[key], default, max_level)
+            remove_nil_value(key, id, obj, default, max_level)
         end
     end
 end
