@@ -189,7 +189,7 @@ local function window_select(canvas)
 		config.lni.target_storage = 'dir'
 		config.lni.read_slk = false
 		config.lni.remove_same = false
-		config.lni.remove_exceeds_level = false
+		config.lni.remove_exceeds_level = true
 		config.lni.remove_we_only = false
 		config.lni.remove_unuse_object = false
 		config.lni.mdx_squf = false
@@ -222,7 +222,7 @@ local function window_select(canvas)
 		config.obj.target_storage = 'map'
 		config.obj.read_slk = false
 		config.obj.remove_same = true
-		config.obj.remove_exceeds_level = false
+		config.obj.remove_exceeds_level = true
 		config.obj.remove_we_only = false
 		config.obj.remove_unuse_object = false
 		config.lni.mdx_squf = false
