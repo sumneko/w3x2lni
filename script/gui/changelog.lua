@@ -25,13 +25,15 @@ end
 return function(window_, canvas_)
     window = window_
     canvas = canvas_
-	version('1.0.1')
-	log('NEW', '支持模型压缩')
-	log('NEW', '无法放在txt中的字符串会放在wts里')
+	version('1.1')
+	log('NEW', '支持模型压缩', '有损压缩')
+	log('NEW', '无法放在txt中的字符串会放在wts里', '尽量不要同时包含逗号和双引号')
 	log('NEW', '增加部分选项的提示')
 	log('CHG', '重要的详情现在会更加显眼')
 	log('CHG', '必须保留列表移除一些对象', 'Bbar、Bchd、Buad、Biwb')
 	log('FIX', '修正无法读取南瓜头生成的txt的问题')
 	log('FIX', '修正读取0级技能会出错的问题')
 	log('FIX', '修正详情里的tip被截断的问题')
+	log('FIX', '修正部分选项会被重置的问题')
+	log('FIX', '修正字符串可能出现差异的问题')
 end
