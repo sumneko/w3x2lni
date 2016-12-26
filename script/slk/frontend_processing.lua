@@ -147,24 +147,25 @@ local function parse_obj(name, obj, default, config, ttype)
     local count
     local find_times = config.find_id_times
     local maybe = find_para(name, obj, default, ttype)
-    if type(maybe) ~= 'table' then
-        obj._lower_parent = maybe
-        return
-    end
-
-    for try_name in pairs(maybe) do
-        local new_count = try_obj(obj, default[try_name])
-        if not count or count > new_count or (count == new_count and parent > try_name) then
-            count = new_count
-            parent = try_name
+    if type(maybe) == 'table' then
+        for try_name in pairs(maybe) do
+            local new_count = try_obj(obj, default[try_name])
+            if not count or count > new_count or (count == new_count and parent > try_name) then
+                count = new_count
+                parent = try_name
+            end
+            find_times = find_times - 1
+            if find_times == 0 then
+                break
+            end
         end
-        find_times = find_times - 1
-        if find_times == 0 then
-            break
-        end
+    else
+        parent = maybe
     end
 
     obj._lower_parent = parent
+    obj._parent = default[parent]._id
+    obj._code = default[parent]._code
 end
 
 local function processing(w2l, type, chunk)
