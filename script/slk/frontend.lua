@@ -157,7 +157,7 @@ local function load_lni(w2l, archive)
     return lnis
 end
 
-local function update_then_merge(datas, objs, lnis, slk)
+local function update_then_merge(w2l, datas, objs, lnis, slk)
     local i = 0
     for type, data in pairs(datas) do
         local obj = objs[type] or {}
@@ -194,7 +194,7 @@ return function(w2l, archive, slk)
     
     message('合并物编数据...')
     progress:start(0.5)
-    update_then_merge(datas, objs, lnis, slk)
+    update_then_merge(w2l, datas, objs, lnis, slk)
     progress:finish()
     slk.txt = txt
     w2l:frontend_misc(archive, slk)
