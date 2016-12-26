@@ -166,10 +166,14 @@ local function txt_read_data(name, obj, key, meta, txt)
 
     local value = txt and txt[key]
     if not value or #value == 0 then
+        local value = to_type(meta.type)
+        if not value then
+            return
+        end
         if meta['repeat'] then
-            obj[key] = {to_type(meta.type)}
+            obj[key] = {value}
         else
-            obj[key] = to_type(meta.type)
+            obj[key] = value
         end
         return
     end
