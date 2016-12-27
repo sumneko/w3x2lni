@@ -33,7 +33,16 @@ local mustuse =  {
         'afir','afih','afio','afin','afiu'
     },
     buff = {
-        'bpse','bstn','btlf','bdet','bvul','bspe','bfro','bsha','btrv','xbdt','xbli','xdis','xfhs','xfhm','xfhl','xfos','xfom','xfol','xfns','xfnm','xfnl','xfus','xfum','xful','bmil','bpxf','bphx','bhav','barm','bens','bstt','bcor','buns','bust','xesn','bivs', 
+        'bpse','bstn','btlf','bdet',
+        'bvul','bspe','bfro','bsha',
+        'btrv','xbdt','xbli','xdis',
+        'bpxf','bphx','bens','bstt',
+        'bcor','buns','bust','xesn','bivs', 
+        -- 建筑物伤害
+        'xfhs','xfhm','xfhl',
+        'xfos','xfom','xfol',
+        'xfns','xfnm','xfnl',
+        'xfus','xfum','xful',
     },
 }
 
@@ -43,6 +52,10 @@ local mustmark = {
     Alam = { 'ushd', 'unit' },
     -- 蜘蛛攻击
     Aspa = { 'bspa', 'buff' },
+    -- 战斗号召
+    Amil = { 'bmil', 'buff' },
+    -- 天神下凡
+    AHav = { 'bhav', 'buff' },
 }
 
 local slk

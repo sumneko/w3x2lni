@@ -50,6 +50,8 @@ return function(window_, canvas_)
 	canvas = canvas_
 	version_begin()
 	version('1.2', function()
+		log('CHG', '变身技能的buff引用改为搜索', 'Amil、AHav')
+		log('CHG', '必须保留列表移除一些对象', 'Barm')
 		log('FIX', '修正部分技能的引用分析错误的问题', 'Acoi、Acoh')
 		log('FIX', '修正lpeg模块加载失败的问题')
 	end)
