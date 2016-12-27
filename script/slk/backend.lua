@@ -366,9 +366,9 @@ return function (w2l, archive, slk)
 
     if w2l.config.mdx_squf then
         message('压缩模型...')
-        for name, file in pairs(archive) do
-            if name:sub(-4) == '.mdx' then
-                archive:set(name, w3xparser.mdxopt(file))
+        for filename in pairs(archive) do
+            if filename:sub(-4) == '.mdx' then
+                archive:set(filename, w3xparser.mdxopt(archive:get(filename)))
             end
         end
     end
