@@ -99,7 +99,7 @@ local function load_slk(w2l, archive, force_slk)
         local datas, txt = w2l:frontend_slk(function(name)
             local buf = archive:get(name)
             if buf then
-                archive:remove(name)
+                archive:set(name, false)
                 return buf
             end
             return io.load(w2l.mpq / name)
@@ -135,7 +135,7 @@ local function load_obj(w2l, archive, wts)
             if force then
                 force_slk = true
             end
-             archive:remove(name)
+             archive:set(name, false)
         end
     end
     return objs, force_slk
@@ -151,7 +151,7 @@ local function load_lni(w2l, archive)
             message('正在转换', name)
             lnis[type] = w2l:frontend_lni(type, buf)
             progress(count / 7)
-            archive:remove(name)
+            archive:set(name, false)
         end
     end
     return lnis
