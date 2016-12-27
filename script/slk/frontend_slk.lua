@@ -89,9 +89,6 @@ local function slk_read_obj(obj, name, data, keys, metas)
     if data.code then
         obj._code = data.code
     end
-    if not obj._parent then
-        obj._parent = name
-    end
     if slk_type == 'unit' and not obj._name then
         obj._name = data.name  -- 单位的反slk可以用name作为线索
     end
@@ -110,12 +107,19 @@ end
 
 local function slk_read(table, slk, keys, metas, update_level, type)
     for name, data in pairs(slk) do
-        if not table[name] then
-            table[name] = {}
-            table[name]._id = name
-            table[name]._type = type
+        local lname
+        if type == 'buff' then
+            lname = string_lower(name)
+        else
+            lname = name
         end
-        local obj = table[name]
+        if not table[lname] then
+            table[lname] = {}
+            table[lname]._id = name
+            table[lname]._type = type
+            table[lname]._parent = name
+        end
+        local obj = table[lname]
         slk_read_obj(obj, name, data, keys, metas)
         if update_level then
             obj._max_level = obj[update_level]

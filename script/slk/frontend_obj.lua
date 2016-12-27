@@ -114,7 +114,11 @@ local function read_obj(chunk, type)
 	for i = 1, count do
 		read_data(obj)
 	end
-	chunk[name] = obj
+	if type == 'buff' then
+		chunk[string_lower(name)] = obj
+	else
+		chunk[name] = obj
+	end
 	obj._max_level = obj[has_level]
     if obj._max_level == 0 then
         obj._max_level = 1

@@ -28,7 +28,11 @@ end
 
 local function convert(data, type, level_key, lni)
     for name, obj in pairs(lni) do
-        data[name] = add_obj(type, name, level_key, obj)
+        if type == 'buff' then
+            data[string_lower(name)] = add_obj(type, name, level_key, obj)
+        else
+            data[name] = add_obj(type, name, level_key, obj)
+        end
     end
 end
 
