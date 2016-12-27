@@ -24,7 +24,7 @@ local mustuse =  {
         -- 睡眠
         'ACsp',
         -- 装载
-        'sloa',
+        'Sloa',
         -- 虚无
         'Aetl',
         -- 移动
@@ -51,11 +51,11 @@ local mustmark = {
     Asac = { 'ushd', 'unit' },
     Alam = { 'ushd', 'unit' },
     -- 蜘蛛攻击
-    Aspa = { 'bspa', 'buff' },
+    Aspa = { 'Bspa', 'buff' },
     -- 战斗号召
-    Amil = { 'bmil', 'buff' },
+    Amil = { 'Bmil', 'buff' },
     -- 天神下凡
-    AHav = { 'bhav', 'buff' },
+    AHav = { 'BHav', 'buff' },
 }
 
 local slk
