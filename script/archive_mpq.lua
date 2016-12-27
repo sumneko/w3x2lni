@@ -31,7 +31,7 @@ local function get_map_flag(w3i)
          | w3i['选项']['未知9']           << 21
 end
 
-local function create_map(path, w3i)
+local function create_map(path, w3i, n, remove_we_only)
     local hexs = {}
     hexs[#hexs+1] = ('c4'):pack('HM3W')
     hexs[#hexs+1] = ('c4'):pack('\0\0\0\0')
@@ -39,6 +39,7 @@ local function create_map(path, w3i)
     hexs[#hexs+1] = ('l'):pack(get_map_flag(w3i))
     hexs[#hexs+1] = ('l'):pack(w3i and w3i['玩家']['玩家数量'] or 233)
     io.save(path, table.concat(hexs))
+    return stormlib.create(path, n, remove_we_only)
 end
 
 local mt = {}
@@ -46,22 +47,12 @@ mt.__index = mt
 
 function mt:has_file(filename)
     local ok = self.handle:has_file(filename)
-    if ok then
-        if not self.listfile[filename] then
-            self.listfile[filename] = true
-            self.file_number = self.file_number + 1
-        end
-    end
     return ok
 end
 
 function mt:load_file(filename)
     local buf = self.handle:load_file(filename)
     if buf then
-        if not self.listfile[filename] then
-            self.listfile[filename] = true
-            self.file_number = self.file_number + 1
-        end
         return buf
     end
     return false
@@ -99,35 +90,54 @@ function mt:close()
 end
 
 function mt:save(input, slk, info, config)
-    for name, buf in pairs(input) do
-        self:set(name, buf)
-    end
-    if not input:sucess() then
-        -- do nothing
-    end
-
-    create_map(self.path, slk.w3i)
-
     local impignore = info and info.pack.impignore
     local files = {}
     local imp = {}
-    for name in pairs(self.cache) do
-        files[#files+1] = name
-        if not impignore[name] then
-            imp[#imp+1] = name
+    local listfile = {}
+    local cache = input.cache
+    local ignore = input.ignore_file
+    for filename, v in pairs(cache) do
+        if v and not listfile[filename] then
+            listfile[filename] = true
+            files[#files+1] = filename
+            if not impignore[filename] then
+                imp[#imp+1] = filename
+            end
+        end
+    end
+    for filename in pairs(input) do
+        if not listfile[filename] and not ignore[filename] and cache[filename] ~= false then
+            listfile[filename] = true
+            files[#files+1] = filename
+            if not impignore[filename] then
+                imp[#imp+1] = filename
+            end
         end
     end
     table.sort(files)
     table.sort(imp)
 
-    self.handle = stormlib.create(self.path, #files + 8, config.remove_we_only)
+    if input.handle then
+        local total = input.handle:number_of_files()
+        if #files < total then
+            message('-report|error', ('还有%d个文件没有读取'):format(total - #files))
+            message('-tip', '这些文件被丢弃了,请包含完整(listfile)')
+            message('-report|error', ('读取(%d/%d)个文件'):format(#files, total))
+        end
+    end
+
+    self.handle = create_map(self.path, slk.w3i, n, remove_we_only)
     if not self.handle then
         message('创建新地图失败,可能文件被占用了')
         return
     end
     local clock = os_clock()
-    for i, name in ipairs(files) do
-        self.handle:save_file(name, self.cache[name])
+    for i, filename in ipairs(files) do
+        if cache[filename] then
+            self.handle:save_file(filename, cache[filename])
+        else
+            self.handle:save_file(filename, input:load_file(filename))
+        end
 		if os_clock() - clock >= 0.1 then
             clock = os_clock()
             progress(i / #files)
@@ -147,36 +157,7 @@ function mt:save(input, slk, info, config)
 end
 
 function mt:__pairs()
-    local cache = self.cache
-    local ignore = self.ignore_file
-    if not self.cached_all then
-        self.cached_all = true
-        for filename in pairs(self.handle) do
-            local filename = filename:lower()
-            if not ignore[filename] and cache[filename] == nil then
-                cache[filename] = load_file(self, filename)
-            end
-        end
-    end
-    local function next_file(_, key)
-        local new_key, value = next(cache, key)
-        if value == false then
-            return next_file(cache, new_key)
-        end
-        return new_key, value
-    end
-    return next_file, cache
-end
-
-function mt:sucess()
-    local total = self.handle:number_of_files()
-    if self.file_number < total then
-        message('-report|error', ('还有%d个文件没有读取'):format(total - self.file_number))
-        message('-tip', '这些文件被丢弃了,请包含完整(listfile)')
-        message('-report|error', ('读取(%d/%d)个文件'):format(self.file_number, total))
-        return false
-    end
-    return true
+    return pairs(self.handle)
 end
 
 return function (pathorhandle, tp)
@@ -195,8 +176,6 @@ return function (pathorhandle, tp)
             message('不支持没有(listfile)的地图')
             return nil
         end
-        ar.listfile = {}
-        ar.file_number = 0
         ar.ignore_file = {}
     end
     return setmetatable(ar, mt)
