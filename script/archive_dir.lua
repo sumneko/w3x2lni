@@ -38,10 +38,6 @@ function mt:set(filename, content)
     self.cache[filename] = content
 end
 
-function mt:remove(filename)
-    self.cache[filename] = false
-end
-
 function mt:ignore(filename)
     self.cache[filename] = false
 end

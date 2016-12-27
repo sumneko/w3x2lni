@@ -71,13 +71,6 @@ function mt:set(filename, content)
     self.cache[filename] = content
 end
 
-function mt:remove(filename)
-    local filename = filename:lower()
-    self.remove_file[filename] = true
-    self.ignore_file[filename] = true
-    self.cache[filename] = nil
-end
-
 function mt:ignore(filename)
     local filename = filename:lower()
     self.ignore_file[filename] = true
@@ -203,7 +196,6 @@ return function (pathorhandle, tp)
         end
         ar.listfile = {}
         ar.file_number = 0
-        ar.remove_file = {}
         ar.ignore_file = {}
     end
     return setmetatable(ar, mt)
