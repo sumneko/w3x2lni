@@ -117,7 +117,7 @@ local function slk_read(table, slk, keys, metas, update_level, type)
             table[lname] = {}
             table[lname]._id = name
             table[lname]._type = type
-            table[lname]._parent = name
+            table[lname]._parent = lname
         end
         local obj = table[lname]
         slk_read_obj(obj, name, data, keys, metas)

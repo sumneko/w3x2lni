@@ -88,7 +88,7 @@ function mt:add_chunk(chunk, type)
     local clock = os_clock()
 	for i = 1, #names do
 		local obj = chunk[names[i]]
-		self:add_obj(obj)
+		self:add_obj(chunk, obj)
         if os_clock() - clock >= 0.1 then
             clock = os_clock()
             message(('正在转换%s: [%s] (%d/%d)'):format(type, obj._id, i, #names))
@@ -97,7 +97,7 @@ function mt:add_chunk(chunk, type)
 	end
 end
 
-function mt:add_obj(obj)
+function mt:add_obj(chunk, obj)
 	if self.remove_unuse_object and not obj._mark then
 		return
 	end
@@ -124,12 +124,12 @@ function mt:add_obj(obj)
         return
     end
 
-	self:add('[%s]', obj['_id'])
-	if obj['_parent'] then
-		self:add('%s = %q', '_id', obj['_parent'])
+	self:add('[%s]', obj._id)
+	if obj._parent then
+		self:add('%s = %q', '_id', chunk[obj._parent]._id)
 	end
-    if obj['_name'] then
-        self:add('%s = %q', '_name', obj['_name'])
+    if obj._name then
+        self:add('%s = %q', '_name', obj._name)
     end
     for i = 1, #lines do
         self:add(table.unpack(lines[i]))

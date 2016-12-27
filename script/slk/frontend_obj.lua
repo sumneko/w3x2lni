@@ -106,9 +106,6 @@ local function read_obj(chunk, type)
 	end
 	obj['_id'] = name
 	obj['_type'] = type
-	if parent then
-		obj['_parent'] = parent
-	end
 
 	local count = unpack 'l'
 	for i = 1, count do
@@ -116,8 +113,14 @@ local function read_obj(chunk, type)
 	end
 	if type == 'buff' then
 		chunk[string_lower(name)] = obj
+		if parent then
+			obj['_parent'] = string_lower(parent)
+		end
 	else
 		chunk[name] = obj
+		if parent then
+			obj['_parent'] = parent
+		end
 	end
 	obj._max_level = obj[has_level]
     if obj._max_level == 0 then

@@ -77,7 +77,7 @@ end
 local function get_displayname_by_id(slk, id)
     local o = slk.ability[id]
            or slk.unit[id]
-           or slk.buff[id]
+           or slk.buff[id:lower()]
            or slk.item[id]
            or slk.destructable[id]
            or slk.doodad[id]
@@ -161,10 +161,16 @@ local function mark_list(slk, o, list)
 end
 
 function mark_known_type(slk, type, name)
-    local o = slk[type][name]
+    local lname = name:lower()
+    local o
+    if type == 'buff' then
+        o = slk[type][lname]
+    else
+        o = slk[type][name]
+    end
     if not o then
-        if slk.txt[name] then
-            slk.txt[name]._mark = current_root
+        if slk.txt[lname] then
+            slk.txt[lname]._mark = current_root
             return true
         end
         return false
