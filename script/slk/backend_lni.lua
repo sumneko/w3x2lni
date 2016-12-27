@@ -75,8 +75,8 @@ function mt:add_chunk(chunk, type)
 		end
 	end
 	table_sort(names, function(name1, name2)
-		local is_origin1 = name1 == chunk[name1]['_lower_parent']
-		local is_origin2 = name2 == chunk[name2]['_lower_parent']
+		local is_origin1 = name1 == chunk[name1]['_parent']
+		local is_origin2 = name2 == chunk[name2]['_parent']
 		if is_origin1 and not is_origin2 then
 			return true
 		end

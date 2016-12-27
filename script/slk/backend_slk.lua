@@ -140,9 +140,7 @@ local function get_names()
     for name in pairs(slk) do
         names[#names+1] = name
     end
-    table_sort(names, function(a, b)
-        return a:lower() < b:lower()
-    end)
+    table_sort(names)
     return names
 end
 

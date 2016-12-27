@@ -62,7 +62,7 @@ local function remove_same(key, data, default, obj, is_slk, ttype, is_remove_sam
 end
 
 local function clean_obj(name, obj, type, default, config)
-    local parent = obj._lower_parent
+    local parent = obj._parent
     local max_level = obj._max_level
     local default = default[parent]
     local is_remove_exceeds_level = config.remove_exceeds_level

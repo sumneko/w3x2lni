@@ -4,7 +4,7 @@ local metadata
 local keydata
 
 local function update_obj(name, obj, data)
-    local parent = obj._lower_parent
+    local parent = obj._parent
     local temp = data[parent]
     local code = temp._code
     obj._code = code

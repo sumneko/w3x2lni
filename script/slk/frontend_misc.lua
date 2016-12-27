@@ -35,16 +35,16 @@ end
 
 local function add_data(id, meta, misc, chunk, slk)
     local name = meta.section
-    local lname = string_lower(name)
-    if not chunk[lname] then
-        chunk[lname] = {
+    if not chunk[name] then
+        chunk[name] = {
             _id = name,
             _code = name,
             _type = 'misc',
         }
     end
-    local obj = chunk[lname]
+    local obj = chunk[name]
     local key = meta.field
+    local lname = string_lower(name)
     local lkey = string_lower(key)
     local value = misc[lname] and misc[lname][lkey] or slk.txt[lname] and slk.txt[lname][lkey]
     if not value then
@@ -67,7 +67,8 @@ local function convert(misc, metadata, slk)
     for id, meta in pairs(metadata) do
         add_data(id, meta, misc, chunk, slk)
     end
-    for lname in pairs(chunk) do
+    for name in pairs(chunk) do
+        local lname = string_lower(name)
         slk.txt[lname] = nil
     end
     return chunk

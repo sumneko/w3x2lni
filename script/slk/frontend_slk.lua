@@ -85,13 +85,12 @@ local function slk_read_private_data(obj, key, meta, data)
     end
 end
 
-local function slk_read_obj(obj, lname, data, keys, metas)
+local function slk_read_obj(obj, name, data, keys, metas)
     if data.code then
         obj._code = data.code
     end
-    if not obj._lower_parent then
-        obj._lower_parent = lname
-        obj._parent = obj._id
+    if not obj._parent then
+        obj._parent = name
     end
     if slk_type == 'unit' and not obj._name then
         obj._name = data.name  -- 单位的反slk可以用name作为线索
@@ -111,14 +110,13 @@ end
 
 local function slk_read(table, slk, keys, metas, update_level, type)
     for name, data in pairs(slk) do
-        local lname = string_lower(name)
-        if not table[lname] then
-            table[lname] = {}
-            table[lname]._id = name
-            table[lname]._type = type
+        if not table[name] then
+            table[name] = {}
+            table[name]._id = name
+            table[name]._type = type
         end
-        local obj = table[lname]
-        slk_read_obj(obj, lname, data, keys, metas)
+        local obj = table[name]
+        slk_read_obj(obj, name, data, keys, metas)
         if update_level then
             obj._max_level = obj[update_level]
             if obj._max_level == 0 then
@@ -195,13 +193,12 @@ local function txt_read_data(name, obj, key, meta, txt)
     end
 end
 
-local function txt_read(table, txt, unit, txt_keys, txt_meta, type)
-    for lname, obj in pairs(table) do
-        local txt_data = txt[lname] or unit[lname]
-        if type == 'unit' then
-            unit[lname] = txt_data
-        end
+local function txt_read(table, txt, used, txt_keys, txt_meta, type)
+    for name, obj in pairs(table) do
+        local lname = string_lower(name)
+        local txt_data = txt[lname] or used[lname]
         txt[lname] = nil
+        used[lname] = txt_data
         for i = 1, #txt_keys do
             txt_read_data(lname, obj, txt_keys[i], txt_meta[i], txt_data)
         end
@@ -212,7 +209,7 @@ return function(w2l_, loader)
     w2l = w2l_
     local datas = {}
     local txt = {}
-    local unit = {}
+    local used = {}
     local has_readed = {}
     local count = 0
     progress:start(0.3)
@@ -267,7 +264,7 @@ return function(w2l_, loader)
                     ['appendindex'] = meta.appendindex,
                 }
             end
-            txt_read(datas[type], txt, unit, txt_keys, txt_meta, type)
+            txt_read(datas[type], txt, used, txt_keys, txt_meta, type)
         end
         count = count + 1
         progress(count / 7)
