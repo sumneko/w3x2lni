@@ -161,18 +161,29 @@ local function copy_code()
     for skill, data in pairs(template) do
         local skill = skill
         local code = data.code or data.section
-        if skill ~= code and special[skill] then
-            if not special[code] then
+        local data = special[skill]
+        if data then
+            special[skill] = nil
+            if special[code] then
+                for k, v in pairs(data) do
+                    local dest = special[code][k]
+                    if dest then
+                        if v[1] ~= dest[1] then
+                            message('id不同:', k, 'skill:', skill, v[1], 'code:', code, dest[1])
+                        end
+                        if v[2] ~= dest[2] then
+                            message('type不同:', k, 'skill:', skill, v[2], 'code:', code, dest[2])
+                        end
+                    else
+                        special[code][k] = v
+                    end
+                end
+            else
                 special[code] = {}
-            end
-            for k, v in pairs(special[skill]) do
-                if not special[code][k] then
+                for k, v in pairs(data) do
                     special[code][k] = v
-                elseif v[1] ~= special[code][k][1] then
-                    error('id不同:', k, 'skill:', skill, v[1], 'code:', code, special[code][k][1])
                 end
             end
-            special[skill] = nil
         end
     end
 end
