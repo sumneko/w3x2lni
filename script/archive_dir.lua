@@ -34,7 +34,16 @@ end
 local mt = {}
 mt.__index = mt
 
+function mt:has_file(filename)
+    return self:get(filename) ~= nil
+end
+
+function mt:load_file(filename)
+    return io.load(self.path / filename)
+end
+
 function mt:set(filename, content)
+    local filename = filename:lower()
     self.cache[filename] = content
 end
 
@@ -50,7 +59,7 @@ function mt:get(filename)
         end
         return false, ('文件 %q 不存在'):format(filename)
     end
-    local buf = io.load(self.path / filename)
+    local buf = self:load_file(filename)
     if buf then
         self.cache[filename] = buf
         return buf
