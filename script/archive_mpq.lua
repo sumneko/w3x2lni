@@ -1,5 +1,7 @@
 local stormlib = require 'ffi.stormlib'
 local progress = require 'progress'
+local w2l = require 'w3x2lni'
+local impignore
 
 local os_clock = os.clock
 
@@ -31,7 +33,7 @@ local function get_map_flag(w3i)
          | w3i['选项']['未知9']           << 21
 end
 
-local function create_map(path, w3i, n, haslistfile)
+local function create_map(path, w3i, n)
     local hexs = {}
     hexs[#hexs+1] = ('c4'):pack('HM3W')
     hexs[#hexs+1] = ('c4'):pack('\0\0\0\0')
@@ -39,7 +41,7 @@ local function create_map(path, w3i, n, haslistfile)
     hexs[#hexs+1] = ('l'):pack(get_map_flag(w3i))
     hexs[#hexs+1] = ('l'):pack(w3i and w3i['玩家']['玩家数量'] or 233)
     io.save(path, table.concat(hexs))
-    return stormlib.create(path, n, haslistfile)
+    return stormlib.create(path, n, w2l.config.remove_we_only)
 end
 
 local mt = {}
@@ -47,15 +49,20 @@ mt.__index = mt
 
 function mt:has_file(filename)
     local ok = self.handle:has_file(filename)
+    if ok and not self._read[filename] then
+        self._read[filename] = true
+        self._read_number = self._read_number + 1
+    end
     return ok
 end
 
 function mt:load_file(filename)
     local buf = self.handle:load_file(filename)
-    if buf then
-        return buf
+    if buf and not self._read[filename] then
+        self._read[filename] = true
+        self._read_number = self._read_number + 1
     end
-    return false
+    return buf
 end
 
 function mt:set(filename, content)
@@ -89,50 +96,36 @@ function mt:close()
     self.handle:close()
 end
 
-function mt:save(input, slk, info, config)
-    local impignore = info and info.pack.impignore
-    local files = {}
-    local imp = {}
-    local listfile = {}
-    local cache = input.cache
-    local ignore = input.ignore_file
-    for filename, v in pairs(cache) do
-        if v and not listfile[filename] then
-            listfile[filename] = true
-            files[#files+1] = filename
-            if not impignore[filename] then
-                imp[#imp+1] = filename
-            end
-        end
+function mt:write_file(filename)
+    if self._hwrite[filename] then
+        return
     end
-    for filename in pairs(input) do
-        if not listfile[filename] and not ignore[filename] and cache[filename] ~= false then
-            listfile[filename] = true
-            files[#files+1] = filename
-            if not impignore[filename] then
-                imp[#imp+1] = filename
-            end
-        end
+    self._hwrite[filename] = true
+    self._write[#self._write+1] = filename
+    if not impignore[filename] then
+        self._imp[#self._imp+1] = filename
     end
-    table.sort(files)
-    table.sort(imp)
+end
 
+function mt:write_flush(input, slk)
+    local cache = input.cache
+    table.sort(self._write)
+    table.sort(self._imp)
     if input.handle then
         local total = input.handle:number_of_files()
-        if #files < total then
-            message('-report|error', ('还有%d个文件没有读取'):format(total - #files))
+        if #self._write < total then
+            message('-report|error', ('还有%d个文件没有读取'):format(total - #self._write))
             message('-tip', '这些文件被丢弃了,请包含完整(listfile)')
-            message('-report|error', ('读取(%d/%d)个文件'):format(#files, total))
+            message('-report|error', ('读取(%d/%d)个文件'):format(#self._write, total))
         end
     end
-
-    self.handle = create_map(self.path, slk.w3i, n, remove_we_only)
+    self.handle = create_map(self.path, slk.w3i, #self._write)
     if not self.handle then
         message('创建新地图失败,可能文件被占用了')
         return
     end
     local clock = os_clock()
-    for i, filename in ipairs(files) do
+    for i, filename in ipairs(self._write) do
         if cache[filename] then
             self.handle:save_file(filename, cache[filename])
         else
@@ -140,20 +133,36 @@ function mt:save(input, slk, info, config)
         end
 		if os_clock() - clock >= 0.1 then
             clock = os_clock()
-            progress(i / #files)
-            message(('正在打包文件... (%d/%d)'):format(i, #files))
+            progress(i / #self._write)
+            message(('正在打包文件... (%d/%d)'):format(i, #self._write))
 		end
     end
-
-    if not config.remove_we_only then
+    if not w2l.config.remove_we_only then
         local hex = {}
-        hex[1] = ('ll'):pack(1, #imp)
-        for _, name in ipairs(imp) do
+        hex[1] = ('ll'):pack(1, #self._imp)
+        for _, name in ipairs(self._imp) do
             hex[#hex+1] = ('z'):pack(name)
             hex[#hex+1] = '\r'
         end
         self.handle:save_file('war3map.imp', table.concat(hex))
     end
+end
+
+function mt:save(input, slk)
+    impignore = w2l.info.pack.impignore
+    local cache = input.cache
+    local ignore = input.ignore_file
+    for filename, v in pairs(cache) do
+        if v then
+            self:write_file(filename)
+        end
+    end
+    for filename in pairs(input) do
+        if input:has_file(filename) and not ignore[filename] and cache[filename] ~= false then
+            self:write_file(filename)
+        end
+    end
+    self:write_flush(input, slk)
 end
 
 function mt:__pairs()
@@ -180,6 +189,12 @@ return function (pathorhandle, tp)
             message('不支持没有(listfile)的地图')
             return nil
         end
+        ar._read = {}
+        ar._read_number = 0
+    else
+        ar._hwrite = {}
+        ar._write = {}
+        ar._imp = {}
     end
     return setmetatable(ar, mt)
 end
