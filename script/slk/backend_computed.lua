@@ -9,7 +9,6 @@ local function get_displayname(o)
 end
 
 local function get_displayname_by_id(slk, id)
-    id = id
     local o = slk.ability[id]
            or slk.unit[id]
            or slk.buff[id]
@@ -55,7 +54,7 @@ end
 
 local function split(str)
     local r = {}
-    str:gsub('[^,]+', function (w) r[#r+1] = w end)
+    str:gsub('[^,]+', function (w) r[#r+1] = w:lower() end)
     return r
 end
 
