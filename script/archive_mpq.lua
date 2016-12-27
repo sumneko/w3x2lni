@@ -44,7 +44,18 @@ end
 local mt = {}
 mt.__index = mt
 
-local function load_file(self, filename)
+function mt:has_file(filename)
+    local ok = self.handle:has_file(filename)
+    if ok then
+        if not self.listfile[filename] then
+            self.listfile[filename] = true
+            self.file_number = self.file_number + 1
+        end
+    end
+    return ok
+end
+
+function mt:load_file(filename)
     local buf = self.handle:load_file(filename)
     if buf then
         if not self.listfile[filename] then
@@ -56,18 +67,8 @@ local function load_file(self, filename)
     return false
 end
 
-local function has_file(self, filename)
-    local ok = self.handle:has_file(filename)
-    if ok then
-        if not self.listfile[filename] then
-            self.listfile[filename] = true
-            self.file_number = self.file_number + 1
-        end
-    end
-    return ok
-end
-
 function mt:set(filename, content)
+    local filename = filename:lower()
     self.cache[filename] = content
 end
 
@@ -84,7 +85,7 @@ function mt:get(filename)
         end
         return false, ('文件 %q 不存在'):format(filename)
     end
-    local buf = load_file(self, filename)
+    local buf = self:load_file(filename)
     if buf then
         self.cache[filename] = buf
         return buf
