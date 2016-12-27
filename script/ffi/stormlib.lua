@@ -30,6 +30,7 @@ ffi.cdef[[
 	bool SFileReadFile(uint32_t hFile, void* lpBuffer, unsigned long dwToRead, unsigned long* pdwRead, void* lpOverlapped);
 	unsigned long SFileGetFileSize(uint32_t hFile, unsigned long* pdwFileSizeHigh);
 	bool SFileCloseFile(uint32_t hFile);
+	bool SFileRemoveFile(uint32_t hMpq, const char* szFileName, unsigned long dwSearchScope);
 
 	bool SFileGetFileInfo(uint32_t hMpqOrFile, int InfoClass, void * pvFileInfo, unsigned long cbFileInfo, unsigned long* pcbLengthNeeded);
 
@@ -168,6 +169,13 @@ function archive:has_file(name)
 		return false
 	end
 	return stormlib.SFileHasFile(self.handle, name)
+end
+
+function archive:remove_file(name)
+	if self.handle == 0 then
+		return false
+	end
+	return stormlib.SFileRemoveFile(self.handle, name, 0)
 end
 
 function archive:open_file(name)

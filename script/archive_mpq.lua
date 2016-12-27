@@ -31,6 +31,16 @@ local function get_map_flag(w3i)
          | w3i['选项']['未知9']           << 21
 end
 
+local function create_map(path, w3i)
+    local hexs = {}
+    hexs[#hexs+1] = ('c4'):pack('HM3W')
+    hexs[#hexs+1] = ('c4'):pack('\0\0\0\0')
+    hexs[#hexs+1] = ('z'):pack(w3i and w3i['地图']['地图名称'] or '未命名地图')
+    hexs[#hexs+1] = ('l'):pack(get_map_flag(w3i))
+    hexs[#hexs+1] = ('l'):pack(w3i and w3i['玩家']['玩家数量'] or 233)
+    io.save(path, table.concat(hexs))
+end
+
 local mt = {}
 mt.__index = mt
 
@@ -61,6 +71,18 @@ function mt:set(filename, content)
     self.cache[filename] = content
 end
 
+function mt:remove(filename)
+    local filename = filename:lower()
+    self.remove_file[filename] = true
+    self.ignore_file[filename] = true
+    self.cache[filename] = nil
+end
+
+function mt:ignore(filename)
+    local filename = filename:lower()
+    self.ignore_file[filename] = true
+end
+
 function mt:get(filename)
     local filename = filename:lower()
     if self.cache[filename] ~= nil then
@@ -82,20 +104,17 @@ function mt:close()
     self.handle:close()
 end
 
-function mt:save(slk, info, config)
-    local w3i = slk.w3i
+function mt:save(input, slk, info, config)
+    for name, buf in pairs(input) do
+        self:set(name, buf)
+    end
+    if not input:sucess() then
+        -- do nothing
+    end
+
+    create_map(self.path, slk.w3i)
+
     local impignore = info and info.pack.impignore
-
-    local hexs = {}
-
-    hexs[#hexs+1] = ('c4'):pack('HM3W')
-    hexs[#hexs+1] = ('c4'):pack('\0\0\0\0')
-    hexs[#hexs+1] = ('z'):pack(w3i and w3i['地图']['地图名称'] or '未命名地图')
-    hexs[#hexs+1] = ('l'):pack(get_map_flag(w3i))
-    hexs[#hexs+1] = ('l'):pack(w3i and w3i['玩家']['玩家数量'] or 233)
-
-    io.save(self.path, table.concat(hexs))
-
     local files = {}
     local imp = {}
     for name in pairs(self.cache) do
@@ -135,14 +154,13 @@ end
 
 function mt:__pairs()
     local cache = self.cache
+    local ignore = self.ignore_file
     if not self.cached_all then
         self.cached_all = true
         for filename in pairs(self.handle) do
             local filename = filename:lower()
-            if cache[filename] == nil then
+            if not ignore[filename] and cache[filename] == nil then
                 cache[filename] = load_file(self, filename)
-            else
-                has_file(self, filename)
             end
         end
     end
@@ -185,6 +203,8 @@ return function (pathorhandle, tp)
         end
         ar.listfile = {}
         ar.file_number = 0
+        ar.remove_file = {}
+        ar.ignore_file = {}
     end
     return setmetatable(ar, mt)
 end
