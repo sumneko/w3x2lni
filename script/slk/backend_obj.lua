@@ -84,7 +84,7 @@ local function write_data(key, id, data)
     end
 end
 
-local function write_object(lname, obj)    
+local function write_object(name, obj)    
     local keys = {}
     for key in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
@@ -107,7 +107,6 @@ local function write_object(lname, obj)
         end
     end
     
-    local name = obj._id
     local parent = obj._parent
     local code = obj._code
     if name == parent or obj._slk then
@@ -149,7 +148,7 @@ local function sort_chunk(chunk, remove_unuse_object)
     local user = {}
     for name, obj in pairs(chunk) do
         if not remove_unuse_object or obj._mark then
-            local parent = obj._lower_parent
+            local parent = obj._parent
             if name == parent or obj._slk then
                 origin[#origin+1] = name
             else

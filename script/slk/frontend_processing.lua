@@ -64,7 +64,7 @@ local function remove_nil_value(key, id, obj, default, max_level)
 end
 
 local function fill_obj(name, obj, type, default, config)
-    local parent = obj._lower_parent
+    local parent = obj._parent
     local code = obj._code
     local max_level = obj._max_level
     local default = default[parent]
@@ -81,16 +81,16 @@ end
 local function get_revert_list(default, code)
     if not revert_list then
         revert_list = {}
-        for lname, obj in pairs(default) do
+        for name, obj in pairs(default) do
             local code = obj['_code']
             local list = revert_list[code]
             if not list then
-                revert_list[code] = lname
+                revert_list[code] = name
             else
                 if type(list) ~= 'table' then
                     revert_list[code] = {[list] = true}
                 end
-                revert_list[code][lname] = true
+                revert_list[code][name] = true
             end
         end
     end
@@ -100,17 +100,17 @@ end
 local function get_unit_list(default, name)
     if not unit_list then
         unit_list = {}
-        for lname, obj in pairs(default) do
+        for name, obj in pairs(default) do
             local _name = obj['_name']
             if _name then
                 local list = unit_list[_name]
                 if not list then
-                    unit_list[_name] = lname
+                    unit_list[_name] = name
                 else
                     if type(list) ~= 'table' then
                         unit_list[_name] = {[list] = true}
                     end
-                    unit_list[_name][lname] = true
+                    unit_list[_name][name] = true
                 end
             end
         end
@@ -120,7 +120,7 @@ end
 
 local function find_para(name, obj, default, type)
     if obj['_true_origin'] then
-        local parent = obj['_lower_parent']
+        local parent = obj['_parent']
         return parent
     end
     if default[name] then
@@ -189,8 +189,7 @@ local function parse_obj(name, obj, default, config, ttype)
         parent = maybe
     end
 
-    obj._lower_parent = parent
-    obj._parent = default[parent]._id
+    obj._parent = parent
     obj._code = default[parent]._code
 end
 

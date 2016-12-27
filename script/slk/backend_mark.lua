@@ -2,47 +2,47 @@ local std_type = type
 local mustuse =  {
     ability = {
         -- 无敌
-        'avul',
+        'Avul',
         -- 范围性攻击伤害
-        'adda','amnz',
+        'Adda','Amnz',
         -- 警报
-        'aalr',
+        'Aalr',
         -- 攻击
-        'aatk',
+        'Aatk',
         -- 建造
-        'anbu','ahbu','aobu','aebu','aubu','agbu',
+        'ANbu','AHbu','AObu','AEbu','AUbu','AGbu',
         -- 地洞探测
-        'abdt',
+        'Abdt',
         -- 送回黄金
-        'argd',
+        'Argd',
         -- 英雄
-        'aher',
+        'AHer',
         -- 复活英雄
-        'arev',
+        'Arev',
         -- 集结
-        'aral',
+        'ARal',
         -- 睡眠
-        'acsp',
+        'ACsp',
         -- 装载
         'sloa',
         -- 虚无
-        'aetl',
+        'Aetl',
         -- 移动
-        'amov',
+        'Amov',
         -- 开火
-        'afir','afih','afio','afin','afiu'
+        'Afir','Afih','Afio','Afin','Afiu'
     },
     buff = {
-        'bpse','bstn','btlf','bdet',
-        'bvul','bspe','bfro','bsha',
-        'btrv','xbdt','xbli','xdis',
-        'bpxf','bphx','bens','bstt',
-        'bcor','buns','bust','xesn','bivs', 
+        'BPSE','BSTN','Btlf','Bdet',
+        'Bvul','Bspe','Bfro','Bsha',
+        'Btrv','Xbdt','Xbli','Xdis',
+        'Bpxf','Bphx','Bens','Bstt',
+        'Bcor','Buns','BUst','Xesn','Bivs', 
         -- 建筑物伤害
-        'xfhs','xfhm','xfhl',
-        'xfos','xfom','xfol',
-        'xfns','xfnm','xfnl',
-        'xfus','xfum','xful',
+        'Xfhs','Xfhm','Xfhl',
+        'Xfos','Xfom','Xfol',
+        'Xfns','Xfnm','Xfnl',
+        'Xfus','Xfum','Xful',
     },
 }
 
@@ -75,7 +75,6 @@ local function get_displayname(o)
 end
 
 local function get_displayname_by_id(slk, id)
-    id = id:lower()
     local o = slk.ability[id]
            or slk.unit[id]
            or slk.buff[id]
@@ -95,7 +94,7 @@ end
 
 local function split(str)
     local r = {}
-    str:gsub('[^,]+', function (w) r[#r+1] = w:lower() end)
+    str:gsub('[^,]+', function (w) r[#r+1] = w end)
     return r
 end
 
@@ -162,7 +161,6 @@ local function mark_list(slk, o, list)
 end
 
 function mark_known_type(slk, type, name)
-    name = name:lower()
     local o = slk[type][name]
     if not o then
         if slk.txt[name] then
@@ -198,7 +196,6 @@ local function mark_mustuse(slk)
 end
 
 local function mark(slk, name)
-    name = name:lower()
     mark_known_type(slk, 'ability', name)
     mark_known_type(slk, 'unit', name)
     mark_known_type(slk, 'buff', name)

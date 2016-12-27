@@ -13,7 +13,6 @@ local function add_obj(type, name, level_key, obj)
     end
     new_obj._id = name
     new_obj._parent = obj._id
-    new_obj._lower_parent = string_lower(obj._id)
     new_obj._max_level = obj[level_key]
     new_obj._type = type
     if not w2l:is_usable_para(new_obj._parent) then
@@ -29,7 +28,7 @@ end
 
 local function convert(data, type, level_key, lni)
     for name, obj in pairs(lni) do
-        data[string_lower(name)] = add_obj(type, name, level_key, obj)
+        data[name] = add_obj(type, name, level_key, obj)
     end
 end
 

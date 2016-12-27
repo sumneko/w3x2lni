@@ -6,7 +6,7 @@ local pairs = pairs
 local metadata
 local keydata
 
-local function add_data(lname, lkey, id, obj, data)
+local function add_data(name, lkey, id, obj, data)
     if not obj[lkey] then
         return
     end
@@ -15,17 +15,16 @@ local function add_data(lname, lkey, id, obj, data)
     data[key] = obj[lkey]
 end
 
-local function add_obj(lname, obj, data)
-    local name = obj._id
+local function add_obj(name, obj, data)
     local new_obj = {}
 
     for lkey, id in pairs(keydata.common) do
-        add_data(lname, lkey, id, obj, new_obj)
+        add_data(name, lkey, id, obj, new_obj)
     end
 
     if keydata[name] then
         for lkey, id in pairs(keydata[name]) do
-            add_data(lname, lkey, id, obj, new_obj)
+            add_data(name, lkey, id, obj, new_obj)
         end
     end
 
@@ -36,8 +35,8 @@ end
 
 local function convert(misc)
     local data = {}
-    for lname, obj in pairs(misc) do
-        add_obj(lname, obj, data)
+    for name, obj in pairs(misc) do
+        add_obj(name, obj, data)
     end
     return data
 end

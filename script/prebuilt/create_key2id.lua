@@ -159,8 +159,7 @@ end
 
 local function copy_code()
     for skill, data in pairs(template) do
-        local skill = skill
-        local code = data.code or data.section
+        local code = data.code or data._code
         local data = special[skill]
         if data then
             special[skill] = nil

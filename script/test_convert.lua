@@ -340,7 +340,6 @@ local function write_slk(type, slkname, t)
 end
 
 local function merge(o, name)
-	name = name:lower()
 	if not o.levels then
 		o[name] = {}
 		return
@@ -360,12 +359,12 @@ local function write_slk2(type, slkname, t)
 	local keydata = w2l:keyconvert(type)
 	for id, o in pairs(t) do
 		o._id = id
-		o._lower_parent = id:lower()
+		o._parent = id
 		cache[id] = o
 		if type == 'ability' then
 			o._code = o.code
-			if not keydata[o._lower_parent] then
-				o._lower_parent = o.code:lower()
+			if not keydata[o._parent] then
+				o._parent = o.code
 			end
 			merge(o, 'Area')
 			merge(o, 'BuffID')
@@ -419,9 +418,9 @@ for type, filename in pairs(w2l.info.obj) do
 		local data = w2l:frontend_obj(type, nil, buf)
 		for id, o in pairs(data) do
 			if cache[id] then
-				o._lower_parent = cache[id]._lower_parent
+				o._parent = cache[id]._parent
 			else
-				o._lower_parent = id
+				o._parent = id
 			end
 		end
 		io.save(outf, w2l:backend_lni(type, data))

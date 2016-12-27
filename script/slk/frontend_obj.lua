@@ -107,7 +107,6 @@ local function read_obj(chunk, type)
 	obj['_id'] = name
 	obj['_type'] = type
 	if parent then
-		obj['_lower_parent'] = string_lower(parent)
 		obj['_parent'] = parent
 	end
 
@@ -115,7 +114,7 @@ local function read_obj(chunk, type)
 	for i = 1, count do
 		read_data(obj)
 	end
-	chunk[string_lower(name)] = obj
+	chunk[name] = obj
 	obj._max_level = obj[has_level]
     if obj._max_level == 0 then
         obj._max_level = 1
