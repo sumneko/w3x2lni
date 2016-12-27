@@ -33,7 +33,16 @@ local mustuse =  {
         'afir','afih','afio','afin','afiu'
     },
     buff = {
-        'bpse','bstn','btlf','bdet','bvul','bspe','bfro','bsha','btrv','xbdt','xbli','xdis','xfhs','xfhm','xfhl','xfos','xfom','xfol','xfns','xfnm','xfnl','xfus','xfum','xful','bmil','bpxf','bphx','bhav','barm','bens','bstt','bcor','buns','bust','xesn','bivs', 
+        'bpse','bstn','btlf','bdet',
+        'bvul','bspe','bfro','bsha',
+        'btrv','xbdt','xbli','xdis',
+        'bpxf','bphx','bens','bstt',
+        'bcor','buns','bust','xesn','bivs', 
+        -- 建筑物伤害
+        'xfhs','xfhm','xfhl',
+        'xfos','xfom','xfol',
+        'xfns','xfnm','xfnl',
+        'xfus','xfum','xful',
     },
 }
 
@@ -43,6 +52,10 @@ local mustmark = {
     Alam = { 'ushd', 'unit' },
     -- 蜘蛛攻击
     Aspa = { 'bspa', 'buff' },
+    -- 战斗号召
+    Amil = { 'bmil', 'buff' },
+    -- 天神下凡
+    AHav = { 'bhav', 'buff' },
 }
 
 local slk
@@ -202,27 +215,30 @@ local function mark_jass(slk, list, flag)
             mark(slk, name)
         end
     end
-    if flag.creeps or flag.building then
-        local maptile = slk.w3i['地形']['地形类型']
-        local search_marketplace = flag.marketplace and flag.item
-        flag.marketplace = nil
-        for _, obj in pairs(slk.unit) do
-            local need_mark = false
+    local maptile = slk.w3i['地形']['地形类型']
+    local search_marketplace = flag.marketplace and not flag.item
+    flag.marketplace = nil
+    for _, obj in pairs(slk.unit) do
+        -- 随机建筑
+        if flag.building and obj.isbldg == 1 and obj.nbrandom == 1 then
             if obj.race == 'creeps' and obj.tilesets and (obj.tilesets == '*' or obj.tilesets:find(maptile)) then
-                if flag.building and obj.isbldg == 1 and obj.nbrandom == 1 then
-                    current_root = {obj._id, "保留的野怪建筑'%s'[%s]引用了它"}
-                    mark_known_type(slk, 'unit', obj._id)
-                elseif flag.creeps and obj.isbldg == 0 then
-                    current_root = {obj._id, "保留的野怪单位'%s'[%s]引用了它"}
-                    mark_known_type(slk, 'unit', obj._id)
-                end
+                current_root = {obj._id, "保留的野怪建筑'%s'[%s]引用了它"}
+                mark_known_type(slk, 'unit', obj._id)
             end
-            if search_marketplace and obj._name == 'marketplace' then
-                flag.marketplace = true
-                search_marketplace = false
-                message('-report', '保留市场物品')
-                message('-tip', ("使用了市场'%s'[%s]"):format(obj.name, obj._id))
+        end
+        -- 随机单位
+        if flag.creeps and obj.isbldg == 0 then
+            if obj.race == 'creeps' and obj.tilesets and (obj.tilesets == '*' or obj.tilesets:find(maptile)) then
+                current_root = {obj._id, "保留的野怪单位'%s'[%s]引用了它"}
+                mark_known_type(slk, 'unit', obj._id)
             end
+        end
+        -- 是否使用了市场
+        if search_marketplace and obj._name == 'marketplace' then
+            flag.marketplace = true
+            search_marketplace = false
+            message('-report', '保留市场物品')
+            message('-tip', ("使用了市场'%s'[%s]"):format(obj.name, obj._id))
         end
     end
     if flag.item then
