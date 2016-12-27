@@ -12,7 +12,11 @@ local function add_obj(type, name, level_key, obj)
         end
     end
     new_obj._id = name
-    new_obj._parent = obj._id
+    if type == 'buff' then
+        new_obj._parent = string_lower(name)
+    else
+        new_obj._parent = name
+    end
     new_obj._max_level = obj[level_key]
     new_obj._type = type
     if not w2l:is_usable_para(new_obj._parent) then
@@ -28,7 +32,11 @@ end
 
 local function convert(data, type, level_key, lni)
     for name, obj in pairs(lni) do
-        data[name] = add_obj(type, name, level_key, obj)
+        if type == 'buff' then
+            data[string_lower(name)] = add_obj(type, name, level_key, obj)
+        else
+            data[name] = add_obj(type, name, level_key, obj)
+        end
     end
 end
 

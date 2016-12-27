@@ -84,7 +84,7 @@ local function write_data(key, id, data)
     end
 end
 
-local function write_object(name, obj)    
+local function write_object(chunk, name, obj)    
     local keys = {}
     for key in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
@@ -113,7 +113,7 @@ local function write_object(name, obj)
         write('c4', name)
         write('c4', '\0\0\0\0')
     else
-        write('c4', parent)
+        write('c4', chunk[parent]._id)
         write('c4', name)
     end
     write('l', count)
@@ -130,7 +130,7 @@ local function write_chunk(names, data, type, n, max)
     local clock = os_clock()
     write('l', #names)
     for i, name in ipairs(names) do
-        write_object(name, data[name])
+        write_object(data, name, data[name])
         if os_clock() - clock > 0.1 then
             clock = os_clock()
             progress((i+n) / max)
@@ -147,7 +147,7 @@ local function sort_chunk(chunk, remove_unuse_object)
     local origin = {}
     local user = {}
     for name, obj in pairs(chunk) do
-        if not remove_unuse_object or obj._mark then
+        if not obj._empty and (not remove_unuse_object or obj._mark) then
             local parent = obj._parent
             if name == parent or obj._slk then
                 origin[#origin+1] = name
@@ -174,7 +174,7 @@ local function clean_chunk(chunk)
             end
         end
         if empty then
-            chunk[name] = nil
+            obj._empty = true
         end
     end
 end

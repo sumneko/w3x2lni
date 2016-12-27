@@ -9,10 +9,9 @@ local function get_displayname(o)
 end
 
 local function get_displayname_by_id(slk, id)
-    id = id
     local o = slk.ability[id]
            or slk.unit[id]
-           or slk.buff[id]
+           or slk.buff[id:lower()]
            or slk.item[id]
            or slk.destructable[id]
            or slk.doodad[id]
@@ -55,7 +54,7 @@ end
 
 local function split(str)
     local r = {}
-    str:gsub('[^,]+', function (w) r[#r+1] = w end)
+    str:gsub('[^,]+', function (w) r[#r+1] = w:lower() end)
     return r
 end
 
@@ -63,7 +62,7 @@ local function computed_value(slk, str, name)
     local id, key, per = table.unpack(split(str))
     local o = slk.ability[id]
            or slk.unit[id]
-           or slk.buff[id]
+           or slk.buff[id:lower()]
            or slk.item[id]
            or slk.destructable[id]
            or slk.doodad[id]
