@@ -38,6 +38,14 @@ function mt:set(filename, content)
     self.cache[filename] = content
 end
 
+function mt:remove(filename)
+    self.cache[filename] = false
+end
+
+function mt:ignore(filename)
+    self.cache[filename] = false
+end
+
 function mt:get(filename)
     local filename = filename:lower()
     if self.cache[filename] ~= nil then
@@ -58,7 +66,11 @@ end
 function mt:close()
 end
 
-function mt:save(slk, info, config)
+function mt:save(input, slk, info, config)
+    for name, buf in pairs(input) do
+        self:set(name, buf)
+    end
+
     local output = self.path
     message('正在清空输出目录...')
     remove_then_create_dir(output)
@@ -106,10 +118,6 @@ function mt:__pairs()
         return new_key, value
     end
     return next_file, cache
-end
-
-function mt:sucess()
-    return true
 end
 
 return function (path, tp)

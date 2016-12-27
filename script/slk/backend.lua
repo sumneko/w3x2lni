@@ -261,21 +261,21 @@ end
 
 return function (w2l, archive, slk)
     for type, filename in pairs(w2l.info.obj) do
-        archive:set(filename, false)
+        archive:remove(filename)
     end
     for type, filelist in pairs(w2l.info.slk) do
         for _, filename in ipairs(filelist) do
-            archive:set(filename, false)
+            archive:remove(filename)
         end
     end
     for type, filelist in pairs(w2l.info.txt) do
         for _, filename in ipairs(filelist) do
-            archive:set(filename, false)
+            archive:remove(filename)
         end
     end
     for type, filelist in pairs(w2l.info.lni) do
         for _, filename in ipairs(filelist) do
-            archive:set(filename, false)
+            archive:remove(filename)
         end
     end
 
@@ -283,7 +283,7 @@ return function (w2l, archive, slk)
     if slk.w3i then
         if w2l.config.target_format == 'lni' then
             archive:set('war3map.w3i.ini', w2l:w3i2lni(w2l:read_w3i(w2l:lni2w3i(slk.w3i)), slk.wts))
-            archive:set('war3map.w3i', false)
+            archive:remove('war3map.w3i')
         else
             archive:set('war3map.w3i', w2l:lni2w3i(slk.w3i))
         end
@@ -339,13 +339,13 @@ return function (w2l, archive, slk)
     progress(0.96)
 
     if w2l.config.remove_we_only then
-        archive:set('war3map.wtg', false)
-        archive:set('war3map.wct', false)
-        archive:set('war3map.imp', false)
-        archive:set('war3map.w3s', false)
-        archive:set('war3map.w3r', false)
-        archive:set('war3map.w3c', false)
-        archive:set('war3mapunits.doo', false)
+        archive:remove('war3map.wtg')
+        archive:remove('war3map.wct')
+        archive:remove('war3map.imp')
+        archive:remove('war3map.w3s')
+        archive:remove('war3map.w3r')
+        archive:remove('war3map.w3c')
+        archive:remove('war3mapunits.doo')
     else
         if not archive:get 'war3mapunits.doo' then
             archive:set('war3mapunits.doo', w2l:create_unitsdoo())
@@ -358,11 +358,11 @@ return function (w2l, archive, slk)
     if #content > 0 then
 	    archive:set('war3map.wts', content)
     else
-	    archive:set('war3map.wts', false)
+	    archive:remove('war3map.wts')
     end
 
     for _, name in ipairs(w2l.info.pack.packignore) do
-        archive:set(name, false)
+        archive:ignore(name)
     end
     progress(0.98)
 

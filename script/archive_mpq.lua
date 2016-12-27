@@ -71,6 +71,18 @@ function mt:set(filename, content)
     self.cache[filename] = content
 end
 
+function mt:remove(filename)
+    local filename = filename:lower()
+    self.remove_file[filename] = true
+    self.ignore_file[filename] = true
+    self.cache[filename] = nil
+end
+
+function mt:ignore(filename)
+    local filename = filename:lower()
+    self.ignore_file[filename] = true
+end
+
 function mt:get(filename)
     local filename = filename:lower()
     if self.cache[filename] ~= nil then
@@ -92,7 +104,14 @@ function mt:close()
     self.handle:close()
 end
 
-function mt:save(slk, info, config)
+function mt:save(input, slk, info, config)
+    for name, buf in pairs(input) do
+        self:set(name, buf)
+    end
+    if not input:sucess() then
+        -- do nothing
+    end
+
     create_map(self.path, slk.w3i)
 
     local impignore = info and info.pack.impignore
@@ -135,14 +154,13 @@ end
 
 function mt:__pairs()
     local cache = self.cache
+    local ignore = self.ignore_file
     if not self.cached_all then
         self.cached_all = true
         for filename in pairs(self.handle) do
             local filename = filename:lower()
-            if cache[filename] == nil then
+            if not ignore[filename] and cache[filename] == nil then
                 cache[filename] = load_file(self, filename)
-            else
-                has_file(self, filename)
             end
         end
     end
@@ -185,6 +203,8 @@ return function (pathorhandle, tp)
         end
         ar.listfile = {}
         ar.file_number = 0
+        ar.remove_file = {}
+        ar.ignore_file = {}
     end
     return setmetatable(ar, mt)
 end

@@ -124,7 +124,7 @@ local function main()
 	local datas, txt = w2l:frontend_slk(function(name)
 		local buf = ar:get(name)
 		if buf then
-			ar:set(name, false)
+			ar:remove(name)
 			return buf
 		end
 		return io.load(w2l.mpq / name)
