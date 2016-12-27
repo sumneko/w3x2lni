@@ -59,7 +59,7 @@ local function get_special_type(name, key, type)
             return nil
         end
         -- 骑乘角鹰兽指定单位类型
-        if name == 'Acoa' or name == 'AcohSloa' or name == 'Aco2' or name == 'Aco3' then
+        if name == 'Acoa' or name == 'Acoh' or name == 'Aco2' or name == 'Aco3' then
             return nil
         end
     end

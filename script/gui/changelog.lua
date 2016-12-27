@@ -50,6 +50,7 @@ return function(window_, canvas_)
 	canvas = canvas_
 	version_begin()
 	version('1.2', function()
+		log('FIX', '修正部分技能的引用分析错误的问题', 'Acoi、Acoh')
 		log('FIX', '修正lpeg模块加载失败的问题')
 	end)
 	version('1.1', function()
