@@ -126,6 +126,10 @@ function mt:__pairs()
 end
 
 return function (path, tp)
-    local ar = { cache = {}, path = fs.canonical(path) }
+    local ar = {
+        cache = {},
+        ignore_file = {},
+        path = fs.canonical(path)
+    }
     return setmetatable(ar, mt)
 end

@@ -31,7 +31,7 @@ local function get_map_flag(w3i)
          | w3i['选项']['未知9']           << 21
 end
 
-local function create_map(path, w3i, n, remove_we_only)
+local function create_map(path, w3i, n, haslistfile)
     local hexs = {}
     hexs[#hexs+1] = ('c4'):pack('HM3W')
     hexs[#hexs+1] = ('c4'):pack('\0\0\0\0')
@@ -39,7 +39,7 @@ local function create_map(path, w3i, n, remove_we_only)
     hexs[#hexs+1] = ('l'):pack(get_map_flag(w3i))
     hexs[#hexs+1] = ('l'):pack(w3i and w3i['玩家']['玩家数量'] or 233)
     io.save(path, table.concat(hexs))
-    return stormlib.create(path, n, remove_we_only)
+    return stormlib.create(path, n, haslistfile)
 end
 
 local mt = {}
@@ -161,7 +161,11 @@ function mt:__pairs()
 end
 
 return function (pathorhandle, tp)
-    local ar = { cache = {}, path = pathorhandle }
+    local ar = {
+        cache = {}, 
+        ignore_file = {},
+        path = pathorhandle,
+    }
     if tp ~= 'w' then
         if type(pathorhandle) == 'number' then
             ar.handle = stormlib.attach(pathorhandle)
@@ -176,7 +180,6 @@ return function (pathorhandle, tp)
             message('不支持没有(listfile)的地图')
             return nil
         end
-        ar.ignore_file = {}
     end
     return setmetatable(ar, mt)
 end
