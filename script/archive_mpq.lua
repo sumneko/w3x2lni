@@ -31,6 +31,16 @@ local function get_map_flag(w3i)
          | w3i['选项']['未知9']           << 21
 end
 
+local function create_map(path, w3i)
+    local hexs = {}
+    hexs[#hexs+1] = ('c4'):pack('HM3W')
+    hexs[#hexs+1] = ('c4'):pack('\0\0\0\0')
+    hexs[#hexs+1] = ('z'):pack(w3i and w3i['地图']['地图名称'] or '未命名地图')
+    hexs[#hexs+1] = ('l'):pack(get_map_flag(w3i))
+    hexs[#hexs+1] = ('l'):pack(w3i and w3i['玩家']['玩家数量'] or 233)
+    io.save(path, table.concat(hexs))
+end
+
 local mt = {}
 mt.__index = mt
 
@@ -83,19 +93,9 @@ function mt:close()
 end
 
 function mt:save(slk, info, config)
-    local w3i = slk.w3i
+    create_map(self.path, slk.w3i)
+
     local impignore = info and info.pack.impignore
-
-    local hexs = {}
-
-    hexs[#hexs+1] = ('c4'):pack('HM3W')
-    hexs[#hexs+1] = ('c4'):pack('\0\0\0\0')
-    hexs[#hexs+1] = ('z'):pack(w3i and w3i['地图']['地图名称'] or '未命名地图')
-    hexs[#hexs+1] = ('l'):pack(get_map_flag(w3i))
-    hexs[#hexs+1] = ('l'):pack(w3i and w3i['玩家']['玩家数量'] or 233)
-
-    io.save(self.path, table.concat(hexs))
-
     local files = {}
     local imp = {}
     for name in pairs(self.cache) do
