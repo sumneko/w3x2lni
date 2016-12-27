@@ -216,8 +216,6 @@ local function mark_jass(slk, list, flag)
         end
     end
     local maptile = slk.w3i['地形']['地形类型']
-    local search_marketplace = flag.marketplace and not flag.item
-    flag.marketplace = nil
     for _, obj in pairs(slk.unit) do
         -- 随机建筑
         if flag.building and obj.isbldg == 1 and obj.nbrandom == 1 then
@@ -233,13 +231,6 @@ local function mark_jass(slk, list, flag)
                 mark_known_type(slk, 'unit', obj._id)
             end
         end
-        -- 是否使用了市场
-        if search_marketplace and obj._name == 'marketplace' then
-            flag.marketplace = true
-            search_marketplace = false
-            message('-report', '保留市场物品')
-            message('-tip', ("使用了市场'%s'[%s]"):format(obj.name, obj._id))
-        end
     end
     if flag.item then
         for _, obj in pairs(slk.item) do
@@ -248,12 +239,26 @@ local function mark_jass(slk, list, flag)
                 mark_known_type(slk, 'item', obj._id)
             end
         end
-    elseif flag.marketplace then
-        for _, obj in pairs(slk.item) do
-            if obj.pickRandom == 1 and obj.sellable == 1 then
-                current_root = {obj._id, "保留的市场物品'%s'[%s]引用了它"}
-                mark_known_type(slk, 'item', obj._id)
+    end
+end
+
+local function mark_marketplace(slk, flag)
+    if not flag.marketplace or flag.item then
+        return
+    end
+    for _, obj in pairs(slk.unit) do
+        -- 是否使用了市场
+        if obj._mark and obj._name == 'marketplace' then
+            search_marketplace = true
+            message('-report', '保留市场物品')
+            message('-tip', ("使用了市场'%s'[%s]"):format(obj.name, obj._id))
+            for _, obj in pairs(slk.item) do
+                if obj.pickRandom == 1 and obj.sellable == 1 then
+                    current_root = {obj._id, "保留的市场物品'%s'[%s]引用了它"}
+                    mark_known_type(slk, 'item', obj._id)
+                end
             end
+            break
         end
     end
 end
@@ -333,4 +338,5 @@ return function(w2l, archive, slk_)
     mark_jass(slk, jasslist, jassflag)
     mark_doo(w2l, archive, slk)
     mark_lua(w2l, archive, slk)
+    mark_marketplace(slk, jassflag)
 end
