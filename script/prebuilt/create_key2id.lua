@@ -1,6 +1,15 @@
+local type = type
 local string_char = string.char
-local table_insert = table.insert
-local table_sort = table.sort
+local pairs = pairs
+local ipairs = ipairs
+
+local common
+local special
+local ttype
+local metadata
+local template
+local lines_id
+local lines_type
 
 local enable_type = {
     abilCode = 'ability',
@@ -17,178 +26,141 @@ local enable_type = {
     upgradeCode = 'upgrade',
 }
 
-local mt = {}
-
-function mt:canadd(skl, id)
-    if skl == 'AIlb' or skl == 'AIpb' then
-        -- AIlb与AIpb有2个DataA,进行特殊处理
-        if id == 'Idam' then
-            return false
+local function get_special_type(name, key, type)
+    if key == 'unitid' then
+        -- 复活死尸科技限制单位
+        if name == 'Arai' or name == 'ACrd' or name == 'AIrd' or name == 'Avng' then
+            return nil
         end
-    elseif skl == 'AIls' then
-    -- AIls有2个DataA,进行特殊处理
-        if id == 'Idps' then
-            return false
+        -- 地洞战备状态允许单位
+        if name == 'Abtl' or name == 'Sbtl' then
+            return nil
+        end
+        -- 装载允许目标单位
+        if name == 'Aloa' or name == 'Sloa' or name == 'Slo2' or name == 'Slo3' then
+            return nil
+        end
+        -- 灵魂保存目标单位
+        if name == 'ANsl' then
+            return nil
+        end
+        -- 地洞装载允许目标单位
+        if name == 'Achl' then
+            return nil
+        end
+        -- 火山爆发召唤可破坏物
+        if name == 'ANvc' then
+            return 'destructable'
         end
     end
-    return true
+    if key == 'dataa' then
+         -- 战斗号召允许单位
+        if name == 'Amil' then
+            return nil
+        end
+        -- 骑乘角鹰兽指定单位类型
+        if name == 'Acoa' or name == 'AcohSloa' or name == 'Aco2' or name == 'Aco3' then
+            return nil
+        end
+    end
+    return type
 end
 
-function mt:isenable(meta)
-    local type = self.type
-    if type == 'unit' then
-        if meta['usehero'] == 1 or meta['useunit'] == 1 or meta['usebuilding'] == 1 or meta['usecreep'] == 1 then
-            return true
-        else
-            return false
+local function get_common_type(key, type)
+    if ttype == 'item' then
+        if key == 'cooldownid' then
+            return nil
         end
     end
-    if type == 'item' then
-        if meta['useitem'] == 1 then
-            return true
-        else
-            return false
+    if ttype == 'unit' then
+        if key == 'upgrades' then
+            return nil
+        end
+        if key == 'auto' then
+            return nil
+        end
+        if key == 'dependencyor' then
+            return nil
+        end
+        if key == 'reviveat' then
+            return nil
         end
     end
-    return true
+    return type
 end
 
-function mt:add_data(id, meta, common, special, type)
-    if not self:isenable(meta) then
-        return
+local function get_key_type(name, key, type)
+    type = enable_type[type]
+    if not type then
+        return nil
     end
-    local name  = meta['field']:lower()
-    local num   = meta['data']
-    local skill = meta['usespecific'] or meta['section']
-    if num and num ~= 0 then
-        name = name .. string_char(('a'):byte() + num - 1)
-    end
-    if meta['_has_index'] then
-        name = name .. ':' .. (meta['index'] + 1)
-    end
-    if not skill then
-        common[name] = {id, meta['type']}
-        local filename = meta['slk']:lower()
-        if filename ~= 'profile' then
-            filename = 'units\\' .. meta['slk']:lower() .. '.slk'
-            if type == 'doodad' then
-                filename = 'doodads\\doodads.slk'
-            end
-        end
-        if not special[filename] then
-            special[filename] = {}
-        end
-        special[filename][name] = {id}
+    if name then
+        return get_special_type(name, key, type)
     else
-        for skl in skill:gmatch '%w+' do
-            if self:canadd(skl, id) then
-                if not special[skl] then
-                    special[skl] = {}
-                end
-                special[skl][name] = {id, meta['type']}
-            end
-        end
+        return get_common_type(key, type)
     end
 end
 
-local function sort_table(tbl)
-    local names = {}
-    for k in pairs(tbl) do
-        table_insert(names, k)
-    end
-    table.sort(names)
-    return names
-end
-
-local function add_common(tbl, tbl2, slktype, common)
-    local names = sort_table(common)
+local function convert_data(data)
     local flag
-    tbl[#tbl+1] = '[common]'
-    tbl2[#tbl2+1] = tbl[#tbl]
-    for _, name in ipairs(names) do
-        local id, type = common[name][1], common[name][2]
-        if name:find('[^_%w]') then
-            name = "'" .. name .. "'"
+    local keys = {}
+    for key in pairs(data) do
+        keys[#keys+1] = key
+    end
+    table.sort(keys)
+    for _, key in ipairs(keys) do
+        local id, type = data[key][1], data[key][2]
+        if key:find('[^_%w]') then
+            key = "'" .. key .. "'"
         end
-        tbl[#tbl+1] = ('%s = %s'):format(name, id)
-        if enable_type[type]
-            and not (slktype == 'item' and name == 'cooldownid')
-            and not (slktype == 'unit' and (name == 'upgrades' or name == 'auto' or name == 'dependencyor' or name == 'reviveat'))
-        then
-            tbl2[#tbl2+1] = ('%s = %s'):format(name, enable_type[type])
+        lines_id[#lines_id+1] = ('%s = %s'):format(key, id)
+        if type then
+            lines_type[#lines_type+1] = ('%s = %s'):format(key, type)
             flag = true
         end
     end
     if not flag then
-        tbl2[#tbl2] = nil
+        lines_type[#lines_type] = nil
     end
 end
 
-local function ignore(name, key)
-    if key == 'unitid' 
-        -- 复活死尸科技限制单位
-        and (name == 'Arai' or name == 'ACrd' or name == 'AIrd' or name == 'Avng'
-        -- 地洞战备状态允许单位
-        or name == 'Abtl' or name == 'Sbtl'
-        -- 装载允许目标单位
-        or name == 'Aloa' or name == 'Sloa' or name == 'Slo2' or name == 'Slo3'
-        -- 灵魂保存目标单位
-        or name == 'ANsl'
-        -- 地洞装载允许目标单位
-        or name == 'Achl'
-    ) then
-        return true
-    end
-    
-    if key == 'dataa' 
-        -- 战斗号召允许单位
-        and (name == 'Amil'
-        -- 骑乘角鹰兽指定单位类型
-        or name == 'Acoa' or name == 'AcohSloa' or name == 'Aco2' or name == 'Aco3'
-    ) then
-        return true
-    end
-    return false
-end
-
-local function add_special(tbl, tbl2, special)
-    local names = sort_table(special)
+local function convert_special(names)
     for _, name in ipairs(names) do
         local data = special[name]
-        local flag
-        tbl[#tbl+1] = ''
+        lines_id[#lines_id+1] = ''
         if name:find '[^%w_]' then
-            tbl[#tbl+1] = ('[%q]'):format(name)
+            lines_id[#lines_id+1] = ('[%q]'):format(name)
+            lines_type[#lines_type+1] = ('[%q]'):format(name)
         else
-            tbl[#tbl+1] = ('[%s]'):format(name)
+            lines_id[#lines_id+1] = ('[%s]'):format(name)
+            lines_type[#lines_type+1] = ('[%s]'):format(name)
         end
-        tbl2[#tbl2+1] = tbl[#tbl]
-        local names = sort_table(data)
-        for _, name_ in ipairs(names) do
-            local id, type = data[name_][1], data[name_][2]
-            if name_:find('[^_%w]') then
-                name_ = "'" .. name_ .. "'"
-            end
-            tbl[#tbl+1] = ('%s = %s'):format(name_, id)
-            if enable_type[type] and not ignore(name, name_) then
-        	    if name == 'ANvc' and name_ == 'unitid' then
-                    tbl2[#tbl2+1] = 'unitid = destructable'
-                else
-                    tbl2[#tbl2+1] = ('%s = %s'):format(name_, enable_type[type])
-                end
-                flag = true
-            end
-        end
-        if not flag then
-            tbl2[#tbl2] = nil
-        end
+        convert_data(data)
     end
 end
 
-local function copy_code(special, template)
+local function convert_common()
+    local flag
+    lines_id[#lines_id+1] = '[common]'
+    lines_type[#lines_type+1] = '[common]'
+    convert_data(common)
+end
+
+local function convert()
+    convert_common()
+
+    local names = {}
+    for name in pairs(special) do
+        names[#names+1] = name
+    end
+    table.sort(names)
+    convert_special(names)
+end
+
+local function copy_code()
     for skill, data in pairs(template) do
         local skill = skill
-        local code = data['code'] or data['section']
+        local code = data.code or data.section
         if skill ~= code and special[skill] then
             if not special[code] then
                 special[code] = {}
@@ -205,30 +177,96 @@ local function copy_code(special, template)
     end
 end
 
-local function read_list(metadata, template, ttype)
-    local tbl = setmetatable({}, { __index = mt })
-    tbl.type = ttype
+local function can_add_id(name, id)
+    if name == 'AIlb' or name == 'AIpb' then
+        -- AIlb与AIpb有2个DataA,进行特殊处理
+        if id == 'Idam' then
+            return false
+        end
+    elseif name == 'AIls' then
+    -- AIls有2个DataA,进行特殊处理
+        if id == 'Idps' then
+            return false
+        end
+    end
+    return true
+end
 
-    local common = {}
-    local special = {}
+local function is_enable_id(id)
+    local meta = metadata[id]
+    if ttype == 'unit' then
+        if meta.usehero == 1 or meta.useunit == 1 or meta.usebuilding == 1 or meta.usecreep == 1 then
+            return true
+        else
+            return false
+        end
+    end
+    if ttype == 'item' then
+        if meta['useitem'] == 1 then
+            return true
+        else
+            return false
+        end
+    end
+    return true
+end
 
-    for id, meta in pairs(metadata) do
-        if type(meta) == 'table' then
-            tbl:add_data(id, meta, common, special, ttype)
+local function parse_id(id, meta)
+    local meta = metadata[id]
+    local key = meta.field:lower()
+    local num  = meta.data
+    local objs = meta.usespecific or meta.section
+    if num and num ~= 0 then
+        key = key .. string_char(('a'):byte() + num - 1)
+    end
+    if meta._has_index then
+        key = key .. ':' .. (meta.index + 1)
+    end
+    if objs then
+        for name in objs:gmatch '%w+' do
+            if can_add_id(name, id) then
+                if not special[name] then
+                    special[name] = {}
+                end
+                special[name][key] = {id, get_key_type(name, key, meta.type)}
+            end
+        end
+    else
+        common[key] = {id, get_key_type(nil, key, meta.type)}
+        local filename = meta.slk:lower()
+        if filename ~= 'profile' then
+            filename = 'units\\' .. meta.slk:lower() .. '.slk'
+            if ttype == 'doodad' then
+                filename = 'doodads\\doodads.slk'
+            end
+        end
+        if not special[filename] then
+            special[filename] = {}
+        end
+        special[filename][key] = {id}
+    end
+end
+
+local function parse()
+    for id in pairs(metadata) do
+        if is_enable_id(id) then
+            parse_id(id)
         end
     end
     if ttype == 'ability' or ttype == 'misc' then
-        copy_code(special, template)
+        copy_code()
     end
-    return common, special
 end
 
-return function (type, metadata, template)
-    local tbl = {}
-    local tbl2 = {}
-
-    local common, special = read_list(metadata, template, type)
-    add_common(tbl, tbl2, type, common)
-    add_special(tbl, tbl2, special)
-    return table.concat(tbl, '\r\n') .. '\r\n', table.concat(tbl2, '\r\n') .. '\r\n'
+return function (type, metadata_, template_)
+    common = {}
+    special = {}
+    lines_id = {}
+    lines_type = {}
+    ttype = type
+    metadata = metadata_
+    template = template_
+    parse()
+    convert()
+    return table.concat(lines_id, '\r\n') .. '\r\n', table.concat(lines_type, '\r\n') .. '\r\n'
 end
