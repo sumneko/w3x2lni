@@ -18,10 +18,6 @@ end
 local function add_obj(name, obj, data)
     local new_obj = {}
 
-    for lkey, id in pairs(keydata.common) do
-        add_data(name, lkey, id, obj, new_obj)
-    end
-
     if keydata[name] then
         for lkey, id in pairs(keydata[name]) do
             add_data(name, lkey, id, obj, new_obj)
