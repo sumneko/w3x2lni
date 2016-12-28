@@ -242,7 +242,7 @@ local function load_w3i(w2l, archive, slk)
     else
         buf = archive:get 'war3map.w3i'
         if buf then
-            slk.w3i = w2l:parse_lni(w2l:w3i2lni(w2l:read_w3i(buf), slk.wts))
+            slk.w3i = w2l:read_w3i(buf, slk.wts)
         end
     end
     if not slk.w3i then
