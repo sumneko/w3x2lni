@@ -26,20 +26,6 @@ function message(...)
 	print(table.concat(tbl, ' '))
 end
 
-local function add_table(tbl1, tbl2)
-    for k, v in pairs(tbl2) do
-        if tbl1[k] then
-            if type(tbl1[k]) == 'table' and type(v) == 'table' then
-                add_table(tbl1[k], v)
-            else
-                tbl1[k] = v
-            end
-        else
-            tbl1[k] = v
-        end
-    end
-end
-
 local function prebuilt_id_type(id_data)
     local lines = {}
     lines[#lines+1] = ('%s = %s'):format('int', 0)
@@ -104,17 +90,8 @@ local function main()
 	fs.create_directories(w2l.key)
 	fs.create_directories(w2l.prebuilt / 'search')
 
-	-- 生成key2id
-    for type, slk in pairs(w2l.info.slk) do
-		message('正在生成key2id', type)
-		local metadata = w2l:read_metadata(type)
-        local template = {}
-        for i = 1, #slk do
-            add_table(template, w2l:parse_slk(io.load(w2l.mpq / slk[i])))
-        end
-		local content1, content2 = create_key2id(type, metadata, template)
-		io.save(w2l.key / (type .. '.ini'), content1)
-		io.save(w2l.prebuilt / 'search' / (type .. '.ini'), content2)
+	for ttype in pairs(w2l.info.slk) do
+		create_key2id(w2l, ttype)
 	end
 
 	-- 生成模板lni
@@ -145,16 +122,11 @@ local function main()
 		end
 	end
 
-	-- 生成misc的文件
-	local data = slk['misc']
+	create_key2id(w2l, 'misc', slk)
 	
-	local content1, content2 = create_key2id('misc', w2l:read_metadata 'misc', data)
-	io.save(w2l.key / 'misc.ini', content1)
-	io.save(w2l.prebuilt / 'search' / 'misc.ini', content2)
-
 	io.save(w2l.default / 'txt.ini', default2lni('txt', slk.txt))
 	io.save(w2l.template / 'txt.ini', txt2teamplate('txt', slk.txt))
-
+	
 	-- 生成技能命令映射
 	--local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'))
 	--local order_list = order_prebuilt(skill_data)
