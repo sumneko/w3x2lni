@@ -3,8 +3,6 @@ local string_char = string.char
 local pairs = pairs
 local ipairs = ipairs
 
-local tkey
-local tsearch
 local ttype
 local metadata
 local template
@@ -174,7 +172,7 @@ local function is_enable_id(id)
     return true
 end
 
-local function parse_id(id, meta)
+local function parse_id(tkey, tsearch, id, meta)
     local meta = metadata[id]
     local key = meta.field:lower()
     local num  = meta.data
@@ -216,22 +214,22 @@ local function parse_id(id, meta)
     end
 end
 
-local function parse()
+local function parse(tkey, tsearch)
     for id in pairs(metadata) do
         if is_enable_id(id) then
-            parse_id(id)
+            parse_id(tkey, tsearch, id)
         end
     end
 end
 
 local function create_key2id(w2l, type, template_)
-    tkey = {common={}}
-    tsearch = {common={}}
+    local tkey = {common={}}
+    local tsearch = {common={}}
 
     ttype = type
     metadata = w2l:read_metadata(type)
     template = template_
-    parse()
+    parse(tkey, tsearch)
     fixsearch(tsearch)
     if ttype == 'ability' or ttype == 'misc' then
         copy_code(tkey)
