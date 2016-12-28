@@ -55,7 +55,7 @@ local function search_map(map)
             local _, count, index = ('ll'):unpack(buf)
             local name
             for i = 1, count do
-                name, index = ('z'):unpack(buf, index)
+                _, name, index = ('c1z'):unpack(buf, index)
                 map:get(name)
             end
         end
