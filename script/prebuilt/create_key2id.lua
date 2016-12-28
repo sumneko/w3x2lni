@@ -3,13 +3,11 @@ local string_char = string.char
 local pairs = pairs
 local ipairs = ipairs
 
-local common
-local special
+local tkey
+local tsearch
 local ttype
 local metadata
 local template
-local lines_id
-local lines_type
 
 local enable_type = {
     abilCode = 'ability',
@@ -101,71 +99,60 @@ local function get_key_type(name, key, type)
     end
 end
 
-local function convert_data(data)
-    local flag
-    local keys = {}
-    for key in pairs(data) do
-        keys[#keys+1] = key
-    end
-    table.sort(keys)
-    for _, key in ipairs(keys) do
-        local id, type = data[key][1], data[key][2]
-        if key:find('[^_%w]') then
-            key = "'" .. key .. "'"
+local function sortpairs(t)
+	local sort = {}
+	for k, v in pairs(t) do
+		sort[#sort+1] = {k, v}
+	end
+	table.sort(sort, function (a, b)
+		return a[1] < b[1]
+	end)
+	local n = 1
+	return function()
+		local v = sort[n]
+		if not v then
+			return
+		end
+		n = n + 1
+		return v[1], v[2]
+	end
+end
+
+local function stringify(inf, outf)
+    for name, obj in sortpairs(inf) do
+        if next(obj) then
+            if name:find '[^%w_]' then
+                name = ('%q'):format(name)
+            end
+            outf[#outf+1] = ('[%s]'):format(name)
+            for k, v in sortpairs(obj) do
+                if k:find '[^%w_]' then
+                    k = "'" .. k .. "'" 
+                end
+                outf[#outf+1] = ('%s = %s'):format(k, v)
+            end
+            outf[#outf+1] = ''
         end
-        lines_id[#lines_id+1] = ('%s = %s'):format(key, id)
-        if type then
-            lines_type[#lines_type+1] = ('%s = %s'):format(key, type)
-            flag = true
-        end
-    end
-    if not flag then
-        lines_type[#lines_type] = nil
     end
 end
 
-local function convert_special(names)
-    for _, name in ipairs(names) do
-        local data = special[name]
-        lines_id[#lines_id+1] = ''
-        if name:find '[^%w_]' then
-            lines_id[#lines_id+1] = ('[%q]'):format(name)
-            lines_type[#lines_type+1] = ('[%q]'):format(name)
-        else
-            lines_id[#lines_id+1] = ('[%s]'):format(name)
-            lines_type[#lines_type+1] = ('[%s]'):format(name)
-        end
-        convert_data(data)
-    end
+local function stringify_ex(inf)
+    local f = {}
+    stringify({common=inf.common}, f)
+    inf.common = nil
+    stringify(inf, f)
+    return table.concat(f, '\r\n')
 end
 
-local function convert_common()
-    local flag
-    lines_id[#lines_id+1] = '[common]'
-    lines_type[#lines_type+1] = '[common]'
-    convert_data(common)
-end
-
-local function convert()
-    convert_common()
-
-    local names = {}
-    for name in pairs(special) do
-        names[#names+1] = name
-    end
-    table.sort(names)
-    convert_special(names)
-end
-
-local function copy_code()
+local function copy_code(t)
     for skill, data in pairs(template) do
         local code = data.code or data._code
-        local data = special[skill]
+        local data = t[skill]
         if data then
-            special[skill] = nil
-            if special[code] then
+            t[skill] = nil
+            if t[code] then
                 for k, v in pairs(data) do
-                    local dest = special[code][k]
+                    local dest = t[code][k]
                     if dest then
                         if v[1] ~= dest[1] then
                             message('id不同:', k, 'skill:', skill, v[1], 'code:', code, dest[1])
@@ -174,13 +161,13 @@ local function copy_code()
                             message('type不同:', k, 'skill:', skill, v[2], 'code:', code, dest[2])
                         end
                     else
-                        special[code][k] = v
+                        t[code][k] = v
                     end
                 end
             else
-                special[code] = {}
+                t[code] = {}
                 for k, v in pairs(data) do
-                    special[code][k] = v
+                    t[code][k] = v
                 end
             end
         end
@@ -235,14 +222,23 @@ local function parse_id(id, meta)
     if objs then
         for name in objs:gmatch '%w+' do
             if can_add_id(name, id) then
-                if not special[name] then
-                    special[name] = {}
+                if not tkey[name] then
+                    tkey[name] = {}
                 end
-                special[name][key] = {id, get_key_type(name, key, meta.type)}
+                tkey[name][key] = id
+
+                local v = get_key_type(name, key, meta.type)
+                if v then
+                    if not tsearch[name] then
+                        tsearch[name] = {}
+                    end
+                    tsearch[name][key] = v
+                end
             end
         end
     else
-        common[key] = {id, get_key_type(nil, key, meta.type)}
+        tkey.common[key] = id
+        tsearch.common[key] = get_key_type(nil, key, meta.type)
         local filename = meta.slk:lower()
         if filename ~= 'profile' then
             filename = 'units\\' .. meta.slk:lower() .. '.slk'
@@ -250,10 +246,10 @@ local function parse_id(id, meta)
                 filename = 'doodads\\doodads.slk'
             end
         end
-        if not special[filename] then
-            special[filename] = {}
+        if not tkey[filename] then
+            tkey[filename] = {}
         end
-        special[filename][key] = {id}
+        tkey[filename][key] = id
     end
 end
 
@@ -263,57 +259,47 @@ local function parse()
             parse_id(id)
         end
     end
-    if ttype == 'ability' or ttype == 'misc' then
-        copy_code()
-    end
 end
 
-local function create_key2id(type, metadata_, template_)
-    common = {}
-    special = {}
-    lines_id = {}
-    lines_type = {}
+local function create_key2id(w2l, type, template_)
+    tkey = {common={}}
+    tsearch = {common={}}
+
     ttype = type
-    metadata = metadata_
+    metadata = w2l:read_metadata(type)
     template = template_
     parse()
+    if ttype == 'ability' or ttype == 'misc' then
+        copy_code(tkey)
+        copy_code(tsearch)
+    end
     convert()
-    return table.concat(lines_id, '\r\n') .. '\r\n', table.concat(lines_type, '\r\n') .. '\r\n'
+	io.save(w2l.key / (type .. '.ini'),  stringify_ex(tkey))
+	io.save(w2l.prebuilt / 'search' / (type .. '.ini'), stringify_ex(tsearch))
 end
 
-local function add_table(tbl1, tbl2)
-    for k, v in pairs(tbl2) do
-        if tbl1[k] then
-            if type(tbl1[k]) == 'table' and type(v) == 'table' then
-                add_table(tbl1[k], v)
+local function add_table(a, b)
+    for k, v in pairs(b) do
+        if a[k] then
+            if type(a[k]) == 'table' and type(v) == 'table' then
+                add_table(a[k], v)
             else
-                tbl1[k] = v
+                a[k] = v
             end
         else
-            tbl1[k] = v
+            a[k] = v
         end
     end
 end
 
 return function(w2l, slk)
-	-- 生成key2id
     for type, slk in pairs(w2l.info.slk) do
 		message('正在生成key2id', type)
-		local metadata = w2l:read_metadata(type)
         local template = {}
         for i = 1, #slk do
             add_table(template, w2l:parse_slk(io.load(w2l.mpq / slk[i])))
         end
-		local content1, content2 = create_key2id(type, metadata, template)
-		io.save(w2l.key / (type .. '.ini'), content1)
-		io.save(w2l.prebuilt / 'search' / (type .. '.ini'), content2)
+        create_key2id(w2l, type, template)
 	end
-
-	-- 生成misc的文件
-	local data = slk['misc']
-	
-	local content1, content2 = create_key2id('misc', w2l:read_metadata 'misc', data)
-	io.save(w2l.key / 'misc.ini', content1)
-	io.save(w2l.prebuilt / 'search' / 'misc.ini', content2)
-
+    create_key2id(w2l, 'misc', slk.misc)
 end
