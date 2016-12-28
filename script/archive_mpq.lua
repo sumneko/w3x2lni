@@ -107,17 +107,20 @@ function mt:write_file(filename)
     end
 end
 
+function mt:is_complete()
+    local total = self.handle:number_of_files()
+    if self._read_number < total then
+        message('-report|error', ('还有%d个文件没有读取'):format(total -self._read_number))
+        message('-tip', '这些文件被丢弃了,请包含完整(listfile)')
+        message('-report|error', ('读取(%d/%d)个文件'):format(self._read_number, total))
+    end
+end
+
 function mt:write_flush(input, slk)
     local cache = input.cache
     table.sort(self._write)
     table.sort(self._imp)
-    if input.handle then
-        local total = input.handle:number_of_files()
-        if #self._write < total then
-            message('-report|error', ('还有%d个文件没有读取'):format(total - #self._write))
-            message('-tip', '这些文件被丢弃了,请包含完整(listfile)')
-            message('-report|error', ('读取(%d/%d)个文件'):format(#self._write, total))
-        end
+    if input.handle and not input:is_complete() then
     end
     self.handle = create_map(self.path, slk.w3i, #self._write)
     if not self.handle then

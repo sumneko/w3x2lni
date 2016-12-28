@@ -161,16 +161,16 @@ local function mark_list(slk, o, list)
 end
 
 function mark_known_type(slk, type, name)
-    local lname = name:lower()
     local o
     if type == 'buff' then
-        o = slk[type][lname]
+        o = slk.buff[name:lower()]
     else
         o = slk[type][name]
     end
     if not o then
-        if slk.txt[lname] then
-            slk.txt[lname]._mark = current_root
+        local o = slk.txt[name:lower()]
+        if o then
+            o._mark = current_root
             return true
         end
         return false
