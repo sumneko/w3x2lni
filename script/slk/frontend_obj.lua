@@ -96,13 +96,11 @@ local function read_obj(chunk, type)
 	local parent, name = unpack 'c4c4'
 	if name == '\0\0\0\0' then
 		name = parent
-		if not w2l:is_usable_para(parent) then
-			parent = nil
-			force_slk = true
-		end
 	end
-	if parent then
+	if w2l:is_usable_para(parent) then
 		obj._true_origin = true
+	else
+		force_slk = true
 	end
 	obj['_id'] = name
 	obj['_type'] = type
@@ -113,14 +111,10 @@ local function read_obj(chunk, type)
 	end
 	if type == 'buff' then
 		chunk[string_lower(name)] = obj
-		if parent then
-			obj['_parent'] = string_lower(parent)
-		end
+		obj._parent = string_lower(parent)
 	else
 		chunk[name] = obj
-		if parent then
-			obj['_parent'] = parent
-		end
+		obj._parent = parent
 	end
 	obj._max_level = obj[has_level]
     if obj._max_level == 0 then

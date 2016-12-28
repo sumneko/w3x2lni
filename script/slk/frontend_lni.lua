@@ -13,19 +13,17 @@ local function add_obj(type, name, level_key, obj)
     end
     new_obj._id = name
     if type == 'buff' then
-        new_obj._parent = string_lower(name)
+        new_obj._parent = string_lower(obj._id)
     else
-        new_obj._parent = name
+        new_obj._parent = obj._id
     end
     new_obj._max_level = obj[level_key]
     new_obj._type = type
-    if not w2l:is_usable_para(new_obj._parent) then
-        new_obj._parent = nil
+    if w2l:is_usable_para(new_obj._parent) then
+		new_obj._true_origin = true
+    else
         force_slk = true
     end
-	if new_obj._parent then
-		new_obj._true_origin = true
-	end
 
     return new_obj
 end
