@@ -1,15 +1,3 @@
-local sleep = require 'ffi.sleep'
-
-local function task(f, ...)
-	for i = 1, 99 do
-		if pcall(f, ...) then
-			return
-		end
-		sleep(10)
-	end
-	f(...)
-end
-
 local mt = {}
 mt.__index = mt
 
@@ -42,10 +30,6 @@ function m.open(path)
     return setmetatable({ path = path }, mt)
 end
 function m.create(path)
-    if fs.exists(path) then
-		task(fs.remove_all, path)
-	end
-	task(fs.create_directories, path)
     return setmetatable({ path = path }, mt)
 end
 return m
