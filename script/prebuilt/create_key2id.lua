@@ -24,78 +24,43 @@ local enable_type = {
     upgradeCode = 'upgrade',
 }
 
-local function get_special_type(name, key, type)
-    if key == 'unitid' then
-        -- 复活死尸科技限制单位
-        if name == 'Arai' or name == 'ACrd' or name == 'AIrd' or name == 'Avng' then
-            return nil
-        end
-        -- 地洞战备状态允许单位
-        if name == 'Abtl' or name == 'Sbtl' then
-            return nil
-        end
-        -- 装载允许目标单位
-        if name == 'Aloa' or name == 'Sloa' or name == 'Slo2' or name == 'Slo3' then
-            return nil
-        end
-        -- 灵魂保存目标单位
-        if name == 'ANsl' then
-            return nil
-        end
-        -- 地洞装载允许目标单位
-        if name == 'Achl' then
-            return nil
-        end
-        -- 火山爆发召唤可破坏物
-        if name == 'ANvc' then
-            return 'destructable'
-        end
-    end
-    if key == 'dataa' then
-         -- 战斗号召允许单位
-        if name == 'Amil' then
-            return nil
-        end
-        -- 骑乘角鹰兽指定单位类型
-        if name == 'Acoa' or name == 'Acoh' or name == 'Aco2' or name == 'Aco3' then
-            return nil
-        end
-    end
-    return type
-end
-
-local function get_common_type(key, type)
+local function fixsearch(t)
     if ttype == 'item' then
-        if key == 'cooldownid' then
-            return nil
-        end
+        t.common.cooldownid = nil
     end
     if ttype == 'unit' then
-        if key == 'upgrades' then
-            return nil
-        end
-        if key == 'auto' then
-            return nil
-        end
-        if key == 'dependencyor' then
-            return nil
-        end
-        if key == 'reviveat' then
-            return nil
-        end
+        t.common.upgrades = nil
+        t.common.auto = nil
+        t.common.dependencyor = nil
+        t.common.reviveat = nil
     end
-    return type
-end
-
-local function get_key_type(name, key, type)
-    type = enable_type[type]
-    if not type then
-        return nil
-    end
-    if name then
-        return get_special_type(name, key, type)
-    else
-        return get_common_type(key, type)
+    if ttype == 'ability' then
+        -- 复活死尸科技限制单位
+        t.Arai.unitid = nil
+        t.ACrd.unitid = nil
+        t.AIrd.unitid = nil
+        t.Avng.unitid = nil
+        -- 地洞战备状态允许单位
+        t.Abtl.unitid = nil
+        t.Sbtl.unitid = nil
+        -- 装载允许目标单位
+        t.Aloa.unitid = nil
+        t.Sloa.unitid = nil
+        t.Slo2.unitid = nil
+        t.Slo3.unitid = nil
+        -- 灵魂保存目标单位
+        t.ANsl.unitid = nil
+        -- 地洞装载允许目标单位
+        t.Achl.unitid = nil
+        -- 火山爆发召唤可破坏物
+        t.ANvc.unitid = 'destructable'
+         -- 战斗号召允许单位
+        t.Amil.dataa = nil
+        -- 骑乘角鹰兽指定单位类型
+        t.Acoa.dataa = nil
+        t.Acoh.dataa = nil
+        t.Aco2.dataa = nil
+        t.Aco3.dataa = nil
     end
 end
 
@@ -228,18 +193,15 @@ local function parse_id(id, meta)
                 end
                 tkey[name][key] = id
 
-                local v = get_key_type(name, key, meta.type)
-                if v then
-                    if not tsearch[name] then
-                        tsearch[name] = {}
-                    end
-                    tsearch[name][key] = v
+                if not tsearch[name] then
+                    tsearch[name] = {}
                 end
+                tsearch[name][key] = enable_type[meta.type]
             end
         end
     else
         tkey.common[key] = id
-        tsearch.common[key] = get_key_type(nil, key, meta.type)
+        tsearch.common[key] = enable_type[meta.type]
         local filename = meta.slk:lower()
         if filename ~= 'profile' then
             filename = 'units\\' .. meta.slk:lower() .. '.slk'
@@ -270,6 +232,7 @@ local function create_key2id(w2l, type, template_)
     metadata = w2l:read_metadata(type)
     template = template_
     parse()
+    fixsearch(tsearch)
     if ttype == 'ability' or ttype == 'misc' then
         copy_code(tkey)
         copy_code(tsearch)
