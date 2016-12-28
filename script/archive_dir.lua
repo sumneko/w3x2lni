@@ -21,6 +21,7 @@ function mt:load_file(name)
 end
 
 function mt:save_file(name, buf, filetime)
+    fs.create_directories((self.path / name):remove_filename())
     io.save(self.path / name, buf)
     return true
 end
