@@ -268,7 +268,7 @@ local function parse()
     end
 end
 
-return function (type, metadata_, template_)
+local function create_key2id(type, metadata_, template_)
     common = {}
     special = {}
     lines_id = {}
@@ -279,4 +279,41 @@ return function (type, metadata_, template_)
     parse()
     convert()
     return table.concat(lines_id, '\r\n') .. '\r\n', table.concat(lines_type, '\r\n') .. '\r\n'
+end
+
+local function add_table(tbl1, tbl2)
+    for k, v in pairs(tbl2) do
+        if tbl1[k] then
+            if type(tbl1[k]) == 'table' and type(v) == 'table' then
+                add_table(tbl1[k], v)
+            else
+                tbl1[k] = v
+            end
+        else
+            tbl1[k] = v
+        end
+    end
+end
+
+return function(w2l, slk)
+	-- 生成key2id
+    for type, slk in pairs(w2l.info.slk) do
+		message('正在生成key2id', type)
+		local metadata = w2l:read_metadata(type)
+        local template = {}
+        for i = 1, #slk do
+            add_table(template, w2l:parse_slk(io.load(w2l.mpq / slk[i])))
+        end
+		local content1, content2 = create_key2id(type, metadata, template)
+		io.save(w2l.key / (type .. '.ini'), content1)
+		io.save(w2l.prebuilt / 'search' / (type .. '.ini'), content2)
+	end
+
+	-- 生成misc的文件
+	local data = slk['misc']
+	
+	local content1, content2 = create_key2id('misc', w2l:read_metadata 'misc', data)
+	io.save(w2l.key / 'misc.ini', content1)
+	io.save(w2l.prebuilt / 'search' / 'misc.ini', content2)
+
 end
