@@ -255,14 +255,16 @@ local function add_table(a, b)
     end
 end
 
-return function(w2l, slk)
-    for type, slk in pairs(w2l.info.slk) do
-		message('正在生成key2id', type)
-        local template = {}
-        for i = 1, #slk do
-            add_table(template, w2l:parse_slk(io.load(w2l.mpq / slk[i])))
-        end
-        create_key2id(w2l, type, template)
-	end
-    create_key2id(w2l, 'misc', slk.misc)
+return function(w2l, type, slk)
+    message('正在生成key2id', type)
+    if type == 'misc' then
+        create_key2id(w2l, 'misc', slk.misc)
+        return
+    end
+    local slk = w2l.info.slk[type]
+    local template = {}
+    for i = 1, #slk do
+        add_table(template, w2l:parse_slk(io.load(w2l.mpq / slk[i])))
+    end
+    create_key2id(w2l, type, template)
 end
