@@ -242,7 +242,7 @@ local function load_w3i(w2l, archive, slk)
     else
         buf = archive:get 'war3map.w3i'
         if buf then
-            slk.w3i = w2l:parse_lni(w2l:w3i2lni(w2l:read_w3i(buf), slk.wts))
+            slk.w3i = w2l:read_w3i(buf, slk.wts)
         end
     end
     if not slk.w3i then
@@ -281,7 +281,7 @@ return function (w2l, archive, slk)
     load_w3i(w2l, archive, slk)
     if slk.w3i then
         if w2l.config.target_format == 'lni' then
-            archive:set('war3map.w3i.ini', w2l:w3i2lni(w2l:read_w3i(w2l:lni2w3i(slk.w3i)), slk.wts))
+            archive:set('war3map.w3i.ini', w2l:w3i2lni(slk.w3i), slk.wts)
             archive:set('war3map.w3i', false)
         else
             archive:set('war3map.w3i', w2l:lni2w3i(slk.w3i))
