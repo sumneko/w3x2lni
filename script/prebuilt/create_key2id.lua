@@ -118,18 +118,19 @@ local function sortpairs(t)
 	end
 end
 
+local function fmtstring(s)
+    if s:find '[^%w_]' then
+        return ('%q'):format(s)
+    end
+    return s
+end
+
 local function stringify(inf, outf)
     for name, obj in sortpairs(inf) do
         if next(obj) then
-            if name:find '[^%w_]' then
-                name = ('%q'):format(name)
-            end
-            outf[#outf+1] = ('[%s]'):format(name)
+            outf[#outf+1] = ('[%s]'):format(fmtstring(name))
             for k, v in sortpairs(obj) do
-                if k:find '[^%w_]' then
-                    k = "'" .. k .. "'" 
-                end
-                outf[#outf+1] = ('%s = %s'):format(k, v)
+                outf[#outf+1] = ('%s = %s'):format(fmtstring(k), v)
             end
             outf[#outf+1] = ''
         end
@@ -273,7 +274,6 @@ local function create_key2id(w2l, type, template_)
         copy_code(tkey)
         copy_code(tsearch)
     end
-    convert()
 	io.save(w2l.key / (type .. '.ini'),  stringify_ex(tkey))
 	io.save(w2l.prebuilt / 'search' / (type .. '.ini'), stringify_ex(tsearch))
 end
