@@ -204,8 +204,8 @@ function mt:add_randomgroup(chunk)
 		chunk['随机组'..i]['位置类型'] = pack(self:unpack(('l'):rep(x)))
 
 		local y = self:unpack 'l'
-		for i = 1, y do
-			chunk['随机组'..i]['设置'][i] = {
+		for y = 1, y do
+			chunk['随机组'..i]['设置'][y] = {
 				['几率'] = self:unpack 'l',
 				['ID']   = pack(self:unpack(('c4'):rep(x))),
 			}
@@ -228,10 +228,10 @@ function mt:add_randomitem(chunk)
 		--设置
 		local x = self:unpack 'l'
 		for x = 1, x do
-			chunk['物品列表'..i][x] = {}
+			chunk['物品列表'..i]['设置'][x] = {}
 			local y = self:unpack 'l'
 			for y = 1, y do
-				chunk['物品列表'..i][x][y] = {
+				chunk['物品列表'..i]['设置'][x][y] = {
 					['几率'] = self:unpack 'l',
 					['ID'] = self:unpack 'c4',
 				}
