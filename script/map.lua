@@ -41,6 +41,9 @@ end
 
 local function search_map(map)
     if map:get_type() == 'mpq' then
+        map:get '(listfile)'
+        map:get '(signature)'
+        map:get '(attributes)'
         local buf = map:get '(listfile)'
         if buf then
             for name in buf:gmatch '[^\r\n]+' do

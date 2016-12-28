@@ -103,6 +103,7 @@ function mt:save(w3i, encrypt)
 end
 
 function mt:set(name, buf)
+    name = name:lower()
     if buf == nil then
         buf = false
     end
@@ -121,6 +122,7 @@ function mt:set(name, buf)
 end
 
 function mt:get(name)
+    name = name:lower()
     if self.cache[name] then
         return self.cache[name]
     end
