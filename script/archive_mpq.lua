@@ -39,7 +39,7 @@ function mt:save(path, w3i, n, encrypt)
     hexs[#hexs+1] = ('l'):pack(get_map_flag(w3i))
     hexs[#hexs+1] = ('l'):pack(w3i and w3i['玩家']['玩家数量'] or 233)
     io.save(path, table.concat(hexs))
-    self.handle = stormlib.create(path, n, encrypt)
+    self.handle = stormlib.create(path, n+3, encrypt)
     if not self.handle then
         return false
     end
@@ -55,6 +55,9 @@ function mt:extract(name, path)
 end
 
 function mt:has_file(name)
+    if not self.read then
+        return
+    end
     return self.handle:has_file(name)
 end
 

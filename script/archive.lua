@@ -63,6 +63,16 @@ function mt:set(name, buf)
         self.write_count = self.write_count + 1
     end
     self.write_cache[name] = buf
+
+    if self.handle:has_file(name) then
+        if self.read_cache[name] ~= nil then
+            self.read_count = self.read_count - 1
+        end
+        if buf ~= nil then
+            self.read_count = self.read_count + 1
+        end
+    end
+    self.read_cache[name] = buf
 end
 
 function mt:get(name)
