@@ -131,6 +131,17 @@ function mt:read_player(data)
     end
 end
 
+local function pack_player_flag(data, max)
+    local flag = 0
+    for i = 1, #data do
+        flag = flag + (1 << (data[i]-1))
+    end
+    for i = max+1, 32 do
+        flag = flag + (1 << (i-1))
+    end
+    return flag
+end
+
 function mt:read_force(data)
     self:current '队伍'
     data.force_count = self:get '队伍数量'
@@ -142,10 +153,14 @@ function mt:read_force(data)
         self:current('队伍' .. i)
         force.force_flag = self:get '结盟'            << 0
                          | self:get '结盟胜利'        << 1
-                         | self:get '共享视野'        << 2
-                         | self:get '共享单位控制'     << 3
-                         | self:get '共享高级单位设置' << 4
-        force.player_flag = pack_flag(self:get '玩家列表')
+                         | self:get '共享视野'        << 3
+                         | self:get '共享单位控制'     << 4
+                         | self:get '共享高级单位设置' << 5
+        if i == 1 then
+            force.player_flag = pack_player_flag(self:get '玩家列表', data.player_count)
+        else
+            force.player_flag = pack_flag(self:get '玩家列表', 0)
+        end
         force.name        = self:get '队伍名称'
     end
 end
