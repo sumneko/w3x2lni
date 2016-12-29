@@ -112,19 +112,19 @@ local function load_slk(w2l, archive, force_slk)
             end
             return io.load(w2l.mpq / name)
         end)
-        return datas, txt
+        datas.txt = txt
+        return datas
     else
-        local datas = {}
-        local i = 0
-        for type in pairs(w2l.info.slk) do
-            datas[type] = {}
-            w2l:parse_lni(io.load(w2l.default / (type .. '.ini')), type, datas[type])
-            setmetatable(datas[type], nil)
-            i = i + 1
-            progress(i / 7)
-        end
-        local txt = w2l:parse_lni(io.load(w2l.default / 'txt.ini'))
-        return datas, txt
+        return {
+            ability = w2l:parse_lni(io.load(w2l.default / 'ability.ini')),
+            buff = w2l:parse_lni(io.load(w2l.default / 'buff.ini')),
+            unit = w2l:parse_lni(io.load(w2l.default / 'unit.ini')),
+            item = w2l:parse_lni(io.load(w2l.default / 'item.ini')),
+            upgrade = w2l:parse_lni(io.load(w2l.default / 'upgrade.ini')),
+            doodad = w2l:parse_lni(io.load(w2l.default / 'doodad.ini')),
+            destructable = w2l:parse_lni(io.load(w2l.default / 'destructable.ini')),
+            txt = w2l:parse_lni(io.load(w2l.default / 'txt.ini')),
+        }
     end
 end
 
@@ -167,7 +167,8 @@ end
 
 local function update_then_merge(w2l, datas, objs, lnis, slk)
     local i = 0
-    for type, data in pairs(datas) do
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
+        local data = datas[type]
         local obj = objs[type] or {}
         if lnis[type] then
             w2l:frontend_updatelni(type, lnis[type], data)
@@ -201,13 +202,13 @@ return function(w2l, archive, slk)
 
     message('读取slk...')
     progress:start(0.8)
-    local datas, txt = load_slk(w2l, archive, force_slk1 or force_slk2)
+    local slks = load_slk(w2l, archive, force_slk1 or force_slk2)
     progress:finish()
     
     message('合并物编数据...')
     progress:start(1)
-    update_then_merge(w2l, datas, objs, lnis, slk)
+    update_then_merge(w2l, slks, objs, lnis, slk)
     progress:finish()
-    slk.txt = txt
+    slk.txt = slks.txt
     w2l:frontend_misc(archive, slk)
 end
