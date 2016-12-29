@@ -54,7 +54,7 @@ end
 
 local function split(str)
     local r = {}
-    str:gsub('[^,]+', function (w) r[#r+1] = w:lower() end)
+    str:gsub('[^,]+', function (w) r[#r+1] = w end)
     return r
 end
 
@@ -68,8 +68,11 @@ local function computed_value(slk, str, name)
            or slk.doodad[id]
            or slk.upgrade[id]
     if not o then
+        message('-report', '公式计算失败在', get_displayname_by_id(slk, name))
+        message('-tip', ('<%s>'):format(str))
         return
     end
+    key = key:lower()
     local res = switch(key) {
         mindmg1 = function ()
             return (get_value(o, 'dmgplus1') or 0) + (get_value(o, 'dice1') or 0)
