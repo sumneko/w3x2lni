@@ -10,6 +10,7 @@ local os_clock = os.clock
 
 local keydata
 local metadata
+local default
 
 local character = { 'A','B','C','D','E','F','G','H','I' }
 
@@ -126,7 +127,7 @@ function mt:add_obj(chunk, obj)
 
 	self:add('[%s]', obj._id)
 	if obj._parent then
-		self:add('%s = %q', '_id', chunk[obj._parent]._id)
+		self:add('%s = %q', '_id', default[obj._parent]._id)
 	end
     if obj._name then
         self:add('%s = %q', '_name', obj._name)
@@ -196,6 +197,7 @@ return function (w2l, type, data)
 	tbl.remove_unuse_object = w2l.config.remove_unuse_object
 	metadata = w2l:read_metadata(type)
 	keydata = w2l:keyconvert(type)
+	default = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')), type)
 	tbl.file_name = type
 	tbl:add_chunk(data, type)
 	return table_concat(tbl.lines, '\r\n')

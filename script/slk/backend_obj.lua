@@ -17,6 +17,7 @@ local w2l
 local has_level
 local metadata
 local keydata
+local default
 local hexs
 local wts
 
@@ -113,7 +114,7 @@ local function write_object(chunk, name, obj)
         write('c4', name)
         write('c4', '\0\0\0\0')
     else
-        write('c4', chunk[parent]._id)
+        write('c4', default[parent]._id)
         write('c4', name)
     end
     write('l', count)
@@ -185,6 +186,7 @@ return function (w2l_, type, data, wts_)
 	has_level = w2l.info.key.max_level[type]
     metadata = w2l:read_metadata(type)
     keydata = w2l:keyconvert(type)
+	default = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')), type)
     
     clean_chunk(data)
     local origin_id, user_id = sort_chunk(data, w2l.config.remove_unuse_object)
