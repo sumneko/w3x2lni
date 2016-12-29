@@ -165,10 +165,9 @@ local function load_lni(w2l, archive)
     return lnis
 end
 
-local function update_then_merge(w2l, datas, objs, lnis, slk)
-    local i = 0
+local function update_then_merge(w2l, slks, objs, lnis, slk)
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
-        local data = datas[type]
+        local data = slks[type]
         local obj = objs[type] or {}
         if lnis[type] then
             w2l:frontend_updatelni(type, lnis[type], data)
@@ -178,8 +177,6 @@ local function update_then_merge(w2l, datas, objs, lnis, slk)
         end
         merge_obj(data, obj)
         slk[type] = data
-        i = i + 1
-        progress(i / 7)
     end
 end
 
