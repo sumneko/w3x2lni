@@ -108,20 +108,20 @@ local function stringify_ex(inf)
 end
 
 local function copy_code(t, template)
-    for skill, data in pairs(template) do
-        local code = data.code or data._code
-        local data = t[skill]
+    for name, d in pairs(template) do
+        local code = d.code
+        local data = t[name]
         if data then
-            t[skill] = nil
+            t[name] = nil
             if t[code] then
                 for k, v in pairs(data) do
                     local dest = t[code][k]
                     if dest then
                         if v[1] ~= dest[1] then
-                            message('id不同:', k, 'skill:', skill, v[1], 'code:', code, dest[1])
+                            message('id不同:', k, 'skill:', name, v[1], 'code:', code, dest[1])
                         end
                         if v[2] ~= dest[2] then
-                            message('type不同:', k, 'skill:', skill, v[2], 'code:', code, dest[2])
+                            message('type不同:', k, 'skill:', name, v[2], 'code:', code, dest[2])
                         end
                     else
                         t[code][k] = v
@@ -171,7 +171,7 @@ local function is_enable_id(id)
     return true
 end
 
-local function parse_id(tkey, tsearch, id, meta)
+local function parse_id(tkey, tsearch, id)
     local meta = metadata[id]
     local key = meta.field:lower()
     local num  = meta.data
@@ -235,7 +235,7 @@ local function add_table(a, b)
     end
 end
 
-return function(w2l, type)
+local function create_key2id(w2l, type)
     message('正在生成key2id', type)
     local tkey = {common={}}
     local tsearch = {common={}}
@@ -255,4 +255,10 @@ return function(w2l, type)
     end
 	io.save(w2l.key / (type .. '.ini'),  stringify_ex(tkey))
 	io.save(w2l.prebuilt / 'search' / (type .. '.ini'), stringify_ex(tsearch))
+end
+
+return function(w2l)
+	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
+		create_key2id(w2l, type)
+	end
 end
