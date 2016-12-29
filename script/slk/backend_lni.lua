@@ -127,7 +127,7 @@ function mt:add_obj(chunk, obj)
 
 	self:add('[%s]', obj._id)
 	if obj._parent then
-		self:add('%s = %q', '_id', default[obj._parent]._id)
+		self:add('%s = %q', '_parent', obj._parent)
 	end
     if obj._name then
         self:add('%s = %q', '_name', obj._name)

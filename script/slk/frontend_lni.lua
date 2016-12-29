@@ -7,16 +7,9 @@ local force_slk
 local function add_obj(type, name, level_key, obj)
     local new_obj = {}
     for key, value in pairs(obj) do
-        if key ~= '_id' then
-            new_obj[string_lower(key)] = value
-        end
+        new_obj[string_lower(key)] = value
     end
     new_obj._id = name
-    if type == 'buff' then
-        new_obj._parent = string_lower(obj._id)
-    else
-        new_obj._parent = obj._id
-    end
     new_obj._max_level = obj[level_key]
     new_obj._type = type
     if w2l:is_usable_para(new_obj._parent) then

@@ -111,11 +111,10 @@ local function read_obj(chunk, type)
 	end
 	if type == 'buff' then
 		chunk[string_lower(name)] = obj
-		obj._parent = string_lower(parent)
 	else
 		chunk[name] = obj
-		obj._parent = parent
 	end
+	obj._parent = parent
 	obj._max_level = obj[has_level]
     if obj._max_level == 0 then
         obj._max_level = 1

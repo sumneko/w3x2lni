@@ -1,5 +1,6 @@
 local progress = require 'progress'
 
+local string_lower = string.lower
 local setmetatable = setmetatable
 local rawset = rawset
 local is_remove_exceeds_level
@@ -88,7 +89,11 @@ local function merge_obj(data, objs)
         if source then
             template[name] = source
         else
-            source = template[obj._parent] or data[obj._parent]
+            local parent = obj._parent
+            if obj._type == 'buff' then
+                parent = string_lower(parent)
+            end
+            source = template[parent] or data[parent]
         end
         data[name] = copy_obj(source, obj)
     end

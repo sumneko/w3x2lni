@@ -114,7 +114,7 @@ local function write_object(chunk, name, obj)
         write('c4', name)
         write('c4', '\0\0\0\0')
     else
-        write('c4', default[parent]._id)
+        write('c4', parent)
         write('c4', name)
     end
     write('l', count)
