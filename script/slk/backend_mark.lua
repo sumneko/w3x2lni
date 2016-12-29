@@ -46,6 +46,7 @@ local mustuse =  {
     },
 }
 
+-- 目前是技能专属
 local mustmark = {
     -- 牺牲深渊 => 阴影
     Asac = { 'ushd', 'unit' },
@@ -98,12 +99,15 @@ local function split(str)
     return r
 end
 
-local function print(id)
-    if once[id] then
+local function report(type, id)
+    if not once[type] then
+        once[type] = {}
+    end
+    if once[type][id] then
         return
     end
-    once[id] = true
-    message('-report', '简化时没有找到对象:', id)
+    once[type][id] = true
+    message('-report', type, id)
     message('-tip', format_marktip(slk, current_root))
 end
 
@@ -114,7 +118,7 @@ local function mark_value(slk, type, value)
                 if not mark_known_type(slk, 'unit', name) then
                     if not mark_known_type(slk, 'upgrade', name) then
                         if not mark_known_type(slk, 'misc', name) then
-                            print(name)
+                            report('简化时没有找到对象:', name)
                         end
                     end
                 end
@@ -123,7 +127,7 @@ local function mark_value(slk, type, value)
             if not mark_known_type(slk, 'unit', value) then
                 if not mark_known_type(slk, 'upgrade', value) then
                     if not mark_known_type(slk, 'misc', value) then
-                        print(value)
+                        report('简化时没有找到对象:', value)
                     end
                 end
             end
@@ -133,12 +137,12 @@ local function mark_value(slk, type, value)
     if std_type(value) == 'string' then
         for _, name in ipairs(split(value)) do
             if not mark_known_type(slk, type, name) then
-                print(name)
+                report('简化时没有找到对象:', name)
             end
         end
     else
         if not mark_known_type(slk, type, value) then
-            print(value)
+            report('简化时没有找到对象:', value)
         end
     end
 end
@@ -171,6 +175,7 @@ function mark_known_type(slk, type, name)
         local o = slk.txt[name:lower()]
         if o then
             o._mark = current_root
+            report('引用未分类对象:', name:lower())
             return true
         end
         return false
@@ -180,11 +185,13 @@ function mark_known_type(slk, type, name)
     end
     o._mark = current_root
     mark_list(slk, o, search[type].common)
-    mark_list(slk, o, search[type][o._code])
-    local marklist = mustmark[o._code]
-    if marklist then
-        if not mark_known_type(slk, marklist[2], marklist[1]) then
-            print(marklist[1])
+    if o._code then
+        mark_list(slk, o, search[type][o._code])
+        local marklist = mustmark[o._code]
+        if marklist then
+            if not mark_known_type(slk, marklist[2], marklist[1]) then
+                report('简化时没有找到对象:', marklist[1])
+            end
         end
     end
     return true
@@ -195,7 +202,7 @@ local function mark_mustuse(slk)
         for _, name in ipairs(list) do
             current_root = {name, "必须保留的'%s'[%s]引用了它"}
             if not mark_known_type(slk, type, name) then
-                print(name)
+                report('简化时没有找到对象:', name)
             end
         end
     end
@@ -310,12 +317,12 @@ local function mark_lua(w2l, archive, slk)
     }
     local f, e = load(buf, 'reference.lua', 't', env)
     if not f then
-        print(e)
+        report('简化时没有找到对象:', e)
         return
     end
     local suc, list = pcall(f)
     if not suc then
-        print(list)
+        report('简化时没有找到对象:', list)
         return
     end
     if type(list) ~= 'table' then
