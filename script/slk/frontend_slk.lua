@@ -110,9 +110,10 @@ local function slk_read(table, slk, keys, metas, update_level, type)
             lname = name
         end
         if not table[lname] then
-            table[lname] = {}
-            table[lname]._id = name
-            table[lname]._type = type
+            table[lname] = {
+                _id = name,
+                _type = type,
+            }
         end
         local obj = table[lname]
         slk_read_obj(obj, name, data, keys, metas)
