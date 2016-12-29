@@ -3,56 +3,77 @@ local progress = require 'progress'
 local setmetatable = setmetatable
 local rawset = rawset
 
-local function merge(a, b)
-    for k, v in pairs(b) do
-        a[k] = v
-    end
-end
-
-local function copy(b)
-    local a = {}
-    for k, v in pairs(b) do
-        a[k] = v
-    end
-    return a
-end
-
-local function copy2(a, b)
+local function fill_and_copy(a, lv)
     local c = {}
-    for k, v in pairs(a) do
-        c[k] = b[k] or v
-        b[k] = nil
-    end
-    for k, v in pairs(b) do
-        c[k] = v
+    if #a < lv then
+        for i = 1, #a do
+            c[i] = a[i] 
+        end
+        for i = #a+1, lv do
+            c[i] = a[#a] 
+        end
+    else
+        for i = 1, lv do
+            c[i] = a[i] 
+        end
     end
     return c
 end
 
-local function table_copy(a, b)
+local function maxindex(t)
+    local i = 0
+    for k in pairs(t) do
+        i = math.max(i, k)
+    end
+    return i
+end
+
+local function fill_and_merge(a, b, lv)
     local c = {}
+    if #a < lv then
+        for i = 1, #a do
+            c[i] = b[i] or a[i] 
+        end
+        for i = #a+1, lv do
+            c[i] = b[i] or a[#a] 
+        end
+    else
+        for i = 1, lv do
+            c[i] = b[i] or a[i] 
+        end
+    end
+    local maxlv = maxindex(b)
+    if maxlv > lv then
+        for i = lv+1, maxlv do
+            c[i] = b[i] or a[#a] 
+        end
+    end
+    return c
+end
+
+local function copy_obj(a, b)
+    local c = {}
+    local lv = b._max_level or a._max_level
     for k, v in pairs(a) do
         if b[k] then
             if type(v) == 'table' then
-                c[k] = copy2(v, b[k])
+                c[k] = fill_and_merge(v, b[k], lv)
             else
                 c[k] = b[k]
             end
             b[k] = nil
         else
             if type(v) == 'table' then
-                c[k] = copy(v)
+                c[k] = fill_and_copy(v, lv)
             else
                 c[k] = v
             end
         end
     end
     for k, v in pairs(b) do
-        if type(v) == 'table' then
-            c[k] = copy(v)
-        else
-            c[k] = v
-        end
+        -- 不应该会有等级数据
+        assert(type(v) ~= 'table')
+        c[k] = v
     end
     return c
 end
@@ -66,7 +87,7 @@ local function merge_obj(data, objs)
         else
             source = template[obj._parent] or data[obj._parent]
         end
-        data[name] = table_copy(source, obj)
+        data[name] = copy_obj(source, obj)
     end
 end
 
@@ -142,7 +163,9 @@ local function update_then_merge(w2l, datas, objs, lnis, slk)
         local obj = objs[type] or {}
         if lnis[type] then
             w2l:frontend_updatelni(type, lnis[type], data)
-            merge(obj, lnis[type])
+            for k, v in pairs(lnis[type]) do
+                obj[k] = v
+            end
         end
         merge_obj(data, obj)
         slk[type] = data
