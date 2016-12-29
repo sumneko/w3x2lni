@@ -39,6 +39,7 @@ local function add_data(id, meta, misc, chunk, slk)
         chunk[name] = {
             _id = name,
             _code = name,
+            _parent = name,
             _type = 'misc',
         }
     end
