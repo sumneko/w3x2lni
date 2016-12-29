@@ -156,9 +156,7 @@ local function txt_read_data(name, obj, key, meta, txt)
                 flag = true
             end
         end
-        if flag then
-            obj[key] = tbl
-        end
+        obj[key] = tbl
         return
     end
 
@@ -166,6 +164,9 @@ local function txt_read_data(name, obj, key, meta, txt)
     if not value or #value == 0 then
         local value = to_type(meta.type)
         if not value then
+            if meta['repeat'] then
+                obj[key] = {}
+            end
             return
         end
         if meta['repeat'] then
