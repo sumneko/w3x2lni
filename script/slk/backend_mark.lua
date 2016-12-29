@@ -33,16 +33,16 @@ local mustuse =  {
         'Afir','Afih','Afio','Afin','Afiu'
     },
     buff = {
-        'BPSE','BSTN','Btlf','Bdet',
-        'Bvul','Bspe','Bfro','Bsha',
-        'Btrv','Xbdt','Xbli','Xdis',
-        'Bpxf','Bphx','Bens','Bstt',
-        'Bcor','Buns','BUst','Xesn','Bivs', 
+        'bpse','bstn','btlf','bdet',
+        'bvul','bspe','bfro','bsha',
+        'btrv','xbdt','xbli','xdis',
+        'bpxf','bphx','bens','bstt',
+        'bcor','buns','bUst','xesn','bivs', 
         -- 建筑物伤害
-        'Xfhs','Xfhm','Xfhl',
-        'Xfos','Xfom','Xfol',
-        'Xfns','Xfnm','Xfnl',
-        'Xfus','Xfum','Xful',
+        'xfhs','xfhm','xfhl',
+        'xfos','xfom','xfol',
+        'xfns','xfnm','xfnl',
+        'xfus','xfum','xful',
     },
 }
 
