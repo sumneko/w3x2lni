@@ -67,7 +67,7 @@ local function clean_obj(name, obj, type, default, config)
     local default = default[parent]
     local is_remove_exceeds_level = config.remove_exceeds_level
     local is_remove_same = config.remove_same
-    local is_slk = config.target_format == 'slk' and type ~= 'doodad'
+    local is_slk = config.target_format == 'slk' and type ~= 'doodad' and type ~= 'misc'
     for key, data in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
             if is_remove_exceeds_level and max_level then
@@ -102,10 +102,8 @@ local function processing(w2l, type, chunk)
 end
 
 return function (w2l, slk)
-    local count = 0
-    for type, name in pairs(w2l.info.obj) do
-        count = count + 1
-        progress:start(count / 7)
+    for i, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
+        progress:start(i / 8)
         processing(w2l, type, slk[type])
         progress:finish()
     end
