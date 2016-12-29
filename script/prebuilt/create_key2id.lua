@@ -3,10 +3,6 @@ local string_char = string.char
 local pairs = pairs
 local ipairs = ipairs
 
-local ttype
-local metadata
-local template
-
 local enable_type = {
     abilCode = 'ability',
     abilityID = 'ability',
@@ -23,43 +19,37 @@ local enable_type = {
 }
 
 local function fixsearch(t)
-    if ttype == 'item' then
-        t.common.cooldownid = nil
-    end
-    if ttype == 'unit' then
-        t.common.upgrades = nil
-        t.common.auto = nil
-        t.common.dependencyor = nil
-        t.common.reviveat = nil
-    end
-    if ttype == 'ability' then
-        -- 复活死尸科技限制单位
-        t.Arai.unitid = nil
-        t.ACrd.unitid = nil
-        t.AIrd.unitid = nil
-        t.Avng.unitid = nil
-        -- 地洞战备状态允许单位
-        t.Abtl.unitid = nil
-        t.Sbtl.unitid = nil
-        -- 装载允许目标单位
-        t.Aloa.unitid = nil
-        t.Sloa.unitid = nil
-        t.Slo2.unitid = nil
-        t.Slo3.unitid = nil
-        -- 灵魂保存目标单位
-        t.ANsl.unitid = nil
-        -- 地洞装载允许目标单位
-        t.Achl.unitid = nil
-        -- 火山爆发召唤可破坏物
-        t.ANvc.unitid = 'destructable'
-         -- 战斗号召允许单位
-        t.Amil.dataa = nil
-        -- 骑乘角鹰兽指定单位类型
-        t.Acoa.dataa = nil
-        t.Acoh.dataa = nil
-        t.Aco2.dataa = nil
-        t.Aco3.dataa = nil
-    end
+    t.item.common.cooldownid = nil
+    t.unit.common.upgrades = nil
+    t.unit.common.auto = nil
+    t.unit.common.dependencyor = nil
+    t.unit.common.reviveat = nil
+    -- 复活死尸科技限制单位
+    t.ability.Arai.unitid = nil
+    t.ability.ACrd.unitid = nil
+    t.ability.AIrd.unitid = nil
+    t.ability.Avng.unitid = nil
+    -- 地洞战备状态允许单位
+    t.ability.Abtl.unitid = nil
+    t.ability.Sbtl.unitid = nil
+    -- 装载允许目标单位
+    t.ability.Aloa.unitid = nil
+    t.ability.Sloa.unitid = nil
+    t.ability.Slo2.unitid = nil
+    t.ability.Slo3.unitid = nil
+    -- 灵魂保存目标单位
+    t.ability.ANsl.unitid = nil
+    -- 地洞装载允许目标单位
+    t.ability.Achl.unitid = nil
+    -- 火山爆发召唤可破坏物
+    t.ability.ANvc.unitid = 'destructable'
+     -- 战斗号召允许单位
+    t.ability.Amil.dataa = nil
+    -- 骑乘角鹰兽指定单位类型
+    t.ability.Acoa.dataa = nil
+    t.ability.Acoh.dataa = nil
+    t.ability.Aco2.dataa = nil
+    t.ability.Aco3.dataa = nil
 end
 
 local function sortpairs(t)
@@ -108,21 +98,21 @@ local function stringify_ex(inf)
     return table.concat(f, '\r\n')
 end
 
-local function copy_code(t)
-    for skill, data in pairs(template) do
-        local code = data.code or data._code
-        local data = t[skill]
+local function copy_code(t, template)
+    for name, d in pairs(template) do
+        local code = d.code
+        local data = t[name]
         if data then
-            t[skill] = nil
+            t[name] = nil
             if t[code] then
                 for k, v in pairs(data) do
                     local dest = t[code][k]
                     if dest then
                         if v[1] ~= dest[1] then
-                            message('id不同:', k, 'skill:', skill, v[1], 'code:', code, dest[1])
+                            message('id不同:', k, 'skill:', name, v[1], 'code:', code, dest[1])
                         end
                         if v[2] ~= dest[2] then
-                            message('type不同:', k, 'skill:', skill, v[2], 'code:', code, dest[2])
+                            message('type不同:', k, 'skill:', name, v[2], 'code:', code, dest[2])
                         end
                     else
                         t[code][k] = v
@@ -153,16 +143,15 @@ local function can_add_id(name, id)
     return true
 end
 
-local function is_enable_id(id)
-    local meta = metadata[id]
-    if ttype == 'unit' then
+local function is_enable(meta, type)
+    if type == 'unit' then
         if meta.usehero == 1 or meta.useunit == 1 or meta.usebuilding == 1 or meta.usecreep == 1 then
             return true
         else
             return false
         end
     end
-    if ttype == 'item' then
+    if type == 'item' then
         if meta['useitem'] == 1 then
             return true
         else
@@ -172,8 +161,7 @@ local function is_enable_id(id)
     return true
 end
 
-local function parse_id(tkey, tsearch, id, meta)
-    local meta = metadata[id]
+local function parse_id(tkey, tsearch, id, meta, type)
     local key = meta.field:lower()
     local num  = meta.data
     local objs = meta.usespecific or meta.section
@@ -203,7 +191,7 @@ local function parse_id(tkey, tsearch, id, meta)
         local filename = meta.slk:lower()
         if filename ~= 'profile' then
             filename = 'units\\' .. meta.slk:lower() .. '.slk'
-            if ttype == 'doodad' then
+            if type == 'doodad' then
                 filename = 'doodads\\doodads.slk'
             end
         end
@@ -214,55 +202,34 @@ local function parse_id(tkey, tsearch, id, meta)
     end
 end
 
-local function parse(tkey, tsearch)
-    for id in pairs(metadata) do
-        if is_enable_id(id) then
-            parse_id(tkey, tsearch, id)
-        end
-    end
-end
-
-local function create_key2id(w2l, type, template_)
-    local tkey = {common={}}
-    local tsearch = {common={}}
-
-    ttype = type
-    metadata = w2l:read_metadata(type)
-    template = template_
-    parse(tkey, tsearch)
-    fixsearch(tsearch)
-    if ttype == 'ability' then
-        copy_code(tkey)
-        copy_code(tsearch)
-    end
-	io.save(w2l.key / (type .. '.ini'),  stringify_ex(tkey))
-	io.save(w2l.prebuilt / 'search' / (type .. '.ini'), stringify_ex(tsearch))
-end
-
-local function add_table(a, b)
-    for k, v in pairs(b) do
-        if a[k] then
-            if type(a[k]) == 'table' and type(v) == 'table' then
-                add_table(a[k], v)
-            else
-                a[k] = v
-            end
-        else
-            a[k] = v
-        end
-    end
-end
-
-return function(w2l, type, slk)
+local function create_key2id(w2l, type, tkey, tsearch)
     message('正在生成key2id', type)
-    if type == 'misc' then
-        create_key2id(w2l, 'misc', slk.misc)
-        return
+    tkey[type] = {common = {}}
+    tsearch[type] = {common = {}}
+    local tkey = tkey[type]
+    local tsearch = tsearch[type]
+    for id, meta in pairs(w2l:read_metadata(type)) do
+        if is_enable(meta, type) then
+            parse_id(tkey, tsearch, id, meta, type)
+        end
     end
-    local slk = w2l.info.slk[type]
-    local template = {}
-    for i = 1, #slk do
-        add_table(template, w2l:parse_slk(io.load(w2l.mpq / slk[i])))
-    end
-    create_key2id(w2l, type, template)
+end
+
+return function(w2l)
+    local tkey = {}
+    local tsearch = {}
+	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
+		create_key2id(w2l, type, tkey, tsearch)
+	end
+    
+    fixsearch(tsearch)
+
+    local template = w2l:parse_slk(io.load(w2l.mpq / w2l.info.slk.ability[1]))
+    copy_code(tkey.ability, template)
+    copy_code(tsearch.ability, template)
+
+	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
+	    io.save(w2l.key / (type .. '.ini'),  stringify_ex(tkey[type]))
+	    io.save(w2l.prebuilt / 'search' / (type .. '.ini'), stringify_ex(tsearch[type]))
+	end
 end

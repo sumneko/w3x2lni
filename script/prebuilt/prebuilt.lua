@@ -90,9 +90,7 @@ local function main()
 	fs.create_directories(w2l.key)
 	fs.create_directories(w2l.prebuilt / 'search')
 
-	for ttype in pairs(w2l.info.slk) do
-		create_key2id(w2l, ttype)
-	end
+	create_key2id(w2l)
 
 	-- 生成模板lni
 	local ar = archive(w2l.mpq)
@@ -121,8 +119,6 @@ local function main()
 			usable_para[obj._id] = true
 		end
 	end
-
-	create_key2id(w2l, 'misc', slk)
 	
 	io.save(w2l.default / 'txt.ini', default2lni('txt', slk.txt))
 	io.save(w2l.template / 'txt.ini', txt2teamplate('txt', slk.txt))
