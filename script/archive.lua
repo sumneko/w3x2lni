@@ -95,7 +95,11 @@ function mt:get(name)
 end
 
 function mt:__pairs()
-    return next, self.read_cache
+    if self:is_readonly() then
+        return next, self.read_cache
+    else
+        return next, self.write_cache
+    end
 end
 
 return function (pathorhandle, tp)
