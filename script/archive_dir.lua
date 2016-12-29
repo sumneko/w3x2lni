@@ -1,5 +1,25 @@
+local sleep = require 'ffi.sleep'
+
+local function task(f, ...)
+	for i = 1, 99 do
+		if pcall(f, ...) then
+			return
+		end
+		sleep(10)
+	end
+	f(...)
+end
+
 local mt = {}
 mt.__index = mt
+
+function mt:save()
+    if fs.exists(self.path) then
+        task(fs.remove_all, self.path)
+    end
+    task(fs.create_directories, self.path)
+    return true
+end
 
 function mt:close()
 end
