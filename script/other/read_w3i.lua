@@ -118,11 +118,6 @@ function mt:add_head(chunk)
 	}
 end
 
-function mt:unpack_player_flag(max)
-	local flag = self:unpack 'L' & ((1 << max) - 1)
-	return unpack_flag(flag)
-end
-
 function mt:add_player(chunk)
 	chunk['玩家'] = {
 		['玩家数量'] = self:unpack 'l',
@@ -136,10 +131,15 @@ function mt:add_player(chunk)
 			['修正出生点']       = self:unpack 'l',
 			['名字']            = self.wts:load(self:unpack 'z'),
 			['出生点']          = pack(self:unpack 'ff'),
-			['低结盟优先权标记'] = self:unpack_player_flag(chunk['玩家']['玩家数量']),
-			['高结盟优先权标记'] = self:unpack_player_flag(chunk['玩家']['玩家数量']),
+			['低结盟优先权标记'] = unpack_flag(self:unpack 'L'),
+			['高结盟优先权标记'] = unpack_flag(self:unpack 'L'),
 		}
 	end
+end
+
+function mt:unpack_player_flag(max)
+	local flag = self:unpack 'L' & ((1 << max) - 1)
+	return unpack_flag(flag)
 end
 
 function mt:add_force(chunk)
@@ -151,11 +151,11 @@ function mt:add_force(chunk)
 		local flag = self:unpack 'L'
 		chunk['队伍'..i] = {
 			['结盟']            = flag >> 0 & 1,
-			['结盟胜利']        = flag >> 0 & 1,
-			['共享视野']        = flag >> 0 & 1,
-			['共享单位控制']     = flag >> 0 & 1,
-			['共享高级单位设置'] = flag >> 0 & 1,
-			['玩家列表']        = self:unpack_player_flag(chunk['队伍']['队伍数量']),
+			['结盟胜利']        = flag >> 1 & 1,
+			['共享视野']        = flag >> 3 & 1,
+			['共享单位控制']     = flag >> 4 & 1,
+			['共享高级单位设置'] = flag >> 5 & 1,
+			['玩家列表']        = self:unpack_player_flag(chunk['玩家']['玩家数量']),
 			['队伍名称']        = self.wts:load(self:unpack 'z'),
 		}
 	end
