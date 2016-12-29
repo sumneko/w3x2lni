@@ -74,13 +74,29 @@ local function convert(misc, metadata, slk)
     return chunk
 end
 
+local function merge_misc_data(misc, map_misc)
+    for k, v in pairs(map_misc) do
+        misc[k] = v
+    end
+end
+
+local function merge_misc(misc, txt, map_misc)
+    for k, v in pairs(map_misc) do
+        merge_misc_data(misc[k] or txt[k], v)
+    end
+end
+
 return function (w2l_, archive, slk)
     w2l = w2l_
-    local buf = archive:get('war3mapmisc.txt')
     local misc = {}
     for _, name in ipairs {"UI\\MiscData.txt", "Units\\MiscData.txt", "Units\\MiscGame.txt"} do
         local buf = io.load(w2l.mpq / name)
         w2l:parse_txt(buf, name, misc)
+    end
+    local buf = archive:get('war3mapmisc.txt')
+    if buf then
+        local map_misc = w2l:parse_txt(buf, 'war3mapmisc.txt')
+        merge_misc(misc, slk.txt, map_misc)
     end
     local metadata = w2l:read_metadata 'misc'
     slk.misc = convert(misc, metadata, slk)
