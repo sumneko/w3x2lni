@@ -205,9 +205,4 @@ return function(w2l, archive, slk)
     progress:finish()
     slk.txt = txt
     w2l:frontend_misc(archive, slk)
-
-    message('处理物编数据...')
-    progress:start(1)
-    w2l:frontend_processing(slk)
-    progress:finish()
 end
