@@ -26,11 +26,6 @@ function mt:save_file(name, buf, filetime)
     return true
 end
 
-local m = {}
-function m.open(path)
-    return setmetatable({ path = path }, mt)
+return function (input)
+    return setmetatable({ path = input }, mt)
 end
-function m.create(path)
-    return setmetatable({ path = path }, mt)
-end
-return m
