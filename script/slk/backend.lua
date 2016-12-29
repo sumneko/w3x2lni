@@ -142,7 +142,7 @@ local function remove_unuse(w2l, slk)
         local data = slk[type]
         for name, obj in pairs(data) do
             count = count + 1
-            if obj._true_origin or not default[name] then
+            if obj._obj or not default[name] then
                 user_count = user_count + 1
                 if not obj._mark then
                     unuse_count = unuse_count + 1

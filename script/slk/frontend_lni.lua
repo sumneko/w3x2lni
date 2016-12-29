@@ -12,12 +12,10 @@ local function add_obj(type, name, level_key, obj)
     new_obj._id = name
     new_obj._max_level = obj[level_key]
     new_obj._type = type
-    if w2l:is_usable_para(new_obj._parent) then
-		new_obj._true_origin = true
-    else
+	new_obj._obj = true
+    if not w2l:is_usable_para(new_obj._parent) then
         force_slk = true
     end
-
     return new_obj
 end
 

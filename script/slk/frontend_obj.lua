@@ -92,18 +92,19 @@ local function read_data(obj)
 end
 
 local function read_obj(chunk, type)
-	local obj = {}
 	local parent, name = unpack 'c4c4'
 	if name == '\0\0\0\0' then
 		name = parent
 	end
-	if w2l:is_usable_para(parent) then
-		obj._true_origin = true
-	else
+	if not w2l:is_usable_para(parent) then
 		force_slk = true
 	end
-	obj['_id'] = name
-	obj['_type'] = type
+	local obj = {
+		_id = name,
+		_parent = parent,
+		_type = type,
+		_obj = true,
+	}
 
 	local count = unpack 'l'
 	for i = 1, count do
@@ -114,7 +115,6 @@ local function read_obj(chunk, type)
 	else
 		chunk[name] = obj
 	end
-	obj._parent = parent
 	obj._max_level = obj[has_level]
     if obj._max_level == 0 then
         obj._max_level = 1
