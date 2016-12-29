@@ -145,6 +145,7 @@ local function remove_unuse(w2l, slk)
             if obj._true_origin or not default[name] then
                 user_count = user_count + 1
                 if not obj._mark then
+                    unuse_count = unuse_count + 1
                     unuse_user_count = unuse_user_count + 1
                     unuse_list[type][#unuse_list[type]+1] = obj
                 end
