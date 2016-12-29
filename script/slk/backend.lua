@@ -258,25 +258,6 @@ local function load_w3i(w2l, archive, slk)
 end
 
 return function (w2l, archive, slk)
-    for type, filename in pairs(w2l.info.obj) do
-        archive:set(filename, false)
-    end
-    for type, filelist in pairs(w2l.info.slk) do
-        for _, filename in ipairs(filelist) do
-            archive:set(filename, false)
-        end
-    end
-    for type, filelist in pairs(w2l.info.txt) do
-        for _, filename in ipairs(filelist) do
-            archive:set(filename, false)
-        end
-    end
-    for type, filelist in pairs(w2l.info.lni) do
-        for _, filename in ipairs(filelist) do
-            archive:set(filename, false)
-        end
-    end
-
     load_w3i(w2l, archive, slk)
     if slk.w3i then
         if w2l.config.target_format == 'lni' then
