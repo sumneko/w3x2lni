@@ -235,7 +235,8 @@ local function add_table(a, b)
     end
 end
 
-local function create_key2id(w2l, type)
+return function(w2l, type)
+    message('正在生成key2id', type)
     local tkey = {common={}}
     local tsearch = {common={}}
 
@@ -254,13 +255,4 @@ local function create_key2id(w2l, type)
     end
 	io.save(w2l.key / (type .. '.ini'),  stringify_ex(tkey))
 	io.save(w2l.prebuilt / 'search' / (type .. '.ini'), stringify_ex(tsearch))
-end
-
-return function(w2l, type)
-    message('正在生成key2id', type)
-    if type == 'misc' then
-        create_key2id(w2l, 'misc')
-        return
-    end
-    create_key2id(w2l, type)
 end
