@@ -128,21 +128,6 @@ local function copy_code(t, template)
     end
 end
 
-local function can_add_id(name, id)
-    if name == 'AIlb' or name == 'AIpb' then
-        -- AIlb与AIpb有2个DataA,进行特殊处理
-        if id == 'Idam' then
-            return false
-        end
-    elseif name == 'AIls' then
-    -- AIls有2个DataA,进行特殊处理
-        if id == 'Idps' then
-            return false
-        end
-    end
-    return true
-end
-
 local function is_enable(meta, type)
     if type == 'unit' then
         if meta.usehero == 1 or meta.useunit == 1 or meta.usebuilding == 1 or meta.usecreep == 1 then
@@ -173,17 +158,15 @@ local function parse_id(tkey, tsearch, id, meta, type)
     end
     if objs then
         for name in objs:gmatch '%w+' do
-            if can_add_id(name, id) then
-                if not tkey[name] then
-                    tkey[name] = {}
-                end
-                tkey[name][key] = id
-
-                if not tsearch[name] then
-                    tsearch[name] = {}
-                end
-                tsearch[name][key] = enable_type[meta.type]
+            if not tkey[name] then
+                tkey[name] = {}
             end
+            tkey[name][key] = id
+
+            if not tsearch[name] then
+                tsearch[name] = {}
+            end
+            tsearch[name][key] = enable_type[meta.type]
         end
     else
         tkey.common[key] = id
