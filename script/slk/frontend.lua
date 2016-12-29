@@ -2,6 +2,7 @@ local progress = require 'progress'
 
 local setmetatable = setmetatable
 local rawset = rawset
+local is_remove_exceeds_level
 
 local function fill_and_copy(a, lv)
     local c = {}
@@ -42,10 +43,12 @@ local function fill_and_merge(a, b, lv)
             c[i] = b[i] or a[i] 
         end
     end
-    local maxlv = maxindex(b)
-    if maxlv > lv then
-        for i = lv+1, maxlv do
-            c[i] = b[i] or a[#a] 
+    if not is_remove_exceeds_level then
+        local maxlv = maxindex(b)
+        if maxlv > lv then
+            for i = lv+1, maxlv do
+                c[i] = b[i] or a[#a] 
+            end
         end
     end
     return c
@@ -175,6 +178,8 @@ local function update_then_merge(w2l, datas, objs, lnis, slk)
 end
 
 return function(w2l, archive, slk)
+    is_remove_exceeds_level = w2l.config.remove_exceeds_level
+
     --读取字符串
     slk.wts = w2l:frontend_wts(archive)
     progress(0.1)

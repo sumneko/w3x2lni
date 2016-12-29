@@ -8,17 +8,6 @@ local keydata
 local mt = {}
 mt.__index = mt
 
-local function remove_exceeds_level(data, max_level)
-    if type(data) ~= 'table' then
-        return
-    end
-    for level in pairs(data) do
-        if level > max_level then
-            data[level] = nil
-        end
-    end
-end
-
 local function can_remove(is_slk, ttype, level, key)
     if not is_slk then
         return true
@@ -65,14 +54,10 @@ local function clean_obj(name, obj, type, default, config)
     local parent = obj._parent
     local max_level = obj._max_level
     local default = default[parent]
-    local is_remove_exceeds_level = config.remove_exceeds_level
     local is_remove_same = config.remove_same
     local is_slk = config.target_format == 'slk' and type ~= 'doodad' and type ~= 'misc'
     for key, data in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
-            if is_remove_exceeds_level and max_level then
-                remove_exceeds_level(data, max_level)
-            end
             remove_same(key, data, default, obj, is_slk, type, is_remove_same)
         end
     end
