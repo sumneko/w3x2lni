@@ -182,25 +182,25 @@ return function(w2l, archive, slk)
 
     --读取字符串
     slk.wts = w2l:frontend_wts(archive)
-    progress(0.1)
+    progress(0.2)
 
     message('读取obj...')
-    progress:start(0.2)
+    progress:start(0.4)
     local objs, force_slk1 = load_obj(w2l, archive, slk.wts)
     progress:finish()
 
     message('读取lni...')
-    progress:start(0.3)
+    progress:start(0.6)
     local lnis, force_slk2 = load_lni(w2l, archive)
     progress:finish()
 
     message('读取slk...')
-    progress:start(0.4)
+    progress:start(0.8)
     local datas, txt = load_slk(w2l, archive, force_slk1 or force_slk2)
     progress:finish()
     
     message('合并物编数据...')
-    progress:start(0.5)
+    progress:start(1)
     update_then_merge(w2l, datas, objs, lnis, slk)
     progress:finish()
     slk.txt = txt
