@@ -22,43 +22,37 @@ local enable_type = {
 }
 
 local function fixsearch(t)
-    if ttype == 'item' then
-        t.common.cooldownid = nil
-    end
-    if ttype == 'unit' then
-        t.common.upgrades = nil
-        t.common.auto = nil
-        t.common.dependencyor = nil
-        t.common.reviveat = nil
-    end
-    if ttype == 'ability' then
-        -- 复活死尸科技限制单位
-        t.Arai.unitid = nil
-        t.ACrd.unitid = nil
-        t.AIrd.unitid = nil
-        t.Avng.unitid = nil
-        -- 地洞战备状态允许单位
-        t.Abtl.unitid = nil
-        t.Sbtl.unitid = nil
-        -- 装载允许目标单位
-        t.Aloa.unitid = nil
-        t.Sloa.unitid = nil
-        t.Slo2.unitid = nil
-        t.Slo3.unitid = nil
-        -- 灵魂保存目标单位
-        t.ANsl.unitid = nil
-        -- 地洞装载允许目标单位
-        t.Achl.unitid = nil
-        -- 火山爆发召唤可破坏物
-        t.ANvc.unitid = 'destructable'
-         -- 战斗号召允许单位
-        t.Amil.dataa = nil
-        -- 骑乘角鹰兽指定单位类型
-        t.Acoa.dataa = nil
-        t.Acoh.dataa = nil
-        t.Aco2.dataa = nil
-        t.Aco3.dataa = nil
-    end
+    t.item.common.cooldownid = nil
+    t.unit.common.upgrades = nil
+    t.unit.common.auto = nil
+    t.unit.common.dependencyor = nil
+    t.unit.common.reviveat = nil
+    -- 复活死尸科技限制单位
+    t.ability.Arai.unitid = nil
+    t.ability.ACrd.unitid = nil
+    t.ability.AIrd.unitid = nil
+    t.ability.Avng.unitid = nil
+    -- 地洞战备状态允许单位
+    t.ability.Abtl.unitid = nil
+    t.ability.Sbtl.unitid = nil
+    -- 装载允许目标单位
+    t.ability.Aloa.unitid = nil
+    t.ability.Sloa.unitid = nil
+    t.ability.Slo2.unitid = nil
+    t.ability.Slo3.unitid = nil
+    -- 灵魂保存目标单位
+    t.ability.ANsl.unitid = nil
+    -- 地洞装载允许目标单位
+    t.ability.Achl.unitid = nil
+    -- 火山爆发召唤可破坏物
+    t.ability.ANvc.unitid = 'destructable'
+     -- 战斗号召允许单位
+    t.ability.Amil.dataa = nil
+    -- 骑乘角鹰兽指定单位类型
+    t.ability.Acoa.dataa = nil
+    t.ability.Acoh.dataa = nil
+    t.ability.Aco2.dataa = nil
+    t.ability.Aco3.dataa = nil
 end
 
 local function sortpairs(t)
@@ -213,7 +207,14 @@ local function parse_id(tkey, tsearch, id)
     end
 end
 
-local function parse(tkey, tsearch)
+local function create_key2id(w2l, type, tkey, tsearch)
+    message('正在生成key2id', type)
+    tkey[type] = {common = {}}
+    tsearch[type] = {common = {}}
+    local tkey = tkey[type]
+    local tsearch = tsearch[type]
+    ttype = type
+    metadata = w2l:read_metadata(type)
     for id in pairs(metadata) do
         if is_enable_id(id) then
             parse_id(tkey, tsearch, id)
@@ -235,30 +236,24 @@ local function add_table(a, b)
     end
 end
 
-local function create_key2id(w2l, type)
-    message('正在生成key2id', type)
-    local tkey = {common={}}
-    local tsearch = {common={}}
-
-    ttype = type
-    metadata = w2l:read_metadata(type)
-    parse(tkey, tsearch)
-    fixsearch(tsearch)
-    if ttype == 'ability' then
-        local slk = w2l.info.slk.ability
-        local template = {}
-        for i = 1, #slk do
-            add_table(template, w2l:parse_slk(io.load(w2l.mpq / slk[i])))
-        end
-        copy_code(tkey, template)
-        copy_code(tsearch, template)
-    end
-	io.save(w2l.key / (type .. '.ini'),  stringify_ex(tkey))
-	io.save(w2l.prebuilt / 'search' / (type .. '.ini'), stringify_ex(tsearch))
-end
-
 return function(w2l)
+    local tkey = {}
+    local tsearch = {}
 	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-		create_key2id(w2l, type)
+		create_key2id(w2l, type, tkey, tsearch)
+	end
+    
+    fixsearch(tsearch)
+
+    local template = {}
+    for i = 1, #w2l.info.slk.ability do
+        add_table(template, w2l:parse_slk(io.load(w2l.mpq / w2l.info.slk.ability[i])))
+    end
+    copy_code(tkey.ability, template)
+    copy_code(tsearch.ability, template)
+
+	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
+	    io.save(w2l.key / (type .. '.ini'),  stringify_ex(tkey[type]))
+	    io.save(w2l.prebuilt / 'search' / (type .. '.ini'), stringify_ex(tsearch[type]))
 	end
 end
