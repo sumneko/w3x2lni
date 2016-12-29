@@ -239,6 +239,7 @@ local function load_w3i(w2l, archive, slk)
     local buf = archive:get 'war3map.w3i.ini'
     if buf then
         slk.w3i = w2l:parse_lni(buf)
+        archive:set('war3map.w3i.ini', false)
     else
         buf = archive:get 'war3map.w3i'
         if buf then
