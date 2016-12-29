@@ -55,9 +55,7 @@ local function slk_read_data(obj, key, meta, data)
                 t[i] = to_type(type, data[key..i])
             end
         end
-        if next(t) then
-            obj[key] = t
-        end
+        obj[key] = t
     else
         obj[key] = to_type(meta.type, data[key])
     end
@@ -77,9 +75,7 @@ local function slk_read_private_data(obj, key, meta, data)
                 t[i] = to_type(type, data[key..i])
             end
         end
-        if next(t) then
-            obj[key] = t
-        end
+        obj[key] = t
     else
         obj[key] = to_type(w2l:get_id_type(meta.type), data[key])
     end
