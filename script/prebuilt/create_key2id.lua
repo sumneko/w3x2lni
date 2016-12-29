@@ -231,7 +231,7 @@ local function create_key2id(w2l, type, template_)
     template = template_
     parse(tkey, tsearch)
     fixsearch(tsearch)
-    if ttype == 'ability' or ttype == 'misc' then
+    if ttype == 'ability' then
         copy_code(tkey)
         copy_code(tsearch)
     end
