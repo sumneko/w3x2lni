@@ -17,7 +17,6 @@ local w2l
 local has_level
 local metadata
 local keydata
-local default
 local hexs
 local wts
 
@@ -183,7 +182,6 @@ return function (w2l_, type, data, wts_)
 	has_level = w2l.info.key.max_level[type]
     metadata = w2l:read_metadata(type)
     keydata = w2l:keyconvert(type)
-	default = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')), type)
     
     local origin_id, user_id = sort_chunk(data, w2l.config.remove_unuse_object)
     local max = #origin_id + #user_id

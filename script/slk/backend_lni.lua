@@ -10,7 +10,6 @@ local os_clock = os.clock
 
 local keydata
 local metadata
-local default
 
 local character = { 'A','B','C','D','E','F','G','H','I' }
 
@@ -197,7 +196,6 @@ return function (w2l, type, data)
 	tbl.remove_unuse_object = w2l.config.remove_unuse_object
 	metadata = w2l:read_metadata(type)
 	keydata = w2l:keyconvert(type)
-	default = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')), type)
 	tbl.file_name = type
 	tbl:add_chunk(data, type)
 	return table_concat(tbl.lines, '\r\n')
