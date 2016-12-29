@@ -5,7 +5,6 @@ local ipairs = ipairs
 
 local ttype
 local metadata
-local template
 
 local enable_type = {
     abilCode = 'ability',
@@ -108,7 +107,7 @@ local function stringify_ex(inf)
     return table.concat(f, '\r\n')
 end
 
-local function copy_code(t)
+local function copy_code(t, template)
     for skill, data in pairs(template) do
         local code = data.code or data._code
         local data = t[skill]
@@ -222,23 +221,6 @@ local function parse(tkey, tsearch)
     end
 end
 
-local function create_key2id(w2l, type, template_)
-    local tkey = {common={}}
-    local tsearch = {common={}}
-
-    ttype = type
-    metadata = w2l:read_metadata(type)
-    template = template_
-    parse(tkey, tsearch)
-    fixsearch(tsearch)
-    if ttype == 'ability' or ttype == 'misc' then
-        copy_code(tkey)
-        copy_code(tsearch)
-    end
-	io.save(w2l.key / (type .. '.ini'),  stringify_ex(tkey))
-	io.save(w2l.prebuilt / 'search' / (type .. '.ini'), stringify_ex(tsearch))
-end
-
 local function add_table(a, b)
     for k, v in pairs(b) do
         if a[k] then
@@ -253,16 +235,32 @@ local function add_table(a, b)
     end
 end
 
-return function(w2l, type, slk)
+local function create_key2id(w2l, type)
+    local tkey = {common={}}
+    local tsearch = {common={}}
+
+    ttype = type
+    metadata = w2l:read_metadata(type)
+    parse(tkey, tsearch)
+    fixsearch(tsearch)
+    if ttype == 'ability' then
+        local slk = w2l.info.slk.ability
+        local template = {}
+        for i = 1, #slk do
+            add_table(template, w2l:parse_slk(io.load(w2l.mpq / slk[i])))
+        end
+        copy_code(tkey, template)
+        copy_code(tsearch, template)
+    end
+	io.save(w2l.key / (type .. '.ini'),  stringify_ex(tkey))
+	io.save(w2l.prebuilt / 'search' / (type .. '.ini'), stringify_ex(tsearch))
+end
+
+return function(w2l, type)
     message('正在生成key2id', type)
     if type == 'misc' then
-        create_key2id(w2l, 'misc', slk.misc)
+        create_key2id(w2l, 'misc')
         return
     end
-    local slk = w2l.info.slk[type]
-    local template = {}
-    for i = 1, #slk do
-        add_table(template, w2l:parse_slk(io.load(w2l.mpq / slk[i])))
-    end
-    create_key2id(w2l, type, template)
+    create_key2id(w2l, type)
 end
