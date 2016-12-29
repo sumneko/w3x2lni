@@ -240,18 +240,6 @@ function archive:number_of_files()
 	return pinfo[0]
 end
 
-function archive:__pairs()
-	local content = self:load_file('(listfile)')
-	if not content then
-		error('(listfile)导出失败')
-		return
-	end
-	if content:sub(1, 3) == '\xEF\xBB\xBF' then
-		content = content:sub(4)
-	end
-	return content:gmatch '[^\n\r]+'
-end
-
 local m = {}
 function m.open(path, readonly, filecount)
 	local wpath = uni.u2w(path:string())

@@ -149,35 +149,26 @@ return function (pathorhandle, tp)
     local read_only = tp ~= 'w'
     local ar = {
         cache = {},
-        ignore_file = {},
         path = pathorhandle,
         know_count = 0,
         write_count = 0,
+        _read = read_only,
     }
     if read_only then
-        if type(pathorhandle) == 'number' then
-            ar.handle = mpq.attach(pathorhandle)
-            ar._type = 'mpq'
-        elseif fs.is_directory(pathorhandle) then
-            ar.handle = dir.create(pathorhandle)
+        if fs.is_directory(pathorhandle) then
+            ar.handle = dir(pathorhandle)
             ar._type = 'dir'
         else
-            ar.handle = mpq.open(pathorhandle, true)
+            ar.handle = mpq(pathorhandle)
             ar._type = 'mpq'
         end
         if not ar.handle then
             message('地图打开失败')
             return nil
         end
-        if ar._type == 'mpq' and not ar.handle:has_file '(listfile)' then
-            message('不支持没有(listfile)的地图')
-            return nil
-        end
     else
-        if type(pathorhandle) == 'number' then
-            ar._type = 'mpq'
-        elseif fs.is_directory(pathorhandle) then
-            ar.handle = dir.create(pathorhandle)
+        if fs.is_directory(pathorhandle) then
+            ar.handle = dir(pathorhandle)
             ar._type = 'dir'
         else
             ar._type = 'mpq'
