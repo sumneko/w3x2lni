@@ -10,74 +10,6 @@ local unit_list
 local metadata
 local keydata
 
-local function remove_nil_value(key, id, obj, default, max_level)
-    local data = obj[key]
-    local meta = metadata[id]
-    local tp = w2l:get_id_type(meta.type)
-    local dest = default[key]
-    if not meta['repeat'] or meta['repeat'] == 0 then
-        if not data and dest then
-            if tp == 0 then
-                obj[key] = 0
-            elseif tp == 1 or tp == 2 then
-                obj[key] = 0.0
-            else
-                obj[key] = ''
-            end
-        end
-        return
-    end
-    if not data then
-        data = {}
-        obj[key] = data
-    end
-    local default_value
-    local default_level = 0
-    if dest then
-        default_level = #dest
-    end
-    if default_level > 0 then
-        default_value = dest[default_level]
-        if max_level < default_level then
-            max_level = default_level
-        end
-    end
-    for i = 1, max_level do
-        if not data[i] then
-            if tp == 0 then
-                if i <= default_level then
-                    error('value level error')
-                end
-                data[i] = default_value or 0
-            elseif tp == 1 or tp == 2 then
-                if i <= default_level then
-                    error('value level error')
-                end
-                data[i] = default_value or 0.0
-            else
-                if dest and dest[i] then
-                    data[i] = ''
-                end
-            end
-        end
-    end
-end
-
-local function fill_obj(name, obj, type, default, config)
-    local parent = obj._parent
-    local code = obj._code
-    local max_level = obj._max_level
-    local default = default[parent]
-    for key, id in pairs(keydata.common) do
-        remove_nil_value(key, id, obj, default, max_level)
-    end
-    if keydata[code] then
-        for key, id in pairs(keydata[code]) do
-            remove_nil_value(key, id, obj, default, max_level)
-        end
-    end
-end
-
 local function get_revert_list(default, code)
     if not revert_list then
         revert_list = {}
@@ -210,7 +142,7 @@ local function processing(w2l, type, chunk)
     unit_list = nil
     progress(0.1)
     
-    progress:start(0.9)
+    progress:start(1)
     local clock = os_clock()
     for i, name in ipairs(names) do
         parse_obj(name, chunk[name], default, config, type)
@@ -221,16 +153,6 @@ local function processing(w2l, type, chunk)
         end
     end
     progress:finish()
-    --progress:start(1)
-    --for i, name in ipairs(names) do
-    --    fill_obj(name, chunk[name], type, default, config)
-    --    if os_clock() - clock >= 0.1 then
-    --        clock = os_clock()
-    --        message(('补全数据[%s] (%d/%d)'):format(chunk[name]._id, i, #names))
-    --        progress(i / #names)
-    --    end
-    --end
-    --progress:finish()
 end
 
 return function (w2l_, slk)
