@@ -129,7 +129,7 @@ local function parse_obj(name, obj, default, config, ttype)
 end
 
 local function processing(w2l, type, chunk)
-    local default = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')))
+    local default = w2l:get_default()[type]
     metadata = w2l:read_metadata(type)
     keydata = w2l:keyconvert(type)
     local config = w2l.config

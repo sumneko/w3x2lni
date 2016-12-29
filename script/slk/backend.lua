@@ -138,7 +138,7 @@ local function remove_unuse(w2l, slk)
     local origin_count = 0
     local clock = os_clock()
     for type in pairs(w2l.info.slk) do
-        local default = w2l:parse_lni(io.load(w2l.default / (type .. '.ini')), type)
+        local default = w2l:get_default()[type]
         local data = slk[type]
         for name, obj in pairs(data) do
             count = count + 1

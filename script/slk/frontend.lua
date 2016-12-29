@@ -115,16 +115,7 @@ local function load_slk(w2l, archive, force_slk)
         datas.txt = txt
         return datas
     else
-        return {
-            ability = w2l:parse_lni(io.load(w2l.default / 'ability.ini')),
-            buff = w2l:parse_lni(io.load(w2l.default / 'buff.ini')),
-            unit = w2l:parse_lni(io.load(w2l.default / 'unit.ini')),
-            item = w2l:parse_lni(io.load(w2l.default / 'item.ini')),
-            upgrade = w2l:parse_lni(io.load(w2l.default / 'upgrade.ini')),
-            doodad = w2l:parse_lni(io.load(w2l.default / 'doodad.ini')),
-            destructable = w2l:parse_lni(io.load(w2l.default / 'destructable.ini')),
-            txt = w2l:parse_lni(io.load(w2l.default / 'txt.ini')),
-        }
+        return w2l:get_default(true)
     end
 end
 

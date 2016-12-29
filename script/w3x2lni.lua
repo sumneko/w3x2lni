@@ -15,6 +15,7 @@ local id_type
 local usable_para
 local editstring
 local keyconvert = {}
+local default
 
 function mt:parse_lni(...)
 	return lni(...)
@@ -91,6 +92,30 @@ function mt:keyconvert(type)
 		keyconvert[type] = lni(io.load(self.key / (type .. '.ini')), type)
 	end
 	return keyconvert[type]
+end
+
+local function create_default(w2l)
+	return {
+		ability      = lni(io.load(w2l.default / 'ability.ini')),
+		buff         = lni(io.load(w2l.default / 'buff.ini')),
+		unit         = lni(io.load(w2l.default / 'unit.ini')),
+		item         = lni(io.load(w2l.default / 'item.ini')),
+		upgrade      = lni(io.load(w2l.default / 'upgrade.ini')),
+		doodad       = lni(io.load(w2l.default / 'doodad.ini')),
+		destructable = lni(io.load(w2l.default / 'destructable.ini')),
+		txt          = lni(io.load(w2l.default / 'txt.ini')),
+		misc         = lni(io.load(w2l.default / 'misc.ini')),
+	}
+end
+
+function mt:get_default(create)
+	if create then
+		return create_default(self)
+	end
+	if not default then
+		default = create_default(self)
+	end
+	return default
 end
 
 function mt:initialize(root)
