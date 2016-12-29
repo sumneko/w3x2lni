@@ -74,7 +74,7 @@ local function save_imp(w2l, output_ar)
     local imp = {}
     for name, buf in pairs(output_ar) do
         if buf and not impignore[name] then
-            imp[#imp] = name
+            imp[#imp+1] = name
         end
     end
     local hex = {}

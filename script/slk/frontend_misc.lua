@@ -76,6 +76,9 @@ local function convert(misc, metadata, slk)
 end
 
 local function merge_misc_data(misc, map_misc)
+    if not misc then
+        return
+    end
     for k, v in pairs(map_misc) do
         misc[k] = v
     end
