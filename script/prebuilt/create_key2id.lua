@@ -3,9 +3,6 @@ local string_char = string.char
 local pairs = pairs
 local ipairs = ipairs
 
-local ttype
-local metadata
-
 local enable_type = {
     abilCode = 'ability',
     abilityID = 'ability',
@@ -146,16 +143,15 @@ local function can_add_id(name, id)
     return true
 end
 
-local function is_enable_id(id)
-    local meta = metadata[id]
-    if ttype == 'unit' then
+local function is_enable(meta, type)
+    if type == 'unit' then
         if meta.usehero == 1 or meta.useunit == 1 or meta.usebuilding == 1 or meta.usecreep == 1 then
             return true
         else
             return false
         end
     end
-    if ttype == 'item' then
+    if type == 'item' then
         if meta['useitem'] == 1 then
             return true
         else
@@ -165,8 +161,7 @@ local function is_enable_id(id)
     return true
 end
 
-local function parse_id(tkey, tsearch, id)
-    local meta = metadata[id]
+local function parse_id(tkey, tsearch, id, meta, type)
     local key = meta.field:lower()
     local num  = meta.data
     local objs = meta.usespecific or meta.section
@@ -196,7 +191,7 @@ local function parse_id(tkey, tsearch, id)
         local filename = meta.slk:lower()
         if filename ~= 'profile' then
             filename = 'units\\' .. meta.slk:lower() .. '.slk'
-            if ttype == 'doodad' then
+            if type == 'doodad' then
                 filename = 'doodads\\doodads.slk'
             end
         end
@@ -213,25 +208,9 @@ local function create_key2id(w2l, type, tkey, tsearch)
     tsearch[type] = {common = {}}
     local tkey = tkey[type]
     local tsearch = tsearch[type]
-    ttype = type
-    metadata = w2l:read_metadata(type)
-    for id in pairs(metadata) do
-        if is_enable_id(id) then
-            parse_id(tkey, tsearch, id)
-        end
-    end
-end
-
-local function add_table(a, b)
-    for k, v in pairs(b) do
-        if a[k] then
-            if type(a[k]) == 'table' and type(v) == 'table' then
-                add_table(a[k], v)
-            else
-                a[k] = v
-            end
-        else
-            a[k] = v
+    for id, meta in pairs(w2l:read_metadata(type)) do
+        if is_enable(meta, type) then
+            parse_id(tkey, tsearch, id, meta, type)
         end
     end
 end
@@ -245,10 +224,7 @@ return function(w2l)
     
     fixsearch(tsearch)
 
-    local template = {}
-    for i = 1, #w2l.info.slk.ability do
-        add_table(template, w2l:parse_slk(io.load(w2l.mpq / w2l.info.slk.ability[i])))
-    end
+    local template = w2l:parse_slk(io.load(w2l.mpq / w2l.info.slk.ability[1]))
     copy_code(tkey.ability, template)
     copy_code(tsearch.ability, template)
 
