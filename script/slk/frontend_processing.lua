@@ -221,16 +221,16 @@ local function processing(w2l, type, chunk)
         end
     end
     progress:finish()
-    progress:start(1)
-    for i, name in ipairs(names) do
-        fill_obj(name, chunk[name], type, default, config)
-        if os_clock() - clock >= 0.1 then
-            clock = os_clock()
-            message(('补全数据[%s] (%d/%d)'):format(chunk[name]._id, i, #names))
-            progress(i / #names)
-        end
-    end
-    progress:finish()
+    --progress:start(1)
+    --for i, name in ipairs(names) do
+    --    fill_obj(name, chunk[name], type, default, config)
+    --    if os_clock() - clock >= 0.1 then
+    --        clock = os_clock()
+    --        message(('补全数据[%s] (%d/%d)'):format(chunk[name]._id, i, #names))
+    --        progress(i / #names)
+    --    end
+    --end
+    --progress:finish()
 end
 
 return function (w2l_, slk)

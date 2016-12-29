@@ -13,6 +13,14 @@ local function format_value(value)
     end
 end
 
+local function maxindex(t)
+    local i = 0
+    for k in pairs(t) do
+        i = math.max(i, k)
+    end
+    return i
+end
+
 local function add_data(lines, key, data)
     if key:find '[^%w_]' then
         key = ('%q'):format(key)
@@ -28,11 +36,8 @@ local function add_data(lines, key, data)
                 end
             end
         else
-            for i = 4, 1, -1 do
-                values[i] = format_value(data[i]) or null
-                if values[i] then
-                    null = 'nil'
-                end
+            for i = 1, maxindex(data) do
+                values[i] = format_value(data[i]) or 'nil'
             end
         end
         lines[#lines+1] = ('%s={%s}'):format(key, table.concat(values, ','))
