@@ -36,7 +36,7 @@ function mt:save(w3i, encrypt)
     end
     local clock = os_clock()
     local count = 0
-    for name, buf in pairs(self.cache) do
+    for name, buf in pairs(self.write_cache) do
         if buf then
             self.handle:save_file(name, buf)
             count = count + 1
@@ -56,29 +56,21 @@ end
 
 function mt:set(name, buf)
     name = name:lower()
-    if buf == nil then
-        buf = false
-    end
-    if self.cache[name] == nil then
-        if self:is_readonly() and self.handle:has_file(name) then
-            self.know_count = self.know_count + 1
-        end
-    end
-    if self.cache[name] then
+    if self.write_cache[name] then
         self.write_count = self.write_count - 1
     end
     if buf then
         self.write_count = self.write_count + 1
     end
-    self.cache[name] = buf
+    self.write_cache[name] = buf
 end
 
 function mt:get(name)
     name = name:lower()
-    if self.cache[name] then
-        return self.cache[name]
+    if self.read_cache[name] then
+        return self.read_cache[name]
     end
-    if self.cache[name] == false then
+    if self.read_cache[name] == false then
         return nil
     end
     if not self.handle then
@@ -86,24 +78,24 @@ function mt:get(name)
     end
     local buf = self.handle:load_file(name)
     if buf then
-        self.cache[name] = buf
-        self.know_count = self.know_count + 1
-        self.write_count = self.write_count + 1
+        self.read_cache[name] = buf
+        self.read_count = self.read_count + 1
     end
     return buf
 end
 
 function mt:__pairs()
-    return next, self.cache
+    return next, self.read_cache
 end
 
 return function (pathorhandle, tp)
     local read_only = tp ~= 'w'
     local ar = {
-        cache = {},
-        path = pathorhandle,
-        know_count = 0,
+        read_cache = {},
+        write_cache = {},
+        read_count = 0,
         write_count = 0,
+        path = pathorhandle,
         _read = read_only,
     }
     if read_only then

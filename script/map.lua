@@ -60,10 +60,10 @@ local function search_map(map)
             end
         end
         local total = map:number_of_files()
-        if map.know_count ~= total then
-            message('-report|error', ('还有%d个文件没有读取'):format(total -map.know_count))
+        if map.read_count ~= total then
+            message('-report|error', ('还有%d个文件没有读取'):format(total -map.read_count))
             message('-tip', '这些文件被丢弃了,请包含完整(listfile)')
-            message('-report|error', ('读取(%d/%d)个文件'):format(map.know_count, total))
+            message('-report|error', ('读取(%d/%d)个文件'):format(map.read_count, total))
         end
     else
         local len = #map.path:string()
