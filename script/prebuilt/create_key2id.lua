@@ -13,7 +13,7 @@ local enable_type = {
     unitCode = 'unit',
     unitList = 'unit',
     itemList = 'item',
-    --techList = 'upgrade,unit',
+    techList = 'upgrade,unit',
     upgradeList = 'upgrade',
     upgradeCode = 'upgrade',
 }
