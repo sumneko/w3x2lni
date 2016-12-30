@@ -199,9 +199,9 @@ local function to_slk(w2l, archive, slk)
     for _, filename in ipairs(w2l.info.txt) do
         archive:set(filename, '')
     end
+    local txt = w2l:backend_txt(slk)
 	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade'} do
-        local data = slk[type]
-        archive:set(output[type], w2l:backend_txt(type, data))
+        archive:set(output[type], txt[type])
     end
 
 	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable', 'doodad'} do

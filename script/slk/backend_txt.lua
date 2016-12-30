@@ -197,14 +197,16 @@ local function add_obj(str, obj)
     end
 end
 
-local function convert_txt(t)
+local function convert_txt(type, t)
     local str = {}
     if not next(t) then
         return str
     end
     local names = {}
     for name, obj in pairs(t) do
-        names[#names+1] = obj._id
+        if obj._type == type then
+            names[#names+1] = obj._id
+        end
     end
     table_sort(names)
     for _, name in ipairs(names) do
@@ -311,10 +313,11 @@ local function prebuild_merge(obj, a, b)
     end
 end
 
-local function prebuild(input, output)
+local function prebuild(type, input, output)
     for name, obj in pairs(input) do
         local r = prebuild_obj(name, obj)
         if r then
+            r._type = type
             name = name:lower()
             if output[name] then
                 prebuild_merge(obj, output[name], r)
@@ -325,13 +328,24 @@ local function prebuild(input, output)
     end
 end
 
-return function(w2l_, type, data)
-    w2l = w2l_
-    remove_unuse_object = w2l.config.remove_unuse_object
+local function update_constant(type)
     metadata = w2l:read_metadata(type)
     keydata = w2l:keyconvert(type)
     keys = keydata['profile']
-    local slk = {}
-    prebuild(data, slk)
-    return table_concat(convert_txt(slk), '\r\n')
+end
+
+return function(w2l_, slk)
+    w2l = w2l_
+    remove_unuse_object = w2l.config.remove_unuse_object
+    local txt = {}
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade'} do
+        update_constant(type)
+        prebuild(type, slk[type], txt)
+    end
+    local r = {}
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade'} do
+        update_constant(type)
+        r[type] = table_concat(convert_txt(type, txt), '\r\n')
+    end
+    return r
 end
