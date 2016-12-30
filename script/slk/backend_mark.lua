@@ -60,6 +60,7 @@ local mustmark = {
 }
 
 local slk
+local buffmap
 local search
 local mark_known_type
 local once = {}
@@ -164,7 +165,7 @@ local function mark_list(slk, o, list)
     end
 end
 
-function mark_known_type(slk, type, name)
+local function mark_known_type2(slk, type, name)
     local o = slk[type][name]
     if not o then
         local o = slk.txt[name:lower()]
@@ -190,6 +191,21 @@ function mark_known_type(slk, type, name)
         end
     end
     return true
+end
+
+function mark_known_type(slk, type, name)
+    if type == 'buff' then
+        local m = buffmap[name:lower()]
+        if m then
+            for _, name in ipairs(m) do
+                mark_known_type2(slk, type, name)
+            end
+            return true
+        end
+        return false
+    else
+        return mark_known_type2(slk, type, name)
+    end
 end
 
 local function mark_mustuse(slk)
@@ -335,6 +351,16 @@ return function(w2l, archive, slk_)
         search = {}
         for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
             search[type] = w2l:parse_lni(assert(io.load(w2l.prebuilt / 'search' / (type .. '.ini'))))
+        end
+    end
+    buffmap = {}
+    for i in pairs(slk.buff) do
+        local li = i:lower()
+        local m = buffmap[li]
+        if m then
+            m[#m+1] = i
+        else
+            buffmap[li] = {i}
         end
     end
     slk.mustuse = mustuse

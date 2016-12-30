@@ -154,9 +154,6 @@ local function remove_unuse(w2l, slk)
                     unuse_count = unuse_count + 1
                 else
                     origin_count = origin_count + 1
-                    if type == 'buff' then
-                        name = name:lower()
-                    end
                     if not mustuse[type][name] then
                         origin_list[type][#origin_list[type]+1] = obj
                     end
