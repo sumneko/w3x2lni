@@ -192,11 +192,21 @@ local function load_data(displaykey, obj, key, id, slk_data)
     local tp = w2l:get_id_type(metadata[id].type)
     if type(obj[key]) == 'table' then
         if slk_type == 'doodad' then
+            for i = 11, #obj[key] do
+                if obj[key][i] == obj[key][10] then
+                    obj[key][i] = nil
+                end
+            end
             for i = 1, 10 do
                 slk_data[('%s%02d'):format(displaykey, i)] = to_type(tp, obj[key][i])
                 obj[key][i] = nil
             end
         else
+            for i = 5, #obj[key] do
+                if obj[key][i] == obj[key][4] then
+                    obj[key][i] = nil
+                end
+            end
             for i = 1, 4 do
                 slk_data[displaykey..i] = to_type(tp, obj[key][i])
                 obj[key][i] = nil
