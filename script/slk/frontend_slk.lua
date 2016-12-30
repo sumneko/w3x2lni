@@ -214,15 +214,8 @@ return function(w2l_, loader)
     local has_readed = {}
     local count = 0
     progress:start(0.3)
-    for type, names in pairs(w2l.info.txt) do
-        for i, filename in ipairs(names) do
-            if not has_readed[filename] then
-                has_readed[filename] = true
-                w2l:parse_txt(loader(filename), filename, txt)
-            end
-        end
-        count = count + 1
-        progress(count / 7)
+    for _, filename in pairs(w2l.info.txt) do
+        w2l:parse_txt(loader(filename), filename, txt)
     end
     progress:finish()
     
