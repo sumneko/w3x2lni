@@ -20,7 +20,7 @@ local w2l
 local metadata
 local keydata
 local keys
-local lines
+local str
 local remove_unuse_object
 
 local character = { 'A','B','C','D','E','F','G','H','I' }
@@ -81,7 +81,7 @@ local function get_index_data(tp, ...)
     return table_concat(l, ',')
 end
 
-local function add_data(obj, key, id, value, values)
+local function add_data(obj, key, id, value, keyval)
     local meta = metadata[id]
     local tp = w2l:get_id_type(meta.type)
     if meta['_has_index'] then
@@ -91,7 +91,7 @@ local function add_data(obj, key, id, value, values)
             if not value then
                 return
             end
-            values[#values+1] = {key, value}
+            keyval[#keyval+1] = {key, value}
         end
         return
     end
@@ -107,7 +107,7 @@ local function add_data(obj, key, id, value, values)
                 return
             end
             if len > 1 then
-                values[#values+1] = {key..'count', len}
+                keyval[#keyval+1] = {key..'count', len}
             end
             local flag
             for i = 1, len do
@@ -118,30 +118,30 @@ local function add_data(obj, key, id, value, values)
                 if value[i] then
                     flag = true
                     if meta['index'] == -1 then
-                        values[#values+1] = {key, value[i]}
+                        keyval[#keyval+1] = {key, value[i]}
                     else
-                        values[#values+1] = {key, to_type(tp, value[i])}
+                        keyval[#keyval+1] = {key, to_type(tp, value[i])}
                     end
                 end
             end
             if not flag then
-                values[#values] = nil
+                keyval[#keyval] = nil
             end
         else
             if not value then
                 return
             end
             if meta['index'] == -1 then
-                values[#values+1] = {key, value}
+                keyval[#keyval+1] = {key, value}
             else
-                values[#values+1] = {key, to_type(tp, value)}
+                keyval[#keyval+1] = {key, to_type(tp, value)}
             end
         end
         return
     end
     if meta['index'] == -1 then
         if value and value ~= 0 then
-            values[#values+1] = {key, value}
+            keyval[#keyval+1] = {key, value}
         end
         return
     end
@@ -154,49 +154,49 @@ local function add_data(obj, key, id, value, values)
         value = to_type(tp, value)
     end
     if value then
-        values[#values+1] = {key, value}
+        keyval[#keyval+1] = {key, value}
     end
 end
 
-local function format_value(key, val)
-    if val == '' then
-        return nil
-    end
-    if type(val) == 'string' then
-        val = val:gsub('\r\n', '|n'):gsub('[\r\n]', '|n')
-    end
-    return key .. '=' .. val
-end
-
-local function add_obj(obj)
-    local values = {}
+local function create_keyval(obj)
+    local keyval = {}
     for _, id in pairs(keys) do
         local key = get_displaykey(id)
         if key ~= 'EditorSuffix' and key ~= 'EditorName' then
             local data = obj[key]
             if data then
-                add_data(obj, key, id, data, values)
+                add_data(obj, key, id, data, keyval)
             end
         end
     end
-    if #values == 0 then
+    return keyval
+end
+
+local function add_obj(obj)
+    local keyval = create_keyval(obj)
+    if #keyval == 0 then
         return
     end
-    local value_lines = {}
-    table_sort(values, function(a, b)
+    table_sort(keyval, function(a, b)
         return a[1]:lower() < b[1]:lower()
     end)
-    for _, value in ipairs(values) do
-        value_lines[#value_lines+1] = format_value(value[1], value[2])
+    local empty = true
+    str[#str+1] = ('[%s]'):format(obj._id)
+    for _, kv in ipairs(keyval) do
+        local key, val = kv[1], kv[2]
+        if val ~= '' then
+            if type(val) == 'string' then
+                val = val:gsub('\r\n', '|n'):gsub('[\r\n]', '|n')
+            end
+            str[#str+1] = key .. '=' .. val
+            empty = false
+        end
     end
-    if #value_lines == 0 then
-        return
+    if empty then
+        str[#str] = nil
+    else
+        str[#str+1] = ''
     end
-    lines[#lines+1] = ('[%s]'):format(obj._id)
-    for _, value in ipairs(value_lines) do
-        lines[#lines+1] = value
-    end
-    lines[#lines+1] = ''
 end
 
 local function add_chunk(names)
@@ -284,12 +284,12 @@ return function(w2l_, type, chunk)
     slk = {}
     w2l = w2l_
     remove_unuse_object = w2l.config.remove_unuse_object
-    lines = {}
+    str = {}
     metadata = w2l:read_metadata(type)
     keydata = w2l:keyconvert(type)
     keys = keydata['profile']
 
     load_chunk(chunk)
     convert_txt()
-    return table_concat(lines, '\r\n')
+    return table_concat(str, '\r\n')
 end
