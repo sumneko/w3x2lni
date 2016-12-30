@@ -145,9 +145,6 @@ local function get_names()
 end
 
 local function convert_slk(slk_name)
-    if not next(slk) then
-        return
-    end
     local names = get_names()
     local skeys = slk_keys[slk_name]
     add_head(names, skeys)
