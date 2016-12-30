@@ -81,7 +81,7 @@ local function get_index_data(tp, ...)
     return table_concat(l, ',')
 end
 
-local function add_data(name, obj, key, id, value, values)
+local function add_data(obj, key, id, value, values)
     local meta = metadata[id]
     local tp = w2l:get_id_type(meta.type)
     if meta['_has_index'] then
@@ -162,25 +162,21 @@ local function format_value(key, val)
     if val == '' then
         return nil
     end
-    if key == 'EditorSuffix' then
-        return nil
-    end
-    if key == 'EditorName' then
-        return nil
-    end
     if type(val) == 'string' then
         val = val:gsub('\r\n', '|n'):gsub('[\r\n]', '|n')
     end
     return key .. '=' .. val
 end
 
-local function add_obj(name, obj)
+local function add_obj(obj)
     local values = {}
     for _, id in pairs(keys) do
         local key = get_displaykey(id)
-        local data = obj[key]
-        if data then
-            add_data(name, obj, key, id, data, values)
+        if key ~= 'EditorSuffix' and key ~= 'EditorName' then
+            local data = obj[key]
+            if data then
+                add_data(obj, key, id, data, values)
+            end
         end
     end
     if #values == 0 then
@@ -196,7 +192,7 @@ local function add_obj(name, obj)
     if #value_lines == 0 then
         return
     end
-    lines[#lines+1] = ('[%s]'):format(obj['_id'])
+    lines[#lines+1] = ('[%s]'):format(obj._id)
     for _, value in ipairs(value_lines) do
         lines[#lines+1] = value
     end
@@ -206,7 +202,7 @@ end
 local function add_chunk(names)
     for _, name in ipairs(names) do
         local obj = slk[name]
-        add_obj(name, obj)
+        add_obj(obj)
     end
 end
 
@@ -228,8 +224,7 @@ local function convert_txt()
 end
 
 local function key2id(code, key)
-    local id = keydata[code] and keydata[code][key] or keydata['common'][key]
-    return id
+    return keydata[code] and keydata[code][key] or keydata['common'][key]
 end
 
 local function load_data(name, obj, key, txt_data)
