@@ -227,13 +227,13 @@ local function key2id(code, key)
     return keydata[code] and keydata[code][key] or keydata['common'][key]
 end
 
-local function check_string(s, obj, displaykey)
-    if type(s) == 'string' and s:find(',', nil, false) and s:find('"', nil, false) then
-        message('-report', ("SLK化失败: %s - %s"):format(obj._id, displaykey))
-        message('-tip', '文本内容同时包含了逗号和双引号')
-        return false
-    end
-    return true
+local function report_failed(obj, key, tip)
+    message('-report', ("SLK化失败: %s - %s"):format(obj._id, get_displaykey(key2id(obj._code, key))))
+    message('-tip', tip)
+end
+
+local function check_string(s)
+    return type(s) == 'string' and s:find(',', nil, false) and s:find('"', nil, false)
 end
 
 local function prebuild_data(obj, key, r)
@@ -245,6 +245,8 @@ local function prebuild_data(obj, key, r)
         local t = {}
         for k, v in pairs(obj[key]) do
             if check_string(v, obj, displaykey) then
+                report_failed(obj, key, '文本内容同时包含了逗号和双引号')
+            else
                 t[k] = v
                 obj[key][k] = nil
             end
@@ -256,7 +258,9 @@ local function prebuild_data(obj, key, r)
             r[displaykey] = t
         end
     else
-        if check_string(obj[key], obj, displaykey) then
+        if check_string(obj[key]) then
+            report_failed(obj, key, '文本内容同时包含了逗号和双引号')
+        else
             r[displaykey] = obj[key]
             obj[key] = nil
         end
@@ -277,10 +281,57 @@ local function prebuild_obj(name, obj)
     end
 end
 
+local function prebuild_merge(obj, a, b)
+    for k, v in pairs(b) do
+        if k == '_id' then
+            goto CONTINUE
+        end
+        if type(v) == 'table' then
+            if type(a[k]) == 'table' then
+                local lk = k:lower()
+                for i, iv in pairs(v) do
+                    if a[k][i] ~= iv then
+                        report_failed(obj, lk, ('文本内容和对象[%s]冲突'):format(a._id))
+                        if obj[lk] then
+                            obj[lk][i] = iv
+                        else
+                            obj[lk] = {[i] = iv}
+                        end
+                    end
+                end
+            else
+                local lk = k:lower()
+                report_failed(obj, lk, ('文本内容和对象[%s]冲突'):format(a._id))
+                for i, iv in pairs(v) do
+                    if obj[lk] then
+                        obj[lk][i] = iv
+                    else
+                        obj[lk] = {[i] = iv}
+                    end
+                end
+            end
+        else
+            if a[k] ~= v then
+                local lk = k:lower()
+                report_failed(obj, lk, ('文本内容和对象[%s]冲突'):format(a._id))
+                obj[lk] = v
+            end
+        end
+::CONTINUE::
+    end
+end
+
 local function prebuild(data)
     for name, obj in pairs(data) do
         local r = prebuild_obj(name, obj)
-        slk[name:lower()] = r
+        if r then
+            name = name:lower()
+            if slk[name] then
+                prebuild_merge(obj, slk[name], r)
+            else
+                slk[name] = r
+            end
+        end
     end
 end
 
