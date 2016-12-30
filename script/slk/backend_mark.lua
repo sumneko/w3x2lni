@@ -33,16 +33,16 @@ local mustuse =  {
         'Afir','Afih','Afio','Afin','Afiu'
     },
     buff = {
-        'bpse','bstn','btlf','bdet',
-        'bvul','bspe','bfro','bsha',
-        'btrv','xbdt','xbli','xdis',
-        'bpxf','bphx','bens','bstt',
-        'bcor','buns','bUst','xesn','bivs', 
+        'BPSE','BSTN','Btlf','Bdet',
+        'Bvul','Bspe','Bfro','Bsha',
+        'Btrv','Xbdt','Xbli','Xdis',
+        'Bpxf','Bphx','Bens','Bstt',
+        'Bcor','Buns','BUst','Xesn','Bivs', 
         -- 建筑物伤害
-        'xfhs','xfhm','xfhl',
-        'xfos','xfom','xfol',
-        'xfns','xfnm','xfnl',
-        'xfus','xfum','xful',
+        'Xfhs','Xfhm','Xfhl',
+        'Xfos','Xfom','Xfol',
+        'Xfns','Xfnm','Xfnl',
+        'Xfus','Xfum','Xful',
     },
 }
 
@@ -165,12 +165,7 @@ local function mark_list(slk, o, list)
 end
 
 function mark_known_type(slk, type, name)
-    local o
-    if type == 'buff' then
-        o = slk.buff[name:lower()]
-    else
-        o = slk[type][name]
-    end
+    local o = slk[type][name]
     if not o then
         local o = slk.txt[name:lower()]
         if o then
