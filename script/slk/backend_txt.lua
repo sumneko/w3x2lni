@@ -227,60 +227,63 @@ local function key2id(code, key)
     return keydata[code] and keydata[code][key] or keydata['common'][key]
 end
 
-local function load_data(name, obj, key, txt_data)
+local function check_string(s, obj, displaykey)
+    if type(s) == 'string' and s:find(',', nil, false) and s:find('"', nil, false) then
+        message('-report', ("SLK化失败: %s - %s"):format(obj._id, displaykey))
+        message('-tip', '文本内容同时包含了逗号和双引号')
+        return false
+    end
+    return true
+end
+
+local function prebuild_data(obj, key, r)
     if not obj[key] then
         return
     end
-    local skey = get_displaykey(key2id(obj._code, key))
+    local displaykey = get_displaykey(key2id(obj._code, key))
     if type(obj[key]) == 'table' then
-        local tbl = {}
+        local t = {}
         for k, v in pairs(obj[key]) do
-            if type(v) == 'string' and v:find(',', nil, false) and v:find('"', nil, false) then
-                message('-report', ("SLK化失败: %s - %s"):format(obj._id, skey))
-                message('-tip', '文本内容同时包含了逗号和双引号')
-            else
-                tbl[k] = v
+            if check_string(v, obj, displaykey) then
+                t[k] = v
                 obj[key][k] = nil
             end
         end
         if not next(obj[key]) then
             obj[key] = nil
         end
-        if next(tbl) then
-            txt_data[skey] = tbl
+        if next(t) then
+            r[displaykey] = t
         end
     else
-        if type(obj[key]) == 'string' and obj[key]:find(',', nil, false) and obj[key]:find('"', nil, false) then
-            message('-report', ("SLK化失败: %s - %s"):format(obj._id, skey))
-            message('-tip', '文本内容同时包含了逗号和双引号')
-            return
+        if check_string(obj[key], obj, displaykey) then
+            r[displaykey] = obj[key]
+            obj[key] = nil
         end
-        txt_data[skey] = obj[key]
-        obj[key] = nil
     end
 end
 
-local function load_obj(name, obj)
+local function prebuild_obj(name, obj)
     if remove_unuse_object and not obj._mark then
-        return nil
+        return
     end
-    local txt_data = {}
+    local r = {}
     for key in pairs(keys) do
-        load_data(name, obj, key, txt_data)
+        prebuild_data(obj, key, r)
     end
-    if next(txt_data) then
-        txt_data['_id'] = obj['_id']
-        return txt_data
-    end
-end
-
-local function load_chunk(chunk)
-    for name, obj in pairs(chunk) do
-        slk[name] = load_obj(name, obj)
+    if next(r) then
+        r._id = obj._id
+        return r
     end
 end
 
-return function(w2l_, type, chunk)
+local function prebuild(data)
+    for name, obj in pairs(data) do
+        slk[name] = prebuild_obj(name, obj)
+    end
+end
+
+return function(w2l_, type, data)
     slk = {}
     w2l = w2l_
     remove_unuse_object = w2l.config.remove_unuse_object
@@ -288,8 +291,7 @@ return function(w2l_, type, chunk)
     metadata = w2l:read_metadata(type)
     keydata = w2l:keyconvert(type)
     keys = keydata['profile']
-
-    load_chunk(chunk)
+    prebuild(data)
     convert_txt()
     return table_concat(str, '\r\n')
 end
