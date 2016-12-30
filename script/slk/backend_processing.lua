@@ -54,8 +54,14 @@ local function clean_obj(name, obj, type, default, config)
     local parent = obj._parent
     local max_level = obj._max_level
     local default = default[parent]
-    local is_remove_same = config.remove_same
-    local is_slk = config.target_format == 'slk' and type ~= 'doodad' and type ~= 'misc'
+    local is_remove_same, is_slk
+    if type == 'misc' then
+        is_remove_same = false
+        is_slk = name ~= 'Misc'
+    else
+        is_remove_same = config.remove_same
+        is_slk = config.target_format == 'slk' and type ~= 'doodad'
+    end
     for key, data in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
             remove_same(key, data, default, obj, is_slk, type, is_remove_same)
@@ -87,7 +93,7 @@ local function processing(w2l, type, chunk)
 end
 
 return function (w2l, slk)
-    for i, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
+    for i, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         progress:start(i / 8)
         processing(w2l, type, slk[type])
         progress:finish()
