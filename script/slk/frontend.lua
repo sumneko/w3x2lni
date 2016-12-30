@@ -89,11 +89,7 @@ local function merge_obj(data, objs)
         if source then
             template[name] = source
         else
-            local parent = obj._parent
-            if obj._type == 'buff' then
-                parent = string_lower(parent)
-            end
-            source = template[parent] or data[parent]
+            source = template[obj._parent] or data[obj._parent]
         end
         data[name] = copy_obj(source, obj)
     end

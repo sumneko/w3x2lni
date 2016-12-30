@@ -52,9 +52,6 @@ end
 
 local function clean_obj(name, obj, type, default, config)
     local parent = obj._parent
-    if type == 'buff' then
-        parent = parent:lower()
-    end
     local max_level = obj._max_level
     local default = default[parent]
     local is_remove_same = config.remove_same

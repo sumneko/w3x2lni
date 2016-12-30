@@ -103,19 +103,13 @@ end
 
 local function slk_read(table, slk, keys, metas, update_level, type)
     for name, data in pairs(slk) do
-        local lname
-        if type == 'buff' then
-            lname = string_lower(name)
-        else
-            lname = name
-        end
-        if not table[lname] then
-            table[lname] = {
+        if not table[name] then
+            table[name] = {
                 _id = name,
                 _type = type,
             }
         end
-        local obj = table[lname]
+        local obj = table[name]
         slk_read_obj(obj, name, data, keys, metas)
         if update_level then
             obj._max_level = obj[update_level]

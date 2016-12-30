@@ -26,11 +26,7 @@ return function (w2l_, type, buf)
     local data = {}
     force_slk = false
     for name, obj in pairs(lni) do
-        if type == 'buff' then
-            data[string_lower(name)] = add_obj(type, name, level_key, obj)
-        else
-            data[name] = add_obj(type, name, level_key, obj)
-        end
+        data[name] = add_obj(type, name, level_key, obj)
     end
     return data, force_slk
 end

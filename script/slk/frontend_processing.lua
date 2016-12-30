@@ -121,11 +121,7 @@ local function parse_obj(name, obj, default, config, ttype)
     end
 
     obj._parent = parent
-    if ttype == 'buff' then
-        obj._code = default[parent:lower()]._code
-    else
-        obj._code = default[parent]._code
-    end
+    obj._code = default[parent]._code
 end
 
 local function processing(w2l, type, chunk)
