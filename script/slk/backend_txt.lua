@@ -15,12 +15,10 @@ local os_clock = os.clock
 local type = type
 local next = next
 
-local slk
 local w2l
 local metadata
 local keydata
 local keys
-local str
 local remove_unuse_object
 
 local character = { 'A','B','C','D','E','F','G','H','I' }
@@ -172,7 +170,7 @@ local function create_keyval(obj)
     return keyval
 end
 
-local function add_obj(obj)
+local function add_obj(str, obj)
     local keyval = create_keyval(obj)
     if #keyval == 0 then
         return
@@ -199,18 +197,20 @@ local function add_obj(obj)
     end
 end
 
-local function convert_txt()
-    if not next(slk) then
-        return
+local function convert_txt(t)
+    local str = {}
+    if not next(t) then
+        return str
     end
     local names = {}
-    for name, obj in pairs(slk) do
+    for name, obj in pairs(t) do
         names[#names+1] = obj._id
     end
     table_sort(names)
     for _, name in ipairs(names) do
-        add_obj(slk[name:lower()])
+        add_obj(str, t[name:lower()])
     end
+    return str
 end
 
 local function key2id(code, key)
@@ -311,29 +311,27 @@ local function prebuild_merge(obj, a, b)
     end
 end
 
-local function prebuild(data)
-    for name, obj in pairs(data) do
+local function prebuild(input, output)
+    for name, obj in pairs(input) do
         local r = prebuild_obj(name, obj)
         if r then
             name = name:lower()
-            if slk[name] then
-                prebuild_merge(obj, slk[name], r)
+            if output[name] then
+                prebuild_merge(obj, output[name], r)
             else
-                slk[name] = r
+                output[name] = r
             end
         end
     end
 end
 
 return function(w2l_, type, data)
-    slk = {}
     w2l = w2l_
     remove_unuse_object = w2l.config.remove_unuse_object
-    str = {}
     metadata = w2l:read_metadata(type)
     keydata = w2l:keyconvert(type)
     keys = keydata['profile']
-    prebuild(data)
-    convert_txt()
-    return table_concat(str, '\r\n')
+    local slk = {}
+    prebuild(data, slk)
+    return table_concat(convert_txt(slk), '\r\n')
 end
