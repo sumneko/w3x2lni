@@ -201,15 +201,15 @@ end
 
 local function add_chunk(names)
     for _, name in ipairs(names) do
-        local obj = slk[name]
+        local obj = slk[name:lower()]
         add_obj(obj)
     end
 end
 
 local function get_names()
     local names = {}
-    for name in pairs(slk) do
-        names[#names+1] = name
+    for name, obj in pairs(slk) do
+        names[#names+1] = obj._id
     end
     table_sort(names)
     return names
@@ -279,7 +279,8 @@ end
 
 local function prebuild(data)
     for name, obj in pairs(data) do
-        slk[name] = prebuild_obj(name, obj)
+        local r = prebuild_obj(name, obj)
+        slk[name:lower()] = r
     end
 end
 
