@@ -16,19 +16,6 @@ function message(...)
 	print(...)
 end
 
-local mt = {}
-function mt:__index(key)
-    print(debug.traceback(('读取不存在的全局变量[%s]'):format(key)))
-    return nil
-end
-function mt:__newindex(key, value)
-    print(debug.traceback(('保存全局变量[%s][%s]'):format(key, value)))
-    rawset(self, key, value)
-    return nil
-end
-
-setmetatable(_G, mt)
-
 local input = fs.path(uni.a2u(arg[1]))
 
 message('正在打开地图...')
