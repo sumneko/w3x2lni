@@ -199,28 +199,18 @@ local function add_obj(obj)
     end
 end
 
-local function add_chunk(names)
-    for _, name in ipairs(names) do
-        local obj = slk[name:lower()]
-        add_obj(obj)
+local function convert_txt()
+    if not next(slk) then
+        return
     end
-end
-
-local function get_names()
     local names = {}
     for name, obj in pairs(slk) do
         names[#names+1] = obj._id
     end
     table_sort(names)
-    return names
-end
-
-local function convert_txt()
-    if not next(slk) then
-        return
+    for _, name in ipairs(names) do
+        add_obj(slk[name:lower()])
     end
-    local names = get_names()
-    add_chunk(names)
 end
 
 local function key2id(code, key)
