@@ -130,7 +130,7 @@ local function load_obj(w2l, archive, wts)
             if force then
                 force_slk = true
             end
-             archive:set(name, false)
+            archive:set(name, false)
         end
     end
     return objs, force_slk

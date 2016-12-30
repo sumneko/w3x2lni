@@ -79,7 +79,7 @@ end
 local function get_displayname_by_id(slk, id)
     local o = slk.ability[id]
            or slk.unit[id]
-           or slk.buff[id:lower()]
+           or slk.buff[id]
            or slk.item[id]
            or slk.destructable[id]
            or slk.doodad[id]
