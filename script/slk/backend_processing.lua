@@ -87,7 +87,7 @@ local function processing(w2l, type, chunk)
 end
 
 return function (w2l, slk)
-    for i, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
+    for i, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
         progress:start(i / 8)
         processing(w2l, type, slk[type])
         progress:finish()

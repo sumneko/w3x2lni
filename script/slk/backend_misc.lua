@@ -16,6 +16,9 @@ local function add_data(name, lkey, id, obj, data)
 end
 
 local function add_obj(name, obj, data)
+    if not obj._mark then
+        return
+    end
     local new_obj = {}
 
     if keydata[name] then
