@@ -192,26 +192,22 @@ end
 
 local function to_slk(w2l, archive, slk)
     --转换物编
-    local has_set = {}
 	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable'} do
         local data = slk[type]
         for _, slk in ipairs(w2l.info.slk[type]) do
-            local content = w2l:backend_slk(type, slk, data)
-            archive:set(slk, content)
+            archive:set(slk, w2l:backend_slk(type, slk, data))
         end
     end
 
 	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable'} do
-        local data = slk[type]
-        if output[type] then
-            archive:set(output[type], w2l:backend_txt(type, data))
-            has_set[output[type]] = true
-        end
         if w2l.info.txt[type] then
-            for i, txt in ipairs(w2l.info.txt[type]) do
-                if not has_set[txt] then
-                    archive:set(txt, '')
-                    has_set[txt] = true
+            local data = slk[type]
+            archive:set(output[type], w2l:backend_txt(type, data))
+            if type ~= 'buff' then
+                for _, txt in ipairs(w2l.info.txt[type]) do
+                    if txt ~= output[type] then
+                        archive:set(txt, '')
+                    end
                 end
             end
         end
