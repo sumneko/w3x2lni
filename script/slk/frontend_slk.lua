@@ -237,10 +237,7 @@ return function(w2l_, loader)
                     update_level = has_level
                 end
             end
-            local buf = loader(filename)
-            if buf ~= '' then
-                slk_read(datas[type], w2l:parse_slk(buf), slk_keys, slk_meta, update_level, type)
-            end
+            slk_read(datas[type], w2l:parse_slk(loader(filename)), slk_keys, slk_meta, update_level, type)
         end
         if keyconvert.profile then
             local txt_keys = {}
