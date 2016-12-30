@@ -72,9 +72,12 @@ local function get_index_data(tp, ...)
     if #datas == 0 then
         return
     end
-    for i = 1, #datas do
-        if not datas[i] then
-            datas[i] = ''
+    local null
+    for i = len, 1, -1 do
+        if datas[i] then
+            null = ''
+        else
+            datas[i] = null
         end
     end
     return table_concat(datas, ',')
