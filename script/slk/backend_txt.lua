@@ -170,7 +170,7 @@ local function create_keyval(obj)
     return keyval
 end
 
-local function add_obj(str, obj)
+local function stringify_obj(str, obj)
     local keyval = create_keyval(obj)
     if #keyval == 0 then
         return
@@ -195,24 +195,6 @@ local function add_obj(str, obj)
     else
         str[#str+1] = ''
     end
-end
-
-local function convert_txt(type, t)
-    local str = {}
-    if not next(t) then
-        return str
-    end
-    local names = {}
-    for name, obj in pairs(t) do
-        if obj._type == type then
-            names[#names+1] = obj._id
-        end
-    end
-    table_sort(names)
-    for _, name in ipairs(names) do
-        add_obj(str, t[name:lower()])
-    end
-    return str
 end
 
 local function key2id(code, key)
@@ -313,7 +295,7 @@ local function prebuild_merge(obj, a, b)
     end
 end
 
-local function prebuild(type, input, output)
+local function prebuild(type, input, output, list)
     for name, obj in pairs(input) do
         local r = prebuild_obj(name, obj)
         if r then
@@ -323,6 +305,7 @@ local function prebuild(type, input, output)
                 prebuild_merge(obj, output[name], r)
             else
                 output[name] = r
+                list[#list+1] = r._id
             end
         end
     end
@@ -338,14 +321,21 @@ return function(w2l_, slk)
     w2l = w2l_
     remove_unuse_object = w2l.config.remove_unuse_object
     local txt = {}
+    local list = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade'} do
+        list[type] = {}
         update_constant(type)
-        prebuild(type, slk[type], txt)
+        prebuild(type, slk[type], txt, list[type])
     end
     local r = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade'} do
         update_constant(type)
-        r[type] = table_concat(convert_txt(type, txt), '\r\n')
+        local str = {}
+        table_sort(list[type])
+        for _, name in ipairs(list[type]) do
+            stringify_obj(str, txt[name:lower()])
+        end
+        r[type] = table_concat(str, '\r\n')
     end
     return r
 end
