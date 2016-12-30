@@ -64,23 +64,21 @@ local function to_type(tp, value)
 end
 
 local function get_index_data(tp, ...)
-    local len = select('#', ...)
-    local datas = {...}
-    for i = 1, len do
-        datas[i] = to_type(tp, datas[i])
-    end
-    if #datas == 0 then
-        return
-    end
     local null
-    for i = len, 1, -1 do
-        if datas[i] then
+    local l = table.pack(...)
+    for i = l.n, 1, -1 do
+        local v = to_type(tp, l[i])
+        if v then
+            l[i] = v
             null = ''
         else
-            datas[i] = null
+            l[i] = null
         end
     end
-    return table_concat(datas, ',')
+    if #l == 0 then
+        return
+    end
+    return table_concat(l, ',')
 end
 
 local function add_data(name, obj, key, id, value, values)
