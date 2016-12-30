@@ -192,44 +192,37 @@ end
 
 local function to_slk(w2l, archive, slk)
     --转换物编
-    local count = 0
     local has_set = {}
-    for type in pairs(w2l.info.slk) do
-        count = count + 1
-        progress:start(count / 7)
+	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable'} do
         local data = slk[type]
-        if type ~= 'doodad' then
-            progress:start(0.4)
-            for _, slk in ipairs(w2l.info.slk[type]) do
-                local content = w2l:backend_slk(type, slk, data)
-                archive:set(slk, content)
-            end
-            progress:finish()
+        for _, slk in ipairs(w2l.info.slk[type]) do
+            local content = w2l:backend_slk(type, slk, data)
+            archive:set(slk, content)
+        end
+    end
 
-            if output[type] then
-                progress:start(0.8)
-                archive:set(output[type], w2l:backend_txt(type, data))
-                progress:finish()
-                has_set[output[type]] = true
-            end
-            if w2l.info.txt[type] then
-                for i, txt in ipairs(w2l.info.txt[type]) do
-                    if not has_set[txt] then
-                        archive:set(txt, '')
-                        has_set[txt] = true
-                    end
+	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable'} do
+        local data = slk[type]
+        if output[type] then
+            archive:set(output[type], w2l:backend_txt(type, data))
+            has_set[output[type]] = true
+        end
+        if w2l.info.txt[type] then
+            for i, txt in ipairs(w2l.info.txt[type]) do
+                if not has_set[txt] then
+                    archive:set(txt, '')
+                    has_set[txt] = true
                 end
             end
         end
-        progress(0.9)
-        
-        progress:start(1)
+    end
+
+	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable', 'doodad'} do
+        local data = slk[type]
         local content = w2l:backend_obj(type, data)
-        progress:finish()
         if content then
             archive:set(w2l.info.obj[type], content)
         end
-        progress:finish()
     end
 
     local content = w2l:backend_extra_txt(slk['txt'])
