@@ -206,7 +206,7 @@ local function window_select(canvas)
 		config.target_format = 'slk'
 		config.slk.target_storage = 'map'
 		config.slk.read_slk = true
-		config.slk.remove_same = true
+		config.slk.remove_same = false
 		config.slk.remove_exceeds_level = true
 		save_config()
 		clean_convert_ui()
