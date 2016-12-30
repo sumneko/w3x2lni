@@ -370,4 +370,5 @@ return function(w2l, archive, slk_)
     mark_doo(w2l, archive, slk)
     mark_lua(w2l, archive, slk)
     mark_marketplace(slk, jassflag)
+    slk.misc.Misc._mark = true
 end
