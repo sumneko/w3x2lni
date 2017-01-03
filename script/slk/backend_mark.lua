@@ -63,7 +63,7 @@ local slk
 local buffmap
 local search
 local mark_known_type
-local once = {}
+local report_once = {}
 local current_root = {'', '%s%s'}
 
 local function get_displayname(o)
@@ -101,13 +101,13 @@ local function split(str)
 end
 
 local function report(type, id)
-    if not once[type] then
-        once[type] = {}
+    if not report_once[type] then
+        report_once[type] = {}
     end
-    if once[type][id] then
+    if report_once[type][id] then
         return
     end
-    once[type][id] = true
+    report_once[type][id] = true
     message('-report', type, id)
     message('-tip', format_marktip(slk, current_root))
 end

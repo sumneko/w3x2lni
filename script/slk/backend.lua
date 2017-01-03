@@ -173,18 +173,18 @@ local function remove_unuse(w2l, slk)
 end
 
 local function to_slk(w2l, archive, slk)
-    --转换物编
+    local report = { n = 0 }
 	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable'} do
         local data = slk[type]
         for _, slk in ipairs(w2l.info.slk[type]) do
-            archive:set(slk, w2l:backend_slk(type, slk, data))
+            archive:set(slk, w2l:backend_slk(type, slk, data, report))
         end
     end
 
     for _, filename in ipairs(w2l.info.txt) do
         archive:set(filename, '')
     end
-    local txt = w2l:backend_txt(slk)
+    local txt = w2l:backend_txt(slk, report)
 	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade'} do
         archive:set(output[type], txt[type])
     end
@@ -200,6 +200,25 @@ local function to_slk(w2l, archive, slk)
     local content = w2l:backend_extra_txt(slk['txt'])
     if content then
         archive:set(output['txt'], content)
+    end
+
+    if report.n > 0 then
+        local index = 1
+        message('-report', ('SLK化失败: %d'):format(report.n))
+        for tip, list in pairs(report) do
+            if #tip > 1 then
+                local n = 0
+                message('-report', ('%d.%s'):format(index, tip))
+                index = index + 1
+                for _, msg in pairs(list) do
+                    message('-report', msg)
+                    n = n + 1
+                    if n > 20 then
+                        break
+                    end
+                end
+            end
+        end
     end
 end
 

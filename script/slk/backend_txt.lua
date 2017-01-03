@@ -15,6 +15,7 @@ local os_clock = os.clock
 local type = type
 local next = next
 
+local report
 local w2l
 local metadata
 local keydata
@@ -201,9 +202,38 @@ local function key2id(code, key)
     return keydata[code] and keydata[code][key] or keydata['common'][key]
 end
 
-local function report_failed(obj, key, tip)
-    message('-report', ("SLK化失败: %s - %s"):format(obj._id, get_displaykey(key2id(obj._code, key))))
-    message('-tip', tip)
+local function get_displayname(o)
+    if o._type == 'buff' then
+        return o._id, o.bufftip or o.editorname or ''
+    elseif o._type == 'upgrade' then
+        return o._id, o.name[1] or ''
+    else
+        return o._id, o.name or ''
+    end
+end
+
+local function get_displayname2(o)
+    if o._type == 'buff' then
+        return o._id, o.Bufftip or o.EditorName or ''
+    elseif o._type == 'upgrade' then
+        return o._id, o.Name[1] or ''
+    else
+        return o._id, o.Name or ''
+    end
+end
+
+local function report_failed(obj, obj2, key, tip)
+    report.n = report.n + 1
+    if not report[tip] then
+        report[tip] = {}
+    end
+    if report[tip][obj._id] then
+        return
+    end
+    local id, name = get_displayname(obj)
+    local id2, name2 = get_displayname2(obj2)
+    local dkey = get_displaykey(key2id(obj._code, key))
+    report[tip][obj._id] = ("'%s'%s %s%s"):format(id, dkey, (' '):rep(7 - #dkey), name ~= '' and name or name2)
 end
 
 local function check_string(s)
@@ -219,7 +249,7 @@ local function prebuild_data(obj, key, r)
         local t = {}
         for k, v in pairs(obj[key]) do
             if check_string(v, obj, displaykey) then
-                report_failed(obj, key, '文本内容同时包含了逗号和双引号')
+                report_failed(obj, t, key, '文本内容同时包含了逗号和双引号')
             else
                 t[k] = v
                 obj[key][k] = nil
@@ -233,7 +263,7 @@ local function prebuild_data(obj, key, r)
         end
     else
         if check_string(obj[key]) then
-            report_failed(obj, key, '文本内容同时包含了逗号和双引号')
+            report_failed(obj, t, key, '文本内容同时包含了逗号和双引号')
         else
             r[displaykey] = obj[key]
             obj[key] = nil
@@ -265,7 +295,7 @@ local function prebuild_merge(obj, a, b)
                 local lk = k:lower()
                 for i, iv in pairs(v) do
                     if a[k][i] ~= iv then
-                        report_failed(obj, lk, ('文本内容和对象[%s]冲突'):format(a._id))
+                        report_failed(obj, b, lk, ('文本内容和对象[%s]冲突'):format(a._id))
                         if obj[lk] then
                             obj[lk][i] = iv
                         else
@@ -275,7 +305,7 @@ local function prebuild_merge(obj, a, b)
                 end
             else
                 local lk = k:lower()
-                report_failed(obj, lk, ('文本内容和对象[%s]冲突'):format(a._id))
+                report_failed(obj, b, lk, ('文本内容和对象[%s]冲突'):format(a._id))
                 for i, iv in pairs(v) do
                     if obj[lk] then
                         obj[lk][i] = iv
@@ -287,7 +317,7 @@ local function prebuild_merge(obj, a, b)
         else
             if a[k] ~= v then
                 local lk = k:lower()
-                report_failed(obj, lk, ('文本内容和对象[%s]冲突'):format(a._id))
+                report_failed(obj, b, lk, ('文本内容和对象[%s]冲突'):format(a._id))
                 obj[lk] = v
             end
         end
@@ -317,8 +347,9 @@ local function update_constant(type)
     keys = keydata['profile']
 end
 
-return function(w2l_, slk)
+return function(w2l_, slk, report_)
     w2l = w2l_
+    report = report_
     remove_unuse_object = w2l.config.remove_unuse_object
     local txt = {}
     local list = {}

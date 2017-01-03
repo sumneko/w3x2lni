@@ -13,6 +13,7 @@ local wtonumber = w3xparser.tonumber
 local math_type = math.type
 local os_clock = os.clock
 
+local report
 local slk
 local w2l
 local metadata
@@ -41,6 +42,29 @@ local function get_displaykey(code, key)
         key = key .. ':' .. (meta.index + 1)
     end
     return key
+end
+
+local function get_displayname(o)
+    if o._type == 'buff' then
+        return o._id, o.bufftip or o.editorname or ''
+    elseif o._type == 'upgrade' then
+        return o._id, o.name[1] or ''
+    else
+        return o._id, o.name or ''
+    end
+end
+
+local function report_failed(obj, key, tip)
+    report.n = report.n + 1
+    if not report[tip] then
+        report[tip] = {}
+    end
+    if report[tip][obj._id] then
+        return
+    end
+    local id, name = get_displayname(obj)
+    local dkey = get_displaykey(obj._code, key)
+    report[tip][obj._id] = ("'%s'%s %s%s"):format(id, dkey, (' '):rep(7 - #dkey), name)
 end
 
 local slk_keys = {
@@ -209,7 +233,9 @@ local function load_data(displaykey, obj, key, id, slk_data)
                 obj[key][i] = nil
             end
         end
-        if not next(obj[key]) then
+        if next(obj[key]) then
+            report_failed(obj, key, '数据超过了4级')
+        else
             obj[key] = nil
         end
     else
@@ -248,9 +274,10 @@ local function load_chunk(chunk, slk_name)
     end
 end
 
-return function(w2l_, type, slk_name, chunk)
+return function(w2l_, type, slk_name, chunk, report_)
     slk = {}
     w2l = w2l_
+    report = report_
     cx = nil
     cy = nil
     remove_unuse_object = w2l.config.remove_unuse_object
