@@ -124,12 +124,6 @@ local function remove_unuse(w2l, slk)
             mustuse[type][id] = true
         end
     end
-    local max = 0
-    for type in pairs(w2l.info.slk) do
-        for _ in pairs(slk[type]) do
-            max = max + 1
-        end
-    end
     
     local total_custom = 0
     local total_origin = 0
@@ -138,8 +132,7 @@ local function remove_unuse(w2l, slk)
     local clock = os_clock()
     for type in pairs(w2l.info.slk) do
         local default = w2l:get_default()[type]
-        local data = slk[type]
-        for name, obj in pairs(data) do
+        for name, obj in pairs(slk[type]) do
             if obj._obj or not default[name] then
                 total_custom = total_custom + 1
                 if not obj._mark then
@@ -155,10 +148,6 @@ local function remove_unuse(w2l, slk)
                         origin_list[type][#origin_list[type]+1] = obj
                     end
                 end
-            end
-            if os_clock() - clock > 0.1 then
-                clock = os_clock()
-                progress(count / max)
             end
         end
     end
