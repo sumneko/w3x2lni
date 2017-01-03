@@ -129,6 +129,7 @@ function mt:initialize(root)
 	self.prebuilt = self.root / 'script' / 'prebuilt'
 	self.key = self.prebuilt / 'key'
 	self.default = self.prebuilt / 'default'
+	self.meta = self.prebuilt / 'meta'
 	self.info   = lni(assert(io.load(self.root / 'script' / 'info.ini')), 'info')
 	self.config = lni(assert(io.load(self.root / 'config.ini')), 'config')
 	local fmt = self.config.target_format
