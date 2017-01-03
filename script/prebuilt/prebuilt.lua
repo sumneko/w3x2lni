@@ -12,6 +12,7 @@ local order_prebuilt = require 'order.prebuilt'
 local default2lni = require 'prebuilt.default2lni'
 local txt2teamplate = require 'prebuilt.txt2teamplate'
 local create_key2id = require 'prebuilt.create_key2id'
+local create_meta = require 'prebuilt.create_meta'
 w2l:initialize()
 
 function message(...)
@@ -89,8 +90,10 @@ local function main()
 	fs.create_directories(w2l.template)
 	fs.create_directories(w2l.key)
 	fs.create_directories(w2l.prebuilt / 'search')
+	fs.create_directories(w2l.prebuilt / 'meta')
 
 	create_key2id(w2l)
+	create_meta(w2l)
 
 	-- 生成模板lni
 	local ar = archive(w2l.mpq)
