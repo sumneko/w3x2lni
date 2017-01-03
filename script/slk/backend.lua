@@ -129,8 +129,7 @@ local function remove_unuse(w2l, slk)
     local total_origin = 0
     local unuse_custom = 0
     local unuse_origin = 0
-    local clock = os_clock()
-    for type in pairs(w2l.info.slk) do
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
         local default = w2l:get_default()[type]
         for name, obj in pairs(slk[type]) do
             if obj._obj or not default[name] then
