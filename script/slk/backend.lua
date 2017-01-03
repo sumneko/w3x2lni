@@ -92,7 +92,7 @@ local function report_list(slk, list, type, n)
 end
 
 local function remove_unuse(w2l, slk)
-    local unuse_list = {
+    local custom_list = {
         ability = {},
         unit = {},
         item = {},
@@ -131,29 +131,26 @@ local function remove_unuse(w2l, slk)
         end
     end
     
-    local user_count = 0
-    local count = 0
-    local unuse_count = 0
-    local unuse_user_count = 0
-    local origin_count = 0
+    local total_custom = 0
+    local total_origin = 0
+    local unuse_custom = 0
+    local unuse_origin = 0
     local clock = os_clock()
     for type in pairs(w2l.info.slk) do
         local default = w2l:get_default()[type]
         local data = slk[type]
         for name, obj in pairs(data) do
-            count = count + 1
             if obj._obj or not default[name] then
-                user_count = user_count + 1
+                total_custom = total_custom + 1
                 if not obj._mark then
-                    unuse_count = unuse_count + 1
-                    unuse_user_count = unuse_user_count + 1
-                    unuse_list[type][#unuse_list[type]+1] = obj
+                    unuse_custom = unuse_custom + 1
+                    custom_list[type][#custom_list[type]+1] = obj
                 end
             else
+                total_origin = total_origin + 1
                 if not obj._mark then
-                    unuse_count = unuse_count + 1
+                    unuse_origin = unuse_origin + 1
                 else
-                    origin_count = origin_count + 1
                     if not mustuse[type][name] then
                         origin_list[type][#origin_list[type]+1] = obj
                     end
@@ -166,24 +163,24 @@ local function remove_unuse(w2l, slk)
         end
     end
 
-    if unuse_count > 0 then
-        message('-report', ('简化掉的对象数: %d/%d'):format(unuse_count, count))
+    if unuse_origin + unuse_custom > 0 then
+        message('-report', ('简化掉的对象数: %d/%d'):format(unuse_origin + unuse_custom, total_origin + total_custom))
     end
-    if origin_count > 0 then
-        message('-report', ('保留的默认对象数: %d/%d'):format(origin_count, count - user_count))
+    if total_origin - unuse_origin > 0 then
+        message('-report', ('保留的默认对象数: %d/%d'):format(total_origin - unuse_origin, total_origin))
         report_list(slk, origin_list, 'unit', 5)
         report_list(slk, origin_list, 'ability', 5)
         report_list(slk, origin_list, 'item', 5)
         report_list(slk, origin_list, 'buff', 1)
         report_list(slk, origin_list, 'upgrade', 1)
     end
-    if unuse_user_count > 0 then
-        message('-report', ('简化掉的自定义对象数: %d/%d'):format(unuse_user_count, user_count))
-        report_list(slk, unuse_list, 'unit', 5)
-        report_list(slk, unuse_list, 'ability', 5)
-        report_list(slk, unuse_list, 'item', 5)
-        report_list(slk, unuse_list, 'buff', 1)
-        report_list(slk, unuse_list, 'upgrade', 1)
+    if unuse_custom > 0 then
+        message('-report', ('简化掉的自定义对象数: %d/%d'):format(unuse_custom, total_custom))
+        report_list(slk, custom_list, 'unit', 5)
+        report_list(slk, custom_list, 'ability', 5)
+        report_list(slk, custom_list, 'item', 5)
+        report_list(slk, custom_list, 'buff', 1)
+        report_list(slk, custom_list, 'upgrade', 1)
     end
 end
 
