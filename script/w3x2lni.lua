@@ -33,7 +33,7 @@ function mt:parse_ini(buf)
 	return ini(buf)
 end
 
-function mt:read_metadata(type)
+function mt:read_metadata2(type)
 	if not metadatas[type] then
 		metadatas[type] = lni(io.load(self.meta / (type .. '.ini')), type)
 	end

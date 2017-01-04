@@ -181,7 +181,7 @@ return function (w2l, type, data)
 	tbl.lines = {}
 	tbl.w2l = w2l
 	tbl.remove_unuse_object = w2l.config.remove_unuse_object
-	metadata = w2l:read_metadata(type)
+	metadata = w2l:read_metadata2(type)
 	keydata = w2l:keyconvert(type)
 	tbl.file_name = type
 	tbl:add_chunk(data, type)

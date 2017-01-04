@@ -190,7 +190,7 @@ return function(w2l_, loader)
     local count = 0
     progress:start(1)
     for type, names in pairs(w2l.info.slk) do
-        metadata = w2l:read_metadata(type)
+        metadata = w2l:read_metadata2(type)
         level_key = w2l.info.key.max_level[type]
         keyconvert = w2l:keyconvert(type)
         slk_type = type
