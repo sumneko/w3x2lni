@@ -11,25 +11,6 @@ local os_clock = os.clock
 local keydata
 local metadata
 
-local character = { 'A','B','C','D','E','F','G','H','I' }
-
-local function get_displaykey(code, key)
-    local id = keydata[code] and keydata[code][key] or keydata['common'][key]
-    local meta = metadata[id]
-    if not meta then
-        return
-    end
-    local key = meta.field
-    local num = meta.data
-    if num and num ~= 0 then
-        key = key .. character[num]
-    end
-    if meta._has_index then
-        key = key .. ':' .. (meta.index + 1)
-    end
-    return key
-end
-
 local mt = {}
 mt.__index = mt
 
@@ -81,14 +62,14 @@ function mt:add_chunk(chunk, type)
 			return true
 		end
 		if not is_origin1 and is_origin2 then
-			return false
+            return false
 		end
 		return chunk[name1]['_id'] < chunk[name2]['_id']
 	end)
     local clock = os_clock()
 	for i = 1, #names do
 		local obj = chunk[names[i]]
-		self:add_obj(chunk, obj)
+		self:add_obj(chunk, obj, metadata)
         if os_clock() - clock >= 0.1 then
             clock = os_clock()
             message(('正在转换%s: [%s] (%d/%d)'):format(type, obj._id, i, #names))
@@ -97,28 +78,38 @@ function mt:add_chunk(chunk, type)
 	end
 end
 
-function mt:add_obj(chunk, obj)
+function mt:add_obj(chunk, obj, meta)
 	if self.remove_unuse_object and not obj._mark then
 		return
 	end
-	local upper_obj = {}
-    local keys = {}
+	local datas = {}
+    local metas = {}
 	local name = obj._id
 	local code = obj._code
-    for key, data in pairs(obj) do
-		if key:sub(1, 1) ~= '_' then
-			local key = get_displaykey(code, key)
-			if key then
-				keys[#keys+1] = key
-				upper_obj[key] = data
-			end
-		end
-	end
-    table_sort(keys)
+    if meta.common then
+        for key, meta in pairs(meta.common) do
+            local data = obj[key]
+            if data then
+                metas[#metas+1] = meta
+                datas[meta] = data
+            end
+        end
+    end
+    if meta[code] then
+        for key, meta in pairs(meta[code]) do
+            local data = obj[key]
+            if data then
+                metas[#metas+1] = meta
+                datas[meta] = data
+            end
+        end
+    end
+    table_sort(metas, function(meta1, meta2)
+        return meta1.field < meta2.field
+    end)
     local lines = {}
-	for _, key in ipairs(keys) do
-		local id = self:key2id(code, key:lower())
-		self:add_data(key, id, upper_obj[key], lines)
+	for _, meta in ipairs(metas) do
+        self:add_data(meta, datas[meta], lines)
 	end
     if not lines or #lines == 0 then
         return
@@ -137,8 +128,9 @@ function mt:add_obj(chunk, obj)
 	self:add ''
 end
 
-function mt:add_data(key, id, data, lines)
+function mt:add_data(meta, data, lines)
 	local len
+    local key = meta.field
 	if type(data) == 'table' then
 		len = get_len(data)
 		if len == 0 then
@@ -148,7 +140,7 @@ function mt:add_data(key, id, data, lines)
 	if key:match '[^%w%_]' then
 		key = ('%q'):format(key)
 	end
-    lines[#lines+1] = {'-- %s', self:get_comment(id)}
+    lines[#lines+1] = {'-- %s', self:get_comment(meta)}
 	if not len then
 		lines[#lines+1] = {'%s = %s', key, self:format_value(data)}
 		return
@@ -179,13 +171,8 @@ function mt:add_data(key, id, data, lines)
 	lines[#lines+1] = {'%s = {%s}', key, table_concat(values, ', ')}
 end
 
-function mt:key2id(code, key)
-    local id = keydata[code] and keydata[code][key] or keydata['common'][key]
-    return id
-end
-
-function mt:get_comment(id)
-	local comment = metadata[id].displayname
+function mt:get_comment(meta)
+	local comment = meta.displayname
 	return self.w2l:editstring(comment):gsub('^%s*(.-)%s*$', '%1')
 end
 
