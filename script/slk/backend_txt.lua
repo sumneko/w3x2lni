@@ -18,27 +18,8 @@ local next = next
 local report
 local w2l
 local metadata
-local keydata
 local keys
 local remove_unuse_object
-
-local character = { 'A','B','C','D','E','F','G','H','I' }
-
-local function get_displaykey(id)
-    local meta = metadata[id]
-    if not meta then
-        return
-    end
-    local key = meta.field
-    local num = meta.data
-    if num and num ~= 0 then
-        key = key .. character[num]
-    end
-    if meta._has_index then
-        key = key .. ':' .. (meta.index + 1)
-    end
-    return key
-end
 
 local function to_type(tp, value)
     if tp == 0 then
@@ -80,21 +61,19 @@ local function get_index_data(tp, ...)
     return table_concat(l, ',')
 end
 
-local function add_data(obj, key, id, value, keyval)
-    local meta = metadata[id]
-    local tp = w2l:get_id_type(meta.type)
-    if meta['_has_index'] then
-        if meta['index'] == 0 then
-            local key = meta.field
-            local value = get_index_data(tp, obj[key..':1'], obj[key..':2'])
+local function add_data(obj, meta, value, keyval)
+    local key = meta.field
+    if meta.index then
+        if meta.index == 1 then
+            local value = get_index_data(meta.type, obj[key:sub(1,-3)..':1'], obj[key:sub(1,-3)..':2'])
             if not value then
                 return
             end
-            keyval[#keyval+1] = {key, value}
+            keyval[#keyval+1] = {key:sub(1,-3), value}
         end
         return
     end
-    if meta['appendindex'] == 1 then
+    if meta.appendindex then
         if type(value) == 'table' then
             local len = 0
             for n in pairs(value) do
@@ -116,10 +95,10 @@ local function add_data(obj, key, id, value, keyval)
                 end
                 if value[i] then
                     flag = true
-                    if meta['index'] == -1 then
+                    if meta.concat then
                         keyval[#keyval+1] = {key, value[i]}
                     else
-                        keyval[#keyval+1] = {key, to_type(tp, value[i])}
+                        keyval[#keyval+1] = {key, to_type(meta.type, value[i])}
                     end
                 end
             end
@@ -130,27 +109,27 @@ local function add_data(obj, key, id, value, keyval)
             if not value then
                 return
             end
-            if meta['index'] == -1 then
+            if meta.concat then
                 keyval[#keyval+1] = {key, value}
             else
-                keyval[#keyval+1] = {key, to_type(tp, value)}
+                keyval[#keyval+1] = {key, to_type(meta.type, value)}
             end
         end
         return
     end
-    if meta['index'] == -1 then
+    if meta.concat then
         if value and value ~= 0 then
             keyval[#keyval+1] = {key, value}
         end
         return
     end
     if type(value) == 'table' then
-        value = get_index_data(tp, table_unpack(value))
+        value = get_index_data(meta.type, table_unpack(value))
         if value == '' then
             value = ','
         end
     else
-        value = to_type(tp, value)
+        value = to_type(meta.type, value)
     end
     if value then
         keyval[#keyval+1] = {key, value}
@@ -159,12 +138,13 @@ end
 
 local function create_keyval(obj)
     local keyval = {}
-    for _, id in pairs(keys) do
-        local key = get_displaykey(id)
+    for key in pairs(keys) do
+        local meta = metadata[key]
+        local key = meta.field
         if key ~= 'EditorSuffix' and key ~= 'EditorName' then
             local data = obj[key]
             if data then
-                add_data(obj, key, id, data, keyval)
+                add_data(obj, meta, data, keyval)
             end
         end
     end
@@ -198,10 +178,6 @@ local function stringify_obj(str, obj)
     end
 end
 
-local function key2id(code, key)
-    return keydata[code] and keydata[code][key] or keydata['common'][key]
-end
-
 local function get_displayname(o)
     if o._type == 'buff' then
         return o._id, o.bufftip or o.editorname or ''
@@ -232,7 +208,7 @@ local function report_failed(obj, obj2, key, tip)
     end
     local id, name = get_displayname(obj)
     local id2, name2 = get_displayname2(obj2)
-    local dkey = get_displaykey(key2id(obj._code, key))
+    local dkey = metadata[key].field
     report[tip][obj._id] = ("'%s'%s %s%s"):format(id, dkey, (' '):rep(7 - #dkey), name ~= '' and name or name2)
 end
 
@@ -244,7 +220,7 @@ local function prebuild_data(obj, key, r)
     if not obj[key] then
         return
     end
-    local displaykey = get_displaykey(key2id(obj._code, key))
+    local displaykey = metadata[key].field
     if type(obj[key]) == 'table' then
         local t = {}
         for k, v in pairs(obj[key]) do
@@ -342,9 +318,8 @@ local function prebuild(type, input, output, list)
 end
 
 local function update_constant(type)
-    metadata = w2l:read_metadata(type)
-    keydata = w2l:keyconvert(type)
-    keys = keydata['profile']
+    metadata = w2l:read_metadata2()[type]
+    keys = w2l:keyconvert(type)['profile']
 end
 
 return function(w2l_, slk, report_)
