@@ -75,10 +75,6 @@ local function read_obj(chunk, type)
         read_data(obj)
     end
     chunk[name] = obj
-    obj._max_level = obj[has_level]
-    if obj._max_level == 0 then
-        obj._max_level = 1
-    end
     return obj
 end
 

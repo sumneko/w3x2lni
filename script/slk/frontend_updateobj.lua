@@ -38,6 +38,12 @@ local function update_obj(name, type, obj, data)
             message('-tip', ('[%s] - [%s]'):format(k, table.concat(v, ',')))
         end
     end
+    if has_level then
+        new_obj._max_level = new_obj[has_level]
+        if new_obj._max_level == 0 then
+            new_obj._max_level = 1
+        end
+    end
     return new_obj
 end
 
