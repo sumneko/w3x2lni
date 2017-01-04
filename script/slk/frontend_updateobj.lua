@@ -2,6 +2,16 @@ local w2l
 local has_level
 local metadata
 
+local function get_displayname(o1, o2)
+    if o1._type == 'buff' then
+        return o1.bufftip or o1.editorname or o2.bufftip or o2.editorname or ''
+    elseif o1._type == 'upgrade' then
+        return o1.name[1] or o2.name[1] or ''
+    else
+        return o1.name or o2.name or ''
+    end
+end
+
 local function update_data(key, meta, obj, new_obj)
     local id = meta.id
     local value = obj[id]
@@ -34,8 +44,9 @@ local function update_obj(name, type, obj, data)
         if k:sub(1, 1) == '_' then
             new_obj[k] = v
         else
-            message('-report', ('[%s]中有多余数据'):format(name))
-            message('-tip', ('[%s] - [%s]'):format(k, table.concat(v, ',')))
+            local displayname = get_displayname(new_obj, temp)
+            message('-report', ('不支持的物编数据: %s'):format(displayname))
+            message('-tip', ('[%s][%s] - [%s]'):format(name, k, table.concat(v, ',')))
         end
     end
     if has_level then
