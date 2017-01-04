@@ -6,6 +6,8 @@ local string_char = string.char
 local pairs = pairs
 local ipairs = ipairs
 
+local misc_names
+
 local function sortpairs(t)
     local sort = {}
     for k, v in pairs(t) do
@@ -51,6 +53,13 @@ local function stringify(inf, outf)
     end
 end
 
+local function string_misc(outf)
+    outf[#outf+1] = '[misc_names]'
+    for k, v in sortpairs(misc_names) do
+        outf[#outf+1] = ('%s = %s'):format(k, v)
+    end
+end
+
 local function stringify_ex(inf)
     local f = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
@@ -58,6 +67,7 @@ local function stringify_ex(inf)
         inf[type] = nil
     end
     stringify(inf, f)
+    string_misc(f)
     return table.concat(f, '\r\n')
 end
 
@@ -109,6 +119,9 @@ local function parse_id(w2l, tmeta, id, meta, type, has_level)
                 tmeta[name] = {}
             end
             tmeta[name][lkey] = data
+            if type == 'misc' then
+                misc_names[name] = true
+            end
         end
     else
         tmeta[type][lkey] = data
@@ -170,6 +183,7 @@ local function copy_code(t, template)
 end
 
 return function(w2l)
+    misc_names = {}
     local tmeta = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         create_meta(w2l, type, tmeta)

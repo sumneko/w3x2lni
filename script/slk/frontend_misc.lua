@@ -6,7 +6,6 @@ local wtonumber = w3xparser.tonumber
 local math_floor = math.floor
 
 local w2l
-local keyconvert
 
 local function to_type(tp, value)
     if tp == 0 then
@@ -69,7 +68,8 @@ end
 
 local function convert(misc, metadata, slk)
     local chunk = {}
-    for name, meta in pairs(metadata) do
+    for name in pairs(metadata.misc_names) do
+        local meta = metadata[name]
         add_obj(name, meta, misc, chunk, slk)
     end
     return chunk
@@ -92,7 +92,6 @@ end
 
 return function (w2l_, archive, slk)
     w2l = w2l_
-    keyconvert = w2l:keyconvert 'misc'
     local misc = {}
     for _, name in ipairs {"UI\\MiscData.txt", "Units\\MiscData.txt", "Units\\MiscGame.txt"} do
         local buf = io.load(w2l.mpq / name)
