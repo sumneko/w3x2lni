@@ -65,7 +65,7 @@ local function add_data(obj, meta, value, keyval)
     local key = meta.field
     if meta.index then
         if meta.index == 1 then
-            local value = get_index_data(meta.type, obj[key:sub(1,-3)..':1'], obj[key:sub(1,-3)..':2'])
+            local value = get_index_data(meta.type, obj[meta.key..':1'], obj[meta.key..':2'])
             if not value then
                 return
             end
@@ -139,12 +139,10 @@ end
 local function create_keyval(obj)
     local keyval = {}
     for key in pairs(keys) do
-        local meta = metadata[key]
-        local key = meta.field
-        if key ~= 'EditorSuffix' and key ~= 'EditorName' then
+        if key ~= 'editorsuffix' and key ~= 'editorname' then
             local data = obj[key]
             if data then
-                add_data(obj, meta, data, keyval)
+                add_data(obj, metadata[key], data, keyval)
             end
         end
     end
@@ -220,11 +218,10 @@ local function prebuild_data(obj, key, r)
     if not obj[key] then
         return
     end
-    local displaykey = metadata[key].field
     if type(obj[key]) == 'table' then
         local t = {}
         for k, v in pairs(obj[key]) do
-            if check_string(v, obj, displaykey) then
+            if check_string(v) then
                 report_failed(obj, t, key, '文本内容同时包含了逗号和双引号')
             else
                 t[k] = v
@@ -235,13 +232,13 @@ local function prebuild_data(obj, key, r)
             obj[key] = nil
         end
         if next(t) then
-            r[displaykey] = t
+            r[key] = t
         end
     else
         if check_string(obj[key]) then
             report_failed(obj, t, key, '文本内容同时包含了逗号和双引号')
         else
-            r[displaykey] = obj[key]
+            r[key] = obj[key]
             obj[key] = nil
         end
     end
@@ -268,33 +265,30 @@ local function prebuild_merge(obj, a, b)
         end
         if type(v) == 'table' then
             if type(a[k]) == 'table' then
-                local lk = k:lower()
                 for i, iv in pairs(v) do
                     if a[k][i] ~= iv then
-                        report_failed(obj, b, lk, ('文本内容和对象[%s]冲突'):format(a._id))
-                        if obj[lk] then
-                            obj[lk][i] = iv
+                        report_failed(obj, b, k, ('文本内容和对象[%s]冲突'):format(a._id))
+                        if obj[k] then
+                            obj[k][i] = iv
                         else
-                            obj[lk] = {[i] = iv}
+                            obj[k] = {[i] = iv}
                         end
                     end
                 end
             else
-                local lk = k:lower()
-                report_failed(obj, b, lk, ('文本内容和对象[%s]冲突'):format(a._id))
+                report_failed(obj, b, k, ('文本内容和对象[%s]冲突'):format(a._id))
                 for i, iv in pairs(v) do
-                    if obj[lk] then
-                        obj[lk][i] = iv
+                    if obj[k] then
+                        obj[k][i] = iv
                     else
-                        obj[lk] = {[i] = iv}
+                        obj[k] = {[i] = iv}
                     end
                 end
             end
         else
             if a[k] ~= v then
-                local lk = k:lower()
-                report_failed(obj, b, lk, ('文本内容和对象[%s]冲突'):format(a._id))
-                obj[lk] = v
+                report_failed(obj, b, k, ('文本内容和对象[%s]冲突'):format(a._id))
+                obj[k] = v
             end
         end
 ::CONTINUE::
