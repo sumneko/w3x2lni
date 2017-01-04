@@ -6,7 +6,6 @@ local string_match = string.match
 local w2l
 local wts
 local has_level
-local metadata
 local unpack_buf
 local unpack_pos
 local force_slk
@@ -20,39 +19,11 @@ local function unpack(str)
     return set_pos(string_unpack(str, unpack_buf, unpack_pos))
 end
 
-local character = { 'A','B','C','D','E','F','G','H','I' }
-
-local function get_displaykey(id)
-    local meta = metadata[id]
-    if not meta then
-        return
-    end
-    local key = meta.field
-    local num = meta.data
-    if num and num ~= 0 then
-        key = key .. character[num]
-    end
-    if meta._has_index then
-        key = key .. ':' .. (meta.index + 1)
-    end
-    return key
-end
-
 local function read_data(obj)
     local data = {}
     local id = string_match(unpack 'c4', '^[^\0]+')
-    local meta = metadata[id]
-    local key = get_displaykey(id)
     local value_type = unpack 'l'
     local level = 0
-
-    if key then
-        key = string_lower(key)
-        local check_type = w2l:get_id_type(meta.type)
-        if value_type ~= check_type and (value_type == 3 or check_type == 3) then
-            message('-report', ('数据类型错误:[%s],应该为[%s],错误的解析为了[%s]'):format(id, value_type, check_type))
-        end
-    end
 
     --是否包含等级信息
     if has_level then
@@ -74,21 +45,14 @@ local function read_data(obj)
     
     -- 扔掉一个整数
     unpack 'l'
-
-    if not key then
-        return
+    
+    if level == 0 then
+        level = 1
     end
-    if meta['repeat'] and meta['repeat'] > 0 then
-        if level == 0 then
-            level = 1
-        end
-        if not obj[key] then
-            obj[key] = {}
-        end
-        obj[key][level] = value
-    else
-        obj[key] = value
+    if not obj[id] then
+        obj[id] = {}
     end
+    obj[id][level] = value
 end
 
 local function read_obj(chunk, type)
@@ -133,7 +97,6 @@ return function (w2l_, type, wts_, buf)
     w2l = w2l_
     wts = wts_
     has_level = w2l.info.key.max_level[type]
-    metadata = w2l:read_metadata(type)
     unpack_buf = buf
     unpack_pos = 1
     force_slk = false
