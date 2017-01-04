@@ -155,7 +155,12 @@ end
 local function update_then_merge(w2l, slks, objs, lnis, slk)
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
         local data = slks[type]
-        local obj = objs[type] or {}
+        local obj = objs[type]
+        if obj then
+            w2l:frontend_updateobj(type, obj, data)
+        else
+            obj = {}
+        end
         if lnis[type] then
             w2l:frontend_updatelni(type, lnis[type], data)
             for k, v in pairs(lnis[type]) do
