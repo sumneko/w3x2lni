@@ -32,7 +32,13 @@ local function remove_same(key, data, default, obj, is_slk, ttype, is_remove_sam
     if type(dest) == 'table' then
         local new_data = {}
         for i = 1, #data do
-            if data[i] ~= dest[i] or not can_remove(is_slk, ttype, i, key) then
+            local default
+            if i > #dest then
+                default = dest[#dest]
+            else
+                default = dest[i]
+            end
+            if data[i] ~= default or not can_remove(is_slk, ttype, i, key) then
                 new_data[i] = data[i]
             end
         end
