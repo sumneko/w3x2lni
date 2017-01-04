@@ -92,8 +92,8 @@ local function main()
 	fs.create_directories(w2l.prebuilt / 'search')
 	fs.create_directories(w2l.prebuilt / 'meta')
 
-	create_key2id(w2l)
 	create_meta(w2l)
+	create_key2id(w2l)
 
 	-- 生成模板lni
 	local ar = archive(w2l.mpq)

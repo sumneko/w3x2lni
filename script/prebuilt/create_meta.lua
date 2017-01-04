@@ -32,19 +32,30 @@ local function fmtstring(s)
     return s
 end
 
-local function stringify(id, obj, outf)
-    outf[#outf+1] = ('[%s]'):format(fmtstring(id))
-    for key, value in sortpairs(obj) do
-        outf[#outf+1] = ('%s = %s'):format(fmtstring(key), value)
+local function stringify2(inf, outf)
+    for name, obj in sortpairs(inf) do
+        outf[#outf+1] = ('[.%s]'):format(fmtstring(name))
+        for k, v in sortpairs(obj) do
+            outf[#outf+1] = ('%s = %s'):format(fmtstring(k), v)
+        end
     end
-    outf[#outf+1] = ''
+end
+
+local function stringify(inf, outf)
+    for name, obj in sortpairs(inf) do
+        if next(obj) then
+            outf[#outf+1] = ('[%s]'):format(fmtstring(name))
+            stringify2(obj, outf)
+            outf[#outf+1] = ''
+        end
+    end
 end
 
 local function stringify_ex(inf)
     local f = {}
-    for id, obj in sortpairs(inf) do
-        stringify(id, obj, f)
-    end
+    stringify({common=inf.common}, f)
+    inf.common = nil
+    stringify(inf, f)
     return table.concat(f, '\r\n')
 end
 
@@ -76,18 +87,31 @@ local function parse_id(w2l, tmeta, id, meta, type, has_level)
     if meta._has_index then
         key = key .. ':' .. (meta.index + 1)
     end
-    tmeta[id] = {
-        ['field'] = key,
+    local data = {
+        ['id'] = id,
         ['type'] = w2l:get_id_type(meta.type),
-        ['repeat'] = has_level and meta['repeat'] > 0 and meta['repeat'],
-        ['appendindex'] = meta.appendindex,
+        ['field'] = key,
+        ['index'] = meta.index == -1 and true or nil,
+        ['repeat'] = has_level and meta['repeat'] > 0 and meta['repeat'] or nil,
+        ['appendindex'] = meta.appendindex == 1 and true or nil,
         ['displayname'] = meta.displayname,
     }
+    local lkey = key:lower()
+    if objs then
+        for name in objs:gmatch '%w+' do
+            if not tmeta[name] then
+                tmeta[name] = {}
+            end
+            tmeta[name][lkey] = data
+        end
+    else
+        tmeta.common[lkey] = data
+    end
 end
 
 local function create_meta(w2l, type, tmeta)
     local has_level = w2l.info.key.max_level[type]
-    tmeta[type] = {}
+    tmeta[type] = {common = {}}
     local tmeta = tmeta[type]
     local filepath = w2l.mpq / w2l.info['metadata'][type]
     local tbl = slk(io.load(filepath))
@@ -113,11 +137,41 @@ local function create_meta(w2l, type, tmeta)
     end
 end
 
+local function copy_code(t, template)
+    for name, d in pairs(template) do
+        local code = d.code
+        local data = t[name]
+        if data then
+            t[name] = nil
+            if t[code] then
+                for k, v in pairs(data) do
+                    local dest = t[code][k]
+                    if dest then
+                        if v.id ~= dest.id then
+                            message('id不同:', k, 'skill:', name, v.id, 'code:', code, dest.id)
+                        end
+                    else
+                        t[code][k] = v
+                    end
+                end
+            else
+                t[code] = {}
+                for k, v in pairs(data) do
+                    t[code][k] = v
+                end
+            end
+        end
+    end
+end
+
 return function(w2l)
     local tmeta = {}
 	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
 		create_meta(w2l, type, tmeta)
 	end
+
+    local template = w2l:parse_slk(io.load(w2l.mpq / w2l.info.slk.ability[1]))
+    copy_code(tmeta.ability, template)
 
 	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
 	    io.save(w2l.prebuilt / 'meta' / (type .. '.ini'), stringify_ex(tmeta[type]))
