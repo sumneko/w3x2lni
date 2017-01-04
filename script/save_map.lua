@@ -77,6 +77,7 @@ local function save_imp(w2l, output_ar)
             imp[#imp+1] = name
         end
     end
+    table.sort(imp)
     local hex = {}
     hex[1] = ('ll'):pack(1, #imp)
     for _, name in ipairs(imp) do
