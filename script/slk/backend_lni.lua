@@ -84,23 +84,27 @@ function mt:add_obj(chunk, obj, meta)
 	end
 	local datas = {}
     local metas = {}
+    local keys = {}
 	local name = obj._id
 	local code = obj._code
-    if meta.common then
-        for key, meta in pairs(meta.common) do
-            local data = obj[key]
-            if data then
-                metas[#metas+1] = meta
-                datas[meta] = data
-            end
-        end
-    end
     if meta[code] then
         for key, meta in pairs(meta[code]) do
             local data = obj[key]
             if data then
                 metas[#metas+1] = meta
                 datas[meta] = data
+            end
+            keys[key] = true
+        end
+    end
+    if meta.common then
+        for key, meta in pairs(meta.common) do
+            if not keys[key] then
+                local data = obj[key]
+                if data then
+                    metas[#metas+1] = meta
+                    datas[meta] = data
+                end
             end
         end
     end
