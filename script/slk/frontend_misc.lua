@@ -103,6 +103,6 @@ return function (w2l_, archive, slk)
         local map_misc = w2l:parse_txt(buf, 'war3mapmisc.txt')
         merge_misc(misc, slk.txt, map_misc)
     end
-    local metadata = w2l:read_metadata2 'misc'
+    local metadata = w2l:read_metadata2()
     slk.misc = convert(misc, metadata, slk)
 end

@@ -90,7 +90,6 @@ local function main()
     fs.create_directories(w2l.template)
     fs.create_directories(w2l.key)
     fs.create_directories(w2l.prebuilt / 'search')
-    fs.create_directories(w2l.prebuilt / 'meta')
 
     create_meta(w2l)
     create_key2id(w2l)

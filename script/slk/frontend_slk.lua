@@ -187,10 +187,10 @@ return function(w2l_, loader)
     end
     progress:finish()
     
+    metadata = w2l:read_metadata2()
     local count = 0
     progress:start(1)
     for type, names in pairs(w2l.info.slk) do
-        metadata = w2l:read_metadata2(type)
         level_key = w2l.info.key.max_level[type]
         keyconvert = w2l:keyconvert(type)
         slk_type = type
@@ -202,7 +202,7 @@ return function(w2l_, loader)
             local slk_meta = {}
             for key in pairs(keyconvert[filename]) do
                 slk_keys[#slk_keys+1] = key
-                slk_meta[#slk_meta+1] = metadata.common[key]
+                slk_meta[#slk_meta+1] = metadata[type][key]
             end
             local update_level
             if keyconvert[filename][level_key] then
@@ -216,7 +216,7 @@ return function(w2l_, loader)
             for key in pairs(keyconvert.profile) do
                 local meta = metadata[id]
                 txt_keys[#txt_keys+1] = key
-                txt_meta[#txt_meta+1] = metadata.common[key]
+                txt_meta[#txt_meta+1] = metadata[type][key]
             end
             txt_read(datas[type], txt, used, txt_keys, txt_meta, type)
         end

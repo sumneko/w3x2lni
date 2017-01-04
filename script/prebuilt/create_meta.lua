@@ -53,8 +53,10 @@ end
 
 local function stringify_ex(inf)
     local f = {}
-    stringify({common=inf.common}, f)
-    inf.common = nil
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
+        stringify({[type]=inf[type]}, f)
+        inf[type] = nil
+    end
     stringify(inf, f)
     return table.concat(f, '\r\n')
 end
@@ -109,14 +111,13 @@ local function parse_id(w2l, tmeta, id, meta, type, has_level)
             tmeta[name][lkey] = data
         end
     else
-        tmeta.common[lkey] = data
+        tmeta[type][lkey] = data
     end
 end
 
 local function create_meta(w2l, type, tmeta)
+    tmeta[type] = {}
     local has_level = w2l.info.key.max_level[type]
-    tmeta[type] = {common = {}}
-    local tmeta = tmeta[type]
     local filepath = w2l.mpq / w2l.info['metadata'][type]
     local tbl = slk(io.load(filepath))
     local has_index = {}
@@ -175,9 +176,7 @@ return function(w2l)
     end
 
     local template = w2l:parse_slk(io.load(w2l.mpq / w2l.info.slk.ability[1]))
-    copy_code(tmeta.ability, template)
+    copy_code(tmeta, template)
 
-    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-        io.save(w2l.prebuilt / 'meta' / (type .. '.ini'), stringify_ex(tmeta[type]))
-    end
+    io.save(w2l.prebuilt / 'metadata.ini', stringify_ex(tmeta))
 end

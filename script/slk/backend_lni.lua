@@ -97,8 +97,8 @@ function mt:add_obj(chunk, obj, meta)
             keys[key] = true
         end
     end
-    if meta.common then
-        for key, meta in pairs(meta.common) do
+    if meta[self.file_name] then
+        for key, meta in pairs(meta[self.file_name]) do
             if not keys[key] then
                 local data = obj[key]
                 if data then
@@ -185,7 +185,7 @@ return function (w2l, type, data)
     tbl.lines = {}
     tbl.w2l = w2l
     tbl.remove_unuse_object = w2l.config.remove_unuse_object
-    metadata = w2l:read_metadata2(type)
+    metadata = w2l:read_metadata2()
     keydata = w2l:keyconvert(type)
     tbl.file_name = type
     tbl:add_chunk(data, type)

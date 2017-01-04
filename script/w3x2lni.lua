@@ -11,6 +11,7 @@ local string_lower = string.lower
 local mt = {}
 
 local metadatas = {}
+local metadata
 local id_type
 local usable_para
 local editstring
@@ -59,11 +60,11 @@ function mt:read_metadata(type)
     return tbl
 end
 
-function mt:read_metadata2(type)
-    if not metadatas[type] then
-        metadatas[type] = lni(io.load(self.meta / (type .. '.ini')), type)
+function mt:read_metadata2()
+    if not metadata then
+        metadata = lni(io.load(self.prebuilt / 'metadata.ini'))
     end
-    return metadatas[type]
+    return metadata
 end
 
 function mt:get_id_type(type)
@@ -136,7 +137,6 @@ function mt:initialize(root)
     self.prebuilt = self.root / 'script' / 'prebuilt'
     self.key = self.prebuilt / 'key'
     self.default = self.prebuilt / 'default'
-    self.meta = self.prebuilt / 'meta'
     self.info   = lni(assert(io.load(self.root / 'script' / 'info.ini')), 'info')
     self.config = lni(assert(io.load(self.root / 'config.ini')), 'config')
     local fmt = self.config.target_format
