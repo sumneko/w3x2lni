@@ -89,13 +89,18 @@ local function parse_id(w2l, tmeta, id, meta, type, has_level)
     end
     local data = {
         ['id'] = id,
+        ['key'] = meta.field:lower(),
         ['type'] = w2l:get_id_type(meta.type),
         ['field'] = key,
-        ['index'] = meta.index == -1 and true or nil,
         ['repeat'] = has_level and meta['repeat'] > 0 and meta['repeat'] or nil,
         ['appendindex'] = meta.appendindex == 1 and true or nil,
         ['displayname'] = meta.displayname,
     }
+    if meta.index == -1 then
+        data.index = -1
+    elseif meta._has_index then
+        data.index = meta.index + 1
+    end
     local lkey = key:lower()
     if objs then
         for name in objs:gmatch '%w+' do

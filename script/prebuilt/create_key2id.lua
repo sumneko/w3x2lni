@@ -187,11 +187,28 @@ end
 
 local function create_key2id(w2l, type, tkey, tsearch)
     message('正在生成key2id', type)
+    local filepath = w2l.mpq / w2l.info['metadata'][type]
+	local metadata = w2l:parse_slk(io.load(filepath))
+    local has_index = {}
+	for k, v in pairs(metadata) do
+		-- 进行部分预处理
+		local name  = v['field']
+		local index = v['index']
+		if index and index >= 1 then
+			has_index[name] = true
+		end
+	end
+	for k, v in pairs(metadata) do
+		local name = v['field']
+		if has_index[name] then
+			v._has_index = true
+		end
+	end
     tkey[type] = {common = {}}
     tsearch[type] = {common = {}}
     local tkey = tkey[type]
     local tsearch = tsearch[type]
-    for id, meta in pairs(w2l:read_metadata(type)) do
+    for id, meta in pairs(metadata) do
         if is_enable(meta, type) then
             parse_id(tkey, tsearch, id, meta, type)
         end
