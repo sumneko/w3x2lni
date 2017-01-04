@@ -34,29 +34,10 @@ function mt:parse_ini(buf)
 end
 
 function mt:read_metadata(type)
-	local filepath = self.mpq / self.info['metadata'][type]
-	if metadatas[filepath:string()] then
-		return metadatas[filepath:string()]
+	if not metadatas[type] then
+		metadatas[type] = lni(io.load(self.meta / (type .. '.ini')), type)
 	end
-	local tbl = slk(io.load(filepath))
-	metadatas[filepath:string()] = tbl
-
-	local has_index = {}
-	for k, v in pairs(tbl) do
-		-- 进行部分预处理
-		local name  = v['field']
-		local index = v['index']
-		if index and index >= 1 then
-			has_index[name] = true
-		end
-	end
-	for k, v in pairs(tbl) do
-		local name = v['field']
-		if has_index[name] then
-			v._has_index = true
-		end
-	end
-	return tbl
+	return metadatas[type]
 end
 
 function mt:get_id_type(type)

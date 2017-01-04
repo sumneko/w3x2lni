@@ -6,6 +6,7 @@ local wtonumber = w3xparser.tonumber
 local math_floor = math.floor
 
 local w2l
+local keyconvert
 
 local function to_type(tp, value)
     if tp == 0 then
@@ -33,44 +34,43 @@ local function to_type(tp, value)
     end
 end
 
-local function add_data(id, meta, misc, chunk, slk)
-    local name = meta.section
-    if not chunk[name] then
-        chunk[name] = {
-            _id = name,
-            _code = name,
-            _parent = name,
-            _type = 'misc',
-        }
-    end
-    local obj = chunk[name]
-    local key = meta.field
+local function add_data(key, meta, misc, obj, slk)
+    local name = obj._id
     local lname = string_lower(name)
-    local lkey = string_lower(key)
-    local value = misc[lname] and misc[lname][lkey] or slk.txt[lname] and slk.txt[lname][lkey]
+    local value = misc[lname] and misc[lname][key] or slk.txt[lname] and slk.txt[lname][key]
     if not value then
         return
     end
-    if meta.index == -1 then
+    if meta['concat'] then
         value = table_concat(value, ',')
     else
-        local tp = w2l:get_id_type(meta.type)
-        value = to_type(tp, value[1])
-        if tp == 3 and value then
+        value = to_type(meta.type, value[1])
+        if meta.type == 3 and value then
             value = slk.wts:load(value)
         end
     end
-    obj[lkey] = value
+    obj[key] = value
+end
+
+local function add_obj(name, meta, misc, chunk, slk)
+     chunk[name] = {
+        _id = name,
+        _code = name,
+        _parent = name,
+        _type = 'misc',
+    }
+    local obj = chunk[name]
+    for key, meta in pairs(meta) do
+        add_data(key, meta, misc, obj, slk)
+    end
+    local lname = string_lower(name)
+    slk.txt[lname] = nil
 end
 
 local function convert(misc, metadata, slk)
     local chunk = {}
-    for id, meta in pairs(metadata) do
-        add_data(id, meta, misc, chunk, slk)
-    end
-    for name in pairs(chunk) do
-        local lname = string_lower(name)
-        slk.txt[lname] = nil
+    for name, meta in pairs(metadata) do
+        add_obj(name, meta, misc, chunk, slk)
     end
     return chunk
 end
@@ -92,6 +92,7 @@ end
 
 return function (w2l_, archive, slk)
     w2l = w2l_
+    keyconvert = w2l:keyconvert 'misc'
     local misc = {}
     for _, name in ipairs {"UI\\MiscData.txt", "Units\\MiscData.txt", "Units\\MiscGame.txt"} do
         local buf = io.load(w2l.mpq / name)

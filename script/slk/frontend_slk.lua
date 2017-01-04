@@ -61,26 +61,6 @@ local function slk_read_data(obj, key, meta, data)
     end
 end
 
-local function slk_read_private_data(obj, key, meta, data)
-    local has_repeat = has_level and meta['repeat'] and meta['repeat'] > 0
-    if has_repeat then
-        local type = w2l:get_id_type(meta.type)
-        local t = {}
-        if slk_type == 'doodad' then
-            for i = 1, 10 do
-                t[i] = to_type(type, data[('%s%02d'):format(key, i)])
-            end
-        else
-            for i = 1, 4 do
-                t[i] = to_type(type, data[key..i])
-            end
-        end
-        obj[key] = t
-    else
-        obj[key] = to_type(w2l:get_id_type(meta.type), data[key])
-    end
-end
-
 local function slk_read_obj(obj, name, data, keys, metas)
     if data.code then
         obj._code = data.code
@@ -93,10 +73,10 @@ local function slk_read_obj(obj, name, data, keys, metas)
         slk_read_data(obj, keys[i], metas[i], data)
     end
 
-    local private = keyconvert[obj._code]
+    local private = metadata[obj._code]
     if private then
-        for key, id in pairs(private) do
-            slk_read_private_data(obj, key, metadata[id], data)
+        for key, meta in pairs(private) do
+            slk_read_data(obj, key, meta, data)
         end
     end
 end
@@ -113,7 +93,7 @@ local function slk_read(table, slk, keys, metas, update_level, type)
         slk_read_obj(obj, name, data, keys, metas)
         if update_level then
             obj._max_level = obj[update_level]
-            if obj._max_level == 0 then
+            if not obj._max_level or obj._max_level == 0 then
                 obj._max_level = 1
             end
         end
@@ -121,19 +101,13 @@ local function slk_read(table, slk, keys, metas, update_level, type)
 end
 
 local function txt_read_data(name, obj, key, meta, txt)
-    if meta['index'] > 0 then
-        local key = key:sub(1, -3)
-        local i = meta['index']
-        local value = txt and txt[key]
-        if value then
-            obj[key..':'..i] = to_type(meta.type, value[i])
-        else
-            obj[key..':'..i] = to_type(meta.type)
-        end
+    if meta.index then
+        local value = txt and txt[meta.key]
+        obj[key] = to_type(meta.type, value and value[meta.index])
         return
     end
 
-    if meta['appendindex'] == 1 then
+    if meta['appendindex'] then
         local max_level = txt and txt[key..'count'] and txt[key..'count'][1] or 1
         local tbl = {}
         local flag
@@ -170,7 +144,7 @@ local function txt_read_data(name, obj, key, meta, txt)
         end
         return
     end
-    if meta['index'] == -1 then
+    if meta['concat'] then
         if #value > 1 then
             obj[key] = table_concat(value, ',')
         else
@@ -217,7 +191,7 @@ return function(w2l_, loader)
     progress:start(1)
     for type, names in pairs(w2l.info.slk) do
         metadata = w2l:read_metadata(type)
-        has_level = w2l.info.key.max_level[type]
+        level_key = w2l.info.key.max_level[type]
         keyconvert = w2l:keyconvert(type)
         slk_type = type
 
@@ -226,36 +200,28 @@ return function(w2l_, loader)
             local update_level
             local slk_keys = {}
             local slk_meta = {}
-            for key, id in pairs(keyconvert[filename]) do
-                local meta = metadata[id]
+            for key in pairs(keyconvert[filename]) do
                 slk_keys[#slk_keys+1] = key
-                slk_meta[#slk_meta+1] = {
-                    ['type'] = w2l:get_id_type(meta.type),
-                    ['repeat'] = has_level and meta['repeat'] and meta['repeat'] > 0,
-                }
-                if key == has_level then
-                    update_level = has_level
-                end
+                slk_meta[#slk_meta+1] = metadata.common[key]
+            end
+            local update_level
+            if keyconvert[filename][level_key] then
+                update_level = level_key
             end
             slk_read(datas[type], w2l:parse_slk(loader(filename)), slk_keys, slk_meta, update_level, type)
         end
         if keyconvert.profile then
             local txt_keys = {}
             local txt_meta = {}
-            for key, id in pairs(keyconvert.profile) do
+            for key in pairs(keyconvert.profile) do
                 local meta = metadata[id]
                 txt_keys[#txt_keys+1] = key
-                txt_meta[#txt_meta+1] = {
-                    ['type'] = w2l:get_id_type(meta.type),
-                    ['repeat'] = has_level and meta['repeat'] and meta['repeat'] > 0,
-                    ['index'] = meta._has_index and (meta.index+1) or meta.index,
-                    ['appendindex'] = meta.appendindex,
-                }
+                txt_meta[#txt_meta+1] = metadata.common[key]
             end
             txt_read(datas[type], txt, used, txt_keys, txt_meta, type)
         end
         count = count + 1
-        progress(count / 7)
+        progress(count / 8)
     end
     progress:finish()
 
