@@ -1,6 +1,6 @@
 (function()
-	local exepath = package.cpath:sub(1, (package.cpath:find(';') or 0)-6)
-	package.path = package.path .. ';' .. exepath .. '..\\script\\?.lua'
+    local exepath = package.cpath:sub(1, (package.cpath:find(';') or 0)-6)
+    package.path = package.path .. ';' .. exepath .. '..\\script\\?.lua'
 end)()
 
 require 'filesystem'
@@ -13,7 +13,7 @@ local save_map = require 'save_map'
 w2l:initialize()
 
 function message(...)
-	print(...)
+    print(...)
 end
 
 local input = fs.path(uni.a2u(arg[1]))

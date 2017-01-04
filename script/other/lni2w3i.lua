@@ -276,7 +276,7 @@ function mt:add_player(data)
         local player = data.players[i]
 
         --player.ally_low_flag = player.ally_low_flag | ((1 << data.player_count) - 1)
-		--player.ally_high_flag = player.ally_high_flag | ((1 << data.player_count) - 1)
+        --player.ally_high_flag = player.ally_high_flag | ((1 << data.player_count) - 1)
 
         self:add('llllzffLL', player.id, player.type, player.race, player.start_position, player.name, player.start_x, player.start_y, player.ally_low_flag, player.ally_high_flag)
     end

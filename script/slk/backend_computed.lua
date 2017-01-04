@@ -23,23 +23,23 @@ local function get_displayname_by_id(slk, id)
 end
 
 local function get_value(t, key)
-	local value = t[key]
-	if value and type(value) ~= 'table' then
-		return value
-	end
-	local pos = key:find("%d+$")
-	if not pos then
-		return
-	end
-	local value = t[key:sub(1, pos-1)]
-	if not value or type(value) ~= 'table' then
-		return
-	end
-	local level = tonumber(key:sub(pos))
-	if level > t._max_level then
-		return 0
-	end
-	return value[level]
+    local value = t[key]
+    if value and type(value) ~= 'table' then
+        return value
+    end
+    local pos = key:find("%d+$")
+    if not pos then
+        return
+    end
+    local value = t[key:sub(1, pos-1)]
+    if not value or type(value) ~= 'table' then
+        return
+    end
+    local level = tonumber(key:sub(pos))
+    if level > t._max_level then
+        return 0
+    end
+    return value[level]
 end
 
 local function switch(value)

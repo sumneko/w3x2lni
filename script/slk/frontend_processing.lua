@@ -51,9 +51,9 @@ local function get_unit_list(default, name)
 end
 
 local function find_para(name, obj, default, type)
-	if obj._parent and default[obj._parent] then
+    if obj._parent and default[obj._parent] then
         return obj._parent
-	end
+    end
     if default[name] then
         return name
     end

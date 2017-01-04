@@ -179,7 +179,7 @@ end
 return function (w2l_, type, data, wts_)
     w2l = w2l_
     wts = wts_
-	has_level = w2l.info.key.max_level[type]
+    has_level = w2l.info.key.max_level[type]
     metadata = w2l:read_metadata(type)
     keydata = w2l:keyconvert(type)
     

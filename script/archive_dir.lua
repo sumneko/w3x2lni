@@ -1,13 +1,13 @@
 local sleep = require 'ffi.sleep'
 
 local function task(f, ...)
-	for i = 1, 99 do
-		if pcall(f, ...) then
-			return
-		end
-		sleep(10)
-	end
-	f(...)
+    for i = 1, 99 do
+        if pcall(f, ...) then
+            return
+        end
+        sleep(10)
+    end
+    f(...)
 end
 
 local mt = {}

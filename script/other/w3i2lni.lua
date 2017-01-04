@@ -156,23 +156,23 @@ function mt:add_force(data)
 
     for i = 1, data['队伍']['队伍数量'] do
         self:title('队伍'..i, data)
-		self:value '结盟'
-		self:value '结盟胜利'
-		self:value '共享视野'
-		self:value '共享单位控制'
-		self:value '共享高级单位设置'
-		self:value '玩家列表'
-		self:value '队伍名称'
-	end
+        self:value '结盟'
+        self:value '结盟胜利'
+        self:value '共享视野'
+        self:value '共享单位控制'
+        self:value '共享高级单位设置'
+        self:value '玩家列表'
+        self:value '队伍名称'
+    end
 end
 
 function mt:add_upgrade(data)
     local i = 1
     while self:title('升级'..i, data) do
         self:value '玩家列表'
-		self:value 'ID'
-		self:value '等级'
-		self:value '可用性'
+        self:value 'ID'
+        self:value '等级'
+        self:value '可用性'
         i = i + 1
     end
 end
@@ -180,28 +180,28 @@ end
 function mt:add_tech(data)
     local i = 1
     while self:title('科技'..i, data) do
-		self:value '玩家列表'
-		self:value 'ID'
+        self:value '玩家列表'
+        self:value 'ID'
         i = i + 1
-	end
+    end
 end
 
 function mt:add_randomgroup(data)
     local i = 1
     while self:title('随机组'..i, data) do
-		self:value '随机组名称'
+        self:value '随机组名称'
         self:value '位置类型'
 
         self:add('设置 = {')
         for i, set in ipairs(data['随机组'..i]['设置']) do
-		    self:add('%d = {', i)
+            self:add('%d = {', i)
             self:add('几率 = %d,', set['几率'])
             self:add('ID = {%s},', table_concat(format_table(set['ID']), ', '))
             self:add('},')
-		end
+        end
         self:add('}')
         i = i + 1
-	end
+    end
 end
 
 function mt:add_randomitem(data)
@@ -210,16 +210,16 @@ function mt:add_randomitem(data)
         self:value '物品列表名称'
 
         self:add('设置 = {')
-		for i, set in ipairs(data['物品列表'..i]['设置']) do
+        for i, set in ipairs(data['物品列表'..i]['设置']) do
             self:add('%d = {', i)
-			for _, item in ipairs(set) do
+            for _, item in ipairs(set) do
                 self:add('{几率 = %d, ID = %q},', item['几率'], item['ID'])
-			end
+            end
             self:add('},')
-		end
+        end
         self:add('}')
         i = i + 1
-	end
+    end
 end
 
 return function (w2l, data, wts)

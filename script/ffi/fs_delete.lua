@@ -1,17 +1,17 @@
 local ffi = require 'ffi'
 local uni = require 'ffi.unicode'
 ffi.cdef[[
-	struct SHFILEOPSTRUCTW
-	{
-	    unsigned int    hwnd;
-	    unsigned int    wFunc;
-	    const wchar_t*  pFrom;
-	    const wchar_t*  pTo;
-	    short           fFlags;
-	    int             fAnyOperationsAborted;
-	    void*           hNameMappings;
-	    const wchar_t*  lpszProgressTitle; // only used if FOF_SIMPLEPROGRESS
-	};
+    struct SHFILEOPSTRUCTW
+    {
+        unsigned int    hwnd;
+        unsigned int    wFunc;
+        const wchar_t*  pFrom;
+        const wchar_t*  pTo;
+        short           fFlags;
+        int             fAnyOperationsAborted;
+        void*           hNameMappings;
+        const wchar_t*  lpszProgressTitle; // only used if FOF_SIMPLEPROGRESS
+    };
     int SHFileOperationW(SHFILEOPSTRUCTW* lpFileOp);
 ]]
 
@@ -40,15 +40,15 @@ local FOF_NORECURSEREPARSE      = 0x8000
 local shell32 = ffi.load 'shell32'
 
 function fs.delete(path)
-	local wpath = uni.u2w(path:string())
-	local op = ffi.new('struct SHFILEOPSTRUCTW')
-	op.hwnd   = 0
-	op.wFunc  = FO_DELETE
-	op.fFlags = FOF_SILENT | FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_NOCONFIRMMKDIR 
-	op.pFrom  = wpath
-	op.pTo    = nil
-	op.fAnyOperationsAborted = 0
-	op.hNameMappings = 0
-	op.lpszProgressTitle = nil
-	local res = shell32.SHFileOperationW(op)
+    local wpath = uni.u2w(path:string())
+    local op = ffi.new('struct SHFILEOPSTRUCTW')
+    op.hwnd   = 0
+    op.wFunc  = FO_DELETE
+    op.fFlags = FOF_SILENT | FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_NOCONFIRMMKDIR 
+    op.pFrom  = wpath
+    op.pTo    = nil
+    op.fAnyOperationsAborted = 0
+    op.hNameMappings = 0
+    op.lpszProgressTitle = nil
+    local res = shell32.SHFileOperationW(op)
 end

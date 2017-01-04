@@ -174,7 +174,7 @@ end
 
 local function to_slk(w2l, archive, slk)
     local report = { n = 0 }
-	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable'} do
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable'} do
         local data = slk[type]
         for _, slk in ipairs(w2l.info.slk[type]) do
             archive:set(slk, w2l:backend_slk(type, slk, data, report))
@@ -185,11 +185,11 @@ local function to_slk(w2l, archive, slk)
         archive:set(filename, '')
     end
     local txt = w2l:backend_txt(slk, report)
-	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade'} do
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade'} do
         archive:set(output[type], txt[type])
     end
 
-	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable', 'doodad'} do
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable', 'doodad'} do
         local data = slk[type]
         local content = w2l:backend_obj(type, data)
         if content then
@@ -322,11 +322,11 @@ return function (w2l, archive, slk)
     end
 
     message('重新生成字符串...')
-	local content = slk.wts:refresh()
+    local content = slk.wts:refresh()
     if #content > 0 then
-	    archive:set('war3map.wts', content)
+        archive:set('war3map.wts', content)
     else
-	    archive:set('war3map.wts', false)
+        archive:set('war3map.wts', false)
     end
     progress(1)
 end

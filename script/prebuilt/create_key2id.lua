@@ -53,22 +53,22 @@ local function fixsearch(t)
 end
 
 local function sortpairs(t)
-	local sort = {}
-	for k, v in pairs(t) do
-		sort[#sort+1] = {k, v}
-	end
-	table.sort(sort, function (a, b)
-		return a[1] < b[1]
-	end)
-	local n = 1
-	return function()
-		local v = sort[n]
-		if not v then
-			return
-		end
-		n = n + 1
-		return v[1], v[2]
-	end
+    local sort = {}
+    for k, v in pairs(t) do
+        sort[#sort+1] = {k, v}
+    end
+    table.sort(sort, function (a, b)
+        return a[1] < b[1]
+    end)
+    local n = 1
+    return function()
+        local v = sort[n]
+        if not v then
+            return
+        end
+        n = n + 1
+        return v[1], v[2]
+    end
 end
 
 local function fmtstring(s)
@@ -188,22 +188,22 @@ end
 local function create_key2id(w2l, type, tkey, tsearch)
     message('正在生成key2id', type)
     local filepath = w2l.mpq / w2l.info['metadata'][type]
-	local metadata = w2l:parse_slk(io.load(filepath))
+    local metadata = w2l:parse_slk(io.load(filepath))
     local has_index = {}
-	for k, v in pairs(metadata) do
-		-- 进行部分预处理
-		local name  = v['field']
-		local index = v['index']
-		if index and index >= 1 then
-			has_index[name] = true
-		end
-	end
-	for k, v in pairs(metadata) do
-		local name = v['field']
-		if has_index[name] then
-			v._has_index = true
-		end
-	end
+    for k, v in pairs(metadata) do
+        -- 进行部分预处理
+        local name  = v['field']
+        local index = v['index']
+        if index and index >= 1 then
+            has_index[name] = true
+        end
+    end
+    for k, v in pairs(metadata) do
+        local name = v['field']
+        if has_index[name] then
+            v._has_index = true
+        end
+    end
     tkey[type] = {common = {}}
     tsearch[type] = {common = {}}
     local tkey = tkey[type]
@@ -218,9 +218,9 @@ end
 return function(w2l)
     local tkey = {}
     local tsearch = {}
-	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-		create_key2id(w2l, type, tkey, tsearch)
-	end
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
+        create_key2id(w2l, type, tkey, tsearch)
+    end
     
     fixsearch(tsearch)
 
@@ -228,8 +228,8 @@ return function(w2l)
     copy_code(tkey.ability, template)
     copy_code(tsearch.ability, template)
 
-	for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-	    io.save(w2l.key / (type .. '.ini'),  stringify_ex(tkey[type]))
-	    io.save(w2l.prebuilt / 'search' / (type .. '.ini'), stringify_ex(tsearch[type]))
-	end
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
+        io.save(w2l.key / (type .. '.ini'),  stringify_ex(tkey[type]))
+        io.save(w2l.prebuilt / 'search' / (type .. '.ini'), stringify_ex(tsearch[type]))
+    end
 end
