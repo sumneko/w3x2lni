@@ -1,23 +1,20 @@
 local type = type
 
 local metadata
-local keydata
 
-local function update_obj(name, obj, data)
+local function update_obj(ttype, name, obj, data)
     local parent = obj._parent
     local temp = data[parent]
     local code = temp._code
     obj._code = code
-    for key, id in pairs(keydata.common) do
-        local meta = metadata[id]
-        if obj[key] and type(obj[key]) ~= 'table' and meta['repeat'] and meta['repeat'] > 0 then
+    for key, meta in pairs(metadata[ttype]) do
+        if obj[key] and meta['repeat'] and type(obj[key]) ~= 'table' then
             obj[key] = {obj[key]}
         end
     end
-    if keydata[code] then
-        for key, id in pairs(keydata[code]) do
-            local meta = metadata[id]
-            if obj[key] and type(obj[key]) ~= 'table' and meta['repeat'] and meta['repeat'] > 0 then
+    if metadata[code] then
+        for key, meta in pairs(metadata[code]) do
+            if obj[key] and meta['repeat'] and type(obj[key]) ~= 'table' then
                 obj[key] = {obj[key]}
             end
         end
@@ -29,9 +26,8 @@ return function(w2l, type, lni, data)
     if not has_level then
         return
     end
-    metadata = w2l:read_metadata(type)
-    keydata = w2l:keyconvert(type)
+    metadata = w2l:read_metadata2()
     for name, obj in pairs(lni) do
-        update_obj(name, obj, data)
+        update_obj(type, name, obj, data)
     end
 end
