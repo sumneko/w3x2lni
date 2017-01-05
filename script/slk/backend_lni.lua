@@ -44,11 +44,11 @@ local function format_value(value)
     end
 end
 
-local function add(format, ...)
+local function write(format, ...)
     str[#str+1] = format:format(...)
 end
 
-local function add_data(meta, data, lines)
+local function write_data(meta, data, lines)
     local len
     local key = meta.field
     if type(data) == 'table' then
@@ -91,7 +91,7 @@ local function add_data(meta, data, lines)
     lines[#lines+1] = {'%s = {%s}', key, table_concat(values, ', ')}
 end
 
-local function add_obj(chunk, obj)
+local function write_obj(obj)
     if remove_unuse_object and not obj._mark then
         return
     end
@@ -126,44 +126,42 @@ local function add_obj(chunk, obj)
     end)
     local lines = {}
     for _, meta in ipairs(metas) do
-        add_data(meta, datas[meta], lines)
+        write_data(meta, datas[meta], lines)
     end
     if not lines or #lines == 0 then
         return
     end
 
-    add('[%s]', obj._id)
+    write('[%s]', obj._id)
     if obj._parent then
-        add('%s = %q', '_parent', obj._parent)
+        write('%s = %q', '_parent', obj._parent)
     end
     for i = 1, #lines do
-        add(table.unpack(lines[i]))
+        write(table.unpack(lines[i]))
     end
-    add ''
+    write ''
 end
 
-local function add_chunk(chunk)
+local function write_table(slk)
     local names = {}
-    for name, obj in pairs(chunk) do
-        if name:sub(1, 1) ~= '_' then
-            table_insert(names, name)
-        end
+    for name, obj in pairs(slk) do
+        table_insert(names, name)
     end
-    table_sort(names, function(name1, name2)
-        local is_origin1 = name1 == chunk[name1]['_parent']
-        local is_origin2 = name2 == chunk[name2]['_parent']
-        if is_origin1 and not is_origin2 then
+    table_sort(names, function(a, b)
+        local is_origin_a = a == slk[a]._parent
+        local is_origin_b = b == slk[b]._parent
+        if is_origin_a and not is_origin_b then
             return true
         end
-        if not is_origin1 and is_origin2 then
+        if not is_origin_a and is_origin_b then
             return false
         end
-        return chunk[name1]['_id'] < chunk[name2]['_id']
+        return slk[a]._id < slk[b]._id
     end)
     local clock = os_clock()
     for i = 1, #names do
-        local obj = chunk[names[i]]
-        add_obj(chunk, obj)
+        local obj = slk[names[i]]
+        write_obj(obj)
         if os_clock() - clock >= 0.1 then
             clock = os_clock()
             message(('正在转换%s: [%s] (%d/%d)'):format(ttype, obj._id, i, #names))
@@ -172,12 +170,12 @@ local function add_chunk(chunk)
     end
 end
 
-return function (w2l_, type, data)
+return function (w2l_, type, slk)
     w2l = w2l_
     metadata = w2l:read_metadata2()
     remove_unuse_object = w2l.config.remove_unuse_object
     ttype = type
     str = {}
-    add_chunk(data, type)
+    write_table(slk, type)
     return table_concat(str, '\r\n')
 end
