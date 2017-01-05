@@ -25,25 +25,6 @@ local cy
 local remove_unuse_object
 local slk_type
 
-local character = { 'A','B','C','D','E','F','G','H','I' }
-
-local function get_displaykey(code, key)
-    local id = keydata[code] and keydata[code][key] or keydata['common'][key]
-    local meta = metadata[id]
-    if not meta then
-        return
-    end
-    local key = meta.field
-    local num = meta.data
-    if num and num ~= 0 then
-        key = key .. character[num]
-    end
-    if meta._has_index then
-        key = key .. ':' .. (meta.index + 1)
-    end
-    return key
-end
-
 local function get_displayname(o)
     if o._type == 'buff' then
         return o._id, o.bufftip or o.editorname or ''
@@ -54,7 +35,7 @@ local function get_displayname(o)
     end
 end
 
-local function report_failed(obj, key, tip)
+local function report_failed(obj, meta, key, tip)
     report.n = report.n + 1
     if not report[tip] then
         report[tip] = {}
@@ -63,7 +44,7 @@ local function report_failed(obj, key, tip)
         return
     end
     local id, name = get_displayname(obj)
-    local dkey = get_displaykey(obj._code, key)
+    local dkey = meta.field
     report[tip][obj._id] = ("'%s'%s %s%s"):format(id, dkey, (' '):rep(7 - #dkey), name)
 end
 
@@ -206,11 +187,12 @@ local function to_type(tp, value)
     end
 end
 
-local function load_data(displaykey, obj, key, id, slk_data)
+local function load_data(meta, obj, key, slk_data)
     if not obj[key] then
         return
     end
-    local tp = w2l:get_id_type(metadata[id].type)
+    local displaykey = meta.field
+    local tp = meta.type
     if type(obj[key]) == 'table' then
         if slk_type == 'doodad' then
             for i = 11, #obj[key] do
@@ -234,7 +216,7 @@ local function load_data(displaykey, obj, key, id, slk_data)
             end
         end
         if next(obj[key]) then
-            report_failed(obj, key, '数据超过了4级')
+            report_failed(obj, meta, key, '数据超过了4级')
         else
             obj[key] = nil
         end
@@ -255,14 +237,12 @@ local function load_obj(name, obj, slk_name)
     slk_data['name'] = obj._name
     slk_data['_id'] = obj._id
     obj._slk = true
-    for key, id in pairs(keys) do
-        local displaykey = get_displaykey(code, key)
-        load_data(displaykey, obj, key, id, slk_data)
+    for key in pairs(keys) do
+        load_data(metadata[slk_type][key], obj, key, slk_data)
     end
     if keydata[code] then
-        for key, id in pairs(keydata[code]) do
-            local displaykey = get_displaykey(code, key)
-            load_data(displaykey, obj, key, id, slk_data)
+        for key in pairs(keydata[code]) do
+            load_data(metadata[code][key], obj, key, slk_data)
         end
     end
     return slk_data
@@ -282,7 +262,7 @@ return function(w2l_, type, slk_name, chunk, report_)
     cy = nil
     remove_unuse_object = w2l.config.remove_unuse_object
     lines = {}
-    metadata = w2l:read_metadata(type)
+    metadata = w2l:read_metadata2()
     keydata = w2l:keyconvert(type)
     keys = keydata[slk_name]
     slk_type = type
