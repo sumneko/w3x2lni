@@ -19,6 +19,14 @@ local function update_data(key, meta, obj, new_obj)
         return
     end
     obj[id] = nil
+    if meta.splite then
+        for i = 1, #value do
+            local pos = value[i]:find(',', 1, true)
+            if pos then
+                value[i] = value[i]:sub(1, pos-1)
+            end
+        end
+    end
     if meta['repeat'] then
         new_obj[key] = value
     else
