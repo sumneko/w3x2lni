@@ -8,7 +8,7 @@ local string_char = string.char
 local type = type
 local os_clock = os.clock
 
-local keydata
+local w2l
 local metadata
 
 local mt = {}
@@ -35,7 +35,7 @@ function mt:format_value(value)
     elseif tp == 'nil' then
         return 'nil'
     else
-        value = self.w2l:editstring(value)
+        value = w2l:editstring(value)
         if value:match '[\n\r]' then
             return ('[=[\r\n%s]=]'):format(value)
         else
@@ -69,7 +69,7 @@ function mt:add_chunk(chunk, type)
     local clock = os_clock()
     for i = 1, #names do
         local obj = chunk[names[i]]
-        self:add_obj(chunk, obj, metadata)
+        self:add_obj(chunk, obj)
         if os_clock() - clock >= 0.1 then
             clock = os_clock()
             message(('正在转换%s: [%s] (%d/%d)'):format(type, obj._id, i, #names))
@@ -78,7 +78,7 @@ function mt:add_chunk(chunk, type)
     end
 end
 
-function mt:add_obj(chunk, obj, meta)
+function mt:add_obj(chunk, obj)
     if self.remove_unuse_object and not obj._mark then
         return
     end
@@ -87,8 +87,8 @@ function mt:add_obj(chunk, obj, meta)
     local keys = {}
     local name = obj._id
     local code = obj._code
-    if meta[code] then
-        for key, meta in pairs(meta[code]) do
+    if metadata[code] then
+        for key, meta in pairs(metadata[code]) do
             local data = obj[key]
             if data then
                 metas[#metas+1] = meta
@@ -97,8 +97,8 @@ function mt:add_obj(chunk, obj, meta)
             keys[key] = true
         end
     end
-    if meta[self.file_name] then
-        for key, meta in pairs(meta[self.file_name]) do
+    if metadata[self.file_name] then
+        for key, meta in pairs(metadata[self.file_name]) do
             if not keys[key] then
                 local data = obj[key]
                 if data then
@@ -123,9 +123,6 @@ function mt:add_obj(chunk, obj, meta)
     if obj._parent then
         self:add('%s = %q', '_parent', obj._parent)
     end
-    if obj._name then
-        self:add('%s = %q', '_name', obj._name)
-    end
     for i = 1, #lines do
         self:add(table.unpack(lines[i]))
     end
@@ -144,7 +141,7 @@ function mt:add_data(meta, data, lines)
     if key:match '[^%w%_]' then
         key = ('%q'):format(key)
     end
-    lines[#lines+1] = {'-- %s', self:get_comment(meta)}
+    lines[#lines+1] = {'-- %s', w2l:editstring(meta.displayname):gsub('^%s*(.-)%s*$', '%1')}
     if not len then
         lines[#lines+1] = {'%s = %s', key, self:format_value(data)}
         return
@@ -175,18 +172,12 @@ function mt:add_data(meta, data, lines)
     lines[#lines+1] = {'%s = {%s}', key, table_concat(values, ', ')}
 end
 
-function mt:get_comment(meta)
-    local comment = meta.displayname
-    return self.w2l:editstring(comment):gsub('^%s*(.-)%s*$', '%1')
-end
-
-return function (w2l, type, data)
+return function (w2l_, type, data)
+    w2l = w2l_
+    metadata = w2l:read_metadata2()
     local tbl = setmetatable({}, mt)
     tbl.lines = {}
-    tbl.w2l = w2l
     tbl.remove_unuse_object = w2l.config.remove_unuse_object
-    metadata = w2l:read_metadata2()
-    keydata = w2l:keyconvert(type)
     tbl.file_name = type
     tbl:add_chunk(data, type)
     return table_concat(tbl.lines, '\r\n')
