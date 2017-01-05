@@ -12,8 +12,8 @@ local string_lower = string.lower
 
 local w2l
 local metadata
+local keydata
 local has_level
-local keyconvert
 local slk_type
 
 local function to_type(tp, value)
@@ -188,11 +188,11 @@ return function(w2l_, loader)
     progress:finish()
     
     metadata = w2l:read_metadata2()
+    keydata = w2l:keydata()
     local count = 0
     progress:start(1)
     for type, names in pairs(w2l.info.slk) do
         level_key = w2l.info.key.max_level[type]
-        keyconvert = w2l:keyconvert(type)
         slk_type = type
 
         datas[type] = {}
@@ -200,20 +200,20 @@ return function(w2l_, loader)
             local update_level
             local slk_keys = {}
             local slk_meta = {}
-            for key in pairs(keyconvert[filename]) do
+            local update_level
+            for _, key in ipairs(keydata[filename]) do
                 slk_keys[#slk_keys+1] = key
                 slk_meta[#slk_meta+1] = metadata[type][key]
-            end
-            local update_level
-            if keyconvert[filename][level_key] then
-                update_level = level_key
+                if key == level_key then
+                    update_level = level_key
+                end
             end
             slk_read(datas[type], w2l:parse_slk(loader(filename)), slk_keys, slk_meta, update_level, type)
         end
-        if keyconvert.profile then
+        if keydata[type] then
             local txt_keys = {}
             local txt_meta = {}
-            for key in pairs(keyconvert.profile) do
+            for _, key in ipairs(keydata[type]) do
                 local meta = metadata[id]
                 txt_keys[#txt_keys+1] = key
                 txt_meta[#txt_meta+1] = metadata[type][key]

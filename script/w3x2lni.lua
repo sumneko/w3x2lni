@@ -11,10 +11,10 @@ local string_lower = string.lower
 local mt = {}
 
 local metadata
+local keydata
 local id_type
 local usable_para
 local editstring
-local keyconvert = {}
 local default
 
 function mt:parse_lni(...)
@@ -68,11 +68,11 @@ function mt:editstring(str)
     return str:gsub('%c+', '')
 end
 
-function mt:keyconvert(type)
-    if not keyconvert[type] then
-        keyconvert[type] = lni(io.load(self.key / (type .. '.ini')), type)
+function mt:keydata()
+    if not keydata then
+        keydata = lni(io.load(self.prebuilt / 'key.ini'))
     end
-    return keyconvert[type]
+    return keydata
 end
 
 local function create_default(w2l)
