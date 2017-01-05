@@ -171,7 +171,7 @@ local function mark_known_type2(slk, type, name)
         local o = slk.txt[name:lower()]
         if o then
             o._mark = current_root
-            report('引用未分类对象:', name:lower())
+            report('引用未分类对象: ', ('%s 期望分类：%s'):format(name:lower(), type))
             return true
         end
         return false
