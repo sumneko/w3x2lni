@@ -158,18 +158,12 @@ local function parse_id(tkey, tsearch, id, meta, type)
     end
     if objs then
         for name in objs:gmatch '%w+' do
-            if not tkey[name] then
-                tkey[name] = {}
-            end
-            tkey[name][key] = id
-
             if not tsearch[name] then
                 tsearch[name] = {}
             end
             tsearch[name][key] = enable_type[meta.type]
         end
     else
-        tkey.common[key] = id
         tsearch.common[key] = enable_type[meta.type]
         local filename = meta.slk:lower()
         if filename ~= 'profile' then
@@ -181,7 +175,7 @@ local function parse_id(tkey, tsearch, id, meta, type)
         if not tkey[filename] then
             tkey[filename] = {}
         end
-        tkey[filename][key] = id
+        tkey[filename][key] = true
     end
 end
 
@@ -204,7 +198,7 @@ local function create_key2id(w2l, type, tkey, tsearch)
             v._has_index = true
         end
     end
-    tkey[type] = {common = {}}
+    tkey[type] = {}
     tsearch[type] = {common = {}}
     local tkey = tkey[type]
     local tsearch = tsearch[type]
@@ -225,7 +219,6 @@ return function(w2l)
     fixsearch(tsearch)
 
     local template = w2l:parse_slk(io.load(w2l.mpq / w2l.info.slk.ability[1]))
-    copy_code(tkey.ability, template)
     copy_code(tsearch.ability, template)
 
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
