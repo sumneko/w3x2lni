@@ -104,11 +104,13 @@ local function parse_id(w2l, tmeta, id, meta, type, has_level)
         ['key'] = meta.field:lower(),
         ['type'] = w2l:get_id_type(meta.type),
         ['field'] = key,
-        ['concat'] = meta.index == -1 and true or nil,
         ['repeat'] = has_level and meta['repeat'] > 0 and meta['repeat'] or nil,
         ['appendindex'] = meta.appendindex == 1 and true or nil,
         ['displayname'] = meta.displayname,
     }
+    if meta.type:sub(-4) == 'List' or meta.type:sub(-5) == 'Table' then
+        data.concat = true
+    end
     if meta._has_index then
         data.index = meta.index + 1
     end
