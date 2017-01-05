@@ -16,26 +16,17 @@ local os_clock = os.clock
 local w2l
 local has_level
 local metadata
-local keydata
 local hexs
 local wts
-
-local function key2id(code, key)
-    local id = keydata[code] and keydata[code][key] or keydata['common'][key]
-    if id then
-        return id
-    end
-    message('-report', ('模板[%s]并不支持数据项[%s]'):format(code, key))
-    return nil
-end
+local ttype
 
 local function write(format, ...)
     hexs[#hexs+1] = (format):pack(...)
 end
 
-local function write_value(key, id, level, value)
-    local meta = metadata[id]
-    local tp = w2l:get_id_type(meta.type)
+local function write_value(meta, level, value)
+    local id = meta.id
+    local tp = meta.type
     write('c4l', id .. ('\0'):rep(4 - #id), tp)
     if has_level then
         write('l', level)
@@ -60,9 +51,8 @@ local function write_value(key, id, level, value)
     write('c4', '\0\0\0\0')
 end
 
-local function write_data(key, id, data)
-    local meta = metadata[id]
-    if meta['repeat'] and meta['repeat'] > 0 then
+local function write_data(key, data, meta)
+    if meta['repeat'] then
         if type(data) ~= 'table' then
             data = {data}
         end
@@ -76,19 +66,31 @@ local function write_data(key, id, data)
         end
         for level = 1, max_level do
             if data[level] then
-                write_value(key, id, level, data[level])
+                write_value(meta, level, data[level])
             end
         end
     else
-        write_value(key, id, 0, data)
+        write_value(meta, 0, data)
     end
 end
 
-local function write_object(chunk, name, obj)    
+local function write_object(chunk, name, obj)
     local keys = {}
+    local metas = {}
     for key in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
             keys[#keys+1] = key
+        end
+    end
+    local code = obj._code
+    if metadata[ttype] then
+        for key, meta in pairs(metadata[ttype]) do
+            metas[key] = meta
+        end
+    end
+    if metadata[code] then
+        for key, meta in pairs(metadata[code]) do
+            metas[key] = meta
         end
     end
     table_sort(keys)
@@ -108,7 +110,6 @@ local function write_object(chunk, name, obj)
     end
     
     local parent = obj._parent
-    local code = obj._code
     if name == parent or obj._slk then
         write('c4', name)
         write('c4', '\0\0\0\0')
@@ -120,13 +121,12 @@ local function write_object(chunk, name, obj)
     for _, key in ipairs(keys) do
         local data = obj[key]
         if data then
-            local id = key2id(code, key)
-            write_data(key, id, obj[key])
+            write_data(key, obj[key], metas[key])
         end
     end
 end
 
-local function write_chunk(names, data, type, n, max)
+local function write_chunk(names, data, n, max)
     local clock = os_clock()
     write('l', #names)
     for i, name in ipairs(names) do
@@ -134,7 +134,7 @@ local function write_chunk(names, data, type, n, max)
         if os_clock() - clock > 0.1 then
             clock = os_clock()
             progress((i+n) / max)
-            message(('正在转换%s: [%s] (%d/%d)'):format(type, data[name]._id, i+n, max))
+            message(('正在转换%s: [%s] (%d/%d)'):format(ttype, data[name]._id, i+n, max))
         end
     end
 end
@@ -176,9 +176,9 @@ end
 return function (w2l_, type, data, wts_)
     w2l = w2l_
     wts = wts_
+    ttype = type
     has_level = w2l.info.key.max_level[type]
-    metadata = w2l:read_metadata(type)
-    keydata = w2l:keyconvert(type)
+    metadata = w2l:read_metadata2()
     
     local origin_id, user_id = sort_chunk(data, w2l.config.remove_unuse_object)
     local max = #origin_id + #user_id
@@ -188,6 +188,6 @@ return function (w2l_, type, data, wts_)
     hexs = {}
     write_head()
     write_chunk(origin_id, data, type, 0, max)
-    write_chunk(user_id, data, type, #origin_id, max)
+    write_chunk(user_id, data, #origin_id, max)
     return table_concat(hexs)
 end
