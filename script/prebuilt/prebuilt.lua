@@ -102,7 +102,6 @@ local function main()
     fs.create_directories(w2l.template)
     fs.create_directories(w2l.default)
     fs.create_directories(w2l.defined)
-    fs.create_directories(w2l.prebuilt / 'search')
 
     prebuilt_codemapped(w2l)
     prebuilt_typedefine(w2l)
