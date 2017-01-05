@@ -53,18 +53,13 @@ local function fixsearch(t)
     t.unit.common.dependencyor = nil
     t.unit.common.reviveat = nil
     -- 复活死尸科技限制单位
-    t.ability.Arai.unitid = nil
-    t.ability.ACrd.unitid = nil
+    t.ability.Arai.unitid = nil -- ACrd、Arai
     t.ability.AIrd.unitid = nil
     t.ability.Avng.unitid = nil
     -- 地洞战备状态允许单位
-    t.ability.Abtl.unitid = nil
-    t.ability.Sbtl.unitid = nil
+    t.ability.Abtl.unitid = nil -- Abtl、Sbtl
     -- 装载允许目标单位
-    t.ability.Aloa.unitid = nil
-    t.ability.Sloa.unitid = nil
-    t.ability.Slo2.unitid = nil
-    t.ability.Slo3.unitid = nil
+    t.ability.Aloa.unitid = nil -- Aloa、Sloa、Slo2、Slo3
     -- 灵魂保存目标单位
     t.ability.ANsl.unitid = nil
     -- 地洞装载允许目标单位
@@ -76,8 +71,7 @@ local function fixsearch(t)
     -- 骑乘角鹰兽指定单位类型
     t.ability.Acoa.dataa = nil
     t.ability.Acoh.dataa = nil
-    t.ability.Aco2.dataa = nil
-    t.ability.Aco3.dataa = nil
+    t.ability.Acoi.dataa = nil -- Aco2、Aco3
 end
 
 local function sortpairs(t)
@@ -126,36 +120,6 @@ local function stringify_ex(inf)
     return table.concat(f, '\r\n')
 end
 
-local function copy_code(t, template)
-    for name, d in pairs(template) do
-        local code = d.code
-        local data = t[name]
-        if data then
-            t[name] = nil
-            if t[code] then
-                for k, v in pairs(data) do
-                    local dest = t[code][k]
-                    if dest then
-                        if v[1] ~= dest[1] then
-                            message('id不同:', k, 'skill:', name, v[1], 'code:', code, dest[1])
-                        end
-                        if v[2] ~= dest[2] then
-                            message('type不同:', k, 'skill:', name, v[2], 'code:', code, dest[2])
-                        end
-                    else
-                        t[code][k] = v
-                    end
-                end
-            else
-                t[code] = {}
-                for k, v in pairs(data) do
-                    t[code][k] = v
-                end
-            end
-        end
-    end
-end
-
 local function is_enable(meta, type)
     if type == 'unit' then
         if meta.usehero == 1 or meta.useunit == 1 or meta.usebuilding == 1 or meta.usecreep == 1 then
@@ -183,11 +147,16 @@ local function create_search(w2l, type, tsearch)
             local objs = meta.usespecific or meta.section
             if objs then
                 for name in objs:gmatch '%w+' do
-                    if not tsearch[name] then
-                        tsearch[name] = {}
+                    local code = get_codemapped(w2l, name)
+                    if not tsearch[code] then
+                        tsearch[code] = {}
                     end
-                    local key = get_key2(w2l, type, get_codemapped(w2l, name), id)
-                    tsearch[name][key] = enable_type[meta.type]
+                    local key = get_key2(w2l, type, code, id)
+                    local type = enable_type[meta.type]
+                    if tsearch[code][key] and tsearch[code][key] ~= type then
+                        message('类型不同:', 'skill', name, 'code', code)
+                    end
+                    tsearch[code][key] = type
                 end
             else
                 local key = get_key(w2l, type, id)
@@ -204,8 +173,6 @@ return function(w2l)
         create_search(w2l, type, tsearch)
     end
     fixsearch(tsearch)
-    local template = w2l:parse_slk(io.load(w2l.mpq / w2l.info.slk.ability[1]))
-    copy_code(tsearch.ability, template)
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
         io.save(w2l.prebuilt / 'search' / (type .. '.ini'), stringify_ex(tsearch[type]))
     end
