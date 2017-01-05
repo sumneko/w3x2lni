@@ -12,6 +12,7 @@ local current
 local index
 
 local function version_begin()
+    canvas:layout_row_dynamic(2, 1)
     canvas:layout_space(25, 4)
     index = 0
 end
@@ -33,9 +34,12 @@ local function version(ver, text)
 end
 
 local function version_end()
-    if current then
-        current()
-    end
+    canvas:layout_row_dynamic(342, 1)
+    canvas:group('说明', function()
+        if current then
+            current()
+        end
+    end)
 end
 
 local function log(type, msg, tip)
