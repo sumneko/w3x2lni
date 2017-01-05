@@ -168,11 +168,8 @@ local function sort_chunk(chunk, remove_unuse_object)
             end
         end
     end
-    local function sorter(a, b)
-        return chunk[a]['_id'] < chunk[b]['_id']
-    end
-    table_sort(origin, sorter)
-    table_sort(user, sorter)
+    table_sort(origin)
+    table_sort(user)
     return origin, user
 end
 

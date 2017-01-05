@@ -70,13 +70,7 @@ local function add_chunk(lines, type, tbl)
     for name in pairs(tbl) do
         names[#names+1] = name
     end
-    if type == 'txt' then
-        table.sort(names)
-    else
-        table.sort(names, function(a, b)
-            return tbl[a]['_id'] < tbl[b]['_id']
-        end)
-    end
+    table.sort(names)
     for _, name in ipairs(names) do
         add_obj(lines, name, tbl[name])
     end

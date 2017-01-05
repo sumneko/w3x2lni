@@ -7,8 +7,6 @@ local os_clock = os.clock
 local w2l
 local revert_list
 local unit_list
-local metadata
-local keydata
 
 local function get_revert_list(default, code)
     if not revert_list then
@@ -126,16 +124,12 @@ end
 
 local function processing(w2l, type, chunk)
     local default = w2l:get_default()[type]
-    metadata = w2l:read_metadata(type)
-    keydata = w2l:keyconvert(type)
     local config = w2l.config
     local names = {}
     for name in pairs(chunk) do
         names[#names+1] = name
     end
-    table.sort(names, function(a, b)
-        return chunk[a]['_id'] < chunk[b]['_id']
-    end)
+    table.sort(names)
 
     revert_list = nil
     unit_list = nil
