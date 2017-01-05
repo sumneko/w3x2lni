@@ -97,7 +97,7 @@ end
 
 local function load_slk(w2l, archive, force_slk)
     if force_slk then
-        message('-report', '物编信息不完整,强制读取slk文件')
+        message('-report|7其他', '物编信息不完整,强制读取slk文件')
     end
     if force_slk or w2l.config.read_slk then
         local datas, txt = w2l:frontend_slk(function(name)

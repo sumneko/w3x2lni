@@ -108,7 +108,7 @@ local function report(type, id)
         return
     end
     report_once[type][id] = true
-    message('-report|3简化', type, id)
+    message('-report|4简化', type, id)
     message('-tip', format_marktip(slk, current_root))
 end
 
@@ -271,7 +271,7 @@ local function mark_marketplace(slk, flag)
         -- 是否使用了市场
         if obj._mark and obj._name == 'marketplace' then
             search_marketplace = true
-            message('-report|3简化', '保留市场物品')
+            message('-report|4简化', '保留市场物品')
             message('-tip', ("使用了市场'%s'[%s]"):format(obj.name, obj._id))
             for _, obj in pairs(slk.item) do
                 if obj.pickRandom == 1 and obj.sellable == 1 then

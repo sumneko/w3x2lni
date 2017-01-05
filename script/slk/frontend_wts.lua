@@ -11,7 +11,7 @@ function mt:load(content, max)
     return content:gsub('TRIGSTR_(%d+)', function(i)
         local str_data = wts[i]
         if not str_data then
-            message('-report', '没有找到字符串定义:', ('TRIGSTR_%03d'):format(i))
+            message('-report|7其他', '没有找到字符串定义:', ('TRIGSTR_%03d'):format(i))
             return
         end
         local text = str_data.text
@@ -38,7 +38,8 @@ function mt:insert(value)
             return 'TRIGSTR_' .. i
         end
     end
-    message('-report', '保存在wts里的字符串太多了')
+    message('-report|2警告', '保存在wts里的字符串太多了')
+    message('-tip', '字符串被丢弃了:' .. value)
 end
 
 function mt:refresh()

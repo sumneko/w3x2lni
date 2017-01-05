@@ -78,7 +78,7 @@ local function format_marktip(slk, marktip)
 end
 
 local function report_object(slk, type, o)
-    message('-report|3简化', displaytype[type], get_displayname(o))
+    message('-report|4简化', displaytype[type], get_displayname(o))
     if o._mark then
         message('-tip', format_marktip(slk, o._mark))
     end
@@ -152,10 +152,10 @@ local function remove_unuse(w2l, slk)
     end
 
     if unuse_origin + unuse_custom > 0 then
-        message('-report|3简化', ('简化掉的对象数: %d/%d'):format(unuse_origin + unuse_custom, total_origin + total_custom))
+        message('-report|4简化', ('简化掉的对象数: %d/%d'):format(unuse_origin + unuse_custom, total_origin + total_custom))
     end
     if total_origin - unuse_origin > 0 then
-        message('-report|3简化', ('保留的默认对象数: %d/%d'):format(total_origin - unuse_origin, total_origin))
+        message('-report|4简化', ('保留的默认对象数: %d/%d'):format(total_origin - unuse_origin, total_origin))
         report_list(slk, origin_list, 'unit', 5)
         report_list(slk, origin_list, 'ability', 5)
         report_list(slk, origin_list, 'item', 5)
@@ -163,7 +163,7 @@ local function remove_unuse(w2l, slk)
         report_list(slk, origin_list, 'upgrade', 1)
     end
     if unuse_custom > 0 then
-        message('-report|3简化', ('简化掉的自定义对象数: %d/%d'):format(unuse_custom, total_custom))
+        message('-report|4简化', ('简化掉的自定义对象数: %d/%d'):format(unuse_custom, total_custom))
         report_list(slk, custom_list, 'unit', 5)
         report_list(slk, custom_list, 'ability', 5)
         report_list(slk, custom_list, 'item', 5)
@@ -204,14 +204,14 @@ local function to_slk(w2l, archive, slk)
 
     if report.n > 0 then
         local index = 1
-        message('-report|2没有SLK化的数据', ('合计: %d'):format(report.n))
+        message('-report|3没有SLK化的数据', ('合计: %d'):format(report.n))
         for tip, list in pairs(report) do
             if #tip > 1 then
                 local n = 0
-                message('-report|2没有SLK化的数据', ('%d.%s'):format(index, tip))
+                message('-report|3没有SLK化的数据', ('%d.%s'):format(index, tip))
                 index = index + 1
                 for _, msg in pairs(list) do
-                    message('-report|2没有SLK化的数据', msg)
+                    message('-report|3没有SLK化的数据', msg)
                     n = n + 1
                     if n > 20 then
                         break
@@ -237,11 +237,11 @@ local function load_w3i(w2l, archive, slk)
         return
     end
     if slk.w3i['选项']['使用的游戏数据设置'] == 1 then
-        message('-report', '不支持的游戏数据设置"自定义"')
+        message('-report|2警告', '不支持的游戏数据设置"自定义"')
         message('-tip', '只支持"默认(1.07)",数据可能会出现差异')
     end
     if slk.w3i['选项']['使用的游戏数据设置'] == 2 then
-        message('-report', '不支持的游戏数据设置"对战(最新版本)"')
+        message('-report|2警告', '不支持的游戏数据设置"对战(最新版本)"')
         message('-tip', '只支持"默认(1.07)",数据可能会出现差异')
     end
 end
