@@ -14,6 +14,7 @@ local txt2teamplate = require 'prebuilt.txt2teamplate'
 local prebuilt_metadata = require 'prebuilt.prebuilt_metadata'
 local prebuilt_keydata = require 'prebuilt.prebuilt_keydata'
 local prebuilt_search = require 'prebuilt.prebuilt_search'
+local prebuilt_miscnames = require 'prebuilt.prebuilt_miscnames'
 
 w2l:initialize()
 
@@ -105,6 +106,7 @@ local function main()
 
     prebuilt_codemapped(w2l)
     prebuilt_typedefine(w2l)
+    prebuilt_miscnames(w2l)
     prebuilt_metadata(w2l)
     prebuilt_keydata(w2l)
     prebuilt_search(w2l)

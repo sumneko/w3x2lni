@@ -14,6 +14,7 @@ local metadata
 local keydata
 local editstring
 local default
+local miscnames
 
 function mt:parse_lni(...)
     return lni(...)
@@ -43,6 +44,13 @@ function mt:keydata()
         keydata = lni(io.load(self.defined / 'keydata.ini'))
     end
     return keydata
+end
+
+function mt:miscnames()
+    if not miscnames then
+        miscnames = lni(io.load(self.defined / 'miscnames.ini'))
+    end
+    return miscnames
 end
 
 function mt:editstring(str)
