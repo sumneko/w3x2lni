@@ -4,13 +4,11 @@ local next = next
 local pairs = pairs
 
 local metadata
-local keydata
 
-local function add_data(name, lkey, id, obj, data)
+local function add_data(name, lkey, meta, obj, data)
     if not obj[lkey] then
         return
     end
-    local meta = metadata[id]
     local key = meta.field
     data[key] = obj[lkey]
 end
@@ -21,9 +19,9 @@ local function add_obj(name, obj, data)
     end
     local new_obj = {}
 
-    if keydata[name] then
-        for lkey, id in pairs(keydata[name]) do
-            add_data(name, lkey, id, obj, new_obj)
+    if metadata[name] then
+        for lkey, meta in pairs(metadata[name]) do
+            add_data(name, lkey, meta, obj, new_obj)
         end
     end
 
@@ -70,8 +68,7 @@ local function concat(misc)
 end
 
 return function(w2l, misc, txt)
-    metadata = w2l:read_metadata 'misc'
-    keydata = w2l:parse_lni(io.load(w2l.key / 'misc.ini'))
+    metadata = w2l:read_metadata2()
     local data = convert(misc)
     local buf = concat(data)
     return buf
