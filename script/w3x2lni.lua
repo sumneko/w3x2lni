@@ -35,7 +35,7 @@ end
 
 function mt:read_metadata2()
     if not metadata then
-        metadata = lni(io.load(self.prebuilt / 'metadata.ini'))
+        metadata = lni(io.load(self.defined / 'metadata.ini'))
     end
     return metadata
 end
@@ -70,7 +70,7 @@ end
 
 function mt:keydata()
     if not keydata then
-        keydata = lni(io.load(self.prebuilt / 'key.ini'))
+        keydata = lni(io.load(self.defined / 'key.ini'))
     end
     return keydata
 end
@@ -108,8 +108,8 @@ function mt:initialize(root)
     self.template = self.root / 'template'
     self.mpq = self.root / 'script' / 'mpq'
     self.prebuilt = self.root / 'script' / 'prebuilt'
-    self.key = self.prebuilt / 'key'
     self.default = self.prebuilt / 'default'
+    self.defined = self.prebuilt / 'defined'
     self.info   = lni(assert(io.load(self.root / 'script' / 'info.ini')), 'info')
     self.config = lni(assert(io.load(self.root / 'config.ini')), 'config')
     local fmt = self.config.target_format

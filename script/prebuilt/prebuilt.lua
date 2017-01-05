@@ -86,9 +86,9 @@ local function main()
     local content = prebuilt_id_type(id_data)
     io.save(w2l.prebuilt / 'id_type.ini', content)
 
-    fs.create_directories(w2l.default)
     fs.create_directories(w2l.template)
-    fs.create_directories(w2l.key)
+    fs.create_directories(w2l.default)
+    fs.create_directories(w2l.defined)
     fs.create_directories(w2l.prebuilt / 'search')
 
     create_meta(w2l)

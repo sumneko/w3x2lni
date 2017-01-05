@@ -194,5 +194,5 @@ return function(w2l)
     local template = w2l:parse_slk(io.load(w2l.mpq / w2l.info.slk.ability[1]))
     copy_code(tmeta, template)
 
-    io.save(w2l.prebuilt / 'metadata.ini', stringify_ex(tmeta))
+    io.save(w2l.defined / 'metadata.ini', stringify_ex(tmeta))
 end

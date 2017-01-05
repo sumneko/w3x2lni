@@ -243,5 +243,5 @@ return function(w2l)
     for k, v in sortpairs(tkey) do
         stringify_key(f, k, v)
     end
-    io.save(w2l.prebuilt / 'key.ini', table.concat(f, '\r\n'))
+    io.save(w2l.defined / 'key.ini', table.concat(f, '\r\n'))
 end
