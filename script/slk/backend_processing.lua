@@ -21,7 +21,7 @@ local function can_remove(is_slk, ttype, level, key)
             return false
         end
     end
-    if keydata.profile and keydata.profile[key] then
+    if keydata[ttype] and keydata[ttype][key] then
         return false
     end
     return true
@@ -77,7 +77,6 @@ end
 
 local function processing(w2l, type, chunk)
     local default = w2l:get_default()[type]
-    keydata = w2l:keyconvert(type)
     local config = w2l.config
     local names = {}
     for name in pairs(chunk) do
@@ -97,6 +96,7 @@ local function processing(w2l, type, chunk)
 end
 
 return function (w2l, slk)
+    keydata = w2l:keydata()
     for i, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         progress:start(i / 8)
         processing(w2l, type, slk[type])

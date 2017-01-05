@@ -138,7 +138,7 @@ end
 
 local function create_keyval(obj)
     local keyval = {}
-    for key in pairs(keys) do
+    for _, key in ipairs(keys) do
         if key ~= 'editorsuffix' and key ~= 'editorname' then
             local data = obj[key]
             if data then
@@ -249,7 +249,7 @@ local function prebuild_obj(name, obj)
         return
     end
     local r = {}
-    for key in pairs(keys) do
+    for _, key in ipairs(keys) do
         prebuild_data(obj, key, r)
     end
     if next(r) then
@@ -313,7 +313,7 @@ end
 
 local function update_constant(type)
     metadata = w2l:read_metadata2()[type]
-    keys = w2l:keyconvert(type)['profile']
+    keys = w2l:keydata()[type]
 end
 
 return function(w2l_, slk, report_)

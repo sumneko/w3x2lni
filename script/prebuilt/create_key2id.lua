@@ -166,7 +166,9 @@ local function parse_id(tkey, tsearch, id, meta, type)
     else
         tsearch.common[key] = enable_type[meta.type]
         local filename = meta.slk:lower()
-        if filename ~= 'profile' then
+        if filename == 'profile' then
+            filename = type
+        else
             filename = 'units\\' .. meta.slk:lower() .. '.slk'
             if type == 'doodad' then
                 filename = 'doodads\\doodads.slk'
@@ -175,7 +177,7 @@ local function parse_id(tkey, tsearch, id, meta, type)
         if not tkey[filename] then
             tkey[filename] = {}
         end
-        tkey[filename][key] = true
+        table.insert(tkey[filename], key)
     end
 end
 
@@ -198,9 +200,7 @@ local function create_key2id(w2l, type, tkey, tsearch)
             v._has_index = true
         end
     end
-    tkey[type] = {}
     tsearch[type] = {common = {}}
-    local tkey = tkey[type]
     local tsearch = tsearch[type]
     for id, meta in pairs(metadata) do
         if is_enable(meta, type) then
@@ -209,20 +209,39 @@ local function create_key2id(w2l, type, tkey, tsearch)
     end
 end
 
+local function stringify_key(f, k, v)
+    if not v then
+        return
+    end
+    f[#f+1] = ('%s = {'):format(fmtstring(k))
+    table.sort(v)
+    for _, i in ipairs(v) do
+        f[#f+1] = ('%s,'):format(fmtstring(i))
+    end
+    f[#f+1] = '}'
+end
+
 return function(w2l)
     local tkey = {}
     local tsearch = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         create_key2id(w2l, type, tkey, tsearch)
     end
-    
     fixsearch(tsearch)
-
     local template = w2l:parse_slk(io.load(w2l.mpq / w2l.info.slk.ability[1]))
     copy_code(tsearch.ability, template)
-
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-        io.save(w2l.key / (type .. '.ini'),  stringify_ex(tkey[type]))
         io.save(w2l.prebuilt / 'search' / (type .. '.ini'), stringify_ex(tsearch[type]))
     end
+
+    local f = {}
+    f[#f+1] = '[root]'
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
+        stringify_key(f, type, tkey[type])
+        tkey[type] = nil
+    end
+    for k, v in sortpairs(tkey) do
+        stringify_key(f, k, v)
+    end
+    io.save(w2l.prebuilt / 'key.ini', table.concat(f, '\r\n'))
 end

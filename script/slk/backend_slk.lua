@@ -234,7 +234,7 @@ local function load_obj(id, obj, slk_name)
     slk_data['code'] = obj._code
     slk_data['name'] = obj._name
     obj._slk = true
-    for key in pairs(keys) do
+    for _, key in ipairs(keys) do
         local meta = metadata[slk_type][key]
         load_data(meta, obj, key, slk_data)
     end
@@ -261,7 +261,7 @@ return function(w2l_, type, slk_name, chunk, report_)
     remove_unuse_object = w2l.config.remove_unuse_object
     lines = {}
     metadata = w2l:read_metadata2()
-    keys = w2l:keyconvert(type)[slk_name]
+    keys = w2l:keydata()[slk_name]
     slk_type = type
 
     load_chunk(chunk, slk_name)

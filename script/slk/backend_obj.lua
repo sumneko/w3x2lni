@@ -187,7 +187,7 @@ return function (w2l_, type, data, wts_)
     end
     hexs = {}
     write_head()
-    write_chunk(origin_id, data, type, 0, max)
+    write_chunk(origin_id, data, 0, max)
     write_chunk(user_id, data, #origin_id, max)
     return table_concat(hexs)
 end
