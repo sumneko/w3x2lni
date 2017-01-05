@@ -17,7 +17,6 @@ local report
 local slk
 local w2l
 local metadata
-local keydata
 local keys
 local lines
 local cx
@@ -226,31 +225,30 @@ local function load_data(meta, obj, key, slk_data)
     end
 end
 
-local function load_obj(name, obj, slk_name)
+local function load_obj(id, obj, slk_name)
     if remove_unuse_object and not obj._mark then
         return nil
     end
-    local code = obj._code
     local slk_data = {}
-    slk_data[slk_keys[slk_name][1]] = obj['_id']
+    slk_data[slk_keys[slk_name][1]] = id
     slk_data['code'] = obj._code
     slk_data['name'] = obj._name
-    slk_data['_id'] = obj._id
     obj._slk = true
     for key in pairs(keys) do
-        load_data(metadata[slk_type][key], obj, key, slk_data)
+        local meta = metadata[slk_type][key]
+        load_data(meta, obj, key, slk_data)
     end
-    if keydata[code] then
-        for key in pairs(keydata[code]) do
-            load_data(metadata[code][key], obj, key, slk_data)
+    if metadata[obj._code] then
+        for key, meta in pairs(metadata[obj._code]) do
+            load_data(meta, obj, key, slk_data)
         end
     end
     return slk_data
 end
 
 local function load_chunk(chunk, slk_name)
-    for name, obj in pairs(chunk) do
-        slk[name] = load_obj(name, obj, slk_name)
+    for id, obj in pairs(chunk) do
+        slk[id] = load_obj(id, obj, slk_name)
     end
 end
 
@@ -263,8 +261,7 @@ return function(w2l_, type, slk_name, chunk, report_)
     remove_unuse_object = w2l.config.remove_unuse_object
     lines = {}
     metadata = w2l:read_metadata2()
-    keydata = w2l:keyconvert(type)
-    keys = keydata[slk_name]
+    keys = w2l:keyconvert(type)[slk_name]
     slk_type = type
 
     load_chunk(chunk, slk_name)
