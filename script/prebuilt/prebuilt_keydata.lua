@@ -1,4 +1,16 @@
 
+local key_cache = {}
+local function get_key(w2l, type, id)
+    if not key_cache[type] then
+        local t = {}
+        for key, meta in pairs(w2l:metadata()[type]) do
+            t[meta.id] = key
+        end
+        key_cache[type] = t
+    end
+    return key_cache[type][id]
+end
+
 local function sortpairs(t)
     local sort = {}
     for k, v in pairs(t) do
@@ -41,18 +53,6 @@ local function is_enable(meta, type)
         end
     end
     return true
-end
-
-local key_cache = {}
-local function get_key(w2l, type, id)
-    if not key_cache[type] then
-        local t = {}
-        for key, meta in pairs(w2l:metadata()[type]) do
-            t[meta.id] = key
-        end
-        key_cache[type] = t
-    end
-    return key_cache[type][id]
 end
 
 local function create_keydata(w2l, type, keydata)

@@ -1,7 +1,35 @@
-local type = type
-local string_char = string.char
-local pairs = pairs
-local ipairs = ipairs
+
+local key_cache = {}
+local function get_key(w2l, type, id)
+    if not key_cache[type] then
+        local t = {}
+        for key, meta in pairs(w2l:metadata()[type]) do
+            t[meta.id] = key
+        end
+        key_cache[type] = t
+    end
+    return key_cache[type][id]
+end
+
+local function get_key2(w2l, type, code, id)
+    local key = get_key(w2l, type, id)
+    if key ~= nil then
+        return key
+    end
+    for key, meta in pairs(w2l:metadata()[code]) do
+        if meta.id == id then
+            return key
+        end
+    end
+end
+
+local codemapped
+local function get_codemapped(w2l, id)
+    if not codemapped then
+        codemapped = w2l:parse_lni(io.load(w2l.defined / 'codemapped.ini'))
+    end
+    return codemapped[id] or id
+end
 
 local enable_type = {
     abilCode = 'ability',
@@ -146,79 +174,39 @@ local function is_enable(meta, type)
     return true
 end
 
-local function parse_id(tkey, tsearch, id, meta, type)
-    local key = meta.field:lower()
-    local num  = meta.data
-    local objs = meta.usespecific or meta.section
-    if num and num ~= 0 then
-        key = key .. string_char(('a'):byte() + num - 1)
-    end
-    if meta._has_index then
-        key = key .. ':' .. (meta.index + 1)
-    end
-    if objs then
-        for name in objs:gmatch '%w+' do
-            if not tsearch[name] then
-                tsearch[name] = {}
-            end
-            tsearch[name][key] = enable_type[meta.type]
-        end
-    else
-        tsearch.common[key] = enable_type[meta.type]
-        local filename = meta.slk:lower()
-        if filename == 'profile' then
-            filename = type
-        else
-            filename = 'units\\' .. meta.slk:lower() .. '.slk'
-            if type == 'doodad' then
-                filename = 'doodads\\doodads.slk'
-            end
-        end
-        if not tkey[filename] then
-            tkey[filename] = {}
-        end
-        table.insert(tkey[filename], key)
-    end
-end
-
-local function create_key2id(w2l, type, tkey, tsearch)
-    message('正在生成key2id', type)
-    local filepath = w2l.mpq / w2l.info['metadata'][type]
-    local metadata = w2l:parse_slk(io.load(filepath))
-    local has_index = {}
-    for k, v in pairs(metadata) do
-        -- 进行部分预处理
-        local name  = v['field']
-        local index = v['index']
-        if index and index >= 1 then
-            has_index[name] = true
-        end
-    end
-    for k, v in pairs(metadata) do
-        local name = v['field']
-        if has_index[name] then
-            v._has_index = true
-        end
-    end
+local function create_search(w2l, type, tsearch)
+    local metadata = w2l:parse_slk(io.load(w2l.mpq / w2l.info.metadata[type]))
     tsearch[type] = {common = {}}
     local tsearch = tsearch[type]
     for id, meta in pairs(metadata) do
         if is_enable(meta, type) then
-            parse_id(tkey, tsearch, id, meta, type)
+            local objs = meta.usespecific or meta.section
+            if objs then
+                for name in objs:gmatch '%w+' do
+                    if not tsearch[name] then
+                        tsearch[name] = {}
+                    end
+                    local key = get_key2(w2l, type, get_codemapped(w2l, name), id)
+                    tsearch[name][key] = enable_type[meta.type]
+                end
+            else
+                local key = get_key(w2l, type, id)
+                tsearch.common[key] = enable_type[meta.type]
+            end
         end
     end
 end
 
 return function(w2l)
-    local tkey = {}
+    message('正在生成search')
     local tsearch = {}
-    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-        create_key2id(w2l, type, tkey, tsearch)
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
+        create_search(w2l, type, tsearch)
     end
     fixsearch(tsearch)
     local template = w2l:parse_slk(io.load(w2l.mpq / w2l.info.slk.ability[1]))
     copy_code(tsearch.ability, template)
-    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
         io.save(w2l.prebuilt / 'search' / (type .. '.ini'), stringify_ex(tsearch[type]))
     end
 end
