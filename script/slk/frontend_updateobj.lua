@@ -53,8 +53,8 @@ local function update_obj(name, type, obj, data)
             new_obj[k] = v
         else
             local displayname = get_displayname(new_obj, temp)
-            message('-report', ('不支持的物编数据: %s'):format(displayname))
-            message('-tip', ('[%s][%s] - [%s]'):format(name, k, table.concat(v, ',')))
+            message('-report|6不支持的物编数据', ('%s %s'):format(type, displayname))
+            message('-tip', ('[%s][%s]: %s'):format(name, k, table.concat(v, ',')))
         end
     end
     if has_level then
