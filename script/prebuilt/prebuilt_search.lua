@@ -209,18 +209,6 @@ local function create_key2id(w2l, type, tkey, tsearch)
     end
 end
 
-local function stringify_key(f, k, v)
-    if not v then
-        return
-    end
-    f[#f+1] = ('%s = {'):format(fmtstring(k))
-    table.sort(v)
-    for _, i in ipairs(v) do
-        f[#f+1] = ('%s,'):format(fmtstring(i))
-    end
-    f[#f+1] = '}'
-end
-
 return function(w2l)
     local tkey = {}
     local tsearch = {}
@@ -233,15 +221,4 @@ return function(w2l)
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         io.save(w2l.prebuilt / 'search' / (type .. '.ini'), stringify_ex(tsearch[type]))
     end
-
-    local f = {}
-    f[#f+1] = '[root]'
-    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-        stringify_key(f, type, tkey[type])
-        tkey[type] = nil
-    end
-    for k, v in sortpairs(tkey) do
-        stringify_key(f, k, v)
-    end
-    io.save(w2l.defined / 'key.ini', table.concat(f, '\r\n'))
 end

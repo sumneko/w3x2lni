@@ -12,7 +12,6 @@ local mt = {}
 
 local metadata
 local keydata
-local id_type
 local usable_para
 local editstring
 local default
@@ -42,16 +41,9 @@ end
 
 function mt:keydata()
     if not keydata then
-        keydata = lni(io.load(self.defined / 'key.ini'))
+        keydata = lni(io.load(self.defined / 'keydata.ini'))
     end
     return keydata
-end
-
-function mt:get_id_type(type)
-    if not id_type then
-        id_type = lni(io.load(self.prebuilt / 'id_type.ini'))
-    end
-    return id_type[string_lower(type)] or 3
 end
 
 function mt:is_usable_para(parent)

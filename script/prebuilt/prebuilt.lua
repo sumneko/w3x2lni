@@ -11,8 +11,10 @@ local archive = require 'archive'
 local order_prebuilt = require 'order.prebuilt'
 local default2lni = require 'prebuilt.default2lni'
 local txt2teamplate = require 'prebuilt.txt2teamplate'
-local create_key2id = require 'prebuilt.create_key2id'
-local create_meta = require 'prebuilt.create_meta'
+local prebuilt_metadata = require 'prebuilt.prebuilt_metadata'
+local prebuilt_keydata = require 'prebuilt.prebuilt_keydata'
+local prebuilt_search = require 'prebuilt.prebuilt_search'
+
 w2l:initialize()
 
 function message(...)
@@ -27,14 +29,29 @@ function message(...)
     print(table.concat(tbl, ' '))
 end
 
-local function prebuilt_id_type(id_data)
-    local lines = {}
-    lines[#lines+1] = ('%s = %s'):format('int', 0)
-    lines[#lines+1] = ('%s = %s'):format('bool', 0)
-    lines[#lines+1] = ('%s = %s'):format('real', 1)
-    lines[#lines+1] = ('%s = %s'):format('unreal', 2)
+local function prebuilt_codemapped(w2l)
+    local template = w2l:parse_slk(io.load(w2l.mpq / w2l.info.slk.ability[1]))
+    local t = {}
+    for id, d in pairs(template) do
+        t[id] = d.code
+    end
+    local f = {}
+    for k, v in pairs(t) do
+        f[#f+1] = ('%s = %s'):format(k, v)
+    end
+    table.sort(f)
+    table.insert(f, 1, '[root]')
+    io.save(w2l.defined / 'codemapped.ini', table.concat(f, '\r\n'))
+end
 
-    for key, data in pairs(id_data) do
+local function prebuilt_typedefine(w2l)
+    local uniteditordata = w2l:parse_txt(io.load(w2l.mpq / 'ui' / 'uniteditordata.txt'))
+    local f = {}
+    f[#f+1] = ('%s = %s'):format('int', 0)
+    f[#f+1] = ('%s = %s'):format('bool', 0)
+    f[#f+1] = ('%s = %s'):format('real', 1)
+    f[#f+1] = ('%s = %s'):format('unreal', 2)
+    for key, data in pairs(uniteditordata) do
         local value = data['00'][1]
         local tp
         if tonumber(value) then
@@ -42,12 +59,11 @@ local function prebuilt_id_type(id_data)
         else
             tp = 3
         end
-        lines[#lines+1] = ('%s = %s'):format(key, tp)
+        f[#f+1] = ('%s = %s'):format(key, tp)
     end
-
-    table.sort(lines)
-
-    return '[root]\r\n' .. table.concat(lines, '\r\n')
+    table.sort(f)
+    table.insert(f, 1, '[root]')
+    io.save(w2l.defined / 'typedefine.ini', table.concat(f, '\r\n'))
 end
 
 local function pack_table(tbl)
@@ -81,18 +97,17 @@ end
 
 local function main()
     set_config()
-    -- 生成id_type
-    local id_data = w2l:parse_txt(io.load(w2l.mpq / 'ui' / 'uniteditordata.txt'))
-    local content = prebuilt_id_type(id_data)
-    io.save(w2l.prebuilt / 'id_type.ini', content)
 
     fs.create_directories(w2l.template)
     fs.create_directories(w2l.default)
     fs.create_directories(w2l.defined)
     fs.create_directories(w2l.prebuilt / 'search')
 
-    create_meta(w2l)
-    create_key2id(w2l)
+    prebuilt_codemapped(w2l)
+    prebuilt_typedefine(w2l)
+    prebuilt_metadata(w2l)
+    prebuilt_keydata(w2l)
+    prebuilt_search(w2l)
 
     -- 生成模板lni
     local ar = archive(w2l.mpq)
