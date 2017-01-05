@@ -66,9 +66,9 @@ local function add_obj(name, meta, misc, chunk, slk)
     slk.txt[lname] = nil
 end
 
-local function convert(misc, metadata, slk)
+local function convert(misc, metadata, keydata, slk)
     local chunk = {}
-    for name in pairs(metadata.misc_names) do
+    for _, name in ipairs(keydata.misc_names) do
         local meta = metadata[name]
         add_obj(name, meta, misc, chunk, slk)
     end
@@ -103,5 +103,6 @@ return function (w2l_, archive, slk)
         merge_misc(misc, slk.txt, map_misc)
     end
     local metadata = w2l:metadata()
-    slk.misc = convert(misc, metadata, slk)
+    local keydata = w2l:keydata()
+    slk.misc = convert(misc, metadata, keydata, slk)
 end

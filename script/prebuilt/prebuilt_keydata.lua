@@ -77,8 +77,21 @@ local function create_keydata(w2l, type, keydata)
     end
 end
 
+local function create_miscnames(w2l, keydata)
+    local metadata = w2l:parse_slk(io.load(w2l.mpq / w2l.info.metadata['misc']))
+    local names = {}
+    keydata['misc_names'] = {}
+    for id, meta in pairs(metadata) do
+        local name = meta.section
+        if not names[name] then
+            names[name] = true
+            table.insert(keydata['misc_names'], name)
+        end
+    end
+end
+
 local function stringify(f, name, t)
-    if not v then
+    if not t then
         return
     end
     f[#f+1] = ('%s = {'):format(fmtstring(name))
@@ -95,6 +108,7 @@ return function(w2l)
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
         create_keydata(w2l, type, keydata)
     end
+    create_miscnames(w2l, keydata)
     local f = {}
     f[#f+1] = '[root]'
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
