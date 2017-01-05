@@ -20,10 +20,10 @@ local function update_data(key, meta, obj, new_obj)
     end
     obj[id] = nil
     if meta.splite then
-        for i = 1, #value do
-            local pos = value[i]:find(',', 1, true)
+        for i, str in pairs(value) do
+            local pos = str:find(',', 1, true)
             if pos then
-                value[i] = value[i]:sub(1, pos-1)
+                value[i] = str:sub(1, pos-1)
             end
         end
     end
