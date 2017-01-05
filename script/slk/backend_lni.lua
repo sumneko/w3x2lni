@@ -156,7 +156,7 @@ local function write_table(slk)
         if not is_origin_a and is_origin_b then
             return false
         end
-        return slk[a]._id < slk[b]._id
+        return a < b
     end)
     local clock = os_clock()
     for i = 1, #names do

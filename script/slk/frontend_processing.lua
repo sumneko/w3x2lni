@@ -129,9 +129,7 @@ local function processing(w2l, type, chunk)
     for name in pairs(chunk) do
         names[#names+1] = name
     end
-    table.sort(names, function(a, b)
-        return chunk[a]['_id'] < chunk[b]['_id']
-    end)
+    table.sort(names)
 
     revert_list = nil
     unit_list = nil
