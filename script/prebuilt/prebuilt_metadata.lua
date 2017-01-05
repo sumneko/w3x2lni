@@ -8,6 +8,75 @@ local ipairs = ipairs
 
 local misc_names
 
+local concat_types = {
+    abilCode = false,
+    abilityList = true,
+    aiBuffer = false,
+    armorType = false,
+    attackBits = false,
+    attackTable = true,
+    attackType = false,
+    attributeType = false,
+    bool = false,
+    buffList = true,
+    channelFlags = false,
+    channelType = false,
+    combatSound = false,
+    deathType = false,
+    defenseTable = true,
+    defenseType = false,
+    defenseTypeInt = false,
+    detectionType = false,
+    effectList = true,
+    fullFlags = false,
+    heroAbilityList = true,
+    icon = false,
+    int = false,
+    intList = true,
+    interactionFlags = false,
+    itemClass = false,
+    itemList = true,
+    lightningEffect = false,
+    lightningList = true,
+    model = false,
+    modelList = true,
+    morphFlags = false,
+    moveType = false,
+    orderString = false,
+    pathingListPrevent = true,
+    pathingListRequire = true,
+    pathingTexture = false,
+    pickFlags = false,
+    real = false,
+    regenType = false,
+    shadowImage = false,
+    shadowTexture = false,
+    silenceFlags = false,
+    soundLabel = false,
+    spellDetail = false,
+    stackFlags = false,
+    string = false,
+    stringList = true,
+    targetList = true,
+    teamColor = false,
+    techList = true,
+    tilesetList = true,
+    uberSplat = false,
+    unitClass = true,
+    unitCode = false,
+    unitList = true,
+    unitRace = false,
+    unitSound = false,
+    unreal = false,
+    unrealList = true,
+    upgradeClass = false,
+    upgradeCode = false,
+    upgradeEffect = false,
+    upgradeList = true,
+    versionFlags = false,
+    weaponType = false,
+}
+
 local typedefine
 local function get_typedefine(w2l, type)
     if not typedefine then
@@ -116,7 +185,7 @@ local function parse_id(w2l, tmeta, id, meta, type, has_level)
         ['appendindex'] = meta.appendindex == 1 and true or nil,
         ['displayname'] = meta.displayname,
     }
-    if meta.type:sub(-4) == 'List' or meta.type:sub(-5) == 'Table' then
+    if concat_types[meta.type] then
         data.concat = true
     end
     if meta.index == -1 and data.type == 3 and not data.concat then
