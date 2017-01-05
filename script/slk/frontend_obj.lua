@@ -5,6 +5,7 @@ local string_match = string.match
 
 local w2l
 local wts
+local default
 local has_level
 local unpack_buf
 local unpack_pos
@@ -60,7 +61,7 @@ local function read_obj(chunk, type)
     if name == '\0\0\0\0' then
         name = parent
     end
-    if not w2l:is_usable_para(parent) then
+    if not default[parent] then
         force_slk = true
     end
     local obj = {
@@ -92,6 +93,7 @@ end
 return function (w2l_, type, wts_, buf)
     w2l = w2l_
     wts = wts_
+    default = w2l:get_default()[type]
     has_level = w2l.info.key.max_level[type]
     unpack_buf = buf
     unpack_pos = 1

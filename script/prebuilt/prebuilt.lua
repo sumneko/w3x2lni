@@ -126,15 +126,11 @@ local function main()
     end
     slk.txt = txt
     w2l:frontend_misc(ar, slk)
-    local usable_para = {}
     for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         message('正在生成模板', ttype)
         local data = slk[ttype]
         io.save(w2l.default / (ttype .. '.ini'), default2lni(ttype, data))
         io.save(w2l.template / (ttype .. '.ini'), w2l:backend_lni(ttype, data))
-        for name, obj in pairs(data) do
-            usable_para[obj._id] = true
-        end
     end
     
     io.save(w2l.default / 'txt.ini', default2lni('txt', slk.txt))

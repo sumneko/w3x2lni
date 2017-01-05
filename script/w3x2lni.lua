@@ -12,7 +12,6 @@ local mt = {}
 
 local metadata
 local keydata
-local usable_para
 local editstring
 local default
 
@@ -44,13 +43,6 @@ function mt:keydata()
         keydata = lni(io.load(self.defined / 'keydata.ini'))
     end
     return keydata
-end
-
-function mt:is_usable_para(parent)
-    if not usable_para then
-        usable_para = lni(io.load(self.prebuilt / 'usable_para.ini'))
-    end
-    return usable_para[parent]
 end
 
 function mt:editstring(str)

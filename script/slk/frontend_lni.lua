@@ -3,6 +3,7 @@ local pairs = pairs
 
 local w2l
 local force_slk
+local default
 
 local function add_obj(type, name, level_key, obj)
     local new_obj = {}
@@ -13,7 +14,7 @@ local function add_obj(type, name, level_key, obj)
     new_obj._max_level = obj[level_key]
     new_obj._type = type
     new_obj._obj = true
-    if not w2l:is_usable_para(new_obj._parent) then
+    if not default[new_obj._parent] then
         force_slk = true
     end
     return new_obj
@@ -21,6 +22,7 @@ end
 
 return function (w2l_, type, buf)
     w2l = w2l_
+    default = w2l:get_default()[type]
     local lni = w2l:parse_lni(buf)
     local level_key = w2l.info.key.max_level[type]
     local data = {}
