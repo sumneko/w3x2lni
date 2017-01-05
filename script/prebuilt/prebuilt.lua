@@ -27,15 +27,29 @@ function message(...)
     print(table.concat(tbl, ' '))
 end
 
-local function prebuilt_id_type(w2l)
-    local id_data = w2l:parse_txt(io.load(w2l.mpq / 'ui' / 'uniteditordata.txt'))
-    local lines = {}
-    lines[#lines+1] = ('%s = %s'):format('int', 0)
-    lines[#lines+1] = ('%s = %s'):format('bool', 0)
-    lines[#lines+1] = ('%s = %s'):format('real', 1)
-    lines[#lines+1] = ('%s = %s'):format('unreal', 2)
+local function prebuilt_codemapped(w2l)
+    local template = w2l:parse_slk(io.load(w2l.mpq / w2l.info.slk.ability[1]))
+    local t = {}
+    for id, d in pairs(template) do
+        t[id] = d.code
+    end
+    local f = {}
+    for k, v in pairs(t) do
+        f[#f+1] = ('%s = %s'):format(k, v)
+    end
+    table.sort(f)
+    table.insert(f, 1, '[root]')
+    io.save(w2l.defined / 'codemapped.ini', table.concat(f, '\r\n'))
+end
 
-    for key, data in pairs(id_data) do
+local function prebuilt_typedefine(w2l)
+    local uniteditordata = w2l:parse_txt(io.load(w2l.mpq / 'ui' / 'uniteditordata.txt'))
+    local f = {}
+    f[#f+1] = ('%s = %s'):format('int', 0)
+    f[#f+1] = ('%s = %s'):format('bool', 0)
+    f[#f+1] = ('%s = %s'):format('real', 1)
+    f[#f+1] = ('%s = %s'):format('unreal', 2)
+    for key, data in pairs(uniteditordata) do
         local value = data['00'][1]
         local tp
         if tonumber(value) then
@@ -43,12 +57,11 @@ local function prebuilt_id_type(w2l)
         else
             tp = 3
         end
-        lines[#lines+1] = ('%s = %s'):format(key, tp)
+        f[#f+1] = ('%s = %s'):format(key, tp)
     end
-
-    table.sort(lines)
-    table.insert(lines, 1, '[root]')
-    io.save(w2l.defined / 'type.ini', table.concat(lines, '\r\n'))
+    table.sort(f)
+    table.insert(f, 1, '[root]')
+    io.save(w2l.defined / 'typedefine.ini', table.concat(f, '\r\n'))
 end
 
 local function pack_table(tbl)
@@ -88,9 +101,8 @@ local function main()
     fs.create_directories(w2l.defined)
     fs.create_directories(w2l.prebuilt / 'search')
 
-    -- 生成id_type
-    prebuilt_id_type(w2l)
-
+    prebuilt_codemapped(w2l)
+    prebuilt_typedefine(w2l)
     create_meta(w2l)
     create_key2id(w2l)
 

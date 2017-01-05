@@ -11,7 +11,7 @@ local misc_names
 local typedefine
 local function get_typedefine(w2l, type)
     if not typedefine then
-        typedefine = w2l:parse_lni(io.load(w2l.defined / 'type.ini'))
+        typedefine = w2l:parse_lni(io.load(w2l.defined / 'typedefine.ini'))
     end
     return typedefine[type:lower()] or 3
 end
