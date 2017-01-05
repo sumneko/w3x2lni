@@ -67,15 +67,6 @@ local function prebuilt_typedefine(w2l)
     io.save(w2l.defined / 'typedefine.ini', table.concat(f, '\r\n'))
 end
 
-local function pack_table(tbl)
-    local lines = {}
-    for name, value in pairs(tbl) do
-        lines[#lines+1] = ('%s=%s'):format(name, value)
-    end
-    table.sort(lines)
-    return '[root]\r\n' .. table.concat(lines, '\r\n')
-end
-
 local function set_config()
     local config = w2l.config
     -- 是否分析slk文件
