@@ -209,7 +209,42 @@ local function create_key2id(w2l, type, tkey, tsearch)
     end
 end
 
-local function stringify_key(f, k, v)
+local key_cache = {}
+local function get_key(w2l, type, id)
+    if not key_cache[type] then
+        local t = {}
+        for key, meta in pairs(w2l:metadata()[type]) do
+            t[meta.id] = key
+        end
+        key_cache[type] = t
+    end
+    return key_cache[type][id]
+end
+
+local function create_keydata(w2l, type, keydata)
+    message('正在生成keydata', type)
+    local metadata = w2l:parse_slk(io.load(w2l.mpq / w2l.info.metadata[type]))
+    for id, meta in pairs(metadata) do
+        if is_enable(meta, type) and not meta.usespecific or meta.section then
+            local key = get_key(w2l, type, id)
+            local filename = meta.slk:lower()
+            if filename == 'profile' then
+                filename = type
+            else
+                filename = 'units\\' .. meta.slk:lower() .. '.slk'
+                if type == 'doodad' then
+                    filename = 'doodads\\doodads.slk'
+                end
+            end
+            if not keydata[filename] then
+                keydata[filename] = {}
+            end
+            table.insert(keydata[filename], key)
+        end
+    end
+end
+
+local function stringify_keydata(f, k, v)
     if not v then
         return
     end
@@ -234,14 +269,18 @@ return function(w2l)
         io.save(w2l.prebuilt / 'search' / (type .. '.ini'), stringify_ex(tsearch[type]))
     end
 
+    local keydata = {}
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
+        create_keydata(w2l, type, keydata)
+    end
     local f = {}
     f[#f+1] = '[root]'
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-        stringify_key(f, type, tkey[type])
-        tkey[type] = nil
+        stringify_keydata(f, type, keydata[type])
+        keydata[type] = nil
     end
-    for k, v in sortpairs(tkey) do
-        stringify_key(f, k, v)
+    for k, v in sortpairs(keydata) do
+        stringify_keydata(f, k, v)
     end
     io.save(w2l.defined / 'key.ini', table.concat(f, '\r\n'))
 end
