@@ -312,7 +312,7 @@ local function window_convert(canvas)
     canvas:text(srv.message, NK_TEXT_LEFT)
     canvas:layout_row_dynamic(10, 1)
     canvas:layout_row_dynamic(30, 1)
-    if backend or #srv.report == 0 then
+    if backend or not srv.lastreport then
         if srv.progress then
             canvas:progress(math.floor(srv.progress), 100)
         else
@@ -334,21 +334,56 @@ local function window_convert(canvas)
             srv.message = '正在初始化...'
             srv.progress = nil
             srv.report = {}
+            srv.lastreport = nil
         end
     end
+end
+
+local function sortpairs(t)
+    local sort = {}
+    for k, v in pairs(t) do
+        sort[#sort+1] = {k, v}
+    end
+    table.sort(sort, function (a, b)
+        return a[1] < b[1]
+    end)
+    local n = 1
+    return function()
+        local v = sort[n]
+        if not v then
+            return
+        end
+        n = n + 1
+        return v[1], v[2]
+    end
+end
+
+local treecache = {n=2}
+local function get_tree(name)
+    if not treecache[name] then
+        treecache.n = treecache.n + 1
+        treecache[name] = treecache.n 
+    end
+    return treecache[name]
 end
 
 local function window_report(canvas)
     canvas:layout_row_dynamic(500, 1)
     canvas:group('详情', function()
-        canvas:layout_row_dynamic(25, 1)
-        for _, s in ipairs(srv.report) do
-            if s[1] == 'error' then
-                window:set_style('text.color', 190, 30, 30)
-                canvas:text(s[2], NK_TEXT_LEFT, s[3])
-                window:set_style('text.color', 190, 190, 190)
-            else
-                canvas:text(s[2], NK_TEXT_LEFT, s[3])
+        for type, report in sortpairs(srv.report) do
+            if type ~= '' then
+                type = type:sub(2)
+                canvas:tree(type, get_tree(type), function()
+                    for _, s in ipairs(report) do
+                        canvas:text(s[1], NK_TEXT_LEFT, s[2])
+                    end
+                end)
+            end
+        end
+        local report = srv.report['']
+        if report then
+            for _, s in ipairs(report) do
+                canvas:text(s[1], NK_TEXT_LEFT, s[2])
             end
         end
     end)

@@ -78,7 +78,7 @@ local function format_marktip(slk, marktip)
 end
 
 local function report_object(slk, type, o)
-    message('-report', displaytype[type], get_displayname(o))
+    message('-report|3简化', displaytype[type], get_displayname(o))
     if o._mark then
         message('-tip', format_marktip(slk, o._mark))
     end
@@ -152,10 +152,10 @@ local function remove_unuse(w2l, slk)
     end
 
     if unuse_origin + unuse_custom > 0 then
-        message('-report', ('简化掉的对象数: %d/%d'):format(unuse_origin + unuse_custom, total_origin + total_custom))
+        message('-report|3简化', ('简化掉的对象数: %d/%d'):format(unuse_origin + unuse_custom, total_origin + total_custom))
     end
     if total_origin - unuse_origin > 0 then
-        message('-report', ('保留的默认对象数: %d/%d'):format(total_origin - unuse_origin, total_origin))
+        message('-report|3简化', ('保留的默认对象数: %d/%d'):format(total_origin - unuse_origin, total_origin))
         report_list(slk, origin_list, 'unit', 5)
         report_list(slk, origin_list, 'ability', 5)
         report_list(slk, origin_list, 'item', 5)
@@ -163,7 +163,7 @@ local function remove_unuse(w2l, slk)
         report_list(slk, origin_list, 'upgrade', 1)
     end
     if unuse_custom > 0 then
-        message('-report', ('简化掉的自定义对象数: %d/%d'):format(unuse_custom, total_custom))
+        message('-report|3简化', ('简化掉的自定义对象数: %d/%d'):format(unuse_custom, total_custom))
         report_list(slk, custom_list, 'unit', 5)
         report_list(slk, custom_list, 'ability', 5)
         report_list(slk, custom_list, 'item', 5)
@@ -204,14 +204,14 @@ local function to_slk(w2l, archive, slk)
 
     if report.n > 0 then
         local index = 1
-        message('-report', ('SLK化失败: %d'):format(report.n))
+        message('-report|2SLK化失败', ('合计: %d'):format(report.n))
         for tip, list in pairs(report) do
             if #tip > 1 then
                 local n = 0
-                message('-report', ('%d.%s'):format(index, tip))
+                message('-report|2SLK化失败', ('%d.%s'):format(index, tip))
                 index = index + 1
                 for _, msg in pairs(list) do
-                    message('-report', msg)
+                    message('-report|2SLK化失败', msg)
                     n = n + 1
                     if n > 20 then
                         break

@@ -43,9 +43,9 @@ local function search_mpq(map)
         end
     end
 
-    message('-report|error', ('还有%d个文件没有读取'):format(total - map.read_count))
+    message('-report|1严重错误', ('还有%d个文件没有读取'):format(total - map.read_count))
     message('-tip', '这些文件被丢弃了,请包含完整(listfile)')
-    message('-report|error', ('读取(%d/%d)个文件'):format(map.read_count, total))
+    message('-report|1严重错误', ('读取(%d/%d)个文件'):format(map.read_count, total))
 end
 
 local function scan_dir(dir, callback)

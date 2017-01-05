@@ -67,7 +67,7 @@ local function computed_value(slk, str, name)
            or slk.doodad[id]
            or slk.upgrade[id]
     if not o then
-        message('-report', '公式计算失败在', get_displayname_by_id(slk, name))
+        message('-report|5公式计算失败', get_displayname_by_id(slk, name))
         message('-tip', ('<%s>'):format(str))
         return
     end
@@ -98,7 +98,7 @@ local function computed_value(slk, str, name)
         end
         return math.floor(res)
     end
-    message('-report', '公式计算失败在', get_displayname_by_id(slk, id))
+    message('-report|5公式计算失败', get_displayname_by_id(slk, id))
     message('-tip', ('<%s>'):format(str))
     return res
 end

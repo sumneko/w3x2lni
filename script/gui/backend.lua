@@ -59,6 +59,14 @@ function mt:update_pipe()
     return false
 end
 
+local function push_report(type, value)
+    if not srv.report[type] then
+        srv.report[type] = {}
+    end
+    srv.lastreport = {value}
+    table.insert(srv.report[type], srv.lastreport)
+end
+
 function mt:update_message(pos)
     local msg = self.output:sub(1, pos):gsub("^%s*(.-)%s*$", "%1"):gsub('\t', ' ')
     if msg:sub(1, 1) == '-' then
@@ -67,13 +75,11 @@ function mt:update_message(pos)
             if key == 'progress' then
                 srv.progress = tonumber(value) * 100
             elseif key == 'report' then
-                srv.lastreport = {'info', value}
-                table.insert(srv.report, srv.lastreport)
-            elseif key == 'report|error' then
-                srv.lastreport = {'error', value}
-                table.insert(srv.report, 1, srv.lastreport)
+                push_report('', value)
+            elseif key:sub(1, 7) == 'report|' then
+                push_report(key:sub(8), value)
             elseif key == 'tip' then
-                srv.lastreport[3] = value
+                srv.lastreport[2] = value
             end
             msg = ''
         end
