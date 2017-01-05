@@ -1,10 +1,13 @@
 local w3xparser = require 'w3xparser'
 local slk = w3xparser.slk
 
-local type = type
-local string_char = string.char
-local pairs = pairs
-local ipairs = ipairs
+local codemapped
+local function get_codemapped(w2l, id)
+    if not codemapped then
+        codemapped = w2l:parse_lni(io.load(w2l.defined / 'codemapped.ini'))
+    end
+    return codemapped[id] or id
+end
 
 local concat_types = {
     abilCode = false,
@@ -156,12 +159,14 @@ local function is_enable(meta, type)
     return true
 end
 
-local function parse_id(w2l, tmeta, id, meta, type, has_level)
+local characters = {'A','B','C','D','E','F','G','H','I'}
+
+local function parse_id(w2l, metadata, id, meta, type, has_level)
     local key = meta.field
     local num  = meta.data
     local objs = meta.usespecific or meta.section
     if num and num ~= 0 then
-        key = key .. string_char(('A'):byte() + num - 1)
+        key = key .. characters[num]
     end
     if meta._has_index then
         key = key .. ':' .. (meta.index + 1)
@@ -187,21 +192,24 @@ local function parse_id(w2l, tmeta, id, meta, type, has_level)
     local lkey = key:lower()
     if objs then
         for name in objs:gmatch '%w+' do
-            if not tmeta[name] then
-                tmeta[name] = {}
+            local code = get_codemapped(w2l, name)
+            if not metadata[code] then
+                metadata[code] = {}
             end
-            tmeta[name][lkey] = data
+            if metadata[code][lkey] and metadata[code][lkey].id ~= data.id then
+                message('ID不同:', 'skill', name, 'code', code)
+            end
+            metadata[code][lkey] = data
         end
     else
-        tmeta[type][lkey] = data
+        metadata[type][lkey] = data
     end
 end
 
-local function create_meta(w2l, type, tmeta)
-    tmeta[type] = {}
+local function create_metadata(w2l, type, metadata)
+    metadata[type] = {}
     local has_level = w2l.info.key.max_level[type]
-    local filepath = w2l.mpq / w2l.info['metadata'][type]
-    local tbl = slk(io.load(filepath))
+    local tbl = slk(io.load(w2l.mpq / w2l.info.metadata[type]))
     local has_index = {}
     for k, v in pairs(tbl) do
         -- 进行部分预处理
@@ -219,7 +227,7 @@ local function create_meta(w2l, type, tmeta)
     end
     for id, meta in pairs(tbl) do
         if is_enable(meta, type) then
-            parse_id(w2l, tmeta, id, meta, type, has_level)
+            parse_id(w2l, metadata, id, meta, type, has_level)
         end
     end
 end
@@ -252,11 +260,9 @@ local function copy_code(t, template)
 end
 
 return function(w2l)
-    local tmeta = {}
+    local metadata = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-        create_meta(w2l, type, tmeta)
+        create_metadata(w2l, type, metadata)
     end
-    local template = w2l:parse_slk(io.load(w2l.mpq / w2l.info.slk.ability[1]))
-    copy_code(tmeta, template)
-    io.save(w2l.defined / 'metadata.ini', stringify_ex(tmeta))
+    io.save(w2l.defined / 'metadata.ini', stringify_ex(metadata))
 end
