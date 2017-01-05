@@ -180,9 +180,9 @@ local function mark_known_type2(slk, type, name)
         return true
     end
     o._mark = current_root
-    mark_list(slk, o, search[type].common)
+    mark_list(slk, o, search[type])
     if o._code then
-        mark_list(slk, o, search[type][o._code])
+        mark_list(slk, o, search[o._code])
         local marklist = mustmark[o._code]
         if marklist then
             if not mark_known_type(slk, marklist[2], marklist[1]) then
@@ -348,10 +348,7 @@ end
 return function(w2l, archive, slk_)
     slk = slk_
     if not search then
-        search = {}
-        for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-            search[type] = w2l:parse_lni(assert(io.load(w2l.prebuilt / 'search' / (type .. '.ini'))))
-        end
+        search = w2l:parse_lni(assert(io.load(w2l.defined / 'search.ini')))
     end
     buffmap = {}
     for i in pairs(slk.buff) do

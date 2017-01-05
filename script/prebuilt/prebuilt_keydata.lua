@@ -77,14 +77,14 @@ local function create_keydata(w2l, type, keydata)
     end
 end
 
-local function stringify_keydata(f, k, v)
+local function stringify(f, name, t)
     if not v then
         return
     end
-    f[#f+1] = ('%s = {'):format(fmtstring(k))
-    table.sort(v)
-    for _, i in ipairs(v) do
-        f[#f+1] = ('%s,'):format(fmtstring(i))
+    f[#f+1] = ('%s = {'):format(fmtstring(name))
+    table.sort(t)
+    for _, v in ipairs(t) do
+        f[#f+1] = ('%s,'):format(fmtstring(v))
     end
     f[#f+1] = '}'
 end
@@ -98,11 +98,11 @@ return function(w2l)
     local f = {}
     f[#f+1] = '[root]'
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-        stringify_keydata(f, type, keydata[type])
+        stringify(f, type, keydata[type])
         keydata[type] = nil
     end
     for k, v in sortpairs(keydata) do
-        stringify_keydata(f, k, v)
+        stringify(f, k, v)
     end
     io.save(w2l.defined / 'keydata.ini', table.concat(f, '\r\n'))
 end
