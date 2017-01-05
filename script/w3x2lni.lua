@@ -41,7 +41,7 @@ end
 
 function mt:keydata()
     if not keydata then
-        keydata = lni(io.load(self.defined / 'key.ini'))
+        keydata = lni(io.load(self.defined / 'keydata.ini'))
     end
     return keydata
 end

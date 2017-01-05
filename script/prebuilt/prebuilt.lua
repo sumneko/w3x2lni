@@ -13,6 +13,8 @@ local default2lni = require 'prebuilt.default2lni'
 local txt2teamplate = require 'prebuilt.txt2teamplate'
 local create_key2id = require 'prebuilt.create_key2id'
 local create_meta = require 'prebuilt.create_meta'
+local prebuilt_keydata = require 'prebuilt.prebuilt_keydata'
+
 w2l:initialize()
 
 function message(...)
@@ -105,6 +107,7 @@ local function main()
     prebuilt_typedefine(w2l)
     create_meta(w2l)
     create_key2id(w2l)
+    prebuilt_keydata(w2l)
 
     -- 生成模板lni
     local ar = archive(w2l.mpq)
