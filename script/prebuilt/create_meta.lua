@@ -111,6 +111,9 @@ local function parse_id(w2l, tmeta, id, meta, type, has_level)
     if meta.type:sub(-4) == 'List' or meta.type:sub(-5) == 'Table' then
         data.concat = true
     end
+    if meta.index == -1 and data.type == 3 and not data.concat then
+        data.splite = true
+    end
     if meta._has_index then
         data.index = meta.index + 1
     end
