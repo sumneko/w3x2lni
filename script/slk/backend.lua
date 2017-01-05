@@ -204,14 +204,14 @@ local function to_slk(w2l, archive, slk)
 
     if report.n > 0 then
         local index = 1
-        message('-report|2SLK化失败', ('合计: %d'):format(report.n))
+        message('-report|2没有SLK化的数据', ('合计: %d'):format(report.n))
         for tip, list in pairs(report) do
             if #tip > 1 then
                 local n = 0
-                message('-report|2SLK化失败', ('%d.%s'):format(index, tip))
+                message('-report|2没有SLK化的数据', ('%d.%s'):format(index, tip))
                 index = index + 1
                 for _, msg in pairs(list) do
-                    message('-report|2SLK化失败', msg)
+                    message('-report|2没有SLK化的数据', msg)
                     n = n + 1
                     if n > 20 then
                         break
