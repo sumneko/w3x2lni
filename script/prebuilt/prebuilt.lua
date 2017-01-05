@@ -11,9 +11,9 @@ local archive = require 'archive'
 local order_prebuilt = require 'order.prebuilt'
 local default2lni = require 'prebuilt.default2lni'
 local txt2teamplate = require 'prebuilt.txt2teamplate'
-local create_key2id = require 'prebuilt.create_key2id'
-local create_meta = require 'prebuilt.create_meta'
+local prebuilt_metadata = require 'prebuilt.prebuilt_metadata'
 local prebuilt_keydata = require 'prebuilt.prebuilt_keydata'
+local prebuilt_search = require 'prebuilt.prebuilt_search'
 
 w2l:initialize()
 
@@ -105,9 +105,9 @@ local function main()
 
     prebuilt_codemapped(w2l)
     prebuilt_typedefine(w2l)
-    create_meta(w2l)
-    create_key2id(w2l)
+    prebuilt_metadata(w2l)
     prebuilt_keydata(w2l)
+    prebuilt_search(w2l)
 
     -- 生成模板lni
     local ar = archive(w2l.mpq)
