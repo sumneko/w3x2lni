@@ -119,9 +119,7 @@ local convertors = {
     'frontend_misc',
     'frontend_updateobj',
     'frontend_updatelni',
-    'frontend_processing',
     'backend',
-    'backend_processing',
     'backend_mark',
     'backend_lni',
     'backend_slk',
@@ -134,6 +132,8 @@ local convertors = {
     'backend_extra_txt',
     'backend_misc',
     'backend_skin',
+    'backend_searchparent',
+    'backend_cleanobj',
 }
 
 for _, name in ipairs(convertors) do

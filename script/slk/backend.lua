@@ -260,8 +260,8 @@ return function (w2l, archive, slk)
 
     progress:start(0.2)
     message('清理数据...')
-    w2l:frontend_processing(slk)
-    w2l:backend_processing(slk)
+    w2l:backend_searchparent(slk)
+    w2l:backend_cleanobj(slk)
     progress:finish()
 
     if w2l.config.remove_unuse_object then
