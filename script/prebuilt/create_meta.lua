@@ -8,6 +8,14 @@ local ipairs = ipairs
 
 local misc_names
 
+local typedefine
+local function get_typedefine(w2l, type)
+    if not typedefine then
+        typedefine = w2l:parse_lni(io.load(w2l.defined / 'type.ini'))
+    end
+    return typedefine[type:lower()] or 3
+end
+
 local function sortpairs(t)
     local sort = {}
     for k, v in pairs(t) do
@@ -102,7 +110,7 @@ local function parse_id(w2l, tmeta, id, meta, type, has_level)
     local data = {
         ['id'] = id,
         ['key'] = meta.field:lower(),
-        ['type'] = w2l:get_id_type(meta.type),
+        ['type'] = get_typedefine(w2l, meta.type),
         ['field'] = key,
         ['repeat'] = has_level and meta['repeat'] > 0 and meta['repeat'] or nil,
         ['appendindex'] = meta.appendindex == 1 and true or nil,
@@ -193,9 +201,7 @@ return function(w2l)
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         create_meta(w2l, type, tmeta)
     end
-
     local template = w2l:parse_slk(io.load(w2l.mpq / w2l.info.slk.ability[1]))
     copy_code(tmeta, template)
-
     io.save(w2l.defined / 'metadata.ini', stringify_ex(tmeta))
 end

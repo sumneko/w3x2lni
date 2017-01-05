@@ -27,7 +27,8 @@ function message(...)
     print(table.concat(tbl, ' '))
 end
 
-local function prebuilt_id_type(id_data)
+local function prebuilt_id_type(w2l)
+    local id_data = w2l:parse_txt(io.load(w2l.mpq / 'ui' / 'uniteditordata.txt'))
     local lines = {}
     lines[#lines+1] = ('%s = %s'):format('int', 0)
     lines[#lines+1] = ('%s = %s'):format('bool', 0)
@@ -46,8 +47,8 @@ local function prebuilt_id_type(id_data)
     end
 
     table.sort(lines)
-
-    return '[root]\r\n' .. table.concat(lines, '\r\n')
+    table.insert(lines, 1, '[root]')
+    io.save(w2l.defined / 'type.ini', table.concat(lines, '\r\n'))
 end
 
 local function pack_table(tbl)
@@ -81,15 +82,14 @@ end
 
 local function main()
     set_config()
-    -- 生成id_type
-    local id_data = w2l:parse_txt(io.load(w2l.mpq / 'ui' / 'uniteditordata.txt'))
-    local content = prebuilt_id_type(id_data)
-    io.save(w2l.prebuilt / 'id_type.ini', content)
 
     fs.create_directories(w2l.template)
     fs.create_directories(w2l.default)
     fs.create_directories(w2l.defined)
     fs.create_directories(w2l.prebuilt / 'search')
+
+    -- 生成id_type
+    prebuilt_id_type(w2l)
 
     create_meta(w2l)
     create_key2id(w2l)
