@@ -187,7 +187,7 @@ return function(w2l_, loader)
     end
     progress:finish()
     
-    metadata = w2l:read_metadata2()
+    metadata = w2l:metadata()
     keydata = w2l:keydata()
     local count = 0
     progress:start(1)

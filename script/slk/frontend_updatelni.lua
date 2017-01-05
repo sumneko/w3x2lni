@@ -26,7 +26,7 @@ return function(w2l, type, lni, data)
     if not has_level then
         return
     end
-    metadata = w2l:read_metadata2()
+    metadata = w2l:metadata()
     for name, obj in pairs(lni) do
         update_obj(type, name, obj, data)
     end

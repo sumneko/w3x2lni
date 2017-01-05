@@ -69,7 +69,7 @@ end
 return function (w2l_, type, chunk, data)
     w2l = w2l_
     has_level = w2l.info.key.max_level[type]
-    metadata = w2l:read_metadata2(type)
+    metadata = w2l:metadata()
     for name, obj in pairs(chunk) do
         chunk[name] = update_obj(name, type, obj, data)
     end

@@ -68,7 +68,7 @@ local function concat(misc)
 end
 
 return function(w2l, misc, txt)
-    metadata = w2l:read_metadata2()
+    metadata = w2l:metadata()
     local data = convert(misc)
     local buf = concat(data)
     return buf

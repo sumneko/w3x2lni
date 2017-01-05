@@ -312,7 +312,7 @@ local function prebuild(type, input, output, list)
 end
 
 local function update_constant(type)
-    metadata = w2l:read_metadata2()[type]
+    metadata = w2l:metadata()[type]
     keys = w2l:keydata()[type]
 end
 

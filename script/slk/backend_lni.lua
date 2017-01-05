@@ -167,7 +167,7 @@ end
 
 return function (w2l_, type, slk)
     w2l = w2l_
-    metadata = w2l:read_metadata2()
+    metadata = w2l:metadata()
     remove_unuse_object = w2l.config.remove_unuse_object
     ttype = type
     str = {}

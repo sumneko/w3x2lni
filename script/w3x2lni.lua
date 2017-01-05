@@ -33,11 +33,18 @@ function mt:parse_ini(buf)
     return ini(buf)
 end
 
-function mt:read_metadata2()
+function mt:metadata()
     if not metadata then
         metadata = lni(io.load(self.defined / 'metadata.ini'))
     end
     return metadata
+end
+
+function mt:keydata()
+    if not keydata then
+        keydata = lni(io.load(self.defined / 'key.ini'))
+    end
+    return keydata
 end
 
 function mt:get_id_type(type)
@@ -66,13 +73,6 @@ function mt:editstring(str)
         str = editstring[str]
     until not editstring[str]
     return str:gsub('%c+', '')
-end
-
-function mt:keydata()
-    if not keydata then
-        keydata = lni(io.load(self.defined / 'key.ini'))
-    end
-    return keydata
 end
 
 local function create_default(w2l)
