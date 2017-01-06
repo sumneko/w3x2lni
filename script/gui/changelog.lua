@@ -23,11 +23,13 @@ local function version(ver, text)
     end
     if current == text then
         window:set_style('button.color', 131, 135, 147)
+        canvas:layout_space_push(index, 0, 80, 25)
+        index = index + 80
     else
         window:set_style('button.color', 81, 85, 97)
+        canvas:layout_space_push(index, 0, 40, 25)
+        index = index + 40
     end
-    index = index + 1
-    canvas:layout_space_push(index * 80 - 80, 0, 80, 25)
     if canvas:button(ver) then
         current = text
     end
@@ -53,6 +55,9 @@ return function(window_, canvas_)
     window = window_
     canvas = canvas_
     version_begin()
+    version('1.3', function()
+        log('FIX', '修正部分详情显示错误的问题')
+    end)
     version('1.2', function()
         log('NEW', '对象不再无视大小写', '例如A00A与A00a，会被视为两个对象')
         log('NEW', '现在会搜索导入表里的文件')
