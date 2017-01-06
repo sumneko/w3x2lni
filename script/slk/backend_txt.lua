@@ -177,17 +177,27 @@ local function stringify_obj(str, obj)
     end
 end
 
+local displaytype = {
+    unit = '单位',
+    ability = '技能',
+    item = '物品',
+    buff = '魔法效果',
+    upgrade = '科技',
+    doodad = '装饰物',
+    destructable = '可破坏物',
+}
+
 local function get_displayname(o)
     if o._type == 'buff' then
-        return o._id, o.bufftip or o.editorname or ''
+        return displaytype[o._type], o._id, o.bufftip or o.editorname or ''
     elseif o._type == 'upgrade' then
-        return o._id, o.name[1] or ''
+        return displaytype[o._type], o._id, o.name[1] or ''
     else
-        return o._id, o.name or ''
+        return displaytype[o._type], o._id, o.name or ''
     end
 end
 
-local function report_failed(obj, key, tip, other)
+local function report_failed(obj, key, tip, info)
     report.n = report.n + 1
     if not report[tip] then
         report[tip] = {}
@@ -195,9 +205,11 @@ local function report_failed(obj, key, tip, other)
     if report[tip][obj._id] then
         return
     end
-    local id, name = get_displayname(obj)
-    local dkey = metadata[key].field
-    report[tip][obj._id] = ("'%s'%s %s%s"):format(id, dkey, (' '):rep(7 - #dkey), name)
+    local type, id, name = get_displayname(obj)
+    report[tip][obj._id] = {
+        ("%s %s %s"):format(type, id, name),
+        ("%s %s"):format(key, info),
+    }
 end
 
 local function check_string(s)
@@ -213,8 +225,8 @@ local function prebuild_data(obj, key, r)
         local t = {}
         for k, v in pairs(obj[key]) do
             if check_string(v) then
-                report_failed(obj, t, key, '文本内容同时包含了逗号和双引号')
-                object[key] = v
+                report_failed(obj, metadata[key].field, '文本内容同时包含了逗号和双引号', v)
+                object[key][k] = v
             else
                 t[k] = v
             end
@@ -227,8 +239,8 @@ local function prebuild_data(obj, key, r)
         end
     else
         if check_string(obj[key]) then
-            report_failed(obj, t, key, '文本内容同时包含了逗号和双引号')
-            object[key] = nil
+            report_failed(obj, metadata[key].field, '文本内容同时包含了逗号和双引号', obj[key])
+            object[key] = obj[key]
         else
             r[key] = obj[key]
         end
@@ -258,7 +270,7 @@ local function prebuild_merge(obj, a, b)
             if type(a[k]) == 'table' then
                 for i, iv in pairs(v) do
                     if a[k][i] ~= iv then
-                        report_failed(obj, k, '文本内容和另一个对象冲突', a._id)
+                        report_failed(obj, metadata[k].field, '文本内容和另一个对象冲突', '--> ' .. a._id)
                         if obj[k] then
                             obj[k][i] = iv
                         else
@@ -267,7 +279,7 @@ local function prebuild_merge(obj, a, b)
                     end
                 end
             else
-                report_failed(obj, k, '文本内容和另一个对象冲突', a._id)
+                report_failed(obj, metadata[k].field, '文本内容和另一个对象冲突', '--> ' .. a._id)
                 for i, iv in pairs(v) do
                     if obj[k] then
                         obj[k][i] = iv
@@ -278,7 +290,7 @@ local function prebuild_merge(obj, a, b)
             end
         else
             if a[k] ~= v then
-                report_failed(obj, k, '文本内容和另一个对象冲突', a._id)
+                report_failed(obj, metadata[k].field, '文本内容和另一个对象冲突', '--> ' .. a._id)
                 obj[k] = v
             end
         end
