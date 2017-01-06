@@ -4,6 +4,7 @@ local next = next
 local pairs = pairs
 
 local metadata
+local remove_unuse
 
 local function add_data(name, lkey, meta, obj, data)
     if not obj[lkey] then
@@ -14,7 +15,7 @@ local function add_data(name, lkey, meta, obj, data)
 end
 
 local function add_obj(name, obj, data)
-    if not obj._mark then
+    if remove_unuse and not obj._mark then
         return
     end
     local new_obj = {}
@@ -69,6 +70,7 @@ end
 
 return function(w2l, misc, txt)
     metadata = w2l:metadata()
+    remove_unuse = w2l.config.remove_unuse_object
     local data = convert(misc)
     local buf = concat(data)
     return buf
