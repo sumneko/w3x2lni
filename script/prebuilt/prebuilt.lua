@@ -111,11 +111,11 @@ local function main()
     for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         message('正在生成模板', ttype)
         local data = slk[ttype]
-        io.save(w2l.default / (ttype .. '.ini'), default2lni(ttype, data))
+        io.save(w2l.default / (ttype .. '.ini'), default2lni(data))
         io.save(w2l.template / (ttype .. '.ini'), w2l:backend_lni(ttype, data))
     end
     
-    io.save(w2l.default / 'txt.ini', default2lni('txt', slk.txt))
+    io.save(w2l.default / 'txt.ini', default2lni(slk.txt))
     io.save(w2l.template / 'txt.ini', txt2teamplate('txt', slk.txt))
     
     -- 生成技能命令映射

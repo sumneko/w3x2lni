@@ -1,4 +1,22 @@
-local slk_type
+
+local function sortpairs(t)
+    local sort = {}
+    for k, v in pairs(t) do
+        sort[#sort+1] = {k, v}
+    end
+    table.sort(sort, function (a, b)
+        return a[1] < b[1]
+    end)
+    local n = 1
+    return function()
+        local v = sort[n]
+        if not v then
+            return
+        end
+        n = n + 1
+        return v[1], v[2]
+    end
+end
 
 local function format_value(value)
     local tp = type(value)
@@ -21,65 +39,29 @@ local function maxindex(t)
     return i
 end
 
-local function add_data(lines, key, data)
-    if key:find '[^%w_]' then
-        key = ('%q'):format(key)
+local function write_data(f, k, v)
+    if k:find '[^%w_]' then
+        k = ('%q'):format(k)
     end
-    if type(data) == 'table' then
-        local values = {}
-        local null
-        if slk_type == 'doodad' then
-            for i = 10, 1, -1 do
-                values[i] = format_value(data[i]) or null
-                if values[i] then
-                    null = 'nil'
-                end
-            end
-        else
-            for i = 1, maxindex(data) do
-                values[i] = format_value(data[i]) or 'nil'
-            end
+    if type(v) == 'table' then
+        local l = {}
+        for i = 1, maxindex(v) do
+            l[i] = format_value(v[i]) or 'nil'
         end
-        lines[#lines+1] = ('%s={%s}'):format(key, table.concat(values, ','))
+        f[#f+1] = ('%s={%s}'):format(k, table.concat(l, ','))
     else
-        lines[#lines+1] = ('%s=%s'):format(key, format_value(data))
+        f[#f+1] = ('%s=%s'):format(k, format_value(v))
     end
 end
 
-local function add_obj(lines, name, obj)
-    lines[#lines+1] = ('[%s]'):format(name)
-
-    local keys = {}
-    for key in pairs(obj) do
-        keys[#keys+1] = key
-    end
-    table.sort(keys)
-    for _, key in ipairs(keys) do
-        if key:sub(1, 1) == '_' then
-            lines[#lines+1] = ('%s=%s'):format(key, format_value(obj[key]))
-        else
-            add_data(lines, key, obj[key])
+return function (t)
+    local f = {}
+    for i, o in sortpairs(t) do
+        f[#f+1] = ('[%s]'):format(i)
+        for k, v in sortpairs(o) do
+            write_data(f, k, v)
         end
+        f[#f+1] = ''
     end
-    
-    lines[#lines+1] = ''
-end
-
-local function add_chunk(lines, type, tbl)
-    local names = {}
-    for name in pairs(tbl) do
-        names[#names+1] = name
-    end
-    table.sort(names)
-    for _, name in ipairs(names) do
-        add_obj(lines, name, tbl[name])
-    end
-end
-
-return function (type, tbl)
-    local lines = {}
-    slk_type = type
-    add_chunk(lines, type, tbl)
-
-    return table.concat(lines, '\r\n')
+    return table.concat(f, '\r\n')
 end
