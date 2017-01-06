@@ -187,17 +187,7 @@ local function get_displayname(o)
     end
 end
 
-local function get_displayname2(o)
-    if o._type == 'buff' then
-        return o._id, o.Bufftip or o.EditorName or ''
-    elseif o._type == 'upgrade' then
-        return o._id, o.Name[1] or ''
-    else
-        return o._id, o.Name or ''
-    end
-end
-
-local function report_failed(obj, obj2, key, tip)
+local function report_failed(obj, key, tip, other)
     report.n = report.n + 1
     if not report[tip] then
         report[tip] = {}
@@ -206,9 +196,8 @@ local function report_failed(obj, obj2, key, tip)
         return
     end
     local id, name = get_displayname(obj)
-    local id2, name2 = get_displayname2(obj2)
     local dkey = metadata[key].field
-    report[tip][obj._id] = ("'%s'%s %s%s"):format(id, dkey, (' '):rep(7 - #dkey), name ~= '' and name or name2)
+    report[tip][obj._id] = ("'%s'%s %s%s"):format(id, dkey, (' '):rep(7 - #dkey), name)
 end
 
 local function check_string(s)
@@ -269,7 +258,7 @@ local function prebuild_merge(obj, a, b)
             if type(a[k]) == 'table' then
                 for i, iv in pairs(v) do
                     if a[k][i] ~= iv then
-                        report_failed(obj, b, k, ('文本内容和对象[%s]冲突'):format(a._id))
+                        report_failed(obj, k, '文本内容和另一个对象冲突', a._id)
                         if obj[k] then
                             obj[k][i] = iv
                         else
@@ -278,7 +267,7 @@ local function prebuild_merge(obj, a, b)
                     end
                 end
             else
-                report_failed(obj, b, k, ('文本内容和对象[%s]冲突'):format(a._id))
+                report_failed(obj, k, '文本内容和另一个对象冲突', a._id)
                 for i, iv in pairs(v) do
                     if obj[k] then
                         obj[k][i] = iv
@@ -289,7 +278,7 @@ local function prebuild_merge(obj, a, b)
             end
         else
             if a[k] ~= v then
-                report_failed(obj, b, k, ('文本内容和对象[%s]冲突'):format(a._id))
+                report_failed(obj, k, '文本内容和另一个对象冲突', a._id)
                 obj[k] = v
             end
         end
