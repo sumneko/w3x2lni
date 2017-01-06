@@ -2,6 +2,16 @@ local w2l
 local has_level
 local metadata
 
+local displaytype = {
+    unit = '单位',
+    ability = '技能',
+    item = '物品',
+    buff = '魔法效果',
+    upgrade = '科技',
+    doodad = '装饰物',
+    destructable = '可破坏物',
+}
+
 local function get_displayname(o1, o2)
     if o1._type == 'buff' then
         return o1.bufftip or o1.editorname or o2.bufftip or o2.editorname or ''
@@ -53,8 +63,8 @@ local function update_obj(name, type, obj, data)
             new_obj[k] = v
         else
             local displayname = get_displayname(new_obj, temp)
-            message('-report|6不支持的物编数据', ('%s %s'):format(type, displayname))
-            message('-tip', ('[%s][%s]: %s'):format(name, k, table.concat(v, ',')))
+            message('-report|6不支持的物编数据', ('%s %s %s'):format(displaytype[type], name, displayname))
+            message('-tip', ('[%s]: %s'):format(k, table.concat(v, ',')))
         end
     end
     if has_level then

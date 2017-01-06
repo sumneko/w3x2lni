@@ -1,10 +1,20 @@
+local displaytype = {
+    unit = '单位',
+    ability = '技能',
+    item = '物品',
+    buff = '魔法效果',
+    upgrade = '科技',
+    doodad = '装饰物',
+    destructable = '可破坏物',
+}
+
 local function get_displayname(o)
     if o._type == 'buff' then
-        return o._id, o.bufftip or o.editorname or ''
+        return displaytype[o._type], o._id, o.bufftip or o.editorname or ''
     elseif o._type == 'upgrade' then
-        return o._id, o.name[1] or ''
+        return displaytype[o._type], o._id, o.name[1] or ''
     else
-        return o._id, o.name or ''
+        return displaytype[o._type], o._id, o.name or ''
     end
 end
 
@@ -17,7 +27,7 @@ local function get_displayname_by_id(slk, id)
            or slk.doodad[id]
            or slk.upgrade[id]
     if not o then
-        return id, '<unknown>'
+        return '未知', id, '<unknown>'
     end
     return get_displayname(o)
 end
@@ -58,7 +68,7 @@ local function split(str)
     return r
 end
 
-local function computed_value(slk, str, name)
+local function computed_value(slk, str, name, field)
     local id, key, per = table.unpack(split(str))
     local o = slk.ability[id]
            or slk.unit[id]
@@ -68,7 +78,7 @@ local function computed_value(slk, str, name)
            or slk.upgrade[id]
     if not o then
         message('-report|5公式计算失败', get_displayname_by_id(slk, name))
-        message('-tip', ('<%s>'):format(str))
+        message('-tip', ('%s: <%s>'):format(field, str))
         return
     end
     key = key:lower()
@@ -99,12 +109,12 @@ local function computed_value(slk, str, name)
         return math.floor(res)
     end
     message('-report|5公式计算失败', get_displayname_by_id(slk, id))
-    message('-tip', ('<%s>'):format(str))
+    message('-tip', ('%s: <%s>'):format(field, str))
     return res
 end
 
-local function computed(slk, input, id)
-    return input:gsub('<([^>]*)>', function(str) return computed_value(slk, str, id) end)
+local function computed(slk, input, id, key)
+    return input:gsub('<([^>]*)>', function(str) return computed_value(slk, str, id, key) end)
 end
 
 return function(w2l, slk)
@@ -114,11 +124,11 @@ return function(w2l, slk)
             goto CONTINUE
         end
         if o.researchubertip then
-            o.researchubertip = computed(slk, o.researchubertip, o._id)
+            o.researchubertip = computed(slk, o.researchubertip, o._id, 'Researchtip')
         end
         if o.ubertip then
             for k, v in pairs(o.ubertip) do
-                o.ubertip[k] = computed(slk, v, o._id)
+                o.ubertip[k] = computed(slk, v, o._id, 'Ubertip')
             end
         end
         ::CONTINUE::
@@ -128,10 +138,10 @@ return function(w2l, slk)
             goto CONTINUE
         end
         if o.ubertip then
-            o.ubertip = computed(slk, o.ubertip, o._id)
+            o.ubertip = computed(slk, o.ubertip, o._id, 'Ubertip')
         end
         if o.description then
-            o.description = computed(slk, o.description, o._id)
+            o.description = computed(slk, o.description, o._id, 'Description')
         end
         ::CONTINUE::
     end
@@ -141,7 +151,7 @@ return function(w2l, slk)
         end
         if o.ubertip then
             for k, v in pairs(o.ubertip) do
-                o.ubertip[k] = computed(slk, v, o._id)
+                o.ubertip[k] = computed(slk, v, o._id, 'Ubertip')
             end
         end
         ::CONTINUE::

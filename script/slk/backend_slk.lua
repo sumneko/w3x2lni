@@ -25,17 +25,27 @@ local remove_unuse_object
 local slk_type
 local object
 
+local displaytype = {
+    unit = '单位',
+    ability = '技能',
+    item = '物品',
+    buff = '魔法效果',
+    upgrade = '科技',
+    doodad = '装饰物',
+    destructable = '可破坏物',
+}
+
 local function get_displayname(o)
     if o._type == 'buff' then
-        return o._id, o.bufftip or o.editorname or ''
+        return displaytype[o._type], o._id, o.bufftip or o.editorname or ''
     elseif o._type == 'upgrade' then
-        return o._id, o.name[1] or ''
+        return displaytype[o._type], o._id, o.name[1] or ''
     else
-        return o._id, o.name or ''
+        return displaytype[o._type], o._id, o.name or ''
     end
 end
 
-local function report_failed(obj, meta, key, tip)
+local function report_failed(obj, key, tip, info)
     report.n = report.n + 1
     if not report[tip] then
         report[tip] = {}
@@ -43,9 +53,11 @@ local function report_failed(obj, meta, key, tip)
     if report[tip][obj._id] then
         return
     end
-    local id, name = get_displayname(obj)
-    local dkey = meta.field
-    report[tip][obj._id] = ("'%s'%s %s%s"):format(id, dkey, (' '):rep(7 - #dkey), name)
+    local type, id, name = get_displayname(obj)
+    report[tip][obj._id] = {
+        ("%s %s %s"):format(type, id, name),
+        ("%s %s"):format(key, info),
+    }
 end
 
 local slk_keys = {
@@ -215,7 +227,7 @@ local function load_data(meta, obj, key, slk_data, obj_data)
             end
         end
         if next(obj_data[key]) then
-            report_failed(obj, meta, key, '数据超过了4级')
+            report_failed(obj, displaykey, '数据超过了4级', '')
         else
             obj_data[key] = nil
         end

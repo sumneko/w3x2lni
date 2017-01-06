@@ -213,7 +213,8 @@ local function to_slk(w2l, archive, slk)
                 message('-report|3没有SLK化的数据', ('%d.%s'):format(index, tip))
                 index = index + 1
                 for _, msg in pairs(list) do
-                    message('-report|3没有SLK化的数据', msg)
+                    message('-report|3没有SLK化的数据', msg[1])
+                    message('-tip', msg[2])
                     n = n + 1
                     if n > 20 then
                         break
