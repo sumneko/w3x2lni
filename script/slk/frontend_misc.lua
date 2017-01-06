@@ -44,9 +44,6 @@ local function add_data(key, meta, misc, obj, slk)
         value = table_concat(value, ',')
     else
         value = to_type(meta.type, value[1])
-        if meta.type == 3 and value then
-            value = slk.wts:load(value)
-        end
     end
     obj[key] = value
 end
@@ -75,23 +72,34 @@ local function convert(misc, metadata, miscnames, slk)
     return chunk
 end
 
-local function merge_misc_data(misc, map_misc)
+local function merge_misc_data(misc, map_misc, meta, slk)
     if not misc then
         return
     end
     for k, v in pairs(map_misc) do
+        if meta[k].type == 3 then
+            for i, str in ipairs(v) do
+                v[i] = slk.wts:load(str)
+            end
+        end
         misc[k] = v
     end
 end
 
-local function merge_misc(misc, txt, map_misc)
-    for k, v in pairs(map_misc) do
-        merge_misc_data(misc[k] or txt[k], v)
+local function merge_misc(misc, txt, map_misc, metadata, miscnames, slk)
+    for _, name in ipairs(miscnames.misc_names) do
+        local lname = name:lower()
+        local v = map_misc[lname]
+        if v then
+            merge_misc_data(misc[lname] or txt[lname], v, metadata[name], slk)
+        end
     end
 end
 
 return function (w2l_, archive, slk)
     w2l = w2l_
+    local metadata = w2l:metadata()
+    local miscnames = w2l:miscnames()
     local misc = {}
     for _, name in ipairs {"UI\\MiscData.txt", "Units\\MiscData.txt", "Units\\MiscGame.txt"} do
         local buf = io.load(w2l.mpq / name)
@@ -100,9 +108,7 @@ return function (w2l_, archive, slk)
     local buf = archive:get('war3mapmisc.txt')
     if buf then
         local map_misc = w2l:parse_txt(buf, 'war3mapmisc.txt')
-        merge_misc(misc, slk.txt, map_misc)
+        merge_misc(misc, slk.txt, map_misc, metadata, miscnames, slk)
     end
-    local metadata = w2l:metadata()
-    local miscnames = w2l:miscnames()
     slk.misc = convert(misc, metadata, miscnames, slk)
 end
