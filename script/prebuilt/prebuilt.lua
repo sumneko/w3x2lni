@@ -106,7 +106,6 @@ local function main()
     local slk = w2l:frontend_slk(function(name)
         return ar:get(name)
     end)
-    slk.wts = w2l:frontend_wts(ar)
     w2l:frontend_misc(ar, slk)
     for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         message('正在生成模板', ttype)
