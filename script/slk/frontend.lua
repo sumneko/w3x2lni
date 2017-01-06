@@ -100,7 +100,7 @@ local function load_slk(w2l, archive, force_slk)
         message('-report|7其他', '物编信息不完整,强制读取slk文件')
     end
     if force_slk or w2l.config.read_slk then
-        local datas, txt = w2l:frontend_slk(function(name)
+        return w2l:frontend_slk(function(name)
             local buf = archive:get(name)
             if buf then
                 archive:set(name, false)
@@ -108,8 +108,6 @@ local function load_slk(w2l, archive, force_slk)
             end
             return io.load(w2l.mpq / name)
         end)
-        datas.txt = txt
-        return datas
     else
         return w2l:get_default(true)
     end

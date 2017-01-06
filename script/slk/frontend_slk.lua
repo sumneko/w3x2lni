@@ -227,6 +227,6 @@ return function(w2l_, loader)
 
     -- 此单位只在一张单位slk里定义,是无效单位
     datas.unit.nrmf = nil
-
-    return datas, txt
+    datas.txt = txt
+    return datas
 end
