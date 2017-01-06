@@ -268,11 +268,11 @@ local function window_convert(canvas)
     local height = button_mapname(canvas, 290)
     canvas:layout_row_dynamic(10, 1)
     if fmt == 'lni' or fmt == 'obj' then
-        height = height - 34
+        height = height - 24
         canvas:layout_row_dynamic(30, 1)
         checkbox_simple(canvas, '读取slk文件', '外部导入的slk文件，如万能属性', 'read_slk')
     else
-        height = height - 90
+        height = height - 94
         canvas:layout_row_dynamic(30, 1)
         checkbox_simple(canvas, '简化', '删除没有使用的对象', 'remove_unuse_object')
         checkbox_simple(canvas, '压缩模型', '有损压缩', 'mdx_squf')
