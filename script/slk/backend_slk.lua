@@ -23,6 +23,7 @@ local cx
 local cy
 local remove_unuse_object
 local slk_type
+local object
 
 local function get_displayname(o)
     if o._type == 'buff' then
@@ -186,42 +187,40 @@ local function to_type(tp, value)
     end
 end
 
-local function load_data(meta, obj, key, slk_data)
+local function load_data(meta, obj, key, slk_data, obj_data)
     if not obj[key] then
         return
     end
     local displaykey = meta.field
     local tp = meta.type
     if type(obj[key]) == 'table' then
+        obj_data[key] = {}
         if slk_type == 'doodad' then
             for i = 11, #obj[key] do
-                if obj[key][i] == obj[key][10] then
-                    obj[key][i] = nil
+                if obj[key][i] ~= obj[key][10] then
+                    obj_data[key][i] = obj[key][i]
                 end
             end
             for i = 1, 10 do
                 slk_data[('%s%02d'):format(displaykey, i)] = to_type(tp, obj[key][i])
-                obj[key][i] = nil
             end
         else
             for i = 5, #obj[key] do
-                if obj[key][i] == obj[key][4] then
-                    obj[key][i] = nil
+                if obj[key][i] ~= obj[key][4] then
+                    obj_data[key][i] = obj[key][i]
                 end
             end
             for i = 1, 4 do
                 slk_data[displaykey..i] = to_type(tp, obj[key][i])
-                obj[key][i] = nil
             end
         end
-        if next(obj[key]) then
+        if next(obj_data[key]) then
             report_failed(obj, meta, key, '数据超过了4级')
         else
-            obj[key] = nil
+            obj_data[key] = nil
         end
     else
         slk_data[displaykey] = to_type(tp, obj[key])
-        obj[key] = nil
     end
 end
 
@@ -229,6 +228,13 @@ local function load_obj(id, obj, slk_name)
     if remove_unuse_object and not obj._mark then
         return nil
     end
+    local obj_data = {}
+    object[id] = obj_data
+    obj_data._id     = obj._id
+    obj_data._slk    = true
+    obj_data._code   = obj._code
+    obj_data._mark   = obj._mark
+    obj_data._parent = obj._parent
     local slk_data = {}
     slk_data[slk_keys[slk_name][1]] = id
     slk_data['code'] = obj._code
@@ -236,11 +242,11 @@ local function load_obj(id, obj, slk_name)
     obj._slk = true
     for _, key in ipairs(keys) do
         local meta = metadata[slk_type][key]
-        load_data(meta, obj, key, slk_data)
+        load_data(meta, obj, key, slk_data, obj_data)
     end
     if metadata[obj._code] then
         for key, meta in pairs(metadata[obj._code]) do
-            load_data(meta, obj, key, slk_data)
+            load_data(meta, obj, key, slk_data, obj_data)
         end
     end
     return slk_data
@@ -252,10 +258,11 @@ local function load_chunk(chunk, slk_name)
     end
 end
 
-return function(w2l_, type, slk_name, chunk, report_)
+return function(w2l_, type, slk_name, chunk, report_, obj)
     slk = {}
     w2l = w2l_
     report = report_
+    object = obj
     cx = nil
     cy = nil
     remove_unuse_object = w2l.config.remove_unuse_object

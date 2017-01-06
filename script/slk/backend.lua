@@ -174,23 +174,25 @@ end
 
 local function to_slk(w2l, archive, slk)
     local report = { n = 0 }
+    local object = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable'} do
         local data = slk[type]
+        object[type] = {}
         for _, slk in ipairs(w2l.info.slk[type]) do
-            archive:set(slk, w2l:backend_slk(type, slk, data, report))
+            archive:set(slk, w2l:backend_slk(type, slk, data, report, object[type]))
         end
     end
 
     for _, filename in ipairs(w2l.info.txt) do
         archive:set(filename, '')
     end
-    local txt = w2l:backend_txt(slk, report)
+    local txt = w2l:backend_txt(slk, report, object)
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade'} do
         archive:set(output[type], txt[type])
     end
 
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable', 'doodad'} do
-        local data = slk[type]
+        local data = object[type] or slk[type]
         local content = w2l:backend_obj(type, data)
         if content then
             archive:set(w2l.info.obj[type], content)

@@ -20,6 +20,7 @@ local w2l
 local metadata
 local keys
 local remove_unuse_object
+local object
 
 local function to_type(tp, value)
     if tp == 0 then
@@ -219,17 +220,18 @@ local function prebuild_data(obj, key, r)
         return
     end
     if type(obj[key]) == 'table' then
+        object[key] = {}
         local t = {}
         for k, v in pairs(obj[key]) do
             if check_string(v) then
                 report_failed(obj, t, key, '文本内容同时包含了逗号和双引号')
+                object[key] = v
             else
                 t[k] = v
-                obj[key][k] = nil
             end
         end
-        if not next(obj[key]) then
-            obj[key] = nil
+        if not next(object[key]) then
+            object[key] = nil
         end
         if next(t) then
             r[key] = t
@@ -237,9 +239,9 @@ local function prebuild_data(obj, key, r)
     else
         if check_string(obj[key]) then
             report_failed(obj, t, key, '文本内容同时包含了逗号和双引号')
+            object[key] = nil
         else
             r[key] = obj[key]
-            obj[key] = nil
         end
     end
 end
@@ -316,9 +318,10 @@ local function update_constant(type)
     keys = w2l:keydata()[type]
 end
 
-return function(w2l_, slk, report_)
+return function(w2l_, slk, report_, obj)
     w2l = w2l_
     report = report_
+    object = obj
     remove_unuse_object = w2l.config.remove_unuse_object
     local txt = {}
     local list = {}
