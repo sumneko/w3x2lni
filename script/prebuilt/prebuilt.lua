@@ -103,20 +103,11 @@ local function main()
 
     -- 生成模板lni
     local ar = archive(w2l.mpq)
-    local slk = {}
-    slk.wts = w2l:frontend_wts(ar)
-    local datas, txt = w2l:frontend_slk(function(name)
-        local buf = ar:get(name)
-        if buf then
-            ar:set(name, false)
-            return buf
-        end
-        return io.load(w2l.mpq / name)
+    local slk, txt = w2l:frontend_slk(function(name)
+        return ar:get(name)
     end)
-    for type, data in pairs(datas) do
-        slk[type] = data
-    end
     slk.txt = txt
+    slk.wts = w2l:frontend_wts(ar)
     w2l:frontend_misc(ar, slk)
     for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         message('正在生成模板', ttype)
