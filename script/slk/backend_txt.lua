@@ -130,8 +130,12 @@ local function add_data(obj, meta, value, keyval)
     else
         value = to_type(meta.type, value)
     end
-    if not value or value == '' and meta.cantempty then
-        value = ','
+    if not value or value == '' then
+        if meta.cantempty then
+            value = ','
+        else
+            return
+        end
     end
     if value then
         keyval[#keyval+1] = {key, value}
