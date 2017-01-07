@@ -17,7 +17,7 @@ local function create_object(t)
     local mt = {}
     function mt:__index(key)
         if key:sub(1, 1) == '_' then
-            return
+            return ''
         end
         key = key:lower()
         local value = t[key]
@@ -26,15 +26,18 @@ local function create_object(t)
         end
         local pos = key:find("%d+$")
         if not pos then
-            return
+            return ''
         end
         local value = t[key:sub(1, pos-1)]
         if not value or type(value) ~= 'table' then
-            return
+            return ''
         end
         local level = tonumber(key:sub(pos))
         if level > t._max_level then
-            return
+            if type(value[1]) == 'number' then
+                return 0
+            end
+            return ''
         end
         return value[level]
     end
