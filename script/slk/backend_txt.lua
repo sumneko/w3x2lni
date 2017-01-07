@@ -126,6 +126,9 @@ local function add_data(obj, meta, value, keyval)
         return
     end
     if type(value) == 'table' then
+        if #value == 0 then
+            return
+        end
         value = get_index_data(meta.type, table_unpack(value))
     else
         value = to_type(meta.type, value)
@@ -236,9 +239,7 @@ local function prebuild_data(obj, key, r)
         if not next(object[key]) then
             object[key] = nil
         end
-        if next(t) then
-            r[key] = t
-        end
+        r[key] = t
     else
         if check_string(obj[key]) then
             report_failed(obj, metadata[key].field, '文本内容同时包含了逗号和双引号', obj[key])
