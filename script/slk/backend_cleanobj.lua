@@ -3,6 +3,8 @@ local progress = require 'progress'
 local pairs = pairs
 
 local keydata
+local is_remove_same
+local w2l
 
 local function sortpairs(t)
     local sort = {}
@@ -23,26 +25,7 @@ local function sortpairs(t)
     end
 end
 
-local function can_remove(is_slk, ttype, level, key)
-    if not is_slk then
-        return true
-    end
-    if ttype == 'doodad' then
-        if level <= 10 then
-            return false
-        end
-    else
-        if level <= 4 then
-            return false
-        end
-    end
-    if keydata[ttype] and keydata[ttype][key] then
-        return false
-    end
-    return true
-end
-
-local function remove_same(key, data, default, obj, is_slk, ttype, is_remove_same)
+local function remove_same(key, data, default, obj, ttype)
     local dest = default[key]
     if type(dest) == 'table' then
         local new_data = {}
@@ -53,7 +36,7 @@ local function remove_same(key, data, default, obj, is_slk, ttype, is_remove_sam
             else
                 default = dest[i]
             end
-            if data[i] ~= default or not can_remove(is_slk, ttype, i, key) then
+            if data[i] ~= default then
                 new_data[i] = data[i]
             end
         end
@@ -65,44 +48,48 @@ local function remove_same(key, data, default, obj, is_slk, ttype, is_remove_sam
             obj[key] = new_data
         end
     else
-        if not is_slk and data == dest then
+        if data == dest then
             obj[key] = nil
         end
     end
 end
 
-local function clean_obj(name, obj, type, default, config)
+local function clean_obj(name, obj, type, default)
     local parent = obj._parent
     local max_level = obj._max_level
     local default = default[parent]
-    local is_remove_same, is_slk
-    if type == 'misc' then
-        is_remove_same = false
-        is_slk = name ~= 'Misc'
-    else
-        is_remove_same = config.remove_same
-        is_slk = config.target_format == 'slk' and type ~= 'doodad'
-    end
     for key, data in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
-            remove_same(key, data, default, obj, is_slk, type, is_remove_same)
+            remove_same(key, data, default, obj, type)
         end
     end
 end
 
-local function processing(w2l, type, t)
+local function clean_objs(type, t)
     local default = w2l:get_default()[type]
-    local config = w2l.config
     for id, obj in sortpairs(t) do
-        clean_obj(id, obj, type, default, config)
+        clean_obj(id, obj, type, default)
     end
 end
 
-return function (w2l, slk)
+local function clean_misc()
+end
+
+return function (w2l_, slk)
+    w2l = w2l_
     keydata = w2l:keydata()
-    for i, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-        progress:start(i / 8)
-        processing(w2l, type, slk[type])
-        progress:finish()
+    is_remove_same = w2l.config.remove_same
+    if w2l.config.target_format == 'slk' then
+        local type = 'doodad'
+        clean_objs(type, slk[type])
+        progress(0.5)
+    else
+        for i, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
+            clean_objs(type, slk[type])
+            progress(i / 8)
+        end
     end
+    local type = 'misc'
+    clean_misc(w2l, type, slk[type])
+    progress(1)
 end
