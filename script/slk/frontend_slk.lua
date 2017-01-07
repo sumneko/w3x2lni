@@ -69,7 +69,7 @@ local function slk_read_data(obj, key, meta, data)
         end
         obj[key] = t
     else
-        obj[key] = slk_to_type(meta.type, data[key]) or ''
+        obj[key] = slk_to_type(meta.type, data[key])
     end
 end
 
