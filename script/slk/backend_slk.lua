@@ -74,7 +74,7 @@ local slk_keys = {
         'itemID','abilList','armor','class','colorB','colorG','colorR','cooldownID','drop','droppable','file','goldcost','HP','ignoreCD','Level','lumbercost','morph','oldLevel','pawnable','perishable','pickRandom','powerup','prio','scale','sellable','stockMax','stockRegen','stockStart','usable','uses',
     },
     ['units\\upgradedata.slk']      = {
-        'upgradeid','base1','base2','base3','base4','class','code1','code2','code3','code4','effect1','effect2','effect3','effect4','global','goldbase','goldmod','inherit','lumberbase','lumbermod','maxlevel','mod1','mod2','mod3','mod4','timebase','timemod',
+        'upgradeid','base1','base2','base3','base4','class','code1','code2','code3','code4','effect1','effect2','effect3','effect4','global','goldbase','goldmod','inherit','lumberbase','lumbermod','maxlevel','mod1','mod2','mod3','mod4','timebase','timemod', 'used',
     },
     ['units\\unitabilities.slk']    = {
         'unitAbilID','abilList','auto','heroAbilList',
@@ -131,6 +131,8 @@ local function add_values(names, skeys, slk_name)
                 or slk_name == 'units\\destructabledata.slk' and key == 'texFile'
             then
                 add(x, y+1, '_')
+            elseif slk_name == 'units\\upgradedata.slk' and key == 'used' then
+                add(x, y+1, 1)
             end
         end
         if os_clock() - clock > 0.1 then

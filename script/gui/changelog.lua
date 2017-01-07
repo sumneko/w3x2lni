@@ -56,6 +56,7 @@ return function(window_, canvas_)
     canvas = canvas_
     version_begin()
     version('1.3', function()
+        log('FIX', '修正slk后无法研究科技的问题')
         log('FIX', '修正部分详情显示错误的问题')
         log('FIX', '修正平衡常数可能丢失的问题', '转换到obj或lni时可能会生成出空的war3mapmisc.txt')
     end)
