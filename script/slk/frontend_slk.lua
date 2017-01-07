@@ -141,17 +141,16 @@ local function txt_read_data(name, obj, key, meta, txt)
     if meta.appendindex then
         local t = {}
         if txt then
-            local max_level = txt[key..'count'] and txt[key..'count'][1] or 1
-            for i = 1, max_level do
-                local new_key
-                if i == 1 then
-                    new_key = key
-                else
-                    new_key = key .. (i-1)
-                end
+            local null
+            local max_level = txt[key..'count'] and math.floor(txt[key..'count'][1]) or 1
+            for i = max_level, 1, -1 do
+                local new_key = i == 1 and key or (key .. (i-1))
                 local value = txt[new_key]
                 if value and #value > 0 then
                     t[i] = table_concat(value, ',')
+                    null = ''
+                else
+                    t[i] = null
                 end
             end
         end
