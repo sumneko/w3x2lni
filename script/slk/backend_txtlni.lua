@@ -19,16 +19,14 @@ local function sortpairs(t)
 end
 
 local function format_value(value)
-    local tp = type(value)
-    if tp == 'boolean' then
+    if tonumber(value) then
         return tostring(value)
-    end
-    if tp == 'number' then
-        return tostring(value)
-    end
-    if tp == 'string' then
-        --return ('%q'):format(value)
-        return value
+    else
+        if value:match '[\n\r]' then
+            return ('[=[\r\n%s]=]'):format(value)
+        else
+            return ('%q'):format(value)
+        end
     end
 end
 
@@ -52,7 +50,7 @@ local function write_data(f, k, v)
         if #l == 0 then
             return
         elseif#l == 1 then
-            f[#f+1] = ('%s = %s'):format(k, format_value(l[1]))
+            f[#f+1] = ('%s = %s'):format(k, l[1])
         else
             f[#f+1] = ('%s = {%s}'):format(k, table.concat(l, ', '))
         end
