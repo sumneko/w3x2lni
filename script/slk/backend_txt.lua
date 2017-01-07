@@ -264,7 +264,7 @@ end
 
 local function prebuild_merge(obj, a, b)
     for k, v in pairs(b) do
-        if k == '_id' then
+        if k == '_id' or k == '_type' then
             goto CONTINUE
         end
         if type(v) == 'table' then
