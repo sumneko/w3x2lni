@@ -15,7 +15,7 @@ local metadata
 local keydata
 local slk_type
 
-local function to_type(tp, value)
+local function slk_to_type(tp, value)
     if tp == 0 then
         if not value then
             return 0
@@ -45,18 +45,31 @@ local function slk_read_data(obj, key, meta, data)
     if meta['repeat'] then
         local type = meta.type
         local t = {}
+        local null
         if slk_type == 'doodad' then
-            for i = 1, 10 do
-                t[i] = to_type(type, data[('%s%02d'):format(key, i)])
+            for i = 10, 1, -1 do
+                local v = slk_to_type(type, data[('%s%02d'):format(key, i)])
+                if v then
+                    null = ''
+                    t[i] = v
+                else
+                    t[i] = null
+                end
             end
         else
-            for i = 1, 4 do
-                t[i] = to_type(type, data[key..i])
+            for i = 4, 1, -1 do
+                local v = slk_to_type(type, data[key..i])
+                if v then
+                    null = ''
+                    t[i] = v
+                else
+                    t[i] = null
+                end
             end
         end
         obj[key] = t
     else
-        obj[key] = to_type(meta.type, data[key])
+        obj[key] = slk_to_type(meta.type, data[key]) or ''
     end
 end
 
@@ -99,10 +112,29 @@ local function slk_read(table, slk, keys, meta, update_level)
     end
 end
 
+local function txt_to_type(tp, value)
+    if tp == 0 then
+        if not value then
+            return 0
+        end
+        return math_floor(wtonumber(value))
+    elseif tp == 1 or tp == 2 then
+        if not value then
+            return 0.0
+        end
+        return wtonumber(value) + 0.0
+    elseif tp == 3 then
+        if not value then
+            return nil
+        end
+        return tostring(value)
+    end
+end
+
 local function txt_read_data(name, obj, key, meta, txt)
     if meta.index then
         local value = txt and txt[meta.key]
-        obj[key] = to_type(meta.type, value and value[meta.index])
+        obj[key] = txt_to_type(meta.type, value and value[meta.index])
         return
     end
 
@@ -129,7 +161,7 @@ local function txt_read_data(name, obj, key, meta, txt)
 
     local value = txt and txt[key]
     if not value or #value == 0 then
-        local value = to_type(meta.type)
+        local value = txt_to_type(meta.type)
         if not value then
             if meta['repeat'] then
                 obj[key] = {}
@@ -147,7 +179,7 @@ local function txt_read_data(name, obj, key, meta, txt)
         if #value > 1 then
             obj[key] = table_concat(value, ',')
         else
-            obj[key] = to_type(meta.type, value[1])
+            obj[key] = txt_to_type(meta.type, value[1])
         end
         return
     end
@@ -157,7 +189,7 @@ local function txt_read_data(name, obj, key, meta, txt)
             obj[key][i] = value[i]
         end
     else
-        obj[key] = to_type(meta.type, value[1])
+        obj[key] = txt_to_type(meta.type, value[1])
     end
 end
 
