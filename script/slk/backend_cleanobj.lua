@@ -1,12 +1,27 @@
 local progress = require 'progress'
 
-local os_clock = os.clock
 local pairs = pairs
 
 local keydata
 
-local mt = {}
-mt.__index = mt
+local function sortpairs(t)
+    local sort = {}
+    for k, v in pairs(t) do
+        sort[#sort+1] = {k, v}
+    end
+    table.sort(sort, function (a, b)
+        return a[1] < b[1]
+    end)
+    local n = 1
+    return function()
+        local v = sort[n]
+        if not v then
+            return
+        end
+        n = n + 1
+        return v[1], v[2]
+    end
+end
 
 local function can_remove(is_slk, ttype, level, key)
     if not is_slk then
@@ -75,23 +90,11 @@ local function clean_obj(name, obj, type, default, config)
     end
 end
 
-local function processing(w2l, type, chunk)
+local function processing(w2l, type, t)
     local default = w2l:get_default()[type]
     local config = w2l.config
-    local names = {}
-    for name in pairs(chunk) do
-        names[#names+1] = name
-    end
-    table.sort(names)
-    
-    local clock = os_clock()
-    for i, name in ipairs(names) do
-        clean_obj(name, chunk[name], type, default, config)
-        if os_clock() - clock >= 0.1 then
-            clock = os_clock()
-            message(('清理数据[%s] (%d/%d)'):format(chunk[name]._id, i, #names))
-            progress(i / #names)
-        end
+    for id, obj in sortpairs(t) do
+        clean_obj(id, obj, type, default, config)
     end
 end
 
