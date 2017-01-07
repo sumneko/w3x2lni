@@ -45,18 +45,31 @@ local function slk_read_data(obj, key, meta, data)
     if meta['repeat'] then
         local type = meta.type
         local t = {}
+        local null
         if slk_type == 'doodad' then
-            for i = 1, 10 do
-                t[i] = to_type(type, data[('%s%02d'):format(key, i)])
+            for i = 10, 1, -1 do
+                local v = to_type(type, data[('%s%02d'):format(key, i)])
+                if v then
+                    null = ''
+                    t[i] = v
+                else
+                    t[i] = null
+                end
             end
         else
-            for i = 1, 4 do
-                t[i] = to_type(type, data[key..i])
+            for i = 4, 1, -1 do
+                local v = to_type(type, data[key..i])
+                if v then
+                    null = ''
+                    t[i] = v
+                else
+                    t[i] = null
+                end
             end
         end
         obj[key] = t
     else
-        obj[key] = to_type(meta.type, data[key])
+        obj[key] = to_type(meta.type, data[key]) or ''
     end
 end
 
