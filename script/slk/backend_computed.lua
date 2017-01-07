@@ -69,6 +69,7 @@ local function split(str)
 end
 
 local function computed_value(slk, str, name, field)
+    -- TODO: 需要进一步测试如何区分对象的类型
     local id, key, per = table.unpack(split(str))
     local o = slk.ability[id]
            or slk.unit[id]

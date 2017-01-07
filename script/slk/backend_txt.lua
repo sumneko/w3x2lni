@@ -322,6 +322,7 @@ local function update_constant(type)
     keys = w2l:keydata()[type]
 end
 
+-- TODO: 有等级的数据，相同的部分可以简化
 return function(w2l_, slk, report_, obj)
     w2l = w2l_
     report = report_
