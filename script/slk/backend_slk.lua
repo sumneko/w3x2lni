@@ -138,7 +138,7 @@ local function add_values(names, skeys, slk_name)
         if os_clock() - clock > 0.1 then
             clock = os_clock()
             progress(y / #names)
-            message(('正在转换: [%s] (%d/%d)'):format(obj._id, y, #names))
+            message(('正在转换: [%s] (%d/%d)'):format(name, y, #names))
         end
     end
 end
