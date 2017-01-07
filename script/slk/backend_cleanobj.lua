@@ -5,6 +5,7 @@ local pairs = pairs
 local keydata
 local is_remove_same
 local w2l
+local default
 
 local function sortpairs(t)
     local sort = {}
@@ -41,7 +42,7 @@ local function remove_same(key, data, default, obj, ttype)
             end
         end
         if not next(new_data) then
-            obj[key] = nil
+            obj[key] = new_data
             return
         end
         if is_remove_same then
@@ -66,18 +67,19 @@ local function clean_obj(name, obj, type, default)
 end
 
 local function clean_objs(type, t)
-    local default = w2l:get_default()[type]
     for id, obj in sortpairs(t) do
-        clean_obj(id, obj, type, default)
+        clean_obj(id, obj, type, default[type])
     end
 end
 
-local function clean_misc()
+local function clean_misc(type, t)
+    clean_obj(id, t.Misc, type, default[type])
 end
 
 return function (w2l_, slk)
     w2l = w2l_
     keydata = w2l:keydata()
+    default = w2l:get_default()
     is_remove_same = w2l.config.remove_same
     if w2l.config.target_format == 'slk' then
         local type = 'doodad'
@@ -90,6 +92,6 @@ return function (w2l_, slk)
         end
     end
     local type = 'misc'
-    clean_misc(w2l, type, slk[type])
+    clean_misc(type, slk[type])
     progress(1)
 end
