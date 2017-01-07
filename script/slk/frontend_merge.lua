@@ -26,14 +26,20 @@ local function maxindex(t)
     return i
 end
 
-local function fill_and_merge(a, b, lv)
+local function fill_and_merge(a, b, lv, meta)
     local c = {}
     if #a < lv then
         for i = 1, #a do
             c[i] = b[i] or a[i] 
         end
-        for i = #a+1, lv do
-            c[i] = b[i] or a[#a] 
+        if meta.profile then
+            for i = #a+1, lv do
+                c[i] = b[i] or c[i-1] 
+            end
+        else
+            for i = #a+1, lv do
+                c[i] = b[i] or a[#a] 
+            end
         end
     else
         for i = 1, lv do
@@ -57,7 +63,7 @@ local function copy_obj(a, b)
     for k, v in pairs(a) do
         if b[k] then
             if type(v) == 'table' then
-                c[k] = fill_and_merge(v, b[k], lv)
+                c[k] = fill_and_merge(v, b[k], lv, metadata[a._code] and metadata[a._code][k] or metadata[a._type][k])
             else
                 c[k] = b[k]
             end
@@ -78,18 +84,37 @@ local function copy_obj(a, b)
     return c
 end
 
+local function fill_obj(a)
+    local c = {}
+    local lv = a._max_level
+    for k, v in pairs(a) do
+        if type(v) == 'table' then
+            c[k] = fill_and_copy(v, lv)
+        else
+            c[k] = v
+        end
+    end
+    return c
+end
+
 return function (w2l_, data, objs)
     w2l = w2l_
     is_remove_exceeds_level = w2l.config.remove_exceeds_level
     metadata = w2l:metadata()
     local template = {}
+    local result = {}
     for name, obj in pairs(objs) do
         local source = data[name]
         if source then
             template[name] = source
+            data[name] = nil
         else
             source = template[obj._parent] or data[obj._parent]
         end
-        data[name] = copy_obj(source, obj)
+        result[name] = copy_obj(source, obj)
     end
+    for name, obj in pairs(data) do
+        result[name] = fill_obj(obj)
+    end
+    return result
 end
