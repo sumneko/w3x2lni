@@ -1,59 +1,74 @@
-local function add_data(lines, key, data)
-    if key:find '[^%w_]' then
-        key = ('%q'):format(key)
+
+local function sortpairs(t)
+    local sort = {}
+    for k, v in pairs(t) do
+        sort[#sort+1] = {k, v}
     end
-    local len = 0
-    for k in pairs(data) do
-        if k > len then
-            len = k
+    table.sort(sort, function (a, b)
+        return a[1] < b[1]
+    end)
+    local n = 1
+    return function()
+        local v = sort[n]
+        if not v then
+            return
         end
+        n = n + 1
+        return v[1], v[2]
     end
-    if len == 0 then
-        return
-    end
-    if len == 1 then
-        lines[#lines+1] = ('%s = %s'):format(key, data[1])
-        return
-    end
-    local values = {}
-    for i = 1, len do
-        values[i] = data[i] or 'nil'
-    end
-    lines[#lines+1] = ('%s = {%s}'):format(key, table.concat(values, ', '))
 end
 
-local function add_obj(lines, name, obj)
-    lines[#lines+1] = ('[%s]'):format(name)
-
-    local keys = {}
-    for key in pairs(obj) do
-        keys[#keys+1] = key
+local function format_value(value)
+    local tp = type(value)
+    if tp == 'boolean' then
+        return tostring(value)
     end
-    table.sort(keys)
-    for _, key in ipairs(keys) do
-        if key:sub(1, 1) ~= '_' then
-            add_data(lines, key, obj[key])
+    if tp == 'number' then
+        return tostring(value)
+    end
+    if tp == 'string' then
+        --return ('%q'):format(value)
+        return value
+    end
+end
+
+local function maxindex(t)
+    local i = 0
+    for k in pairs(t) do
+        i = math.max(i, k)
+    end
+    return i
+end
+
+local function write_data(f, k, v)
+    if k:find '[^%w_]' then
+        k = ('%q'):format(k)
+    end
+    if type(v) == 'table' then
+        local l = {}
+        for i = 1, maxindex(v) do
+            l[i] = format_value(v[i]) or ''
         end
-    end
-    
-    lines[#lines+1] = ''
-end
-
-local function add_chunk(lines, tbl)
-    local names = {}
-    for name in pairs(tbl) do
-        names[#names+1] = name
-    end
-    table.sort(names)
-    for _, name in ipairs(names) do
-        add_obj(lines, name, tbl[name])
+        if #l == 0 then
+            return
+        elseif#l == 1 then
+            f[#f+1] = ('%s = %s'):format(k, format_value(l[1]))
+        else
+            f[#f+1] = ('%s = {%s}'):format(k, table.concat(l, ', '))
+        end
+    else
+        f[#f+1] = ('%s = %s'):format(k, format_value(v))
     end
 end
 
-return function (w2l, tbl)
-    local lines = {}
-
-    add_chunk(lines, tbl)
-
-    return table.concat(lines, '\r\n')
+return function (w2l, t)
+    local f = {}
+    for i, o in sortpairs(t) do
+        f[#f+1] = ('[%s]'):format(i)
+        for k, v in sortpairs(o) do
+            write_data(f, k, v)
+        end
+        f[#f+1] = ''
+    end
+    return table.concat(f, '\r\n')
 end
