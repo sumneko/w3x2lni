@@ -106,6 +106,7 @@ local function main()
         return ar:get(name)
     end)
     w2l:frontend_misc(ar, slk)
+    --TODO: 底板lni的简化
     for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         message('正在生成模板', ttype)
         local data = slk[ttype]
