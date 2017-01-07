@@ -194,6 +194,9 @@ local function parse_id(w2l, metadata, id, meta, type, has_level)
     if meta.index == -1 and data.type == 3 and not data.concat then
         data.splite = true
     end
+    if meta.slk == 'Profile' then
+        data.profile = true
+    end
     if meta._has_index then
         data.index = meta.index + 1
     end
