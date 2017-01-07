@@ -27,7 +27,7 @@ local function to_lni(w2l, archive, slk)
 
     local content = w2l:backend_txtlni(slk['txt'])
     if content then
-        archive:set('txt.ini', content)
+        archive:set('war3map.txt.ini', content)
     end
 end
 
@@ -47,7 +47,7 @@ local function to_obj(w2l, archive, slk)
 
     local content = w2l:backend_txtlni(slk['txt'])
     if content then
-        archive:set('txt.ini', content)
+        archive:set('war3map.txt.ini', content)
     end
 end
 

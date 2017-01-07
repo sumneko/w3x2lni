@@ -148,16 +148,16 @@ local function load_lni(w2l, archive)
         end
     end
 
-     local buf = archive:get('txt.ini')
+     local buf = archive:get('war3map.txt.ini')
     if buf then
         lnis['txt'] = w2l:parse_lni(buf, 'txt')
-        archive:set(name, false)
+        archive:set('war3map.txt.ini', false)
     end
     return lnis
 end
 
 local function update_then_merge(w2l, slks, objs, lnis, slk)
-    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'txt'} do
         local data = slks[type]
         local obj = objs[type]
         if obj then

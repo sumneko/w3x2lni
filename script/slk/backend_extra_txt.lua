@@ -12,9 +12,11 @@ local function format_keyval(key, val)
 end
 
 local function format_value(val)
-    val = val:gsub('\r\n', '|n'):gsub('[\r\n]', '|n')
-    if val:find(',', nil, false) then
-        val = '"' .. val .. '"'
+    if type(val) == 'string' then
+        val = val:gsub('\r\n', '|n'):gsub('[\r\n]', '|n')
+        if val:find(',', nil, false) then
+            val = '"' .. val .. '"'
+        end
     end
     return val
 end

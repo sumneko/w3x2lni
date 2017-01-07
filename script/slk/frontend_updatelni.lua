@@ -21,7 +21,21 @@ local function update_obj(ttype, name, obj, data)
     end
 end
 
+local function update_txt(obj)
+    for k, v in pairs(obj) do
+        if type(v) ~= 'table' then
+            obj[k] = {v}
+        end
+    end
+end
+
 return function(w2l, type, lni, data)
+    if type == 'txt' then
+        for _, obj in pairs(lni) do
+            update_txt(obj)
+        end
+        return
+    end
     local has_level = w2l.info.key.max_level[type]
     if not has_level then
         return
