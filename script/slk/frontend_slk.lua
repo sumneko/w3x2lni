@@ -13,7 +13,6 @@ local string_lower = string.lower
 local w2l
 local metadata
 local keydata
-local has_level
 local slk_type
 
 local function to_type(tp, value)
@@ -81,16 +80,16 @@ local function slk_read_obj(obj, name, data, keys, metas)
     end
 end
 
-local function slk_read(table, slk, keys, metas, update_level, type)
+local function slk_read(table, slk, keys, meta, update_level)
     for name, data in pairs(slk) do
         if not table[name] then
             table[name] = {
                 _id = name,
-                _type = type,
+                _type = slk_type,
             }
         end
         local obj = table[name]
-        slk_read_obj(obj, name, data, keys, metas)
+        slk_read_obj(obj, name, data, keys, meta)
         if update_level then
             obj._max_level = obj[update_level]
             if not obj._max_level or obj._max_level == 0 then
@@ -162,24 +161,25 @@ local function txt_read_data(name, obj, key, meta, txt)
     end
 end
 
-local function txt_read(table, txt, used, txt_keys, txt_meta, type)
+local function txt_read(table, txt, used, keys, meta)
     for name, obj in pairs(table) do
         local lname = string_lower(name)
         local txt_data = txt[lname] or used[lname]
         txt[lname] = nil
         used[lname] = txt_data
-        for i = 1, #txt_keys do
-            txt_read_data(lname, obj, txt_keys[i], txt_meta[i], txt_data)
+        for i = 1, #keys do
+            txt_read_data(lname, obj, keys[i], meta[i], txt_data)
         end
     end
 end
 
 return function(w2l_, loader)
     w2l = w2l_
+    metadata = w2l:metadata()
+    keydata = w2l:keydata()
     local datas = {}
     local txt = {}
     local used = {}
-    local has_readed = {}
     local count = 0
     progress:start(0.3)
     for _, filename in pairs(w2l.info.txt) do
@@ -187,38 +187,34 @@ return function(w2l_, loader)
     end
     progress:finish()
     
-    metadata = w2l:metadata()
-    keydata = w2l:keydata()
     local count = 0
     progress:start(1)
     for type, names in pairs(w2l.info.slk) do
-        level_key = w2l.info.key.max_level[type]
+        local level_key = w2l.info.key.max_level[type]
         slk_type = type
 
         datas[type] = {}
         for i, filename in ipairs(names) do
             local update_level
-            local slk_keys = {}
-            local slk_meta = {}
-            local update_level
+            local keys = {}
+            local meta = {}
             for _, key in ipairs(keydata[filename]) do
-                slk_keys[#slk_keys+1] = key
-                slk_meta[#slk_meta+1] = metadata[type][key]
+                keys[#keys+1] = key
+                meta[#meta+1] = metadata[type][key]
                 if key == level_key then
                     update_level = level_key
                 end
             end
-            slk_read(datas[type], w2l:parse_slk(loader(filename)), slk_keys, slk_meta, update_level, type)
+            slk_read(datas[type], w2l:parse_slk(loader(filename)), keys, meta, update_level)
         end
         if keydata[type] then
-            local txt_keys = {}
-            local txt_meta = {}
+            local keys = {}
+            local meta = {}
             for _, key in ipairs(keydata[type]) do
-                local meta = metadata[id]
-                txt_keys[#txt_keys+1] = key
-                txt_meta[#txt_meta+1] = metadata[type][key]
+                keys[#keys+1] = key
+                meta[#meta+1] = metadata[type][key]
             end
-            txt_read(datas[type], txt, used, txt_keys, txt_meta, type)
+            txt_read(datas[type], txt, used, keys, meta)
         end
         count = count + 1
         progress(count / 8)
