@@ -138,24 +138,24 @@ local function txt_read_data(name, obj, key, meta, txt)
         return
     end
 
-    if meta['appendindex'] then
-        local max_level = txt and txt[key..'count'] and txt[key..'count'][1] or 1
-        local tbl = {}
-        local flag
-        for i = 1, max_level do
-            local new_key
-            if i == 1 then
-                new_key = key
-            else
-                new_key = key .. (i-1)
-            end
-            local value = txt and txt[new_key]
-            if value and #value > 0 then
-                tbl[i] = table_concat(value, ',')
-                flag = true
+    if meta.appendindex then
+        local t = {}
+        if txt then
+            local max_level = txt[key..'count'] and txt[key..'count'][1] or 1
+            for i = 1, max_level do
+                local new_key
+                if i == 1 then
+                    new_key = key
+                else
+                    new_key = key .. (i-1)
+                end
+                local value = txt[new_key]
+                if value and #value > 0 then
+                    t[i] = table_concat(value, ',')
+                end
             end
         end
-        obj[key] = tbl
+        obj[key] = t
         return
     end
 
@@ -175,7 +175,7 @@ local function txt_read_data(name, obj, key, meta, txt)
         end
         return
     end
-    if meta['concat'] then
+    if meta.concat then
         if #value > 1 then
             obj[key] = table_concat(value, ',')
         else
@@ -186,7 +186,7 @@ local function txt_read_data(name, obj, key, meta, txt)
     if meta['repeat'] then
         obj[key] = {}
         for i = 1, #value do
-            obj[key][i] = value[i]
+            obj[key][i] = txt_to_type(meta.type, value[i])
         end
     else
         obj[key] = txt_to_type(meta.type, value[1])
