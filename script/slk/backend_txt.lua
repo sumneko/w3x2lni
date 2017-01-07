@@ -65,6 +65,7 @@ end
 local function add_data(obj, meta, value, keyval)
     local key = meta.field
     if meta.index then
+        -- TODO: 有点奇怪的写法
         if meta.index == 1 then
             local value = get_index_data(meta.type, obj[meta.key..':1'], obj[meta.key..':2'])
             if not value then
