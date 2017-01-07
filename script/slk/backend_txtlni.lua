@@ -39,7 +39,7 @@ local function add_obj(lines, name, obj)
     lines[#lines+1] = ''
 end
 
-local function add_chunk(lines, type, tbl)
+local function add_chunk(lines, tbl)
     local names = {}
     for name in pairs(tbl) do
         names[#names+1] = name
@@ -50,10 +50,10 @@ local function add_chunk(lines, type, tbl)
     end
 end
 
-return function (type, tbl)
+return function (w2l, tbl)
     local lines = {}
 
-    add_chunk(lines, type, tbl)
+    add_chunk(lines, tbl)
 
     return table.concat(lines, '\r\n')
 end

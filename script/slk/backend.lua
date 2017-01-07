@@ -1,5 +1,4 @@
 local progress = require 'progress'
-local txt2template = require 'prebuilt.txt2template'
 
 local os_clock = os.clock
 
@@ -26,7 +25,7 @@ local function to_lni(w2l, archive, slk)
         end
     end
 
-    local content = txt2template('txt', slk['txt'])
+    local content = w2l:backend_txtlni(slk['txt'])
     if content then
         archive:set('txt.ini', content)
     end
@@ -46,7 +45,7 @@ local function to_obj(w2l, archive, slk)
         end
     end
 
-    local content = txt2template('txt', slk['txt'])
+    local content = w2l:backend_txtlni(slk['txt'])
     if content then
         archive:set('txt.ini', content)
     end

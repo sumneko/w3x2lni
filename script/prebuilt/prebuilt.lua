@@ -10,7 +10,6 @@ local uni      = require 'ffi.unicode'
 local archive = require 'archive'
 local order_prebuilt = require 'order.prebuilt'
 local default2lni = require 'prebuilt.default2lni'
-local txt2template = require 'prebuilt.txt2template'
 local prebuilt_metadata = require 'prebuilt.prebuilt_metadata'
 local prebuilt_keydata = require 'prebuilt.prebuilt_keydata'
 local prebuilt_search = require 'prebuilt.prebuilt_search'
@@ -115,7 +114,7 @@ local function main()
     end
     
     io.save(w2l.default / 'txt.ini', default2lni(slk.txt))
-    io.save(w2l.template / 'txt.ini', txt2template('txt', slk.txt))
+    io.save(w2l.template / 'txt.ini', w2l:backend_txtlni(slk.txt))
     
     -- 生成技能命令映射
     --local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'))

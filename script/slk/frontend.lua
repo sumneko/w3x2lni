@@ -147,6 +147,12 @@ local function load_lni(w2l, archive)
             archive:set(name, false)
         end
     end
+
+     local buf = archive:get('txt.ini')
+    if buf then
+        lnis['txt'] = w2l:parse_lni(buf, 'txt')
+        archive:set(name, false)
+    end
     return lnis
 end
 
