@@ -119,6 +119,7 @@ local convertors = {
     'frontend_misc',
     'frontend_updateobj',
     'frontend_updatelni',
+    'frontend_merge',
     'backend',
     'backend_mark',
     'backend_lni',
