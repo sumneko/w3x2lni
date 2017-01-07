@@ -127,11 +127,11 @@ local function add_data(obj, meta, value, keyval)
     end
     if type(value) == 'table' then
         value = get_index_data(meta.type, table_unpack(value))
-        if value == '' then
-            value = ','
-        end
     else
         value = to_type(meta.type, value)
+    end
+    if not value or value == '' and meta.cantempty then
+        value = ','
     end
     if value then
         keyval[#keyval+1] = {key, value}
@@ -142,10 +142,7 @@ local function create_keyval(obj)
     local keyval = {}
     for _, key in ipairs(keys) do
         if key ~= 'editorsuffix' and key ~= 'editorname' then
-            local data = obj[key]
-            if data then
-                add_data(obj, metadata[key], data, keyval)
-            end
+            add_data(obj, metadata[key], obj[key], keyval)
         end
     end
     return keyval

@@ -78,6 +78,12 @@ local concat_types = {
     weaponType = false,
 }
 
+local cant_empty = {
+    unam = true,
+    gnam = true,
+    atp1 = true,
+}
+
 local typedefine
 local function get_typedefine(w2l, type)
     if not typedefine then
@@ -176,18 +182,23 @@ local function parse_id(w2l, metadata, id, meta, type, has_level)
         ['key'] = meta.field:lower(),
         ['type'] = get_typedefine(w2l, meta.type),
         ['field'] = key,
-        ['repeat'] = has_level and meta['repeat'] > 0 and meta['repeat'] or nil,
         ['appendindex'] = meta.appendindex == 1 and true or nil,
         ['displayname'] = meta.displayname,
     }
     if concat_types[meta.type] then
         data.concat = true
     end
+    if has_level and meta['repeat'] > 0 then
+        data['repeat'] = meta['repeat']
+    end
     if meta.index == -1 and data.type == 3 and not data.concat then
         data.splite = true
     end
     if meta._has_index then
         data.index = meta.index + 1
+    end
+    if cant_empty[id] then
+        data.cantempty = true
     end
     local lkey = key:lower()
     if objs then
