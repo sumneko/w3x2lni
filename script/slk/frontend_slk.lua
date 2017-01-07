@@ -173,6 +173,12 @@ local function txt_read(table, txt, used, keys, meta)
     end
 end
 
+local function txt_set_level(txt)
+    for _, obj in pairs(txt) do
+        obj._max_level = 1
+    end
+end
+
 return function(w2l_, loader)
     w2l = w2l_
     metadata = w2l:metadata()
@@ -217,8 +223,9 @@ return function(w2l_, loader)
             txt_read(datas[type], txt, used, keys, meta)
         end
         count = count + 1
-        progress(count / 8)
+        progress(count / 7)
     end
+    txt_set_level(txt)
     progress:finish()
 
     -- 此单位只在一张单位slk里定义,是无效单位

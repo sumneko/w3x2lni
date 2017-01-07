@@ -64,7 +64,9 @@ return function (w2l, t)
     for i, o in sortpairs(t) do
         f[#f+1] = ('[%s]'):format(i)
         for k, v in sortpairs(o) do
-            write_data(f, k, v)
+            if k:sub(1, 1) ~= '_' then
+                write_data(f, k, v)
+            end
         end
         f[#f+1] = ''
     end
