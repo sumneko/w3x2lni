@@ -127,7 +127,7 @@ return function (w2l, archive)
         search_string(buf, function(index, text)
             if text:find('}', 1, false) then
                 message('-report|2警告', '文本不能包含字符"}"')
-                message('-tip', (text:gsub('\n\r', ' ')))
+                message('-tip', (text:gsub('\r\n', ' ')))
             end
             local t = {
                 index = index,
