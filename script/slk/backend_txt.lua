@@ -59,6 +59,15 @@ local function get_index_data(tp, ...)
     if #l == 0 then
         return
     end
+    if tp == 3 then
+        for i = #l, 2, -1 do
+            if l[i] == l[i-1] then
+                l[i] = nil
+            else
+                break
+            end
+        end
+    end
     return table_concat(l, ',')
 end
 
@@ -322,7 +331,6 @@ local function update_constant(type)
     keys = w2l:keydata()[type]
 end
 
--- TODO: 有等级的数据，相同的部分可以简化
 return function(w2l_, slk, report_, obj)
     w2l = w2l_
     report = report_
