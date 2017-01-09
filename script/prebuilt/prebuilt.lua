@@ -68,6 +68,8 @@ end
 
 local function set_config()
     local config = w2l.config
+    -- 转换后的目标格式(lni, obj, slk)
+    config.target_format = 'lni'
     -- 是否分析slk文件
     config.read_slk = true
     -- 分析slk时寻找id最优解的次数,0表示无限,寻找次数越多速度越慢
@@ -75,15 +77,15 @@ local function set_config()
     -- 移除与模板完全相同的数据
     config.remove_same = false
     -- 移除超出等级的数据
-    config.remove_exceeds_level = false
-    -- 补全空缺的数据
-    config.remove_nil_value = false
+    config.remove_exceeds_level = true
     -- 移除只在WE使用的文件
     config.remove_we_only = false
     -- 移除没有引用的对象
     config.remove_unuse_object = false
+    -- mdx压缩
+    config.mdx_squf = false
     -- 转换为地图还是目录(map, dir)
-    config.target_storage = dir
+    config.target_storage = 'dir'
 end
 
 local function main()
@@ -107,14 +109,18 @@ local function main()
     end)
     w2l:frontend_misc(ar, slk)
     --TODO: 底板lni的简化
+    message('正在生成default')
     for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-        message('正在生成模板', ttype)
         local data = slk[ttype]
         io.save(w2l.default / (ttype .. '.ini'), default2lni(data))
+    end
+    io.save(w2l.default / 'txt.ini', default2lni(slk.txt))
+    
+    message('正在生成template')
+    for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
+        local data = w2l:frontend_merge(slk[ttype], {})
         io.save(w2l.template / (ttype .. '.ini'), w2l:backend_lni(ttype, data))
     end
-    
-    io.save(w2l.default / 'txt.ini', default2lni(slk.txt))
     io.save(w2l.template / 'txt.ini', w2l:backend_txtlni(slk.txt))
     
     -- 生成技能命令映射
