@@ -69,13 +69,11 @@ local function split(str)
 end
 
 local function computed_value(slk, str, name, field)
-    -- TODO: 需要进一步测试如何区分对象的类型
+    -- TODO: 魔兽计算这个太特殊了，我想我放弃完全模拟了
     local id, key, per = table.unpack(split(str))
     local o = slk.ability[id]
            or slk.unit[id]
            or slk.item[id]
-           or slk.destructable[id]
-           or slk.doodad[id]
            or slk.upgrade[id]
     if not o then
         message('-report|5公式计算失败', get_displayname_by_id(slk, name))
