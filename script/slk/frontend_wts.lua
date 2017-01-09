@@ -99,14 +99,19 @@ local function search_string(buf, callback)
                 goto CONTINUE
             end
             for i = count+2, #lines do
-                if lines[i] == '}' and
-                   (lines[i+1] == nil or lines[i+1] == '') and
-                   (lines[i+2] == nil or lines[i+2]:match('^STRING (%d+)$'))
-                then
-                    local text = table.concat(lines, '\r\n', count+2, i-1)
-                    callback(index, text)
-                    count = i + 2
-                    goto CONTINUE
+                if lines[i] == '}' then
+                    for j = i+1, #lines+1 do
+                        if lines[j] ~= '' then
+                            if lines[j] == nil or lines[j]:match('^STRING (%d+)$') then
+                                local text = table.concat(lines, '\r\n', count+2, i-1)
+                                callback(index, text)
+                                count = j
+                                goto CONTINUE
+                            else
+                                break
+                            end
+                        end
+                    end
                 end
             end
             message('-report|2警告', ('wts解析错误:(%d) %s'):format(count, '缺少"}"'))
