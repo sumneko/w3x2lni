@@ -44,7 +44,7 @@ remove_we_only = $remove_we_only$
 remove_unuse_object = $remove_unuse_object$
 -- mdx压缩
 mdx_squf = $mdx_squf$
--- 转换为地图还是目录(map, dir)
+-- 转换为地图还是目录(mpq, dir)
 target_storage = $target_storage$
 ]]
 
@@ -200,7 +200,7 @@ local function window_select(canvas)
         fmt = 'slk'
         window:set_title('W3x2Slk')
         config.target_format = 'slk'
-        config.slk.target_storage = 'map'
+        config.slk.target_storage = 'mpq'
         config.slk.read_slk = true
         config.slk.remove_same = false
         config.slk.remove_exceeds_level = true
@@ -215,7 +215,7 @@ local function window_select(canvas)
         fmt = 'obj'
         window:set_title('W3x2Obj')
         config.target_format = 'obj'
-        config.obj.target_storage = 'map'
+        config.obj.target_storage = 'mpq'
         config.obj.read_slk = false
         config.obj.remove_same = true
         config.obj.remove_exceeds_level = true
