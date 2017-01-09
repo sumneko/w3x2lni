@@ -18,7 +18,7 @@ function mt:load(content, max, reason)
         if max and #text > max then
             str_data.mark = true
             message('-report|7保存到wts中的文本', reason)
-            message('-tip', '文本保存在wts中会导致加载速度变慢: ', (text:gsub('\r\n', ' ')))
+            message('-tip', '文本保存在wts中会导致加载速度变慢: ', (text:sub(1, 1000):gsub('\r\n', ' ')))
             return
         end
         return text
@@ -28,13 +28,13 @@ end
 function mt:insert(value, reason)
     local wts = self.wts
     message('-report|7保存到wts中的文本', reason)
-    message('-tip', '文本保存在wts中会导致加载速度变慢: ', (value:gsub('\r\n', ' ')))
+    message('-tip', '文本保存在wts中会导致加载速度变慢: ', (value:sub(1, 1000):gsub('\r\n', ' ')))
     for i = self.lastindex, 999999 do
         local index = ('%03d'):format(i)
         if not wts[index] then
             if value:find('}', 1, false) then
                 message('-report|2警告', '文本中的"}"被修改为了"|"')
-                message('-tip', (value:gsub('\r\n', ' ')))
+                message('-tip', (value:sub(1, 1000):gsub('\r\n', ' ')))
                 value = value:gsub('}', '|')
             end
             self.lastindex = i + 1
@@ -48,7 +48,7 @@ function mt:insert(value, reason)
         end
     end
     message('-report|2警告', '保存在wts里的字符串太多了')
-    message('-tip', '字符串被丢弃了:' .. (value:gsub('\r\n', ' ')))
+    message('-tip', '字符串被丢弃了:' .. (value:sub(1, 1000):gsub('\r\n', ' ')))
 end
 
 function mt:refresh()
@@ -94,7 +94,7 @@ local function search_string(buf, callback)
             end
             if lines[count+1] ~= '{' then
                 message('-report|2警告', ('wts解析错误:(%d) %s'):format(count, '缺少"{"'))
-                message('-tip', lines[count])
+                message('-tip', lines[count]:sub(1, 1000))
                 count = count + 2
                 goto CONTINUE
             end
@@ -110,7 +110,7 @@ local function search_string(buf, callback)
                 end
             end
             message('-report|2警告', ('wts解析错误:(%d) %s'):format(count, '缺少"}"'))
-            message('-tip', lines[count])
+            message('-tip', lines[count]:sub(1, 1000))
             return
         else
             count = count + 1
@@ -127,7 +127,7 @@ return function (w2l, archive)
         search_string(buf, function(index, text)
             if text:find('}', 1, false) then
                 message('-report|2警告', '文本不能包含字符"}"')
-                message('-tip', (text:gsub('\r\n', ' ')))
+                message('-tip', (text:sub(1, 1000):gsub('\r\n', ' ')))
             end
             local t = {
                 index = index,
