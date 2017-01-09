@@ -92,6 +92,19 @@ return function (w2l, output_ar, w3i, input_ar)
     else
         search_dir(input_ar)
     end
+    if w2l.config.remove_we_only then
+        input_ar:set('war3map.wtg', false)
+        input_ar:set('war3map.wct', false)
+        input_ar:set('war3map.imp', false)
+        input_ar:set('war3map.w3s', false)
+        input_ar:set('war3map.w3r', false)
+        input_ar:set('war3map.w3c', false)
+        input_ar:set('war3mapunits.doo', false)
+    else
+        if not input_ar:get 'war3mapunits.doo' then
+            input_ar:set('war3mapunits.doo', w2l:create_unitsdoo())
+        end
+    end
     for name, buf in pairs(input_ar) do
         if buf then
             if w2l.config.mdx_squf and name:sub(-4) == '.mdx' then

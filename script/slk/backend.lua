@@ -320,20 +320,6 @@ return function (w2l, archive, slk)
     end
     progress(0.96)
 
-    if w2l.config.remove_we_only then
-        archive:set('war3map.wtg', false)
-        archive:set('war3map.wct', false)
-        archive:set('war3map.imp', false)
-        archive:set('war3map.w3s', false)
-        archive:set('war3map.w3r', false)
-        archive:set('war3map.w3c', false)
-        archive:set('war3mapunits.doo', false)
-    else
-        if not archive:get 'war3mapunits.doo' then
-            archive:set('war3mapunits.doo', w2l:create_unitsdoo())
-        end
-    end
-
     message('重新生成字符串...')
     local content = slk.wts:refresh()
     if #content > 0 then
