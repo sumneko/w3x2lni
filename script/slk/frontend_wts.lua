@@ -103,7 +103,7 @@ local function search_string(buf, callback)
                    (lines[i+1] == nil or lines[i+1] == '') and
                    (lines[i+2] == nil or lines[i+2]:match('^STRING (%d+)$'))
                 then
-                    local text = table.concat(lines, '\n\r', count+2, i-1)
+                    local text = table.concat(lines, '\r\n', count+2, i-1)
                     callback(index, text)
                     count = i + 2
                     goto CONTINUE
