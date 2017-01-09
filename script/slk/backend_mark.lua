@@ -353,6 +353,12 @@ local function mark_lua(w2l, archive, slk)
     end
 end
 
+local function mark_misc(slk)
+    for _, name in ipairs {'FontHeights', 'InfoPanel', 'Misc', 'PingColor', 'QuestIndicatorTimeout', 'SelectionCircle'} do
+        slk.misc[name]._mark = true
+    end
+end
+
 return function(w2l, archive, slk_)
     slk = slk_
     if not search then
@@ -375,5 +381,5 @@ return function(w2l, archive, slk_)
     mark_doo(w2l, archive, slk)
     mark_lua(w2l, archive, slk)
     mark_marketplace(slk, jassflag)
-    slk.misc.Misc._mark = true
+    mark_misc(slk)
 end

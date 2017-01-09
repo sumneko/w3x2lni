@@ -73,7 +73,9 @@ local function clean_objs(type, t)
 end
 
 local function clean_misc(type, t)
-    clean_obj(id, t.Misc, type, default[type])
+    for _, name in ipairs {'FontHeights', 'InfoPanel', 'Misc', 'PingColor', 'QuestIndicatorTimeout', 'SelectionCircle'} do
+        clean_obj(id, t[name], type, default[type])
+    end
 end
 
 return function (w2l_, slk)
