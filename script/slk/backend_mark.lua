@@ -35,9 +35,7 @@ local mustuse =  {
     buff = {
         'BPSE','BSTN','Btlf','Bdet',
         'Bvul','Bspe','Bfro','Bsha',
-        'Btrv','Xbdt','Xbli','Xdis',
-        'Bpxf','Bphx','Bens','Bstt',
-        'Bcor','Buns','BUst','Xesn','Bivs', 
+        'Btrv','Xbdt','Xbli','Xdis', 
         -- 建筑物伤害
         'Xfhs','Xfhm','Xfhl',
         'Xfos','Xfom','Xfol',
@@ -57,6 +55,16 @@ local mustmark = {
     Amil = { 'Bmil', 'buff' },
     -- 天神下凡
     AHav = { 'BHav', 'buff' },
+    -- 火凤凰变形
+    Aphx = { 'Bphx', 'buff' },
+    -- 凤凰火焰
+    Apxf = { 'Bpxf', 'buff' },
+    -- 反召唤建筑
+    Auns = { 'Buns', 'buff' },
+    -- 静止陷阱
+    Asta = { 'Bstt', 'buff' },
+    -- 运输船保持原位
+    Achd = { 'Bchd', 'buff' },
 }
 
 local slk
