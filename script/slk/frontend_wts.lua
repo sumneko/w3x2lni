@@ -91,9 +91,9 @@ local function search_string(buf, callback)
             if lines[count+1] ~= '{' then
                 message('-report|2警告', ('wts解析错误:(%d) %s'):format(count, '缺少"{"'))
                 message('-tip', lines[count])
-                return
+                count = count + 2
+                goto CONTINUE
             end
-            local suc
             for i = count+2, #lines do
                 if lines[i] == '}' and
                    (lines[i+1] == nil or lines[i+1] == '') and
@@ -102,18 +102,16 @@ local function search_string(buf, callback)
                     local text = table.concat(lines, '\n\r', count+2, i-1)
                     callback(index, text)
                     count = i + 2
-                    suc = true
-                    break
+                    goto CONTINUE
                 end
             end
-            if not suc then
-                message('-report|2警告', ('wts解析错误:(%d) %s'):format(count, '缺少"}"'))
-                message('-tip', lines[count])
-                return
-            end
+            message('-report|2警告', ('wts解析错误:(%d) %s'):format(count, '缺少"}"'))
+            message('-tip', lines[count])
+            return
         else
             count = count + 1
         end
+        ::CONTINUE::
     end
 end
 
