@@ -3,9 +3,9 @@ local table_insert = table.insert
 local mt = {}
 mt.__index = mt
 
--- TODO: 同时有英文逗号和英文双引号的字符串存在txt里会解析出错
---       包含右大括号的字符串存在wts里会解析出错
---       超过256字节的字符串存在二进制里会崩溃
+-- 同时有英文逗号和英文双引号的字符串存在txt里会解析出错
+-- 包含右大括号的字符串存在wts里会解析出错
+-- 超过256字节的字符串存在二进制里会崩溃
 function mt:load(content, max)
     local wts = self.wts
     return content:gsub('TRIGSTR_(%d+)', function(i)
@@ -28,6 +28,11 @@ function mt:insert(value)
     for i = self.lastindex, 999999 do
         local index = ('%03d'):format(i)
         if not wts[index] then
+            if value:find('}', 1, false) then
+                message('-report|2警告', '文本中的"}"被修改为了"|"')
+                message('-tip', (value:gsub('\r\n', ' ')))
+                value = value:gsub('}', '|')
+            end
             self.lastindex = i + 1
             wts[index] = {
                 index  = i,
@@ -120,7 +125,7 @@ return function (w2l, archive)
         search_string(buf, function(index, text)
             if text:find('}', 1, false) then
                 message('-report|2警告', '文本不能包含字符"}"')
-                message('-tip', text:gsub('\n\r', ' '))
+                message('-tip', (text:gsub('\n\r', ' ')))
             end
             local t = {
                 index = index,
