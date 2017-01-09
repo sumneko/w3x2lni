@@ -6,25 +6,29 @@ mt.__index = mt
 -- 同时有英文逗号和英文双引号的字符串存在txt里会解析出错
 -- 包含右大括号的字符串存在wts里会解析出错
 -- 超过256字节的字符串存在二进制里会崩溃
-function mt:load(content, max)
+function mt:load(content, max, reason)
     local wts = self.wts
     return content:gsub('TRIGSTR_(%d+)', function(i)
         local str_data = wts[i]
         if not str_data then
-            message('-report|7其他', '没有找到字符串定义:', ('TRIGSTR_%03d'):format(i))
+            message('-report|9其他', '没有找到字符串定义:', ('TRIGSTR_%03d'):format(i))
             return
         end
         local text = str_data.text
         if max and #text > max then
             str_data.mark = true
+            message('-report|7保存到wts中的文本', reason)
+            message('-tip', '文本保存在wts中会导致加载速度变慢: ', (text:gsub('\r\n', ' ')))
             return
         end
         return text
     end)
 end
 
-function mt:insert(value)
+function mt:insert(value, reason)
     local wts = self.wts
+    message('-report|7保存到wts中的文本', reason)
+    message('-tip', '文本保存在wts中会导致加载速度变慢: ', (value:gsub('\r\n', ' ')))
     for i = self.lastindex, 999999 do
         local index = ('%03d'):format(i)
         if not wts[index] then
@@ -44,7 +48,7 @@ function mt:insert(value)
         end
     end
     message('-report|2警告', '保存在wts里的字符串太多了')
-    message('-tip', '字符串被丢弃了:' .. value)
+    message('-tip', '字符串被丢弃了:' .. (value:gsub('\r\n', ' ')))
 end
 
 function mt:refresh()
@@ -99,7 +103,7 @@ local function search_string(buf, callback)
                    (lines[i+1] == nil or lines[i+1] == '') and
                    (lines[i+2] == nil or lines[i+2]:match('^STRING (%d+)$'))
                 then
-                    local text = table.concat(lines, '\n\r', count+2, i-1)
+                    local text = table.concat(lines, '\r\n', count+2, i-1)
                     callback(index, text)
                     count = i + 2
                     goto CONTINUE
@@ -123,7 +127,7 @@ return function (w2l, archive)
         search_string(buf, function(index, text)
             if text:find('}', 1, false) then
                 message('-report|2警告', '文本不能包含字符"}"')
-                message('-tip', (text:gsub('\n\r', ' ')))
+                message('-tip', (text:gsub('\r\n', ' ')))
             end
             local t = {
                 index = index,

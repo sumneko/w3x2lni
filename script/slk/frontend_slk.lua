@@ -198,6 +198,7 @@ local function txt_set_level(txt)
 end
 
 return function(w2l_, loader)
+    -- TODO: SLK的key不能无视大小写
     w2l = w2l_
     metadata = w2l:metadata()
     keydata = w2l:keydata()
