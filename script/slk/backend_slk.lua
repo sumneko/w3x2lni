@@ -208,33 +208,52 @@ local function load_data(meta, obj, key, slk_data, obj_data)
     local displaykey = meta.field
     local tp = meta.type
     if type(obj[key]) == 'table' then
+        local over_level
         obj_data[key] = {}
         if slk_type == 'doodad' then
             for i = 11, #obj[key] do
                 if obj[key][i] ~= obj[key][10] then
                     obj_data[key][i] = obj[key][i]
+                    over_level = true
                 end
             end
             for i = 1, 10 do
-                slk_data[('%s%02d'):format(displaykey, i)] = to_type(tp, obj[key][i])
+                local value = to_type(tp, obj[key][i])
+                if value and tp == 3 and value:sub(1, 1) == '-' then
+                    obj_data[key][i] = value
+                    report_failed(obj, displaykey, '字符串的第一个字符是"-"', value)
+                else
+                    slk_data[('%s%02d'):format(displaykey, i)] = value
+                end
             end
         else
             for i = 5, #obj[key] do
                 if obj[key][i] ~= obj[key][4] then
                     obj_data[key][i] = obj[key][i]
+                    over_level = true
                 end
             end
             for i = 1, 4 do
-                slk_data[displaykey..i] = to_type(tp, obj[key][i])
+                local value = to_type(tp, obj[key][i])
+                if value and tp == 3 and value:sub(1, 1) == '-' then
+                    obj_data[key][i] = value
+                report_failed(obj, displaykey, '字符串的第一个字符是"-"', value)
+                else
+                    slk_data[displaykey..i] = value
+                end
             end
         end
-        if next(obj_data[key]) then
+        if over_level then
             report_failed(obj, displaykey, '数据超过了4级', '')
-        else
-            obj_data[key] = nil
         end
     else
-        slk_data[displaykey] = to_type(tp, obj[key])
+        local value = to_type(tp, obj[key])
+        if value and tp == 3 and value:sub(1, 1) == '-' then
+            obj_data[key] = value
+            report_failed(obj, displaykey, '字符串的第一个字符是"-"', value)
+        else
+            slk_data[displaykey] = value
+        end
     end
 end
 
@@ -242,13 +261,16 @@ local function load_obj(id, obj, slk_name)
     if remove_unuse_object and not obj._mark then
         return nil
     end
-    local obj_data = {}
-    object[id] = obj_data
-    obj_data._id     = obj._id
-    obj_data._slk    = true
-    obj_data._code   = obj._code
-    obj_data._mark   = obj._mark
-    obj_data._parent = obj._parent
+    local obj_data = object[id]
+    if not obj_data then
+        obj_data = {}
+        object[id] = obj_data
+        obj_data._id     = obj._id
+        obj_data._slk    = true
+        obj_data._code   = obj._code
+        obj_data._mark   = obj._mark
+        obj_data._parent = obj._parent
+    end
     local slk_data = {}
     slk_data[slk_keys[slk_name][1]] = id
     slk_data['code'] = obj._code
