@@ -32,7 +32,7 @@ if w2l.config.target_storage == 'dir' then
         output = input:parent_path() / input:stem():string()
     end
     fs.create_directory(output)
-elseif w2l.config.target_storage == 'map' then
+elseif w2l.config.target_storage == 'mpq' then
     if fs.is_directory(input) then
         output = input:parent_path() / (input:filename():string() .. '.w3x')
     else

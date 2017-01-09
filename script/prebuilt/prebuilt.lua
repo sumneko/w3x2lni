@@ -84,7 +84,7 @@ local function set_config()
     config.remove_unuse_object = false
     -- mdx压缩
     config.mdx_squf = false
-    -- 转换为地图还是目录(map, dir)
+    -- 转换为地图还是目录(mpq, dir)
     config.target_storage = 'dir'
 end
 
