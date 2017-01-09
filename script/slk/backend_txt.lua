@@ -338,7 +338,7 @@ return function(w2l_, slk, report_, obj)
     remove_unuse_object = w2l.config.remove_unuse_object
     local txt = {}
     local list = {}
-    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade'} do
+    for _, type in ipairs {'buff', 'unit', 'item', 'upgrade', 'ability'} do
         list[type] = {}
         object = obj[type]
         update_constant(type)
