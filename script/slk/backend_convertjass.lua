@@ -3,7 +3,7 @@ local line_count
 local wts
 
 local function fwts(str)
-    return wts:load(str, 1023):gsub('\\', '\\\\'):gsub('"', '\\"')
+    return wts:load(str, 1023, '脚本里的文本长度超过1023字符'):gsub('\\', '\\\\'):gsub('"', '\\"')
 end
 
 lpeg.locale(lpeg)

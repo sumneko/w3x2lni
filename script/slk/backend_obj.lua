@@ -44,7 +44,7 @@ local function write_value(meta, level, value)
         write('f', value)
     else
         if #value > 1023 then
-            value = wts:insert(value)
+            value = wts:insert(value, '物编里的文本长度超过1023字符')
         end
         write('z', value)
     end
