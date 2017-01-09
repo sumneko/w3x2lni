@@ -234,25 +234,26 @@ local function prebuild_data(obj, key, r)
     if not obj[key] then
         return
     end
+    local name = obj._id
     if type(obj[key]) == 'table' then
-        object[key] = {}
+        object[name][key] = {}
         local t = {}
         for k, v in pairs(obj[key]) do
             if check_string(v) then
                 report_failed(obj, metadata[key].field, '文本内容同时包含了逗号和双引号', v)
-                object[key][k] = v
+                object[name][key][k] = v
             else
                 t[k] = v
             end
         end
-        if not next(object[key]) then
-            object[key] = nil
+        if not next(object[name][key]) then
+            object[name][key] = nil
         end
         r[key] = t
     else
         if check_string(obj[key]) then
             report_failed(obj, metadata[key].field, '文本内容同时包含了逗号和双引号', obj[key])
-            object[key] = obj[key]
+            object[name][key] = obj[key]
         else
             r[key] = obj[key]
         end
@@ -334,12 +335,12 @@ end
 return function(w2l_, slk, report_, obj)
     w2l = w2l_
     report = report_
-    object = obj
     remove_unuse_object = w2l.config.remove_unuse_object
     local txt = {}
     local list = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade'} do
         list[type] = {}
+        object = obj[type]
         update_constant(type)
         prebuild(type, slk[type], txt, list[type])
     end
