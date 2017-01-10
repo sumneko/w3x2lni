@@ -32,7 +32,7 @@ local function fill_and_merge(a, b, lv, meta)
         for i = 1, #a do
             c[i] = b[i] or a[i] 
         end
-        if meta.profile then
+        if not meta or meta.profile then
             for i = #a+1, lv do
                 c[i] = b[i] or c[i-1] 
             end
@@ -63,7 +63,7 @@ local function copy_obj(a, b)
     for k, v in pairs(a) do
         if b[k] then
             if type(v) == 'table' then
-                c[k] = fill_and_merge(v, b[k], lv, metadata[a._code] and metadata[a._code][k] or metadata[a._type][k])
+                c[k] = fill_and_merge(v, b[k], lv, metadata[a._code] and metadata[a._code][k] or metadata[a._type] and metadata[a._type][k])
             else
                 c[k] = b[k]
             end
