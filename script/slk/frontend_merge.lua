@@ -97,9 +97,13 @@ local function fill_obj(a)
     return c
 end
 
-return function (w2l_, data, objs)
+return function (w2l_, type, data, objs)
     w2l = w2l_
-    is_remove_exceeds_level = w2l.config.remove_exceeds_level
+    if type == 'txt' then
+        is_remove_exceeds_level = false
+    else
+        is_remove_exceeds_level = w2l.config.remove_exceeds_level
+    end
     metadata = w2l:metadata()
     local template = {}
     local result = {}

@@ -76,7 +76,7 @@ local function update_then_merge(w2l, slks, objs, lnis, slk)
                 obj[k] = v
             end
         end
-        slk[type] = w2l:frontend_merge(data, obj)
+        slk[type] = w2l:frontend_merge(type, data, obj)
     end
 end
 
