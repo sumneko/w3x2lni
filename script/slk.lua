@@ -11,8 +11,6 @@ w2l:initialize()
 function message(...)
 end
 
-local slk
-
 local function create_object(t)
     local mt = {}
     function mt:__index(key)
@@ -78,7 +76,7 @@ local function create_object(t)
     return setmetatable({}, mt)
 end
 
-local function create_proxy(type)
+local function create_proxy(slk, type)
     local t = slk[type]
     local mt = {}
     function mt:__index(key)
@@ -103,10 +101,10 @@ local slk_proxy = {}
 function slk_proxy:initialize(mappath)
     local archive = require 'archive'
     local ar = archive(mappath)
-    slk = {}
+    local slk = {}
     w2l:frontend(ar, slk)
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-        slk_proxy[name] = create_proxy(name)
+        slk_proxy[name] = create_proxy(slk, name)
     end
 end
 
