@@ -24,7 +24,11 @@ return function (w2l_, type, buf)
     w2l = w2l_
     default = w2l:get_default()[type]
     local lni = w2l:parse_lni(buf)
+    local metadata = w2l:metadata()[type]
     local level_key = w2l.info.key.max_level[type]
+    if level_key then
+        level_key = metadata[level_key].field
+    end
     local data = {}
     force_slk = false
     for name, obj in pairs(lni) do
