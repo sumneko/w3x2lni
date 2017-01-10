@@ -28,7 +28,7 @@ local function search_string(buf)
     {
         'define',
         define = Ct(V'head' * com^-1 * V'body'),
-        head   = P'STRING ' * Cg(int, 'index') * Cg(Cp() / getline, 'line') * nl,
+        head   = P'STRING ' * Cg(int / tonumber, 'index') * Cg(Cp() / getline, 'line') * nl,
         body   = V'start' * Cg(V'text', 'text') * V'finish',
         start  = P'{' * nl,
         finish = nl * P'}' * nl^0,
@@ -51,17 +51,18 @@ end
 
 return function (w2l, archive)
     local buf = archive:get('war3map.wts')
+    local tbl = { mark = {} }
     if not buf then
-        return {}
+        return tbl
     end
-    local tbl = search_string(buf)
-    for _, t in ipairs(tbl) do
+    local result = search_string(buf)
+    for _, t in ipairs(result) do
         local index, text = t.index, t.text
         if text:find('}', 1, false) then
             message('-report|2警告', '文本不能包含字符"}"')
             message('-tip', (text:sub(1, 1000):gsub('\r\n', ' ')))
         end
-        tbl[('%03d'):format(index)] = t    --这里的索引是字符串
+        tbl[index] = t
     end
     return tbl
 end

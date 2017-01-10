@@ -95,56 +95,40 @@ end
 -- 同时有英文逗号和英文双引号的字符串存在txt里会解析出错
 -- 包含右大括号的字符串存在wts里会解析出错
 -- 超过256字节的字符串存在二进制里会崩溃
+
 function mt:load_wts(wts, content, max, reason)
     return content:gsub('TRIGSTR_(%d+)', function(i)
-        local str_data = wts[i]
+        local str_data = wts[tonumber(i)]
         if not str_data then
             message('-report|9其他', '没有找到字符串定义:', ('TRIGSTR_%03d'):format(i))
             return
         end
         local text = str_data.text
         if max and #text > max then
-            str_data.mark = true
-            message('-report|7保存到wts中的文本', reason)
-            message('-tip', '文本保存在wts中会导致加载速度变慢: ', (text:sub(1, 1000):gsub('\r\n', ' ')))
-            return
+            return self:save_wts(wts, text, reason)
         end
         return text
     end)
 end
 
-function mt:save_wts(wts, value, reason)
+function mt:save_wts(wts, text, reason)
     message('-report|7保存到wts中的文本', reason)
-    message('-tip', '文本保存在wts中会导致加载速度变慢: ', (value:sub(1, 1000):gsub('\r\n', ' ')))
-    for i = 1, 999999 do
-        local index = ('%03d'):format(i)
-        if not wts[index] then
-            if value:find('}', 1, false) then
-                message('-report|2警告', '文本中的"}"被修改为了"|"')
-                message('-tip', (value:sub(1, 1000):gsub('\r\n', ' ')))
-                value = value:gsub('}', '|')
-            end
-            wts[index] = {
-                index  = i,
-                text   = value,
-                mark   = true,
-            }
-            wts[#wts+1] = wts[index]
-            return 'TRIGSTR_' .. i
-        end
+    message('-tip', '文本保存在wts中会导致加载速度变慢: ', (text:sub(1, 1000):gsub('\r\n', ' ')))
+    if text:find('}', 1, false) then
+        message('-report|2警告', '文本中的"}"被修改为了"|"')
+        message('-tip', (text:sub(1, 1000):gsub('\r\n', ' ')))
+        text = text:gsub('}', '|')
     end
-    message('-report|2警告', '保存在wts里的字符串太多了')
-    message('-tip', '字符串被丢弃了:' .. (value:sub(1, 1000):gsub('\r\n', ' ')))
+    local index = #wts.mark + 1
+    wts.mark[index] = text
+    return ('TRIGSTR_%03d'):format(index)
 end
 
 function mt:refresh_wts(wts)
-    local lines    = {}
-    for i, t in ipairs(wts) do
-        if t and t.mark then
-            lines[#lines+1] = ('STRING %d\r\n{\r\n%s\r\n}'):format(t.index, t.text)
-        end
+    local lines = {}
+    for index, text in ipairs(wts.mark) do
+        lines[#lines+1] = ('STRING %d\r\n{\r\n%s\r\n}'):format(index, text)
     end
-
     return table.concat(lines, '\r\n\r\n')
 end
 
