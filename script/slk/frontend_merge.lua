@@ -1,23 +1,6 @@
 local is_remove_exceeds_level
 local metadata
 
-local function fill_and_copy(a, lv)
-    local c = {}
-    if #a < lv then
-        for i = 1, #a do
-            c[i] = a[i] 
-        end
-        for i = #a+1, lv do
-            c[i] = a[#a] 
-        end
-    else
-        for i = 1, lv do
-            c[i] = a[i] 
-        end
-    end
-    return c
-end
-
 local function maxindex(t)
     local i = 0
     for k in pairs(t) do
@@ -26,19 +9,44 @@ local function maxindex(t)
     return i
 end
 
+local function fill_and_copy(a, lv)
+    local c = {}
+    if #a < lv then
+        for i = 1, #a do
+            c[i] = a[i]
+        end
+        for i = #a+1, lv do
+            c[i] = a[#a]
+        end
+    else
+        for i = 1, lv do
+            c[i] = a[i]
+        end
+    end
+    if not is_remove_exceeds_level then
+        local maxlv = maxindex(a)
+        if maxlv > lv then
+            for i = lv+1, maxlv do
+                c[i] = a[i] or a[#a]
+            end
+        end
+    end
+    return c
+end
+
 local function fill_and_merge(a, b, lv, meta)
     local c = {}
     if #a < lv then
         for i = 1, #a do
-            c[i] = b[i] or a[i] 
+            c[i] = b[i] or a[i]
         end
         if not meta or meta.profile then
             for i = #a+1, lv do
-                c[i] = b[i] or c[i-1] 
+                c[i] = b[i] or c[i-1]
             end
         else
             for i = #a+1, lv do
-                c[i] = b[i] or a[#a] 
+                c[i] = b[i] or a[#a]
             end
         end
     else
@@ -50,7 +58,7 @@ local function fill_and_merge(a, b, lv, meta)
         local maxlv = maxindex(b)
         if maxlv > lv then
             for i = lv+1, maxlv do
-                c[i] = b[i] or a[#a] 
+                c[i] = b[i] or a[#a]
             end
         end
     end
