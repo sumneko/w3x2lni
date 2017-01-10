@@ -121,13 +121,13 @@ function mt:save_wts(wts, text, reason)
     end
     local index = #wts.mark + 1
     wts.mark[index] = text
-    return ('TRIGSTR_%03d'):format(index)
+    return ('TRIGSTR_%03d'):format(index-1)
 end
 
 function mt:refresh_wts(wts)
     local lines = {}
     for index, text in ipairs(wts.mark) do
-        lines[#lines+1] = ('STRING %d\r\n{\r\n%s\r\n}'):format(index, text)
+        lines[#lines+1] = ('STRING %d\r\n{\r\n%s\r\n}'):format(index-1, text)
     end
     return table.concat(lines, '\r\n\r\n')
 end
