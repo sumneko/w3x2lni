@@ -1,3 +1,5 @@
+local lpeg = require 'lpeg'
+
 local table_insert = table.insert
 
 local mt = {}
@@ -62,66 +64,53 @@ function mt:refresh()
     return table.concat(lines, '\r\n\r\n')
 end
 
-local function search_string(buf, callback)
-    local lines = {}
-    local current = 1
-    while true do
-        local start, finish = buf:find('\r\n', current, false)
-        if start then
-            lines[#lines+1] = buf:sub(current, start-1)
-            current = finish + 1
-        else
-            lines[#lines+1] = buf:sub(current, #buf)
-            break
+local function search_string(buf)
+    local line_count = 1
+    lpeg.locale(lpeg)
+    local S = lpeg.S
+    local P = lpeg.P
+    local R = lpeg.R
+    local C = lpeg.C
+    local V = lpeg.V
+    local Ct = lpeg.Ct
+    local Cg = lpeg.Cg
+    local Cp = lpeg.Cp
+
+    local function newline()
+        line_count = line_count + 1
+    end
+
+    local function getline()
+        return line_count
+    end
+
+    local bom = P'\xEF\xBB\xBF'
+    local nl  = (P'\r\n' + S'\r\n') / newline
+    local com = P'//' * (1-nl)^0 * nl^-1
+    local int = P'0' + R'19' * R'09'^0
+    local define = P
+    {
+        'define',
+        define = Ct(V'head' * com^-1 * V'body'),
+        head   = P'STRING ' * Cg(int, 'index') * Cg(Cp() / getline, 'line') * nl,
+        body   = V'start' * Cg(V'text', 'text') * V'finish',
+        start  = P'{' * nl,
+        finish = nl * P'}' * nl^0,
+        text   = (nl + P(1) - V'finish' * (V'sdefine' + -P(1)))^0,
+        sdefine= V'head' * com^-1 * V'sbody',
+        sbody  = V'start' * V'stext' * V'finish',
+        stext  = (nl + P(1) - V'finish')^0,
+    }
+
+    local function err(str)
+        return ((1-nl)^1 + P(1)) / function(c)
+            error(('line[%d]: %s:\n===========================\n%s\n==========================='):format(line_count, str, c))
         end
     end
-    if lines[1]:sub(1, 3) == '\xEF\xBB\xBF' then
-        lines[1] = lines[1]:sub(4)
-    end
-    for i = #lines, 1, -1 do
-        if lines[i] == '' then
-            lines[i] = nil
-        else
-            break
-        end
-    end
-    local count = 1
-    while count <= #lines do
-        local index = tonumber(lines[count]:match('^STRING (%d+)$'))
-        if index then
-            if lines[count+1]:sub(1, 2) == '//' then
-                count = count + 1
-            end
-            if lines[count+1] ~= '{' then
-                message('-report|2警告', ('wts解析错误:(%d) %s'):format(count, '缺少"{"'))
-                message('-tip', lines[count]:sub(1, 1000))
-                count = count + 2
-                goto CONTINUE
-            end
-            for i = count+2, #lines do
-                if lines[i] == '}' then
-                    for j = i+1, #lines+1 do
-                        if lines[j] ~= '' then
-                            if lines[j] == nil or lines[j]:match('^STRING (%d+)$') then
-                                local text = table.concat(lines, '\r\n', count+2, i-1)
-                                callback(index, text)
-                                count = j
-                                goto CONTINUE
-                            else
-                                break
-                            end
-                        end
-                    end
-                end
-            end
-            message('-report|2警告', ('wts解析错误:(%d) %s'):format(count, '缺少"}"'))
-            message('-tip', lines[count]:sub(1, 1000))
-            return
-        else
-            count = count + 1
-        end
-        ::CONTINUE::
-    end
+
+    local searcher = Ct(bom^-1 * (nl + com)^0 * (define + err'syntax error')^0)
+    local result = searcher:match(buf)
+    return result
 end
 
 -- TODO: 待重构，数据和操作分离 
@@ -129,18 +118,15 @@ return function (w2l, archive)
     local buf = archive:get('war3map.wts')
     local tbl = {}
     if buf then
-        search_string(buf, function(index, text)
+        tbl = search_string(buf)
+        for _, t in ipairs(tbl) do
+            local index, text = t.index, t.text
             if text:find('}', 1, false) then
                 message('-report|2警告', '文本不能包含字符"}"')
                 message('-tip', (text:sub(1, 1000):gsub('\r\n', ' ')))
             end
-            local t = {
-                index = index,
-                text  = text,
-            }
-            table_insert(tbl, t)
             tbl[('%03d'):format(index)] = t    --这里的索引是字符串
-        end)
+        end
     end
     return setmetatable({ wts = tbl, lastindex = 0 }, mt)
 end
