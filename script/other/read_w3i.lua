@@ -43,10 +43,10 @@ function mt:add_head(chunk)
         ['文件版本']   = self:unpack 'l',
         ['地图版本']   = self:unpack 'l',
         ['编辑器版本'] = self:unpack 'l',
-        ['地图名称']   = w2l:load_wts(self.wts, self:unpack 'z'),
-        ['作者名字']   = w2l:load_wts(self.wts, self:unpack 'z'),
-        ['地图描述']   = w2l:load_wts(self.wts, self:unpack 'z'),
-        ['推荐玩家']   = w2l:load_wts(self.wts, self:unpack 'z'),
+        ['地图名称']   = w2l:load_wts(self.wts, (self:unpack 'z')),
+        ['作者名字']   = w2l:load_wts(self.wts, (self:unpack 'z')),
+        ['地图描述']   = w2l:load_wts(self.wts, (self:unpack 'z')),
+        ['推荐玩家']   = w2l:load_wts(self.wts, (self:unpack 'z')),
     }
     
     chunk['镜头'] = {
@@ -89,19 +89,19 @@ function mt:add_head(chunk)
 
     chunk['载入图'] = {
         ['序号']   = self:unpack 'l',
-        ['路径']   = w2l:load_wts(self.wts, self:unpack 'z'),
-        ['文本']   = w2l:load_wts(self.wts, self:unpack 'z'),
-        ['标题']   = w2l:load_wts(self.wts, self:unpack 'z'),
-        ['子标题'] = w2l:load_wts(self.wts, self:unpack 'z'),
+        ['路径']   = w2l:load_wts(self.wts, (self:unpack 'z')),
+        ['文本']   = w2l:load_wts(self.wts, (self:unpack 'z')),
+        ['标题']   = w2l:load_wts(self.wts, (self:unpack 'z')),
+        ['子标题'] = w2l:load_wts(self.wts, (self:unpack 'z')),
     }
 
     chunk['选项']['使用的游戏数据设置'] = self:unpack 'l'
 
     chunk['战役'] = {
-        ['路径']   = w2l:load_wts(self.wts, self:unpack 'z'),
-        ['文本']   = w2l:load_wts(self.wts, self:unpack 'z'),
-        ['标题']   = w2l:load_wts(self.wts, self:unpack 'z'),
-        ['子标题'] = w2l:load_wts(self.wts, self:unpack 'z'),
+        ['路径']   = w2l:load_wts(self.wts, (self:unpack 'z')),
+        ['文本']   = w2l:load_wts(self.wts, (self:unpack 'z')),
+        ['标题']   = w2l:load_wts(self.wts, (self:unpack 'z')),
+        ['子标题'] = w2l:load_wts(self.wts, (self:unpack 'z')),
     }
 
     chunk['迷雾'] = {
@@ -114,7 +114,7 @@ function mt:add_head(chunk)
     
     chunk['环境'] = {
         ['天气']     = self:unpack 'c4',
-        ['音效']     = w2l:load_wts(self.wts, self:unpack 'z'),
+        ['音效']     = w2l:load_wts(self.wts, (self:unpack 'z')),
         ['光照']     = self:unpack 'c1',
         ['水面颜色'] = pack(self:unpack 'BBBB'),
     }
@@ -131,7 +131,7 @@ function mt:add_player(chunk)
             ['类型']            = self:unpack 'l',
             ['种族']            = self:unpack 'l',
             ['修正出生点']       = self:unpack 'l',
-            ['名字']            = w2l:load_wts(self.wts, self:unpack 'z'),
+            ['名字']            = w2l:load_wts(self.wts, (self:unpack 'z')),
             ['出生点']          = pack(self:unpack 'ff'),
             ['低结盟优先权标记'] = unpack_flag(self:unpack 'L'),
             ['高结盟优先权标记'] = unpack_flag(self:unpack 'L'),
@@ -158,7 +158,7 @@ function mt:add_force(chunk)
             ['共享单位控制']     = flag >> 4 & 1,
             ['共享高级单位设置'] = flag >> 5 & 1,
             ['玩家列表']        = self:unpack_player_flag(chunk['玩家']['玩家数量']),
-            ['队伍名称']        = w2l:load_wts(self.wts, self:unpack 'z'),
+            ['队伍名称']        = w2l:load_wts(self.wts, (self:unpack 'z')),
         }
     end
 end
@@ -199,7 +199,7 @@ function mt:add_randomgroup(chunk)
     for i = 1, count do
         chunk['随机组'..i] = {
             ['ID'] = self:unpack 'l',
-            ['随机组名称'] = w2l:load_wts(self.wts, self:unpack 'z'),
+            ['随机组名称'] = w2l:load_wts(self.wts, (self:unpack 'z')),
             ['设置'] = {},
         }
         local x = self:unpack 'l'
@@ -223,7 +223,7 @@ function mt:add_randomitem(chunk)
     for i = 1, count do
         chunk['物品列表'..i] = {
             ['ID'] = self:unpack 'l',
-            ['物品列表名称'] = w2l:load_wts(self.wts, self:unpack 'z'),
+            ['物品列表名称'] = w2l:load_wts(self.wts, (self:unpack 'z')),
             ['设置'] = {},
         }
 
