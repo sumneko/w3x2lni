@@ -104,6 +104,5 @@ return function(w2l, archive, slk)
     progress:start(1)
     update_then_merge(w2l, slks, objs, lnis, slk)
     progress:finish()
-    slk.txt = slks.txt
     w2l:frontend_misc(archive, slk)
 end
