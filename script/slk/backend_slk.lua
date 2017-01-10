@@ -12,6 +12,7 @@ local math_floor = math.floor
 local wtonumber = w3xparser.tonumber
 local math_type = math.type
 local os_clock = os.clock
+local tonumber = tonumber
 
 local report
 local slk
@@ -201,6 +202,17 @@ local function to_type(tp, value)
     end
 end
 
+local function is_usable_string(str)
+    local char = str:sub(1, 1)
+    if char == '-' or tonumber(char) then
+        return false
+    end
+    if char == '.' and tonumber(str:sub(2, 2)) then
+        return false
+    end
+    return true
+end
+
 local function load_data(meta, obj, key, slk_data, obj_data)
     if not obj[key] then
         return
@@ -219,9 +231,9 @@ local function load_data(meta, obj, key, slk_data, obj_data)
             end
             for i = 1, 10 do
                 local value = to_type(tp, obj[key][i])
-                if value and tp == 3 and value:sub(1, 1) == '-' then
+                if value and tp == 3 and not is_usable_string(value) then
                     obj_data[key][i] = value
-                    report_failed(obj, displaykey, '字符串的第一个字符是"-"', value)
+                    report_failed(obj, displaykey, '字符串可以被转换为数字', value)
                 else
                     slk_data[('%s%02d'):format(displaykey, i)] = value
                 end
@@ -235,9 +247,9 @@ local function load_data(meta, obj, key, slk_data, obj_data)
             end
             for i = 1, 4 do
                 local value = to_type(tp, obj[key][i])
-                if value and tp == 3 and value:sub(1, 1) == '-' then
+                if value and tp == 3 and not is_usable_string(value) then
                     obj_data[key][i] = value
-                report_failed(obj, displaykey, '字符串的第一个字符是"-"', value)
+                    report_failed(obj, displaykey, '字符串可以被转换为数字', value)
                 else
                     slk_data[displaykey..i] = value
                 end
@@ -248,9 +260,9 @@ local function load_data(meta, obj, key, slk_data, obj_data)
         end
     else
         local value = to_type(tp, obj[key])
-        if value and tp == 3 and value:sub(1, 1) == '-' then
+        if value and tp == 3 and not is_usable_string(value) then
             obj_data[key] = value
-            report_failed(obj, displaykey, '字符串的第一个字符是"-"', value)
+            report_failed(obj, displaykey, '字符串可以被转换为数字', value)
         else
             slk_data[displaykey] = value
         end
