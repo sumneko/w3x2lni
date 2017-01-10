@@ -321,7 +321,7 @@ return function (w2l, archive, slk)
     progress(0.96)
 
     message('重新生成字符串...')
-    local content = slk.wts:refresh()
+    local content = w2l:refresh_wts(slk.wts)
     if #content > 0 then
         archive:set('war3map.wts', content)
     else

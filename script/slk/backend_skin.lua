@@ -1,4 +1,4 @@
-local function add_obj(name, obj, lines, wts)
+local function add_obj(w2l, name, obj, lines, wts)
     local keys = {}
     for key in pairs(obj) do
         keys[#keys+1] = key
@@ -8,12 +8,12 @@ local function add_obj(name, obj, lines, wts)
     lines[#lines+1] = '[' .. name .. ']'
     for _, key in ipairs(keys) do
         local value = obj[key]
-        value = wts:load(value)
+        value = w2l:load_wts(wts, value)
         lines[#lines+1] = key .. '=' .. value
     end
 end
 
-local function convert(skin, wts)
+local function convert(w2l, skin, wts)
     local lines = {}
     local names = {}
     for name in pairs(skin) do
@@ -22,13 +22,13 @@ local function convert(skin, wts)
     table.sort(names)
 
     for _, name in ipairs(names) do
-        add_obj(name, skin[name], lines, wts)
+        add_obj(w2l, name, skin[name], lines, wts)
     end
 
     return table.concat(lines, '\r\n')
 end
 
 return function(w2l, skin, wts)
-    local buf = convert(skin, wts)
+    local buf = convert(w2l, skin, wts)
     return buf
 end

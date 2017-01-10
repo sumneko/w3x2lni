@@ -41,7 +41,7 @@ local function read_data(obj)
         value = unpack 'f'
     else
         local str = unpack 'z'
-        value = wts:load(str)
+        value = w2l:load_wts(wts, str)
     end
     
     -- 扔掉一个整数

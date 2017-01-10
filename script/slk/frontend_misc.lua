@@ -83,7 +83,7 @@ local function merge_misc_data(misc, map_misc, meta, slk)
     for k, v in pairs(map_misc) do
         if meta[k].type == 3 then
             for i, str in ipairs(v) do
-                v[i] = slk.wts:load(str)
+                v[i] = w2l:load_wts(slk.wts, str)
             end
         end
         misc[k] = v

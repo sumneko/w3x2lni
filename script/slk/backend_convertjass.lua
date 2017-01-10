@@ -1,9 +1,10 @@
 local lpeg = require 'lpeg'
 local line_count
+local w2l
 local wts
 
 local function fwts(str)
-    return wts:load(str, 1023, '脚本里的文本长度超过1023字符'):gsub('\\', '\\\\'):gsub('"', '\\"')
+    return w2l:load_wts(wts, str, 1023, '脚本里的文本长度超过1023字符'):gsub('\\', '\\\\'):gsub('"', '\\"')
 end
 
 lpeg.locale(lpeg)
@@ -25,7 +26,7 @@ local wst  = quo * ('TRIGSTR_' * num^3 / fwts) * quo
 
 local pjass = Cs((nl + wst + str + 1)^0)
 
-return function (w2l, archive, wts_)
+return function (w2l_, archive, wts_)
     local name = 'war3map.j'
     local buf = archive:get(name)
     if not buf then
@@ -35,6 +36,7 @@ return function (w2l, archive, wts_)
             return
         end
     end
+    w2l = w2l_
     wts = wts_
     line_count = 0
     archive:set(name, pjass:match(buf))
