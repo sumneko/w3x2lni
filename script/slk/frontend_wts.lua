@@ -20,22 +20,24 @@ local function search_string(buf)
         return line_count
     end
 
-    local bom = P'\xEF\xBB\xBF'
-    local nl  = (P'\r\n' + S'\r\n') / newline
-    local com = P'//' * (1-nl)^0 * nl^-1
-    local int = P'0' + R'19' * R'09'^0
+    local bom    = P'\xEF\xBB\xBF'
+    local nl     = (P'\r\n' + S'\r\n') / newline
+    local char   = nl + P(1)
+    local com    = P'//' * (1-nl)^0 * nl^-1
+    local int    = P'0' + R'19' * R'09'^0
     local define = P
     {
         'define',
-        define = Ct(V'head' * com^-1 * V'body'),
+        define = Ct(V'head' * V'comline'^-1 * V'body'),
         head   = P'STRING ' * Cg(int / tonumber, 'index') * Cg(Cp() / getline, 'line') * nl,
+        comline= com * (char - V'start')^0,
         body   = V'start' * Cg(V'text', 'text') * V'finish',
         start  = P'{' * nl,
         finish = nl * P'}' * nl^0,
-        text   = (nl + P(1) - V'finish' * (V'sdefine' + -P(1)))^0,
-        sdefine= V'head' * com^-1 * V'sbody',
+        text   = (char - V'finish' * (V'sdefine' + -P(1)))^0,
+        sdefine= V'head' * V'comline'^-1 * V'sbody',
         sbody  = V'start' * V'stext' * V'finish',
-        stext  = (nl + P(1) - V'finish')^0,
+        stext  = (char - V'finish')^0,
     }
 
     local function err(str)
