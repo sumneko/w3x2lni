@@ -202,13 +202,15 @@ local displaytype = {
 }
 
 local function get_displayname(o)
+    local name
     if o._type == 'buff' then
-        return displaytype[o._type], o._id, o.bufftip or o.editorname or ''
+        name = o.bufftip or o.editorname or ''
     elseif o._type == 'upgrade' then
-        return displaytype[o._type], o._id, o.name[1] or ''
+        name = o.name[1] or ''
     else
-        return displaytype[o._type], o._id, o.name or ''
+        name = o.name or ''
     end
+    return displaytype[o._type], o._id, name:sub(1, 100):gsub('\r\n', ' ')
 end
 
 local function report_failed(obj, key, tip, info)

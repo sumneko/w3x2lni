@@ -13,13 +13,15 @@ local displaytype = {
 }
 
 local function get_displayname(o1, o2)
+    local name
     if o1._type == 'buff' then
-        return o1.bufftip or o1.editorname or o2.bufftip or o2.editorname or ''
+        name = o1.bufftip or o1.editorname or o2.bufftip or o2.editorname or ''
     elseif o1._type == 'upgrade' then
-        return o1.name[1] or o2.name[1] or ''
+        name = o1.name[1] or o2.name[1] or ''
     else
-        return o1.name or o2.name or ''
+        name = o1.name or o2.name or ''
     end
+    return name:sub(1, 100):gsub('\r\n', ' ')
 end
 
 local function update_data(key, meta, obj, new_obj)
@@ -64,7 +66,7 @@ local function update_obj(name, type, obj, data)
         else
             local displayname = get_displayname(new_obj, temp)
             message('-report|6不支持的物编数据', ('%s %s %s'):format(displaytype[type], name, displayname))
-            message('-tip', ('[%s]: %s'):format(k, table.concat(v, ',')))
+            message('-tip', ('[%s]: %s'):format(k, table.concat(v, ','):sub(1, 1000):gsub('\r\n', ' ')))
         end
     end
     if has_level then

@@ -75,13 +75,15 @@ local report_once = {}
 local current_root = {'', '%s%s'}
 
 local function get_displayname(o)
+    local name
     if o._type == 'buff' then
-        return o._id, o.bufftip or o.editorname or ''
+        name = o.bufftip or o.editorname or ''
     elseif o._type == 'upgrade' then
-        return o._id, o.name[1] or ''
+        name = o.name[1] or ''
     else
-        return o._id, o.name or ''
+        name = o.name or ''
     end
+    return o._id, name:sub(1, 100):gsub('\r\n', ' ')
 end
 
 local function get_displayname_by_id(slk, id)
