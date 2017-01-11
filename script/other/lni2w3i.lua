@@ -26,7 +26,11 @@ function mt:current(key)
 end
 
 function mt:get(key)
-    return self.data[self._current][key]
+    local value = self.data[self._current][key]
+    if type(value) == 'string' and #value > 1023 then
+        value = self.self:save_wts(self.wts, value, 'w3i里的文本长度超过1023字符')
+    end
+    return value
 end
 
 function mt:read_head(data)
@@ -366,11 +370,12 @@ function mt:add_randomitem(data)
     end
 end
 
-return function (self, data)
+return function (self, data, wts)
     local tbl = setmetatable({}, mt)
     tbl.hexs = {}
     tbl.data = data
     tbl.self = self
+    tbl.wts  = wts
 
     local data = {}
 

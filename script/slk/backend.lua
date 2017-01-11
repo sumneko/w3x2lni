@@ -268,7 +268,7 @@ return function (w2l, archive, slk)
             archive:set('war3map.w3i.ini', w2l:w3i2lni(slk.w3i), slk.wts)
             archive:set('war3map.w3i', false)
         else
-            archive:set('war3map.w3i', w2l:lni2w3i(slk.w3i))
+            archive:set('war3map.w3i', w2l:lni2w3i(slk.w3i, slk.wts))
         end
     end
     progress(0.1)
