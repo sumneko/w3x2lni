@@ -28,6 +28,17 @@ local function get_map_flag(w3i)
          | w3i['选项']['未知9']           << 21
 end
 
+local function get_player_count(w3i)
+    local count = 0
+    for i = 1, w3i['玩家']['玩家数量'] do
+        local player = w3i['玩家'..i]
+        if player['类型'] == 1 then
+            count = count + 1
+        end
+    end
+    return count
+end
+
 local mt = {}
 mt.__index = mt
 
@@ -37,7 +48,7 @@ function mt:save(path, w3i, n, encrypt)
     hexs[#hexs+1] = ('c4'):pack('\0\0\0\0')
     hexs[#hexs+1] = ('z'):pack(w3i and w3i['地图']['地图名称'] or '未命名地图')
     hexs[#hexs+1] = ('l'):pack(get_map_flag(w3i))
-    hexs[#hexs+1] = ('l'):pack(w3i and w3i['玩家']['玩家数量'] or 233)
+    hexs[#hexs+1] = ('l'):pack(w3i and get_player_count(w3i) or 233)
     io.save(path, table.concat(hexs))
     self.handle = stormlib.create(path, n+3, encrypt)
     if not self.handle then
