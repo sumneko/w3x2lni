@@ -50,7 +50,7 @@ function mt:value(name)
     local value = self._title[name]
     if type(value) == 'table' then
         local strs = format_table(value)
-        if #strs > 6 then
+        if type(strs[1]) == 'string' and #strs > 6 then
             self:add('%s = {\r\n%s\r\n}', name, table_concat(strs, ',\r\n'))
         else
             self:add('%s = {%s}', name, table_concat(strs, ', '))

@@ -135,13 +135,13 @@ function mt:read_player(data)
     end
 end
 
-local function pack_player_flag(data, max)
-    local flag = 0
-    for i = 1, #data do
-        flag = flag + (1 << (data[i]-1))
-    end
-    for i = max+1, 32 do
-        flag = flag + (1 << (i-1))
+local function pack_unuse_players(self)
+    local flag = 0xFFFFFFFF
+    self:current '玩家'
+    for i = 1, self:get '玩家数量' do
+        self:current('玩家'..i)
+        local id = self:get '玩家'
+        flag = flag ~ (1 << id)
     end
     return flag
 end
@@ -151,6 +151,7 @@ function mt:read_force(data)
     data.force_count = self:get '队伍数量'
     data.forces = {}
 
+    local unuse_player_flag = pack_unuse_players(self)
     for i = 1, data.force_count do
         local force = {}
         data.forces[i] = force
@@ -161,9 +162,9 @@ function mt:read_force(data)
                          | self:get '共享单位控制'     << 4
                          | self:get '共享高级单位设置' << 5
         if i == 1 then
-            force.player_flag = pack_player_flag(self:get '玩家列表', data.player_count)
+            force.player_flag = pack_flag(self:get '玩家列表') | unuse_player_flag
         else
-            force.player_flag = pack_flag(self:get '玩家列表', 0)
+            force.player_flag = pack_flag(self:get '玩家列表')
         end
         force.name        = self:get '队伍名称'
     end

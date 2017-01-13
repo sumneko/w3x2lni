@@ -139,9 +139,22 @@ function mt:add_player(chunk)
     end
 end
 
-function mt:unpack_player_flag(max)
-    local flag = self:unpack 'L' & ((1 << max) - 1)
-    return unpack_flag(flag)
+function mt:unpack_player_flag(chunk)
+    local flag = self:unpack 'L'
+    local tbl = unpack_flag(flag)
+    local exits = {}
+    for i = 1, chunk['玩家']['玩家数量'] do
+        local player = chunk['玩家'..i]
+        local id = player['玩家'] + 1
+        exits[id] = true
+    end
+    local result = {}
+    for _, id in ipairs(tbl) do
+        if exits[id] then
+            result[#result+1] = id
+        end
+    end
+    return result
 end
 
 function mt:add_force(chunk)
@@ -157,7 +170,7 @@ function mt:add_force(chunk)
             ['共享视野']        = flag >> 3 & 1,
             ['共享单位控制']     = flag >> 4 & 1,
             ['共享高级单位设置'] = flag >> 5 & 1,
-            ['玩家列表']        = self:unpack_player_flag(chunk['玩家']['玩家数量']),
+            ['玩家列表']        = self:unpack_player_flag(chunk),
             ['队伍名称']        = w2l:load_wts(self.wts, (self:unpack 'z')),
         }
     end
