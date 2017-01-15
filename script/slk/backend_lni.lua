@@ -122,7 +122,7 @@ local function write_obj(id, obj)
     for _, meta in ipairs(metas) do
         write_data(meta, datas[meta], lines)
     end
-    if #lines == 0 then
+    if #lines == 0 and id == obj._parent then
         return
     end
     write('[%s]', id)

@@ -147,6 +147,9 @@ local function is_enable_obj(obj, remove_unuse_object)
     if remove_unuse_object and not obj._mark then
         return false
     end
+    if obj._id ~= obj._parent then
+        return true
+    end
     for key, value in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
             if type(value) == 'table' then
