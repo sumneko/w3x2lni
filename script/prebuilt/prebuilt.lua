@@ -117,7 +117,7 @@ local function main()
     
     message('正在生成template')
     for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-        local data = w2l:frontend_merge(slk[ttype], {})
+        local data = w2l:frontend_merge(ttype, slk[ttype], {})
         io.save(w2l.template / (ttype .. '.ini'), w2l:backend_lni(ttype, data))
     end
     io.save(w2l.template / 'txt.ini', w2l:backend_txtlni(slk.txt))

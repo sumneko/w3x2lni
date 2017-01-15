@@ -80,6 +80,7 @@ local concat_types = {
 
 local cant_empty = {
     unam = true,
+    utub = true,
     gnam = true,
     atp1 = true,
 }
