@@ -111,7 +111,7 @@ local function copy_obj(type, name, source)
     used[type] = true
 end
 
-local function create_object(t, type, name)
+local function create_object(t, ttype, name)
     local mt = {}
     function mt:__index(key)
         local key, value, level = get_value(t, key)
@@ -127,16 +127,16 @@ local function create_object(t, type, name)
         return value[level]
     end
     function mt:__newindex(key, nvalue)
-        local objt = obj[type][name]
+        local objt = obj[ttype][name]
         if not objt then
             if not t then
                 return
             end
-            copy_obj(type, name, name)
-            objt = obj[type][name]
+            copy_obj(ttype, name, name)
+            objt = obj[ttype][name]
         end
         local parent = objt._parent
-        local objd = default[type][parent]
+        local objd = default[ttype][parent]
         local key, value, level = get_value(objd, key)
         nvalue = to_type(nvalue, value)
         if not nvalue then
@@ -151,6 +151,9 @@ local function create_object(t, type, name)
         if nvalue == dvalue then
             return
         end
+        if type(nvalue) == 'string' and #nvalue > 1023 then
+            nvalue = nvalue:sub(1, 1023)
+        end
         if level then
             if not objt[key] then
                 objt[key] = {}
@@ -159,7 +162,7 @@ local function create_object(t, type, name)
         else
             objt[key] = nvalue
         end
-        used[type] = true
+        used[ttype] = true
     end
     function mt:__pairs()
         if not t then
@@ -255,7 +258,6 @@ function slk_proxy:refresh(mappath)
     local ar = stormlib.open(mappath)
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
         if used[name] then
-            -- TODO: 过长的字符串存到wts里
             local buf = w2l:backend_obj(name, obj[name])
             ar:save_file(w2l.info.obj[name], buf)
         end
@@ -312,10 +314,11 @@ slk_proxy.ability.A123.Order = 'tsukiko'
 slk_proxy.ability.A123.Dur3 = 123
 
 slk_proxy.ability.AHds.Order = 'Moe'
+slk_proxy.ability.AHds.Ubertip2 = ('1'):rep(1022) .. 'ABCDEF'
 
 slk_proxy.ability.AHhb.levels = '9.9'
 
-slk_proxy.unit.H00B.HP = 2333333
+slk_proxy.unit.H00B.HP = 6666666
 slk_proxy.unit.H00B.mana0 = 100
 slk_proxy.unit.H666 = slk_proxy.unit.Hamg
 slk_proxy.unit.H666 = slk_proxy.unit.Hblm
