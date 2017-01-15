@@ -93,6 +93,13 @@ local function copy_value(a, k, b)
 end
 
 local function copy_obj(type, name, source)
+    local objd = default[type][source]
+    if not objd then
+        return
+    end
+    if type ~= objd._type then
+        return
+    end
     local slkt = slk[type]
     local objt = obj[type]
     objt[name] = {
@@ -202,7 +209,7 @@ local function create_proxy(slk, type)
         return create_object(t[key], type, key)
     end
     function mt:__newindex(key, obj)
-        if not next(obj()) then
+        if not obj() then
             return
         end
         copy_obj(type, key, obj()._id)
@@ -243,10 +250,9 @@ end
 
 local slk_proxy = {}
 
-function slk_proxy:refresh(input, output)
-    fs.copy_file(input, output)
+function slk_proxy:refresh(mappath)
     local stormlib = require 'ffi.stormlib'
-    local ar = stormlib.open(output)
+    local ar = stormlib.open(mappath)
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
         if used[name] then
             -- TODO: 过长的字符串存到wts里
@@ -311,7 +317,11 @@ slk_proxy.ability.AHhb.levels = '9.9'
 
 slk_proxy.unit.H00B.HP = 2333333
 slk_proxy.unit.H00B.mana0 = 100
-slk_proxy.unit.H666 = slk_proxy.unit.H00B
+slk_proxy.unit.H666 = slk_proxy.unit.Hamg
+slk_proxy.unit.H666 = slk_proxy.unit.Hblm
+
+slk_proxy.unit.H777 = slk_proxy.ability.AHre
+slk_proxy.unit.H888 = slk_proxy.unit.AAAA
 
 local t1 = obj.ability.AHds
 local t2 = obj.ability.A123
@@ -319,5 +329,7 @@ local t3 = obj.ability.AHhb
 local t4 = obj.unit.H00B
 local t5 = obj.unit.H666
 
-slk_proxy:refresh(mappath, mappath:parent_path() / (mappath:stem():string() .. '_mod.w3x'))
+local output = mappath:parent_path() / (mappath:stem():string() .. '_mod.w3x')
+fs.copy_file(mappath, output, true)
+slk_proxy:refresh(output)
 print('')
