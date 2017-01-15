@@ -97,6 +97,9 @@ end
 -- 超过256字节的字符串存在二进制里会崩溃
 
 function mt:load_wts(wts, content, max, reason)
+    if not wts then
+        return content
+    end
     return content:gsub('TRIGSTR_(%d+)', function(i)
         local str_data = wts[tonumber(i)]
         if not str_data then

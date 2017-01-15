@@ -28,7 +28,7 @@ local function load_obj(w2l, archive, wts)
         local count = count + 1
         if buf then
             message('正在转换', name)
-            objs[type], force = w2l:frontend_obj(type, wts, buf)
+            objs[type], force = w2l:frontend_obj(type, buf, wts)
             progress(count / 7)
             if force then
                 force_slk = true

@@ -415,7 +415,7 @@ for type, filename in pairs(w2l.info.obj) do
     local outf = input / 'units2' / (fs.path(filename):filename():string() .. '.ini')
     local buf = io.load(inf)
     if buf then
-        local data = w2l:frontend_obj(type, nil, buf)
+        local data = w2l:frontend_obj(type, buf)
         for id, o in pairs(data) do
             if cache[id] then
                 o._parent = cache[id]._parent

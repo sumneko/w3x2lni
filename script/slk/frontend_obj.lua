@@ -90,7 +90,7 @@ local function read_chunk(chunk, type)
     end
 end
 
-return function (w2l_, type, wts_, buf)
+return function (w2l_, type, buf, wts_)
     w2l = w2l_
     wts = wts_
     default = w2l:get_default()[type]
