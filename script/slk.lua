@@ -16,6 +16,7 @@ local obj
 local default
 local metadata
 local used
+local dynamics
 
 local function try_value(t, key)
     if not t then
@@ -97,15 +98,24 @@ local string_list = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 for i = 1, #string_list do
     chars[i] = string_list:sub(i, i)
 end
-local function find_id(objs, source, tag)
+local function find_id(objs, dynamics, source, tag)
+    local id = dynamics[tag]
+    if id then
+        if not objs[id] then
+            return id
+        else
+            dynamics[tag] = nil
+            dynamics[id] = nil
+        end
+    end
     local first = source:sub(1, 1)
     local chs = {1, 1, 1}
     for i = 1, 46656 do
         local id = first .. chars[chs[3]] .. chars[chs[2]] .. chars[chs[1]]
-        if not objs[id] then
+        if not objs[id] and not dynamics[id] then
             return id
         end
-        if objs[id].w2lobject == tag then
+        if objs[id] and objs[id].w2lobject == tag then
             return nil
         end
         for x = 1, 3 do
@@ -224,7 +234,7 @@ local function create_object(t, ttype, name)
             end
         else
             w2lobject = 'dynamic|' .. id
-            id = find_id(obj[ttype], name, w2lobject)
+            id = find_id(obj[ttype], dynamics[ttype], name, w2lobject)
             if not id then
                 return ''
             end
@@ -261,6 +271,23 @@ local function create_proxy(slk, type)
         end
     end
     return setmetatable({}, mt)
+end
+
+local function clean_obj(ttype, objs)
+    for name, obj in pairs(objs) do
+        if obj.w2lobject then
+            objs[name] = nil
+            used[ttype] = true
+            local pos = obj.w2lobject:find('|', 1, false)
+            if pos then
+                local kind = obj.w2lobject:sub(1, pos-1)
+                if kind == 'dynamic' then
+                    dynamics[ttype][obj.w2lobject] = name
+                    dynamics[ttype][name] = obj.w2lobject
+                end
+            end
+        end
+    end
 end
 
 local function set_config()
@@ -303,6 +330,7 @@ function slk_proxy:initialize(mappath)
     slk = {}
     obj = {}
     used = {}
+    dynamics = {}
     default = w2l:get_default()
     metadata = w2l:metadata()
     local archive = require 'archive'
@@ -310,9 +338,11 @@ function slk_proxy:initialize(mappath)
     set_config()
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
         local buf = ar:get(w2l.info.obj[name])
+        dynamics[name] = {}
         if buf then
             obj[name] = w2l:frontend_obj(name, buf)
             w2l:frontend_updateobj(name, obj[name], default[name])
+            clean_obj(name, obj[name])
         else
             obj[name] = {}
         end
@@ -406,7 +436,23 @@ assert(id == '')
 local t1 = obj.ability.A123
 
 local output = mappath:parent_path() / (mappath:stem():string() .. '_mod.w3x')
+local output2 = mappath:parent_path() / (mappath:stem():string() .. '_mod2.w3x')
 fs.copy_file(mappath, output, true)
 
 slk_proxy:refresh(output)
-print('')
+print('time:', os.clock() - clock)
+
+slk_proxy:initialize(output)
+
+local id = slk_proxy.ability.AHds:new '测试3'
+assert(id == 'A004')
+
+local id = slk_proxy.ability.AHds:new '测试2'
+assert(id == 'A003')
+
+fs.copy_file(output, output2, true)
+slk_proxy:refresh(output2)
+
+slk_proxy:initialize(output2)
+assert(obj.ability.A123 == nil)
+assert(obj.ability.A002 == nil)
