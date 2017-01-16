@@ -334,5 +334,7 @@ local t5 = obj.unit.H666
 
 local output = mappath:parent_path() / (mappath:stem():string() .. '_mod.w3x')
 fs.copy_file(mappath, output, true)
+
+obj.unit.H00B.w2lobject = '测试'
 slk_proxy:refresh(output)
 print('')

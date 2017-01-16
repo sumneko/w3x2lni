@@ -221,6 +221,16 @@ local function parse_id(w2l, metadata, id, meta, type, has_level)
     end
 end
 
+local function add_user_metadata(meta, type)
+    meta['w2lobject'] = {
+        ['id'] = 'W2lo',
+        ['key'] = 'w2lobject',
+        ['type'] = 3,
+        ['field'] = 'W2LObject',
+        ['profile'] = true,
+    }
+end
+
 local function create_metadata(w2l, type, metadata)
     metadata[type] = {}
     local has_level = w2l.info.key.max_level[type]
@@ -245,6 +255,7 @@ local function create_metadata(w2l, type, metadata)
             parse_id(w2l, metadata, id, meta, type, has_level)
         end
     end
+    add_user_metadata(metadata[type], type)
 end
 
 local function copy_code(t, template)

@@ -55,6 +55,13 @@ local function is_enable(meta, type)
     return true
 end
 
+local function add_user_keydata(keydata, type)
+    if not keydata[type] then
+        keydata[type] = {}
+    end
+    table.insert(keydata[type], 'w2lobject')
+end
+
 local function create_keydata(w2l, type, keydata)
     local metadata = w2l:parse_slk(io.load(w2l.mpq / w2l.info.metadata[type]))
     for id, meta in pairs(metadata) do
@@ -75,6 +82,7 @@ local function create_keydata(w2l, type, keydata)
             table.insert(keydata[filename], key)
         end
     end
+    add_user_keydata(keydata, type)
 end
 
 local function stringify(f, name, t)
