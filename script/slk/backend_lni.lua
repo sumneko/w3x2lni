@@ -59,7 +59,9 @@ local function write_data(meta, data, lines)
     if key:match '[^%w%_]' then
         key = ('%q'):format(key)
     end
-    lines[#lines+1] = {'-- %s', w2l:editstring(meta.displayname):gsub('^%s*(.-)%s*$', '%1')}
+    if meta.displayname then
+        lines[#lines+1] = {'-- %s', w2l:editstring(meta.displayname):gsub('^%s*(.-)%s*$', '%1')}
+    end
     if not len then
         lines[#lines+1] = {'%s = %s', key, format_value(meta.type, data)}
         return
