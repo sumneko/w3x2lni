@@ -14,9 +14,10 @@ end
 local slk
 local obj
 local default
+local metadata
 local used
 
-local function get_value(t, key)
+local function try_value(t, key)
     if not t then
         return nil, nil, nil
     end
@@ -41,31 +42,6 @@ local function get_value(t, key)
     return nkey, value, level
 end
 
-local function to_type(a, b)
-    if not a or not b then
-        return nil
-    end
-    local tp = type(b)
-    if tp == 'table' then
-        tp = type(b[1])
-    end
-    if tp == 'number' then
-        local a = tonumber(a)
-        if not a then
-            return nil
-        end
-        if math.type(b) == 'integer' then
-            return math.floor(a)
-        else
-            return a + 0.0
-        end
-    elseif tp == 'string' then
-        return tostring(a)
-    else
-        return nil
-    end
-end
-
 local function get_default(t)
     local tp = type(t[1])
     if tp == 'number' then
@@ -81,40 +57,73 @@ local function get_default(t)
     end
 end
 
-local function copy_value(a, k, b)
-    if type(b) == 'table' then
-        a[k] = {}
-        for i, v in pairs(b[k]) do
-            a[k][i] = v
+local function get_meta(key, meta1, meta2)
+    if key:sub(1, 1) == '_' then
+        return nil, nil
+    end
+    key = key:lower()
+    local meta = meta1 and meta1[key] or meta2 and meta2[key]
+    if meta and not meta['repeat'] then
+        return meta, nil
+    end
+    local pos = key:find("%d+$")
+    if not pos then
+        return nil, nil
+    end
+    local nkey = key:sub(1, pos-1)
+    local meta = meta1 and meta1[nkey] or meta2 and meta2[nkey]
+    if meta and meta['repeat'] then
+        return meta, tonumber(key:sub(pos))
+    end
+    return nil, nil
+end
+
+local function to_type(value, tp)
+    if tp == 0 then
+        value = tonumber(value)
+        if not value then
+            return nil
         end
+        return math.floor(value)
+    elseif tp == 1 or tp == 2 then
+        return tonumber(value)
     else
-        a[k] = b
+        return tostring(value)
     end
 end
 
-local function copy_obj(type, name, source)
-    local objd = default[type][source]
-    if not objd then
-        return
+local chars = {}
+local string_list = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+for i = 1, #string_list do
+    chars[i] = string_list:sub(i, i)
+end
+local function find_id(objs, source, tag)
+    local first = source:sub(1, 1)
+    local chs = {1, 1, 1}
+    for i = 1, 46656 do
+        local id = first .. chars[chs[3]] .. chars[chs[2]] .. chars[chs[1]]
+        if not objs[id] then
+            return id
+        end
+        if objs[id].w2lobject == tag then
+            return nil
+        end
+        for x = 1, 3 do
+            chs[x] = chs[x] + 1
+            if chars[chs[x]] then
+                break
+            else
+                chs[x] = 1
+            end
+        end
     end
-    if type ~= objd._type then
-        return
-    end
-    local slkt = slk[type]
-    local objt = obj[type]
-    objt[name] = {
-        _id = name,
-        _parent = source,
-        _type = type,
-        _obj = true,
-    }
-    used[type] = true
+    return nil
 end
 
 local function create_object(t, ttype, name)
     local mt = {}
     function mt:__index(key)
-        local key, value, level = get_value(t, key)
+        local key, value, level = try_value(t, key)
         if not value then
             return ''
         end
@@ -128,33 +137,30 @@ local function create_object(t, ttype, name)
     end
     function mt:__newindex(key, nvalue)
         local objt = obj[ttype][name]
-        if not objt then
-            if not t then
-                return
-            end
-            copy_obj(ttype, name, name)
-            objt = obj[ttype][name]
+        if not objt or not objt.w2lobject then
+            return
         end
         local parent = objt._parent
         local objd = default[ttype][parent]
-        local key, value, level = get_value(objd, key)
-        if not key then
+        local meta, level = get_meta(key, metadata[ttype], objd._code and metadata[objd._code])
+        if not meta then
             return
         end
-        nvalue = to_type(nvalue, value or '')
+        nvalue = to_type(nvalue, meta.type)
         if not nvalue then
             return
         end
+        key = meta.key
         local dvalue
         if level then
-            dvalue = objd[key][level]
+            dvalue = objd[key][level] or (not meta.profile and objd[key][#objd[key]])
         else
             dvalue = objd[key]
         end
         if nvalue == dvalue then
             return
         end
-        if type(nvalue) == 'string' and #nvalue > 1023 then
+        if meta.type == 3 and #nvalue > 1023 then
             nvalue = nvalue:sub(1, 1023)
         end
         if level then
@@ -202,10 +208,39 @@ local function create_object(t, ttype, name)
             return key .. 1, t[key][1]
         end
     end
-    function mt:__call()
-        return t
+    local o = {}
+    function o:new(id)
+        if not default[ttype][name] then
+            return ''
+        end
+        if type(id) ~= 'string' then
+            return ''
+        end
+        local w2lobject
+        if #id == 4 and not id:find('%W') then
+            w2lobject = 'static'
+            if obj[ttype][id] then
+                return ''
+            end
+        else
+            w2lobject = 'dynamic|' .. id
+            id = find_id(obj[ttype], name, w2lobject)
+            if not id then
+                return ''
+            end
+        end
+        local new_obj = {
+            _id = id,
+            _parent = name,
+            _type = ttype,
+            _obj = true,
+            w2lobject = w2lobject,
+        }
+        obj[ttype][id] = new_obj
+        used[ttype] = true
+        return id
     end
-    return setmetatable({}, mt)
+    return setmetatable(o, mt)
 end
 
 local function create_proxy(slk, type)
@@ -214,11 +249,7 @@ local function create_proxy(slk, type)
     function mt:__index(key)
         return create_object(t[key], type, key)
     end
-    function mt:__newindex(key, obj)
-        if not obj() then
-            return
-        end
-        copy_obj(type, key, obj()._id)
+    function mt:__newindex()
     end
     function mt:__pairs()
         return function (_, key)
@@ -273,6 +304,7 @@ function slk_proxy:initialize(mappath)
     obj = {}
     used = {}
     default = w2l:get_default()
+    metadata = w2l:metadata()
     local archive = require 'archive'
     local ar = archive(mappath)
     set_config()
@@ -298,10 +330,10 @@ slk_proxy:initialize(mappath)
 print('time:', os.clock() - clock)
 
 --print(slk_proxy.unit.h000.Ubertip)
---print(slk_proxy.ability.A011.Cost)
---print(slk_proxy.ability.A011.Cost1)
---print(slk_proxy.ability.A011.Cost2)
---print(slk_proxy.ability.A011['Buttonpos:1'])
+assert(slk_proxy.ability.A011.Cost == '')
+assert(slk_proxy.ability.A011.Cost1 == 0)
+assert(slk_proxy.ability.A011.Cost2 == 25)
+assert(slk_proxy.ability.A011['Buttonpos:1'] == 1)
 
 --for k, v in pairs(slk_proxy.ability.AEim) do
 --    print(k, v)
@@ -311,31 +343,67 @@ print('time:', os.clock() - clock)
 --    print(id, abil.DataA1)
 --end
 
-slk_proxy.ability.A123 = slk_proxy.ability.AHds
-
+slk_proxy.ability.AHds:new 'A123'
 slk_proxy.ability.A123.Order = 'tsukiko'
 slk_proxy.ability.A123.Dur3 = 123
+slk_proxy.ability.A123.levels = '9.9'
+slk_proxy.ability.A123.Ubertip2 = ('1'):rep(1022) .. 'ABCDEF'
+slk_proxy.ability.A123.Hotkey = 'D'
+slk_proxy.ability.A123.Cost = 111
+slk_proxy.ability.A123.Cost2 = 133
+slk_proxy.ability.A123.Cost3 = 25
+slk_proxy.ability.A123.Cost5 = 25
+slk_proxy.ability.A123.Cost6 = 123
+assert(obj.ability.A123)
+assert(obj.ability.A123.order == 'tsukiko')
+assert(obj.ability.A123.dur[3] == 123)
+assert(obj.ability.A123.levels == 9)
+assert(obj.ability.A123.ubertip[2] == ('1'):rep(1022) .. 'A')
+assert(obj.ability.A123.hotkey == nil)
+assert(obj.ability.A123.cost[1] == nil)
+assert(obj.ability.A123.cost[2] == 133)
+assert(obj.ability.A123.cost[3] == nil)
+assert(obj.ability.A123.cost[5] == nil)
+assert(obj.ability.A123.cost[6] == 123)
+assert(slk_proxy.ability.A123.Order == '')
 
-slk_proxy.ability.AHds.Order = 'Moe'
-slk_proxy.ability.AHds.Ubertip2 = ('1'):rep(1022) .. 'ABCDEF'
+slk_proxy.ability.A234.Order = 'tsukiko'
+assert(not obj.ability.A234)
 
-slk_proxy.ability.AHhb.levels = '9.9'
+slk_proxy.ability.AHhb.Areaeffectart = '666'
+slk_proxy.ability.AHhb.race = 'unknow'
+assert(obj.ability.AHhb.areaeffectart == 'xxxxxx')
+assert(obj.ability.AHhb.race == nil)
+assert(slk_proxy.ability.AHhb.race == 'human')
 
-slk_proxy.unit.H00B.HP = 6666666
-slk_proxy.unit.H00B.mana0 = 100
-slk_proxy.unit.H00B.w2lobject = '测试'
+slk_proxy.ability.AHbz:new 'AHbz'
+slk_proxy.ability.AHbz.race = 'unknow'
+assert(obj.ability.AHbz.race == 'unknow')
+assert(slk_proxy.ability.AHbz.race == 'human')
 
-slk_proxy.unit.H666 = slk_proxy.unit.Hamg
-slk_proxy.unit.H666 = slk_proxy.unit.Hblm
+slk_proxy.ability.AHhb:new 'AHhb'
+slk_proxy.ability.AHhb.race = 'unknow'
+assert(obj.ability.AHhb.race == nil)
+assert(slk_proxy.ability.AHhb.race == 'human')
 
-slk_proxy.unit.H777 = slk_proxy.ability.AHre
-slk_proxy.unit.H888 = slk_proxy.unit.AAAA
+slk_proxy.ability.AHds:new 'A123'
+assert(obj.ability.A123.order == 'tsukiko')
 
-local t1 = obj.ability.AHds
-local t2 = obj.ability.A123
-local t3 = obj.ability.AHhb
-local t4 = obj.unit.H00B
-local t5 = obj.unit.H666
+local id = slk_proxy.ability.AHds:new '测试1'
+slk_proxy.ability[id].Name = '测试1'
+assert(id == 'A002')
+assert(obj.ability.A002.name == '测试1')
+
+local id = slk_proxy.ability.AHds:new '测试2'
+slk_proxy.ability[id].Name = '测试2'
+assert(id == 'A003')
+assert(obj.ability.A003.name == '测试2')
+
+local id = slk_proxy.ability.AHds:new '测试1'
+slk_proxy.ability[id].Name = '测试3'
+assert(id == '')
+
+local t1 = obj.ability.A123
 
 local output = mappath:parent_path() / (mappath:stem():string() .. '_mod.w3x')
 fs.copy_file(mappath, output, true)
