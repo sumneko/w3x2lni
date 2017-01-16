@@ -30,12 +30,12 @@ local function get_value(t, key)
     end
     local pos = key:find("%d+$")
     if not pos then
-        return nil, nil, nil
+        return key, nil, nil
     end
     local nkey = key:sub(1, pos-1)
     local value = t[nkey]
     if not value or type(value) ~= 'table' then
-        return nil, nil, nil
+        return nkey, nil, level
     end
     local level = tonumber(key:sub(pos))
     return nkey, value, level
@@ -115,7 +115,7 @@ local function create_object(t, ttype, name)
     local mt = {}
     function mt:__index(key)
         local key, value, level = get_value(t, key)
-        if not key then
+        if not value then
             return ''
         end
         if not level then
@@ -138,7 +138,10 @@ local function create_object(t, ttype, name)
         local parent = objt._parent
         local objd = default[ttype][parent]
         local key, value, level = get_value(objd, key)
-        nvalue = to_type(nvalue, value)
+        if not key then
+            return
+        end
+        nvalue = to_type(nvalue, value or '')
         if not nvalue then
             return
         end
@@ -320,6 +323,8 @@ slk_proxy.ability.AHhb.levels = '9.9'
 
 slk_proxy.unit.H00B.HP = 6666666
 slk_proxy.unit.H00B.mana0 = 100
+slk_proxy.unit.H00B.w2lobject = '测试'
+
 slk_proxy.unit.H666 = slk_proxy.unit.Hamg
 slk_proxy.unit.H666 = slk_proxy.unit.Hblm
 
@@ -335,6 +340,5 @@ local t5 = obj.unit.H666
 local output = mappath:parent_path() / (mappath:stem():string() .. '_mod.w3x')
 fs.copy_file(mappath, output, true)
 
-obj.unit.H00B.w2lobject = '测试'
 slk_proxy:refresh(output)
 print('')
