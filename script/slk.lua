@@ -108,8 +108,11 @@ end
 local function find_id(objs, dynamics, source, tag)
     local id = dynamics[tag]
     if id then
-        if not all[id:lower()] then
+        local obj = all[id:lower()]
+        if not obj then
             return id
+        elseif obj._create then
+            return nil
         else
             dynamics[tag] = nil
             dynamics[id] = nil
@@ -121,9 +124,6 @@ local function find_id(objs, dynamics, source, tag)
         local lid = id:lower()
         if not all[lid] and not dynamics[id] then
             return id
-        end
-        if all[lid] and all[lid].w2lobject == tag then
-            return nil
         end
         for x = 1, 3 do
             chs[x] = chs[x] + 1
@@ -246,6 +246,7 @@ local function create_object(t, ttype, name)
             if not id then
                 return ''
             end
+            dynamics[ttype][w2lobject] = id
         end
         local new_obj = {
             _id = id,
@@ -253,6 +254,7 @@ local function create_object(t, ttype, name)
             _type = ttype,
             _obj = true,
             _code = objd._code,
+            _create = true,
             w2lobject = w2lobject,
         }
         obj[ttype][id] = new_obj
@@ -376,8 +378,6 @@ slk_proxy:initialize(mappath)
 print('time:', os.clock() - clock)
 
 local clock = os.clock()
-local function assert()
-end
 
 print(slk_proxy.unit.h000.Ubertip)
 assert(slk_proxy.ability.AHhb.Tip1 == '111,222"333')
@@ -462,8 +462,6 @@ for i = 1, 1000 do
     slk_proxy.ability[id].DataB1 = 5 * i
 end
 print('write: ', os.clock() - clock2)
-
-local t1 = obj.ability.A123
 
 local output = mappath:parent_path() / (mappath:stem():string() .. '_mod.w3x')
 local output2 = mappath:parent_path() / (mappath:stem():string() .. '_mod2.w3x')
