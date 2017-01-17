@@ -120,9 +120,10 @@ return function (pathorhandle, tp)
         _read = read_only,
     }
     if type(pathorhandle) == 'number' then
-        ar.handle = mpq(pathorhandle, true)
+        ar.handle = mpq(pathorhandle)
         ar._type = 'mpq'
         ar._attach = true
+        ar._read = false
     elseif read_only then
         if fs.is_directory(pathorhandle) then
             ar.handle = dir(pathorhandle)
