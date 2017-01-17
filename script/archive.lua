@@ -23,7 +23,14 @@ function mt:is_readonly()
     return self._read
 end
 
+function mt:save_file(name, buf, filetime)
+    return self.handle:save_file(name, buf, filetime)
+end
+
 function mt:close()
+    if self._attach then
+        return false
+    end
     return self.handle:close()
 end
 
@@ -116,6 +123,7 @@ return function (pathorhandle, tp)
         if type(pathorhandle) == 'number' then
             ar.handle = mpq(pathorhandle, true)
             ar._type = 'mpq'
+            ar._attach = true
         elseif fs.is_directory(pathorhandle) then
             ar.handle = dir(pathorhandle)
             ar._type = 'dir'

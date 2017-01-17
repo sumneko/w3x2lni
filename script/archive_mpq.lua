@@ -43,6 +43,10 @@ local mt = {}
 mt.__index = mt
 
 function mt:save(path, w3i, n, encrypt)
+    if self.handle then
+        self.handle:close()
+        self.handle = nil
+    end
     local hexs = {}
     hexs[#hexs+1] = ('c4'):pack('HM3W')
     hexs[#hexs+1] = ('c4'):pack('\0\0\0\0')
@@ -96,17 +100,20 @@ end
 
 return function (input, read)
     local handle
-    if read then
-        if type(input) == 'number' then
-            handle = stormlib.attach(input)
-        else
-            handle = stormlib.open(input, true)
-        end
+    if type(input) == 'number' then
+        handle = stormlib.attach(input)
+    elseif read then
+        handle = stormlib.open(input, true)
         if not handle then
             return nil
         end
         if not handle:has_file '(listfile)' then
             message('不支持没有(listfile)的地图')
+            return nil
+        end
+    else
+        handle = stormlib.open(input)
+        if not handle then
             return nil
         end
     end

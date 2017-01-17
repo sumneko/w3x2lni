@@ -315,8 +315,8 @@ end
 local slk_proxy = {}
 
 function slk_proxy:refresh(mappath)
-    local stormlib = require 'ffi.stormlib'
-    local ar = stormlib.open(mappath)
+    local archive = require 'archive'
+    local ar = archive(mappath, 'w')
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
         if used[name] then
             local buf = w2l:backend_obj(name, obj[name])
@@ -360,6 +360,7 @@ slk_proxy:initialize(mappath)
 print('time:', os.clock() - clock)
 
 --print(slk_proxy.unit.h000.Ubertip)
+assert(slk_proxy.ability.AHhb.Tip1 == '111,222"333')
 assert(slk_proxy.ability.A011.Cost == '')
 assert(slk_proxy.ability.A011.Cost1 == 0)
 assert(slk_proxy.ability.A011.Cost2 == 25)
