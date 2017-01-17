@@ -1,32 +1,11 @@
 local w2l
 local has_level
 local metadata
+local reports
 
 local pairs = pairs
 local string_sub = string.sub
 local string_find = string.find
-
-local displaytype = {
-    unit = '单位',
-    ability = '技能',
-    item = '物品',
-    buff = '魔法效果',
-    upgrade = '科技',
-    doodad = '装饰物',
-    destructable = '可破坏物',
-}
-
-local function get_displayname(o1, o2)
-    local name
-    if o1._type == 'buff' then
-        name = o1.bufftip or o1.editorname or o2.bufftip or o2.editorname or ''
-    elseif o1._type == 'upgrade' then
-        name = o1.name[1] or o2.name[1] or ''
-    else
-        name = o1.name or o2.name or ''
-    end
-    return name:sub(1, 100):gsub('\r\n', ' ')
-end
 
 local function update_data(key, meta, obj, new_obj)
     local id = meta.id
@@ -68,9 +47,7 @@ local function update_obj(name, type, obj, data)
         if string_sub(k, 1, 1) == '_' then
             new_obj[k] = v
         else
-            local displayname = get_displayname(new_obj, temp)
-            message('-report|6不支持的物编数据', ('%s %s %s'):format(displaytype[type], name, displayname))
-            message('-tip', ('[%s]: %s'):format(k, table.concat(v, ','):sub(1, 1000):gsub('\r\n', ' ')))
+            reports[#reports+1] = {name, k, table.concat(v, ','):sub(1, 1000):gsub('\r\n', ' ')}
         end
     end
     if has_level then
@@ -86,7 +63,9 @@ return function (w2l_, type, chunk, data)
     w2l = w2l_
     has_level = w2l.info.key.max_level[type]
     metadata = w2l:metadata()
+    reports = {}
     for name, obj in pairs(chunk) do
         chunk[name] = update_obj(name, type, obj, data)
     end
+    return reports
 end

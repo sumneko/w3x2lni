@@ -61,12 +61,35 @@ local function load_lni(w2l, archive)
     return lnis
 end
 
+local displaytype = {
+    unit = '单位',
+    ability = '技能',
+    item = '物品',
+    buff = '魔法效果',
+    upgrade = '科技',
+    doodad = '装饰物',
+    destructable = '可破坏物',
+}
+
+local function get_displayname(o)
+    local name
+    if o._type == 'buff' then
+        name = o.bufftip or o.editorname
+    elseif o._type == 'upgrade' then
+        name = o.name[1]
+    else
+        name = o.name
+    end
+    return name:sub(1, 100):gsub('\r\n', ' ')
+end
+
 local function update_then_merge(w2l, slks, objs, lnis, slk)
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'txt'} do
+        local report
         local data = slks[type]
         local obj = objs[type]
         if obj then
-            w2l:frontend_updateobj(type, obj, data)
+            report = w2l:frontend_updateobj(type, obj, data)
         else
             obj = {}
         end
@@ -77,6 +100,13 @@ local function update_then_merge(w2l, slks, objs, lnis, slk)
             end
         end
         slk[type] = w2l:frontend_merge(type, data, obj)
+        if report then
+            for _, data in ipairs(report) do
+                local displayname = get_displayname(slk[type][data[1]])
+                message('-report|6不支持的物编数据', ('%s %s %s'):format(displaytype[type], data[1], displayname))
+                message('-tip', ('[%s]: %s'):format(data[2], data[3]))
+            end
+        end
     end
 end
 
