@@ -16,6 +16,11 @@ function log.debug(...)
     print(...)
 end
 
+local gui = {}
+function gui.message(...)
+    print(select(2, ...))
+end
+
 local slk
 local obj
 local default
@@ -24,6 +29,8 @@ local used
 local dynamics
 local all
 local chs
+local old
+local new
 
 local function try_value(t, key)
     if not t then
@@ -260,6 +267,11 @@ local function create_object(t, ttype, name)
         obj[ttype][id] = new_obj
         all[id:lower()] = new_obj
         used[ttype] = true
+        if old[id] then
+            old[id] = nil
+        else
+            new[id] = new_obj
+        end
         return id
     end
     return setmetatable(o, mt)
@@ -292,6 +304,7 @@ local function mark_obj(ttype, objs)
     for name, obj in pairs(objs) do
         if obj.w2lobject then
             objs[name] = nil
+            old[name] = obj
             used[ttype] = true
             local pos = obj.w2lobject:find('|', 1, false)
             if pos then
@@ -332,12 +345,72 @@ local function set_config()
     config.copy_obj = true
 end
 
+local function to_list(tbl)
+    local list = {}
+    for k in pairs(tbl) do
+        list[#list+1] = k
+    end
+    table.sort(list)
+    return list
+end
+
+local displaytype = {
+    unit = '单位',
+    ability = '技能',
+    item = '物品',
+    buff = '魔法效果',
+    upgrade = '科技',
+    doodad = '装饰物',
+    destructable = '可破坏物',
+}
+
+local function get_displayname(o)
+    local name
+    if o._type == 'buff' then
+        name = o.bufftip or o.editorname
+    elseif o._type == 'upgrade' then
+        name = o.name[1]
+    else
+        name = o.name
+    end
+    return name:sub(1, 100):gsub('\r\n', ' ')
+end
+
+local function create_report()
+    local lold = to_list(old)
+    local lnew = to_list(new)
+    local lines = {}
+    if #lold > 0 then
+        lines[#lines+1] = ('移除了 %d 个对象'):format(#lold)
+        for i = 1, math.min(10, #lold) do
+            local o = old[lold[i]]
+            lines[#lines+1] = ('%s %s %s'):format(displaytype[o._type], get_displayname(slk[o._type][o._parent]), o._id)
+        end
+    end
+    if #lnew > 0 then
+        if #lines > 0 then
+            lines[#lines+1] = ''
+        end
+        lines[#lines+1] = ('新建了 %d 个对象'):format(#lnew)
+        for i = 1, math.min(10, #lnew) do
+            local o = new[lnew[i]]
+            lines[#lines+1] = ('%s %s %s'):format(displaytype[o._type], get_displayname(slk[o._type][o._parent]), o._id)
+        end
+    end
+    if #lines > 0 then
+        table.insert(lines, 1, '编辑器刚刚帮你修改了物编数据,建议重新打开地图,以便查看变化')
+        table.insert(lines, 2, '')
+        gui.message(nil, table.concat(lines, '\r\n'))
+    end
+end
+
 local slk_proxy = {}
 
 function slk_proxy:refresh(mappath)
     if not used then
         return
     end
+    create_report()
     local archive = require 'archive'
     local ar = archive(mappath, 'w')
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
@@ -356,6 +429,8 @@ function slk_proxy:initialize(mappath)
     used = {}
     all = {}
     dynamics = {}
+    old = {}
+    new = {}
     chs = {1, 1, 1}
     default = w2l:get_default()
     metadata = w2l:metadata()
