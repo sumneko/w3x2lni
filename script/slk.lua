@@ -18,6 +18,7 @@ local metadata
 local used
 local dynamics
 local all
+local chs
 
 local function try_value(t, key)
     if not t then
@@ -99,7 +100,6 @@ local string_list = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 for i = 1, #string_list do
     chars[i] = string_list:sub(i, i)
 end
-local chs = {1, 1, 1}
 local function find_id(objs, dynamics, source, tag)
     local id = dynamics[tag]
     if id then
@@ -343,6 +343,7 @@ function slk_proxy:initialize(mappath)
     used = {}
     all = {}
     dynamics = {}
+    chs = {1, 1, 1}
     default = w2l:get_default()
     metadata = w2l:metadata()
     local archive = require 'archive'
