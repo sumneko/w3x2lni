@@ -99,6 +99,7 @@ local string_list = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 for i = 1, #string_list do
     chars[i] = string_list:sub(i, i)
 end
+local chs = {1, 1, 1}
 local function find_id(objs, dynamics, source, tag)
     local id = dynamics[tag]
     if id then
@@ -110,7 +111,6 @@ local function find_id(objs, dynamics, source, tag)
         end
     end
     local first = source:sub(1, 1)
-    local chs = {1, 1, 1}
     for i = 1, 46656 do
         local id = first .. chars[chs[3]] .. chars[chs[2]] .. chars[chs[1]]
         local lid = id:lower()
@@ -278,7 +278,7 @@ local function create_proxy(slk, type)
     return setmetatable({}, mt)
 end
 
-local function clean_obj(ttype, objs)
+local function mark_obj(ttype, objs)
     for name, obj in pairs(objs) do
         if obj.w2lobject then
             objs[name] = nil
@@ -330,6 +330,7 @@ function slk_proxy:refresh(mappath)
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
         if used[name] then
             local buf = w2l:backend_obj(name, obj[name])
+            log.debug('refresh object: ' .. w2l.info.obj[name])
             ar:save_file(w2l.info.obj[name], buf)
         end
     end
@@ -353,7 +354,7 @@ function slk_proxy:initialize(mappath)
         if buf then
             obj[name] = w2l:frontend_obj(name, buf)
             w2l:frontend_updateobj(name, obj[name], default[name])
-            clean_obj(name, obj[name])
+            mark_obj(name, obj[name])
         else
             obj[name] = {}
         end
