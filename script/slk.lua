@@ -17,6 +17,7 @@ local default
 local metadata
 local used
 local dynamics
+local all
 
 local function try_value(t, key)
     if not t then
@@ -101,7 +102,7 @@ end
 local function find_id(objs, dynamics, source, tag)
     local id = dynamics[tag]
     if id then
-        if not objs[id] then
+        if not all[id:lower()] then
             return id
         else
             dynamics[tag] = nil
@@ -112,10 +113,11 @@ local function find_id(objs, dynamics, source, tag)
     local chs = {1, 1, 1}
     for i = 1, 46656 do
         local id = first .. chars[chs[3]] .. chars[chs[2]] .. chars[chs[1]]
-        if not objs[id] and not dynamics[id] then
+        local lid = id:lower()
+        if not all[lid] and not dynamics[id] then
             return id
         end
-        if objs[id] and objs[id].w2lobject == tag then
+        if all[lid] and all[lid].w2lobject == tag then
             return nil
         end
         for x = 1, 3 do
@@ -160,7 +162,7 @@ local function create_object(t, ttype, name)
         if not nvalue then
             return
         end
-        key = meta.key
+        key = meta.field:lower()
         local dvalue
         if level then
             dvalue = objd[key][level] or (not meta.profile and objd[key][#objd[key]])
@@ -220,7 +222,8 @@ local function create_object(t, ttype, name)
     end
     local o = {}
     function o:new(id)
-        if not default[ttype][name] then
+        local objd = default[ttype][name]
+        if not objd then
             return ''
         end
         if type(id) ~= 'string' then
@@ -244,9 +247,11 @@ local function create_object(t, ttype, name)
             _parent = name,
             _type = ttype,
             _obj = true,
+            _code = objd._code,
             w2lobject = w2lobject,
         }
         obj[ttype][id] = new_obj
+        all[id:lower()] = new_obj
         used[ttype] = true
         return id
     end
@@ -286,6 +291,8 @@ local function clean_obj(ttype, objs)
                     dynamics[ttype][name] = obj.w2lobject
                 end
             end
+        else
+            all[name:lower()] = obj
         end
     end
 end
@@ -333,6 +340,7 @@ function slk_proxy:initialize(mappath)
     slk = {}
     obj = {}
     used = {}
+    all = {}
     dynamics = {}
     default = w2l:get_default()
     metadata = w2l:metadata()
@@ -425,19 +433,24 @@ assert(slk_proxy.ability.AHhb.race == 'human')
 slk_proxy.ability.AHds:new 'A123'
 assert(obj.ability.A123.order == 'tsukiko')
 
-local id = slk_proxy.ability.AHds:new '测试1'
-slk_proxy.ability[id].Name = '测试1'
-assert(id == 'A002')
-assert(obj.ability.A002.name == '测试1')
+local id = slk_proxy.unit.Hpal:new '测试1'
+slk_proxy.unit[id].Name = '测试1'
+assert(id == 'H001')
+assert(obj.unit.H001.name == '测试1')
 
-local id = slk_proxy.ability.AHds:new '测试2'
-slk_proxy.ability[id].Name = '测试2'
-assert(id == 'A003')
-assert(obj.ability.A003.name == '测试2')
+local id = slk_proxy.unit.Hpal:new '测试2'
+slk_proxy.unit[id].Name = '测试2'
+assert(id == 'H002')
+assert(obj.unit.H002.name == '测试2')
 
-local id = slk_proxy.ability.AHds:new '测试1'
-slk_proxy.ability[id].Name = '测试3'
+local id = slk_proxy.unit.Hpal:new '测试1'
+slk_proxy.unit[id].Name = '测试3'
 assert(id == '')
+
+for i = 1, 100 do
+    local id = slk_proxy.ability.Ainf:new('心灵之火' .. i)
+    slk_proxy.ability[id].DataB1 = 5 * i
+end
 
 local t1 = obj.ability.A123
 
@@ -450,11 +463,11 @@ print('time:', os.clock() - clock)
 
 slk_proxy:initialize(output)
 
-local id = slk_proxy.ability.AHds:new '测试3'
-assert(id == 'A004')
+local id = slk_proxy.unit.Hpal:new '测试3'
+assert(id == 'H003')
 
-local id = slk_proxy.ability.AHds:new '测试2'
-assert(id == 'A003')
+local id = slk_proxy.unit.Hpal:new '测试2'
+assert(id == 'H002')
 
 fs.copy_file(output, output2, true)
 slk_proxy:refresh(output2)
