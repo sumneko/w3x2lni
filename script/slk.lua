@@ -315,6 +315,9 @@ end
 local slk_proxy = {}
 
 function slk_proxy:refresh(mappath)
+    if not used then
+        return
+    end
     local archive = require 'archive'
     local ar = archive(mappath, 'w')
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
@@ -361,6 +364,8 @@ print('time:', os.clock() - clock)
 
 --print(slk_proxy.unit.h000.Ubertip)
 assert(slk_proxy.ability.AHhb.Tip1 == '111,222"333')
+assert(slk_proxy.ability.A00A.Cool3 == 65.0)
+assert(slk_proxy.ability.Ainf.targs1 == 'air,ground,friend,neutral,self')
 assert(slk_proxy.ability.A011.Cost == '')
 assert(slk_proxy.ability.A011.Cost1 == 0)
 assert(slk_proxy.ability.A011.Cost2 == 25)
