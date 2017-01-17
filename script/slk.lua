@@ -11,6 +11,11 @@ w2l:initialize()
 function message(...)
 end
 
+local log = {}
+function log.debug(...)
+    print(...)
+end
+
 local slk
 local obj
 local default
@@ -279,6 +284,9 @@ local function create_proxy(slk, type)
 end
 
 local function mark_obj(ttype, objs)
+    if not objs then
+        return
+    end
     for name, obj in pairs(objs) do
         if obj.w2lobject then
             objs[name] = nil
@@ -317,6 +325,9 @@ local function set_config()
     config.mdx_squf = false
     -- 转换为地图还是目录(mpq, dir)
     config.target_storage = 'mpq'
+
+    -- 复制一份物编文件
+    config.copy_obj = true
 end
 
 local slk_proxy = {}
@@ -349,20 +360,12 @@ function slk_proxy:initialize(mappath)
     local archive = require 'archive'
     local ar = archive(mappath)
     set_config()
-    for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
-        local buf = ar:get(w2l.info.obj[name])
-        dynamics[name] = {}
-        if buf then
-            obj[name] = w2l:frontend_obj(name, buf)
-            w2l:frontend_updateobj(name, obj[name], default[name])
-            mark_obj(name, obj[name])
-        else
-            obj[name] = {}
-        end
-    end
     w2l:frontend(ar, slk)
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         slk_proxy[name] = create_proxy(slk, name)
+        dynamics[name] = {}
+        obj[name] = slk['copyed_'..name]
+        mark_obj(name, obj[name])
     end
     ar:close()
 end
@@ -372,7 +375,11 @@ local mappath = fs.path(uni.a2u(arg[1]))
 slk_proxy:initialize(mappath)
 print('time:', os.clock() - clock)
 
---print(slk_proxy.unit.h000.Ubertip)
+local clock = os.clock()
+local function assert()
+end
+
+print(slk_proxy.unit.h000.Ubertip)
 assert(slk_proxy.ability.AHhb.Tip1 == '111,222"333')
 assert(slk_proxy.ability.A00A.Cool3 == 65.0)
 assert(slk_proxy.ability.Ainf.targs1 == 'air,ground,friend,neutral,self')
@@ -449,20 +456,24 @@ local id = slk_proxy.unit.Hpal:new '测试1'
 slk_proxy.unit[id].Name = '测试3'
 assert(id == '')
 
-for i = 1, 100 do
+local clock2 = os.clock()
+for i = 1, 1000 do
     local id = slk_proxy.ability.Ainf:new('心灵之火' .. i)
     slk_proxy.ability[id].DataB1 = 5 * i
 end
+print('write: ', os.clock() - clock2)
 
 local t1 = obj.ability.A123
 
 local output = mappath:parent_path() / (mappath:stem():string() .. '_mod.w3x')
 local output2 = mappath:parent_path() / (mappath:stem():string() .. '_mod2.w3x')
 fs.copy_file(mappath, output, true)
-
+local clock1 = os.clock()
 slk_proxy:refresh(output)
+print('copy:', os.clock() - clock1)
 print('time:', os.clock() - clock)
 
+local clock = os.clock()
 slk_proxy:initialize(output)
 
 local id = slk_proxy.unit.Hpal:new '测试3'
@@ -471,8 +482,18 @@ assert(id == 'H003')
 local id = slk_proxy.unit.Hpal:new '测试2'
 assert(id == 'H002')
 
+local clock2 = os.clock()
+for i = 1, 1000 do
+    local id = slk_proxy.ability.Ainf:new('心灵之火' .. i)
+    slk_proxy.ability[id].DataB1 = 5 * i
+end
+print('write: ', os.clock() - clock2)
+
 fs.copy_file(output, output2, true)
+local clock1 = os.clock()
 slk_proxy:refresh(output2)
+print('copy:', os.clock() - clock1)
+print('time:', os.clock() - clock)
 
 slk_proxy:initialize(output2)
 assert(obj.ability.A123 == nil)
