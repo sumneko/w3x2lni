@@ -2,6 +2,10 @@ local w2l
 local has_level
 local metadata
 
+local pairs = pairs
+local string_sub = string.sub
+local string_find = string.find
+
 local displaytype = {
     unit = '单位',
     ability = '技能',
@@ -33,9 +37,9 @@ local function update_data(key, meta, obj, new_obj)
     obj[id] = nil
     if meta.splite then
         for i, str in pairs(value) do
-            local pos = str:find(',', 1, true)
+            local pos = string_find(str, ',', 1, true)
             if pos then
-                value[i] = str:sub(1, pos-1)
+                value[i] = string_sub(str, 1, pos-1)
             end
         end
     end
@@ -61,7 +65,7 @@ local function update_obj(name, type, obj, data)
         end
     end
     for k, v in pairs(obj) do
-        if k:sub(1, 1) == '_' then
+        if string_sub(k, 1, 1) == '_' then
             new_obj[k] = v
         else
             local displayname = get_displayname(new_obj, temp)

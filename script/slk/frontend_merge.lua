@@ -1,10 +1,16 @@
 local is_remove_exceeds_level
 local metadata
 
+local pairs = pairs
+local type = type
+local assert = assert
+
 local function maxindex(t)
     local i = 0
     for k in pairs(t) do
-        i = math.max(i, k)
+        if k > i then
+            i = k
+        end
     end
     return i
 end
