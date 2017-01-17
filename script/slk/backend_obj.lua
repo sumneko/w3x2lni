@@ -30,7 +30,7 @@ local function write_value(meta, level, value)
     write('c4l', id .. ('\0'):rep(4 - #id), tp)
     if has_level then
         write('l', level)
-        write('l', meta['data'] or 0)
+        write('l', meta.data or 0)
     end
     if tp == 0 then
         if math_type(value) ~= 'integer' then
