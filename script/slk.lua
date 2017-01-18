@@ -275,22 +275,22 @@ local function create_object(t, ttype, name)
     function o:new(id)
         local objd = default[ttype][name]
         if not objd then
-            return ''
+            return create_object(nil, ttype, '')
         end
         if type(id) ~= 'string' then
-            return ''
+            return create_object(nil, ttype, '')
         end
         local w2lobject
         if #id == 4 and not id:find('%W') then
             w2lobject = 'static'
             if obj[ttype][id] then
-                return ''
+            return create_object(nil, ttype, '')
             end
         else
             w2lobject = 'dynamic|' .. id
             id = find_id(obj[ttype], dynamics[ttype], name, w2lobject, ttype)
             if not id then
-                return ''
+            return create_object(nil, ttype, '')
             end
             dynamics[ttype][w2lobject] = id
         end
@@ -311,7 +311,10 @@ local function create_object(t, ttype, name)
         else
             new[id] = new_obj
         end
-        return id
+        return create_object(nil, ttype, id)
+    end
+    function o:get_id()
+        return name
     end
     return setmetatable(o, mt)
 end
@@ -562,24 +565,24 @@ assert(slk_proxy.ability.AHhb.race == 'human')
 slk_proxy.ability.AHds:new 'A123'
 assert(obj.ability.A123.order == 'tsukiko')
 
-local id = slk_proxy.unit.Hpal:new '测试1'
-slk_proxy.unit[id].Name = '测试1'
-assert(id == 'H001')
+local new_obj = slk_proxy.unit.Hpal:new '测试1'
+new_obj.Name = '测试1'
+assert(new_obj:get_id() == 'H001')
 assert(obj.unit.H001.name == '测试1')
 
-local id = slk_proxy.unit.Hpal:new '测试2'
-slk_proxy.unit[id].Name = '测试2'
-assert(id == 'H002')
+local new_obj = slk_proxy.unit.Hpal:new '测试2'
+new_obj.Name = '测试2'
+assert(new_obj:get_id() == 'H002')
 assert(obj.unit.H002.name == '测试2')
 
-local id = slk_proxy.unit.Hpal:new '测试1'
-slk_proxy.unit[id].Name = '测试3'
-assert(id == '')
+local new_obj = slk_proxy.unit.Hpal:new '测试1'
+new_obj.Name = '测试3'
+assert(new_obj:get_id() == '')
 
 local clock2 = os.clock()
 for i = 1, 1000 do
-    local id = slk_proxy.ability.Ainf:new('心灵之火' .. i)
-    slk_proxy.ability[id].DataB1 = 5 * i
+    local new_obj = slk_proxy.ability.Ainf:new('心灵之火' .. i)
+    new_obj.DataB1 = 5 * i
 end
 print('write: ', os.clock() - clock2)
 
@@ -594,16 +597,16 @@ print('time:', os.clock() - clock)
 local clock = os.clock()
 slk_proxy:initialize(output)
 
-local id = slk_proxy.unit.Hpal:new '测试3'
-assert(id == 'H003')
+local new_obj = slk_proxy.unit.Hpal:new '测试3'
+assert(new_obj:get_id() == 'H003')
 
-local id = slk_proxy.unit.Hpal:new '测试2'
-assert(id == 'H002')
+local new_obj = slk_proxy.unit.Hpal:new '测试2'
+assert(new_obj:get_id() == 'H002')
 
 local clock2 = os.clock()
 for i = 1, 1000 do
-    local id = slk_proxy.ability.Ainf:new('心灵之火' .. i)
-    slk_proxy.ability[id].DataB1 = 5 * i
+    local new_obj = slk_proxy.ability.Ainf:new('心灵之火' .. i)
+    new_obj.DataB1 = 5 * i
 end
 print('write: ', os.clock() - clock2)
 
