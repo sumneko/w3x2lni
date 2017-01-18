@@ -140,7 +140,7 @@ local string_list = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 for i = 1, #string_list do
     chars[i] = string_list:sub(i, i)
 end
-local function find_id(objs, dynamics, source, tag)
+local function find_id(objs, dynamics, source, tag, ttype)
     local id = dynamics[tag]
     if id then
         local obj = all[id:lower()]
@@ -153,7 +153,18 @@ local function find_id(objs, dynamics, source, tag)
             dynamics[id] = nil
         end
     end
-    local first = source:sub(1, 1)
+    local first
+    if ttype == 'unit' or ttype == 'ability' or ttype == 'buff' then
+        first = source:sub(1, 1)
+    elseif ttype == 'item' then
+        first = 'I'
+    elseif ttype == 'destructable' then
+        first = 'B'
+    elseif ttype == 'doodad' then
+        first = 'D'
+    elseif ttype == 'upgrade' then
+        first = 'R'
+    end
     for i = 1, 46656 do
         local id = first .. chars[chs[3]] .. chars[chs[2]] .. chars[chs[1]]
         local lid = id:lower()
@@ -277,7 +288,7 @@ local function create_object(t, ttype, name)
             end
         else
             w2lobject = 'dynamic|' .. id
-            id = find_id(obj[ttype], dynamics[ttype], name, w2lobject)
+            id = find_id(obj[ttype], dynamics[ttype], name, w2lobject, ttype)
             if not id then
                 return ''
             end
@@ -392,14 +403,14 @@ local displaytype = {
     destructable = '可破坏物',
 }
 
-local function get_displayname(o)
+local function get_displayname(o1, o2)
     local name
-    if o._type == 'buff' then
-        name = o.bufftip or o.editorname
-    elseif o._type == 'upgrade' then
-        name = o.name[1]
+    if o1._type == 'buff' then
+        name = o1.bufftip or o1.editorname or o2.bufftip or o2.editorname
+    elseif o1._type == 'upgrade' then
+        name = o1.name[1] or o2.name[1]
     else
-        name = o.name
+        name = o1.name or o2.name
     end
     return name:sub(1, 100):gsub('\r\n', ' ')
 end
@@ -412,7 +423,7 @@ local function create_report()
         lines[#lines+1] = ('移除了 %d 个对象'):format(#lold)
         for i = 1, math.min(10, #lold) do
             local o = old[lold[i]]
-            lines[#lines+1] = ('%s %s %s'):format(displaytype[o._type], get_displayname(slk[o._type][o._parent]), o._id)
+            lines[#lines+1] = ("[%s][%s] '%s'"):format(displaytype[o._type], get_displayname(o, slk[o._type][o._parent]), o._id)
         end
     end
     if #lnew > 0 then
@@ -422,7 +433,7 @@ local function create_report()
         lines[#lines+1] = ('新建了 %d 个对象'):format(#lnew)
         for i = 1, math.min(10, #lnew) do
             local o = new[lnew[i]]
-            lines[#lines+1] = ('%s %s %s'):format(displaytype[o._type], get_displayname(slk[o._type][o._parent]), o._id)
+            lines[#lines+1] = ("[%s][%s] '%s'"):format(displaytype[o._type], get_displayname(o, slk[o._type][o._parent]), o._id)
         end
     end
     if #lines > 0 then
