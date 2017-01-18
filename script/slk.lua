@@ -41,8 +41,12 @@ local function try_value(t, key)
     end
     key = key:lower()
     local value = t[key]
-    if value and type(value) ~= 'table' then
-        return key, value, nil
+    if value then
+        if type(value) == 'table' then
+            return key, value[1], nil
+        else
+            return key, value, nil
+        end
     end
     local pos = key:find("%d+$")
     if not pos then
@@ -83,8 +87,12 @@ local function get_meta(key, meta1, meta2)
     end
     key = key:lower()
     local meta = meta1 and meta1[key] or meta2 and meta2[key]
-    if meta and not meta['repeat'] then
-        return meta, nil
+    if meta then
+        if meta['repeat'] then
+            return meta, 1
+        else
+            return meta, nil
+        end
     end
     local pos = key:find("%d+$")
     if not pos then
@@ -468,7 +476,8 @@ print(slk_proxy.unit.h000.Ubertip)
 assert(slk_proxy.ability.AHhb.Tip1 == '111,222"333')
 assert(slk_proxy.ability.A00A.Cool3 == 65.0)
 assert(slk_proxy.ability.Ainf.targs1 == 'air,ground,friend,neutral,self')
-assert(slk_proxy.ability.A011.Cost == '')
+assert(slk_proxy.ability.A011.Cool == 1)
+assert(slk_proxy.ability.A011.Tip == '激活神圣护甲(|cffffcc00D|r) - [|cffffcc00等级 1|r]')
 assert(slk_proxy.ability.A011.Cost1 == 0)
 assert(slk_proxy.ability.A011.Cost2 == 25)
 assert(slk_proxy.ability.A011.Buttonpos1 == 1)
@@ -499,7 +508,7 @@ assert(obj.ability.A123.dur[3] == 123)
 assert(obj.ability.A123.levels == 9)
 assert(obj.ability.A123.ubertip[2] == ('1'):rep(1022) .. 'A')
 assert(obj.ability.A123.hotkey == nil)
-assert(obj.ability.A123.cost[1] == nil)
+assert(obj.ability.A123.cost[1] == 111)
 assert(obj.ability.A123.cost[2] == 133)
 assert(obj.ability.A123.cost[3] == nil)
 assert(obj.ability.A123.cost[5] == nil)
