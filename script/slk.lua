@@ -28,7 +28,7 @@ local metadata
 local used
 local dynamics
 local all
-local chs
+local all_chs
 local old
 local new
 
@@ -165,7 +165,11 @@ local function find_id(objs, dynamics, source, tag, ttype)
     elseif ttype == 'upgrade' then
         first = 'R'
     end
-    for i = 1, 46656 do
+    if not all_chs[first] then
+        all_chs[first] = {1, 1, 1}
+    end
+    local chs = all_chs[first]
+    while true do
         local id = first .. chars[chs[3]] .. chars[chs[2]] .. chars[chs[1]]
         local lid = id:lower()
         if not all[lid] and not dynamics[id] then
@@ -177,10 +181,12 @@ local function find_id(objs, dynamics, source, tag, ttype)
                 break
             else
                 chs[x] = 1
+                if x == 3 then
+                    return nil
+                end
             end
         end
     end
-    return nil
 end
 
 local function create_object(t, ttype, name)
@@ -473,7 +479,7 @@ function slk_proxy:initialize(mappath)
     dynamics = {}
     old = {}
     new = {}
-    chs = {1, 1, 1}
+    all_chs = {}
     default = w2l:get_default()
     metadata = w2l:metadata()
     local archive = require 'archive'
