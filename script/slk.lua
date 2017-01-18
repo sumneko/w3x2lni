@@ -49,6 +49,11 @@ local function try_value(t, key)
         return key, nil, nil
     end
     local nkey = key:sub(1, pos-1)
+    local ikey = nkey .. ':' .. key:sub(pos)
+    local value = t[ikey]
+    if value then
+        return ikey, value, level
+    end
     local value = t[nkey]
     if not value or type(value) ~= 'table' then
         return nkey, nil, level
@@ -86,6 +91,11 @@ local function get_meta(key, meta1, meta2)
         return nil, nil
     end
     local nkey = key:sub(1, pos-1)
+    local ikey = nkey .. ':' .. key:sub(pos)
+    local meta = meta1 and meta1[ikey] or meta2 and meta2[ikey]
+    if meta then
+        return meta, nil
+    end
     local meta = meta1 and meta1[nkey] or meta2 and meta2[nkey]
     if meta and meta['repeat'] then
         return meta, tonumber(key:sub(pos))
@@ -461,7 +471,7 @@ assert(slk_proxy.ability.Ainf.targs1 == 'air,ground,friend,neutral,self')
 assert(slk_proxy.ability.A011.Cost == '')
 assert(slk_proxy.ability.A011.Cost1 == 0)
 assert(slk_proxy.ability.A011.Cost2 == 25)
-assert(slk_proxy.ability.A011['Buttonpos:1'] == 1)
+assert(slk_proxy.ability.A011.Buttonpos1 == 1)
 
 --for k, v in pairs(slk_proxy.ability.AEim) do
 --    print(k, v)
@@ -482,6 +492,7 @@ slk_proxy.ability.A123.Cost2 = 133
 slk_proxy.ability.A123.Cost3 = 25
 slk_proxy.ability.A123.Cost5 = 25
 slk_proxy.ability.A123.Cost6 = 123
+slk_proxy.ability.A123.Buttonpos1 = 3
 assert(obj.ability.A123)
 assert(obj.ability.A123.order == 'tsukiko')
 assert(obj.ability.A123.dur[3] == 123)
@@ -493,6 +504,7 @@ assert(obj.ability.A123.cost[2] == 133)
 assert(obj.ability.A123.cost[3] == nil)
 assert(obj.ability.A123.cost[5] == nil)
 assert(obj.ability.A123.cost[6] == 123)
+assert(obj.ability.A123['buttonpos:1'] == 3)
 assert(slk_proxy.ability.A123.Order == '')
 
 slk_proxy.ability.A234.Order = 'tsukiko'
