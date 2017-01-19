@@ -56,6 +56,7 @@ return function(window_, canvas_)
     canvas = canvas_
     version_begin()
     version('1.4', function()
+        log('FIX', '[1.4.1]修正创建地图失败的问题')
         log('FIX', '修正读取lni对象等级错误的问题')
         log('FIX', '修正w3i字符串可能留在wts里的问题')
         log('FIX', '修正地图创建界面玩家数错误的问题')
