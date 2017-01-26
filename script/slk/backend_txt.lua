@@ -78,8 +78,7 @@ local function add_data(obj, meta, value, keyval)
         if meta.index == 1 then
             local value = get_index_data(meta.type, obj[meta.key..':1'], obj[meta.key..':2'])
             if not value then
-                -- TODO: 特殊处理写到meta里
-                if meta.id == 'ua1z' then
+                if meta.cantempty then
                     value = ','
                 else
                     return
@@ -352,7 +351,7 @@ return function(w2l_, slk, report_, obj)
     remove_unuse_object = w2l.config.remove_unuse_object
     local txt = {}
     local list = {}
-    for _, type in ipairs {'buff', 'unit', 'item', 'upgrade', 'ability'} do
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade'} do
         list[type] = {}
         object = obj[type]
         update_constant(type)
