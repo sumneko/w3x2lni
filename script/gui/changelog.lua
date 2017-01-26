@@ -13,7 +13,7 @@ local index
 
 local function version_begin()
     canvas:layout_row_dynamic(2, 1)
-    canvas:layout_space(25, 4)
+    canvas:layout_space(25, 10)
     index = 0
 end
 
@@ -55,6 +55,9 @@ return function(window_, canvas_)
     window = window_
     canvas = canvas_
     version_begin()
+    version('1.5', function()
+        log('FIX', '修正随机物品会被简化掉的问题')
+    end)
     version('1.4', function()
         log('FIX', '[1.4.1]修正创建地图失败的问题')
         log('FIX', '修正读取lni对象等级错误的问题')
