@@ -78,7 +78,12 @@ local function add_data(obj, meta, value, keyval)
         if meta.index == 1 then
             local value = get_index_data(meta.type, obj[meta.key..':1'], obj[meta.key..':2'])
             if not value then
-                return
+                -- TODO: 特殊处理写到meta里
+                if meta.id == 'ua1z' then
+                    value = ','
+                else
+                    return
+                end
             end
             keyval[#keyval+1] = {key:sub(1,-3), value}
         end
