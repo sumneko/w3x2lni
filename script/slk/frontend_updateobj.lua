@@ -2,6 +2,7 @@ local w2l
 local has_level
 local metadata
 local reports
+local reports2
 
 local pairs = pairs
 local string_sub = string.sub
@@ -43,6 +44,10 @@ local function update_obj(name, type, obj, data)
             update_data(key, meta, obj, new_obj)
         end
     end
+    if type == 'ability' and not next(new_obj) then
+        reports2[#reports2+1] = name
+        return nil
+    end
     for k, v in pairs(obj) do
         if string_sub(k, 1, 1) == '_' then
             new_obj[k] = v
@@ -64,8 +69,9 @@ return function (w2l_, type, chunk, data)
     has_level = w2l.info.key.max_level[type]
     metadata = w2l:metadata()
     reports = {}
+    reports2 = {}
     for name, obj in pairs(chunk) do
         chunk[name] = update_obj(name, type, obj, data)
     end
-    return reports
+    return reports, reports2
 end

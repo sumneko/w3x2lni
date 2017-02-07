@@ -108,11 +108,11 @@ end
 
 local function update_then_merge(w2l, slks, objs, lnis, slk)
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'txt'} do
-        local report
+        local report, report2
         local data = slks[type]
         local obj = objs[type]
         if obj then
-            report = w2l:frontend_updateobj(type, obj, data)
+            report, report2 = w2l:frontend_updateobj(type, obj, data)
         else
             obj = {}
         end
@@ -135,6 +135,15 @@ local function update_then_merge(w2l, slks, objs, lnis, slk)
                 local displayname = get_displayname(slk[type][data[1]])
                 message('-report|6不支持的物编数据', ('%s %s %s'):format(displaytype[type], data[1], displayname))
                 message('-tip', ('[%s]: %s'):format(data[2], data[3]))
+            end
+        end
+        if report2 then
+            for i = 1, 10 do
+                if not report2[i] then
+                    break
+                end
+                message('-report|9其他', ('技能被移除: %s'):format(report2[i]))
+                message('-tip', '自定义技能没有修改任何属性的话会被魔兽移除')
             end
         end
     end
