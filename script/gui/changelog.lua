@@ -56,6 +56,7 @@ return function(window_, canvas_)
     canvas = canvas_
     version_begin()
     version('1.5', function()
+        log('NEW', '没有修改过的自定义技能会被移除', '和魔兽的行为保持一致')
         log('CHG', '转换为lni时不生成imp文件')
         log('FIX', '修正随机物品会被简化掉的问题')
         log('FIX', '修正弹道速率为0优化后错误的问题')
