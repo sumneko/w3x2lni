@@ -33,6 +33,10 @@ end
 local function update_obj(name, type, obj, data)
     local parent = obj._parent
     local temp = data[parent]
+    if not temp then
+        reports2[#reports2+1] = {('底板不存在: %s [%s:%s]'):format(type, name, parent)}
+        return nil
+    end
     local code = temp._code
     local new_obj = {}
     obj._code = code
@@ -45,7 +49,7 @@ local function update_obj(name, type, obj, data)
         end
     end
     if type == 'ability' and not next(new_obj) then
-        reports2[#reports2+1] = name
+        reports2[#reports2+1] = {('技能被移除: %s'):format(name), '自定义技能没有修改任何属性的话会被魔兽移除'}
         return nil
     end
     for k, v in pairs(obj) do

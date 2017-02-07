@@ -133,7 +133,7 @@ local function update_then_merge(w2l, slks, objs, lnis, slk)
                     break
                 end
                 local displayname = get_displayname(slk[type][data[1]])
-                message('-report|6不支持的物编数据', ('%s %s %s'):format(displaytype[type], data[1], displayname))
+                message('-report|6无效的物编数据', ('%s %s %s'):format(displaytype[type], data[1], displayname))
                 message('-tip', ('[%s]: %s'):format(data[2], data[3]))
             end
         end
@@ -142,8 +142,10 @@ local function update_then_merge(w2l, slks, objs, lnis, slk)
                 if not report2[i] then
                     break
                 end
-                message('-report|9其他', ('技能被移除: %s'):format(report2[i]))
-                message('-tip', '自定义技能没有修改任何属性的话会被魔兽移除')
+                message('-report|6无效的物编数据', report2[i][1])
+                if report2[i][2] then
+                    message('-tip', report2[i][2])
+                end
             end
         end
     end
