@@ -4,12 +4,17 @@
 end)()
 
 require 'filesystem'
-local uni = require 'ffi.unicode'
-local w2l = require 'w3x2lni'
-w2l:initialize()
+require 'utility'
+local w3xparser = require 'w3xparser'
+local lni       = require 'lni-c'
+local uni       = require 'ffi.unicode'
 
-function message(...)
-end
+local root     = fs.path(uni.a2u(arg[0])):remove_filename()
+local mpq      = root / 'script' / 'mpq'
+local prebuilt = root / 'script' / 'prebuilt'
+
+local info       = lni(assert(io.load(root / 'script' / 'info.ini')), 'info')
+local typedefine = lni(assert(io.load(prebuilt / 'defined' / 'typedefine.ini')), 'defined')
 
 local select        = select
 local tonumber      = tonumber
@@ -37,21 +42,13 @@ local function unpack(str)
     return set_pos(string_unpack(str, unpack_buf, unpack_pos))
 end
 
-local typedefine
-local function get_typedefine(type)
-    if not typedefine then
-        typedefine = w2l:parse_lni(io.load(w2l.defined / 'typedefine.ini'))
-    end
-    return typedefine[string_lower(type)] or 3
-end
-
 local function unpack_data()
     local id, type = unpack 'c4l'
     local id = string_unpack('z', id)
     local except
     local meta = metadata[id]
     if meta then
-        except = get_typedefine(meta.type)
+        except = typedefine[string_lower(meta.type)] or 3
     else
         except = type
     end
@@ -112,8 +109,8 @@ local function check(type, buf)
     buf_pos    = 1
     unpack_pos = 1
     unpack_buf = buf
-    has_level  = w2l.info.key.max_level[type]
-    metadata   = w2l:parse_slk(io.load(w2l.mpq / w2l.info.metadata[type]))
+    has_level  = info.key.max_level[type]
+    metadata   = w3xparser.slk(io.load(mpq / info.metadata[type]))
     check_bufs = {}
 
     unpack_head()
@@ -134,12 +131,10 @@ local function test()
     local ar = archive(mappath)
     local clock = os.clock()
     for _, type in ipairs {'ability', 'unit', 'item', 'doodad', 'destructable', 'buff', 'upgrade'} do
-        local filename = w2l.info.obj[type]
+        local filename = info.obj[type]
         local buf = ar:get(filename)
         if buf then
-            io.save(w2l.root / filename, buf)
             buf = check(type, buf)
-            io.save(w2l.root / ('new_' .. filename), buf)
         end
     end
     print('耗时:', os.clock() - clock)
