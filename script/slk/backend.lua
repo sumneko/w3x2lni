@@ -289,22 +289,23 @@ return function (w2l, archive, slk)
         w2l:backend_mark(archive, slk)
         progress(0.2)
     end
-    
-    progress:start(0.3)
-    w2l:backend_cleanobj(slk)
-    progress:finish()
 
     if w2l.config.target_format == 'slk' then
         message('计算描述中的公式...')
         w2l:backend_computed(slk)
-        progress(0.4)
+        progress(0.3)
     end
+
     if w2l.config.remove_unuse_object then
         message('移除简化对象...')
-        progress:start(0.7)
+        progress:start(0.5)
         remove_unuse(w2l, slk)
         progress:finish()
     end
+
+    progress:start(0.7)
+    w2l:backend_cleanobj(slk)
+    progress:finish()
     
     progress:start(0.9)
     message('转换物编文件...')
