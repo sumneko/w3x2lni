@@ -421,7 +421,7 @@ local function get_displayname(o1, o2)
     else
         name = o1.name or o2.name
     end
-    return name:sub(1, 100):gsub('\r\n', ' ')
+    return (name:sub(1, 100):gsub('\r\n', ' '))
 end
 
 local function create_report()
