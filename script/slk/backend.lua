@@ -279,17 +279,21 @@ return function (w2l, archive, slk)
     end
     progress(0.1)
 
-    progress:start(0.2)
+    progress:start(0.1)
     message('清理数据...')
     w2l:backend_searchparent(slk)
-    w2l:backend_cleanobj(slk)
     progress:finish()
 
     if w2l.config.remove_unuse_object then
         message('标记简化对象...')
         w2l:backend_mark(archive, slk)
-        progress(0.3)
+        progress(0.2)
     end
+    
+    progress:start(0.3)
+    w2l:backend_cleanobj(slk)
+    progress:finish()
+
     if w2l.config.target_format == 'slk' then
         message('计算描述中的公式...')
         w2l:backend_computed(slk)
