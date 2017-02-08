@@ -57,6 +57,8 @@ local displaytype = {
     item = '物品',
     buff = '魔法效果',
     upgrade = '科技',
+    doodad = '装饰物',
+    destructable = '可破坏物',
 }
 
 local function get_displayname(o)
@@ -173,6 +175,8 @@ local function remove_unuse(w2l, slk)
         report_list(slk, origin_list, 'item', 5)
         report_list(slk, origin_list, 'buff', 1)
         report_list(slk, origin_list, 'upgrade', 1)
+        report_list(slk, origin_list, 'destructable', 1)
+        report_list(slk, origin_list, 'doodad', 1)
     end
     if unuse_custom > 0 then
         message('-report|4简化', ('简化掉的自定义对象数: %d/%d'):format(unuse_custom, total_custom))
@@ -181,6 +185,8 @@ local function remove_unuse(w2l, slk)
         report_list(slk, custom_list, 'item', 5)
         report_list(slk, custom_list, 'buff', 1)
         report_list(slk, custom_list, 'upgrade', 1)
+        report_list(slk, custom_list, 'destructable', 1)
+        report_list(slk, custom_list, 'doodad', 1)
     end
 end
 
