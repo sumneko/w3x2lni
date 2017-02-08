@@ -56,6 +56,7 @@ return function(window_, canvas_)
     canvas = canvas_
     version_begin()
     version('1.5', function()
+        log('CHG', '简化时科技需求不搜索它的引用')
         log('FIX', '修正随机物品会被简化掉的问题')
         log('FIX', '修正弹道速率为0优化后错误的问题')
         log('FIX', '修正imp中的文件分析不全的问题')
