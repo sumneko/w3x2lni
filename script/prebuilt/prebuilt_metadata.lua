@@ -239,6 +239,7 @@ end
 local function add_special(meta, type)
     if type == 'unit' then
         meta['missilespeed:1'].default = '{1500,1500}'
+        meta['missilespeed:2'].default = '{1500,1500}'
     end
 end
 
