@@ -236,6 +236,12 @@ local function add_user_metadata(meta, type)
     }
 end
 
+local function add_special(meta, type)
+    if type == 'unit' then
+        meta['missilespeed:1'].default = '{1500,1500}'
+    end
+end
+
 local function create_metadata(w2l, type, metadata)
     metadata[type] = {}
     local has_level = w2l.info.key.max_level[type]
@@ -261,6 +267,7 @@ local function create_metadata(w2l, type, metadata)
         end
     end
     add_user_metadata(metadata[type], type)
+    add_special(metadata[type], type)
 end
 
 local function copy_code(t, template)
