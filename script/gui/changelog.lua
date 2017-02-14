@@ -55,7 +55,7 @@ return function(window_, canvas_)
     window = window_
     canvas = canvas_
     version_begin()
-    version('1.6', function()
+    version('1.5.1', function()
         log('CHG', '简化显示更多的详情')
         log('FIX', '修正一个简化错误')
     end)
