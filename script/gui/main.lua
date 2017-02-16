@@ -44,6 +44,8 @@ remove_we_only = $remove_we_only$
 remove_unuse_object = $remove_unuse_object$
 -- mdx压缩
 mdx_squf = $mdx_squf$
+-- 优化装饰物
+slk_doodad = $slk_doodad$
 -- 转换为地图还是目录(mpq, dir)
 target_storage = $target_storage$
 ]]
@@ -189,6 +191,7 @@ local function window_select(canvas)
         config.lni.remove_we_only = false
         config.lni.remove_unuse_object = false
         config.lni.mdx_squf = false
+        config.lni.slk_doodad = false
         save_config()
         clean_convert_ui()
         set_current_theme {0, 173, 217}
@@ -222,6 +225,7 @@ local function window_select(canvas)
         config.obj.remove_we_only = false
         config.obj.remove_unuse_object = false
         config.lni.mdx_squf = false
+        config.lni.slk_doodad = false
         save_config()
         clean_convert_ui()
         set_current_theme {217, 163, 60}
@@ -281,6 +285,10 @@ local function window_convert(canvas)
     canvas:layout_row_dynamic(10, 1)
     canvas:tree('高级', 1, function()
         canvas:layout_row_dynamic(30, 1)
+        if fmt == 'slk' then
+            checkbox_simple(canvas, '优化装饰物', '地形变化不会卡顿，但之后需要重启魔兽', 'slk_doodad')
+            height = height - 34
+        end
         if checkbox_tip(canvas, '限制搜索最优模板的次数', '次数越多质量越好，但某些地图搜索会很慢', config[fmt].find_id_times ~= 0) then
             if config[fmt].find_id_times == 0 then
                 config[fmt].find_id_times = 10
