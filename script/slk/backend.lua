@@ -193,7 +193,7 @@ end
 local function to_slk(w2l, archive, slk)
     local report = { n = 0 }
     local object = {}
-    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable'} do
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable', 'doodad'} do
         local data = slk[type]
         object[type] = {}
         for _, slk in ipairs(w2l.info.slk[type]) do

@@ -85,7 +85,7 @@ return function (w2l_, slk)
     is_remove_same = w2l.config.remove_same
     if w2l.config.target_format == 'slk' then
         local type = 'doodad'
-        clean_objs(type, slk[type])
+        --clean_objs(type, slk[type])
         progress(0.5)
     else
         for i, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
