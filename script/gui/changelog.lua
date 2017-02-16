@@ -55,6 +55,9 @@ return function(window_, canvas_)
     window = window_
     canvas = canvas_
     version_begin()
+    version('1.6', function()
+        log('NEW', 'slk时可以选择是否优化装饰物', '优化装饰物后地形变化不会导致卡顿，但是玩下一张地图前需要重启魔兽，否则装饰物会显示不正常')
+    end)
     version('1.5.1', function()
         log('CHG', '简化显示更多的详情')
         log('FIX', '修正一个简化错误')
