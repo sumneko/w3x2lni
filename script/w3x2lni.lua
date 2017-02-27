@@ -136,7 +136,7 @@ function mt:refresh_wts(wts)
 end
 
 local function get_exepath()
-    return fs.path(package.cpath:sub(1, (package.cpath:find(';') or 0)-6)):remove_filename():remove_filename()
+    return fs.path(uni.a2u(package.cpath:sub(1, (package.cpath:find(';') or 0)-6))):remove_filename():remove_filename()
 end
 
 function mt:initialize(root)
