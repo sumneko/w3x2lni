@@ -50,7 +50,7 @@
             "name": "测试",
             "type": "lua",
             "request": "launch",
-            "program": "${workspaceRoot}/script/test_convert.lua",
+            "program": "${workspaceRoot}/script/test.lua",
             "stopOnEntry": true,
             "cwd": "${workspaceRoot}/bin",
             "path": "",
