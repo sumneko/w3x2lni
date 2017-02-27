@@ -2,22 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "打包地图",
-            "type": "lua",
-            "request": "launch",
-            "program": "${workspaceRoot}/script/map.lua",
-            "stopOnEntry": true,
-            "cwd": "${workspaceRoot}/bin",
-            "path": "",
-            "cpath": "${workspaceRoot}/bin/?.dll;",
-            "arg0": "${workspaceRoot}/w3x2lni.exe",
-            "arg": [
-                "${workspaceRoot}/NicoPoiDuang_4.0.w3x"
-            ],
-            "console": "ansi"
-        },
-        {
-            "name": "解包地图",
+            "name": "处理地图",
             "type": "lua",
             "request": "launch",
             "program": "${workspaceRoot}/script/map.lua",
