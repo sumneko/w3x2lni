@@ -1,5 +1,5 @@
 [Categories]
-GiantClass=¾ŞĞÍ
-UndeadClass=²»ËÀ×å
-MechanicalClass=»úĞµÀà
-TaurenClass=Å£Í·ÈË×å
+GiantClass=å·¨å‹
+UndeadClass=ä¸æ­»æ—
+MechanicalClass=æœºæ¢°ç±»
+TaurenClass=ç‰›å¤´äººæ—
