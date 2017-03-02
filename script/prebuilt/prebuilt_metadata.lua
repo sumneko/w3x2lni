@@ -152,14 +152,14 @@ end
 
 local function is_enable(meta, type)
     if type == 'unit' then
-        if meta.usehero == 1 or meta.useunit == 1 or meta.usebuilding == 1 or meta.usecreep == 1 then
+        if meta.useHero == 1 or meta.useUnit == 1 or meta.useBuilding == 1 or meta.useCreep == 1 then
             return true
         else
             return false
         end
     end
     if type == 'item' then
-        if meta['useitem'] == 1 then
+        if meta['useItem'] == 1 then
             return true
         else
             return false
@@ -173,7 +173,7 @@ local characters = {'A','B','C','D','E','F','G','H','I'}
 local function parse_id(w2l, metadata, id, meta, type, has_level)
     local key = meta.field
     local num  = meta.data
-    local objs = meta.usespecific or meta.section
+    local objs = meta.useSpecific or meta.section
     if num and num ~= 0 then
         key = key .. characters[num]
     end
@@ -182,11 +182,11 @@ local function parse_id(w2l, metadata, id, meta, type, has_level)
     end
     local data = {
         ['id'] = id,
-        ['key'] = meta.field:lower(),
+        ['key'] = meta.slk == 'Profile' and meta.field:lower() or meta.field,
         ['type'] = get_typedefine(w2l, meta.type),
         ['field'] = key,
-        ['appendindex'] = meta.appendindex == 1 and true or nil,
-        ['displayname'] = meta.displayname,
+        ['appendindex'] = meta.appendIndex == 1 and true or nil,
+        ['displayname'] = meta.displayName,
     }
     if concat_types[meta.type] then
         data.concat = true
