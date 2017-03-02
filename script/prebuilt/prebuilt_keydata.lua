@@ -57,6 +57,7 @@ end
 
 local function create_keydata(w2l, type, keydata)
     local metadata = w2l:parse_slk(io.load(w2l.mpq / w2l.info.metadata[type]))
+    metadata.Ytip = nil
     for id, meta in pairs(metadata) do
         if is_enable(meta, type) and not meta.useSpecific or meta.section then
             local key = get_key(w2l, type, id)

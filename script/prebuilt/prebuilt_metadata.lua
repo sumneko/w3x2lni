@@ -247,6 +247,7 @@ local function create_metadata(w2l, type, metadata)
     metadata[type] = {}
     local has_level = w2l.info.key.max_level[type]
     local tbl = slk(io.load(w2l.mpq / w2l.info.metadata[type]))
+    tbl.Ytip = nil
     local has_index = {}
     for k, v in pairs(tbl) do
         -- 进行部分预处理

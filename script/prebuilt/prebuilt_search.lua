@@ -149,7 +149,9 @@ local function create_search(w2l, type, search)
                 end
             else
                 local key = get_key(w2l, type, id)
-                search[type][key] = enable_type[meta.type]
+                if key then
+                    search[type][key] = enable_type[meta.type]
+                end
             end
         end
     end
