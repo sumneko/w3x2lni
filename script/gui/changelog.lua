@@ -55,6 +55,9 @@ return function(window_, canvas_)
     window = window_
     canvas = canvas_
     version_begin()
+    version('1.7', function()
+        log('NEW', '转换为lni时保留imp信息', '转换回obj格式后这些文件会继续覆盖编辑器自动生成的同名文件')
+    end)
     version('1.6', function()
         log('NEW', 'slk时可以选择是否优化装饰物', '优化装饰物后地形变化不会导致卡顿，但是玩下一张地图前需要重启魔兽，否则装饰物会显示不正常')
         log('CHG', 'slk文件的key不再无视大小写')
