@@ -128,7 +128,7 @@ return function (w2l, output_ar, w3i, input_ar)
     output_ar:set('(signature)', false)
     output_ar:set('(attributes)', false)
 
-    local imp = output_ar:get 'war3map.imp.ini'
+    local imp = input_ar:get 'war3map.imp.ini'
     if w2l.config.target_format ~= 'lni' then
         output_ar:set('war3map.imp.ini', false)
     end
