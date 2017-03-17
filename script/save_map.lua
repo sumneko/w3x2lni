@@ -39,7 +39,7 @@ local function search_mpq(map)
     local total = map:number_of_files()
     
     for i, searcher in ipairs(searchers) do
-        searcher(map)
+        pcall(searcher, map)
         if map.read_count == total then
             return true
         end
