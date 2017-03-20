@@ -115,7 +115,7 @@ local function add(x, y, k)
         strs[#strs+1] = 'Y' .. y
     end
     if type(k) == 'string' then
-        k = '"' .. k .. '"'
+        k = ('"%s"'):format(k:gsub('\r\n', '\x1B\x20\x3A'):gsub('[\r\n]', '\x1B\x20\x3A'))
     elseif math_type(k) == 'float' then
         k = ('%.4f'):format(k):gsub('[0]+$', ''):gsub('%.$', '.0')
     end
