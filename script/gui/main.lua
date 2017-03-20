@@ -305,8 +305,11 @@ local function window_convert(canvas)
             local r = canvas:edit(tostring(config[fmt].find_id_times), 10, function (c)
                 return 48 <= c and c <= 57
             end)
-            config[fmt].find_id_times = tonumber(r) or 1
-            save_config()
+            local n = tonumber(r) or 1
+            if config[fmt].find_id_times ~= n then
+                config[fmt].find_id_times = n
+                save_config()
+            end
         end
         height = height - 68
     end)
