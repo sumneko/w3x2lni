@@ -25,6 +25,7 @@ local cy
 local remove_unuse_object
 local slk_type
 local object
+local default
 
 local displaytype = {
     unit = '单位',
@@ -166,7 +167,15 @@ local function get_names()
     for name in pairs(slk) do
         names[#names+1] = name
     end
-    table_sort(names)
+    table_sort(names, function(name1, name2)
+        if default[name1] and not default[name2] then
+            return true
+        elseif not default[name1] and default[name2] then
+            return false
+        else
+            return name1 < name2
+        end
+    end)
     return names
 end
 
@@ -323,6 +332,7 @@ return function(w2l_, type, slk_name, chunk, report_, obj)
     lines = {}
     metadata = w2l:metadata()
     keys = w2l:keydata()[slk_name]
+    default = w2l:get_default()[type]
     slk_type = type
 
     load_chunk(chunk, slk_name)
