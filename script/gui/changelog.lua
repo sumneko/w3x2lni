@@ -55,6 +55,9 @@ return function(window_, canvas_)
     window = window_
     canvas = canvas_
     version_begin()
+    version('1.8', function()
+        log('FIX', '修正部分SLK文件解析不正确的问题')
+    end)
     version('1.7', function()
         log('NEW', '转换为lni时保留imp信息', '转换回obj格式后这些文件会继续覆盖编辑器自动生成的同名文件')
         log('FIX', '修正转换为obj时简化不正确的问题')
