@@ -119,7 +119,6 @@ local function parse_obj(name, obj, default, config, ttype)
     end
 
     obj._parent = parent
-    obj._code = default[parent]._code
 end
 
 local function processing(w2l, type, chunk)
