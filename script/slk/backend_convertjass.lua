@@ -26,7 +26,7 @@ local str1 = esc * P(1) + (1-quo)
 local str  = quo * (nl1 + str1)^0 * quo
 local wst  = quo * Cs('TRIGSTR_' * num^3 / fwts) * quo
 
-local pjass = (nl + wst + str + 1)^0
+local pjass = C((nl + wst + str + 1)^0)
 
 return function (w2l_, archive, wts_)
     local name = 'war3map.j'
