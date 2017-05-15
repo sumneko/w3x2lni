@@ -46,6 +46,8 @@ remove_unuse_object = $remove_unuse_object$
 mdx_squf = $mdx_squf$
 -- 优化装饰物
 slk_doodad = $slk_doodad$
+-- 优化脚本
+optimize_script = $optimize_script$
 -- 转换为地图还是目录(mpq, dir)
 target_storage = $target_storage$
 ]]
@@ -192,6 +194,7 @@ local function window_select(canvas)
         config.lni.remove_unuse_object = false
         config.lni.mdx_squf = false
         config.lni.slk_doodad = false
+        config.lni.optimize_script = false
         save_config()
         clean_convert_ui()
         set_current_theme {0, 173, 217}
@@ -207,6 +210,7 @@ local function window_select(canvas)
         config.slk.read_slk = true
         config.slk.remove_same = false
         config.slk.remove_exceeds_level = true
+        config.lni.optimize_script = true
         save_config()
         clean_convert_ui()
         set_current_theme {0, 173, 60}
@@ -224,8 +228,9 @@ local function window_select(canvas)
         config.obj.remove_exceeds_level = true
         config.obj.remove_we_only = false
         config.obj.remove_unuse_object = false
-        config.lni.mdx_squf = false
-        config.lni.slk_doodad = false
+        config.obj.mdx_squf = false
+        config.obj.slk_doodad = false
+        config.obj.optimize_script = false
         save_config()
         clean_convert_ui()
         set_current_theme {217, 163, 60}
