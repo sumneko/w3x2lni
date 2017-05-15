@@ -10,11 +10,26 @@ local function insert_line(str)
 end
 
 local function get_integer(exp)
-    return exp.value
+    local int = exp.value
+    if int >= 1000000 then
+        int = ('$%X'):format(int)
+    else
+        int = ('%d'):format(int)
+    end
+    return int
 end
 
 local function get_real(exp)
-    return ('%.3f'):format(exp.value)
+    local str = ('%.3f'):format(exp.value)
+    for i = 1, 3 do
+        if str:sub(-1) == '0' then
+            str = str:sub(1, -2)
+        end
+    end
+    if #str > 2 and str:sub(1, 2) == '0.' then
+        str = str:sub(2)
+    end
+    return str
 end
 
 local function get_available_name(name)
@@ -22,7 +37,7 @@ local function get_available_name(name)
 end
 
 local function get_string(exp)
-    return ('"%s"'):format(exp.value)
+    return ('"%s"'):format(exp.value:gsub('\r\n', '\\n'):gsub('[\r\n]', '\\n'))
 end
 
 local function get_boolean(exp)
