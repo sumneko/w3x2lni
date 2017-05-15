@@ -282,9 +282,9 @@ local function add_local(loc)
         value = new_array(loc.type)
     end
     if value then
-        insert_line(('local %s = %s'):format(get_var_name(loc.name), value))
+        insert_line(('local %s %s=%s'):format(loc.type, get_var_name(loc.name), value))
     else
-        insert_line(('local %s'):format(get_var_name(loc.name)))
+        insert_line(('local %s %s'):format(loc.type, get_var_name(loc.name)))
     end
 end
 
@@ -302,39 +302,31 @@ local function get_args(line)
     for i, exp in ipairs(line) do
         args[i] = get_exp(exp)
     end
-    return table.concat(args, ', ')
+    return table.concat(args, ',')
 end
 
 local function add_call(line)
-    insert_line(('%s(%s)'):format(get_function_name(line.name), get_args(line)))
+    insert_line(('call %s(%s)'):format(get_function_name(line.name), get_args(line)))
 end
 
 local function add_set(line)
-    insert_line(('%s = %s'):format(get_var_name(line.name), get_exp(line[1])))
+    insert_line(('set %s=%s'):format(get_var_name(line.name), get_exp(line[1])))
 end
 
 local function add_seti(line)
-    insert_line(('%s[%s] = %s'):format(get_var_name(line.name), get_exp(line[1]), get_exp(line[2])))
+    insert_line(('set %s[%s]=%s'):format(get_var_name(line.name), get_exp(line[1]), get_exp(line[2])))
 end
 
 local function add_return(line, last)
-    if last then
-        if line[1] then
-            insert_line(('return %s'):format(get_exp(line[1])))
-        else
-            insert_line('return')
-        end
+    if line[1] then
+        insert_line(('return %s'):format(get_exp(line[1])))
     else
-        if line[1] then
-            insert_line(('do return %s end'):format(get_exp(line[1])))
-        else
-            insert_line('do return end')
-        end
+        insert_line('return')
     end
 end
 
 local function add_exit(line)
-    insert_line(('if %s then break end'):format(get_exp(line[1])))
+    insert_line(('exitwhen %s'):format(get_exp(line[1])))
 end
 
 local function add_if(data)
@@ -364,13 +356,13 @@ local function add_ifs(chunk)
             print('未知的判断类型', line.type)
         end
     end
-    insert_line('end')
+    insert_line('endif')
 end
 
 local function add_loop(chunk)
-    insert_line('for _ in _loop_() do')
+    insert_line('loop')
     add_lines(chunk)
-    insert_line('end')
+    insert_line('endloop')
 end
 
 function add_lines(chunk)
