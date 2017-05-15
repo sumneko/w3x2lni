@@ -181,7 +181,7 @@ function get_exp(exp)
         return nil
     end
     if exp.type == 'null' then
-        return 'nil'
+        return 'null'
     elseif exp.type == 'integer' then
         return get_integer(exp)
     elseif exp.type == 'real' then
@@ -256,14 +256,15 @@ local function new_array(type)
 end
 
 local function add_global(global)
-    local value = get_exp(global[1])
     if global.array then
-        value = new_array(global.type)
-    end
-    if value then
-        insert_line(([[%s = %s]]):format(get_available_name(global.name), value))
+        insert_line(([[%s array %s]]):format(global.type, get_available_name(global.name)))
     else
-        insert_line(([[%s = %s]]):format(get_available_name(global.name), 'nil'))
+        local value = get_exp(global[1])
+        if value then
+            insert_line(([[%s %s=%s]]):format(global.type, get_available_name(global.name), value))
+        else
+            insert_line(([[%s %s]]):format(global.type, get_available_name(global.name)))
+        end
     end
 end
 
@@ -394,23 +395,36 @@ function add_lines(chunk)
     end
 end
 
+local function get_takes(func)
+    if not func.args then
+        return 'nothing'
+    end
+    local takes = {}
+    for i, arg in ipairs(func.args) do
+        takes[i] = ('%s %s'):format(arg.type, get_available_name(arg.name))
+    end
+    return table.concat(takes, ',')
+end
+
+local function get_returns(func)
+    if func.returns then
+        return func.returns
+    else
+        return 'nothing'
+    end
+end
+
 local function add_native(func)
     current_function = func
-    insert_line(([[%s = _native_'%s']]):format(get_function_name(func.name), func.name))
+    insert_line(([[native function %s takes %s returns %s]]):format(get_function_name(func.name), get_takes(func), get_returns(func)))
 end
 
 local function add_function(func)
     current_function = func
-    local args = {}
-    if func.args then
-        for i, arg in ipairs(func.args) do
-            args[i] = get_available_name(arg.name)
-        end
-    end
-    insert_line(([[function %s(%s)]]):format(get_function_name(func.name), table.concat(args, ', ')))
+    insert_line(([[function %s takes %s returns %s]]):format(get_function_name(func.name), get_takes(func), get_returns(func)))
     add_locals(func.locals)
     add_lines(func)
-    insert_line('end')
+    insert_line('endfunction')
 end
 
 local function add_functions()
