@@ -9,22 +9,12 @@ local function insert_line(str)
     lines[#lines+1] = str
 end
 
-local function int32(int)
-    int = int & 0xFFFFFFFF
-    if int & 0x80000000 == 0 then
-        return int
-    else
-        return - (((~ int) & 0xFFFFFFFF) + 1)
-    end
-end
-
 local function get_integer(exp)
-    return int32(exp.value)
+    return exp.value
 end
 
 local function get_real(exp)
-    local int, float = math.modf(exp.value)
-    return int32(int) + float
+    return ('%.3f'):format(exp.value)
 end
 
 local function get_available_name(name)
@@ -32,20 +22,7 @@ local function get_available_name(name)
 end
 
 local function get_string(exp)
-    local str = exp.value
-    local lines = {}
-    local start = 1
-    while start <= #str do
-        local pos = str:find('[\r\n]', start) or #str+1
-        local line = str:sub(start, pos-1)
-        if str:sub(pos, pos+1) == '\r\n' then
-            start = pos+2
-        else
-            start = pos+1
-        end
-        lines[#lines+1] = line
-    end
-    return ('"%s"'):format(table.concat(lines, '\\\r\n'))
+    return ('"%s"'):format(exp.value)
 end
 
 local function get_boolean(exp)
@@ -84,52 +61,27 @@ local function get_call(exp)
     for i, sub_exp in ipairs(exp) do
         args[i] = get_exp(sub_exp)
     end
-    return ('%s(%s)'):format(get_function_name(exp.name), table.concat(args, ', '))
-end
-
-local function get_type_in_paren(exp)
-    while exp.type == 'paren' do
-        exp = exp[1]
-    end
-    return exp.type
-end
-
-local function must_string(exp)
-    local type = get_type_in_paren(exp)
-    if type == 'string' or type == '+' then
-        return get_exp(exp)
-    end
-    return ('(%s or "")'):format(get_exp(exp))
+    return ('%s(%s)'):format(get_function_name(exp.name), table.concat(args, ','))
 end
 
 local function get_add(exp)
-    if exp.vtype == 'integer' or exp.vtype == 'real' then
-        return ('%s + %s'):format(get_exp(exp[1]), get_exp(exp[2]))
-    elseif exp.vtype == 'string' then
-        return ('%s .. %s'):format(must_string(exp[1]), must_string(exp[2]))
-    end
-    error(('表达式类型错误:%s %s'):format(exp.type, exp.vtype))
+    return ('%s+%s'):format(get_exp(exp[1]), get_exp(exp[2]))
 end
 
 local function get_sub(exp)
-    return ('%s - %s'):format(get_exp(exp[1]), get_exp(exp[2]))
+    return ('%s-%s'):format(get_exp(exp[1]), get_exp(exp[2]))
 end
 
 local function get_mul(exp)
-    return ('%s * %s'):format(get_exp(exp[1]), get_exp(exp[2]))
+    return ('%s*%s'):format(get_exp(exp[1]), get_exp(exp[2]))
 end
 
 local function get_div(exp)
-    if exp.vtype == 'integer' then
-        return ('%s // %s'):format(get_exp(exp[1]), get_exp(exp[2]))
-    elseif exp.vtype == 'real' then
-        return ('%s / %s'):format(get_exp(exp[1]), get_exp(exp[2]))
-    end
-    error(('表达式类型错误:%s %s'):format(exp.type, exp.vtype))
+    return ('%s/%s'):format(get_exp(exp[1]), get_exp(exp[2]))
 end
 
 local function get_neg(exp)
-    return (' - %s'):format(get_exp(exp[1]))
+    return ('-%s'):format(get_exp(exp[1]))
 end
 
 local function get_paren(exp)
@@ -137,27 +89,27 @@ local function get_paren(exp)
 end
 
 local function get_equal(exp)
-    return ('%s == %s'):format(get_exp(exp[1]), get_exp(exp[2]))
+    return ('%s==%s'):format(get_exp(exp[1]), get_exp(exp[2]))
 end
 
 local function get_unequal(exp)
-    return ('%s ~= %s'):format(get_exp(exp[1]), get_exp(exp[2]))
+    return ('%s!=%s'):format(get_exp(exp[1]), get_exp(exp[2]))
 end
 
 local function get_gt(exp)
-    return ('%s > %s'):format(get_exp(exp[1]), get_exp(exp[2]))
+    return ('%s>%s'):format(get_exp(exp[1]), get_exp(exp[2]))
 end
 
 local function get_ge(exp)
-    return ('%s >= %s'):format(get_exp(exp[1]), get_exp(exp[2]))
+    return ('%s>=%s'):format(get_exp(exp[1]), get_exp(exp[2]))
 end
 
 local function get_lt(exp)
-    return ('%s < %s'):format(get_exp(exp[1]), get_exp(exp[2]))
+    return ('%s<%s'):format(get_exp(exp[1]), get_exp(exp[2]))
 end
 
 local function get_le(exp)
-    return ('%s <= %s'):format(get_exp(exp[1]), get_exp(exp[2]))
+    return ('%s<=%s'):format(get_exp(exp[1]), get_exp(exp[2]))
 end
 
 local function get_and(exp)
@@ -173,7 +125,7 @@ local function get_not(exp)
 end
 
 local function get_code(exp)
-    return get_function_name(exp.name)
+    return ('function %s'):format(get_function_name(exp.name))
 end
 
 function get_exp(exp)
@@ -240,21 +192,6 @@ local function base_type(type)
     return type
 end
 
-local function new_array(type)
-    local default
-    local type = base_type(type)
-    if type == 'boolean' then
-        default = 'false'
-    elseif type == 'integer' then
-        default = '0'
-    elseif type == 'real' then
-        default = '0.0'
-    else
-        default = ''
-    end
-    return ([[_array_(%s)]]):format(default)
-end
-
 local function add_global(global)
     if global.array then
         insert_line(([[%s array %s]]):format(global.type, get_available_name(global.name)))
@@ -277,14 +214,15 @@ local function add_globals()
 end
 
 local function add_local(loc)
-    local value = get_exp(loc[1])
     if loc.array then
-        value = new_array(loc.type)
-    end
-    if value then
-        insert_line(('local %s %s=%s'):format(loc.type, get_var_name(loc.name), value))
+        insert_line(('local %s array %s'):format(loc.type, get_var_name(loc.name)))
     else
-        insert_line(('local %s %s'):format(loc.type, get_var_name(loc.name)))
+        local value = get_exp(loc[1])
+        if value then
+            insert_line(('local %s %s=%s'):format(loc.type, get_var_name(loc.name), value))
+        else
+            insert_line(('local %s %s'):format(loc.type, get_var_name(loc.name)))
+        end
     end
 end
 
@@ -408,7 +346,7 @@ end
 
 local function add_native(func)
     current_function = func
-    insert_line(([[native function %s takes %s returns %s]]):format(get_function_name(func.name), get_takes(func), get_returns(func)))
+    insert_line(([[native %s takes %s returns %s]]):format(get_function_name(func.name), get_takes(func), get_returns(func)))
 end
 
 local function add_function(func)
