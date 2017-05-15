@@ -194,7 +194,7 @@ local function window_select(canvas)
         config.lni.remove_unuse_object = false
         config.lni.mdx_squf = false
         config.lni.slk_doodad = false
-        config.lni.optimize_script = false
+        config.lni.optimize_jass = false
         save_config()
         clean_convert_ui()
         set_current_theme {0, 173, 217}
@@ -210,7 +210,7 @@ local function window_select(canvas)
         config.slk.read_slk = true
         config.slk.remove_same = false
         config.slk.remove_exceeds_level = true
-        config.lni.optimize_script = true
+        config.lni.optimize_jass = true
         save_config()
         clean_convert_ui()
         set_current_theme {0, 173, 60}
@@ -230,7 +230,7 @@ local function window_select(canvas)
         config.obj.remove_unuse_object = false
         config.obj.mdx_squf = false
         config.obj.slk_doodad = false
-        config.obj.optimize_script = false
+        config.obj.optimize_jass = false
         save_config()
         clean_convert_ui()
         set_current_theme {217, 163, 60}
