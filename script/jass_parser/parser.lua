@@ -1,4 +1,4 @@
-local grammar = require 'grammar'
+local grammar = require 'jass_parser.grammar'
 
 local ast
 
