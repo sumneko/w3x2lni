@@ -47,7 +47,7 @@ mdx_squf = $mdx_squf$
 -- 优化装饰物
 slk_doodad = $slk_doodad$
 -- 优化脚本
-optimize_script = $optimize_script$
+optimize_jass = $optimize_jass$
 -- 转换为地图还是目录(mpq, dir)
 target_storage = $target_storage$
 ]]
@@ -210,7 +210,7 @@ local function window_select(canvas)
         config.slk.read_slk = true
         config.slk.remove_same = false
         config.slk.remove_exceeds_level = true
-        config.lni.optimize_jass = true
+        config.slk.optimize_jass = true
         save_config()
         clean_convert_ui()
         set_current_theme {0, 173, 60}
