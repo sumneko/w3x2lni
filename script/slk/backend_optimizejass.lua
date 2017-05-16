@@ -1,5 +1,5 @@
-local parser = require 'jass_parser.parser'
-local converter = require 'jass_parser.converter'
+local parser = require 'parser'
+local converter = require 'parser.converter'
 
 return function (w2l, archive)
     local common   = archive:get 'common.j'   or archive:get 'scripts\\common.j'   or io.load(w2l.mpq / 'scripts' / 'common.j')
