@@ -27,7 +27,7 @@ local wst  = quo * ('TRIGSTR_' * num^3 / fwts) * quo
 local mtch = nl + wst + str
 local any  = 1 - mtch
 
-local pjass = Cs((mtch + any^1)^0)
+local pjass = C((Cs(mtch) + P(1))^0)
 
 return function (w2l_, archive, wts_)
     local name = 'war3map.j'
