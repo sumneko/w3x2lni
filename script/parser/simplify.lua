@@ -1,6 +1,9 @@
+local ipairs = ipairs
+local pairs = pairs
+
 local jass
 local current_function, current_line
-
+local executes, executed_any
 local mark_exp, mark_lines, mark_function
 
 local function mark_var(name)
@@ -20,10 +23,7 @@ local function mark_var(name)
             return
         end
     end
-    if not jass.globals[name] then
-        print(current_line, name)
     jass.globals[name].used = true
-    end
 end
 
 function mark_exp(exp)
@@ -51,10 +51,31 @@ local function mark_locals(locals)
     end
 end
 
+local function mark_execute(line)
+    if not executes then
+        executes = {}
+    end
+    local exp = line[1]
+    if exp.type == 'string' then
+        mark_function(exp.value)
+        return
+    end
+    if exp.type == '+' then
+        if exp[1].type == 'string' then
+            executes[exp[1].value] = true
+            return
+        end
+    end
+    executed_any = true
+end
+
 local function mark_call(line)
     mark_function(line.name)
     for _, exp in ipairs(line) do
         mark_exp(exp)
+    end
+    if line.name == 'ExecuteFunc' then
+        mark_execute(line)
     end
 end
 
@@ -158,9 +179,31 @@ local function mark_globals()
     end
 end
 
+local function mark_executed()
+    if not executes then
+        return
+    end
+    for _, func in ipairs(jass.functions) do
+        if not func.used then
+            local name = func.name
+            if executed_any then
+                mark_function(name)
+            else
+                for head in pairs(executes) do
+                    if name:sub(1, #head) == head then
+                        mark_function(name)
+                        break
+                    end
+                end
+            end
+        end
+    end
+end
+
 return function (ast)
     jass = ast
     mark_globals()
     mark_function('config')
     mark_function('main')
+    mark_executed()
 end
