@@ -210,7 +210,7 @@ local function window_select(canvas)
         config.slk.read_slk = true
         config.slk.remove_same = false
         config.slk.remove_exceeds_level = true
-        config.slk.optimize_jass = false
+        config.slk.optimize_jass = true
         save_config()
         clean_convert_ui()
         set_current_theme {0, 173, 60}
