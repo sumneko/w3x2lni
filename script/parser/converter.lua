@@ -115,14 +115,6 @@ level['/']     = 5
 level['not']   = 6
 level['neg']   = 6
 level['paren'] = 6
-local function get_paren(exp, op)
-    local str = get_exp(exp[1], 'paren')
-    if not op or op == 'paren' then
-        return str
-    end
-    return ('(%s)'):format(str)
-end
-
 local function get_equal(exp)
     return ('%s==%s'):format(get_exp(exp[1], '=='), get_exp(exp[2], '=='))
 end
@@ -163,58 +155,99 @@ local function get_code(exp)
     return ('function %s'):format(get_function_name(exp.name))
 end
 
+local priority = {
+{'and'},
+{'or'},
+{'<', '>', '==', '!=', '<=', '>='},
+{'not'},
+{'+', '-'},
+{'*', '/'},
+{'neg'},
+}
+
+local op_level
+local function get_op_level(op)
+    if not op_level then
+        op_level = {}
+        for lv, ops in ipairs(priority) do
+            for _, op in ipairs(ops) do
+                op_level[op] = lv
+            end
+        end
+    end
+    return op_level[op]
+end
+
+local function need_paren(op1, op2)
+    if not op2 then
+        return false
+    end
+    local lv1, lv2 = get_op_level(op1), get_op_level(op2)
+    if not lv1 then
+        return false
+    end
+    return lv1 < lv2
+end
+
 function get_exp(exp, op)
     if not exp then
         return nil
     end
+    local value
     if exp.type == 'null' then
-        return 'null'
+        value = 'nil'
     elseif exp.type == 'integer' then
-        return get_integer(exp)
+        value = get_integer(exp)
     elseif exp.type == 'real' then
-        return get_real(exp)
+        value = get_real(exp)
     elseif exp.type == 'string' then
-        return get_string(exp)
+        value = get_string(exp)
     elseif exp.type == 'boolean' then
-        return get_boolean(exp)
+        value = get_boolean(exp)
     elseif exp.type == 'var' then
-        return get_var(exp)
+        value = get_var(exp)
     elseif exp.type == 'vari' then
-        return get_vari(exp)
+        value = get_vari(exp)
     elseif exp.type == 'call' then
-        return get_call(exp)
+        value = get_call(exp)
     elseif exp.type == '+' then
-        return get_add(exp)
+        value = get_add(exp)
     elseif exp.type == '-' then
-        return get_sub(exp)
+        value = get_sub(exp)
     elseif exp.type == '*' then
-        return get_mul(exp)
+        value = get_mul(exp)
     elseif exp.type == '/' then
-        return get_div(exp)
+        value = get_div(exp)
     elseif exp.type == 'neg' then
-        return get_neg(exp)
+        value = get_neg(exp)
     elseif exp.type == 'paren' then
-        return get_paren(exp, op)
+        value = get_paren(exp)
     elseif exp.type == '==' then
-        return get_equal(exp)
+        value = get_equal(exp)
     elseif exp.type == '!=' then
-        return get_unequal(exp)
+        value = get_unequal(exp)
     elseif exp.type == '>' then
-        return get_gt(exp)
+        value = get_gt(exp)
     elseif exp.type == '<' then
-        return get_lt(exp)
+        value = get_lt(exp)
     elseif exp.type == '>=' then
-        return get_ge(exp)
+        value = get_ge(exp)
     elseif exp.type == '<=' then
-        return get_le(exp)
+        value = get_le(exp)
     elseif exp.type == 'and' then
-        return get_and(exp)
+        value = get_and(exp)
     elseif exp.type == 'or' then
-        return get_or(exp)
+        value = get_or(exp)
     elseif exp.type == 'not' then
-        return get_not(exp)
+        value = get_not(exp)
     elseif exp.type == 'code' then
-        return get_code(exp)
+        value = get_code(exp)
+    end
+    if value then
+        if need_paren(exp.type, op) then
+            value = ('(%s)'):format(value)
+        end
+        return value
     end
     print('未知的表达式类型', exp.type)
     return nil
