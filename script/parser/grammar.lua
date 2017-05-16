@@ -86,8 +86,25 @@ local function binary(...)
         op, e2 = args[i], args[i+1]
         e1 = {
             type = op,
-            [1] = e1,
-            [2] = e2,
+            [1]  = e1,
+            [2]  = e2,
+        }
+    end
+    return e1
+end
+
+local function unary(...)
+    local e1, op = ...
+    if not op then
+        return e1
+    end
+    local args = {...}
+    local e1 = args[#args]
+    for i = #args - 1, 1, -1 do
+        op = args[i]
+        e1 = {
+            type = op,
+            [1]  = e1,
         }
     end
     return e1
@@ -170,26 +187,23 @@ local Exp = P{
     'Def',
     
     -- 由低优先级向高优先级递归
-    Def      = V'Or',
-    Exp      = V'Paren' + V'Code' + V'Call' + Value + V'Vari' + V'Var' + V'Neg',
+    Def      = V'And',
 
-    -- 由于不消耗字符串,只允许向下递归
-    Or       = V'And'     * (C'or'                     * V'And')^0     / binary,
-    And      = V'Compare' * (C'and'                    * V'Compare')^0 / binary,
-    Compare  = V'AddSub'  * (C(S'><=!' * P'=' + S'><') * V'AddSub')^0  / binary,
-    AddSub   = V'MulDiv'  * (C(S'+-')                  * V'MulDiv')^0  / binary,
-    MulDiv   = V'Not'     * (C(S'*/')                  * V'Not')^0     / binary,
+    And      = V'Or'      * (C'and'                    * Cut * V'Or')^0          / binary,
+    Or       = V'Compare' * (C'or'                     * Cut * V'Compare')^0     / binary,
+    Compare  = V'Not'     * (C(S'><=!' * P'=' + S'><') * sp  * V'Not')^0         / binary,
+    Not      = sp         * (C'not'                    * Cut * sp)^0 * V'AddSub' / unary,
+    AddSub   = V'MulDiv'  * (C(S'+-')                  * sp  * V'MulDiv')^0      / binary,
+    MulDiv   = V'Exp'     * (C(S'*/')                  * sp  * V'Exp')^0         / binary,
 
-    -- 由于消耗了字符串,可以递归回顶层
-    Not   = Ct(keyvalue('type', 'not') * sp * 'not' * Cut * (V'Not' + V'Exp')) + sp * V'Exp',
+    Exp   = V'Paren' + V'Code' + V'Call' + Value + V'Neg' + V'Vari' + V'Var',
+    Paren = sp * '(' * V'Def' * ')' * sp,
 
-    -- 由于消耗了字符串,可以递归回顶层
-    Paren = Ct(keyvalue('type', 'paren') * sp * '(' * Cg(V'Def', 1) * ')' * sp),
     Code  = Ct(keyvalue('type', 'code')  * sp * 'function' * sps * Cg(Id, 'name') * sp),
     Call  = Ct(keyvalue('type', 'call')  * sp * Cg(Id, 'name') * '(' * V'Args' * ')' * sp),
     Vari  = Ct(keyvalue('type', 'vari')  * sp * Cg(Id, 'name') * sp * '[' * Cg(V'Def', 1) * ']' * sp),
     Var   = Ct(keyvalue('type', 'var')   * sp * Cg(Id, 'name') * sp),
-    Neg   = Ct(keyvalue('type', 'neg')   * sp * '-' * sp * Cg(V'Exp', 1)),
+    Neg   = Ct(keyvalue('type', 'neg')   * sp * '-' * sp * Cg(V'Def', 1)),
 
     Args  = V'Def' * (',' * V'Def')^0 + sp,
 }
