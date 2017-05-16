@@ -1,5 +1,6 @@
-local parser = require 'parser'
+local parser    = require 'parser'
 local converter = require 'parser.converter'
+local simplify  = require 'parser.simplify'
 
 return function (w2l, archive)
     local common   = archive:get 'common.j'   or archive:get 'scripts\\common.j'   or io.load(w2l.mpq / 'scripts' / 'common.j')
@@ -9,6 +10,7 @@ return function (w2l, archive)
     ast = parser(common,   'common.j',   ast)
     ast = parser(blizzard, 'blizzard.j', ast)
     ast = parser(war3map,  'war3map.j',  ast)
+    simplify(ast)
     local buf = converter(ast)
 
     archive:set('scripts\\war3map.j', false)
