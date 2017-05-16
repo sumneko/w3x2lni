@@ -323,7 +323,7 @@ local function add_seti(line)
     insert_line(('set %s[%s]=%s'):format(get_var_name(line.name), get_exp(line[1]), get_exp(line[2])))
 end
 
-local function add_return(line, last)
+local function add_return(line)
     if line[1] then
         insert_line(('return %s'):format(get_exp(line[1])))
     else
@@ -380,7 +380,7 @@ function add_lines(chunk)
         elseif line.type == 'seti' then
             add_seti(line)
         elseif line.type == 'return' then
-            add_return(line, #chunk == i)
+            add_return(line)
         elseif line.type == 'exit' then
             add_exit(line)
         elseif line.type == 'if' then
