@@ -220,8 +220,6 @@ function get_exp(exp, op)
         value = get_div(exp)
     elseif exp.type == 'neg' then
         value = get_neg(exp)
-    elseif exp.type == 'paren' then
-        value = get_paren(exp)
     elseif exp.type == '==' then
         value = get_equal(exp)
     elseif exp.type == '!=' then
