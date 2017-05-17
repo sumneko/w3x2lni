@@ -57,7 +57,9 @@ local function mark_execute(line)
     end
     local exp = line[1]
     if exp.type == 'string' then
-        mark_function(exp.value)
+        if jass.functions[exp.value] then
+            mark_function(exp.value)
+        end
         return
     end
     if exp.type == '+' then
