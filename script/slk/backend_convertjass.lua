@@ -24,11 +24,12 @@ local num  = R'09'
 local str1 = esc * P(1) + (1-quo)
 local str  = quo * (nl1 + str1)^0 * quo
 local wst  = quo * ('TRIGSTR_' * num^3 / fwts) * quo
-local mtch = nl + wst + str
-local any  = 1 - mtch
+local mtch = C(nl) + Cs(wst) + C(str)
+local any  = C((1 - mtch)^1)
 
-local pjass = C((Cs(mtch) + P(1))^0)
-
+local pjass = (mtch + any)^0 / function(...)
+    return table.concat {...}
+end
 return function (w2l_, archive, wts_)
     local name = 'war3map.j'
     local buf = archive:get(name)
