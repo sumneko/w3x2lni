@@ -195,7 +195,7 @@ function get_exp(exp, op)
     end
     local value
     if exp.type == 'null' then
-        value = 'nil'
+        value = 'null'
     elseif exp.type == 'integer' then
         value = get_integer(exp)
     elseif exp.type == 'real' then
@@ -259,6 +259,9 @@ local function base_type(type)
 end
 
 local function add_global(global)
+    if not global.used then
+        return
+    end
     if global.array then
         insert_line(([[%s array %s]]):format(global.type, get_available_name(global.name)))
     else
@@ -280,6 +283,9 @@ local function add_globals()
 end
 
 local function add_local(loc)
+    if not loc.used then
+        return
+    end
     if loc.array then
         insert_line(('local %s array %s'):format(loc.type, get_var_name(loc.name)))
     else
@@ -411,11 +417,17 @@ local function get_returns(func)
 end
 
 local function add_native(func)
+    if not func.used then
+        return
+    end
     current_function = func
     insert_line(([[native %s takes %s returns %s]]):format(get_function_name(func.name), get_takes(func), get_returns(func)))
 end
 
 local function add_function(func)
+    if not func.used then
+        return
+    end
     current_function = func
     insert_line(([[function %s takes %s returns %s]]):format(get_function_name(func.name), get_takes(func), get_returns(func)))
     add_locals(func.locals)
