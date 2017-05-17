@@ -8,3 +8,5 @@ script/.vscode/
 *.sign
 temp
 script/rsa/ppk
+/*.j
+/*.vj

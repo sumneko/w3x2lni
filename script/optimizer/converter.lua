@@ -1,5 +1,6 @@
 local lines
 local jass
+local report
 
 local current_function
 local get_exp
@@ -260,6 +261,7 @@ end
 
 local function add_global(global)
     if not global.used then
+        report('清除未引用的全局变量', ('清除未引用的全局变量 %s'):format(global.name), ('第[%d]行'):format(global.line))
         return
     end
     if global.array then
@@ -284,6 +286,7 @@ end
 
 local function add_local(loc)
     if not loc.used then
+        report('清除未引用的局部变量', ('清除未引用的局部变量 %s'):format(loc.name), ('第[%d]行，函数[%s]内'):format(loc.line, current_function.name))
         return
     end
     if loc.array then
@@ -418,6 +421,7 @@ end
 
 local function add_native(func)
     if not func.used then
+        report('清除未引用的函数', ('清除未引用的函数 %s'):format(func.name), ('第[%d]行'):format(func.line))
         return
     end
     current_function = func
@@ -426,6 +430,7 @@ end
 
 local function add_function(func)
     if not func.used then
+        report('清除未引用的函数', ('清除未引用的函数 %s'):format(func.name), ('第[%d]-[%d]行'):format(func.line, func.endline))
         return
     end
     current_function = func
@@ -445,9 +450,10 @@ local function add_functions()
     end
 end
 
-return function (ast)
+return function (ast, _report)
     lines = {}
     jass = ast
+    report = _report
 
     add_globals()
     add_functions()

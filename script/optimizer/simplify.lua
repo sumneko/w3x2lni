@@ -1,7 +1,7 @@
 local ipairs = ipairs
 local pairs = pairs
 
-local jass
+local jass, report
 local current_function, current_line
 local executes, executed_any
 local mark_exp, mark_lines, mark_function
@@ -62,11 +62,16 @@ local function mark_execute(line)
     end
     if exp.type == '+' then
         if exp[1].type == 'string' then
-            executes[exp[1].value] = true
+            local head = exp[1].value
+            executes[head] = true
+            report('引用函数', ('引用函数： %s...'):format(head), ('第[%d]行：ExecuteFunc("%s" + ...)'):format(line.line, head))
             return
         end
     end
-    executed_any = true
+    if not executed_any then
+        executed_any = true
+        report('强制引用全部函数', '强制引用全部函数', ('第[%d]行：完全动态的ExecuteFunc'):format(line.line))
+    end
 end
 
 local function mark_call(line)
@@ -200,8 +205,9 @@ local function mark_executed()
     end
 end
 
-return function (ast)
+return function (ast, _report)
     jass = ast
+    report = _report
     mark_globals()
     mark_function('config')
     mark_function('main')
