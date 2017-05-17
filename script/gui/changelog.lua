@@ -56,6 +56,7 @@ return function(window_, canvas_)
     canvas = canvas_
     version_begin()
     version('1.8', function()
+        log('NEW', '转换为slk时优化脚本')
         log('FIX', '修正部分SLK文件解析不正确的问题')
         log('FIX', '修正转换为obj与lni可能失败的问题', '物编中包含了错误的数据，现在会忽略并报告')
     end)
