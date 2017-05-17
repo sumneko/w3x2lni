@@ -119,7 +119,7 @@ function mt:update()
         self.output = ''
         self.out_rd:close()
         self.out_rd = nil
-        io.stdout:write(self.error)
+        io.stdout:write(uni.u2a(self.error))
         io.stdout:flush()
         self.error = ''
         srv.message = '转换失败'
