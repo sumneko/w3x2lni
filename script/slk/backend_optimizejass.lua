@@ -6,8 +6,12 @@ local function create_report(report, type, max)
     if not msgs then
         return
     end
+    local fix = 0
+    if #msgs > max then
+        fix = math.random(0, #msgs - max)
+    end
     for i = 1, max do
-        local msg = msgs[i]
+        local msg = msgs[i+fix]
         if msg then
             message('-report|8脚本优化', msg[1])
             message('-tip', msg[2])
