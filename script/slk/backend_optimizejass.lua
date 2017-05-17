@@ -16,5 +16,5 @@ return function (w2l, archive)
     archive:set('scripts\\war3map.j', false)
     archive:set('war3map.j', buf)
 
-    io.save(w2l.root / 'war3map.j', buf)
+    io.save(w2l.root / 'optimized.j', buf)
 end
