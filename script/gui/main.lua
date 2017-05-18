@@ -48,6 +48,8 @@ mdx_squf = $mdx_squf$
 slk_doodad = $slk_doodad$
 -- 优化脚本
 optimize_jass = $optimize_jass$
+-- 混淆脚本
+confusion = $confusion$
 -- 转换为地图还是目录(mpq, dir)
 target_storage = $target_storage$
 ]]
@@ -195,6 +197,7 @@ local function window_select(canvas)
         config.lni.mdx_squf = false
         config.lni.slk_doodad = false
         config.lni.optimize_jass = false
+        config.lni.confusion = nil
         save_config()
         clean_convert_ui()
         set_current_theme {0, 173, 217}
@@ -231,6 +234,7 @@ local function window_select(canvas)
         config.obj.mdx_squf = false
         config.obj.slk_doodad = false
         config.obj.optimize_jass = false
+        config.lni.confusion = nil
         save_config()
         clean_convert_ui()
         set_current_theme {217, 163, 60}
