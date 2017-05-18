@@ -108,7 +108,7 @@ local function mark_execute(line)
         if exp[1].type == 'string' then
             local head = exp[1].value
             executes[head] = true
-            report('引用函数', ('引用函数： %s...'):format(head), ('第[%d]行：ExecuteFunc("%s" + ...)'):format(line.line, head))
+            report('引用函数', ('%s...'):format(head), ('第[%d]行：ExecuteFunc("%s" + ...)'):format(line.line, head))
             return
         end
     end

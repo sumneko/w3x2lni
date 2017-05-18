@@ -1,7 +1,7 @@
 local parser    = require 'parser'
 local optimizer = require 'optimizer'
 
-local function create_report(report, type, max)
+local function create_report(report, title, type, max)
     local msgs = report[type]
     if not msgs then
         return
@@ -9,6 +9,9 @@ local function create_report(report, type, max)
     local fix = 0
     if #msgs > max then
         fix = math.random(0, #msgs - max)
+    end
+    if title then
+        message('-report|8脚本优化', ('%d.%s'):format(title, type))
     end
     for i = 1, max do
         local msg = msgs[i+fix]
@@ -33,10 +36,10 @@ return function (w2l, archive)
     archive:set('scripts\\war3map.j', false)
     archive:set('war3map.j', buf)
 
-    create_report(report, '脚本混淆失败', 1)
-    create_report(report, '没有混淆函数名', 1)
-    create_report(report, '强制引用全部函数', 1)
-    create_report(report, '引用函数', 5)
-    create_report(report, '清除未引用的函数', 10)
-    create_report(report, '清除未引用的局部变量', 20)
+    create_report(report, nil, '脚本混淆失败', 1)
+    create_report(report, nil, '没有混淆函数名', 1)
+    create_report(report, nil, '强制引用全部函数', 1)
+    create_report(report, 1,   '引用函数', 5)
+    create_report(report, 2,   '清除未引用的函数', 10)
+    create_report(report, 3,   '清除未引用的局部变量', 20)
 end
