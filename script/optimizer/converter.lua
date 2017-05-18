@@ -295,7 +295,7 @@ end
 
 local function add_global(global)
     if not global.used then
-        report('清除未引用的全局变量', global.name, ('第[%d]行'):format(global.line))
+        report('未引用的全局变量', global.name, ('第[%d]行'):format(global.line))
         return
     end
     current_line = global.line
@@ -321,7 +321,7 @@ end
 
 local function add_local(loc)
     if not loc.used then
-        report('清除未引用的局部变量', current_function.name, ('第[%d]行：[%s]'):format(loc.line, loc.name))
+        report('未引用的局部变量', current_function.name, ('第[%d]行：[%s]'):format(loc.line, loc.name))
         return
     end
     current_line = loc.line
@@ -486,7 +486,7 @@ end
 
 local function add_native(func)
     if not func.used then
-        report('清除未引用的函数', func.name, ('第[%d]行'):format(func.line))
+        report('未引用的函数', func.name, ('第[%d]行'):format(func.line))
         return
     end
     current_function = func
@@ -495,7 +495,7 @@ end
 
 local function add_function(func)
     if not func.used then
-        report('清除未引用的函数', func.name, ('第[%d]-[%d]行'):format(func.line, func.endline))
+        report('未引用的函数', func.name, ('第[%d]-[%d]行'):format(func.line, func.endline))
         return
     end
     current_function = func

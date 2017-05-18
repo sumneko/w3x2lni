@@ -11,7 +11,7 @@ local function create_report(report, title, type, max)
         fix = math.random(0, #msgs - max)
     end
     if title then
-        message('-report|8脚本优化', ('%d.%s'):format(title, type))
+        message('-report|8脚本优化', ('%d.%s    总计：%d'):format(title, type, #msgs))
     end
     for i = 1, max do
         local msg = msgs[i+fix]
@@ -36,11 +36,11 @@ return function (w2l, archive)
     archive:set('scripts\\war3map.j', false)
     archive:set('war3map.j', buf)
 
-    create_report(report, nil, '脚本混淆失败', 1)
-    create_report(report, nil, '没有混淆函数名', 1)
+    create_report(report, nil, '脚本混淆失败',     1)
+    create_report(report, nil, '没有混淆函数名',   1)
     create_report(report, nil, '强制引用全部函数', 1)
-    create_report(report, 1,   '引用函数', 5)
-    create_report(report, 2,   '清除未引用的全局变量', 20)
-    create_report(report, 3,   '清除未引用的函数', 20)
-    create_report(report, 4,   '清除未引用的局部变量', 20)
+    create_report(report, 1,   '引用函数',        5)
+    create_report(report, 2,   '未引用的全局变量', 20)
+    create_report(report, 3,   '未引用的函数',     20)
+    create_report(report, 4,   '未引用的局部变量', 20)
 end
