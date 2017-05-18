@@ -330,6 +330,7 @@ local function init_confuser(confusion)
         return
     end
 
+    confusion = tostring(confusion)
     local chars = {}
     for char in confusion:gmatch '[%w_]' do
         if not chars[char] then
