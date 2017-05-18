@@ -28,11 +28,13 @@ return function (w2l, archive)
     ast = parser(blizzard, 'blizzard.j', ast)
     ast = parser(war3map,  'war3map.j',  ast)
     
-    local buf, report = optimizer(ast)
+    local buf, report = optimizer(ast, w2l.config)
 
     archive:set('scripts\\war3map.j', false)
     archive:set('war3map.j', buf)
 
+    create_report(report, '脚本混淆失败', 1)
+    create_report(report, '没有混淆函数名', 1)
     create_report(report, '强制引用全部函数', 1)
     create_report(report, '引用函数', 5)
     create_report(report, '清除未引用的函数', 10)
