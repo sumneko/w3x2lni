@@ -306,11 +306,8 @@ local function window_convert(canvas)
             end
             save_config()
         end
-        if config[fmt].find_id_times == 0 then
-            canvas:edit('', 0, function ()
-                return false
-            end)
-        else
+        height = height - 34
+        if config[fmt].find_id_times ~= 0 then
             local r = canvas:edit(tostring(config[fmt].find_id_times), 10, function (c)
                 return 48 <= c and c <= 57
             end)
@@ -319,8 +316,8 @@ local function window_convert(canvas)
                 config[fmt].find_id_times = n
                 save_config()
             end
+            height = height - 34
         end
-        height = height - 68
         if fmt == 'slk' then
             if checkbox_tip(canvas, '脚本混淆', '将变量名与函数名修改为以下字符的组合', config[fmt].confusion ~= nil) then
                 if config[fmt].confusion == nil then
@@ -330,11 +327,8 @@ local function window_convert(canvas)
                 end
                 save_config()
             end
-            if config[fmt].confusion == nil then
-                canvas:edit('', 0, function ()
-                    return false
-                end)
-            else
+            height = height - 34
+            if config[fmt].confusion ~= nil then
                 local r = canvas:edit(config[fmt].confusion, 100, function (c)
                     return (48 <= c and c <= 57) or (65 <= c and c <= 90) or (c == 95) or (97 <= c and c <= 122)
                 end)
@@ -342,8 +336,8 @@ local function window_convert(canvas)
                     config[fmt].confusion = r
                     save_config()
                 end
+                height = height - 34
             end
-            height = height - 68
         end
     end)
 
