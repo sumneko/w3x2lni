@@ -213,7 +213,6 @@ local function window_select(canvas)
         config.slk.read_slk = true
         config.slk.remove_same = false
         config.slk.remove_exceeds_level = true
-        config.slk.optimize_jass = true
         save_config()
         clean_convert_ui()
         set_current_theme {0, 173, 60}
@@ -285,9 +284,10 @@ local function window_convert(canvas)
         canvas:layout_row_dynamic(30, 1)
         checkbox_simple(canvas, '读取slk文件', '外部导入的slk文件，如万能属性', 'read_slk')
     else
-        height = height - 94
+        height = height - 129
         canvas:layout_row_dynamic(30, 1)
         checkbox_simple(canvas, '简化', '删除没有使用的对象', 'remove_unuse_object')
+        checkbox_simple(canvas, '优化脚本', '减小地图大小，加快运行时效率', 'optimize_jass')
         checkbox_simple(canvas, '压缩模型', '有损压缩', 'mdx_squf')
         checkbox_simple(canvas, '删除只在WE中使用的文件', '编辑器和本工具都将无法打开此地图', 'remove_we_only')
     end
@@ -318,8 +318,8 @@ local function window_convert(canvas)
             end
             height = height - 34
         end
-        if fmt == 'slk' then
-            if checkbox_tip(canvas, '脚本混淆', '将变量名与函数名修改为以下字符的组合', config[fmt].confusion ~= nil) then
+        if fmt == 'slk' and config[fmt].optimize_jass then
+            if checkbox_tip(canvas, '混淆脚本', '将变量名与函数名混淆为以下字符的组合', config[fmt].confusion ~= nil) then
                 if config[fmt].confusion == nil then
                     config[fmt].confusion = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_'
                 else
