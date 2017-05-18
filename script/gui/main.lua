@@ -321,6 +321,30 @@ local function window_convert(canvas)
             end
         end
         height = height - 68
+        if fmt == 'slk' then
+            if checkbox_tip(canvas, '脚本混淆', '将变量名与函数名修改为以下字符的组合', config[fmt].confusion ~= nil) then
+                if config[fmt].confusion == nil then
+                    config[fmt].confusion = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_'
+                else
+                    config[fmt].confusion = nil
+                end
+                save_config()
+            end
+            if config[fmt].confusion == nil then
+                canvas:edit('', 0, function ()
+                    return false
+                end)
+            else
+                local r = canvas:edit(config[fmt].confusion, 100, function (c)
+                    return (48 <= c and c <= 57) or (65 <= c and c <= 90) or (c == 95) or (97 <= c and c <= 122)
+                end)
+                if config[fmt].confusion ~= r then
+                    config[fmt].confusion = r
+                    save_config()
+                end
+            end
+            height = height - 68
+        end
     end)
 
     canvas:layout_row_dynamic(height, 1)
