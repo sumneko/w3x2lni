@@ -33,8 +33,11 @@ return function (w2l, archive)
     
     local buf, report = optimizer(ast, w2l.config)
 
-    archive:set('scripts\\war3map.j', false)
-    archive:set('war3map.j', buf)
+    if archive:get 'war3map.j' then
+        archive:set('war3map.j', buf)
+    else
+        archive:set('scripts\\war3map.j', buf)
+    end
 
     create_report(report, nil, '脚本混淆失败',     1)
     create_report(report, nil, '没有混淆函数名',   1)
