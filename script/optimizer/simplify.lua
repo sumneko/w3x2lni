@@ -69,7 +69,10 @@ function mark_exp(exp)
     if exp.type == 'null' or exp.type == 'integer' or exp.type == 'real' or exp.type == 'string' or exp.type == 'boolean' then
     elseif exp.type == 'var' or exp.type == 'vari' then
         mark_var(exp)
-    elseif exp.type == 'call' or exp.type == 'code' then
+    elseif exp.type == 'call' then
+        has_call = true
+        mark_function(exp)
+    elseif exp.type == 'code' then
         mark_function(exp)
     end
     for i = 1, #exp do
@@ -122,7 +125,6 @@ local function mark_execute(line)
 end
 
 local function mark_call(line)
-    has_call = true
     mark_function(line)
     for _, exp in ipairs(line) do
         mark_exp(exp)
@@ -216,6 +218,9 @@ local function mark_takes(args)
 end
 
 function mark_function(call)
+    if not call then
+        return
+    end
     local func = get_function(call.name)
     if func.native then
         func.used = true

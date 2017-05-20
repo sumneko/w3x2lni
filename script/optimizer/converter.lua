@@ -115,23 +115,23 @@ local function get_call(exp)
 end
 
 local function get_add(exp)
-    return ('%s+%s'):format(get_exp(exp[1], '+'), get_exp(exp[2], '+'))
+    return ('%s+%s'):format(get_exp(exp[1], '+', 1), get_exp(exp[2], '+', 2))
 end
 
 local function get_sub(exp)
-    return ('%s-%s'):format(get_exp(exp[1], '-'), get_exp(exp[2], '-'))
+    return ('%s-%s'):format(get_exp(exp[1], '-', 1), get_exp(exp[2], '-', 2))
 end
 
 local function get_mul(exp)
-    return ('%s*%s'):format(get_exp(exp[1], '*'), get_exp(exp[2], '*'))
+    return ('%s*%s'):format(get_exp(exp[1], '*', 1), get_exp(exp[2], '*', 2))
 end
 
 local function get_div(exp)
-    return ('%s/%s'):format(get_exp(exp[1], '/'), get_exp(exp[2], '/'))
+    return ('%s/%s'):format(get_exp(exp[1], '/', 1), get_exp(exp[2], '/', 2))
 end
 
 local function get_neg(exp)
-    return ('-%s'):format(get_exp(exp[1], 'neg'))
+    return ('-%s'):format(get_exp(exp[1], 'neg', 1))
 end
 
 local level = {}
@@ -151,39 +151,39 @@ level['not']   = 6
 level['neg']   = 6
 level['paren'] = 6
 local function get_equal(exp)
-    return ('%s==%s'):format(get_exp(exp[1], '=='), get_exp(exp[2], '=='))
+    return ('%s==%s'):format(get_exp(exp[1], '==', 1), get_exp(exp[2], '==', 2))
 end
 
 local function get_unequal(exp)
-    return ('%s!=%s'):format(get_exp(exp[1], '!='), get_exp(exp[2], '!='))
+    return ('%s!=%s'):format(get_exp(exp[1], '!=', 1), get_exp(exp[2], '!=', 2))
 end
 
 local function get_gt(exp)
-    return ('%s>%s'):format(get_exp(exp[1], '>'), get_exp(exp[2], '>'))
+    return ('%s>%s'):format(get_exp(exp[1], '>', 1), get_exp(exp[2], '>', 2))
 end
 
 local function get_ge(exp)
-    return ('%s>=%s'):format(get_exp(exp[1], '>='), get_exp(exp[2], '>='))
+    return ('%s>=%s'):format(get_exp(exp[1], '>=', 1), get_exp(exp[2], '>=', 2))
 end
 
 local function get_lt(exp)
-    return ('%s<%s'):format(get_exp(exp[1], '<'), get_exp(exp[2], '<'))
+    return ('%s<%s'):format(get_exp(exp[1], '<', 1), get_exp(exp[2], '<', 2))
 end
 
 local function get_le(exp)
-    return ('%s<=%s'):format(get_exp(exp[1], '<='), get_exp(exp[2], '<='))
+    return ('%s<=%s'):format(get_exp(exp[1], '<=', 1), get_exp(exp[2], '<=', 2))
 end
 
 local function get_and(exp)
-    return ('%s and %s'):format(get_exp(exp[1], 'and'), get_exp(exp[2], 'and'))
+    return ('%s and %s'):format(get_exp(exp[1], 'and', 1), get_exp(exp[2], 'and', 2))
 end
 
 local function get_or(exp)
-    return ('%s or %s'):format(get_exp(exp[1], 'or'), get_exp(exp[2], 'or'))
+    return ('%s or %s'):format(get_exp(exp[1], 'or', 1), get_exp(exp[2], 'or', 2))
 end
 
 local function get_not(exp)
-    return ('not %s'):format(get_exp(exp[1], 'not'))
+    return ('not %s'):format(get_exp(exp[1], 'not', 1))
 end
 
 local function get_code(exp)
@@ -213,7 +213,7 @@ local function get_op_level(op)
     return op_level[op]
 end
 
-local function need_paren(op1, op2)
+local function need_paren(op1, op2, pos)
     if not op2 then
         return false
     end
@@ -221,10 +221,14 @@ local function need_paren(op1, op2)
     if not lv1 then
         return false
     end
-    return lv1 < lv2
+    if pos == 1 then
+        return lv1 < lv2
+    elseif pos == 2 then
+        return lv1 <= lv2
+    end
 end
 
-function get_exp(exp, op)
+function get_exp(exp, op, pos)
     if not exp then
         return nil
     end
@@ -277,7 +281,7 @@ function get_exp(exp, op)
         value = get_code(exp)
     end
     if value then
-        if need_paren(exp.type, op) then
+        if need_paren(exp.type, op, pos) then
             value = ('(%s)'):format(value)
         end
         return value
