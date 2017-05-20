@@ -203,7 +203,7 @@ local Exp = P{
     Call  = Ct(keyvalue('type', 'call')  * sp * Cg(Id, 'name') * '(' * V'Args' * ')' * sp),
     Vari  = Ct(keyvalue('type', 'vari')  * sp * Cg(Id, 'name') * sp * '[' * Cg(V'Def', 1) * ']' * sp),
     Var   = Ct(keyvalue('type', 'var')   * sp * Cg(Id, 'name') * sp),
-    Neg   = Ct(keyvalue('type', 'neg')   * sp * '-' * sp * Cg(V'Def', 1)),
+    Neg   = Ct(keyvalue('type', 'neg')   * sp * '-' * sp * Cg(V'Exp', 1)),
 
     Args  = V'Def' * (',' * V'Def')^0 + sp,
 }
