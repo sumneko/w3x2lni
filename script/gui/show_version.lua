@@ -3,6 +3,7 @@ local window
 local canvas
 local current
 local index
+local page = 0
 local color  = {
     NEW = {0, 173, 60},
     CHG = {217, 163, 60},
@@ -18,7 +19,21 @@ return function(window_, canvas_)
     canvas:layout_space(25, 10)
     index = 0
 
-    for _, cl in ipairs(changelog) do
+    if changelog[page * 5] then
+        window:set_style('button.color', 81, 85, 97)
+        canvas:layout_space_push(index, 0, 40, 25)
+        index = index + 40
+        if canvas:button('<<') then
+            current = changelog[page * 5]
+            page = page - 1
+        end
+    end
+
+    for i = 1, 5 do
+        local cl = changelog[page * 5 + i]
+        if not cl then
+            break
+        end
         if not current then
             current = cl
         end
@@ -28,11 +43,21 @@ return function(window_, canvas_)
             index = index + 80
         else
             window:set_style('button.color', 81, 85, 97)
-            canvas:layout_space_push(index, 0, 40, 25)
-            index = index + 40
+            canvas:layout_space_push(index, 0, 60, 25)
+            index = index + 60
         end
         if canvas:button(cl.version) then
             current = cl
+        end
+    end
+
+    if changelog[page * 5 + 6] then
+        window:set_style('button.color', 81, 85, 97)
+        canvas:layout_space_push(index, 0, 40, 25)
+        index = index + 40
+        if canvas:button('>>') then
+            current = changelog[page * 5 + 6]
+            page = page + 1
         end
     end
 
