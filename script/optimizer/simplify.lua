@@ -278,6 +278,9 @@ local function mark_executed_confuse(func)
     if name == 'config' or name == 'main' then
         return
     end
+    if func.native then
+        return
+    end
     for head in pairs(executes) do
         if name:sub(1, #head) == head then
             func.confused = confuse2(head) .. name:sub(#head+1)
