@@ -345,6 +345,10 @@ local function init_confuser(confusion)
             chars[#chars+1] = char
         end
     end
+    if #chars < 3 then
+        report('脚本混淆失败', '脚本混淆失败', '至少要有3个合法字符')
+    end
+    
     confusion = table.concat(chars)
 
     for char in confusion:gmatch '%a' do
