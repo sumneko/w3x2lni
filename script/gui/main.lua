@@ -60,7 +60,11 @@ local function build_config(cfg)
         for key in str:gmatch '[^%.]*' do
             value = value[key]
         end
-        return tostring(value)
+        if type(value) == 'string' then
+            return ('[[%s]]'):format(value)
+        else
+            return tostring(value)
+        end
     end)
 end
 
