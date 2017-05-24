@@ -55,6 +55,12 @@ return function(window_, canvas_)
     window = window_
     canvas = canvas_
     version_begin()
+    version('1.8.1', function()
+        log('CHG', '优化脚本后脚本路径保持不变', '之前会把scripts/war3map.j移动到根目录下')
+        log('FIX', '修正优化脚本可能失败的问题', '- a == b --> - (a == b) ')
+        log('FIX', '修正优化脚本后取负运算错误的问题', '- (100 + 10 * n) --> -100 + 10 * n')
+        log('FIX', '修正混淆脚本会混淆japi函数的问题', '导致使用了japi的地图在混淆脚本后无法使用')
+    end)
     version('1.8', function()
         log('NEW', 'slk时可以选择优化脚本')
         log('NEW', 'slk时可以选择混淆脚本', '必须要开启优化脚本才可使用')
