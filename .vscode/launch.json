@@ -46,6 +46,16 @@
                 "${workspaceRoot}/new_All_Star_Battle_3.1d_editor2/"
             ],
             "console": "utf8"
+        },
+        {
+            "name": "GUI",
+            "type": "lua",
+            "request": "launch",
+            "stopOnEntry": true,
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": "${workspaceRoot}/w3x2lni.exe",
+            "luadll": "${workspaceRoot}/bin/luacore.dll",
+            "console": "utf8"
         }
     ]
 }
