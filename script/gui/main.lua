@@ -3,7 +3,7 @@ require 'sys'
 require 'utility'
 local nk = require 'nuklear'
 local srv = require 'gui.backend'
-local changelog = require 'gui.changelog'
+local show_version = require 'gui.show_version'
 local lni = require 'lni-c'
 local showconsole = srv.debug
 local currenttheme = {0, 173, 217}
@@ -157,7 +157,7 @@ local function window_about(canvas)
     canvas:layout_space(30, 1)
     canvas:layout_space_push(-10, 0, 300, 30)
     canvas:button('说明')
-    changelog(window, canvas)
+    show_version(window, canvas)
     reset_button_color()
     canvas:layout_row_dynamic(30, 1)
     if canvas:button('返回') then
