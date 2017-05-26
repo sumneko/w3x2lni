@@ -1,5 +1,9 @@
 return {
 {
+    version = '1.8.2',
+    { 'FIX', '修正公式计算的一个错误', '例如<AHbz:XXXX,DataA1>、<AHbzXXX,DataA1>' },
+},
+{
     version = '1.8.1',
     { 'CHG', '优化脚本后脚本路径保持不变', '之前会把scripts/war3map.j移动到根目录下' },
     { 'FIX', '修正优化脚本可能失败的问题', '- a == b --> - (a == b) ' },
