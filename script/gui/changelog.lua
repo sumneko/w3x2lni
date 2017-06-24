@@ -2,6 +2,7 @@ return {
 {
     version = '1.8.2',
     { 'FIX', '修正公式计算的一个错误', '例如<AHbz:XXXX,DataA1>、<AHbzXXX,DataA1>' },
+    { 'FIX', '修正优化脚本可能失败的问题', '变量名开头部分与关键字相同' },
 },
 {
     version = '1.8.1',
