@@ -203,7 +203,7 @@ local Exp = P{
     Paren = sp * '(' * V'Def' * ')' * sp,
 
     Code  = Ct(keyvalue('type', 'code')  * sp * Whole'function' * sps * Cg(Id, 'name') * sp),
-    Call  = Ct(keyvalue('type', 'call')  * sp * Cg(Id, 'name') * '(' * V'Args' * ')' * sp),
+    Call  = Ct(keyvalue('type', 'call')  * sp * Cg(Id, 'name') * sp * '(' * V'Args' * ')' * sp),
     Vari  = Ct(keyvalue('type', 'vari')  * sp * Cg(Id, 'name') * sp * '[' * Cg(V'Def', 1) * ']' * sp),
     Var   = Ct(keyvalue('type', 'var')   * sp * Cg(Id, 'name') * sp),
     Neg   = Ct(keyvalue('type', 'neg')   * sp * '-' * sp * Cg(V'Exp', 1)),
@@ -315,7 +315,7 @@ function mt:__call(_jass, _file, mode)
     lpeg.setmaxstack(1000)
     
     if mode then
-        return Ct((mt[mode] + spl)^1 + err'语法不正确'):match(_jass)
+        return Ct(expect(mt[mode] + spl, P(1), '语法不正确')^0):match(_jass)
     else
         return Ct(pjass):match(_jass), comments
     end
