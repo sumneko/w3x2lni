@@ -32,6 +32,8 @@ local fmt = nil
 local config_content = [[
 -- 是否分析slk文件
 read_slk = $read_slk$
+-- 是否分析lni文件
+read_lni = $read_lni$
 -- 分析slk时寻找id最优解的次数,0表示无限,寻找次数越多速度越慢
 find_id_times = $find_id_times$
 -- 移除与模板完全相同的数据
@@ -194,6 +196,7 @@ local function window_select(canvas)
         config.target_format = 'lni'
         config.lni.target_storage = 'dir'
         config.lni.read_slk = false
+        config.lni.read_lni = true
         config.lni.remove_same = false
         config.lni.remove_exceeds_level = true
         config.lni.remove_we_only = false
@@ -215,6 +218,7 @@ local function window_select(canvas)
         config.target_format = 'slk'
         config.slk.target_storage = 'mpq'
         config.slk.read_slk = true
+        config.lni.read_lni = true
         config.slk.remove_same = false
         config.slk.remove_exceeds_level = true
         save_config()
@@ -230,6 +234,7 @@ local function window_select(canvas)
         config.target_format = 'obj'
         config.obj.target_storage = 'mpq'
         config.obj.read_slk = false
+        config.lni.read_lni = true
         config.obj.remove_same = true
         config.obj.remove_exceeds_level = true
         config.obj.remove_we_only = false
