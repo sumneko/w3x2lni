@@ -116,6 +116,8 @@ local function set_config()
     local config = w2l.config
     -- 转换后的目标格式(lni, obj, slk)
     config.target_format = 'lni'
+    -- 语言(CH, EN)
+    config.language = 'CH'
     -- 是否分析slk文件
     config.read_slk = true
     -- 分析slk时寻找id最优解的次数,0表示无限,寻找次数越多速度越慢
