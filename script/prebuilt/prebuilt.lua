@@ -134,20 +134,12 @@ local function set_config()
     config.target_storage = 'dir'
 end
 
-local function main()
-    set_config()
+local function dofile(language)
+    message( '==================')
+    message(('        %s        '):format(language))
+    message( '==================')
 
-    fs.create_directories(w2l.template)
-    fs.create_directories(w2l.defined)
-
-    prebuilt_codemapped(w2l)
-    prebuilt_typedefine(w2l)
-    prebuilt_miscnames(w2l)
-    prebuilt_metadata(w2l)
-    prebuilt_keydata(w2l)
-    prebuilt_search(w2l)
-
-    w2l.config.language = 'CH'
+    w2l.config.language = language
     w2l:update_language()
     fs.create_directories(w2l.default)
 
@@ -165,7 +157,24 @@ local function main()
         io.save(w2l.template / (ttype .. '.ini'), w2l:backend_lni(ttype, data))
     end
     io.save(w2l.template / 'txt.ini', w2l:backend_txtlni(slk.txt))
-    
+end
+
+local function main()
+    set_config()
+
+    fs.create_directories(w2l.template)
+    fs.create_directories(w2l.defined)
+
+    prebuilt_codemapped(w2l)
+    prebuilt_typedefine(w2l)
+    prebuilt_miscnames(w2l)
+    prebuilt_metadata(w2l)
+    prebuilt_keydata(w2l)
+    prebuilt_search(w2l)
+
+    dofile 'CH'
+    dofile 'EN'
+
     -- 生成技能命令映射
     --local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'))
     --local order_list = order_prebuilt(skill_data)
