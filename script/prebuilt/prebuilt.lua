@@ -116,8 +116,6 @@ local function set_config()
     local config = w2l.config
     -- 转换后的目标格式(lni, obj, slk)
     config.target_format = 'lni'
-    -- 语言(CH, EN)
-    config.language = 'CH'
     -- 是否分析slk文件
     config.read_slk = true
     -- 分析slk时寻找id最优解的次数,0表示无限,寻找次数越多速度越慢
@@ -140,7 +138,6 @@ local function main()
     set_config()
 
     fs.create_directories(w2l.template)
-    fs.create_directories(w2l.default)
     fs.create_directories(w2l.defined)
 
     prebuilt_codemapped(w2l)
@@ -149,6 +146,10 @@ local function main()
     prebuilt_metadata(w2l)
     prebuilt_keydata(w2l)
     prebuilt_search(w2l)
+
+    w2l.config.language = 'CH'
+    w2l:update_language()
+    fs.create_directories(w2l.default)
 
 	local slk = build_slk()
     message('正在生成default')

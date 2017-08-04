@@ -149,16 +149,20 @@ function mt:initialize(root)
     self.prebuilt = self.root / 'script' / 'prebuilt'
     self.info   = lni(assert(io.load(self.root / 'script' / 'info.ini')), 'info')
     self.config = lni(assert(io.load(self.root / 'config.ini')), 'config')
-    
-    self.mpq = self.root / 'script' / 'mpq' / self.config.language
-    self.default = self.prebuilt / self.config.language / 'default'
-    self.defined = self.prebuilt / self.config.language / 'defined'
+    self.defined = self.prebuilt / 'defined'
 
     local fmt = self.config.target_format
     local language = self.config.language
     self.config = self.config[fmt]
     self.config.target_format = fmt
     self.config.language = language
+    
+    self:update_language()
+end
+
+function mt:update_language()
+    self.mpq = self.root / 'script' / 'mpq' / self.config.language
+    self.default = self.prebuilt / 'default' / self.config.language
 end
 
 -- 加载脚本
