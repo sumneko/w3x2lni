@@ -134,7 +134,7 @@ local function set_config()
     config.target_storage = 'dir'
 end
 
-local function dofile(language, version)
+local function dofile(language, version, template)
     message('==================')
     message(('    %s %s    '):format(language, version))
     message('==================')
@@ -152,12 +152,14 @@ local function dofile(language, version)
     end
     io.save(w2l.default / 'txt.ini', default2lni(slk.txt))
     
-    message('正在生成template')
-    for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-        local data = w2l:frontend_merge(ttype, slk[ttype], {})
-        io.save(w2l.template / (ttype .. '.ini'), w2l:backend_lni(ttype, data))
+    if template then
+        message('正在生成template')
+        for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
+            local data = w2l:frontend_merge(ttype, slk[ttype], {})
+            io.save(w2l.template / (ttype .. '.ini'), w2l:backend_lni(ttype, data))
+        end
+        io.save(w2l.template / 'txt.ini', w2l:backend_txtlni(slk.txt))
     end
-    io.save(w2l.template / 'txt.ini', w2l:backend_txtlni(slk.txt))
 end
 
 local function main()
@@ -174,7 +176,7 @@ local function main()
     prebuilt_search(w2l)
 
     dofile('CH', 'Melee')
-    dofile('CH', 'Custom')
+    dofile('CH', 'Custom', 'template')
     dofile('EN', 'Melee')
     dofile('EN', 'Custom')
 
