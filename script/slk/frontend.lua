@@ -87,7 +87,7 @@ local function update_version(w2l, w3i)
     end
     local melee = w3i['选项']['对战地图']
     local set   = w3i['选项']['使用的游戏数据设置']
-    if set == 0 then
+    if set == -1 or set == 0 then
         if melee == 0 then
             w2l.config.version = 'Custom'
         elseif melee == 1 then
