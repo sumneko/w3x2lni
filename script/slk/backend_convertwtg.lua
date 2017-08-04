@@ -18,9 +18,13 @@ local C = lpeg.C
 local Cs = lpeg.Cs
 
 local num  = R'09'
-local wst  = Cs('TRIGSTR_' * num^3 / fwts * P'\0')
+local wst  = 'TRIGSTR_' * num^3 / fwts * P'\0'
+local mtch = Cs(wst)
+local any  = C((1 - mtch)^1)
 
-local pwtg = Cs((wst + 1)^0)
+local pwtg = (mtch + any)^0 / function(...)
+    return table.concat {...}
+end
 
 return function (w2l_, archive, wts_)
     local name = 'war3map.wtg'
