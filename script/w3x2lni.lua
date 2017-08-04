@@ -152,17 +152,16 @@ function mt:initialize(root)
     self.defined = self.prebuilt / 'defined'
 
     local fmt = self.config.target_format
-    local language = self.config.language
-    self.config = self.config[fmt]
-    self.config.target_format = fmt
-    self.config.language = language
+    for k, v in pairs(self.config[fmt]) do
+        self.config[k] = v
+    end
     
-    self:update_language()
+    self:update()
 end
 
-function mt:update_language()
-    self.mpq = self.root / 'script' / 'mpq' / self.config.language
-    self.default = self.prebuilt / 'default' / self.config.language
+function mt:update()
+    self.mpq = self.root / 'script' / 'mpq' / self.config.language / self.config.version
+    self.default = self.prebuilt / 'default' / self.config.language / self.config.version
 end
 
 -- 加载脚本
