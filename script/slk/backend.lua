@@ -247,32 +247,7 @@ local function to_slk(w2l, archive, slk)
     end
 end
 
-local function load_w3i(w2l, archive, slk)
-    local buf = archive:get 'war3map.w3i.ini'
-    if buf then
-        slk.w3i = w2l:parse_lni(buf)
-        archive:set('war3map.w3i.ini', false)
-    else
-        buf = archive:get 'war3map.w3i'
-        if buf then
-            slk.w3i = w2l:read_w3i(buf, slk.wts)
-        end
-    end
-    if not slk.w3i then
-        return
-    end
-    if slk.w3i['选项']['使用的游戏数据设置'] == 1 then
-        message('-report|2警告', '不支持的游戏数据设置"自定义"')
-        message('-tip', '只支持"默认(1.07)",数据可能会出现差异')
-    end
-    if slk.w3i['选项']['使用的游戏数据设置'] == 2 then
-        message('-report|2警告', '不支持的游戏数据设置"对战(最新版本)"')
-        message('-tip', '只支持"默认(1.07)",数据可能会出现差异')
-    end
-end
-
 return function (w2l, archive, slk)
-    load_w3i(w2l, archive, slk)
     if slk.w3i then
         if w2l.config.target_format == 'lni' then
             archive:set('war3map.w3i.ini', w2l:w3i2lni(slk.w3i), slk.wts)

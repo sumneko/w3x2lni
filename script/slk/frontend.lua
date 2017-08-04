@@ -67,6 +67,20 @@ local function load_lni(w2l, archive)
     return lnis
 end
 
+local function load_w3i(w2l, archive, slk)
+    local buf = archive:get 'war3map.w3i.ini'
+    if buf and w2l.config.read_lni then
+        archive:set('war3map.w3i.ini', false)
+        return w2l:parse_lni(buf)
+    else
+        buf = archive:get 'war3map.w3i'
+        if buf then
+            return w2l:read_w3i(buf, slk.wts)
+        end
+    end
+    return nil
+end
+
 local displaytype = {
     unit = '单位',
     ability = '技能',
@@ -158,6 +172,8 @@ return function(w2l, archive, slk)
     --读取字符串
     slk.wts = w2l:frontend_wts(archive:get('war3map.wts'))
     progress(0.2)
+
+    slk.w3i = load_w3i(w2l, archive, slk)
 
     message('读取obj...')
     progress:start(0.4)
