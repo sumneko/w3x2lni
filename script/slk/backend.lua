@@ -324,7 +324,9 @@ return function (w2l, archive, slk)
 
     message('转换脚本...')
     w2l:backend_convertjass(archive, slk.wts)
-    w2l:backend_convertwtg(archive, slk.wts)
+    if not w2l.config.remove_we_only then
+        w2l:backend_convertwtg(archive, slk.wts)
+    end
     progress(0.92)
 
     message('转换其他文件...')
