@@ -81,6 +81,26 @@ local function load_w3i(w2l, archive, slk)
     return nil
 end
 
+local function update_version(w2l, w3i)
+    if not w3i then
+        return
+    end
+    local melee = w3i['选项']['对战地图']
+    local set   = w3i['选项']['使用的游戏数据设置']
+    if set == 0 then
+        if melee == 0 then
+            w2l.config.version = 'Custom'
+        elseif melee == 1 then
+            w2l.config.version = 'Melee'
+        end
+    elseif set == 1 then
+        w2l.config.version = 'Custom'
+    elseif set == 2 then
+        w2l.config.version = 'Melee'
+    end
+    w2l:update()
+end
+
 local displaytype = {
     unit = '单位',
     ability = '技能',
@@ -174,6 +194,7 @@ return function(w2l, archive, slk)
     progress(0.2)
 
     slk.w3i = load_w3i(w2l, archive, slk)
+    update_version(w2l, slk.w3i)
 
     message('读取obj...')
     progress:start(0.4)
