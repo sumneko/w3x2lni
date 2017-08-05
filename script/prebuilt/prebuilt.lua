@@ -32,7 +32,7 @@ function message(...)
 end
 
 local function prebuilt_codemapped(w2l)
-    local template = w2l:parse_slk(io.load(w2l.mpq / w2l.info.slk.ability[1]))
+    local template = w2l:parse_slk(io.load(w2l.custom / w2l.info.slk.ability[1]))
     local t = {}
     for id, d in pairs(template) do
         t[id] = d.code
@@ -92,7 +92,7 @@ local function build_slk()
 		end
 		return slk(buf)
 	end
-	local ar = archive(w2l.mpq)
+	local ar = archive(w2l.custom)
 	local slk = w2l:frontend_slk(function(name)
 		if name == 'units\\abilitybuffdata.slk' then
 			function hook(t)
@@ -106,6 +106,9 @@ local function build_slk()
 				insert_buff(t, 'Btlf', 'unit', 'other')
 			end
 		end
+        if name == 'doodads\\doodads.slk' then
+            return archive(w2l.mpq):get(name)
+        end
 		return ar:get(name)
 	end)
 	w2l:frontend_misc(ar, slk)

@@ -57,7 +57,7 @@ end
 function mt:editstring(str)
     -- TODO: WESTRING不区分大小写，不过我们把WorldEditStrings.txt改了，暂时不会出现问题
     if not editstring then
-        editstring = ini(io.load(self.ui / 'WorldEditStrings.txt'))['WorldEditStrings']
+        editstring = ini(io.load(self.mpq / 'ui' / 'WorldEditStrings.txt'))['WorldEditStrings']
     end
     if not editstring[str] then
         return str
@@ -150,7 +150,6 @@ function mt:initialize(root)
     self.meta = self.root / 'script' / 'metadata'
     self.defined = self.prebuilt / 'defined'
     self.mpq = self.root / 'script' / 'mpq'
-    self.doodads = self.mpq / 'doodads'
     self.info   = lni(assert(io.load(self.root / 'script' / 'info.ini')), 'info')
     self.config = lni(assert(io.load(self.root / 'config.ini')), 'config')
 
@@ -164,13 +163,11 @@ end
 
 function mt:update()
     if self.config.version == 'Melee' then
-        self.ui = self.mpq / 'ui'
-        self.units = self.mpq / 'units'
-        self.default = self.prebuilt / 'default'
+        self.custom = self.mpq
+        self.default = self.prebuilt / 'default' / 'Melee'
     else
-        self.ui = self.mpq / 'Custom_V1' / 'ui'
-        self.units = self.mpq / 'Custom_V1' / 'units'
-        self.default = self.prebuilt / 'default' / 'Custom_V1'
+        self.custom = self.mpq / 'Custom_V1'
+        self.default = self.prebuilt / 'default' / 'Custom'
     end
 end
 
