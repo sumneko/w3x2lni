@@ -141,13 +141,11 @@ local function create_search(w2l, type, search)
                         search[code] = {}
                     end
                     local key = get_key2(w2l, type, code, id)
-                    if key then
-                        local type = enable_type[meta.type]
-                        if search[code][key] and search[code][key] ~= type then
-                            message('类型不同:', 'skill', name, 'code', code)
-                        end
-                        search[code][key] = type
+                    local type = enable_type[meta.type]
+                    if search[code][key] and search[code][key] ~= type then
+                        message('类型不同:', 'skill', name, 'code', code)
                     end
+                    search[code][key] = type
                 end
             else
                 local key = get_key(w2l, type, id)
