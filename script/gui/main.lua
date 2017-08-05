@@ -143,7 +143,7 @@ local function button_about(canvas)
     canvas:layout_row_dynamic(20, 2)
     canvas:text('', NK_TEXT_RIGHT)
     window:set_style('button.color', 51, 55, 67)
-    if canvas:button('版本: 1.8.3') then
+    if canvas:button('版本: 1.9') then
         uitype = 'about'
     end
     set_current_theme()
