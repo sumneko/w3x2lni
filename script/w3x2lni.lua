@@ -147,9 +147,10 @@ function mt:initialize(root)
     self.root = root or get_exepath()
     self.template = self.root / 'template'
     self.prebuilt = self.root / 'script' / 'prebuilt'
+    self.meta = self.root / 'script' / 'metadata'
+    self.defined = self.prebuilt / 'defined'
     self.info   = lni(assert(io.load(self.root / 'script' / 'info.ini')), 'info')
     self.config = lni(assert(io.load(self.root / 'config.ini')), 'config')
-    self.defined = self.prebuilt / 'defined'
 
     local fmt = self.config.target_format
     for k, v in pairs(self.config[fmt]) do
