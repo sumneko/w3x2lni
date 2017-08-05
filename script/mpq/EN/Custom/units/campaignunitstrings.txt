@@ -1,1264 +1,1318 @@
-﻿// Human Units
+// Human Units
 [Harf]
-Name=圣骑士
-EditorSuffix= (挥舞着霜之哀伤宝剑)
+Name=Paladin
+EditorSuffix= (wielding Frostmourne)
 Hotkey=L
-Propernames=阿尔塞斯
-Revivetip=复活圣骑士(|cffffcc00L|r)
-Awakentip=复活圣骑士(|cffffcc00L|r)
-Ubertip="战士型英雄，特别擅长于保护自己周围的部队，能学习到神圣之光、神圣护甲、专注光环和复活这四项技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Arthas
+Revivetip=Revive Pa|cffffcc00l|radin
+Awakentip=Revive Pa|cffffcc00l|radin
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-arthas.tga
+Ubertip="Warrior Hero, exceptional at defense and augmenting nearby friendly troops. Can learn Holy Light, Divine Shield, Devotion Aura and Resurrection. |n|n|cffffcc00Attacks land units.|r"
 
 [Hart]
-Name=圣骑士
+Name=Paladin
 Hotkey=L
-Propernames=阿尔塞斯
-Ubertip="战士型英雄，特别擅长于保护自己周围的部队，能学习到神圣之光、神圣护甲、专注光环和复活这四项技能。|n|n|cffffcc00能攻击地面单位。|r"
-Revivetip=复活圣骑士(|cffffcc00L|r)
-Awakentip=复活圣骑士(|cffffcc00L|r)
+Propernames=Arthas
+Ubertip="Warrior Hero, exceptional at defense and augmenting nearby friendly troops. Can learn Holy Light, Divine Shield, Devotion Aura and Resurrection. |n|n|cffffcc00Attacks land units.|r"
+Revivetip=Revive Pa|cffffcc00l|radin
+Awakentip=Revive Pa|cffffcc00l|radin
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-arthas.tga
 
 [Huth]
-Name=圣骑士
+Name=Paladin
 Hotkey=L
-Propernames=乌瑟尔
-Ubertip="战士型英雄，特别擅长于保护自己周围的部队，能学习到神圣之光、神圣护甲、专注光环和复活这四项技能。|n|n|cffffcc00能攻击地面单位。|r"
-Revivetip=复活圣骑士(|cffffcc00L|r)
-Awakentip=复活圣骑士(|cffffcc00L|r)
+Propernames=Uther
+Ubertip="Warrior Hero, exceptional at defense and augmenting nearby friendly troops. Can learn Holy Light, Divine Shield, Devotion Aura and Resurrection. |n|n|cffffcc00Attacks land units.|r"
+Revivetip=Revive Pa|cffffcc00l|radin
+Awakentip=Revive Pa|cffffcc00l|radin
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-paladin.tga
 
 [Hpb1]
-Name=圣骑士
+Name=Paladin
 Hotkey=L
-Propernames=尼科拉斯大人
-Revivetip=复活圣骑士(|cffffcc00L|r)
-Awakentip=复活圣骑士(|cffffcc00L|r)
-Ubertip="战士型英雄，特别擅长于保护自己周围的部队，能学习到神圣之光、神圣护甲、专注光环和复活这四项技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Lord Nicholas Buzan
+Revivetip=Revive Pa|cffffcc00l|radin
+Awakentip=Revive Pa|cffffcc00l|radin
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-paladin.tga
+Ubertip="Warrior Hero, exceptional at defense and augmenting nearby friendly troops. Can learn Holy Light, Divine Shield, Devotion Aura and Resurrection. |n|n|cffffcc00Attacks land units.|r"
 
 [Hpb2]
-Name=圣骑士
+Name=Paladin
 Hotkey=L
-Propernames=格雷戈里爵士
-Revivetip=复活圣骑士(|cffffcc00L|r)
-Awakentip=复活圣骑士(|cffffcc00L|r)
-Ubertip="战士型英雄，特别擅长于保护自己周围的部队，能学习到神圣之光、神圣护甲、专注光环和复活这四项技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Sir Gregory Edmunson
+Revivetip=Revive Pa|cffffcc00l|radin
+Awakentip=Revive Pa|cffffcc00l|radin
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-paladin.tga
+Ubertip="Warrior Hero, exceptional at defense and augmenting nearby friendly troops. Can learn Holy Light, Divine Shield, Devotion Aura and Resurrection. |n|n|cffffcc00Attacks land units.|r"
 
 [Hdgo]
-Name=圣骑士
+Name=Paladin
 Hotkey=L
-Propernames=达贡兽族屠杀者
-Revivetip=复活圣骑士(|cffffcc00L|r)
-Awakentip=复活圣骑士(|cffffcc00L|r)
-Ubertip="战士型英雄，特别擅长于保护自己周围的部队，能学习到神圣之光、神圣护甲、专注光环和复活这四项技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Dagren the Orcslayer
+Revivetip=Revive Pa|cffffcc00l|radin
+Awakentip=Revive Pa|cffffcc00l|radin
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-paladin.tga
+Ubertip="Warrior Hero, exceptional at defense and augmenting nearby friendly troops. Can learn Holy Light, Divine Shield, Devotion Aura and Resurrection. |n|n|cffffcc00Attacks land units.|r"
 
 [Hmgd]
-Name=圣骑士
+Name=Paladin
 Hotkey=L
-Propernames=马格罗斯守御者
-Revivetip=复活圣骑士(|cffffcc00L|r)
-Awakentip=复活圣骑士(|cffffcc00L|r)
-Ubertip="战士型英雄，特别擅长于保护自己周围的部队，能学习到神圣之光、神圣护甲、专注光环和复活这四项技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Magroth the Defender
+Revivetip=Revive Pa|cffffcc00l|radin
+Awakentip=Revive Pa|cffffcc00l|radin
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-paladin.tga
+Ubertip="Warrior Hero, exceptional at defense and augmenting nearby friendly troops. Can learn Holy Light, Divine Shield, Devotion Aura and Resurrection. |n|n|cffffcc00Attacks land units.|r"
 
 [Hhkl]
-Name=圣骑士
+Name=Paladin
 Hotkey=L
-Propernames=哈拉生命使者
-Revivetip=复活圣骑士(|cffffcc00L|r)
-Awakentip=复活圣骑士(|cffffcc00L|r)
-Ubertip="战士型英雄，特别擅长于保护自己周围的部队，能学习到神圣之光、神圣护甲、专注光环和复活这四项技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Halahk the Lifebringer
+Revivetip=Revive Pa|cffffcc00l|radin
+Awakentip=Revive Pa|cffffcc00l|radin
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-paladin.tga
+Ubertip="Warrior Hero, exceptional at defense and augmenting nearby friendly troops. Can learn Holy Light, Divine Shield, Devotion Aura and Resurrection. |n|n|cffffcc00Attacks land units.|r"
 
 [Hjai]
-Name=大魔法师
+Name=Archmage
 Hotkey=A
-Propernames=吉安娜
-Revivetip=复活大魔法师(|cffffcc00A|r)
-Awakentip=复活大魔法师(|cffffcc00A|r)
-Ubertip="一位神秘的英雄，特别擅长于远程攻击。他能学到暴风雪、召唤水元素、辉煌光环和群体传送魔法。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Propernames=Jaina
+Revivetip=Revive |cffffcc00A|rrchmage
+Awakentip=Revive |cffffcc00A|rrchmage
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-jaina.tga
+Ubertip="Mystical Hero, adept at ranged assaults. Can learn Blizzard, Summon Water Elemental, Brilliance Aura and Mass Teleport. |n|n|cffffcc00Attacks land and air units.|r"
 
 [Hmbr]
-Name=山丘之王
+Name=Mountain King
 Hotkey=M
-Propernames=穆拉丁
-Revivetip=复活山丘之王(|cffffcc00M|r)
-Awakentip=复活山丘之王(|cffffcc00M|r)
-UberTip="战士型英雄，特别擅长于冲锋陷阵。能学习到风暴之锤、雷霆一击、重击和天神下凡。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Muradin Bronzebeard
+Revivetip=Revive |cffffcc00M|rountain King
+Awakentip=Revive |cffffcc00M|rountain King
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-mountainking.tga
+UberTip="Warrior Hero, adept at offensive combat and disrupting enemy troops. Can learn Storm Bolt, Thunder Clap, Bash and Avatar. |n|n|cffffcc00Attacks land units.|r"
 
 [Hant]
-Name=大魔法师
+Name=Archmage
 Hotkey=A
-Propernames=安东尼达斯
-Revivetip=复活大魔法师(|cffffcc00A|r)
-Awakentip=复活大魔法师(|cffffcc00A|r)
-Ubertip="一位神秘的英雄，特别擅长于远程攻击。他能学到暴风雪、召唤水元素、辉煌光环和群体传送魔法。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Propernames=Antonidas
+Revivetip=Revive |cffffcc00A|rrchmage
+Awakentip=Revive |cffffcc00A|rrchmage
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-archmage.tga
+Ubertip="Mystical Hero, adept at ranged assaults. Can learn Blizzard, Summon Water Elemental, Brilliance Aura and Mass Teleport. |n|n|cffffcc00Attacks land and air units.|r"
 
 [Hvwd]
-Name=游侠
+Name=Ranger
 Hotkey=P
-Propernames=追风之西尔瓦娜斯
-Revivetip=复活游侠(|cffffcc00R|r)
-Awakentip=复活游侠(|cffffcc00R|r)
+Propernames=Sylvanas Windrunner
+Revivetip=Revive |cffffcc00R|ranger
+Awakentip=Revive |cffffcc00R|ranger
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-sylvanus.tga
 
 [Hkal]
-Name=血魔法师
+Name=Blood Mage
 Hotkey=B
-Propernames=卡尔
-Revivetip=复活血魔法师(|cffffcc00B|r)
-Awakentip=复活血魔法师(|cffffcc00B|r)
-Ubertip="一位神秘的英雄，擅长于控制魔法能量和远程攻击。能学习到烈焰风暴、驱散、吸魔和火凤凰这四项技能。|n|n|cffffcc00攻击地面和空中单位。|r"
+Propernames=Kael
+Revivetip=Revive |cffffcc00B|rlood Mage
+Awakentip=Revive |cffffcc00B|rlood Mage
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-sorceror.tga
+Ubertip="Mystical Hero, adept at controlling magic and ranged assaults. Can learn Flame Strike, Banish, Siphon Mana and Phoenix. |n|n|cffffcc00Attacks land and air units.|r"
 
 [Hvsh]
-Name=娜迦女海巫
+Name=Naga Sea Witch
 Hotkey=N
-Propernames=法斯琪
-Revivetip=复活娜迦女海巫(|cffffcc00N|r)
-Awakentip=复活娜迦女海巫(|cffffcc00N|r)
-Ubertip="一位神秘的英雄，擅长于远距离战斗。能学习到叉状闪电、霜冻之箭、魔法护盾和龙卷风。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Propernames=Lady Vashj
+Revivetip=Revive |cffffcc00N|raga Sea Witch
+Awakentip=Revive |cffffcc00N|raga Sea Witch
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-seawitch.tga
+Ubertip="Mystical Hero, adept at ranged combat. Can learn Forked Lightning, Frost Arrows, Mana Shield, and Tornado. |n|n|cffffcc00Attacks land and air units.|r"
 
 [Hlgr]
-Name=黑暗骑士
+Name=Dark Knight
 Hotkey=L
-Propernames=加理瑟斯
-Revivetip=复活圣骑士(|cffffcc00L|r)
-Awakentip=复活圣骑士(|cffffcc00L|r)
-Ubertip="战士型英雄，特别擅长于保护自己周围的部队，能学习到神圣之光、神圣护甲、专注光环和复活这四项技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Lord Garithos
+Revivetip=Revive Pa|cffffcc00l|radin
+Awakentip=Revive Pa|cffffcc00l|radin
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-garithos.tga
+Ubertip="Warrior Hero, exceptional at defense and augmenting nearby friendly troops. Can learn Holy Light, Divine Shield, Devotion Aura and Resurrection. |n|n|cffffcc00Attacks land units.|r"
 
 [haro]
-Name=神秘了望台
+Name=Arcane Observatory
 Hotkey=V
-Tip=建造神秘了望台(|cffffcc00V|r)
+Tip=Build Arcane Obser|cffffcc00v|ratory
 
 [hcth]
-Name=船长
+Name=Captain
 
 [hhdl]
-Name=无人之马
+Name=Riderless Horse
 
 [hhes]
-Name=剑士
-Tip=训练剑士(|cffffcc00S|r)
+Name=Swordsman
+Tip=Train |cffffcc00S|rwordsman
 Hotkey=S
-Ubertip="多才多艺的步兵战士。能学习到防御技能。|n|n|cffffcc00能攻击地面单位。|r"
+Ubertip="Versatile foot soldier. Can learn the Defend ability. |n|n|cffffcc00Attacks land units.|r"
 
 [hbew]
-Name=车
+Name=Wagon
 
 [Hapm]
-Name=圣骑士
+Name=Paladin
 Hotkey=L
-Propernames=海军上将普洛德摩尔
-Revivetip=复活圣骑士(|cffffcc00L|r)
-Awakentip=复活圣骑士(|cffffcc00L|r)
-Ubertip="战士型英雄，特别擅长于保护自己周围的部队，能学习到神圣之光、神圣护甲、专注光环和复活这四项技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Admiral Proudmoore
+Revivetip=Revive Pa|cffffcc00l|radin
+Awakentip=Revive Pa|cffffcc00l|radin
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-paladin.tga
+Ubertip="Warrior Hero, exceptional at defense and augmenting nearby friendly troops. Can learn Holy Light, Divine Shield, Devotion Aura and Resurrection. |n|n|cffffcc00Attacks land units.|r"
 
 [hrdh]
-Name=背负背包的马
+Name=Pack Horse
 
 [Hgam]
-Name=幽灵大魔法师
+Name=Ghostly Archmage
 Hotkey=A
-Propernames=安东尼达斯
-Revivetip=复活幽灵大魔法师(|cffffcc00A|r)
-Awakentip=复活幽灵大魔法师(|cffffcc00A|r)
-Ubertip="一位神秘的英雄，擅长于远程攻击。能学习到暴风雪、召唤水元素、辉煌光环、和群体传送技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Propernames=Antonidas
+Revivetip=Revive Ghostly |cffffcc00A|rrchmage
+Awakentip=Revive Ghostly |cffffcc00A|rrchmage
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-archmage.tga
+Ubertip="Mystical Hero Spirit, adept at ranged assaults. Can learn Blizzard, Summon Water Elemental, Brilliance Aura and Mass Teleport. |n|n|cffffcc00Attacks land and air units.|r"
 
 // Orc Units
 [Othr]
-Name=先知
+Name=Far Seer
 Hotkey=F
-Propernames=萨尔
-Revivetip=复活先知(|cffffcc00F|r)
-Awakentip=复活先知(|cffffcc00F|r)
-Ubertip="一种神秘的英雄，特别擅长于远程攻击和侦察。能学习到闪电链、透视、野兽幽魂和地震这四种技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Propernames=Thrall
+Revivetip=Revive |cffffcc00F|rar Seer
+Awakentip=Revive |cffffcc00F|rar Seer
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-thrall.tga
+Ubertip="Mystical Hero, effective at ranged attacks and scouting. Can learn Chain Lightning, Far Sight, Feral Spirit and Earthquake. |n|n|cffffcc00Attacks land and air units.|r"
 
 [Ogrh]
-Name=剑圣
+Name=Blademaster
 Hotkey=B
-Propernames=格罗姆-地狱咆哮
-Revivetip=复活剑圣(|cffffcc00B|r)
-Awakentip=复活剑圣(|cffffcc00B|r)
-Ubertip="一种灵活的英雄，特别擅长于一对一。能学习到镜像、疾步风、致命一击和剑刃风暴这四种技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Grom Hellscream
+Revivetip=Revive |cffffcc00B|rlademaster
+Awakentip=Revive |cffffcc00B|rlademaster
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-grom.tga
+Ubertip="Cunning Hero, adept at quickly killing individual units and creating confusion among enemies. Can learn Mirror Image, Wind Walk, Critical Strike and Bladestorm. |n|n|cffffcc00Attacks land units.|r"
 
 [Opgh]
-Name=剑圣
-EditorSuffix= (着磨的)
+Name=Blademaster
+EditorSuffix= (Possessed)
 Hotkey=B
-Propernames=格罗姆-地狱咆哮
-Revivetip=复活剑圣(|cffffcc00B|r)
-Awakentip=复活剑圣(|cffffcc00B|r)
-Ubertip="一种灵活的英雄，特别擅长于一对一。能学习到镜像、疾步风、致命一击和剑刃风暴这四种技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Grom Hellscream
+Revivetip=Revive |cffffcc00B|rlademaster
+Awakentip=Revive |cffffcc00B|rlademaster
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-chaosgrom.tga
+Ubertip="Cunning Hero, adept at quickly killing individual units and creating confusion among enemies. Can learn Mirror Image, Wind Walk, Critical Strike and Bladestorm. |n|n|cffffcc00Attacks land units.|r"
 
 [Ocbh]
-Name=牛头人酋长
+Name=Tauren Chieftain
 Hotkey=T
-Propernames=卡林-血蹄
-Revivetip=复活牛头人酋长(|cffffcc00T|r)
-Awakentip=复活牛头人酋长(|cffffcc00T|r)
-Ubertip="战士型英雄，特别擅长于吸收伤害和近战战斗。能学习震荡波、战争践踏、耐久光环和重生技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Cairne Bloodhoof
+Revivetip=Revive |cffffcc00T|rauren Chieftain
+Awakentip=Revive |cffffcc00T|rauren Chieftain
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-taurenchieftain.tga
+Ubertip="Warrior Hero, exceptional at absorbing damage and melee combat. Can learn Shockwave, War Stomp, Endurance Aura and Reincarnation. |n|n|cffffcc00Attacks land units.|r"
 
 //expansion version of cairne bloodhoof
 [Ocb2]
-Name=牛头人酋长
+Name=Tauren Chieftain
 Hotkey=T
-Propernames=卡林-血蹄
-Revivetip=复活牛头人酋长(|cffffcc00T|r)
-Awakentip=复活牛头人酋长(|cffffcc00T|r)
-Ubertip="战士型英雄，特别擅长于吸收伤害和近战战斗。能学习震荡波、战争践踏、耐久光环和重生技能。|n|n|cffffcc00能攻击地面单位。|r"
-EditorSuffix=(资料片)
+Propernames=Cairne Bloodhoof
+Revivetip=Revive |cffffcc00T|rauren Chieftain
+Awakentip=Revive |cffffcc00T|rauren Chieftain
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-taurenchieftain.tga
+Ubertip="Warrior Hero, exceptional at absorbing damage and melee combat. Can learn Shockwave, War Stomp, Endurance Aura and Reincarnation. |n|n|cffffcc00Attacks land units.|r"
+EditorSuffix=(Expansion)
 
 [owar]
-Name=兽族战争首领
+Name=Orc Warchief
 
 [ocbw]
-Name=邪恶兽族地洞
+Name=Fel Orc Burrow
 Hotkey=O
-Tip=建造邪恶兽族地洞(|cffffcc00O|r)
-Ubertip="能提供人口，从而增加可造单位数量的最大值。邪恶的苦工在进入其中以后还能对来犯的敌人进行反击。|n|n|cffffcc00能攻击地面和空中单位。|r"
-EditorSuffix= (混乱的)
+Tip=Build Fel |cffffcc00O|rrc Burrow
+Ubertip="Provides food, which increases the maximum number of units that can be trained. Fel Orc Peons can garrison inside to attack enemy units. |n|n|cffffcc00Attacks land and air units.|r"
+EditorSuffix= (Chaos)
 
 [oosc]
-Name=科多兽
-EditorSuffix= (不需要分配驾驭者)
+Name=Kodo Beast
+EditorSuffix= (Riderless)
 
 [ownr]
-Name=双足飞龙
-EditorSuffix= (不需要分配驾驭者)
+Name=Wyvern
+EditorSuffix= (Riderless)
 
 [odkt]
-Name=德拉克苏尔
+Name=Drak'thul
 
 [onzg]
-Name=那滋盖尔
+Name=Nazgrel
 
 [Odrt]
-Name=先知
-Propernames=德雷克萨尔
+Name=Far Seer
+Propernames=Drek'Thar
 Hotkey=F
-Tip=召唤先知(|cffffcc00F|r)
-Ubertip="一种神秘的英雄，特别擅长于远程攻击和侦察。能学习到闪电链、透视、野兽幽魂和地震这四种技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
-Revivetip=复活先知(|cffffcc00F|r)
-Awakentip=复活先知(|cffffcc00F|r)
+Tip=Summon |cffffcc00F|rar Seer
+Ubertip="Mystical Hero, effective at ranged attacks and scouting. Can learn Chain Lightning, Far Sight, Feral Spirit and Earthquake. |n|n|cffffcc00Attacks land and air units.|r"
+Revivetip=Revive |cffffcc00F|rar Seer
+Awakentip=Revive |cffffcc00F|rar Seer
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-farseer.tga
 
 [Orkn]
-Name=暗影猎手
-Propernames=洛克汗
+Name=Shadow Hunter
+Propernames=Rokhan
 Hotkey=S
-Tip=召唤暗影猎手(|cffffcc00S|r)
-Ubertip="灵巧型的英雄，擅长于医疗和巫毒魔法。能学习到医疗波，妖术，毒蛇守卫和巫毒技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
-Revivetip=复活暗影猎手(|cffffcc00S|r)
-Awakentip=复活暗影猎手(|cffffcc00S|r)
+Tip=Summon |cffffcc00S|rhadow Hunter
+Ubertip="Cunning Hero, adept at healing magics and voodoo curses. Can learn Healing Wave, Hex, Serpent Ward and Big Bad Voodoo. |n|n|cffffcc00Attacks land and air units.|r"
+Revivetip=Revive |cffffcc00S|rhadow Hunter
+Awakentip=Revive |cffffcc00S|rhadow Hunter
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-shadowhunter.tga
 
 [omtg]
-Name=马索格
+Name=Mathog
 
 [ovlj]
-Name=沃尔京
-Casterupgradename=初级,专家级,大师级
-Casterupgradetip="- 岗哨守卫","- 岗哨守卫|n- 静止陷阱","- 岗哨守卫|n- 静止陷阱|n- 医疗守卫"
+Name=Vol'jin
+Casterupgradename=Initiate, Adept, Master
+Casterupgradetip="- Sentry Ward","- Sentry Ward|n- Stasis Trap","- Sentry Ward|n- Stasis Trap|n- Healing Ward"
 
 [Ogld]
-Name=巫师
-Propernames=古尔丹
+Name=Warlock
+Propernames=Gul'dan
 Hotkey=W
-Tip=召唤巫师(|cffffcc00W|r)
-Ubertip="在基尔加丹亲自监督下战斗的强大巫师。|n|n|cffffcc00能攻击地面和空中单位。|r"
-Revivetip=复活巫师(|cffffcc00W|r)
-Awakentip=复活巫师(|cffffcc00W|r)
+Tip=Summon |cffffcc00W|rarlock
+Ubertip="Powerful Warlock working under the tutelage of Kil'jaeden himself. |n|n|cffffcc00Attacks land and air units.|r"
+Revivetip=Revive |cffffcc00W|rarlock
+Awakentip=Revive |cffffcc00W|rarlock
+// needs icon
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-guldan.tga
 
 [Osam]
-Name=剑圣
+Name=Blademaster
 Hotkey=B
-Propernames=萨穆罗
-Revivetip=复活剑圣(|cffffcc00B|r)
-Awakentip=复活剑圣(|cffffcc00B|r)
-Ubertip="一种灵活的英雄，特别擅长于一对一。能学习到镜像、疾步风、致命一击和剑刃风暴这四种技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Samuro
+Revivetip=Revive |cffffcc00B|rlademaster
+Awakentip=Revive |cffffcc00B|rlademaster
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-blademaster.tga
+Ubertip="Cunning Hero, adept at quickly killing individual units and creating confusion among enemies. Can learn Mirror Image, Wind Walk, Critical Strike and Bladestorm. |n|n|cffffcc00Attacks land units.|r"
 
 [Orex]
-Name=驯兽师
-Propernames=雷克萨
+Name=Beastmaster
+Propernames=Rexxar
 Hotkey=B
-Tip=召唤驯兽师(|cffffcc00B|r)
-Ubertip="战士型英雄，特别擅长于召唤野兽和集合他的盟友。能够学习召唤熊、召唤豪猪、战嚎和惊吓这四个技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
-Revivetip=复活驯兽师(|cffffcc00B|r)
-Awakentip=复活驯兽师(|cffffcc00B|r)
+Tip=Summon |cffffcc00B|reastmaster
+Ubertip="Warrior Hero, adept at summoning beasts and rallying his allies. Can learn Summon Bear, Summon Quilbeast, Battle Roar, and Stampede. |n|n|cffffcc00Attacks land and air units.|r"
+Revivetip=Revive |cffffcc00B|reastmaster
+Awakentip=Revive |cffffcc00B|reastmaster
+//needs icon
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-beastmaster.tga
 
 [ngzc]
-Name=米纱
-EditorSuffix= (等级 1)
+Name=Misha
+EditorSuffix= (Level 1)
 
 [ngzd]
-Name=米纱
-EditorSuffix= (等级 2)
+Name=Misha
+EditorSuffix= (Level 2)
 
 [ngza]
-Name=米纱
-EditorSuffix= (等级 3)
+Name=Misha
+EditorSuffix= (Level 3)
 
 [ngz4]
-Name=米纱
-EditorSuffix= (等级 4)
+Name=Misha
+EditorSuffix= (Level 4)
 
 [nqb4]
-Name=狂暴豪猪
-EditorSuffix= (等级 4)
+Name=Berserk Quilbeast
+EditorSuffix= (Level 4)
 
 [osp4]
-Name=毒蛇守卫
-EditorSuffix= (等级 4)
+Name=Serpent Ward
+EditorSuffix= (Level 4)
 
 
 [npn4]
-Name=火之熊猫战士
-Tip=召唤火之熊猫战士(|cffffcc00F|r)
-Ubertip="勇猛的火之熊猫战士，具有永久献祭和抗性皮肤技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Fire
+Tip=Summon |cffffcc00F|rire
+Ubertip="Fierce Pandaren warrior of fire. Has Permanent Immolation and Resistant Skin. |n|n|cffffcc00Attacks land units.|r"
 Hotkey=F
 
 [npn5]
-Name=风之熊猫战士
-Tip=召唤风之熊猫战士(|cffffcc00T|r)
-Ubertip="敏捷的风之熊猫战士，具有抗性皮肤，驱逐魔法，飓风和疾步风技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Storm
+Tip=Summon S|cffffcc00t|rorm
+Ubertip="Quick Pandaren warrior of storms. Has Resistant Skin. Can cast Dispel Magic, Cyclone, and Wind Walk. |n|n|cffffcc00Attacks land and air units.|r"
 Hotkey=T
 
 [npn6]
-Name=地之熊猫战士
-Tip=召唤地之熊猫战士(|cffffcc00E|r)
-Ubertip="笨重的地之熊猫战士，具有抗性皮肤，魔法免疫，粉碎和嘲讽技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Earth
+Tip=Summon |cffffcc00E|rarth
+Ubertip="Sturdy Pandaren warrior of earth. Has Resistant Skin, and Spell Immunity. Can cast Pulverize, and Taunt. |n|n|cffffcc00Attacks land units.|r"
 Hotkey=E
 
 [oswy]
-Name=灵魂飞龙
+Name=Spirit Wyvern
 
 [ogrk]
-Name=加索克
+Name=Gar'thok
 
 [ojgn]
-Name=兽族魔力战舰
+Name=Orc Juggernaught
 Hotkey=R
-Tip=训练兽族魔力战舰(|cffffcc00R|r)
-Ubertip="巨大的战舰，擅长破坏敌人的舰只和从海上轰炸近海的建筑物。|n|n|cffffcc00能攻击地面单位。|r"
+Tip=Train O|cffffcc00r|rc Juggernaught
+Ubertip="Massive battleship good at destroying enemy ships and bombarding buildings from the sea. |n|n|cffffcc00Attacks land units.|r"
 
 // Undead Units
 [Uear]
-Name=死亡骑士
-EditorSuffix= (邪恶的)
+Name=Death Knight
+EditorSuffix= (Evil)
 Hotkey=D
-Propernames=阿尔塞斯
-Revivetip=复活死亡骑士(|cffffcc00D|r)
-Awakentip=复活死亡骑士(|cffffcc00D|r)
-Ubertip="战士型英雄，是人族圣骑士的邪恶对手。能学习到死亡缠绕、死亡契约、邪恶光环和操纵死尸这四种技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Arthas
+Revivetip=Revive |cffffcc00D|reath Knight
+Awakentip=Revive |cffffcc00D|reath Knight
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-deathknight.tga
+Ubertip="Warrior Hero, evil counterpart to the Human Paladin. Can learn Death Coil, Death Pact, Unholy Aura, and Animate Dead. |n|n|cffffcc00Attacks land units.|r"
 
 [Uktl]
-Name=巫妖
-EditorSuffix= (巫妖)
+Name=Lich
+EditorSuffix= (Lich)
 Hotkey=L
-Propernames=克尔苏加德
-Revivetip=复活巫妖(|cffffcc00L|r)
-Awakentip=复活巫妖(|cffffcc00L|r)
-Ubertip="一种神秘的英雄，特别擅长于冰系魔法。能学习到霜冻护甲、霜冻新星、黑暗仪式和死亡凋零技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Propernames=Kel'Thuzad
+Revivetip=Revive |cffffcc00L|rich
+Awakentip=Revive |cffffcc00L|rich
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-lich.tga
+Ubertip="Mystical Hero, particularly adept at cold magic. Can learn Frost Armor, Frost Nova, Dark Ritual and Death And Decay. |n|n|cffffcc00Attacks land and air units.|r"
 
 [Umal]
-Name=恐惧魔王
+Name=Dreadlord
 Hotkey=E
-Propernames=麦尔盖尼斯
-Revivetip=复活恐惧魔王(|cffffcc00E|r)
-Awakentip=复活恐惧魔王(|cffffcc00E|r)
-Ubertip="一种狡猾的英雄，善于控制战场。能学习到腐臭蜂群、睡眠、吸血光环和地狱火技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Mal'Ganis
+Revivetip=Revive Dr|cffffcc00e|radlord
+Awakentip=Revive Dr|cffffcc00e|radlord
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-dreadlord.tga
+Ubertip="Cunning Hero, adept at controlling combat. Can learn Carrion Swarm, Sleep, Vampiric Aura, and Inferno. |n|n|cffffcc00Attacks land units.|r"
 
 [Utic]
-Name=恐惧魔王
+Name=Dreadlord
 Hotkey=E
-Propernames=提克迪奥斯 
-Revivetip=复活恐惧魔王(|cffffcc00E|r)
-Awakentip=复活恐惧魔王(|cffffcc00E|r)
-Ubertip="一种狡猾的英雄，善于控制战场。能学习到腐臭蜂群、睡眠、吸血光环和地狱火技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Tichondrius
+Revivetip=Revive Dr|cffffcc00e|radlord
+Awakentip=Revive Dr|cffffcc00e|radlord
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-tichondrius.tga
+Ubertip="Cunning Hero, adept at controlling combat. Can learn Carrion Swarm, Sleep, Vampiric Aura, and Inferno. |n|n|cffffcc00Attacks land units.|r"
 
 [Uvar]
-Name=恐惧魔王
+Name=Dreadlord
 Hotkey=E
-Propernames=法理玛瑟斯
-Revivetip=复活恐惧魔王(|cffffcc00E|r)
-Awakentip=复活恐惧魔王(|cffffcc00E|r)
-Ubertip="一种狡猾的英雄，善于控制战场。能学习到腐臭蜂群、睡眠、吸血光环和地狱火技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Varimathras
+Revivetip=Revive Dr|cffffcc00e|radlord
+Awakentip=Revive Dr|cffffcc00e|radlord
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-dreadlord.tga
+Ubertip="Cunning Hero, adept at controlling combat. Can learn Carrion Swarm, Sleep, Vampiric Aura, and Inferno. |n|n|cffffcc00Attacks land units.|r"
 
 [Udth]
-Name=恐惧魔王
+Name=Dreadlord
 Hotkey=E
-Propernames=德赛洛克
-Revivetip=复活恐惧魔王(|cffffcc00E|r)
-Awakentip=复活恐惧魔王(|cffffcc00E|r)
-Ubertip="一种狡猾的英雄，善于控制战场。能学习到腐臭蜂群、睡眠、吸血光环和地狱火技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Detheroc
+Revivetip=Revive Dr|cffffcc00e|radlord
+Awakentip=Revive Dr|cffffcc00e|radlord
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-dreadlord.tga
+Ubertip="Cunning Hero, adept at controlling combat. Can learn Carrion Swarm, Sleep, Vampiric Aura, and Inferno. |n|n|cffffcc00Attacks land units.|r"
 
 [Ubal]
-Name=恐惧魔王
+Name=Dreadlord
 Hotkey=E
-Propernames=巴那泽尔
-Revivetip=复活恐惧魔王(|cffffcc00E|r)
-Awakentip=复活恐惧魔王(|cffffcc00E|r)
-Ubertip="一种狡猾的英雄，善于控制战场。能学习到腐臭蜂群、睡眠、吸血光环和地狱火技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Balnazzar
+Revivetip=Revive Dr|cffffcc00e|radlord
+Awakentip=Revive Dr|cffffcc00e|radlord
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-tichondrius.tga
+Ubertip="Cunning Hero, adept at controlling combat. Can learn Carrion Swarm, Sleep, Vampiric Aura, and Inferno. |n|n|cffffcc00Attacks land units.|r"
 
 [Uvng]
-Name=恐惧魔王
+Name=Dreadlord
 Hotkey=E
-Propernames=戴尔维恩格尔
-Revivetip=复活恐惧魔王(|cffffcc00E|r)
-Awakentip=复活恐惧魔王(|cffffcc00E|r)
-Ubertip="一种狡猾的英雄，善于控制战场。能学习到腐臭蜂群、睡眠、吸血光环和地狱火技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Dalvengyr
+Revivetip=Revive Dr|cffffcc00e|radlord
+Awakentip=Revive Dr|cffffcc00e|radlord
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-dreadlord.tga
+Ubertip="Cunning Hero, adept at controlling combat. Can learn Carrion Swarm, Sleep, Vampiric Aura, and Inferno. |n|n|cffffcc00Attacks land units.|r"
 
 [Uanb]
-Name=地穴领主
+Name=Crypt Lord
 Hotkey=C
-Propernames=阿诺拉克
-Revivetip=复活地穴首领(|cffffcc00C|r)
-Awakentip=复活地穴领主(|cffffcc00C|r)
-Ubertip="战士型英雄，擅长于控制昆虫进行攻击。能学习到穿刺、尖刺外壳、腐尸甲虫和蝗虫群这四个技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Anub'arak
+Revivetip=Revive |cffffcc00C|rrypt Lord
+Awakentip=Revive |cffffcc00C|rrypt Lord
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-cryptlord.tga
+Ubertip="Warrior Hero, adept at summoning insect minions and crushing enemies. Can learn Impale, Spiked Carapace, Carrion Beetles and Locust Swarm. |n|n|cffffcc00Attacks land units.|r"
 
 [Usyl]
-Name=黑暗游侠
-Propernames=西尔瓦娜斯
+Name=Dark Ranger
+Propernames=Sylvanas
 Hotkey=D
-Tip=召唤黑暗游侠(|cffffcc00D|r)
-Revivetip=复活黑暗游侠(|cffffcc00D|r)
-Awakentip=复活黑暗游侠(|cffffcc00D|r)
-Ubertip="灵巧型的英雄，擅长于与对手周旋。能学习到沉默魔法、黑暗之箭、生命汲取和符咒这四项技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Summon |cffffcc00D|rark Ranger
+Revivetip=Revive |cffffcc00D|rark Ranger
+Awakentip=Revive |cffffcc00D|rark Ranger
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-bansheeranger.tga
+Ubertip="Cunning Hero, adept at manipulating opponents. Can learn Silence, Black Arrow, Life Drain, and Charm. |n|n|cffffcc00Attacks land and air units.|r"
 
 [uktn]
-Name=克尔苏加德
-EditorSuffix= (不死族巫师)
+Name=Kel'Thuzad
+EditorSuffix= (Necromancer)
 
 [uktg]
-Name=克尔苏加德
-EditorSuffix= (幽灵)
+Name=Kel'Thuzad
+EditorSuffix= (Ghost)
 
 [Uwar]
-Name=巫师
+Name=Warlock
 Hotkey=W
-Propernames=阿克蒙德
-Revivetip=复活巫师(|cffffcc00W|r)
-Awakentip=复活巫师(|cffffcc00W|r)
+Propernames=Archimonde
+Revivetip=Revive |cffffcc00W|rarlock
+Awakentip=Revive |cffffcc00W|rarlock
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-archimonde.tga
 
 [uswb]
-Name=追风之西尔瓦娜斯
-EditorSuffix= (女妖)
+Name=Sylvanas Windrunner
+EditorSuffix= (Banshee)
 
 [uarb]
-Name=飞艇
-Tip=召唤飞艇(|cffffcc00B|r)
-Ubertip="一种大批量的运输机。"
+Name=Sky Barge
+Tip=Summon Sky |cffffcc00B|rarge
+Ubertip="A massive air transport."
 Hotkey=B
 
 [ubdr]
-Name=萨皮洛恩
-EditorSuffix= (活着的)
+Name=Sapphiron
+EditorSuffix= (living)
 
 [ubdd]
-Name=萨皮洛恩
-EditorSuffix= (不死族的)
+Name=Sapphiron
+EditorSuffix= (undead)
 
 [ushp]
-Name=不死族船坞
-Tip=船坞(|cffffcc00H|r)
-Ubertip="造船工厂，能制造出不死族的运输船，护卫舰和战舰。"
+Name=Undead Shipyard
+Tip=S|cffffcc00h|ripyard
+Ubertip="Boat construction facility. Produces Undead Transport Ships, Undead Frigates, and Undead Battleships."
 Hotkey=H
 
 // Night Elf Units
 [Eill]
-Name=恶魔猎手
+Name=Demon Hunter
 Hotkey=D
-Propernames=尤迪安
-Revivetip=复活恶魔猎手(|cffffcc00D|r)
-Awakentip=复活恶魔猎手(|cffffcc00D|r)
-Ubertip="一种灵活的英雄，能学习到献祭、闪避、法力燃烧和变身这四项技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Illidan
+Revivetip=Revive |cffffcc00D|remon Hunter
+Awakentip=Revive |cffffcc00D|remon Hunter
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-demonhunter.tga
+Ubertip="Cunning Hero, adept at maneuvering through battles. Can learn Immolation, Evasion, Mana Burn, and Metamorphosis. |n|n|cffffcc00Attacks land units.|r"
 
 [Eilm]
-Name=恶魔猎手
-EditorSuffix= (被变了形的)
-Hotkey=D
-Propernames=尤迪安
-Revivetip=复活恶魔猎手(|cffffcc00D|r)
-Awakentip=复活恶魔猎手(|cffffcc00D|r)
-Ubertip="一种灵活的英雄，能学习到献祭、闪避、法力燃烧和变身这四项技能。|n|n|cffffcc00能攻击地面单位。|r"
-
-[Eidm]
-Name=恶魔猎手
-EditorSuffix= (恶魔形态)
-Hotkey=D
-Propernames=尤迪安
-Revivetip=复活恶魔猎手(|cffffcc00D|r)
-Awakentip=复活恶魔猎手(|cffffcc00D|r)
-Ubertip="一种灵活的英雄，能学习到献祭、闪避、法力燃烧和变身这四项技能。|n|n|cffffcc00能攻击地面单位。|r"
-
-[Ecen]
-Name=半神人
-Hotkey=C
-Propernames=赛纳留斯
-Revivetip=复活赛纳留斯(|cffffcc00C|r)
-Awakentip=复活赛纳留斯(|cffffcc00C|r)
-
-[Ekgg]
-Name=丛林守护者
-Hotkey=G
-Propernames=幽灵
-Revivetip=复活幽灵(|cffffcc00G|r)
-Awakentip=复活幽灵(|cffffcc00G|r)
-Ubertip="一种神秘的英雄，特别擅长于自然类的魔法。能学习到纠缠根须、自然之力、荆刺光环和宁静这四项技能。|n|n|cffffcc00攻击地面和空中单位。|r"
-
-[Efur]
-Name=丛林守护者
-Hotkey=K
-Propernames=法里奥
-Revivetip=复活丛林守护者(|cffffcc00K|r)
-Awakentip=复活丛林守护者(|cffffcc00K|r)
-Ubertip="一种神秘的英雄，特别擅长于自然类的魔法。能学习到纠缠根须、自然之力、荆刺光环和宁静这四项技能。|n|n|cffffcc00攻击地面和空中单位。|r"
-
-[Emfr]
-Name=丛林守护者
-Hotkey=K
-Propernames=玛尔法里奥
-Revivetip=复活丛林守护者(|cffffcc00K|r)
-Awakentip=复活丛林守护者(|cffffcc00K|r)
-Ubertip="一种神秘的英雄，特别擅长于自然类的魔法。能学习到纠缠根须、自然之力、荆刺光环和宁静这四项技能。|n|n|cffffcc00攻击地面和空中单位。|r"
-
-[Emns]
-Name=丛林守护者
-Hotkey=K
-Propernames=玛尔法里奥
-Revivetip=复活丛林守护者(|cffffcc00K|r)
-Awakentip=复活丛林守护者(|cffffcc00K|r)
-EditorSuffix= (没有鹿角)
-Ubertip="一种神秘的英雄，特别擅长于自然类的魔法。能学习到纠缠根须、自然之力、荆刺光环和宁静这四项技能。|n|n|cffffcc00攻击地面和空中单位。|r"
-
-[Ewrd]
-Name=守望者
-Hotkey=W
-Propernames=玛维
-Revivetip=复活守望者(|cffffcc00W|r)
-Awakentip=复活守望者(|cffffcc00W|r)
-Ubertip="灵巧型英雄，能在战场上来去自如，能学习到闪烁、刀阵旋风、暗影突袭和复仇之魂这四项技能。|n|n|cffffcc00能攻击地面单位。|r"
-
-[eshd]
-Name=塞恩德里斯
-
-[Etyr]
-Name=月之女祭司
-Hotkey=P
-Propernames=泰兰德
-Revivetip=复活月之女祭司(|cffffcc00P|r)
-Awakentip=复活月之女祭司(|cffffcc00P|r)
-Ubertip="战士型英雄，擅长于远程攻击。能学习到侦察、灼热之箭、强击光环和群星坠落这四项技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
-
-[Eevi]
-Name=恶魔猎手
-Hotkey=D
-Propernames=尤迪安
-Revivetip=复活恶魔猎手(|cffffcc00D|r)
-Awakentip=复活恶魔猎手(|cffffcc00D|r)
-EditorSuffix= (邪恶的)
-Ubertip="一种灵活的英雄，能学习到献祭、闪避、法力燃烧和变身这四项技能。|n|n|cffffcc00能攻击地面单位。|r"
-
-[Eevm]
-Name=恶魔猎手
+Name=Demon Hunter
 EditorSuffix= (Morphed)
 Hotkey=D
-Propernames=尤迪安
-Revivetip=复活恶魔猎手(|cffffcc00D|r)
-Awakentip=复活恶魔猎手(|cffffcc00D|r)
-EditorSuffix= (邪恶的)
-Ubertip="一种灵活的英雄，能学习到献祭、闪避、法力燃烧和变身这四项技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Illidan
+Revivetip=Revive |cffffcc00D|remon Hunter
+Awakentip=Revive |cffffcc00D|remon Hunter
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-demonhunter.tga
+Ubertip="Cunning Hero, adept at maneuvering through battles. Can learn Immolation, Evasion, Mana Burn, and Metamorphosis. |n|n|cffffcc00Attacks land units.|r"
+
+[Eidm]
+Name=Demon Hunter
+EditorSuffix= (Demon Form)
+Hotkey=D
+Propernames=Illidan
+Revivetip=Revive |cffffcc00D|remon Hunter
+Awakentip=Revive |cffffcc00D|remon Hunter
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-demonhunter.tga
+Ubertip="Cunning Hero, adept at maneuvering through battles. Can learn Immolation, Evasion, Mana Burn, and Metamorphosis. |n|n|cffffcc00Attacks land units.|r"
+
+[Ecen]
+Name=Demigod
+Hotkey=C
+Propernames=Cenarius
+Revivetip=Revive |cffffcc00C|renarius
+Awakentip=Revive |cffffcc00C|renarius
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-keeperofthegrove.tga
+
+[Ekgg]
+Name=Keeper of the Grove
+Hotkey=G
+Propernames=Ghost
+Revivetip=Revive |cffffcc00G|rhost
+Awakentip=Revive |cffffcc00G|rhost
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-keeperofthegrove.tga
+Ubertip="Mystical Hero, adept at using nature spells. Can learn Entangling Roots, Force of Nature, Thorns Aura, and Tranquility. |n|n|cffffcc00Attacks land and air units.|r"
+
+[Efur]
+Name=Keeper of the Grove
+Hotkey=K
+Propernames=Furion
+Revivetip=Revive |cffffcc00K|reeper of the Grove
+Awakentip=Revive |cffffcc00K|reeper of the Grove
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-furion.tga
+Ubertip="Mystical Hero, adept at using nature spells. Can learn Entangling Roots, Force of Nature, Thorns Aura, and Tranquility. |n|n|cffffcc00Attacks land and air units.|r"
+
+[Emfr]
+Name=Keeper of the Grove
+Hotkey=K
+Propernames=Malfurion
+Revivetip=Revive |cffffcc00K|reeper of the Grove
+Awakentip=Revive |cffffcc00K|reeper of the Grove
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-furion.tga
+Ubertip="Mystical Hero, adept at using nature spells. Can learn Entangling Roots, Force of Nature, Thorns Aura, and Tranquility. |n|n|cffffcc00Attacks land and air units.|r"
+
+[Emns]
+Name=Keeper of the Grove
+Hotkey=K
+Propernames=Malfurion
+Revivetip=Revive |cffffcc00K|reeper of the Grove
+Awakentip=Revive |cffffcc00K|reeper of the Grove
+EditorSuffix= (Without Stag)
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-furion.tga
+Ubertip="Mystical Hero, adept at using nature spells. Can learn Entangling Roots, Force of Nature, Thorns Aura, and Tranquility. |n|n|cffffcc00Attacks land and air units.|r"
+
+[Ewrd]
+Name=Warden
+Hotkey=W
+Propernames=Maiev
+Revivetip=Revive |cffffcc00W|rarden
+Awakentip=Revive |cffffcc00W|rarden
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-warden.tga
+Ubertip="Cunning Hero, adept at entering and escaping combat. Can learn Blink, Fan of Knives, Shadow Strike and Vengeance. |n|n|cffffcc00Attacks land units.|r"
+
+[eshd]
+Name=Shandris
+
+[Etyr]
+Name=Priestess of the Moon
+Hotkey=P
+Propernames=Tyrande
+Revivetip=Revive |cffffcc00P|rriestess of the Moon
+Awakentip=Revive |cffffcc00P|rriestess of the Moon
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-priestessofthemoon.tga
+Ubertip="Warrior Hero, adept at enhancing ranged attacks and slaying enemies from afar. Can learn Scout, Searing Arrows, Trueshot Aura, and Starfall. |n|n|cffffcc00Attacks land and air units.|r"
+
+[Eevi]
+Name=Demon Hunter
+Hotkey=D
+Propernames=Illidan
+Revivetip=Revive |cffffcc00D|remon Hunter
+Awakentip=Revive |cffffcc00D|remon Hunter
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-demonhunter.tga
+EditorSuffix= (Evil)
+Ubertip="Cunning Hero, adept at maneuvering through battles. Can learn Immolation, Evasion, Mana Burn, and Metamorphosis. |n|n|cffffcc00Attacks land units.|r"
+
+[Eevm]
+Name=Demon Hunter
+EditorSuffix= (Morphed)
+Hotkey=D
+Propernames=Illidan
+Revivetip=Revive |cffffcc00D|remon Hunter
+Awakentip=Revive |cffffcc00D|remon Hunter
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-demonhunter.tga
+EditorSuffix= (Evil)
+Ubertip="Cunning Hero, adept at maneuvering through battles. Can learn Immolation, Evasion, Mana Burn, and Metamorphosis. |n|n|cffffcc00Attacks land units.|r"
 
 [ensh]
-Name=娜萨
+Name=Naisha
 
 [enec]
-Name=暗夜精灵信使
+Name=Night Elf Runner
 
 [eilw]
-Name=囚车
+Name=Prison Wagon
 
 // Neutral Units
 [Nbbc]
-Name=剑圣
+Name=Blademaster
 Hotkey=B
-Propernames=黑岩氏族的剑圣
-Revivetip=复活剑圣(|cffffcc00B|r)
-Awakentip=复活剑圣(|cffffcc00B|r)
-Ubertip="一种灵活的英雄，特别擅长于一对一。能学习到镜像、疾步风、致命一击和剑刃风暴这四种技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Blademaster of Blackrock Clan
+Revivetip=Revive |cffffcc00B|rlademaster
+Awakentip=Revive |cffffcc00B|rlademaster
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-chaosblademaster.tga
+Ubertip="Cunning Hero, adept at quickly killing individual units and creating confusion among enemies. Can learn Mirror Image, Wind Walk, Critical Strike and Bladestorm. |n|n|cffffcc00Attacks land units.|r"
 
 [nckb]
-Name=邪恶的科多兽
+Name=Fel Orc Kodo Beast
 Hotkey=K
-Tip=训练邪恶的科多兽(|cffffcc00K|r)
-Ubertip="一种笨重的战争野兽，上面骑着一个兽族鼓手。能学到战鼓和吞噬技能。战鼓能提高周围单位的攻击力，它本身也能进行升级。|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Train Fel Orc |cffffcc00K|rodo Beast
+Ubertip="Lumbering war beast, mounted by an Orcish drummer. Has the abilities War Drums and Devour. War Drums gives friendly units nearby a bonus to attack damage. Can gain the War Drums Upgrade. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nchg]
-Name=邪恶的兽族步兵
+Name=Fel Orc Grunt
 Hotkey=G
-Tip=训练邪恶的兽族步兵(|cffffcc00G|r)
-Ubertip="凶残的兽族战士，身体内流淌着恶魔的血液。|n|cffffcc00能攻击地面单位。|r"
+Tip=Train Fel Orc |cffffcc00G|rrunt
+Ubertip="Brutish Orc warrior infused with the blood of demons. |n|n|cffffcc00Attacks land units.|r"
 
 [nchr]
-Name=邪恶的掠夺者
+Name=Fel Orc Raider
 Hotkey=R
-Tip=训练邪恶的掠夺者(|cffffcc00R|r)
-Ubertip="移动力很高的单位，身体内流淌着恶魔的血液。|n|cffffcc00能攻击地面单位。|r"
+Tip=Train Fel Orc |cffffcc00R|raider
+Ubertip="Highly mobile wolf rider infused with the blood of demons. |n|n|cffffcc00Attacks land units.|r"
 
 [nchw]
-Name=邪恶的巫师
+Name=Fel Orc Warlock
 Hotkey=W
-Tip=训练邪恶的巫师(|cffffcc00W|r)
-Ubertip="兽族的魔法施放单位，一开始能施放霹雳闪电技能，伤害并击晕敌人。在升级之后还能拥有邪恶狂热和残废技能。|n|cffffcc00能攻击地面和空中单位。|r"
-Casterupgradename=初级,专家级,大师级
-Casterupgradetip="- 霹雳闪电","- 霹雳闪电|n- 邪恶狂热","- 霹雳闪电|n- 邪恶狂热|n- 残废"
+Tip=Train Fel Orc |cffffcc00W|rarlock
+Ubertip="Orc spellcaster infused with the blood of demons. Can initially cast Firebolt, which stuns and damages a target enemy unit. Can also learn Unholy Frenzy and Cripple. |n|n|cffffcc00Attacks land and air units.|r"
+Casterupgradename=Initiate, Adept, Master
+Casterupgradetip="- Firebolt","- Firebolt|n- Unholy Frenzy","- Firebolt|n- Unholy Frenzy|n- Cripple"
 
 [nw2w]
-Name=兽族巫师
-Casterupgradename=初级,专家级,大师级
-Casterupgradetip="- 霹雳闪电","- 霹雳闪电|n- 邪恶狂热","- 霹雳闪电|n- 邪恶狂热|n- 残废"
+Name=Orc Warlock
+Casterupgradename=Initiate, Adept, Master
+Casterupgradetip="- Firebolt","- Firebolt|n- Unholy Frenzy","- Firebolt|n- Unholy Frenzy|n- Cripple"
 
 [ncpn]
-Name=邪恶的苦工
+Name=Fel Orc Peon
 Hotkey=P
-Tip=训练邪恶的苦工(|cffffcc00P|r)
-Ubertip="兽族基本的工人单位。能采集黄金和木材，还能建造建筑物和进行修理。在钻入地洞以后还能对来犯的敌人进行反击。|n|cffffcc00能攻击地面单位和树木。|r"
+Tip=Train Fel Orc |cffffcc00P|reon
+Ubertip="Basic worker unit. Can harvest gold and lumber, build structures, and Repair. Can also go inside Orc Burrows to give it an attack. |n|n|cffffcc00Attacks land units and trees.|r"
 
 [nmed]
-Name=麦迪文
+Name=Medivh
 
 [nmdm]
-Name=麦迪文
-EditorSuffix= (血乌鸦形态)
+Name=Medivh
+EditorSuffix= (Raven Form)
 
 [Nman]
-Name=深渊魔王
-Propernames=玛诺洛斯
-Revivetip=复活深渊魔王(|cffffcc00P|r)
-Awakentip=复活深渊魔王(|cffffcc00P|r)
+Name=Pit Lord
+Propernames=Mannoroth
+Revivetip=Revive |cffffcc00P|rit Lord
+Awakentip=Revive |cffffcc00P|rit Lord
 Hotkey=M
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-mannaroth.tga
 
 [Npld]
-Name=深渊魔王
-Propernames=阿哥勒尔,布鲁特里斯,蒙哥瑟德,迪斯麦斯,高哥那斯,麦哥瑟里登
-Revivetip=复活深渊魔王(|cffffcc00P|r)
-Awakentip=复活深渊魔王(|cffffcc00P|r)
+Name=Pit Lord
+Propernames=Azgalor,Brutillus,Mongrethod,Destromath,Gogonnash,Magtheridon
+Revivetip=Revive |cffffcc00P|rit Lord
+Awakentip=Revive |cffffcc00P|rit Lord
 Hotkey=P
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-pitlord.tga
 
 [nser]
-Name=西里诺克斯
+Name=Searinox
 
 [nthr]
-Name=萨里法斯
+Name=Tharifas
 
 [nemi]
-Name=使者
-Casterupgradename=初级,专家级,大师级
-Casterupgradetip="- 医疗","- 医疗|n- 驱逐魔法","- 医疗|n- 驱逐魔法|n- 心灵之火"
+Name=Emissary
+Casterupgradename=Initiate, Adept, Master
+Casterupgradetip="- Heal","- Heal|n- Dispel Magic","- Heal|n- Dispel Magic|n- Inner Fire"
 
 [nhem]
-Name=高等精灵
-EditorSuffix= (男性)
+Name=High Elf
+EditorSuffix= (Male)
 
 [nhef]
-Name=高等精灵
-EditorSuffix= (女性)
+Name=High Elf
+EditorSuffix= (Female)
 
 [nhea]
-Name=弓箭手
-Tip=训练弓箭手(|cffffcc00R|r)
+Name=Archer
+Tip=Train A|cffffcc00r|rcher
 Hotkey=R
-Ubertip="基本的远程攻击单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Basic long-ranged attacker. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nshr]
-Name=神殿
+Name=Shrine
 
 [ndmg]
-Name=恶魔之门
+Name=Demon Gate
 
 [nefm]
-Name=高等精灵农场
+Name=High Elven Farm
 
 [nef0]
-Name=高等精灵农场
+Name=High Elven Farm
 EditorSuffix=1
 
 [nef1]
-Name=高等精灵农场
+Name=High Elven Farm
 EditorSuffix=2
 
 [nef2]
-Name=高等精灵农场
+Name=High Elven Farm
 EditorSuffix=3
 
 [nef3]
-Name=高等精灵农场
+Name=High Elven Farm
 EditorSuffix=4
 
 [nef4]
-Name=高等精灵农场
+Name=High Elven Farm
 EditorSuffix=5
 
 [nef5]
-Name=高等精灵农场
+Name=High Elven Farm
 EditorSuffix=6
 
 [nef6]
-Name=高等精灵农场
+Name=High Elven Farm
 EditorSuffix=7
 
 [nef7]
-Name=高等精灵农场
+Name=High Elven Farm
 EditorSuffix=8
 
 [negt]
-Name=高等精灵防御塔
-Hotkey=G
-Tip=(|cffffcc00G|r)建造高等精灵守护塔
-Ubertip="主要的防御性建筑。 |n|n|cffffcc00能攻击地面和空中单位。|r"
-
+Name=High Elven Guard Tower
 
 [negf]
-Name=地怒之塔
+Name=Earth-Fury Tower
 
 [negm]
-Name=天怒之塔
+Name=Sky-Fury Tower
 
 [ndgt]
-Name=达拉然守卫塔
+Name=Dalaran Guard Tower
 
 [npgf]
-Name=猪圈农场
-Tip=建造猪圈农场(|cffffcc00F|r)
+Name=Pig Farm
+Tip=Build Pig |cffffcc00F|rarm
 Hotkey=F
 
 [nheb]
-Name=高等精灵兵营
-Hotkey=B
-Tip=(|cffffcc00B|r)建造兵营
-Ubertip="主要部队生产建筑。 训练高等精灵剑士和高等精灵弓箭手和龙鹰。|n 同时包括对于高等精灵剑士防御技能的升级。"
-
+Name=High Elven Barracks
 
 [nbfl]
-Name=血浴之泉
+Name=Fountain of Blood
 
 [nfnp]
-Name=威力之泉
+Name=Fountain of Power
 
 [ndfl]
-Name=被污染的生命之泉
+Name=Defiled Fountain of Life
 
 [nbsm]
-Name=召唤底座之书
+Name=Book of Summoning Pedestal
 
 [nhcn]
-Name=半神赛纳留斯之角
+Name=Horn of Cenarius Pedestal
 
 [nfrm]
-Name=霜之哀伤底座
+Name=Frostmourne Pedestal
 
 [ngob]
-Name=魔法宝石塔
+Name=Enchanted Gemstone Obelisk
 
 [nbwd]
-Name=兽穴
+Name=Barrow Den
 
 [ncap]
-Name=远古守护者
+Name=Corrupted Ancient Protector
 Hotkey=P
-Tip=建造远古守护者(|cffffcc00P|r)
-Ubertip="防御性的古树。当扎根于地面的时候，能投掷出巨大的石块对敌人造成伤害。|n能攻击地面和空中单位。"
+Tip=Create Corrupted Ancient |cffffcc00P|rrotector
+Ubertip="Defensive Ancient. When rooted in the ground, can hurl enormous rocks at nearby enemy units. |nAttacks land and air units."
 
 [ncmw]
-Name=月亮井
+Name=Corrupted Moon Well
 Hotkey=M
-Tip=建造月亮井(|cffffcc00M|r)
-Ubertip="能提供人口，从而增加可造单位数量的最大值。还能补充暗夜精灵族单位的魔法值和生命值。在夜间，它也能自我恢复魔法能量。"
+Tip=Create Corrupted |cffffcc00M|roon Well
+Ubertip="Provides food, which increases the maximum number of units that can be trained. Has the Replenish Mana and Life ability."
 
 [nctl]
-Name=生命之树
+Name=Corrupted Tree of Life
 Hotkey=T
-Tip=建造生命之树(|cffffcc00T|r)
-Ubertip="暗夜精灵族的基本建筑物。能训练小精灵和缠绕金矿。在升级到了远古之树和永恒之树之后能让玩家建造许多新的建筑物和单位。"
+Tip=Create Corrupted |cffffcc00T|rree of Life
+Ubertip="Primary structure, used to train Wisps and entangle gold mines. Can be upgraded to Corrupted Tree of Ages and then Corrupted Tree of Eternity to enable the production of additional types of structures and units."
 
 [ncta]
-Name=远古之树
+Name=Corrupted Tree of Ages
 Hotkey=U
-Tip=升级到远古之树(|cffffcc00U|r)
-Ubertip="升级到了远古之树之后能让玩家建造许多新的建筑物和单位。"
+Tip=|cffffcc00U|rpgrade to Corrupted Tree of Ages
+Ubertip="Upgrade to Corrupted Tree of Ages to enable the production of additional types of structures and units."
 
 [ncte]
-Name=永恒之树
+Name=Corrupted Tree of Eternity
 Hotkey=U
-Tip=升级到永恒之树(|cffffcc00U|r)
-Ubertip="升级到了永恒之树之后能让玩家建造许多新的建筑物和单位。"
+Tip=|cffffcc00U|rpgrade to Corrupted Tree of Eternity
+Ubertip="Upgrade to Corrupted Tree of Eternity to enable the production of additional types of structures and units."
 
 [ncaw]
-Name=战争古树
+Name=Corrupted Ancient of War
 Hotkey=R
-Tip=建造远古守护者(|cffffcc00R|r)
-Ubertip="主要的产兵建筑。|n|n|cffffcc00能攻击地面单位。|r"
+Tip=Create Corrupted Ancient of Wa|cffffcc00r|r
+Ubertip="Keeper of primary assault troops. |n|n|cffffcc00Attacks land units.|r"
 
 [nbsp]
-Name=船只
+Name=Ship
 
 [nssn]
-Name=守望者
+Name=Warden
 
 [nwat]
-Name=岗哨
+Name=Sentry
 
 [ndrb]
-Name=龙之栖木
-Tip=建造龙之栖木
+Name=Dragon Roost
+Tip=Build Dragon Roost
 
 [Uclc]
-Name=巫妖
-EditorSuffix=" (巫妖，过场动画)"
+Name=Lich
+EditorSuffix=" (Lich, cinematic)"
 Hotkey=L
-Propernames=克尔苏加德
-Revivetip=复活巫妖(|cffffcc00L|r)
-Awakentip=复活巫妖(|cffffcc00L|r)
-Ubertip="一种神秘的英雄，特别擅长于冰系魔法。能学习到霜冻护甲、霜冻新星、黑暗仪式和死亡凋零技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Propernames=Kel'Thuzad
+Revivetip=Revive |cffffcc00L|rich
+Awakentip=Revive |cffffcc00L|rich
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-lich.tga
+Ubertip="Mystical Hero, particularly adept at cold magic. Can learn Frost Armor, Frost Nova, Dark Ritual and Death And Decay. |n|n|cffffcc00Attacks land and air units.|r"
 
 [uabc]
-Name=憎恶
-EditorSuffix= (过场动画)
-Tip=训练憎恶(|cffffcc00A|r)
-Ubertip="重型近战单位。可以学习疾病云雾技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Abomination
+EditorSuffix= (cinematic)
+Tip=Train |cffffcc00A|rbomination
+Ubertip="Heavy melee unit. Can learn the Disease Cloud ability. |n|n|cffffcc00Attacks land units.|r"
 Hotkey=A
 
 [Otcc]
-Name=牛头人酋长
-EditorSuffix= (过场动画)
+Name=Tauren Chieftain
+EditorSuffix= (cinematic)
 Hotkey=T
-Propernames=卡林-血蹄
-Revivetip=复活牛头人酋长(|cffffcc00T|r)
-Awakentip=复活牛头人酋长(|cffffcc00T|r)
-Ubertip="战士型英雄，特别擅长于吸收伤害和近战战斗。能学习震荡波、战争践踏、耐久光环和重生技能。|n|n|cffffcc00能攻击地面单位。|r"
+Propernames=Cairne Bloodhoof
+Revivetip=Revive |cffffcc00T|rauren Chieftain
+Awakentip=Revive |cffffcc00T|rauren Chieftain
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-taurenchieftain.tga
+Ubertip="Warrior Hero, exceptional at absorbing damage and melee combat. Can learn Shockwave, War Stomp, Endurance Aura and Reincarnation. |n|n|cffffcc00Attacks land units.|r"
 
 [zmar]
-Name=马里恩
+Name=Marine
 Hotkey=M
-Tip=训练
-Ubertip="强大的人族海军陆战队，装备有自动脉冲来复枪。|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Train |cffffcc00M|rarine
+Ubertip="Powerful Terran marine armed with an automatic pulse rifle. |n|n|cffffcc00Attacks land and air units.|r"
 
 [zjug]
-Name=兽族魔力战舰
+Name=Orc Juggernaught
 Hotkey=R
-Tip=训练兽族神像(|cffffcc00R|r)
-Ubertip="巨大的战舰，擅长破坏敌人的舰只和从海上轰炸近海的建筑物。|n|n|cffffcc00能攻击地面单位。|r"
-EditorSuffix= (过场动画)
+Tip=Train O|cffffcc00r|rc Juggernaught
+Ubertip="Massive battleship good at destroying enemy ships and bombarding buildings from the sea. |n|n|cffffcc00Attacks land units.|r"
+EditorSuffix= (Cinematic)
 
 [zzrg]
-Name=小狗
+Name=Zergling
 Hotkey=Z
-Tip=训练小狗(|cffffcc00Z|r)
-Ubertip="虫族军队的小型近战攻击生物。虽然很脆弱，但是他们以极大的数量闻名。|n|cffffcc00能攻击地面单位。|r"
+Tip=Train |cffffcc00Z|rergling
+Ubertip="Small melee creature of the Zerg army. Though fragile, they are good in large numbers. |n|n|cffffcc00Attacks land units.|r"
 
 [zhyd]
-Name=刺蛇
+Name=Hydralisk
 Hotkey=H
-Tip=训练刺蛇(|cffffcc00H|r)
-Ubertip="强大的虫族生物，熟练于用包裹着酸液的脊液射弹摧毁敌人。|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Train |cffffcc00H|rydralisk
+Ubertip="Powerful Zerg creature, adept at destroying enemies with projectile spines coated in acid. |n|n|cffffcc00Attacks land and air units.|r"
 
 [zcso]
-Name=空间邪恶兽族
+Name=Space Fel Orc
 Hotkey=C
-Tip=训练空间邪恶兽族(|cffffcc00C|r)
-Ubertip="邪恶的兽族被送往空间为恶魔军团而战。装备有强大的火焰喷射器，他们能够大量杀伤团聚在一起的敌人军队。|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Train Spa|cffffcc00c|re Fel Orc
+Ubertip="Fel Orc sent into space to fight for the demonic legion. Armed with a powerful flame-thrower, they can decimate large numbers of clustered enemy troops. |n|n|cffffcc00Attacks land and air units.|r"
 
 [zsmc]
-Name=大兵
+Name=Sammy!
 Hotkey=M
-Tip=训练美国大兵(Sa|cffffcc00M|r)
-Ubertip="艺术指导，山姆-戴迪。擅长概念艺术和纹理制作，有很多艺术青年当他的小弟给他卖命。|n|n|cffffcc00攻击糟糕的艺术。|r"
+Tip=Train Sa|cffffcc00m|rmy
+Ubertip="Lead artist, Sam Didier. Good at concept art and texturing. Has many artist minions that do his bidding. |n|n|cffffcc00Attacks bad art.|r"
 
 [zshv]
-Name=小鬼挖掘者
+Name=Kobold Shoveler
 Hotkey=K
-Tip=训练小鬼挖掘者(|cffffcc00K|r)
-Ubertip="暴雪的副总裁，法兰克-皮尔斯。强大的程序员，擅长打断笑话和完成任务。|n|n|cffffcc00攻击程序错误。|r"
+Tip=Train |cffffcc00K|robold Shoveler
+Ubertip="Vice President of Blizzard, Frank pearce. Powerful programmer, good at cutting through the chaff and getting tasks done. |n|n|cffffcc00Attacks bugs.|r"
 
 // naga units/buildings
 [nmpe]
-Name=穆格尔奴隶
+Name=Mur'gul Slave
 Hotkey=V
-Tip=训练穆格尔奴隶(|cffffcc00V|r)
-Ubertip="基本的工人单位，能采集木材和黄金，建造建筑物和进行修理。|n|cffffcc00能攻击地面单位和树木。|r"
+Tip=Train Mur'gul Sla|cffffcc00v|re
+Ubertip="Basic worker unit. Can harvest gold and lumber, build structures, and Repair. |n|n|cffffcc00Attacks land units and trees.|r"
 
 [nnfm]
-Name=珊瑚礁
-Tip=建造珊瑚礁(|cffffcc00C|r)
+Name=Coral Bed
+Tip=Build |cffffcc00C|roral Bed
 Hotkey=C
-Ubertip="提供人口，能增加你可造的单位最大数量。"
+Ubertip="Provides food, which increases the maximum number of units that can be trained."
 
 [nntg]
-Name=守护者
-Tip=建造守护者(|cffffcc00D|r)
+Name=Tidal Guardian
+Tip=Build Ti|cffffcc00d|ral Guardian
 Hotkey=D
-Ubertip="主要的防御性建筑。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Primary defensive structure. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nntt]
-Name=潮汐神庙
-Tip=建造潮汐神庙(|cffffcc00T|r)
+Name=Temple of Tides
+Tip=Build |cffffcc00T|remple of Tides
 Hotkey=T
-Ubertip="主要建筑，用来训练穆格尔奴隶、穆格尔掠夺者以及存储资源。同时包括娜迦武器和防御的升级，以及潜水技能升级。"
+Ubertip="Primary structure, used to train Mur'gul Slaves, Mur'gul Reavers and receive gathered resources. Also contains the Naga weapon and armor upgrades, and the Submerge upgrade."
 
 [nnsg]
-Name=产卵之地
-Tip=建造产卵之地(|cffffcc00S|r)
+Name=Spawning Grounds
+Tip=Build |cffffcc00S|rpawning Grounds
 Hotkey=S
-Ubertip="训练娜迦暴徒、飞龙和龙龟，同时包括诱捕魔法的升级。"
+Ubertip="Trains Naga Myrmidons, Snap Dragons, and Dragon Turtles. Also contains the Ensnare upgrade."
 
 [nnsa]
-Name=艾萨拉女王神殿
-Tip=建造艾萨拉女王神殿(|cffffcc00A|r)
+Name=Shrine of Azshara
+Tip=Build Shrine of |cffffcc00A|rzshara
 Hotkey=A
-Ubertip="训练娜迦海妖和飞蛇，同时包括娜迦海妖的魔法升级。"
+Ubertip="Trains Naga Sirens and Couatl. Also contains spell upgrades for Naga Sirens."
 
 [nnad]
-Name=深渊祭坛
-Tip=建造深渊祭坛(|cffffcc00L|r)
+Name=Altar of the Depths
+Tip=Build A|cffffcc00l|rtar of the Depths
 Hotkey=L
-Ubertip="召唤英雄，复活阵亡的英雄。"
+Ubertip="Summons Heroes. Revives slain Heroes."
 
 [nnmg]
-Name=穆格尔掠夺者
-Tip=训练穆格尔掠夺者(|cffffcc00R|r)
+Name=Mur'gul Reaver
+Tip=Train Mur'gul |cffffcc00R|reaver
 Hotkey=R
-Ubertip="轻型近战两栖单位。|n|n|cffffcc00能攻击地面单位。|r"
+Ubertip="Light melee amphibious unit.  |n|n|cffffcc00Attacks land units.|r"
 
 [nmyr]
-Name=娜迦暴徒
+Name=Naga Myrmidon
 Hotkey=M
-Tip=训练娜迦暴徒(|cffffcc00M|r)
-Ubertip="强力近战单位。有着潜水技能，可以隐藏在水中，能学习诱捕技能。|n|n|cffffcc00能攻击地面单位。"
+Tip=Train Naga |cffffcc00M|ryrmidon
+Ubertip="Powerful melee unit. Has the Submerge ability, which allows this unit to hide in water. Can learn the Ensnare ability.  |n|n|cffffcc00Attacks land units."
 
 [nmys]
-Name=潜水的娜迦暴徒
+Name=Submerged Naga Myrmidon
 Hotkey=M
-Tip=训练娜迦暴徒(|cffffcc00M|r)
-Ubertip="强力近战单位。有着潜水技能，可以隐藏在水中，能学习诱捕技能。|n|n|cffffcc00能攻击地面单位。"
+Tip=Train Naga |cffffcc00M|ryrmidon
+Ubertip="Powerful melee unit. Has the Submerge ability, which allows this unit to hide in water. Can Can learn the Ensnare ability.  |n|n|cffffcc00Attacks land units."
 
 [nnrg]
-Name=娜迦皇家卫兵
-Tip=训练娜迦皇家卫兵
-Ubertip="极其强大的近战单位，拥有潜水技能，允许该单位藏在水中。同时拥有抗性皮肤技能，可以减少负面魔法的延续时间，冰霜之箭技能，可以击晕目标单位，冲击波技能，能对一直线上的敌人造成伤害，以及召唤海元素技能，海元素是一个远程攻击单位。|n|ncffcc00能攻击地面单位。|r"
+Name=Naga Royal Guard
+Tip=Train Naga Royal Guard
+Ubertip="Incredibly powerful melee unit. Has the Submerge ability, which allows this unit to hide in water. Also has Resistant Skin, which reduces the duration of negative spells, Frost Bolt, which stuns a target enemy unit, Crushing Wave, which deals damage in a line, and Summon Sea Elemental, which summons a ranged attack unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nnrs]
-Name=潜水的娜迦皇家卫兵
-Tip=训练娜迦皇家卫兵
-Ubertip="极其强大的近战单位，拥有潜水技能，允许该单位藏在水中。同时拥有抗性皮肤技能，可以减少负面魔法的延续时间，冰霜之箭技能，可以击晕目标单位，冲击波技能，能对一直线上的敌人造成伤害，以及召唤海元素技能，海元素是一个远程攻击单位。|n|ncffcc00能攻击地面单位。|r"
+Name=Submerged Naga Royal Guard
+Tip=Train Naga Royal Guard
+Ubertip="Incredibly powerful melee unit. Has the Submerge ability, which allows this unit to hide in water. Also has Resistant Skin, which reduces the duration of negative spells, Frost Bolt, which stuns a target enemy unit, Crushing Wave, which deals damage in a line, and Summon Sea Elemental, which summons a ranged attack unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nnsw]
-Name=娜迦海妖
+Name=Naga Siren
 Hotkey=S
-Tip=雇用娜迦海妖(|cffffcc00S|r)
-Ubertip="强大的召唤者。拥有初始技能寄生虫，可以对单位造成持续伤害并最终将其变成水奴。 还可以学习霜冻护甲和飓风技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
-Casterupgradename=初级,专家级,大师级
-Casterupgradetip="- 寄生虫","- 寄生虫|n- 霜冻护甲","- 寄生虫|n- 霜冻护甲|n- 飓风"
+Tip=Train Naga |cffffcc00S|riren
+Ubertip="Powerful spellcaster. Can initially cast Parasite, which damages an enemy unit over time and can spawn a Watery Minion from their corpse. Can also learn Frost Armor, and Cyclone. |n|n|cffffcc00Attacks land and air units.|r"
+Casterupgradename=Initiate, Adept, Master
+Casterupgradetip="- Parasite","- Parasite|n- Frost Armor","- Parasite|n- Frost Armor|n- Cyclone"
 
 [nnsu]
-Name=召唤者
+Name=Summoner
 Hotkey=S
-Tip=训练召唤者(|cffffcc00S|r)
-Ubertip="强大的召唤者。拥有初始技能寄生虫，可以对单位造成持续伤害并最终将其变成水奴。还可以学习霜冻护甲和飓风技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
-Casterupgradename=初级,专家级,大师级
-Casterupgradetip="- 寄生虫","- 寄生虫|n- 霜冻护甲","- 寄生虫|n- 霜冻护甲|n- 飓风"
+Tip=Train |cffffcc00S|rummoner
+Ubertip="Powerful summoner. Can initially cast Parasite, which damages an enemy unit over time and can spawn a Watery Minion from their corpse. Can also learn Frost Armor, and Cyclone. |n|n|cffffcc00Attacks land and air units.|r"
+Casterupgradename=Initiate, Adept, Master
+Casterupgradetip="- Parasite","- Parasite|n- Frost Armor","- Parasite|n- Frost Armor|n- Cyclone"
 
 [nsnp]
-Name=飞龙
+Name=Snap Dragon
 Hotkey=D
-Tip=训练飞龙(|cffffcc00D|r)
-Ubertip="轻型远程单位，有着毒性攻击，可以缓慢和伤害敌单位。拥有潜水技能，可以隐藏在水中。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Train Snap |cffffcc00D|rragon
+Ubertip="Light ranged unit that has a poison attack which slows and damages enemy units. Has the Submerge ability, which allows this unit to hide in water. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nsbs]
-Name=潜水的飞龙
+Name=Submerged Snap Dragon
 Hotkey=D
-Tip=训练飞龙(|cffffcc00D|r)
-Ubertip="轻型远程单位，有着毒性攻击，可以缓慢和伤害敌单位。拥有潜水技能，可以隐藏在水中。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Train Snap |cffffcc00D|rragon
+Ubertip="Light ranged unit that has a poison attack which slows and damages enemy units. Has the Submerge ability, which allows this unit to hide in water. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nwgs]
-Name=飞蛇
+Name=Couatl
 Hotkey=C
-Tip=训练飞蛇(|cffffcc00C|r)
-Ubertip="轻型飞行单位，可以学习驱逐魔法。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Train |cffffcc00C|rouatl
+Ubertip="Light flying unit that can learn Abolish Magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nhyc]
-Name=龙龟
+Name=Dragon Turtle
 Hotkey=T
-Tip=训练龙龟(|cffffcc00T|r)
-Ubertip="一只可以吞噬敌方单位的强大海龟。善于破坏敌建筑。拥有硬化皮肤， 可以减少所受的伤害， 以及尖刺外壳，可以对敌人的近战攻击者造成伤害。|n|n|cffffcc00能攻击地面单位。"
+Tip=Train Dragon |cffffcc00T|rurtle
+Ubertip="A powerful Turtle that can devour enemy units. Good at destroying enemy buildings. Has Hardened Skin, which reduces damage taken, and Spiked Shell which deals damage to enemy melee attackers. |n|n|cffffcc00Attacks land units."
 
 //end naga stuff
 
 [nbel]
-Name=血精灵中尉
+Name=Blood Elf Lieutenant
 Hotkey=L
-Tip=训练血精灵中尉(|cffffcc00L|r)
-Ubertip="来自于强大的卡尔省血精灵军队的中尉。破坏魔法施放单位的专家。|n|n|cffffcc00攻击地面单位|r"
+Tip=Train Blood Elf |cffffcc00L|rieutenant
+Ubertip="Powerful lieutenants from Prince Kael's Blood Elf army. Experts at destroying spellcasters. |n|n|cffffcc00Attacks land units.|r"
 
 [nbee]
-Name=血精灵工程师
+Name=Blood Elf Engineer
 Hotkey=E
-Tip=训练血精灵工程师(|cffffcc00E|r)
-Ubertip="极度聪慧的血精灵在发明新的技术和打造强大的防御塔方面极为擅长。|n|n|cffffcc00攻击地面单位和树木。|r"
+Tip=Train Blood Elf |cffffcc00E|rngineer
+Ubertip="Extremely intelligent Blood Elves that are good at discovering new technologies and crafting powerful towers. |n|n|cffffcc00Attacks land units and trees.|r"
 
 [ndmu]
-Name=达拉然之变种怪物
+Name=Dalaran Mutant
 
 [ndrj]
-Name=达拉然之孤胆怪物
+Name=Dalaran Reject
 
 [nfgl]
-Name=灵肉傀儡
+Name=Flesh Golem
 
 [njks]
-Name=监狱小卒
+Name=Jailor Kassan
 
 [Naka]
-Name=贤者
-Propernames=阿卡玛
-Revivetip=复活阿卡玛(|cffffcc00K|r)
-Awakentip=复活阿卡玛(|cffffcc00K|r)
+Name=Elder Sage
+Propernames=Akama
+Revivetip=Revive A|cffffcc00k|rama
+Awakentip=Revive A|cffffcc00k|rama
 Hotkey=K
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-akama.tga
 
 [ndrl]
-Name=达拉内尔工人
+Name=Draenei Laborer
 Hotkey=D
-Tip=训练达拉内尔工人(|cffffcc00D|r)
-Ubertip="基本的工人单位，能采集木材和黄金，建造建筑物和进行修理。|n|cffffcc00能攻击地面单位和树木。|r"
+Tip=Train |cffffcc00D|rrainei Laborer
+Ubertip="Basic worker unit. Can harvest gold and lumber, build structures, and Repair. |n|n|cffffcc00Attacks land units and trees.|r"
 
 [ndh4]
-Name=先知洞穴
-Tip=建造先知洞穴
-Ubertip="训练达拉内尔先知和先驱。"
+Name=Seer's Den
+Tip=Build Seer's Den
+Ubertip="Produces Draenei Seers and Harbingers."
 
 [ndh3]
-Name=达拉内尔兵营
-Tip=建造达拉内尔兵营
-Ubertip="训练达拉内尔辩护者，漫步者，粉碎者和火蜥蜴。"
+Name=Draenei Barracks
+Tip=Build Draenei Barracks
+Ubertip="Produces Draenei Vindicators, Stalkers, Demolishers and Salamanders."
 
 [ndh2]
-Name=达拉内尔港口
-Tip=建造达拉内尔港口
-Ubertip="使得能采集黄金，并能训练出工人和复活英雄。"
+Name=Draenei Haven
+Tip=Build Draenei Haven
+Ubertip="Allows the collection of gold, produces Laborers and can revive Heroes."
 
 [ndsa]
-Name=火蜥蜴
-Tip=训练火蜥蜴
-Ubertip="能投掷出闪电之箭的重型远程攻击单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Salamander
+Tip=Train Salamander
+Ubertip="Heavy ranged unit that hurls bolts of lightning.|n|n|cffffcc00Attacks land and air units.|r"
 
 [nsw1]
-Name=小型灵兽
-EditorSuffix= (等级 1)
+Name=Lesser Spirit Beast
+EditorSuffix= (Level 1)
 
 [nsw2]
-Name=灵兽
-EditorSuffix= (等级 2)
+Name=Spirit Beast
+EditorSuffix= (Level 2)
 
 [nsw3]
-Name=大型灵兽
-EditorSuffix= (等级 3)
+Name=Greater Spirit Beast
+EditorSuffix= (Level 3)
 
 [ncat]
-Name=达拉内尔粉碎者
+Name=Draenei Demolisher
 Hotkey=D
-Tip=训练达拉内尔粉碎者(|cffffcc00D|r)
-Ubertip="远程攻城武器。特别擅长于破坏建筑物，但是行动缓慢容易遭到敌人的围攻。能学习到燃烧汽油技能。|n|n|cffffcc00能攻击地面单位和树木。|r"
+Tip=Train Draenei |cffffcc00D|remolisher
+Ubertip="Long-range siege weaponry. Effective against buildings but slow and vulnerable. Can learn the Burning Oil ability. |n|n|cffffcc00Attacks land units and trees.|r"
 
 [Nmag]
-Name=深渊魔王
-Propernames=麦哥瑟里登
-Revivetip=复活深渊魔王(|cffffcc00P|r)
-Awakentip=复活深渊魔王(|cffffcc00P|r)
+Name=Pit Lord
+Propernames=Magtheridon
+Revivetip=Revive |cffffcc00P|rit Lord
+Awakentip=Revive |cffffcc00P|rit Lord
 Hotkey=P
-Ubertip="战士型英雄，善于恐吓敌人。能学习火焰雨、恐怖嚎叫、分裂攻击和魔鬼缠身。|n|n|cffffcc00能攻击地面单位。|r"
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-pitlord.tga
+Ubertip="Warrior Hero, adept at terrorizing enemies. Can learn Rain of Fire, Howl of Terror, Cleaving Attack, and Doom. |n|n|cffffcc00Attacks land units.|r"
 
 [Nklj]
-Name=巫师
+Name=Warlock
 Hotkey=W
-Propernames=基尔加丹
-Revivetip=复活巫师(|cffffcc00W|r)
-Awakentip=复活巫师(|cffffcc00W|r)
+Propernames=Kil'jaeden
+Revivetip=Revive |cffffcc00W|rarlock
+Awakentip=Revive |cffffcc00W|rarlock
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-archimonde.tga
 
 [Nkjx]
-Name=巫师
+Name=Warlock
 Hotkey=W
-Propernames=基尔加丹
-Revivetip=复活巫师(|cffffcc00W|r)
-Awakentip=复活巫师(|cffffcc00W|r)
-EditorSuffix=(过场动画)
+Propernames=Kil'jaeden
+Revivetip=Revive |cffffcc00W|rarlock
+Awakentip=Revive |cffffcc00W|rarlock
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-archimonde.tga
+EditorSuffix=(Cinematic)
 
 [nfv0]
-Name=暗夜精灵族渔村
-EditorSuffix= (双层的, 面向西南面)
+Name=Night Elf Fishing Village
+EditorSuffix= (two story, southwest facing)
 
 [nfv1]
-Name=暗夜精灵族渔村
-EditorSuffix= (顶层有装饰的, 面向西南面)
+Name=Night Elf Fishing Village
+EditorSuffix= (crested, southwest facing)
 
 [nfv2]
-Name=暗夜精灵族渔村
-EditorSuffix= (一层的)
+Name=Night Elf Fishing Village
+EditorSuffix= (one story)
 
 [nfv3]
-Name=暗夜精灵族渔村
-EditorSuffix= (双层的, 面向东南面)
+Name=Night Elf Fishing Village
+EditorSuffix= (two story, southeast facing)
 
 [nfv4]
-Name=暗夜精灵族渔村
-EditorSuffix= (顶层有装饰的, 面向东南面)
+Name=Night Elf Fishing Village
+EditorSuffix= (crested, southeast facing)
 
 [nvr0]
-Name=暗夜精灵族渔村
-EditorSuffix= (被毁坏的)
+Name=Night Elf Fishing Village
+EditorSuffix= (ruined)
 
 [nvr1]
-Name=暗夜精灵族渔村
-EditorSuffix= (被毁坏的)
+Name=Night Elf Fishing Village
+EditorSuffix= (ruined)
 
 [nvr2]
-Name=暗夜精灵族渔村
-EditorSuffix= (被毁坏的)
+Name=Night Elf Fishing Village
+EditorSuffix= (ruined)
 
 [npgr]
-Name=能量产生器
+Name=Power Generator
 
 [nmsh]
-Name=米纱
+Name=Misha
 
 [negz]
-Name=工程师加兹劳
+Name=Engineer Gazlowe
 
 [Nsjs]
-Name=熊猫酒仙
-Propernames=陈-风暴烈酒
+Name=Pandaren Brewmaster
+Propernames=Chen Stormstout
 Hotkey=N
-Tip=召唤熊猫酒仙(|cffffcc00N|r)
-Ubertip="战士型英雄，特别擅长于近战。能学习火焰呼吸、醉酒云雾、醉拳和风/地/火这四个技能。|n|n|cffffcc00能攻击地面单位。|r"
-Revivetip=复活熊猫酒仙(|cffffcc00N|r)
-Awakentip=复活熊猫酒仙(|cffffcc00N|r)
+Tip=Summon Pa|cffffcc00n|rdaren Brewmaster
+Ubertip="Warrior Hero, exceptional at absorbing damage and melee combat. Can learn Breath of Fire, Drunken Haze, Drunken Brawler and Storm, Earth And Fire. |n|n|cffffcc00Attacks land units.|r"
+Revivetip=Revive Pa|cffffcc00n|rdaren Brewmaster
+Awakentip=Revive Pa|cffffcc00n|rdaren Brewmaster
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-pandarenbrewmaster.tga
 
 [nhew]
-Name=工人
-EditorSuffix= (血精灵)
+Name=Worker
+EditorSuffix= (Blood Elf)
 Hotkey=W
-Tip=训练工人(|cffffcc00W|r)
-Ubertip="基本的工人单位。能建造建筑物和进行修理。"
+Tip=Train |cffffcc00W|rorker
+Ubertip="Basic worker unit. Can build structures, and Repair."
 
 [nspc]
-Name=支柱
+Name=Support Column
 
 [ngbl]
-Name=地精爆破工
+Name=Goblin Blaster
 
 [ndkw]
-Name=异次元大门
-EditorSuffix= (面向最南方)
+Name=Dimensional Gate
+EditorSuffix= (facing southwest)
 
 [ndke]
-Name=异次元大门
-EditorSuffix= (面向最南方)
+Name=Dimensional Gate
+EditorSuffix= (facing southeast)
 
 [nico]
-Name=寒冰王座方尖塔
+Name=Icecrown Obelisk
 
 [net1]
-Name=能量之塔
+Name=Energy Tower
 Hotkey=E
-Tip=建造能量之塔(|cffffcc00E|r)
-Ubertip="射出能量之箭，擅长于对付敌人的空中单位，对魔法免疫。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Build |cffffcc00E|rnergy Tower
+Ubertip="Fires bolts of energy. Good at destroying air units. Immune to magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [net2]
-Name=高级能量之塔
+Name=Advanced Energy Tower
 Hotkey=U
-Tip=升级高级能量之塔(|cffffcc00U|r)
-Ubertip="增加能量之箭的攻击力，擅长于对付敌人的空中单位，对魔法免疫。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=|cffffcc00U|rpgrade to Advanced Energy Tower
+Ubertip="Increases the damage of the energy bolts. Good at destroying air units. Immune to magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nbt1]
-Name=巨石之塔
+Name=Boulder Tower
 Hotkey=B
-Tip=建造巨石之塔(|cffffcc00B|r)
-Ubertip="投掷出能造成溅射伤害的巨石，擅长于对付地面单位，对魔法免疫。|n|n|cffffcc00能攻击地面单位。|r"
+Tip=Build |cffffcc00B|roulder Tower
+Ubertip="Fires massive boulders that deal splash damage. Good at destroying ground units. Immune to magic. |n|n|cffffcc00Attacks land units.|r"
 
 [nbt2]
-Name=高级巨石之塔
+Name=Advanced Boulder Tower
 Hotkey=U
-Tip=升级高级巨石之塔(|cffffcc00U|r)
-Ubertip="增加石头的攻击力，擅长于对付地面单位，对魔法免疫。|n|n|cffffcc00能攻击地面单位。|r"
+Tip=|cffffcc00U|rpgrade to Advanced Boulder Tower
+Ubertip="Increases the damage of the boulders. Good at destroying ground units. Immune to magic. |n|n|cffffcc00Attacks land units.|r"
 
 [nft1]
-Name=火焰之塔
+Name=Flame Tower
 Hotkey=F
-Tip=建造火焰之塔(|cffffcc00F|r)
-Ubertip="能射出灼热的火焰。擅长于毁灭靠近的敌人。对魔法免疫。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Build |cffffcc00F|rlame Tower
+Ubertip="Fires short jets of flame. Good at destroying enemies that get close. Immune to magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nft2]
-Name=高级火焰之塔
+Name=Advanced Flame Tower
 Hotkey=U
-Tip=升级高级火焰之塔(|cffffcc00U|r)
-Ubertip="增加喷射火焰的攻击力，擅长于毁灭靠近的敌人，对魔法免疫。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=|cffffcc00U|rpgrade to Advanced Flame Tower
+Ubertip="Increases the damage of the jets of flame. Good at destroying enemies that get close. Immune to magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ndt1]
-Name=冰霜之塔
+Name=Cold Tower
 Hotkey=C
-Tip=建造冰霜之塔(|cffffcc00C|r)
-Ubertip="射出冰片进行攻击，擅长于减慢敌人的速度，对魔法免疫。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Build |cffffcc00C|rold Tower
+Ubertip="Fires shards of ice. Good at slowing down enemies. Immune to magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ndt2]
-Name=高级冰霜之塔
+Name=Advanced Cold Tower
 Hotkey=U
-Tip=升级高级冰霜之塔(|cffffcc00U|r)
-Ubertip="加快发射冰片的速度，擅长于减慢敌人的速度，对魔法免疫。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=|cffffcc00U|rpgrade to Advanced Cold Tower
+Ubertip="Fires shards of ice at a faster rate. Good at slowing down enemies. Immune to magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ntt1]
-Name=死亡之塔
+Name=Death Tower
 Hotkey=D
-Tip=建造死亡之塔(|cffffcc00D|r)
-Ubertip="射出致命的能量箭，擅长于实施大规模的伤害，对魔法免疫。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Build |cffffcc00D|reath Tower
+Ubertip="Fires bolts of deadly energy. Excellent at dealing massive damage to everything. Immune to magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ntx2]
-Name=高级死亡之塔
+Name=Advanced Death Tower
 Hotkey=U
-Tip=升级高级死亡之塔(|cffffcc00U|r)
-Ubertip="射出致命的能量箭，擅长于实施大规模的伤害，对魔法免疫。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=|cffffcc00U|rpgrade to Advanced Death Tower
+Ubertip="Fires bolts of death. Excellent at destroying everything. Immune to magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nfrt]
-Name=水果店
-Tip=建造水果店
-Ubertip="你一生中所见过的最不可思议的水果店。"
+Name=Fruit Stand
+Tip=Build Fruit Stand
+Ubertip="The most incredible fruit stand you have ever seen in your entire life."
 
 [hprt]
-Name=传送门
-Tip=开放传送门
-Ubertip="打开传送门。"
+Name=Portal
+Tip=Open Portal
+Ubertip="Opens the portal."
 
 [nzlc]
-Name=巫妖王
-Tip=巫妖王
-Ubertip="这就是巫妖王，事实的确是如此的，难道你不相信我么？"
-EditorSuffix= (过场动画战役单位)
+Name=Lich King
+Tip=Lich King
+Ubertip="This is the Lich King, no honest it is, really. Don't you believe me?"
+EditorSuffix= (cinematic campaign unit)
 
 [nchp]
-Name=牧师
+Name=Chaplain
 Hotkey=C
-Tip=训练牧师(|cffffcc00C|r)
-Ubertip="支持性的魔法单位。能施放医疗，驱逐魔法和心灵之火技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Train |cffffcc00C|rhaplain
+Ubertip="Supporting spellcaster. Can cast Heal, Dispel Magic and Inner Fire. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nhym]
-Name=术士
+Name=Hydromancer
 Hotkey=Y
-Tip=训练术士(|cffffcc00Y|r)
-Ubertip="多才多艺的魔法单位。能施放减速，冲击波和变形魔法。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Train H|cffffcc00y|rdromancer
+Ubertip="Versatile spellcaster. Can cast Slow, Crushing Wave, and Polymorph. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nzin]
-Name=地区显示
-Tip=地区显示
-Ubertip="地区显示"
-EditorSuffix= (自定义战役)
+Name=Zone Indicator
+Tip=Zone Indicator
+Ubertip="Zone Indicator"
+EditorSuffix= (Custom Campaign)
 
 [nbse]
-Name=复活石
-Tip=创建复活石
+Name=Resurrection Stone
+Tip=Create Resurrection Stone
 Ubertip=""
-EditorSuffix= (面向东南的)
+EditorSuffix= (southeast facing)
 
 [nbsw]
-Name=复活石
-Tip=创建复活石
+Name=Resurrection Stone
+Tip=Create Resurrection Stone
 Ubertip=""
-EditorSuffix= (面向西南的)
+EditorSuffix= (southwest facing)

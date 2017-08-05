@@ -1,17 +1,12 @@
-//townhall tier 1 dependency
-[TWN1]
-DependencyOr=htow,ogre,etol,unpl
-XPFactor=0
+
 
 //townhall teir 2 dependency
 [TWN2]
 DependencyOr=hkee,ostr,etoa,unp1
-XPFactor=0
 
 //townhall teir 3 dependency
 [TWN3]
 DependencyOr=hcas,ofrt,etoe,unp2
-XPFactor=0
 
 //altar dependency
 [TALT]

@@ -47,7 +47,6 @@ Requires=
 Requires1=ostr
 Requires2=ofrt
 Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
-ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-blademaster.blp
 
 [ocat]
 Requires=ofor,ostr
@@ -84,7 +83,6 @@ Requires1=ostr
 Requires2=ofrt
 Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
 Attachmentanimprops=medium
-ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-farseer.blp
 
 [ofor]
 Attachmentanimprops=medium
@@ -252,7 +250,6 @@ Requires=
 Requires1=ostr
 Requires2=ofrt
 Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
-ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-shadowhunter.blp
 
 [otau]
 Requires=otto
@@ -279,7 +276,6 @@ Requires1=ostr
 Requires2=ofrt
 Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
 Attachmentanimprops=large
-ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-taurenchieftain.blp
 
 [otrb]
 Art=ReplaceableTextures\CommandButtons\BTNTrollBurrow.blp
@@ -354,7 +350,6 @@ Missilearc=0.00
 Missilespeed=900
 MissileHoming=1
 Casterupgradeart=UI\Widgets\Console\Human\infocard-spiritwalker.blp
-Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
 
 [ospm]
 Attachmentanimprops=medium
@@ -365,7 +360,6 @@ Missilearc=0.00
 Missilespeed=900
 MissileHoming=1
 Casterupgradeart=UI\Widgets\Console\Human\infocard-spiritwalker.blp
-Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
 
 //#RESTNOBETA
 [oshy]

@@ -1,2451 +1,2285 @@
-﻿// permits dependencies upon heroes
+// permits dependencies upon heroes
 [HERO]
-Name=一个英雄
+Name=a Hero
 
 [nwad]
-Name=观察守卫
+Name=Watcher Ward
 
 [nska]
-Name=骷髅弓箭手
-Tip=雇用骷髅弓箭手
-Ubertip="轻型的远程攻击单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Skeleton Archer
+Tip=Hire Skeleton Archer
+Ubertip="Light ranged unit. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nske]
-Name=骷髅战士
-Tip=雇用骷髅战士
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
-
-[nsca]
-Name=骷髅弓箭手
-Tip=雇佣骷髅弓箭手
-Ubertip="轻型的远程攻击单位。 |n|n|cffffcc00能攻击地面和空中单位。|r"
-
-[nsce]
-Name=骷髅战士
-Tip=雇佣骷髅战士
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Skeleton Warrior
+Tip=Hire Skeleton Warrior
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nskg]
-Name=巨型骷髅战士
-Tip=雇用巨型骷髅战士
-Ubertip="大型近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Giant Skeleton Warrior
+Tip=Hire Giant Skeleton Warrior
+Ubertip="Large melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nskm]
-Name=骷髅射手
+Name=Skeletal Marksman
 Hotkey=K
-Tip=雇用骷髅射手(|cffffcc00K|r)
-Ubertip="轻型的远程攻击单位，具有冰冻冷箭技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Hire S|cffffcc00k|reletal Marksman
+Ubertip="Light ranged unit that shoots Cold Arrows. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nskf]
-Name=火焰弓箭手
+Name=Burning Archer
 Hotkey=B
-Tip=雇用烈焰弓箭手(|cffffcc00B|r)
-Ubertip="轻型的远程攻击单位，能射出灼热之箭。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Hire |cffffcc00B|rurning Archer
+Ubertip="Light ranged unit that shoots Searing Arrows. |n|n|cffffcc00Attacks land and air units.|r"
 
 // dragon hawk 1
 [nws1]
-Name=龙鹰
+Name=Dragon Hawk
 Hotkey=D
-Tip=训练龙鹰(|cffffcc00D|r)
-Ubertip="重型的远程攻击单位，能诱捕敌方单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Train |cffffcc00D|rragon Hawk
+Ubertip="Heavy ranged unit that can Ensnare opponents. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nban]
-Name=强盗
+Name=Bandit
 Hotkey=B
-Tip=雇用强盗(|cffffcc00B|r)
-Ubertip="轻型的近战单位，具有影遁技能。|n|n|cffffcc00能攻击地面单位。|r"
+Tip=Hire |cffffcc00B|randit
+Ubertip="Light melee unit with Shadowmeld. |n|n|cffffcc00Attacks land units.|r"
 
 [nbrg]
-Name=土匪
-Tip=雇用土匪
-Ubertip="轻型的远程攻击单位，具有影遁技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Brigand
+Tip=Hire Brigand
+Ubertip="Light ranged unit with Shadowmeld. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nrog]
-Name=流氓
+Name=Rogue
 Hotkey=R
-Tip=雇用流氓(|cffffcc00R|r)
-Ubertip="轻型的近战单位，具有影遁技能。|n|n|cffffcc00能攻击地面单位。|r"
+Tip=Hire |cffffcc00R|rogue
+Ubertip="Light melee unit with Shadowmeld. |n|n|cffffcc00Attacks land units.|r"
 
 [nenf]
-Name=强制者
+Name=Enforcer
 Hotkey=E
-Tip=雇用强制者(|cffffcc00E|r)
-Ubertip="轻型的近战单位，具有影遁和闪避技能。|n|n|cffffcc00能攻击地面单位。|r"
+Tip=Hire |cffffcc00E|rnforcer
+Ubertip="Light melee unit with Shadowmeld and Evasion. |n|n|cffffcc00Attacks land units.|r"
 
 [nbld]
-Name=强盗领主
-Tip=雇用强盗领主
-Ubertip="重型的近战单位，具有影遁和专注光环技能，还具有神圣护甲。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Bandit Lord
+Tip=Hire Bandit Lord
+Ubertip="Heavy melee unit with Shadowmeld and Devotion Aura. Can cast Divine Shield. |n|n|cffffcc00Attacks land units.|r"
 
 [nass]
-Name=刺客
-Tip=雇用刺客(|cffffcc00A|r)
+Name=Assassin
+Tip=Hire |cffffcc00A|rssassin
 Hotkey=A
-Ubertip="中型的远程攻击单位，能射出毒箭并具有影遁技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Medium ranged unit that fires envenomed bolts and can Shadowmeld. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nbdk]
-Name=黑蜉蝣
-Tip=召唤黑蜉蝣(|cffffcc00K|r)
-Ubertip="小型的远程攻击飞行单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Black Drake
+Tip=Summon Black Dra|cffffcc00k|re
+Ubertip="Small ranged flying unit. |n|n|cffffcc00Attacks land and air units.|r"
 Hotkey=K
 
 [nrdk]
-Name=红幼龙
-Tip=召唤红幼龙(|cffffcc00W|r)
-Ubertip="小型的远程攻击飞行单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Red Dragon Whelp
+Tip=Summon Red Dragon |cffffcc00W|rhelp
+Ubertip="Tiny ranged flying unit. |n|n|cffffcc00Attacks land and air units.|r"
 Hotkey=W
 
 [nbdr]
-Name=红幼龙
-Tip=召唤黑幼龙( |cffffcc00W|r)
-Ubertip="小型的远程攻击飞行单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Black Dragon Whelp
+Tip=Summon Black Dragon |cffffcc00W|rhelp
+Ubertip="Tiny ranged flying unit. |n|n|cffffcc00Attacks land and air units.|r"
 Hotkey=W
 
 [nrdr]
-Name=红蜉蝣
-Tip=召唤红蜉蝣(|cffffcc00K|r) 
-Ubertip="小型的远程攻击飞行单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Red Drake
+Tip=Summon Red Dra|cffffcc00k|re
+Ubertip="Small ranged flying unit. |n|n|cffffcc00Attacks land and air units.|r"
 Hotkey=K
 
 [nbwm]
-Name=黑龙
-Tip=召唤黑龙(|cffffcc00D|r)
-Ubertip="重型的远程攻击飞行单位，能吞噬对手并对魔法免疫。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Black Dragon
+Tip=Summon Black |cffffcc00D|rragon
+Ubertip="Heavy ranged flying unit that can Devour opponents and is immune to magic. |n|n|cffffcc00Attacks land and air units.|r"
 Hotkey=D
 
 [nrwm]
-Name=红龙
+Name=Red Dragon
 Hotkey=D
-Tip=召唤红龙(|cffffcc00D|r)
-Ubertip="重型的远程攻击飞行单位，能吞噬对手并对魔法免疫。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Summon Red |cffffcc00D|rragon
+Ubertip="Heavy ranged flying unit that can Devour opponents and is immune to magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nadr]
-Name=蓝龙
-Tip=召唤蓝龙( |cffffcc00D|r)
+Name=Blue Dragon
+Tip=Summon Blue |cffffcc00D|rragon
 Hotkey=D
-Ubertip="重型的远程攻击飞行单位，能吞噬对手并对魔法免疫。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Heavy ranged flying unit that can Devour opponents and is immune to magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nadw]
-Name=蓝幼龙
-Tip=召唤蓝幼龙( |cffffcc00W|r)
-Ubertip="小型的远程攻击飞行单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Blue Dragon Whelp
+Tip=Summon Blue Dragon |cffffcc00W|rhelp
+Ubertip="Tiny ranged flying unit. |n|n|cffffcc00Attacks land and air units.|r"
 Hotkey=W
 
 [nadk]
-Name=蓝蜉蝣
-Tip=召唤蜉蝣(|cffffcc00K|r)
-Ubertip="小型的远程攻击飞行单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Blue Drake
+Tip=Summon Blue Dra|cffffcc00k|re
+Ubertip="Small ranged flying unit. |n|n|cffffcc00Attacks land and air units.|r"
 Hotkey=K
 
 [nbzd]
-Name=青龙
-Tip=召唤青龙(|cffffcc00D|r)
+Name=Bronze Dragon
+Tip=Summon Bronze |cffffcc00D|rragon
 Hotkey=D
-Ubertip="重型的远程攻击飞行单位，能吞噬对手并对魔法免疫。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Heavy ranged flying unit that can Devour opponents and is immune to magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nbzk]
-Name=青蜉蝣
-Tip=召唤青蜉蝣(|cffffcc00K|r)
-Ubertip="小型的远程攻击飞行单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Bronze Drake
+Tip=Summon Bronze Dra|cffffcc00k|re
+Ubertip="Small ranged flying unit. |n|n|cffffcc00Attacks land and air units.|r"
 Hotkey=K
 
 [nbzw]
-Name=青幼龙
-Tip=召唤青幼龙(|cffffcc00W|r)
-Ubertip="小型的远程攻击飞行单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Bronze Dragon Whelp
+Tip=Summon Bronze Dragon |cffffcc00W|rhelp
+Ubertip="Tiny ranged flying unit. |n|n|cffffcc00Attacks land and air units.|r"
 Hotkey=W
 
 [ngrd]
-Name=绿龙
-Tip=召唤绿龙(|cffffcc00D|r)
+Name=Green Dragon
+Tip=Summon Green |cffffcc00D|rragon
 Hotkey=D
-Ubertip="重型的远程攻击飞行单位，能吞噬对手并对魔法免疫。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Heavy ranged flying unit that can Devour opponents and is immune to magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ngdk]
-Name=绿蜉蝣
-Tip=召唤绿蜉蝣(|cffffcc00K|r)
-Ubertip="小型的远程攻击飞行单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Green Drake
+Tip=Summon Green Dra|cffffcc00k|re
+Ubertip="Small ranged flying unit. |n|n|cffffcc00Attacks land and air units.|r"
 Hotkey=K
 
 [ngrw]
-Name=绿幼龙
-Tip=召唤绿幼龙(|cffffcc00W|r)
-Ubertip="小型的远程攻击飞行单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Green Dragon Whelp
+Tip=Summon Green Dragon |cffffcc00W|rhelp
+Ubertip="Tiny ranged flying unit. |n|n|cffffcc00Attacks land and air units.|r"
 Hotkey=W
 
 // red dragon roost building
 [ndrr]
-Name=红龙巢穴
-Tip=建造红龙巢穴
-Description=使得你能召唤来强大的红龙。
+Name=Red Dragon Roost
+Tip=Build Red Dragon Roost
+Description=Allows you to call forth Red Dragons.
 
 // green dragon roost building
 [ndrg]
-Name=绿龙巢穴
-Tip=建造绿龙巢穴
-Description=让你能召唤绿龙。
+Name=Green Dragon Roost
+Tip=Build Green Dragon Roost
+Description=Allows you to call forth Green Dragons.
 
 // bronze dragon roost building
 [ndrz]
-Name=青龙巢穴
-Tip=建造青龙巢穴
-Description=让你能召唤青龙。
+Name=Bronze Dragon Roost
+Tip=Build Bronze Dragon Roost
+Description=Allows you to call forth Bronze Dragons.
 
 // black dragon roost building
 [ndrk]
-Name=黑龙巢穴
-Tip=建造黑龙巢穴
-Description=使得你能召唤来强大的黑龙。
+Name=Black Dragon Roost
+Tip=Build Black Dragon Roost
+Description=Allows you to call forth Black Dragons.
 
 // blue dragon roost building
 [ndru]
-Name=蓝龙巢穴
-Tip=建造蓝龙巢穴
-Description=使得你能召唤来强大的蓝龙。
+Name=Blue Dragon Roost
+Tip=Build Blue Dragon Roost
+Description=Allows you to call forth Blue Dragons.
 
 [ncea]
-Name=半人马弓箭手
-Tip=雇用半人马弓箭手(|cffffcc00A|r)
+Name=Centaur Archer
+Tip=Hire Centaur |cffffcc00A|rrcher
 Hotkey=A
-Ubertip="轻型的远程攻击单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Light ranged unit. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ncim]
-Name=半人马刺客
-Tip=雇用半人马刺客
-Ubertip="远程攻击单位，能射出灼热之箭。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Centaur Impaler
+Tip=Hire Centaur Impaler
+Ubertip="Medium ranged unit with Searing Arrows. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ncen]
-Name=半人马先行者
-Tip=雇用半人马先行者(|cffffcc00O|r)
-Ubertip="手中挥舞着巨斧的近战型单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Centaur Outrunner
+Tip=Hire Centaur |cffffcc00O|rutrunner
+Ubertip="Medium melee attacker wielding a large axe. |n|n|cffffcc00Attacks land units.|r"
 Hotkey=O
 
 [ncer]
-Name=半人马苦工
+Name=Centaur Drudge
 Hotkey=D
-Tip=雇用半人马苦工(|cffffcc00D|r)
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Tip=Hire Centaur |cffffcc00D|rrudge
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [ncks]
-Name=半人马巫师
-Tip=雇用半人马巫师
-Ubertip="远程攻击单位，能施放驱魔技能和嗜血术。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Centaur Sorcerer
+Tip=Hire Centaur Sorcerer
+Ubertip="Medium ranged unit that hurls fiery missiles. Casts Abolish Magic and Bloodlust. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ncnk]
-Name=半人马可汗
-Tip=雇用半人马可汗
-Ubertip="拥有耐久光环的重型近战单位。还有战争践踏和重生技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Centaur Khan
+Tip=Hire Centaur Khan
+Ubertip="Heavy melee unit with Endurance Aura. Has the abilities War Stomp and Reincarnation. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ndth]
-Name=黑魔高级牧师
+Name=Dark Troll High Priest
 Hotkey=H
-Tip=雇用黑魔高级牧师(|cffffcc00H|r)
-Ubertip="有着医疗能力的魔法兵种，还能施放睡眠术。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Hire Dark Troll |cffffcc00H|righ Priest
+Ubertip="High Priest of healing magic. Hurls fiery missiles. Can cast Sleep. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ndtp]
-Name=黑魔影子牧师
+Name=Dark Troll Shadow Priest
 Hotkey=P
-Tip=雇用黑魔影子牧师(|cffffcc00P|r)
-Ubertip="有着医疗能力的魔法兵种，也能进行远程攻击。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Hire Dark Troll Shadow |cffffcc00P|rriest
+Ubertip="Shadow Priest of healing magic. Hurls fiery missiles. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ndtb]
-Name=黑魔狂战士
+Name=Dark Troll Berserker
 Hotkey=B
-Tip=雇用黑魔狂战士(|cffffcc00B|r)
-Ubertip="脾气暴躁的斧手。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Hire Dark Troll |cffffcc00B|rerserker
+Ubertip="Rabid axe-thrower. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ndtw]
-Name=黑魔首领
+Name=Dark Troll Warlord
 Hotkey=W
-Tip=雇用黑魔首领( |cffffcc00W|r)
-Ubertip="重型远程攻击单位，带有强击光环。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Hire Dark Troll |cffffcc00W|rarlord
+Ubertip="Heavy ranged unit with Trueshot Aura. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ndtr]
-Name=黑暗巨魔
+Name=Dark Troll
 Hotkey=T
-Tip=雇用黑暗巨魔(|cffffcc00T|r)
-Ubertip="轻型的远程攻击单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Hire Dark |cffffcc00T|rroll
+Ubertip="Light ranged unit. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ndtt]
-Name=黑魔猎手
+Name=Dark Troll Trapper
 Hotkey=D
-Tip=雇用黑魔猎手(|cffffcc00D|r)
-Ubertip="轻型远程攻击单位，能诱捕对手。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Hire |cffffcc00D|rark Troll Trapper
+Ubertip="Light ranged unit that can Ensnare opponents. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nelb]
-Name=狂暴元素
-Tip=召唤狂暴元素
-Ubertip="重型近战单位，能施放霜冻新星，而且对所有魔法免疫。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Berserk Elemental
+Tip=Summon Berserk Elemental
+Ubertip="Heavy melee unit that can cast Frost Nova. Immune to spells. |n|n|cffffcc00Attacks land units.|r"
 
 [nele]
-Name=狂怒元素
-Tip=召唤狂怒元素
-Ubertip="近战型单位，对魔法免疫。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Enraged Elemental
+Tip=Summon Enraged Elemental
+Ubertip="Medium melee unit. Immune to spells. |n|n|cffffcc00Attacks land units.|r"
 
 [nenc]
-Name=堕落树人
-Tip=召唤堕落树人
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Corrupted Treant
+Tip=Summon Corrupted Treant
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nenp]
-Name=毒性树人
-Tip=召唤毒性树人
-Ubertip="近战单位，能使对手中毒，能施放纠缠根须技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Poison Treant
+Tip=Summon Poison Treant
+Ubertip="Light melee unit that poisons opponents. Can cast Entangling Roots. |n|n|cffffcc00Attacks land units.|r"
 
 [nepl]
-Name=灾祸树人
-Tip=召唤灾祸树人
-Ubertip="近战单位，能让对手得上疾病，还能施放纠缠根须技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Plague Treant
+Tip=Summon Plague Treant
+Ubertip="Medium melee unit that diseases opponents. Can cast Entangling Roots. |n|n|cffffcc00Attacks land units.|r"
 
 // fel hunter
 [nfel]
-Name=邪恶漫步者
-Tip=召唤邪恶漫步者
-Ubertip="魔鬼野兽，能施放法力燃烧技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Fel Stalker
+Tip=Summon Fel Stalker
+Ubertip="Demonic beast that casts Mana Burn. |n|n|cffffcc00Attacks land units.|r"
 
 [nfsh]
-Name=树魔高级牧师
+Name=Forest Troll High Priest
 Hotkey=H
-Tip=雇用树魔高级牧师(|cffffcc00H|r)
-Ubertip="魔法单位，具有医疗能力，具有驱逐魔法和心灵之火技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Hire Forest Troll |cffffcc00H|righ Priest
+Ubertip="High Priest of healing magic. Hurls fiery missiles. Can cast Abolish Magic and Inner Fire. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nfsp]
-Name=树魔影子牧师
+Name=Forest Troll Shadow Priest
 Hotkey=P
-Tip=雇用树魔影子牧师(|cffffcc00P|r)
-Ubertip="魔法单位，具有医疗能力，能施放驱魔技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Hire Forest Troll Shadow |cffffcc00P|rriest
+Ubertip="Shadow Priest of healing magic. Hurls fiery missiles. Can cast Abolish Magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nftr]
-Name=森林巨魔
+Name=Forest Troll
 Hotkey=T
-Tip=雇用森林巨魔(|cffffcc00T|r)
-Ubertip="投掷巨斧的恶魔。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Hire Forest |cffffcc00T|rroll
+Ubertip="Axe-throwing Troll. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nftb]
-Name=树魔狂战士
+Name=Forest Troll Berserker
 Hotkey=B
-Tip=雇用树魔狂战士( |cffffcc00B|r)
-Ubertip="脾气暴躁的斧手。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Hire Forest Troll |cffffcc00B|rerserker
+Ubertip="Rabid axe-thrower. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nftt]
-Name=树魔猎手
+Name=Forest Troll Trapper
 Hotkey=F
-Tip=雇用树魔猎手( |cffffcc00F|r)
-Ubertip="能诱捕对手的中型远程攻击单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Hire |cffffcc00F|rorest Troll Trapper
+Ubertip="Medium ranged unit that can Ensnare opponents. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nftk]
-Name=树魔首领
+Name=Forest Troll Warlord
 Hotkey=W
-Tip=雇用树魔首领(|cffffcc00W|r)
-Ubertip="重型远程攻击单位，带有强击光环。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Tip=Hire Forest Troll |cffffcc00W|rarlord
+Ubertip="Heavy ranged unit with Trueshot Aura. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ngad]
-Name=地精实验室
-Tip=建造地精实验室
-Description=使得你能充分利用地精科技的优势。
+Name=Goblin Laboratory
+Tip=Build Goblin Laboratory
+Description=Allows you to take advantage of Goblin technology.
 
 [ngme]
-Name=地精商店
-Tip=建造地精商店
-Description=这里会出售各类的魔法物品。
+Name=Goblin Merchant
+Tip=Build Goblin Merchant
+Description=Sells various magic items.
 
 [nshp]
-Name=地精船坞
-Tip=建造地精船坞
-Description=能在这里买到船只。
+Name=Goblin Shipyard
+Tip=Build Goblin Shipyard
+Description=Sells boats.
 
 [ngrk]
-Name=泥潭傀儡
+Name=Mud Golem
 Hotkey=U
-Tip=召唤泥潭傀儡(|cffffcc00U|r)
-Ubertip="近战单位，能让敌人减速。还对所有魔法免疫。|n|n|cffffcc00能攻击地面单位。|r"
+Tip=Summon M|cffffcc00u|rd Golem
+Ubertip="Light melee unit that can Slow opponents. Immune to spells. |n|n|cffffcc00Attacks land units.|r"
 
 [ngst]
-Name=岩石傀儡
-Tip=召唤岩石傀儡
-Ubertip="近战单位，能投掷巨石，对所有魔法免疫。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Rock Golem
+Tip=Summon Rock Golem
+Ubertip="Heavy melee unit that hurls boulders at opponents. Immune to spells. |n|n|cffffcc00Attacks land units.|r"
 
 [nggr]
-Name=花岗岩傀儡
-Tip=召唤花岗岩傀儡
-Ubertip="重型近战单位，能重击对手，对所有魔法免疫。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Granite Golem
+Tip=Summon Granite Golem
+Ubertip="Heavy melee unit that can Slam opponents and hurl boulders. Immune to spells. |n|n|cffffcc00Attacks land and air units.|r"
 
 [narg]
-Name=傀儡战士
-Tip=召唤傀儡战士
-Ubertip="重型的近战单位，对魔法免疫。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Battle Golem
+Tip=Summon Battle Golem
+Ubertip="Heavy melee unit. Immune to spells. |n|n|cffffcc00Attacks land units.|r"
 
 [nwrg]
-Name=战争傀儡
-Tip=召唤战争傀儡
-Ubertip="重型的近战单位，对魔法免疫。|n|n|cffffcc00能攻击地面单位。|r"
+Name=War Golem
+Tip=Summon War Golem
+Ubertip="Heavy melee unit. Immune to spells. |n|n|cffffcc00Attacks land units.|r"
 
 [nsgg]
-Name=攻城傀儡
-Tip=召唤攻城傀儡
-Ubertip="重型的近战单位，对魔法免疫。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Siege Golem
+Tip=Summon Siege Golem
+Ubertip="Heavy melee unit. Immune to spells. |n|n|cffffcc00Attacks land units.|r"
 
 [ngir]
-Name=地精撕裂者
+Name=Goblin Shredder
 Hotkey=G
-Tip=雇用地精撕裂者(|cffffcc00G|r)
-Ubertip="近战单位，由钢铁做成，还特别擅长于采集大量的木材资源。|n|n|cffffcc00能攻击地面单位和树木。|r"
+Tip=Hire |cffffcc00G|roblin Shredder
+Ubertip="Medium melee unit made of iron. Excellent at harvesting large amounts of lumber. |n|n|cffffcc00Attacks land units and trees.|r"
 
 // Furbolg level 4
 [nfrl]
-Name=熊怪
-Tip=雇用熊怪
-Ubertip="中型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Furbolg
+Tip=Hire Furbolg
+Ubertip="Medium melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 // Furbolg Tracker level 6
 [nfrb]
-Name=熊怪追踪者
-Tip=雇用熊怪追踪者
-Ubertip="重型的近战单位，具有精灵之火技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Furbolg Tracker
+Tip=Hire Furbolg Tracker
+Ubertip="Heavy melee unit that casts Faerie Fire. |n|n|cffffcc00Attacks land units.|r"
 
 // Furbolg Champion level 7
 [nfrg]
-Name=熊怪战士
-Tip=雇用熊怪战士
-Ubertip="重型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Furbolg Champion
+Tip=Hire Furbolg Champion
+Ubertip="Heavy melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 // Furbolg level 9
 [nfra]
-Name=熊怪乌萨战士
-Tip=雇用熊怪乌萨战士
-Ubertip="重型的近战单位，具有命令光环和战争践踏这两个技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Furbolg Ursa Warrior
+Tip=Hire Furbolg Ursa Warrior
+Ubertip="Heavy melee unit with Command Aura. Can also War Stomp. |n|n|cffffcc00Attacks land units.|r"
 
 // Furbolg Shaman level 4
 [nfrs]
-Name=熊怪萨满
-Tip=雇用熊怪萨满(|cffffcc00F|r)
+Name=Furbolg Shaman
+Tip=Hire |cffffcc00F|rurbolg Shaman
 Hotkey=F
-Ubertip="中型的远程攻击单位，能进行闪电攻击，具有生命恢复技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Medium ranged unit that hurls bolts of lightning. Can cast Rejuvenation. |n|n|cffffcc00Attacks land and air units.|r"
 
 // Furbolg Elder Shaman level 7
 [nfre]
-Name=熊怪萨满长者
-Tip=雇用熊怪萨满长者
-Ubertip="远程攻击单位，能投掷闪电的，还能施放生命恢复技能和闪电护盾。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Furbolg Elder Shaman
+Tip=Hire Furbolg Elder Shaman
+Ubertip="Heavy ranged unit that hurls bolts of lightning. Can cast Rejuvenation and Lightning Shield. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ngh1]
-Name=幽灵
-Tip=召唤幽灵
-Ubertip="轻型远程攻击单位，能施放占据魔法。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Ghost
+Tip=Summon Ghost
+Ubertip="Light ranged unit that can cast Possession. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ngh2]
-Name=幽魂
-Tip=召唤幽魂
-Ubertip="重型远程攻击单位，能施放诅咒技能和占据魔法。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Wraith
+Tip=Summon Wraith
+Ubertip="Heavy ranged unit that can cast Curse and Possession. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ngna]
-Name=豺狼偷猎者
-Tip=雇用豺狼偷猎者(|cffffcc00A|r)
+Name=Gnoll Poacher
+Tip=Hire Gnoll Po|cffffcc00a|rrcher
 Hotkey=A
-Ubertip="轻型的远程攻击单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Light ranged unit. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ngns]
-Name=豺狼刺客
-Tip=雇用豺狼刺客(|cffffcc00S|r)
+Name=Gnoll Assassin
+Tip=Hire Gnoll A|cffffcc00s|rsassin
 Hotkey=S
-Ubertip="轻型的远程攻击单位，能射出毒箭。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Light ranged unit that fires envenomed bolts. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ngno]
-Name=豺狼
-Tip=雇用豺狼(|cffffcc00R|r)
+Name=Gnoll
+Tip=Hire Gnoll |cffffcc00R|robber
 Hotkey=R
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [ngnb]
-Name=豺狼野兽
-Tip=雇用豺狼野兽(|cffffcc00B|r)
+Name=Gnoll Brute
+Tip=Hire Gnoll |cffffcc00B|rrute
 Hotkey=B
-Ubertip="轻型近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Ubertip="Light melee unit to bolster your forces. |n|n|cffffcc00Attacks land units.|r"
 
 [ngnw]
-Name=豺狼守望者
-Tip=雇用豺狼守望者(|cffffcc00W|r)
+Name=Gnoll Warden
+Tip=Hire Gnoll |cffffcc00W|rarden
 Hotkey=W
-Ubertip="远程攻击单位，能施放出一道道闪电，还能施放净化魔法。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Light ranged unit that hurls bolts of lightning. Can cast Purge. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ngnv]
-Name=豺狼首领
-Tip=雇用豺狼首领(|cffffcc00O|r)
+Name=Gnoll Overseer
+Tip=Hire Gnoll |cffffcc00O|rverseer
 Hotkey=O
-Ubertip="重型的近战单位，具有命令光环。|n|n|cffffcc00能攻击地面单位。|r"
+Ubertip="Heavy melee unit with Command Aura. |n|n|cffffcc00Attacks land units.|r"
 
 [ngol]
-Name=金矿
-Tip=建造金矿
-Description=黄金的主要来源。
+Name=Gold Mine
+Tip=Build Gold Mine
+Description=The main source of gold.
 
 [ngsp]
-Name=地精工兵
-Tip=雇用地精工兵(|cffffcc00S|r)
-Ubertip="它们特别擅长于对付敌人的建筑物。|n|cffffcc00能攻击地面单位和树木。|r"
+Name=Goblin Sapper
+Tip=Hire Goblin |cffffcc00S|rapper
+Ubertip="Explosive team of goblin sappers. Particularly effective against buildings. |n|cffffcc00Can Kaboom land units and trees.|r"
 Hotkey=S
 
 [nhar]
-Name=女妖侦察者
-Tip=雇用鹰身女妖侦察兵
-Ubertip="轻型飞行单位，能投掷出尖羽毛。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Harpy Scout
+Tip=Hire Harpy Scout
+Ubertip="Light flying ranged unit that hurls pin-feathers. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nhrr]
-Name=鹰身女妖流氓
-Tip=雇用鹰身女妖流氓(|cffffcc00R|r)
+Name=Harpy Rogue
+Tip=Hire Harpy |cffffcc00R|rogue
 Hotkey=R
-Ubertip="轻型飞行单位，能投掷出尖羽毛。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Light flying ranged unit that hurls pin-feathers. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nhrw]
-Name=鹰身女妖巫婆
-Tip=雇用鹰身女妖巫婆(|cffffcc00W|r)
+Name=Harpy Windwitch
+Tip=Hire Harpy |cffffcc00W|rindwitch
 Hotkey=W
-Ubertip="飞行单位，能施放出闪电进行攻击，也能施放精灵之火和驱魔技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Light flying ranged unit that hurls bolts of lightning. Casts Faerie Fire and Abolish Magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nhrh]
-Name=女妖风暴巫师
-Tip=雇用女妖风暴巫师
-Ubertip="飞行单位，能施放出闪电进行攻击，拥有诅咒技能和睡眠术。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Harpy Storm-hag
+Tip=Hire Harpy Storm-hag
+Ubertip="Medium flying ranged unit that hurls bolts of lightning. Can Curse opponents and cast Sleep. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nhrq]
-Name=女妖女皇
-Tip=雇用女妖女皇
-Ubertip="重型的远程攻击飞行单位，拥有生命恢复技能和飓风魔法。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Harpy Queen
+Tip=Hire Harpy Queen
+Ubertip="Heavy flying ranged unit that can cast Rejuvenation and Cyclone. |n|n|cffffcc00Attacks land and air units.|r"
 
 // heretics
 [nhfp]
-Name=堕落牧师
-Tip=雇用堕落牧师
-Ubertip="轻型的远程攻击单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Fallen Priest
+Tip=Hire Fallen Priest
+Ubertip="Light ranged unit. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nhdc]
-Name=欺骗者
-Tip=雇用欺骗者
-Ubertip="轻型单位，能射出火焰进行攻击，拥有诅咒技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Deceiver
+Tip=Hire Deceiver
+Ubertip="Light ranged unit that hurls Demon fire. Can cast Curse. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nhhr]
-Name=异教徒
-Tip=雇用异教徒
-Ubertip="中型单位，能射出火焰进行攻击，拥有复活死尸和腐臭蜂群这两项技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Heretic
+Tip=Hire Heretic
+Ubertip="Medium ranged unit that hurls Demon fire. Can cast Raise Dead and Carrion Swarm. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nitr]
-Name=冰之巨魔
-Tip=雇用冰之巨魔
-Ubertip="轻型的远程攻击单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Ice Troll
+Tip=Hire Ice Troll
+Ubertip="Light ranged unit. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nits]
-Name=冰魔狂战士
-Tip=雇用冰魔狂战士(|cffffcc00B|r)
+Name=Ice Troll Berserker
+Tip=Hire Ice Troll |cffffcc00B|rerserker
 Hotkey=B
-Ubertip="中型的远程攻击单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Medium ranged unit. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nitt]
-Name=冰魔猎手
-Tip=雇用冰魔猎手(|cffffcc00T|r)
+Name=Ice Troll Trapper
+Tip=Hire Ice Troll |cffffcc00T|rrapper
 Hotkey=T
-Ubertip="中型远程攻击单位，能诱捕对手。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Medium ranged unit that can Ensnare opponents. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nitw]
-Name=冰魔首领
-Tip=雇用冰魔首领
-Ubertip="重型远程攻击单位，带有强击光环。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Ice Troll Warlord
+Tip=Hire Ice Troll Warlord
+Ubertip="Heavy ranged unit with Trueshot Aura. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nith]
-Name=冰魔高级牧师
-Tip=雇用冰魔高级牧师
-Ubertip="魔法单位，具有医疗能力，具有驱魔技能和霜冻护甲。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Ice Troll High Priest
+Tip=Hire Ice Troll High Priest
+Ubertip="High Priest of healing magic. Can cast Abolish Magic and Frost Armor. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nitp]
-Name=冰魔牧师
-Tip=雇用冰魔牧师
-Ubertip="魔法单位，具有医疗能力。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Ice Troll Priest
+Tip=Hire Ice Troll Priest
+Ubertip="Priest of healing magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nkob]
-Name=狗头人
-Tip=雇用狗头人( |cffffcc00K|r)
+Name=Kobold
+Tip=Hire |cffffcc00K|robold
 Hotkey=K
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nkog]
-Name=狗头人占卜者
-Tip=雇用狗头人占卜者(|cffffcc00G|r)
+Name=Kobold Geomancer
+Tip=Hire Kobold |cffffcc00G|reomancer
 Hotkey=G
-Ubertip="轻型远程攻击单位，具有减速魔法和驱魔技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Light ranged unit that casts Slow and Abolish Magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nkol]
-Name=狗头人首领
-Tip=雇用狗头人首领
-Ubertip="重型近战单位，带有命令光环，还拥有重击技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Kobold Taskmaster
+Tip=Hire Kobold Taskmaster
+Ubertip="Heavy melee unit with Command Aura. Can Bash opponents. |n|n|cffffcc00Attacks land units.|r"
 
 [nkot]
-Name=地穴狗头人
-Tip=雇用地穴狗头人
-Ubertip="轻型近战单位，拥有重击技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Kobold Tunneler
+Tip=Hire Kobold Tunneler
+Ubertip="Light melee unit that can Bash opponents. |n|n|cffffcc00Attacks land units.|r"
 
 [nltl]
-Name=闪电蜥蜴
-Tip=召唤闪电蜥蜴
-Ubertip="远程攻击单位，能施放出一道道闪电，还能施放净化魔法。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Lightning Lizard
+Tip=Summon Lightning Lizard
+Ubertip="Light ranged unit that hurls bolts of lightning. Can cast Purge. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nlur]
-Name=怪兽诱捕守卫
-Tip=召唤怪兽诱捕守卫
-Ubertip="能吸引附近怪兽的守卫。"
+Name=Monster Lure
+Tip=Create Monster Lure
+Ubertip="A ward that lures nearby monsters."
 
 [nthl]
-Name=雷霆蜥蜴
-Tip=召唤雷霆蜥蜴(|cffffcc00T|r)
+Name=Thunder Lizard
+Tip=Summon |cffffcc00T|rhunder Lizard
 Hotkey=T
-Ubertip="重型远程攻击单位，能重击对手。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Heavy ranged unit that hurls bolts of lightning. Can Slam opponents. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nstw]
-Name=风暴巨龙
-Tip=召唤风暴巨龙
-Ubertip="重型远程攻击单位，能射出闪电。具有吞噬技，闪电链和闪电护盾这三项技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Storm Wyrm
+Tip=Summon Storm Wyrm
+Ubertip="Heavy ranged unit that hurls bolts of lightning. Has the ability to Devour opponents. Can cast Chain Lightning and Lightning Shield. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nmfs]
-Name=两栖食肉者
-Tip=雇用两栖食肉者(|cffffcc00M|r)
+Name=Murloc Flesheater
+Tip=Hire |cffffcc00M|rurloc Flesheater
 Hotkey=M
-Ubertip="轻型的近战单位，具有吞食尸体技能。|n|n|cffffcc00能攻击地面单位。|r"
+Ubertip="Light melee unit that can Cannibalize corpses. |n|n|cffffcc00Attacks land units.|r"
 
 [nmmu]
-Name=变异两栖人
-Tip=雇用变异两栖人
-Ubertip="中型近战单位，具有残废技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Murloc Mutant
+Tip=Hire Murloc Mutant
+Ubertip="Medium melee unit that can Cripple opponents. |n|n|cffffcc00Attacks land units.|r"
 
 [nmpg]
-Name=两栖苦难者
-Tip=雇用两栖苦难者
-Ubertip="轻型近战单位，能使得对手生上疾病。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Murloc Plaguebearer
+Tip=Hire Murloc Plaguebearer
+Ubertip="Light melee unit that diseases opponents. |n|n|cffffcc00Attacks land units.|r"
 
 [nmrl]
-Name=两栖追随者
-Tip=雇用两栖追随者
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Murloc Tiderunner
+Tip=Hire Murloc Tiderunner
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nmrr]
-Name=两栖人猎手
-Tip=雇用两栖猎手(|cffffcc00H|r)
+Name=Murloc Huntsman
+Tip=Hire Murloc |cffffcc00H|runtsman
 Hotkey=H
-Ubertip="轻型近战单位，能诱捕对手。|n|n|cffffcc00能攻击地面单位。|r"
+Ubertip="Light melee unit that can Ensnare opponents. |n|n|cffffcc00Attacks land units.|r"
 
 [nmrm]
-Name=两栖夜行者
-Tip=雇用两栖夜行者
-Ubertip="近战单位，能让对手中毒，还具有夜间隐形能力。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Murloc Nightcrawler
+Tip=Hire Murloc Nightcrawler
+Ubertip="Light melee unit that poisons opponents. Can also Shadowmeld. |n|n|cffffcc00Attacks land units.|r"
 
 [nowb]
-Name=迅猛野兽
-Tip=召唤迅猛野兽(|cffffcc00W|r)
+Name=Wildkin
+Tip=Summon |cffffcc00W|rildkin
 Hotkey=W
-Ubertip="中型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Ubertip="Medium melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nowe]
-Name=暴怒野兽
-Tip=召唤暴怒野兽
+Name=Enraged Wildkin
+Tip=Summon Enraged Wildkin
 
 [nowk]
-Name=狂性野兽
-Tip=召唤狂性野兽
-Ubertip="重型的近战单位，具有重击和战争践踏技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Berserk Wildkin
+Tip=Summon Berserk Wildkin
+Ubertip="Heavy melee unit with Bash and War Stomp. |n|n|cffffcc00Attacks land units.|r"
 
 [nrzs]
-Name=尖毛兽侦察兵
-Tip=雇用尖毛兽侦察兵
+Name=Razormane Scout
+Tip=Hire Razormane Scout
 
 [nrzb]
-Name=尖毛兽野蛮人
-Tip=雇用尖毛兽野蛮人
+Name=Razormane Brute
+Tip=Hire Razormane Brute
 
 [nrzm]
-Name=尖毛兽医生
-Tip=雇用尖毛兽医生(|cffffcc00M|r)
+Name=Razormane Medicine Man
+Tip=Hire Razormane Medicine |cffffcc00M|ran
 Hotkey=M
-Ubertip="中型单位，具有医疗守卫和野兽幽魂技能。|n|n|cffffcc00能攻击地面单位。|r"
+Ubertip="Medium melee unit that can cast Healing Ward and Feral Spirit. |n|n|cffffcc00Attacks land units.|r"
 
 [nrzg]
-Name=尖毛兽酋长
-Tip=雇用尖毛兽酋长
-Ubertip="重型的近战单位，具有荆棘光环技能，并能向敌人投出巨大的石头。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Razormane Chieftain
+Tip=Hire Razormane Chieftain
+Ubertip="Heavy melee unit with Thorns Aura. Can hurl boulders at enemies. |n|n|cffffcc00Attacks land units.|r"
 
 [nrzt]
-Name=豪猪
-Tip=雇用豪猪
-Ubertip="轻型的远程攻击单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Quillboar
+Tip=Hire Quillboar
+Ubertip="Light ranged unit. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nqbh]
-Name=豪猪猎手
-Tip=雇用豪猪猎手
-Ubertip="中型的远程攻击单位，具有闪避技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Quillboar Hunter
+Tip=Hire Quillboar Hunter
+Ubertip="Medium ranged unit with Evasion. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nspd]
-Name=小蜘蛛
-Tip=召唤小蜘蛛
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Spiderling
+Tip=Summon Spiderling
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nnwa]
-Name=蛛网怪战士
-Tip=召唤蛛网怪战士(|cffffcc00W|r)
+Name=Nerubian Warrior
+Tip=Summon Nerubian |cffffcc00W|rarrior
 Hotkey=W
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Ubertip="Light melee unit that carries its young into battle. |n|n|cffffcc00Attacks land units.|r"
 
 [nnwl]
-Name=蛛网怪织网者
-Tip=召唤蛛网怪织网者(|cffffcc00N|r)
+Name=Nerubian Webspinner
+Tip=Summon |cffffcc00N|rerubian Webspinner
 Hotkey=N
-Ubertip="轻型远程攻击单位能施放捕网和复活死尸技能。|n|n|cffffcc00攻击地面单位。|r"
+Ubertip="Light melee unit that can cast Web and Raise Dead. |n|n|cffffcc00Attacks land units.|r"
 
 [nnws]
-Name=蛛网怪首领
-Tip=召唤蛛网怪首领
-Ubertip="巨型近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Nerubian Spider Lord
+Tip=Summon Nerubian Spider Lord
+Ubertip="Heavy melee unit that carries its young into battle. |n|n|cffffcc00Attacks land units.|r"
 
 [nnwr]
-Name=蛛网怪预言者
-Tip=召唤蛛网怪预言者
-Ubertip="巨型近战单位，具有驱魔技能和复活死尸技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Nerubian Seer
+Tip=Summon Nerubian Seer
+Ubertip="Heavy melee unit that can cast Abolish Magic and Raise Dead. |n|n|cffffcc00Attacks land units.|r"
 
 [nnwq]
-Name=蛛网怪女皇
-Tip=召唤蛛网怪女皇
-Ubertip="重型近战单位，带有邪恶光环。还拥有复活死尸和腐臭蜂群这两项技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Nerubian Queen
+Tip=Summon Nerubian Queen
+Ubertip="Heavy melee unit with Unholy Aura. Casts Raise Dead and Carrion Swarm. |n|n|cffffcc00Attacks land units.|r"
 
 [nmer]
-Name=雇佣兵营地
-EditorSuffix= (洛丹伦的夏天)
-Tip=建造雇佣兵营地
-Description=能让你雇用各式各样的雇佣兵。
+Name=Mercenary Camp
+EditorSuffix= (Lordaeron Summer)
+Tip=Build Mercenary Camp
+Description=Allows you to hire various mercenaries.
 
 [nmr2]
-Name=雇佣兵营地
-EditorSuffix= (洛丹伦的秋天)
-Tip=建造雇佣兵营地
-Description=能让你雇用各式各样的雇佣兵。
+Name=Mercenary Camp
+EditorSuffix= (Lordaeron Fall)
+Tip=Build Mercenary Camp
+Description=Allows you to hire various mercenaries.
 
 [nmr3]
-Name=雇佣兵营地
-EditorSuffix= (洛丹伦的冬日)
-Tip=建造雇佣兵营地
-Description=能让你雇用各式各样的雇佣兵。
+Name=Mercenary Camp
+EditorSuffix= (Lordaeron Winter)
+Tip=Build Mercenary Camp
+Description=Allows you to hire various mercenaries.
 
 [nmr4]
-Name=雇佣兵营地
-EditorSuffix= (荒地)
-Tip=建造雇佣兵营地
-Description=能让你雇用各式各样的雇佣兵。
+Name=Mercenary Camp
+EditorSuffix= (Barrens)
+Tip=Build Mercenary Camp
+Description=Allows you to hire various mercenaries.
 
 [nmr5]
-Name=雇佣兵营地
-EditorSuffix= (白杨谷)
-Tip=建造雇佣兵营地
-Description=能让你雇用各式各样的雇佣兵。
+Name=Mercenary Camp
+EditorSuffix= (Ashenvale)
+Tip=Build Mercenary Camp
+Description=Allows you to hire various mercenaries.
 
 [nmr6]
-Name=雇佣兵营地
-EditorSuffix= (费尔伍德)
-Tip=建造雇佣兵营地
-Description=能让你雇用各式各样的雇佣兵。
+Name=Mercenary Camp
+EditorSuffix= (Felwood)
+Tip=Build Mercenary Camp
+Description=Allows you to hire various mercenaries.
 
 [nmr7]
-Name=雇佣兵营地
-EditorSuffix= (诺森德)
-Tip=建造雇佣兵营地
-Description=能让你雇用各式各样的雇佣兵。
+Name=Mercenary Camp
+EditorSuffix= (Northrend)
+Tip=Build Mercenary Camp
+Description=Allows you to hire various mercenaries.
 
 [nmr8]
-Name=雇佣兵营地
-EditorSuffix= (城邦)
-Tip=建造雇佣兵营地
-Description=能让你雇用各式各样的雇佣兵。
+Name=Mercenary Camp
+EditorSuffix= (Cityscape)
+Tip=Build Mercenary Camp
+Description=Allows you to hire various mercenaries.
 
 [nmr9]
-Name=雇佣兵营地
-EditorSuffix= (达拉然)
-Tip=建造雇佣兵营地
-Description=能让你雇用各式各样的雇佣兵。
+Name=Mercenary Camp
+EditorSuffix= (Dalaran)
+Tip=Build Mercenary Camp
+Description=Allows you to hire various mercenaries.
 
 [nmr0]
-Name=雇佣兵营地
-EditorSuffix= (村庄)
-Tip=建造雇佣兵营地
-Description=能让你雇用各式各样的雇佣兵。
+Name=Mercenary Camp
+EditorSuffix= (Village)
+Tip=Build Mercenary Camp
+Description=Allows you to hire various mercenaries.
 
 [nmra]
-Name=雇佣兵营地
-EditorSuffix= (地牢)
-Tip=建造雇佣兵营地
-Description=能让你雇用各式各样的雇佣兵。
+Name=Mercenary Camp
+EditorSuffix= (Dungeon)
+Tip=Build Mercenary Camp
+Description=Allows you to hire various mercenaries.
 
 [nmrb]
-Name=雇佣兵营地
-EditorSuffix= (地下)
-Tip=建造雇佣兵营地
-Description=能让你雇用各式各样的雇佣兵。
+Name=Mercenary Camp
+EditorSuffix= (Underground)
+Tip=Build Mercenary Camp
+Description=Allows you to hire various mercenaries.
 
 [nmrc]
-Name=雇佣兵营地
-EditorSuffix= (下沉的废墟)
-Tip=建造雇佣兵营地
-Description=能让你雇用各式各样的雇佣兵。
+Name=Mercenary Camp
+EditorSuffix= (Sunken Ruins)
+Tip=Build Mercenary Camp
+Description=Allows you to hire various mercenaries.
 
 [ntav]
-Name=小酒馆
-Tip=建造小酒馆
-Description=能让你雇用各式各样的英雄。
+Name=Tavern
+Tip=Build Tavern
+Description=Allows you to hire various Heroes.
 
 [nmoo]
-Name=魔法之泉
-Tip=建造魔法之泉
-Description=能快速恢复周围非机械单位的魔法值。
+Name=Fountain of Mana
+Tip=Build Fountain of Mana
+Description=Regenerates the mana of all non-mechanical units nearby.
 
 [nfoh]
-Name=生命之泉
-Tip=建造生命之泉
-Description=能快速恢复周围非机械单位的魔法值。
+Name=Fountain of Health
+Tip=Build Fountain of Health
+Description=Regenerates the health of all non-mechanical units nearby.
 
 [nmrk]
-Name=市场
-Tip=建造市场
-Description=能让你买到各类的物品。
+Name=Marketplace
+Tip=Build Marketplace
+Description=A store for purchasing goods.
 
 
 // ogre 1
 [nogr]
-Name=食人鬼战士
-Tip=雇用食人鬼战士(|cffffcc00W|r)
-Ubertip="这是食人鬼族的一种标准单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Ogre Warrior
+Tip=Hire Ogre |cffffcc00W|rarrior
+Ubertip="Standard warrior of the Ogre Legion. |n|n|cffffcc00Attacks land units.|r"
 Hotkey=W
 
 // ogre 2
 [nogm]
-Name=食人鬼拳手
-Tip=雇用食人鬼拳手(|cffffcc00M|r)
-Ubertip="这是食人鬼族的一种大型单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Ogre Mauler
+Tip=Hire Ogre |cffffcc00M|rauler
+Ubertip="Large brutal warrior of the Ogre Legion. |n|n|cffffcc00Attacks land units.|r"
 Hotkey=M
 
 // ogre lord
 [nogl]
-Name=食人鬼首领
-Tip=雇用食人鬼首领(|cffffcc00L|r)
-Ubertip="带有防御光环还能施放震荡波。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Ogre Lord
+Tip=Hire Ogre |cffffcc00L|rord
+Ubertip="Lord of the Ogre Legion. Has a defensive aura, and can cast Shockwave. |n|n|cffffcc00Attacks land units.|r"
 Hotkey=L
 
 // ogre magi
 [nomg]
-Name=食人鬼魔法师
-Tip=雇用食人鬼魔法师(|cffffcc00G|r)
-Ubertip="食人鬼族的一种魔法单位，能施放嗜血术。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Ogre Magi
+Tip=Hire O|cffffcc00g|rre Magi
+Ubertip="Spellcasting warrior of the Ogre Legion. Can cast Bloodlust. |n|n|cffffcc00Attacks land units.|r"
 Hotkey=G
 
 [nrvf]
-Name=火焰幽魂
-Tip=召唤火焰幽魂
-Ubertip="轻型近战单位，具有献祭技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Fire Revenant
+Tip=Summon Fire Revenant
+Ubertip="Light melee unit with Immolation. |n|n|cffffcc00Attacks land units.|r"
 
 [nrvs]
-Name=霜冻幽魂
-Tip=召唤霜冻幽魂(|cffffcc00F|r)
+Name=Frost Revenant
+Tip=Summon |cffffcc00F|rrost Revenant
 Hotkey=F
-Ubertip="中型近战单位，具有暴风雪魔法。|n|n|cffffcc00能攻击地面单位。|r"
+Ubertip="Medium melee unit that can cast Blizzard. |n|n|cffffcc00Attacks land units.|r"
 
 [nrvl]
-Name=闪电幽魂
-Tip=召唤闪电幽魂
-Ubertip="重型近战单位，具有闪电链和净化两种技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Lightning Revenant
+Tip=Summon Lightning Revenant
+Ubertip="Heavy melee unit that can cast Chain Lightning and Purge. |n|n|cffffcc00Attacks land units.|r"
 
 [nrvi]
-Name=冰之幽魂
-Tip=召唤冰之幽魂
-Ubertip="重型近战单位，带有吸血光环。还能施放霜冻新星。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Ice Revenant
+Tip=Summon Ice Revenant
+Ubertip="Heavy melee unit with Vampiric Aura. Can cast Frost Nova. |n|n|cffffcc00Attacks land units.|r"
 
 [nrvd]
-Name=死亡幽魂
-Tip=召唤死亡幽魂
-Ubertip="重型近战单位，具有复活死尸，死亡缠绕和操作死尸这三项技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Death Revenant
+Tip=Summon Death Revenant
+Ubertip="Heavy melee unit that casts Raise Dead, Death Coil, and Animate Dead. |n|n|cffffcc00Attacks land units.|r"
 
 [nslm]
-Name=淤泥战士
-Tip=召唤淤泥战士
-Ubertip="轻型的近战单位，能减慢敌人的速度。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Sludge Minion
+Tip=Summon Sludge Minion
+Ubertip="Light melee unit that can Slow opponents. |n|n|cffffcc00Attacks land units.|r"
 
 [nslf]
-Name=淤泥投手
-Tip=召唤淤泥投手(|cffffcc00F|r)
+Name=Sludge Flinger
+Tip=Summon Sludge |cffffcc00F|rlinger
 Hotkey=F
-Ubertip="轻型的远程攻击单位，能减慢敌人的速度。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Light ranged unit that can Slow opponents. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nsln]
-Name=淤泥怪物
-Tip=召唤淤泥怪物
-Ubertip="中型的近战单位，能减慢敌人的速度。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Sludge Monstrosity
+Tip=Summon Sludge Monstrosity
+Ubertip="Medium melee unit that can Slow opponents. |n|n|cffffcc00Attacks land units.|r"
 
 [nslh]
-Name=小蜥蜴
-Tip=召唤小蜥蜴
+Name=Salamander Hatchling
+Tip=Summon Salamander Hatchling
 
 [nslr]
-Name=蜥蜴怪物
-Tip=召唤蜥蜴怪物
-Ubertip="中型的远程攻击单位，能施放献祭魔法和霹雳闪电。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Salamander
+Tip=Summon Salamander
+Ubertip="Medium ranged unit that hurls fiery missiles. Can cast Immolation and Firebolt. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nslv]
-Name=大型蜥蜴怪物
-Tip=召唤大型蜥蜴怪物
-Ubertip="重型的远程攻击单位，能施放驱魔，法力燃烧和嗜血技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Salamander Vizier
+Tip=Summon Salamander Vizier
+Ubertip="Heavy ranged unit that hurls fiery missiles. Can cast Abolish Magic, Mana Burn, and Bloodlust. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nsll]
-Name=蜥蜴领主
-Tip=召唤蜥蜴领主
-Ubertip="重型的远程攻击单位。能吞噬对手，还具有献祭和火焰雨技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Salamander Lord
+Tip=Summon Salamander Lord
+Ubertip="Heavy ranged unit that hurls fiery missiles. Has the ability to Devour opponents. Can cast Immolation and Rain of Fire. |n|n|cffffcc00Attacks land and air units.|r"
 
 // satyr 1
 [nsat]
-Name=赛特斯之魔法师
-Tip=雇用赛特斯之魔法师
-Ubertip="能射出地狱火的轻型远程攻击单位。还具有净化技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Satyr Trickster
+Tip=Hire Satyr Trickster
+Ubertip="Light ranged unit that hurls bolts of hellfire. Can cast Purge. |n|n|cffffcc00Attacks land and air units.|r"
 
 // satyr 2
 [nsts]
-Name=赛特斯之黑暗舞者
-Tip=雇用赛特斯之黑暗舞者( |cffffcc00S|r)
+Name=Satyr Shadowdancer
+Tip=Hire Satyr |cffffcc00S|rhadowdancer
 Hotkey=S
-Ubertip="轻型远程攻击单位，具有夜间隐形能力，还拥有诅咒技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Light ranged unit with Shadowmeld. Can cast Curse. |n|n|cffffcc00Attacks land and air units.|r"
 
 // satyr 3
 [nsth]
-Name=赛特斯之地狱使者
-Tip=雇用赛特斯之地狱使者
-Ubertip="重型近战单位，带有邪恶光环，还拥有操作死尸技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Satyr Hellcaller
+Tip=Hire Satyr Hellcaller
+Ubertip="Heavy melee unit with Unholy Aura. Can also Animate Dead. |n|n|cffffcc00Attacks land units.|r"
 
 [nstl]
-Name=赛特斯之灵魂盗贼
-Tip=雇用赛特斯之灵魂盗贼( |cffffcc00S|r)
+Name=Satyr Soulstealer
+Tip=Hire Satyr |cffffcc00S|roulstealer
 Hotkey=S
-Ubertip="中型近战单位，具有法力燃烧，复活死尸这两项技能。|n|n|cffffcc00能攻击地面单位。|r"
+Ubertip="Medium melee unit that can cast Mana Burn and Raise Dead. |n|n|cffffcc00Attacks land units.|r"
 
 [nsty]
-Name=赛特斯
-Tip=雇用赛特斯
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Satyr
+Tip=Hire Satyr
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nspb]
-Name=黑蜘蛛
-Tip=召唤黑蜘蛛
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Black Spider
+Tip=Summon Black Spider
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nspr]
-Name=蜘蛛
-Tip=召唤蜘蛛
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Spider
+Tip=Summon Spider
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nsgt]
-Name=巨型蜘蛛
-Tip=召唤巨型蜘蛛
-Ubertip="中型的近战单位。能用毒素伤害敌人。还能施放诱捕技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Giant Spider
+Tip=Summon Giant Spider
+Ubertip="Medium melee unit that poisons opponents. Can cast Ensnare. |n|n|cffffcc00Attacks land units.|r"
 
 [nssp]
-Name=毒液蜘蛛
-Tip=召唤毒液蜘蛛
-Ubertip="轻型远程攻击单位，能向对手吐出毒液。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Spitting Spider
+Tip=Summon Spitting Spider
+Ubertip="Light ranged unit that spits poison at opponents. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nsbm]
-Name=血浴之母
-Tip=召唤血浴之母
-Ubertip="重型近战单位，能使对手中毒。还具有诱捕技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Brood Mother
+Tip=Summon Brood Mother
+Ubertip="Heavy melee unit that poisons opponents and carries its young into battle. Can cast Ensnare. |n|n|cffffcc00Attacks land units.|r"
 
 [nspg]
-Name=森林蜘蛛
-Tip=召唤森林蜘蛛
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Forest Spider
+Tip=Summon Forest Spider
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nsqt]
-Name=野人
-Tip=召唤野人
-Ubertip="中型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Sasquatch
+Tip=Summon Sasquatch
+Ubertip="Medium melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nsqe]
-Name=野人长者
-Tip=召唤野人长者
-Ubertip="重型近战单位，能重击对手，拥有自然之力技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Elder Sasquatch
+Tip=Summon Elder Sasquatch
+Ubertip="Heavy melee unit that can Bash opponents. Can cast Force of Nature. |n|n|cffffcc00Attacks land units.|r"
 
 [nsqo]
-Name=野人神使
-Tip=召唤野人神使
-Ubertip="重型近战单位，具有咆哮技能。还具有生命恢复术。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Sasquatch Oracle
+Tip=Summon Sasquatch Oracle
+Ubertip="Heavy melee unit with Roar. Can also cast Rejuvenation. |n|n|cffffcc00Attacks land units.|r"
 
 [nsqa]
-Name=古代野人
-Tip=召唤古代野人
-Ubertip="重型近战单位，能重击对手。还具有自然之力和生命恢复这两项技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Ancient Sasquatch
+Tip=Summon Ancient Sasquatch
+Ubertip="Heavy melee unit that can Slam opponents. Can cast Force of Nature. Also has Reincarnation. |n|n|cffffcc00Attacks land units.|r"
 
 [ndog]
-Name=野狗
-Tip=召唤野狗
-Ubertip="你可以召唤野狗的灵魂来保护你。"
+Name=Dog
+Tip=Invoke Dog
+Ubertip="Call upon the spirit of Dog to save you."
 
 [npig]
-Name=野猪
-Tip=召唤野猪
-Ubertip="你可以召唤野猪的灵魂来保护你。"
+Name=Pig
+Tip=Invoke Pig
+Ubertip="Call upon the spirit of Pig to save you."
 
 [nder]
-Name=雄鹿
-Tip=召唤雄鹿
-Ubertip="召唤雄鹿的灵魂来保护你。"
+Name=Stag
+Tip=Invoke Stag
+Ubertip="Call upon the spirit of Stag to save you."
 
 [nsea]
-Name=海豹
-Tip=召唤海豹
-Ubertip="召唤海豹的灵魂来保护你。"
+Name=Seal
+Tip=Invoke Seal
+Ubertip="Call upon the spirit of Seal to save you."
 
 [nshe]
-Name=绵羊
-Tip=召唤绵羊
-Ubertip="召唤绵羊的灵魂来拯救你。"
+Name=Sheep
+Tip=Invoke Sheep
+Ubertip="Call upon the spirit of Sheep to save you."
 
 [nsha]
-Name=绵羊
-Tip=召唤绵羊
-Ubertip="召唤绵羊的灵魂来拯救你。"
-EditorSuffix= (两栖的)
+Name=Sheep
+Tip=Invoke Sheep
+Ubertip="Call upon the spirit of Sheep to save you."
+EditorSuffix= (Amphibious)
 
 [nshw]
-Name=绵羊
-Tip=召唤绵羊
-Ubertip="召唤绵羊的灵魂来拯救你。"
-EditorSuffix= (水生的)
+Name=Sheep
+Tip=Invoke Sheep
+Ubertip="Call upon the spirit of Sheep to save you."
+EditorSuffix= (Waterborne)
 
 [nshf]
-Name=乳羊
-Tip=召唤乳羊
-Ubertip="召唤乳羊的灵魂来保护你。"
+Name=Flying Sheep
+Tip=Invoke Uber Sheep
+Ubertip="Call upon the Uber Sheep to save you."
 
 // male villager
 [nvil]
-Name=村民
-Tip=雇用村民
-Ubertip="一个热心的村民。"
-EditorSuffix= (男性)
+Name=Villager
+Tip=Hire Villager
+Ubertip="A hearty villager."
+EditorSuffix= (Male)
 
 // kid villager
 [nvlk]
-Name=小孩
-Ubertip="一个小村民。"
-Tip=雇用村民
+Name=Child
+Ubertip="A tiny villager."
+Tip=Hire Villager
 
 // female villager
 [nvlw]
-Name=村民
-Tip=雇用村民
-Ubertip="一位聪慧的村民。"
-EditorSuffix= (女性)
+Name=Villager
+Tip=Hire Villager
+Ubertip="An intelligent villager."
+EditorSuffix= (Female)
 
 [nvul]
-Name=秃鹰
-Tip=召唤秃鹰
-Ubertip="可以召唤秃鹰的灵魂来保护你。"
+Name=Vulture
+Tip=Invoke Vulture
+Ubertip="Call upon the spirit of Vulture to save you."
 
 [nwen]
-Name=雪怪
-Tip=召唤雪怪
-Ubertip="中型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Wendigo
+Tip=Summon Wendigo
+Ubertip="Medium melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nwlt]
-Name=大灰狼
-Tip=召唤大灰狼
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Timber Wolf
+Tip=Summon Timber Wolf
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nwlg]
-Name=巨狼
-Tip=召唤巨狼
-Ubertip="中型的近战单位，拥有致命一击这个技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Giant Wolf
+Tip=Summon Giant Wolf
+Ubertip="Medium melee unit with Critical Strike. |n|n|cffffcc00Attacks land units.|r"
 
 [nwld]
-Name=恐怖之狼
-Tip=召唤恐怖之狼
-Ubertip="中型近战单位，具有致命一击和咆哮这两个技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Dire Wolf
+Tip=Summon Dire Wolf
+Ubertip="Medium melee unit with Critical Strike. Can cast Roar. |n|n|cffffcc00Attacks land units.|r"
 
 [nwwf]
-Name=霜冻之狼
-Tip=召唤霜冻之狼
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Frost Wolf
+Tip=Summon Frost Wolf
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nwwg]
-Name=巨型霜冻之狼
-Tip=召唤霜冻之狼
-Ubertip="中型近战单位，具有致命一击技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Giant Frost Wolf
+Tip=Summon Giant Frost Wolf
+Ubertip="Medium melee unit with Critical Strike |n|n|cffffcc00Attacks land units.|r"
 
 [nwwd]
-Name=恐怖霜冻之狼
-Tip=召唤恐怖霜冻之狼
-Ubertip="中型近战单位，具有致命一击和咆哮这两个技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Dire Frost Wolf
+Tip=Summon Dire Frost Wolf
+Ubertip="Medium melee unit with Critical Strike. Can cast Roar. |n|n|cffffcc00Attacks land units.|r"
 
 [nwnr]
-Name=雪怪长者
-Tip=召唤雪怪长者
-Ubertip="重型近战单位，能重击对手。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Elder Wendigo
+Tip=Summon Elder Wendigo
+Ubertip="Heavy melee unit that can Bash opponents. |n|n|cffffcc00Attacks land units.|r"
 
 [nwna]
-Name=远古雪怪
-Tip=召唤远古雪怪
-Ubertip="重型近战单位，具有重击，战争践踏和重生这三项技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Ancient Wendigo
+Tip=Summon Ancient Wendigo
+Ubertip="Heavy melee unit with Bash, War Stomp, and Reincarnation. |n|n|cffffcc00Attacks land units.|r"
 
 [nwns]
-Name=雪怪萨满祭司
-Tip=召唤雪怪萨满祭司
-Ubertip="重型近战单位，具有咆哮和生命恢复这两项技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Wendigo Shaman
+Tip=Summon Wendigo Shaman
+Ubertip="Heavy melee unit that can cast Roar and Rejuvenation. |n|n|cffffcc00Attacks land units.|r"
 
 [nwzr]
-Name=流氓巫师
-Tip=雇用流氓巫师
-Ubertip="轻型远程攻击单位，能施放霜冻护甲。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Rogue Wizard
+Tip=Hire Rogue Wizard
+Ubertip="Light ranged unit that can cast Frost Armor. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nwzg]
-Name=巫师变节者
-Tip=雇用巫师变节者
-Ubertip="中型远程攻击单位，具有净化和闪电护盾这两项技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Renegade Wizard
+Tip=Hire Renegade Wizard
+Ubertip="Medium ranged unit that can cast Purge and Lightning Shield. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nwiz]
-Name=巫师学徒
-Tip=雇用巫师学徒
-Ubertip="轻型的远程攻击单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Apprentice Wizard
+Tip=Hire Apprentice Wizard
+Ubertip="Light ranged unit. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nwzd]
-Name=黑暗巫师
-Tip=雇用黑暗巫师
-Ubertip="重型远程攻击单位，带有辉煌光环。还具有复活死尸和变形术这两项技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Dark Wizard
+Tip=Hire Dark Wizard
+Ubertip="Heavy ranged unit with Brilliance Aura. Can also cast Raise Dead and Polymorph. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nzep]
-Name=地精飞艇
-Tip=雇用地精飞艇( |cffffcc00Z|r)
-Ubertip="飞行的运输工具。"
+Name=Goblin Zeppelin
+Tip=Hire Goblin |cffffcc00Z|reppelin
+Ubertip="Flying air-transport."
 Hotkey=Z
 
 [ninf]
-Name=地狱火
-Tip=召唤地狱火
-Ubertip="重型近战单位，被熊熊的火焰包围着，能对周围的地面单位造成持续伤害。还对魔法免疫。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Infernal
+Tip=Summon Infernal
+Ubertip="Heavy melee unit cloaked in demonic flames that damage nearby enemy ground units. Immune to magic. |n|n|cffffcc00Attacks land units.|r"
 
 [nbal]
-Name=毁灭守卫
-Tip=召唤毁灭守卫
-Ubertip="重型远程攻击单位，具有驱魔，战争践踏，残废术和火焰雨这四项技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
-
-//summoned doom guard
-[nba2]
-Name=毁灭守卫
-Tip=召唤毁灭守卫
-Ubertip="重型的远程攻击单位。能施放驱逐魔法，战争践踏，残废和火焰雨这几项技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
-
+Name=Doom Guard
+Tip=Summon Doom Guard
+Ubertip="Heavy ranged unit can cast Dispel Magic, War Stomp, Cripple and Rain of Fire. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nglm]
-Name=地精地雷
+Name=Goblin Land Mine
 
 [nwgt]
-Name=传送门
-Tip=建造传送门
-Description=可以将单位传送到另外一个传送门那里。
+Name=Way Gate
+Tip=Build Way Gate
+Description=Teleports units to a sister Way Gate.
 
 [ncnt]
-Name=半人马帐篷
-Tip=建造半人马帐篷
-Description=一种小型的掩蔽建筑。
+Name=Centaur Tent
+Tip=Build Centaur Tent
+Description=A small hide-covered shelter.
 
 [nct1]
-Name=半人马帐篷
-Tip=建造半人马帐篷
-Description=一种小型的掩蔽建筑。
+Name=Centaur Tent
+Tip=Build Centaur Tent
+Description=A small hide-covered shelter.
 EditorSuffix=(2)
 
 [nct2]
-Name=半人马帐篷
-Tip=建造半人马帐篷
-Description=一种小型的掩蔽建筑。
+Name=Centaur Tent
+Tip=Build Centaur Tent
+Description=A small hide-covered shelter.
 EditorSuffix=(3)
 
 [ntnt]
-Name=牛头人帐篷
-Tip=建造牛头人帐篷
-Description=一种牢固的掩蔽建筑。
+Name=Tauren Tent
+Tip=Build Tauren Tent
+Description=A sturdy hide-covered shelter.
 
 [ntt2]
-Name=牛头人帐篷
-Tip=建造牛头人帐篷
-Description=一种牢固的掩蔽建筑。
+Name=Tauren Tent
+Tip=Build Tauren Tent
+Description=A sturdy hide-covered shelter.
 
 [ngnh]
-Name=豺狼人小屋
-Tip=建造豺狼人小屋
-Description=由石头和木材构成的一种小屋。
+Name=Gnoll Hut
+Tip=Build Gnoll Hut
+Description=A sturdy cabin of wood and stone.
 
 [ngt2]
-Name=豺狼人小屋
-Tip=建造豺狼人小屋
-Description=由石头和木材构成的一种小屋。
+Name=Gnoll Hut
+Tip=Build Gnoll Hut
+Description=A sturdy cabin of wood and stone.
 EditorSuffix= 2
 
 [nten]
-Name=帐篷
-Tip=建造帐篷
-Description=一种有着奇异装饰的帆布帐篷。
+Name=Tent
+Tip=Build Tent
+Description=A canvas tent decorated with strange markings.
 
 [ntn2]
-Name=帐篷
-Tip=建造帐篷
-Description=有着奇异装饰的帆布帐篷。
+Name=Tent
+Tip=Build Tent
+Description=A canvas tent decorated with strange markings.
 EditorSuffix= 2
 
 [nfh0]
-Name=森林巨魔小屋
-Tip=建造森林巨魔小屋
-Description=某些巨魔的家。
+Name=Forest Troll Hut
+Tip=Build Forest Troll Hut
+Description=A hollowed-out log that some Trolls call home.
 
 [nfh1]
-Name=森林巨魔小屋
-Tip=建造森林巨魔小屋
-Description=某些巨魔的家。
+Name=Forest Troll Hut
+Tip=Build Forest Troll Hut
+Description=A hollowed-out log that some Trolls call home.
 
 [nfr1]
-Name=熊怪小屋
-Tip=建造熊怪小屋
-Description=某些熊怪的家。
+Name=Furbolg Hut
+Tip=Build Furbolg Hut
+Description=A hollowed-out log that some Furbolgs call home.
 
 [nfr2]
-Name=熊怪小屋
-Tip=建造熊怪小屋
-Description=某些熊怪的家。
+Name=Furbolg Hut
+Tip=Build Furbolg Hut
+Description=A hollowed-out log that some Furbolgs call home.
 
 [nth0]
-Name=冰之巨魔小屋
-Tip=建造冰之巨魔小屋
-Description=一种覆盖着白雪的住处。
+Name=Ice Troll Hut
+Tip=Build Ice Troll Hut
+Description=A snow-covered dwelling that some Trolls call home.
 
 [nth1]
-Name=冰之巨魔小屋
-Tip=建造冰之巨魔小屋
-Description=一种覆盖着白雪的住处。 
+Name=Ice Troll Hut
+Tip=Build Ice Troll Hut
+Description=A snow-covered dwelling that some Trolls call home.
 
 [ncb0]
-Name=城市建筑物
-Tip=建造城市建筑物
+Name=City Building
+Tip=Build City Building
 EditorSuffix= 0
-Description=一座大型的石头建筑物。
+Description=A large stone building.
 
 [ncb1]
-Name=城市建筑物
-Tip=建造城市建筑物
+Name=City Building
+Tip=Build City Building
 EditorSuffix= 1
-Description=一座大型的石头建筑物。
+Description=A large stone building.
 
 [ncb2]
-Name=城市建筑物
-Tip=建造城市建筑物
+Name=City Building
+Tip=Build City Building
 EditorSuffix= 2
-Description=一座大型的石头建筑物。
+Description=A large stone building.
 
 [ncb3]
-Name=城市建筑物
-Tip=建造城市建筑物
+Name=City Building
+Tip=Build City Building
 EditorSuffix= 3
-Description=一座大型的石头建筑。
+Description=A large stone building.
 
 [ncb4]
-Name=城市建筑物
-Tip=建造城市建筑物
+Name=City Building
+Tip=Build City Building
 EditorSuffix= 4
-Description=一座大型的石头建筑物。
+Description=A large stone building.
 
 [ncb5]
-Name=城市建筑物
-Tip=建造城市建筑物
+Name=City Building
+Tip=Build City Building
 EditorSuffix= 5
-Description=一座大型的石头建筑物。
+Description=A large stone building.
 
 [ncb6]
-Name=城市建筑物
-Tip=建造城市建筑物
+Name=City Building
+Tip=Build City Building
 EditorSuffix= 6
-Description=一座大型的石头建筑物。
+Description=A large stone building.
 
 [ncb7]
-Name=城市建筑物
-Tip=建造城市建筑物
+Name=City Building
+Tip=Build City Building
 EditorSuffix= 7
-Description=一座大型的石头建筑物。
+Description=A large stone building.
 
 [ncb8]
-Name=城市建筑物
-Tip=建造城市建筑物
+Name=City Building
+Tip=Build City Building
 EditorSuffix= 8
-Description=一座大型的石头建筑物。
+Description=A large stone building.
 
 [ncb9]
-Name=城市建筑物
-Tip=建造城市建筑物
+Name=City Building
+Tip=Build City Building
 EditorSuffix= 9
-Description=一座大型的石头建筑物。
+Description=A large stone building.
 
 [ncba]
-Name=城市建筑物
-Tip=建造城市建筑物
+Name=City Building
+Tip=Build City Building
 EditorSuffix= 10
-Description=一座大型的石头建筑物。
+Description=A large stone building.
 
 [ncbb]
-Name=城市建筑物
-Tip=建造城市建筑物
+Name=City Building
+Tip=Build City Building
 EditorSuffix= 11
-Description=一座大型的石头建筑物。
+Description=A large stone building.
 
 [ncbc]
-Name=城市建筑物
-Tip=建造城市建筑物
+Name=City Building
+Tip=Build City Building
 EditorSuffix= 12
-Description=一座大型的石头建筑物。
+Description=A large stone building.
 
 [ncbd]
-Name=城市建筑物
-Tip=建造城市建筑物
+Name=City Building
+Tip=Build City Building
 EditorSuffix= 13
-Description=一座大型的石头建筑物。
+Description=A large stone building.
 
 [ncbe]
-Name=城市建筑物
-Tip=建造城市建筑物
+Name=City Building
+Tip=Build City Building
 EditorSuffix= 14
-Description=一座大型的石头建筑物。
+Description=A large stone building.
 
 [ncbf]
-Name=城市建筑物
-Tip=建造城市建筑物
+Name=City Building
+Tip=Build City Building
 EditorSuffix= 15
-Description=一座大型的石头建筑物。
+Description=A large stone building.
 
 [nmh0]
-Name=两栖鱼人小屋
-Tip=建造两栖鱼人小屋
+Name=Murloc Hut
+Tip=Build Murloc Hut
 EditorSuffix= 0
-Description=一种由竹子做成的小型了望塔。
+Description=A small lookout tower made of bamboo.
 
 [nmh1]
-Name=两栖鱼人小屋
-Tip=建造两栖鱼人小屋
+Name=Murloc Hut
+Tip=Build Murloc Hut
 EditorSuffix= 1
-Description=一种由竹子做成的大型了望塔。
+Description=A large lookout tower made of bamboo.
 
 [nnzg]
-Name=通灵塔
-Tip=建造通灵塔
-Description=一种小型的岩石神塔。
+Name=Nerubian Ziggurat
+Tip=Build Nerubian Ziggurat
+Description=A small Ziggurat of stone.
 
 [ncop]
-Name=能量圈
-Tip=建造能量圈
-Description=一种发着能量之光的圆形底座。
+Name=Circle of Power
+Tip=Build Circle of Power
+Description=A small pedestal that glows with energy.
 
 [ncp2]
-Name=能量圈
-Tip=建造能量圈
-Description=一种发着能量之光的圆形底座。
-EditorSuffix=(中型)
+Name=Circle of Power
+Tip=Build Circle of Power
+Description=A pedestal that glows with energy.
+EditorSuffix=(medium)
 
 [ncp3]
-Name=能量圈
-Tip=建造能量圈
-Description=一种发着能量之光的大型圆形底座。
-EditorSuffix=(大型的)
+Name=Circle of Power
+Tip=Build Circle of Power
+Description=A large pedestal that glows with energy.
+EditorSuffix=(large)
 
 [nhns]
-Name=女妖巢穴
-Tip=建造女妖巢穴
-Description=里面的木质骨架上有着一些零星的残骸。
+Name=Harpy Nest
+Tip=Build Harpy Nest
+Description=A nest whose wooden frame is sparsely covered with a layer of debris.
 
 [nowl]
-Name=猫头鹰侦察者
-EditorSuffix= (等级 1)
+Name=Owl Scout
+EditorSuffix= (Level 1)
 
 [now2]
-Name=猫头鹰侦察者
-EditorSuffix= (等级 2)
+Name=Owl Scout
+EditorSuffix= (Level 2)
 
 [now3]
-Name=猫头鹰侦察者
-EditorSuffix= (等级 3)
+Name=Owl Scout
+EditorSuffix= (Level 3)
 
 [nspp]
-Name=灵魂之猪
+Name=Spirit Pig
 
 // neutral heroes
 [Npbm]
-Name=熊猫酒仙
-Propernames=魔杰-黑啤酒,辛杰-蜜酒,克沙-野麦,塔特萨-甜猪,姆斯-酒炉,金托-芦苇酒,玛萨-烈啤酒,泊尔-桶酒
+Name=Pandaren Brewmaster
+Propernames=Mojo Dark-Ale,Sinjo Honeybrew,Kesha Wildbarley,Tatsa Sweetbarrow,Mushi Ale-Hearth,Jinto Reedwine,Masha Storm-Stout,Polo Barrel-keg
 Hotkey=N
-Tip=召唤熊猫酒仙(|cffffcc00N|r)
-Ubertip="战士型英雄，特别擅长于近战。能学习火焰呼吸、醉酒云雾、醉拳和火土风暴这四个技能。|n|n|cffffcc00能攻击地面单位。|r"
-Revivetip=复活熊猫酒仙(|cffffcc00N|r)
-Awakentip=复活熊猫酒仙(|cffffcc00N|r)
+Tip=Summon Pa|cffffcc00n|rdaren Brewmaster
+Ubertip="Warrior Hero, exceptional at absorbing damage and melee combat. Can learn Breath of Fire, Drunken Haze, Drunken Brawler and Storm, Earth, And Fire. |n|n|cffffcc00Attacks land units.|r"
+Revivetip=Revive Pa|cffffcc00n|rdaren Brewmaster
+Awakentip=Revive Pa|cffffcc00n|rdaren Brewmaster
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-pandarenbrewmaster.blp
 
 [npn1]
-Name=火焰
-Tip=召唤火(|cffffcc00F|r)
-Ubertip="凶猛的火之熊猫战士。有永久献祭和抗性皮肤技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Fire
+Tip=Summon |cffffcc00F|rire
+Ubertip="Fierce Pandaren warrior of fire. Has Permanent Immolation and Resistant Skin. |n|n|cffffcc00Attacks land units.|r"
 Hotkey=F
 
 [npn2]
-Name=风暴
-Tip=召唤雷(|cffffcc00T|r)
-Ubertip="迅捷的风之熊猫战士。有抗性皮肤，可以施放驱散魔法、飓风和疾风步。|n|n|cffffcc00攻击陆地和空中单位。|r"
+Name=Storm
+Tip=Summon S|cffffcc00t|rorm
+Ubertip="Quick Pandaren warrior of storms. Has Resistant Skin. Can cast Dispel Magic, Cyclone, and Wind Walk. |n|n|cffffcc00Attacks land and air units.|r"
 Hotkey=T
 
 [npn3]
-Name=大地
-Tip=召唤地(|cffffcc00E|r)
-Ubertip="强健的地之熊猫战士。有抗性皮肤及魔法免疫。可以施放粉碎和嘲讽技能。|n|n|cffffcc00攻击陆地单位。|r"
+Name=Earth
+Tip=Summon |cffffcc00E|rarth
+Ubertip="Sturdy Pandaren warrior of earth. Has Resistant Skin, and Spell Immunity. Can cast Pulverize, and Taunt. |n|n|cffffcc00Attacks land units.|r"
 Hotkey=E
 
 [Nbrn]
-Name=黑暗游侠
-Propernames=纳拉-迈步,阿恩雅-恒歌,安瑟斯-日弓,斯里-死步,西恩迪-鹰矛,米拉-破凋,阿摩拉-鹰眼,斯勒恩-鬼歌,索门德-菲佐
+Name=Dark Ranger
+Propernames=Nara Pathstrider,Anya Eversong,Anthis Sunbow,Clea Deathstrider,Cyndia Hawkspear,Mira Shadewither,Amora Eagleye,Siren Ghostsong,Somand Wayfinder
 Hotkey=R
-Tip=召唤黑暗游侠(|cffffcc00R|r)
-Ubertip="灵巧型的英雄，擅长于与对手周旋。能学习到沉默魔法，黑暗之箭，生命汲取和符咒这四项技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
-Revivetip=复活黑暗游侠(|cffffcc00R|r)
-Awakentip=复活黑暗游侠(|cffffcc00R|r)
+Tip=Summon Dark |cffffcc00R|ranger
+Ubertip="Cunning Hero, adept at manipulating opponents. Can learn Silence, Black Arrow, Life Drain, and Charm. |n|n|cffffcc00Attacks land and air units.|r"
+Revivetip=Revive Dark |cffffcc00R|ranger
+Awakentip=Revive Dark |cffffcc00R|ranger
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-bansheeranger.blp
 
 [ndr1]
-Name=小黑暗之奴
-Tip=召唤黑暗之奴
+Name=Lesser Dark Minion
+Tip=Summon Dark Minion
 
 [ndr2]
-Name=黑暗之奴
-Tip=召唤黑暗之奴
+Name=Dark Minion
+Tip=Summon Dark Minion
 
 [ndr3]
-Name=大黑暗之奴
-Tip=召唤黑暗之奴
-
-[Nfir]
-Name=火焰巨魔
-Propernames=拉格尔,哈特斯,布雷泽,海特富莱,沃尔卡,富莱夏尔,卡尔,斯莫,辛格尔
-Hotkey=O
-Tip=(|cffffcc00o|r)召唤火焰巨魔
-Ubertip="神秘型英雄，擅长于破坏魔法并施放出巨大的火焰攻击力。能学习到燃灰、灵魂燃烧、召唤炎魔和火山爆发技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
-Revivetip=(|cffffcc00o|r)复活火焰巨魔
-Awakentip=(|cffffcc00o|r)复活火焰巨魔
-
-//lava spawn1
-[nlv1]
-Name=炎魔
-EditorSuffix= (等级 1)
-
-//lava spawn2
-[nlv2]
-Name=炎魔
-EditorSuffix= (等级 2)
-
-//lava spawn3
-[nlv3]
-Name=炎魔
-EditorSuffix= (等级 3)
-
-//alchemist
-[Nalc]
-Name=炼金术士
-Propernames=拉泽尔•拿破仑,尼费尔,爱泽尔,拉皮斯,萨维尔,菲克修斯
-Hotkey=X
-Tip= (|cffffcc00X|r)召唤炼金术士
-Ubertip="战斗型英雄，有着出色的防御和进攻能力。能学习到医疗烟雾、药剂之怒、酸性炸弹和变形技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
-Revivetip=(|cffffcc00X|r)复活炼金术士 
-Awakentip=(|cffffcc00X|r)复活炼金术士 
-
-//alchemist
-[Nalm]
-Name=炼金术士
-Propernames=拉泽尔,尼费尔,爱泽尔,拉皮斯,萨维尔,菲克修斯
-Hotkey=X
-Tip= (|cffffcc00X|r)召唤炼金术士
-Ubertip="战斗型英雄，有着出色的防御和进攻能力。能学习到医疗烟雾、药剂之怒、酸性炸弹和变形技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
-Revivetip=(|cffffcc00X|r)复活炼金术士 
-Awakentip=(|cffffcc00X|r)复活炼金术士 
-EditorSuffix= (Morph level 1)
-
-//alchemist (morph, 2)
-[Nal2]
-Name=炼金术士
-Propernames=拉泽尔,尼费尔,爱泽尔,拉皮斯,萨维尔,菲克修斯
-Hotkey=X
-Tip= (|cffffcc00X|r)召唤炼金术士
-Ubertip="战斗型英雄，有着出色的防御和进攻能力。能学习到医疗烟雾、药剂之怒、酸性炸弹和变形技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
-Revivetip=(|cffffcc00X|r)复活炼金术士 
-Awakentip=(|cffffcc00X|r)复活炼金术士 
-EditorSuffix= (Morph level 2)
-
-//alchemist (morph, 3)
-[Nal3]
-Name=炼金术士
-Propernames=拉泽尔,尼费尔,爱泽尔,拉皮斯,萨维尔,菲克修斯
-Hotkey=X
-Tip= (|cffffcc00X|r)召唤炼金术士
-Ubertip="战斗型英雄，有着出色的防御和进攻能力。能学习到医疗烟雾、药剂之怒、酸性炸弹和变形技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
-Revivetip=(|cffffcc00X|r)复活炼金术士 
-Awakentip=(|cffffcc00X|r)复活炼金术士 
-EditorSuffix= (Morph level 3)
-
-// Tinker
-[Ntin]
-Name=修补匠
-Propernames=盖茨,力克特,美卡,特克,普拉格,拉斯特
-Hotkey=Z
-Tip= (|cffffcc00Z|r)召唤修补匠
-Ubertip="敏捷性的英雄，特别擅长于战斗和承受攻击。能学习到火箭群、口袋工厂、工程升级和机器人地精技能。|n|n|cffffcc00能攻击地面单位。|r"
-Revivetip= (|cffffcc00Z|r)复活修补匠
-Awakentip=(|cffffcc00Z|r)复活修补匠
-
-// Tinker (morph / robo-goblin)
-[Nrob]
-Name=修补匠
-Propernames=盖茨,力克特,美卡,特克,普拉格,拉斯特
-Hotkey=Z
-Tip= (|cffffcc00Z|r)召唤修补匠
-Ubertip="敏捷性的英雄，特别擅长于战斗和承受攻击。能学习到火箭群、口袋工厂、工程升级和机器人地精技能。|n|n|cffffcc00能攻击地面单位。|r"
-Revivetip= (|cffffcc00Z|r)复活修补匠
-Awakentip=(|cffffcc00Z|r)复活修补匠
-
-[ncgb]
-Name=人工地精
-Tip=(|cffffcc00C|r)召唤人工地精
-Ubertip="战士型机械地精。在一定时期之后会爆炸。|n|n|cffffcc00能攻击地面单位。|r"
-Hotkey=C
-
-[ncg1]
-Name=人工地精
-Tip=(|cffffcc00C|r)召唤人工地精
-Ubertip="战士型机械地精。在一定时期之后会爆炸。|n|n|cffffcc00能攻击地面单位。|r"
-Hotkey=C
-
-[ncg2]
-Name=人工地精
-Tip=(|cffffcc00C|r)召唤人工地精
-Ubertip="战士型机械地精。在一定时期之后会爆炸。|n|n|cffffcc00能攻击地面单位。|r"
-Hotkey=C
-
-[ncg3]
-Name=人工地精
-Tip=(|cffffcc00C|r)召唤人工地精
-Ubertip="战士型机械地精。在一定时期之后会爆炸。|n|n|cffffcc00能攻击地面单位。|r"
-Hotkey=C
-
-[nfac]
-Name=口袋工厂
-Tip= (|cffffcc00F|r)召唤口袋工厂
-Ubertip="工厂能生产出人工地精。"
-Hotkey=F
-EditorSuffix= (Level 1)
-
-[nfa1]
-Name=口袋工厂
-Tip= (|cffffcc00F|r)召唤口袋工厂
-Ubertip="工厂能生产出人工地精。"
-Hotkey=F
-EditorSuffix= (Level 2)
-
-[nfa2]
-Name=口袋工厂
-Tip= (|cffffcc00F|r)召唤口袋工厂
-Ubertip="工厂能生产出人工地精。"
-Hotkey=F
-EditorSuffix= (Level 3)
+Name=Greater Dark Minion
+Tip=Summon Dark Minion
 
 [nskk]
-Name=小蜥蜴
-Tip=召唤小蜥蜴
-Ubertip="召唤出小蜥蜴的灵魂来挽救你。"
+Name=Skink
+Tip=Invoke Skink
+Ubertip="Call upon the spirit of Skink to save you."
 
 [ncrb]
-Name=螃蟹
-Tip=召唤螃蟹
-Ubertip="能召唤一个螃蟹的灵魂来挽救你。"
+Name=Crab
+Tip=Invoke Crab
+Ubertip="Call upon the spirit of Crab to save you."
 
 [nhmc]
-Name=螃蟹隐士
-Tip=召唤螃蟹隐士
-Ubertip="能召唤一个螃蟹隐士的灵魂来挽救你。"
-
-[nech]
-Name=小鸡
-Tip=调用小鸡
-Ubertip="召唤令人惊吓的小鸡来帮助你。"
-
-[nfro]
-Name=青蛙
-Tip=调用青蛙
-Ubertip="召唤令人惊吓的青蛙来帮助你。"
-
-[necr]
-Name=兔子
-Tip=调用兔子
-Ubertip="召唤令人惊吓的兔子来帮助你。"
-
-[nrac]
-Name=浣熊
-Tip=调用浣熊
-Ubertip="召唤令人惊吓的浣熊来帮助你。"
+Name=Hermit Crab
+Tip=Invoke Hermit Crab
+Ubertip="Call upon the spirit of Hermit Crab to save you."
 
 [nalb]
-Name=信天翁
-Tip=召唤信天翁
-Ubertip="能召唤出信天翁的灵魂来挽救你。"
+Name=Albatross
+Tip=Invoke Albatross
+Ubertip="Call upon the spirit of Albatross to save you."
 
 [ntrh]
-Name=小海龟
-Tip=雇用小海龟
-Ubertip="轻型的远程攻击单位，身上的尖刺外壳能对周围敌人的近战单位造成伤害。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Sea Turtle Hatchling
+Tip=Hire Sea Turtle Hatchling
+Ubertip="Light ranged amphibious unit whose spiked shell harms enemy melee attackers. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ntrs]
-Name=海龟
-Tip=雇用海龟
-Ubertip="轻型的近战攻击单位，身上的尖刺外壳能对周围敌人的近战单位造成伤害。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Sea Turtle
+Tip=Hire Sea Turtle
+Ubertip="Light melee amphibious unit whose spiked shell harms enemy melee attackers. |n|n|cffffcc00Attacks land units.|r"
 
 [ntrt]
-Name=大海龟
-Tip=雇用巨型海龟(|cffffcc00T|r)
-Ubertip="中型的远程攻击单位，身上的尖刺外壳能对周围敌人的近战单位造成伤害。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Giant Sea Turtle
+Tip=Hire Giant Sea |cffffcc00T|rurtle
+Ubertip="Medium ranged amphibious unit whose spiked shell harms enemy melee attackers. |n|n|cffffcc00Attacks land and air units.|r"
 Hotkey=T
 
 [ntrg]
-Name=大海龟
-Tip=雇用大海龟
-Ubertip="重型近战两栖单位，身上的尖刺外壳对敌方的近战单位能造成伤害。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Gargantuan Sea Turtle
+Tip=Hire Gargantuan Sea Turtle
+Ubertip="Heavy melee amphibious unit whose spiked shell harms enemy melee attackers. |n|n|cffffcc00Attacks land units.|r"
 
 [ntrd]
-Name=龙龟
-Tip=雇用龙龟
-Ubertip="重型近战两栖单位，具有吞噬和尖刺外壳技能。还能施放冲击波。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Dragon Turtle
+Tip=Hire Dragon Turtle
+Ubertip="Heavy melee amphibious unit with Devour and Spiked Shell. Can cast Crushing Wave. |n|n|cffffcc00Attacks land units.|r"
 
 [nhyd]
-Name=九头怪蛇
-Tip=雇用九头怪蛇
-Ubertip="轻型远程攻击两栖单位，具有慢性毒药技能。当该单位被杀死的时候，许多小九头怪蛇就会从其尸体中冒出来。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Hydra
+Tip=Hire Hydra
+Ubertip="Light ranged amphibious unit with Slow Poison. When it is slain, smaller Hydras will arise from its corpse. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nhyh]
-Name=小九头怪蛇
-Tip=雇用小九头怪蛇
-Ubertip="中型远程攻击两栖单位，具有慢性毒药技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Hydra Hatchling
+Tip=Hire Hydra Hatchling
+Ubertip="Medium ranged amphibious unit with Slow Poison. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nehy]
-Name=九头怪蛇长者
-Tip=雇用九头怪蛇长者
-Ubertip="重型的远程攻击两栖单位，具有精灵之火技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Elder Hydra
+Tip=Hire Elder Hydra
+Ubertip="Heavy ranged amphibious unit with Faerie Fire. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nahy]
-Name=远古九头怪蛇
-Tip=雇用远古九头怪蛇
-Ubertip="重型的远程攻击两栖单位，具有吞噬、战争践踏和慢性毒药这三项技能。当该单位被杀死的时候，许多小九头怪蛇就会从其尸体中冒出来。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Ancient Hydra
+Tip=Hire Ancient Hydra
+Ubertip="Heavy ranged amphibious unit with Devour, War Stomp, and Slow Poison. When it is slain, smaller Hydras will arise from its corpse. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nlpr]
-Name=巨虾
-Tip=雇用巨虾
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Makrura Prawn
+Tip=Hire Makrura Prawn
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nlps]
-Name=召唤出来的巨虾
-Tip=召唤出来的巨虾
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Summoned Prawn
+Tip=Summoned Prawn
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nltc]
-Name=马库拉潮汐召唤者
-Tip=雇用马库拉潮汐召唤者
-Ubertip="轻型的远程攻击单位，具有医疗和霜冻护甲两个技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Makrura Tidecaller
+Tip=Hire Makrura Tidecaller
+Ubertip="Light ranged unit with Heal and Frost Armor. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nlpd]
-Name=马库拉池人
-Tip=雇用马库拉池人
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Makrura Pooldweller
+Tip=Hire Makrura Pooldweller
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nlds]
-Name=马库拉先知
-Tip=雇用马库拉池人(|cffffcc00D|r)
-Ubertip="中型的远程攻击单位，能施放纠缠根须和召唤巨虾。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Makrura Deepseer
+Tip=Hire Makrura |cffffcc00D|reepseer
+Ubertip="Medium ranged unit that can cast Entangling Roots and summon Prawns. |n|n|cffffcc00Attacks land and air units.|r"
 Hotkey=D
 
 [nlsn]
-Name=马库拉甲鱼
-Tip=雇用马库拉甲鱼(|cffffcc00R|r)
-Ubertip="重型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Makrura Snapper
+Tip=Hire Mak|cffffcc00r|rura Snapper
+Ubertip="Heavy melee unit. |n|n|cffffcc00Attacks land units.|r"
 Hotkey=R
 
 [nlkl]
-Name=马库拉潮汐领主
-Tip=雇用马库拉潮汐领主
-Ubertip="重型的近战单位，具有专注光环和分裂攻击这两个技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Makrura Tidal Lord
+Tip=Hire Makrura Tidal Lord
+Ubertip="Heavy melee unit with Devotion Aura and Cleaving Attack. |n|n|cffffcc00Attacks land units.|r"
 
 [nmcf]
-Name=穆格尔岩人
-Tip=雇用穆格尔岩人
-Ubertip="轻型近战两栖单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Mur'gul Cliffrunner
+Tip=Hire Mur'gul Cliffrunner
+Ubertip="Light melee amphibious unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nmbg]
-Name=穆格尔血女巫
-Tip=雇用穆格尔血女巫
-Ubertip="轻型远程攻击两栖单位，具有医疗技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Mur'gul Blood-Gill
+Tip=Hire Mur'gul Blood-Gill
+Ubertip="Light ranged amphibious unit with Heal. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nmtw]
-Name=穆格尔潮汐战士
-Tip=雇用穆格尔潮汐战士
-Ubertip="轻型近战两栖单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Mur'gul Tidewarrior
+Tip=Hire Mur'gul Tidewarrior
+Ubertip="Light melee amphibious unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nmsn]
-Name=穆格尔猎人
-Tip=雇用穆格尔猎人(|cffffcc00G|r)
-Ubertip="中型远程攻击两栖单位，具有驱逐魔法及减速技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Mur'gul Snarecaster
+Tip=Hire Mur'|cffffcc00g|rul Snarecaster
+Ubertip="Medium ranged amphibious unit with Abolish Magic and Slow. |n|n|cffffcc00Attacks land and air units.|r"
 Hotkey=G
 
 [nmrv]
-Name=穆格尔掠夺者
-Tip=雇用穆格尔掠夺者
-Ubertip="重型近战两栖单位，具有命令光环。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Mur'gul Marauder
+Tip=Hire Mur'gul Marauder
+Ubertip="Heavy melee amphibious unit with Command Aura. |n|n|cffffcc00Attacks land units.|r"
 
 [nmsc]
-Name=穆格尔影子法师
-Tip=雇用穆格尔影子法师
-Ubertip="重型的远程攻击两栖单位，具有诅咒和妖术两种技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Mur'gul Shadowcaster
+Tip=Hire Mur'gul Shadowcaster
+Ubertip="Heavy ranged amphibious unit with Curse and Hex. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nscb]
-Name=蜘蛛螃蟹
-Tip=雇用蜘蛛螃蟹(|cffffcc00C|r)
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Spider Crab Shorecrawler
+Tip=Hire Spider |cffffcc00C|rrab Shorecrawler
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 Hotkey=C
 
 [ntrv]
-Name=潮汐幽灵
-Tip=雇用潮汐幽灵
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Revenant of the Tides
+Tip=Hire Revenant of the Tides
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nsrv]
-Name=海之幽灵
-Tip=雇用海之幽灵
-Ubertip="重型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Revenant of the Seas
+Tip=Hire Revenant of the Seas
+Ubertip="Heavy melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [ndrv]
-Name=深渊幽灵
-Tip=雇用深渊幽灵
-Ubertip="重型的近战单位，能召唤海元素。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Revenant of the Depths
+Tip=Hire Revenant of the Depths
+Ubertip="Heavy melee unit who can cast Summon Sea Elemental. |n|n|cffffcc00Attacks land units.|r"
 
 [nlrv]
-Name=深渊领主幽灵
-Tip=雇用深渊领主幽灵
-Ubertip="重型的近战单位，具有冲击波和霜冻护甲这两项技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Deeplord Revenant
+Tip=Hire Deeplord Revenant
+Ubertip="Heavy melee unit with Crushing Wave and Frost Armor. |n|n|cffffcc00Attacks land units.|r"
 
 [nrel]
-Name=暗礁元素
-Tip=召唤暗礁元素
-Ubertip="轻型的远程攻击单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Reef Elemental
+Tip=Summon Reef Elemental
+Ubertip="Light ranged unit. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nsel]
-Name=海元素
-Tip=召唤海元素
-Ubertip="中型的远程攻击单位，具有重击技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Sea Elemental
+Tip=Summon Sea Elemental
+Ubertip="Medium ranged unit that can Bash opponents. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nsgn]
-Name=海巨人
-Tip=召唤海巨人
-Ubertip="轻型近战两栖单位，具有粉碎技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Sea Giant
+Tip=Summon Sea Giant
+Ubertip="Light melee amphibious unit with Pulverize. |n|n|cffffcc00Attacks land units.|r"
 
 [nsgh]
-Name=深海巨猎人
-Tip=召唤深海巨猎人
-Ubertip="重型近战两栖单位，具有诱捕和粉碎技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Sea Giant Hunter
+Tip=Summon Sea Giant Hunter
+Ubertip="Heavy melee amphibious unit with Ensnare, and Pulverize. |n|n|cffffcc00Attacks land units.|r"
 
 [nsgb]
-Name=深海巨兽
-Tip=召唤深海巨兽
-Ubertip="重型近战两栖单位，具有投石，战争践踏和粉碎技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Sea Giant Behemoth
+Tip=Summon Sea Giant Behemoth
+Ubertip="Heavy melee amphibious unit with Hurl Boulder, War Stomp, and Pulverize. |n|n|cffffcc00Attacks land units.|r"
 
 [nsko]
-Name=兽族骷髅
-Tip=召唤兽族骷髅
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Skeletal Orc
+Tip=Summon Skeletal Orc
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nsog]
-Name=兽族步兵骷髅
-Tip=召唤兽族步兵骷髅
-Ubertip="重型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Skeletal Orc Grunt
+Tip=Summon Skeletal Orc Grunt
+Ubertip="Heavy melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nsoc]
-Name=兽族战士骷髅
-Tip=召唤兽族战士骷髅
-Ubertip="重型的近战单位，具有死亡缠绕技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Skeletal Orc Champion
+Tip=Summon Skeletal Orc Champion
+Ubertip="Heavy melee unit with Death Coil. |n|n|cffffcc00Attacks land units.|r"
 
 [nsra]
-Name=风暴撕裂者学徒
-Tip=雇用风暴撕裂者学徒
-Ubertip="轻型的远程攻击单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Stormreaver Apprentice
+Tip=Hire Stormreaver Apprentice
+Ubertip="Light ranged unit. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nsrh]
-Name=风暴撕裂者隐士
-Tip=雇用风暴撕裂者隐士
-Ubertip="轻型的远程攻击单位，具有净化技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Stormreaver Hermit
+Tip=Hire Stormreaver Hermit
+Ubertip="Light ranged unit with Purge. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nsrn]
-Name=风暴撕裂者术士
-Tip=雇用风暴撕裂者术士
-Ubertip="重型的远程攻击单位，具有嗜血术和闪电链这两个技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Stormreaver Necrolyte
+Tip=Hire Stormreaver Necrolyte
+Ubertip="Heavy ranged unit with Bloodlust and Chain Lightning. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nsrw]
-Name=风暴撕裂者巫师
-Tip=雇用风暴撕裂者巫师
-Ubertip="重型的远程攻击单位，具有季风和操纵死尸这两项技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Stormreaver Warlock
+Tip=Hire Stormreaver Warlock
+Ubertip="Heavy ranged unit with Monsoon and Animate Dead. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nbot]
-Name=运输船
+Name=Transport Ship
 Hotkey=T
-Tip=雇用运输船(|cffffcc00T|r)
-Ubertip="能运载单位的海上船只。"
+Tip=Hire |cffffcc00T|rransport Ship
+Ubertip="A sea vessel capable of carrying units."
 
 [nfrp]
-Name=熊猫
-Tip=雇用熊猫
-Ubertip="中型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Pandaren
+Tip=Hire Pandaren
+Ubertip="Medium melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [Nngs]
-Name=娜迦女海巫
-Propernames=阿纳-康多拉,茜拉-暗影,乌瑟拉-蛇鬃,毒舌女巫,毒蛇女巫,黑暗女巫,塞丽娜-鳞伤,阿斯帕拉-瑟芭斯,维恩娜-海之风暴,查理布-迪莎
+Name=Naga Sea Witch
+Propernames=Anna Kondra,Scilla Murkshadow,Ursula Snakemane,Lady Venomtongue,Lady Serpentra,Lady Darkscale,Serena Scarscale,Asprah Serpus,Venna Seastorm,Charib'dishal
 Hotkey=G
-Tip=召唤娜迦女海巫(|cffffcc00G|r)
-Ubertip="一位神秘的英雄，擅长于远距离战斗。能学习到叉状闪电、霜冻之箭、魔法护盾和龙卷风。|n|n|cffffcc00能攻击地面和空中单位。|r"
-Revivetip=复活娜迦女海巫(|cffffcc00G|r)
-Awakentip=复活娜迦女海巫(|cffffcc00G|r)
+Tip=Summon Na|cffffcc00g|ra Sea Witch
+Ubertip="Mystical Hero, adept at ranged combat. Can learn Forked Lightning, Frost Arrows, Mana Shield, and Tornado. |n|n|cffffcc00Attacks land and air units.|r"
+Revivetip=Revive Na|cffffcc00g|ra Sea Witch
+Awakentip=Revive Na|cffffcc00g|ra Sea Witch
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-seawitch.blp
 
 [Nplh]
-Name=深渊魔王
-Propernames=阿哥勒尔,布鲁特里斯,蒙哥瑟德,迪斯麦斯,高哥那斯,麦哥瑟里登
+Name=Pit Lord
+Propernames=Azgalor,Brutillus,Mongrethod,Destromath,Gogonnash
 Hotkey=I
-Tip=召唤深渊魔王(|cffffcc00I|r)
-Ubertip="战士型英雄，善于恐吓敌人。可以学习火焰雨、恐怖嚎叫、分裂攻击和魔鬼缠身。|n|n|cffffcc00攻击地面单位。|r"
-Revivetip=复活深渊魔王(|cffffcc00I|r)
-Awakentip=复活深渊魔王(|cffffcc00I|r)
+Tip=Summon P|cffffcc00i|rt Lord
+Ubertip="Warrior Hero, adept at terrorizing enemies. Can learn Rain of Fire, Howl of Terror, Cleaving Attack, and Doom. |n|n|cffffcc00Attacks land units.|r"
+Revivetip=Revive P|cffffcc00i|rt Lord
+Awakentip=Revive P|cffffcc00i|rt Lord
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-pitlord.blp
 
 [Nbst]
-Name=驯兽师
-Propernames=玛格-熊锤,塔克-熊爪,高须-鹰爪毒牙,马克思-大鹏鬃毛,盖兹-野猪獠牙,莫克-鹏喙,吉须-鹰眼
+Name=Beastmaster
+Propernames=Mag Bearmaul,Tagar Bearclaw,Gorsh Talonfang,Maxx Rocmane,Gaz Boartusk,Mok Rocksnout,Gish Eagle Eye
 Hotkey=S
-Tip=召唤驯兽师(|cffffcc00S|r)
-Ubertip="战斗型英雄，善于在战场上召唤野兽来加入战斗。可以学习召唤灰熊，召唤豪猪，召唤战鹰和惊吓四个技能。|n|n|cffffcc00能攻击地面单位。|r"
-Revivetip=复活驯兽师(|cffffcc00S|r)
-Awakentip=复活驯兽师(|cffffcc00S|r)
+Tip=Summon Bea|cffffcc00s|rtmaster
+Ubertip="Warrior Hero, adept at summoning beasts into battle. Can learn Summon Bear, Summon Quilbeast, Summon Hawk, and Stampede. |n|n|cffffcc00Attacks land units.|r"
+Revivetip=Revive Bea|cffffcc00s|rtmaster
+Awakentip=Revive Bea|cffffcc00s|rtmaster
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-beastmaster.blp
 
 [ngz1]
-Name=熊
-EditorSuffix= (等级 1)
+Name=Bear
+EditorSuffix= (Level 1)
 
 [ngz2]
-Name=怒熊
-EditorSuffix= (等级 2)
+Name=Raging Bear
+EditorSuffix= (Level 2)
 
 [ngz3]
-Name=灵魂之熊
-EditorSuffix= (等级 3)
+Name=Spirit Bear
+EditorSuffix= (Level 3)
 
 [nwe1]
-Name=战鹰
-EditorSuffix= (等级 1)
+Name=Hawk
+EditorSuffix= (Level 1)
 
 [nwe2]
-Name=雷霆战鹰
-EditorSuffix= (等级 2)
+Name=Thunder Hawk
+EditorSuffix= (Level 2)
 
 [nwe3]
-Name=影子战鹰
-EditorSuffix= (等级 3)
+Name=Spirit Hawk
+EditorSuffix= (Level 3)
 
 [nqb1]
-Name=豪猪
-EditorSuffix= (等级 1)
+Name=Quilbeast
+EditorSuffix= (Level 1)
 
 [nqb2]
-Name=凶恶豪猪
-EditorSuffix= (等级 2)
+Name=Dire Quilbeast
+EditorSuffix= (Level 2)
 
 [nqb3]
-Name=影子豪猪
-EditorSuffix= (等级 3)
+Name=Raging Quilbeast
+EditorSuffix= (Level 3)
 
 [ntor]
-Name=龙卷风
+Name=Tornado
 
 [nsc2]
-Name=蜘蛛螃蟹肢体撕裂者
-Tip=雇用蜘蛛螃蟹(|cffffcc00C|r)
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Spider Crab Limbripper
+Tip=Hire Spider |cffffcc00C|rrab
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 Hotkey=C
 
 [nsc3]
-Name=蜘蛛螃蟹巨兽
-Tip=雇用蜘蛛螃蟹(|cffffcc00C|r)
-Ubertip="重型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Spider Crab Behemoth
+Tip=Hire Spider |cffffcc00C|rrab
+Ubertip="Heavy melee unit. |n|n|cffffcc00Attacks land units.|r"
 Hotkey=C
 
 //#RestNoBeta
 
-
-
 [nmam]
-Name=猛犸
-Tip=雇用猛犸
-Ubertip="中型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Mammoth
+Tip=Hire Mammoth
+Ubertip="Medium melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nmit]
-Name=冰牙猛犸
-Tip=雇用冰牙猛犸
-Ubertip="重型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Icetusk Mammoth
+Tip=Hire Icetusk Mammoth
+Ubertip="Heavy melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nmdr]
-Name=恐怖猛犸
-Tip=雇用恐怖猛犸
-Ubertip="重型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Dire Mammoth
+Tip=Hire Dire Mammoth
+Ubertip="Heavy melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nfgo]
-Name=遗忘者
-Tip=雇用遗忘者
-Ubertip="远古的神秘生物，能对敌人吐出火焰进行攻击。能学习到产卵触角，霹雳闪电和符咒技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Forgotten One
+Tip=Hire Forgotten One
+Ubertip="An ancient and powerful creature who hurls fire at its enemies. Can cast Spawn Tentacle, Firebolt, and Charm. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nfgt]
-Name=触须
-Ubertip="来自地底的粗糙触角。|n|n|cffffcc00攻击地面单位。|r"
+Name=Tentacle
+Ubertip="A gnarly tentacle from the depths. |n|n|cffffcc00Attacks land units.|r"
 
 [ntkf]
-Name=图斯卡尔格斗者
-Tip=雇用图斯卡尔格斗者
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Tuskarr Fighter
+Tip=Hire Tuskarr Fighter
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [ntka]
-Name=图斯卡尔枪兵
-Tip=雇用图斯卡尔枪兵
-Ubertip="轻型的远程攻击单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Tuskarr Spearman
+Tip=Hire Tuskarr Spearman
+Ubertip="Light ranged unit. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ntkw]
-Name=图斯卡尔战士
-Tip=雇用图斯卡尔战士
-Ubertip="中型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Tuskarr Warrior
+Tip=Hire Tuskarr Warrior
+Ubertip="Medium melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [ntkt]
-Name=图斯卡尔猎人
-Tip=雇用图斯卡尔猎人
-Ubertip="中型的远程攻击单位，具有诱捕技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Tuskarr Trapper
+Tip=Hire Tuskarr Trapper
+Ubertip="Medium ranged unit with Ensnare. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ntkc]
-Name=图斯卡尔酋长
-Tip=雇用图斯卡尔酋长
-Ubertip="重型的近战单位，具有命令光环。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Tuskarr Chieftain
+Tip=Hire Tuskarr Chieftain
+Ubertip="Heavy melee unit with Command Aura. |n|n|cffffcc00Attacks land units.|r"
 
 [ntkh]
-Name=图斯卡尔巫师
-Tip=雇用图斯卡尔巫师
-Ubertip="轻型的远程攻击单位，具有医疗和驱逐魔法。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Tuskarr Healer
+Tip=Hire Tuskarr Healer
+Ubertip="Light ranged unit with Heal and Abolish Magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ntks]
-Name=图斯卡尔男巫
-Tip=雇用图斯卡尔男巫
-Ubertip="中型的远程攻击单位，具有心灵之火技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Tuskarr Sorcerer
+Tip=Hire Tuskarr Sorcerer
+Ubertip="Medium ranged unit with Inner Fire. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nbdm]
-Name=龙卵盗贼
-Tip=雇用龙卵盗贼(|cffffcc00D|r)
+Name=Blue Dragonspawn Meddler
+Tip=Hire Blue |cffffcc00D|rragonspawn Meddler
 Hotkey=D
-Ubertip="轻型的近战单位，具有闪避技能。|n|n|cffffcc00能攻击地面单位。|r"
+Ubertip="Light melee unit with Evasion. |n|n|cffffcc00Attacks land units.|r"
 
 [nbdw]
-Name=龙卵战士
-Tip=雇用龙卵战士
-Ubertip="重型的近战单位，具有闪避技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Blue Dragonspawn Warrior
+Tip=Hire Blue Dragonspawn Warrior
+Ubertip="Heavy melee unit with Evasion. |n|n|cffffcc00Attacks land units.|r"
 
 [nbdo]
-Name=龙卵领主
-Tip=雇用龙卵领主
-Ubertip="重型的近战单位，具有霜冻闪电，专注光环和闪避技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Blue Dragonspawn Overseer
+Tip=Hire Blue Dragonspawn Overseer
+Ubertip="Heavy melee unit with Breath of Frost, Devotion Aura, and Evasion. |n|n|cffffcc00Attacks land units.|r"
 
 [nbda]
-Name=龙卵学徒
-Tip=雇用龙卵学徒
-Ubertip="轻型的远程攻击单位，具有闪避和生命恢复技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Blue Dragonspawn Apprentice
+Tip=Hire Blue Dragonspawn Apprentice
+Ubertip="Light ranged unit with Evasion and Rejuvenation. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nbds]
-Name=龙之男巫
-Tip=雇用龙之男巫
-Ubertip="中型的远程攻击单位，具有闪避和霜冻新星技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Blue Dragonspawn Sorcerer
+Tip=Hire Blue Dragonspawn Sorcerer
+Ubertip="Medium ranged unit with Evasion and Frost Nova. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nmgw]
-Name=玛格娜托战士
-Tip=雇用玛格娜托战士(|cffffcc00W|r)
+Name=Magnataur Warrior
+Tip=Hire Magnataur |cffffcc00W|rarrior
 Hotkey=W
-Ubertip="重型的近战单位。对魔法免疫。|n|n|cffffcc00能攻击地面单位。|r"
+Ubertip="Heavy melee unit. Immune to spells. |n|n|cffffcc00Attacks land units.|r"
 
 [nmgr]
-Name=玛格娜托撕裂者
-Tip=雇用玛格娜托撕裂者
-Ubertip="重型的近战单位。能对敌人投掷霜冻之箭，对魔法免疫。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Magnataur Reaver
+Tip=Hire Magnataur Reaver
+Ubertip="Heavy melee unit that hurls bolts of frost at opponents. Immune to spells. |n|n|cffffcc00Attacks land units.|r"
 
 [nmgd]
-Name=玛格娜托破坏者
-Tip=雇用玛格娜托破坏者
-Ubertip="重型的近战单位，具有重击和投掷冰箭技能，魔法免疫。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Magnataur Destroyer
+Tip=Hire Magnataur Destroyer
+Ubertip="Heavy melee unit that can Slam opponents and hurl bolts of frost. Immune to spells. |n|n|cffffcc00Attacks land units.|r"
 
 [nanc]
-Name=水晶阿卡那瑟德
-Tip=雇用水晶阿卡那瑟德
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Crystal Arachnathid
+Tip=Hire Crystal Arachnathid
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nanb]
-Name=阿卡那瑟德刺人
-Tip=雇用阿卡那瑟德刺人(|cffffcc00B|r)
+Name=Barbed Arachnathid
+Tip=Hire |cffffcc00B|rarbed Arachnathid
 Hotkey=B
-Ubertip="轻型的远程攻击单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Light ranged unit. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nanm]
-Name=阿卡那瑟德刺人
-Tip=雇用阿卡那瑟德刺人(|cffffcc00B|r)
+Name=Barbed Arachnathid
+Tip=Hire |cffffcc00B|rarbed Arachnathid
 Hotkey=B
-Ubertip="轻型远程攻击单位，具有钻地技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Light ranged unit that has the Burrow ability. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nbnb]
-Name=钻地的阿卡那瑟德刺人
-Tip=雇用阿卡那瑟德刺人
-Ubertip="轻型的远程攻击单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Burrowed Barbed Arachnathid
+Tip=Hire Barbed Arachnathid
+Ubertip="Light ranged unit. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nanw]
-Name=阿卡那瑟德战士
-Tip=雇用阿卡那瑟德战士
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Warrior Arachnathid
+Tip=Hire Warrior Arachnathid
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nane]
-Name=阿卡那瑟德掘地者 
-Tip=雇用阿卡那瑟德掘地者 
-Ubertip="中型的远程攻击单位，具有浸毒武器和暗影突袭技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Arachnathid Earth-borer 
+Tip=Hire Arachnathid Earth-borer 
+Ubertip="Medium ranged unit with Envenomed Weapons and Shadow Strike. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nano]
-Name=阿卡那瑟德领主
-Tip=雇用阿卡那瑟德领主
-Ubertip="重型的近战单位，具有命令光环。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Overlord Arachnathid
+Tip=Hire Overlord Arachnathid
+Ubertip="Heavy melee unit with Command Aura. |n|n|cffffcc00Attacks land units.|r"
 
 [nfor]
-Name=无名骗士
-Tip=雇用无名骗士
-Ubertip="重型的近战单位，具有净化和诅咒技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Faceless One Trickster
+Tip=Hire Faceless One Trickster
+Ubertip="Heavy melee unit with Purge and Curse. |n|n|cffffcc00Attacks land units.|r"
 
 [nfot]
-Name=无名恐怖者
-Tip=雇用无名恐怖者
-Ubertip="重型的远程攻击单位，能发射闪电攻击，同时具有睡眠和魔法护盾技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Faceless One Terror
+Tip=Hire Faceless One Terror
+Ubertip="Heavy ranged unit that hurls bolts of lightning. Can cast Sleep and Mana Shield. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nfod]
-Name=无名死灵
-Tip=雇用无名死灵
-Ubertip="重型的远程攻击，能进行闪电攻击，施放沉默魔法和操纵死尸技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Faceless One Deathbringer
+Tip=Hire Faceless One Deathbringer
+Ubertip="Heavy ranged unit that hurls bolts of lightning. Can cast Silence and Animate Dead. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nubk]
-Name=无敌黑暗猎人
-Tip=雇用无敌黑暗猎人
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Unbroken Darkhunter
+Tip=Hire Unbroken Darkhunter
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nubr]
-Name=无敌狂暴者
-Tip=雇用无敌狂暴者
-Ubertip="中型的近战单位。能施放诱捕技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Unbroken Rager
+Tip=Hire Unbroken Rager
+Ubertip="Medium melee unit. Can cast ensnare. |n|n|cffffcc00Attacks land units.|r"
 
 [nubw]
-Name=无敌黑暗舞者
-Tip=雇用无敌黑暗舞者
-Ubertip="中型近战单位，具有邪恶狂热技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Unbroken Darkweaver
+Tip=Hire Unbroken Darkweaver
+Ubertip="Medium melee unit with Unholy Frenzy. |n|n|cffffcc00Attacks land units.|r"
 
 [nplb]
-Name=北极熊
-Tip=雇用北极熊
-Ubertip="中型近战两栖单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Polar Bear
+Tip=Hire Polar Bear
+Ubertip="Medium melee amphibious unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nplg]
-Name=巨型北极熊
-Tip=雇用巨型北极熊
-Ubertip="重型近战两栖单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Giant Polar Bear
+Tip=Hire Giant Polar Bear
+Ubertip="Heavy melee amphibious unit. |n|n|cffffcc00Attacks land units.|r"
 
 [ncfs]
-Name=水奴
-Tip=召唤水奴
-Ubertip="轻型近战两栖单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Watery Minion
+Tip=Summon Watery Minion
+Ubertip="Light melee amphibious unit. |n|n|cffffcc00Attacks land units.|r"
 
 [ntws]
-Name=水奴
-Tip=召唤水奴
-Ubertip="轻型近战两栖单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Watery Minion
+Tip=Summon Watery Minion
+Ubertip="Light melee amphibious unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nsns]
-Name=水奴
-Tip=召唤水奴
-Ubertip="中型远程攻击两栖单位，具有驱逐魔法及减速技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Watery Minion
+Tip=Summon Watery Minion
+Ubertip="Medium ranged amphibious unit with Abolish Magic and Slow. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ngni]
-Name=腐烂谷仓
-Tip=建造腐烂谷仓
-Description=里面都是糜烂的谷物。
+Name=Infected Granary
+Tip=Build Infected Granary
+Description=A decaying silo full of diseased grain.
 
 [ngwr]
-Name=谷仓
-Tip=建造谷仓
-Description=一种为了存贮粮食而造的建筑物。
+Name=Grain Warehouse
+Tip=Build Grain Warehouse
+Description=A storage building for grain.
 
 [nfpl]
-Name=北极熊怪
-Tip=雇用北极熊怪
-Ubertip="中型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Polar Furbolg
+Tip=Hire Polar Furbolg
+Ubertip="Medium melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nfpc]
-Name=北极熊怪战士
-Tip=雇用北极熊怪战士
-Ubertip="重型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Polar Furbolg Champion
+Tip=Hire Polar Furbolg Champion
+Ubertip="Heavy melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nfpe]
-Name=北极熊怪萨满长者
-Tip=雇用北极熊怪萨满长者
-Ubertip="重型的远程攻击单位，具有霜冻新星和医疗波技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Polar Furbolg Elder Shaman
+Tip=Hire Polar Furbolg Elder Shaman
+Ubertip="Heavy ranged unit with Frost Nova and Healing Wave. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nfps]
-Name=北极熊怪萨满
-Tip=雇用北极熊怪萨满(|cffffcc00F|r)
+Name=Polar Furbolg Shaman
+Tip=Hire Polar |cffffcc00F|rurbolg Shaman
 Hotkey=F
-Ubertip="中型的远程攻击单位，具有驱逐魔法和霜冻护甲技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Medium ranged unit with Abolish Magic and Frost Armor. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nfpu]
-Name=北极熊怪乌萨战士
-Tip=雇用北极熊怪乌萨战士
-Ubertip="重型的近战单位，具有命令光环和战争践踏技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Polar Furbolg Ursa Warrior
+Tip=Hire Polar Furbolg Ursa Warrior
+Ubertip="Heavy melee unit with Command Aura and War Stomp. |n|n|cffffcc00Attacks land units.|r"
 
 [nfpt]
-Name=北极熊怪追踪者
-Tip=雇用北极熊怪追踪者
-Ubertip="重型的近战单位，能减速敌人。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Polar Furbolg Tracker
+Tip=Hire Polar Furbolg Tracker
+Ubertip="Heavy melee unit that can Slow opponents. |n|n|cffffcc00Attacks land units.|r"
 
 [nmgv]
-Name=魔法宝箱
+Name=Magic Vault
 Tip=Purchase Magic |cffffcc00V|rault
 Hotkey=V
-Tip=建造魔法宝箱
-Ubertip="在每个盒子里面都藏着一个秘密。"
-Description=有着神秘文字封印的箱子，在这种箱子里面往往有着宝物。
+Tip=Build Magic Vault
+Ubertip="A secret lies within every box."
+Description=A vault sealed with glowing runes. Often such vaults hold magical treasures.
 
 [nitb]
-Name=冰之宝盒
-Tip=购买冰之宝盒(|cffffcc00B|r)
+Name=Icy Treasure Box
+Tip=Purchase Icy Treasure |cffffcc00B|rox
 Hotkey=B
 Tip=Build Treasure Box
-Ubertip="里面有着宝藏。"
-Description=被寒冰封印着的盒子，通常在这种盒子里面有着神奇的宝物。
+Ubertip="A treasure lies frozen within."
+Description=A box sealed by solid ice. Often such boxes hold magical treasures.
 
 [nmrd]
-Name=雇佣兵营地
-EditorSuffix= (寒冰皇冠冰川)
-Tip=建造雇佣兵营地
-Description=能让你雇用各式各样的雇佣兵。
+Name=Mercenary Camp
+EditorSuffix= (Icecrown Glacier)
+Tip=Build Mercenary Camp
+Description=Allows you to hire various mercenaries.
 
 [nmre]
-Name=雇佣兵营地
-EditorSuffix= (边缘之地)
-Tip=建造雇佣兵营地
-Description=能让你雇用各式各样的雇佣兵。
+Name=Mercenary Camp
+EditorSuffix= (Outland)
+Tip=Build Mercenary Camp
+Description=Allows you to hire various mercenaries.
 
 [nmrf]
-Name=雇佣兵营地
-EditorSuffix= (黑色城堡)
-Tip=建造雇佣兵营地
-Description=能让你雇用各式各样的雇佣兵。
+Name=Mercenary Camp
+EditorSuffix= (Black Citadel)
+Tip=Build Mercenary Camp
+Description=Allows you to hire various mercenaries.
 
 // outland dragon roost building
 [ndro]
-Name=耐瑟龙栖木
-Tip=建造耐瑟龙之栖木
-Description=允许你召唤耐瑟龙。
+Name=Nether Dragon Roost
+Tip=Build Nether Dragon Roost
+Description=Allows you to call forth Nether Dragons.
 
 [npng]
-Name=企鹅
-Tip=召唤企鹅
-Ubertip="能召唤出企鹅的灵魂来挽救你。"
+Name=Penguin
+Tip=Invoke Penguin
+Ubertip="Call upon the spirit of Penguin to save you."
 
 [npnw]
-Name=企鹅
-Tip=召唤企鹅
-Ubertip="能召唤出企鹅的灵魂来挽救你。"
-EditorSuffix= (水生的)
+Name=Penguin
+Tip=Invoke Penguin
+Ubertip="Call upon the spirit of Penguin to save you."
+EditorSuffix= (Waterborne)
 
 [nrat]
-Name=老鼠
-Tip=召唤老鼠
-Ubertip="召唤出老鼠的灵魂来挽救你。"
+Name=Rat
+Tip=Invoke Rat
+Ubertip="Call upon the spirit of Rat to save you."
 
 [nsno]
-Name=雪鹰
-Tip=召唤雪鹰
-Ubertip="召唤出雪鹰的灵魂来挽救你。"
+Name=Snowy Owl
+Tip=Invoke Snowy Owl
+Ubertip="Call upon the spirit of Snowy Owl to save you."
 
 [nfbr]
-Name=野猪
-Tip=召唤野猪
-Ubertip="召唤出野猪的灵魂来挽救你。"
+Name=Fel Boar
+Tip=Invoke Fel Boar
+Ubertip="Call upon the spirit of Fel Boar to save you."
 
 [ndwm]
-Name=沙丘之虫
-Tip=呼出沙丘之虫
-Ubertip="召唤沙丘之虫的灵魂来保护你。"
+Name=Dune Worm
+Tip=Invoke Dune Worm
+Ubertip="Call upon the spirit of Dune Worm to save you."
 
 [nvk2]
-Name=小孩
-Tip=雇用村民
-Ubertip="一个小村民。"
+Name=Child
+Tip=Hire Villager
+Ubertip="A tiny villager."
 EditorSuffix= (2)
 
 [nvl2]
-Name=村民
-Tip=雇用村民
-Ubertip="一个热心的村民。"
-EditorSuffix= (男性 2)
+Name=Villager
+Tip=Hire Villager
+Ubertip="A hearty villager."
+EditorSuffix= (Male 2)
 
 [nwc1]
-Name=双足飞龙牢笼
-Tip=建造双足飞龙牢笼
+Name=Wyvern Cage
+Tip=Build Wyvern Cage
 EditorSuffix= (1)
-Description=专门设计为囚禁双足飞龙的笼子。
+Description=A sturdy cage designed to hold Wyverns captive.
 
 [nwc2]
-Name=双足飞龙牢笼
-Tip=建造双足飞龙牢笼
+Name=Wyvern Cage
+Tip=Build Wyvern Cage
 EditorSuffix= (2)
-Description=专门设计为囚禁双足飞龙的笼子。
+Description=A sturdy cage designed to hold Wyverns captive.
 
 [nzom]
-Name=僵尸
-Tip=召唤僵尸
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Zombie
+Tip=Summon Zombie
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [npfl]
-Name=狂暴野兽
-Tip=召唤狂暴野兽(|cffffcc00F|r)
+Name=Fel Beast
+Tip=Summon |cffffcc00F|rel Beast
 Hotkey=F
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [npfm]
-Name=狂暴洗劫者
-Tip=召唤狂暴洗劫者
-Ubertip="重型近战单位，可以施放黑暗之箭及吞噬魔法。|n|n|cffffcc00攻击陆地单位。|r"
+Name=Fel Ravager
+Tip=Summon Fel Ravager
+Ubertip="Heavy melee unit that casts Black Arrow. Can also cast Devour Magic. |n|n|cffffcc00Attacks land units.|r"
 
 [ndqn]
-Name=女妖精
-Tip=雇用女妖精
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Succubus
+Tip=Hire Succubus
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [ndqv]
-Name=恶男
-Tip=雇用恶男
-Ubertip="中型近战单位，可以施放沉默魔法。|n|n|cffffcc00攻击陆地单位。|r"
+Name=Vile Tormentor
+Tip=Hire Vile Tormentor
+Ubertip="Medium melee unit that can cast Silence. |n|n|cffffcc00Attacks land units.|r"
 
 [ndqt]
-Name=恶妇
-Tip=雇用恶妇
-Ubertip="重型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Vile Temptress
+Tip=Hire Vile Temptress
+Ubertip="Heavy melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [ndqp]
-Name=痛苦少女
-Tip=雇用痛苦少女
-Ubertip="重型近战单位，可以施放生命汲取和暗影突袭技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Maiden of Pain
+Tip=Hire Maiden of Pain
+Ubertip="Heavy melee unit that can cast Life Drain and Shadow Strike. |n|n|cffffcc00Attacks land units.|r"
 
 [ndqs]
-Name=苦难女王
-Tip=雇用苦难女王
-Ubertip="重型近战单位，有死亡缠绕，邪恶光环和符咒技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Queen of Suffering
+Tip=Hire Queen of Suffering
+Ubertip="Heavy melee unit with Death Coil, Unholy Aura and Charm. |n|n|cffffcc00Attacks land units.|r"
 
 [nmg0]
-Name=穆格尔小屋
-Tip=建造穆格尔小屋
+Name=Mur'gul Hut
+Tip=Build Mur'gul Hut
 EditorSuffix= 0
-Description=一种由竹子做成的小型了望塔。
+Description=A small lookout tower made of bamboo.
 
 [nmg1]
-Name=穆格尔小屋
-Tip=建造穆格尔小屋
+Name=Mur'gul Hut
+Tip=Build Mur'gul Hut
 EditorSuffix= 1
-Description=一种由竹子做成的大型了望塔。
+Description=A large lookout tower made of bamboo.
 
 [nfgu]
-Name=狂暴守卫
-Tip=雇用狂暴守卫
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Felguard
+Tip=Hire Felguard
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [nfgb]
-Name=血恶魔
-Tip=雇用血恶魔
-Ubertip="中型近战单位。有分裂攻击技能。|n|n|cffffcc00攻击陆地单位。|r"
+Name=Bloodfiend
+Tip=Hire Bloodfiend
+Ubertip="Medium melee unit with Cleaving Attack. |n|n|cffffcc00Attacks land units.|r"
 
 [nfov]
-Name=领主
-Tip=雇用领主
-Ubertip="重型近战单位，有分裂攻击，吸血光环和恐怖嚎叫技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Overlord
+Tip=Hire Overlord
+Ubertip="Heavy melee unit with Howl of Terror, Cleaving Attack and Vampiric Aura. |n|n|cffffcc00Attacks land units.|r"
 
 [ndrf]
-Name=达拉内尔守卫
-Tip=雇用达拉内尔守卫
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Draenei Guardian
+Tip=Hire Draenei Guardian
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [ndrt]
-Name=达拉内尔漫步者
-Tip=雇用达拉内尔漫步者
-Ubertip="重型的近战单位。具有隐形，诱捕和闪避技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Draenei Stalker
+Tip=Hire Draenei Stalker
+Ubertip="Light melee unit with permanent invisibility, Ensnare and Evasion. |n|n|cffffcc00Attacks land units.|r"
 
 [ndrn]
-Name=达拉内尔辩护者
-Tip=雇用达拉内尔辩护者
-Ubertip="重型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Draenei Vindicator
+Tip=Hire Draenei Vindicator
+Ubertip="Heavy melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [ndrp]
-Name=达拉内尔护卫
-Tip=雇用达拉内尔护卫
-Ubertip="轻型近战单位，有诱捕技能。|n|n|cffffcc00攻击陆地单位。|r"
+Name=Draenei Protector
+Tip=Hire Draenei Protector
+Ubertip="Light melee unit with Ensnare. |n|n|cffffcc00Attacks land units.|r"
 
 [ndrw]
-Name=达拉内尔哨兵
-Tip=雇用达拉内尔哨兵
-Ubertip="轻型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Draenei Watcher
+Tip=Hire Draenei Watcher
+Ubertip="Light melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [ndrd]
-Name=达拉内尔暗黑屠杀者
-Tip=雇用达拉内尔黑暗屠杀者(|cffffcc00S|r)
+Name=Draenei Darkslayer
+Tip=Hire Draenei Dark|cffffcc00s|rlayer
 Hotkey=S
-Ubertip="中型近战单位，有献祭技能。|n|n|cffffcc00攻击陆地单位。|r"
+Ubertip="Medium melee unit with Immolation. |n|n|cffffcc00Attacks land units.|r"
 
 [ndrm]
-Name=达拉内尔信徒
-Tip=雇用达拉内尔信徒(|cffffcc00D|r)
+Name=Draenei Disciple
+Tip=Hire Draenei |cffffcc00D|risciple
 Hotkey=D
-Ubertip="轻型远程单位，可以施放治疗。|n|n|cffffcc00攻击陆地和空中单位。|r"
+Ubertip="Light ranged unit that casts Heal. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ndrh]
-Name=达拉内尔先驱
-Tip=雇用达拉内尔先驱
-Ubertip="中型远程单位，有嗜血术和瓦解光线技能。|n|n|cffffcc00攻击陆地和空中单位。|r"
+Name=Draenei Harbinger
+Tip=Hire Draenei Harbinger
+Ubertip="Medium ranged unit with Bloodlust and Cast Ray of Disruption. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ndrs]
-Name=达拉内尔先知
-Tip=雇用达拉内尔先知
-Ubertip="重型远程攻击单位，具有辉煌光环。 可以施放减速和医疗波技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Draenei Seer
+Tip=Hire Draenei Seer
+Ubertip="Heavy ranged unit with Brilliance Aura. Can cast Slow and Healing Wave. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ninc]
-Name=地狱火机关人
-Tip=雇用地狱火机关人
-Ubertip="中型远程单位，能射出炽烈之箭。|n|n|cffffcc00能攻击陆地和空中单位。|r"
+Name=Infernal Contraption
+Tip=Hire Infernal Contraption
+Ubertip="Medium ranged unit that hurls fiery missiles. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ninm]
-Name=地狱火机械人
-Tip=雇用地狱火机械人
-Ubertip="重型远程单位，能射出炽烈之箭。可以施放火焰呼吸。|n|n|cffffcc00能攻击陆地和空中单位。|r"
+Name=Infernal Machine
+Tip=Hire Infernal Machine
+Ubertip="Heavy ranged unit that hurls fiery missiles. Can cast Breath of Fire. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nina]
-Name=地狱战舰
-Tip=雇用地狱战舰
-Ubertip="重型远程攻击单位，能发射炽烈之箭。可以施放地狱火。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Infernal Juggernaut
+Tip=Hire Infernal Juggernaut
+Ubertip="Heavy ranged unit that hurls fiery missiles. Can cast Inferno. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nvdl]
-Name=小型虚无行者
-Tip=雇用小型虚无行者
-Ubertip="轻型的远程攻击单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Lesser Voidwalker
+Tip=Hire Lesser Voidwalker
+Ubertip="Light ranged unit. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nvdw]
-Name=虚无行者
-Tip=雇用虚无行者(|cffffcc00V|r)
+Name=Voidwalker
+Tip=Hire |cffffcc00V|roidwalker
 Hotkey=V
-Ubertip="轻型远程单位，有冰冻之箭。|n|n|cffffcc00攻击陆地和空中单位。|r"
+Ubertip="Light ranged unit with Cold Arrows. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nvdg]
-Name=巨大虚无行者长老
-Tip=雇用巨大虚无行者(|cffffcc00V|r)
+Name=Greater Voidwalker
+Tip=Hire Greater |cffffcc00V|roidwalker
 Hotkey=V
-Ubertip="重型远程攻击单位。可以施放闪电链和霜冻护甲技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Heavy ranged unit that casts Chain Lightning and Frost Armor. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nvde]
-Name=虚无行者长老
-Tip=雇用虚无行者长老
-Ubertip="重型远程攻击单位，可以施放吞噬魔法和叉状闪电技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Elder Voidwalker
+Tip=Hire Elder Voidwalker
+Ubertip="Heavy ranged unit that can cast Devour Magic and Forked Lightning. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nnht]
-Name=耐瑟幼龙
-Tip=雇用耐瑟幼龙(|cffffcc00H|r)
+Name=Nether Dragon Hatchling
+Tip=Summon Nether Dragon |cffffcc00H|ratchling
 Hotkey=H
-Ubertip="小型的远程攻击飞行单位。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Tiny ranged flying unit. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nndk]
-Name=耐瑟蜉蝣
-Tip=雇用耐瑟蜉蝣(|cffffcc00K|r)
+Name=Nether Drake
+Tip=Summon Nether Dra|cffffcc00k|re
 Hotkey=K
-Ubertip="重型远程飞行单位。|n|n|cffffcc00攻击陆地和空中单位。|r"
+Ubertip="Heavy ranged flying unit. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nndr]
-Name=耐瑟龙
-Tip=雇用耐瑟龙(|cffffcc00D|r)
+Name=Nether Dragon
+Tip=Summon Nether |cffffcc00D|rragon
 Hotkey=D
-Ubertip="重型远程飞行单位，可以残废敌人并且对魔法免疫。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Ubertip="Heavy ranged flying unit that can cast Cripple and is immune to magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [ners]
-Name=埃瑞达男巫
-Tip=雇用埃瑞达男巫
-Ubertip="轻型远程攻击单位，可以施放驱逐魔法和睡眠技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Eredar Sorcerer
+Tip=Hire Eredar Sorcerer
+Ubertip="Light ranged unit that casts Sleep and Abolish Magic. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nerd]
-Name=埃瑞达-信魔者
-Tip=雇用埃瑞达-信魔者
-Ubertip="重型远程攻击单位，可以施放寄生虫和霹雳闪电技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Eredar Diabolist
+Tip=Hire Eredar Diabolist
+Ubertip="Heavy ranged unit that casts Firebolt and Parasite. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nerw]
-Name=埃瑞达法师
-Tip=雇用埃瑞达法师
-Ubertip="重型远程单位，有重击技能。可以施放痛苦之指和魔力护盾。|n|n|cffffcc00攻击陆地和空中单位。|r"
+Name=Eredar Warlock
+Tip=Hire Eredar Warlock
+Ubertip="Heavy ranged unit with Bash. Can cast Finger of Pain and Mana Shield. |n|n|cffffcc00Attacks land and air units.|r"
 
 [nogo]
-Name=石槌食人魔
-Tip=雇用石槌食人魔
-Ubertip="强大的战士。 虽然有勇无谋，却是一部优秀的战争机器。能施放诱捕技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Stonemaul Ogre
+Tip=Hire Stonemaul Ogre
+Ubertip="Powerful warrior. Less intelligent than the two-headed variety, but great combat fodder. Can cast Ensnare. |n|n|cffffcc00Attacks land units.|r"
 
 [nogn]
-Name=石槌法师
-Tip=雇用石槌法师
-Ubertip="强大的魔法师。智慧而又果断，这些食人魔法师以神秘的魔法支持着他们的战士同胞。具有咆哮技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Stonemaul Magi
+Tip=Hire Stonemaul Magi
+Ubertip="Powerful spellcaster. Intelligent and decisive, these Ogre Magi support their warriors with arcane spells. Can cast Roar. |n|n|cffffcc00Attacks land units.|r"
 
 [noga]
-Name=石槌酋长
-Tip=雇用石槌酋长
-Ubertip="食人魔之王。这强壮的食人魔可以徒手撕裂猛兽。具有嘲讽，重击和耐久光环技能。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Stonemaul Warchief
+Tip=Hire Stonemaul Warchief
+Ubertip="Lord of the Ogres. This powerfully built Ogre can crush lesser beasts with his bare hands. Has Taunt, Bash, and Endurance Aura. |n|n|cffffcc00Attacks land units.|r"
 
 [ndh0]
-Name=达拉内尔小屋
-Tip=建造达拉内尔小屋
-Ubertip="一个简陋的达拉内尔农家小屋。"
+Name=Draenei Hut
+Tip=Build Draenei Hut
+Ubertip="A simple peasant's Draenei hut."
 
 [ndh1]
-Name=达拉内尔小屋
-Tip=建造达拉内尔小屋
-Ubertip="一个简陋的达拉内尔农家小屋。"
+Name=Draenei Hut
+Tip=Build Draenei Hut
+Ubertip="A simple peasant's Draenei hut."
 
 [ndch]
-Name=达拉内尔酋长之屋
-Tip=达拉内尔酋长之屋
-Ubertip="达拉内尔酋长之屋。"
+Name=Draenei Chieftain's Hut
+Tip=Build Draenei Chieftain's Hut
+Ubertip="The hut of the Draenei Chieftain."
 
 [njgb]
-Name=怒之丛林漫步者
-Tip=召唤怒之丛林漫步者
-Ubertip="重型近战单位，能重击对手。|n|n|cffffcc00攻击地面单位。|r"
+Name=Enraged Jungle Stalker
+Tip=Summon Enraged Jungle Stalker
+Ubertip="Heavy melee unit that can Slam opponents. |n|n|cffffcc00Attacks land units.|r"
 
 [njga]
-Name=丛林漫步者长老
-Tip=召唤丛林漫步者长老
-Ubertip="重型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Elder Jungle Stalker
+Tip=Summon Elder Jungle Stalker
+Ubertip="Heavy melee unit. |n|n|cffffcc00Attacks land units.|r"
 
 [njg1]
-Name=丛林漫步者
-Tip=召唤丛林漫步者
-Ubertip="中型的近战单位。|n|n|cffffcc00能攻击地面单位。|r"
+Name=Jungle Stalker
+Tip=Summon Jungle Stalker
+Ubertip="Medium melee unit. |n|n|cffffcc00Attacks land units.|r"
 

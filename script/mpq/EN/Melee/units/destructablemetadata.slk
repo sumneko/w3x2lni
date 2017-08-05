@@ -29,7 +29,7 @@ C;X8;K"string"
 C;X9;K"t"
 C;X11;K1
 C;X12;K1
-C;X13;K1
+C;X13;K0
 C;X15;K"TTName"
 C;X16;K0
 C;X17;K1
@@ -59,7 +59,7 @@ C;X8;K"destructableCategory"
 C;X9;K"c"
 C;X11;K0
 C;X12;K0
-C;X13;K1
+C;X13;K0
 C;X16;K0
 C;X17;K1
 C;X1;Y5;K"btil"
@@ -73,7 +73,7 @@ C;X8;K"tilesetList"
 C;X9;K"c"
 C;X11;K0
 C;X12;K0
-C;X13;K1
+C;X13;K0
 C;X15;K"TTDesc"
 C;X16;K0
 C;X17;K1
@@ -102,7 +102,7 @@ C;X9;K"m"
 C;X10;K"Model"
 C;X11;K0
 C;X12;K0
-C;X13;K1
+C;X13;K0
 C;X15;K"TTDesc"
 C;X16;K0
 C;X17;K1
@@ -256,7 +256,7 @@ C;X7;K"b9a00"
 C;X8;K"targetList"
 C;X11;K0
 C;X12;K0
-C;X13;K1
+C;X13;K0
 C;X15;K"TTDesc"
 C;X16;K0
 C;X17;K1
@@ -270,7 +270,7 @@ C;X7;K"c1a00"
 C;X8;K"armorType"
 C;X11;K0
 C;X12;K0
-C;X13;K1
+C;X13;K0
 C;X15;K"TTDesc"
 C;X16;K0
 C;X17;K1
@@ -570,7 +570,6 @@ C;X5;K"art"
 C;X6;K"WESTRING_BEVAL_BMMR"
 C;X7;K"e3a00"
 C;X8;K"int"
-C;X9;K"m"
 C;X11;K0
 C;X12;K0
 C;X13;K0
@@ -586,7 +585,6 @@ C;X5;K"art"
 C;X6;K"WESTRING_BEVAL_BMMG"
 C;X7;K"e4a00"
 C;X8;K"int"
-C;X9;K"m"
 C;X11;K0
 C;X12;K0
 C;X13;K0
@@ -602,7 +600,6 @@ C;X5;K"art"
 C;X6;K"WESTRING_BEVAL_BMMB"
 C;X7;K"e5a00"
 C;X8;K"int"
-C;X9;K"m"
 C;X11;K0
 C;X12;K0
 C;X13;K0
@@ -618,7 +615,6 @@ C;X5;K"art"
 C;X6;K"WESTRING_BEVAL_BUMM"
 C;X7;K"e2a01"
 C;X8;K"bool"
-C;X9;K"m"
 C;X11;K0
 C;X12;K0
 C;X13;K0

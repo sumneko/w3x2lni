@@ -83,9 +83,9 @@ order=cyclone
 
 [AId5]
 
-[AId8]
-
 [AId7]
+
+[AId8]
 
 [AId0]
 
@@ -339,61 +339,49 @@ Targetart=Abilities\Spells\Human\DispelMagic\DispelMagicTarget.mdl
 [AIfb]
 Art=ReplaceableTextures\CommandButtons\BTNOrbOfFire.blp
 Missileart=Abilities\Weapons\FireBallMissile\FireBallMissile.mdl
-Missilehoming=1
 Targetart=Abilities\Spells\Items\AIfb\AIfbTarget.mdl
 Targetattach=weapon
 Specialart=Abilities\Spells\Items\AIfb\AIfbSpecialArt.mdl
-Specialattach=chest
 
 // Hero attacks get lightning damage bonus, persistent, Orb of Lightning
 [AIll]
 Art=ReplaceableTextures\CommandButtons\BTNOrbOfLightning.blp
 Missileart=Abilities\Weapons\FarseerMissile\FarseerMissile.mdl
-Missilehoming=1
 Targetart=Abilities\Spells\Items\AIlb\AIlbTarget.mdl
 Targetattach=weapon
 Specialart=Abilities\Spells\Items\AIlb\AIlbSpecialArt.mdl
-Specialattach=chest
 
 // Hero attacks get lightning damage bonus, persistent, Orb of Lightning
 [AIlb]
 Art=ReplaceableTextures\CommandButtons\BTNOrbOfLightning.blp
 Missileart=Abilities\Weapons\FarseerMissile\FarseerMissile.mdl
-Missilehoming=1
 Targetart=Abilities\Spells\Items\AIlb\AIlbTarget.mdl
 Targetattach=weapon
 Specialart=Abilities\Spells\Items\AIlb\AIlbSpecialArt.mdl
-Specialattach=chest
 
 // Hero attacks get frost damage bonus, persistent, Orb of Frost
 [AIob]
 Art=ReplaceableTextures\CommandButtons\BTNOrbOfFrost.blp
 Missileart=Abilities\Weapons\LichMissile\LichMissile.mdl
 Targetart=Abilities\Spells\Items\AIob\AIobTarget.mdl
-Missilehoming=1
 Targetattach=weapon
 Specialart=Abilities\Spells\Items\AIob\AIobSpecialArt.mdl
-Specialattach=chest
 
 // Hero attacks get poison damage bonus, persistent, Orb of Venom
 [AIpb]
 Art=ReplaceableTextures\CommandButtons\BTNOrbOfVenom.blp
 Missileart=Abilities\Spells\Items\OrbVenom\OrbVenomMissile.mdl
-Missilehoming=1
 Targetart=Abilities\Spells\Items\OrbVenom\OrbVenom.mdl
 Targetattach=weapon
 Specialart=Abilities\Spells\Items\OrbVenom\OrbVenomSpecialArt.mdl
-Specialattach=chest
 
 // Hero attacks get corruption damage bonus, persistent, Orb of Corruption
 [AIcb]
 Art=ReplaceableTextures\CommandButtons\BTNOrbOfCorruption.blp
 Missileart=Abilities\Spells\Items\OrbCorruption\OrbCorruptionMissile.mdl
-Missilehoming=1
 Targetart=Abilities\Spells\Items\OrbCorruption\OrbCorruption.mdl
 Targetattach=weapon
 Specialart=Abilities\Spells\Items\OrbCorruption\OrbCorruptionSpecialArt.mdl
-Specialattach=chest
 
 [BIcb]
 Buffart=ReplaceableTextures\CommandButtons\BTNOrbOfCorruption.blp
@@ -402,11 +390,9 @@ Buffart=ReplaceableTextures\CommandButtons\BTNOrbOfCorruption.blp
 [AIdf]
 Art=ReplaceableTextures\CommandButtons\BTNOrbOfDarkness.blp
 Missileart=Abilities\Weapons\AvengerMissile\AvengerMissile.mdl
-Missilehoming=1
+//Specialart=Abilities\Spells\Items\OrbCorruption\OrbCorruptionSpecialArt.mdl
 Targetart=Abilities\Spells\Items\OrbDarkness\OrbDarkness.mdl
 Targetattach=weapon
-//Specialart=Abilities\Spells\Items\OrbCorruption\OrbCorruptionSpecialArt.mdl
-//Specialattach=chest
 
 // Hero sight range increase, persistent, Telescope
 [AIsi]
@@ -474,9 +460,6 @@ Targetattach=head
 [AIfd]
 Art=ReplaceableTextures\CommandButtons\BTNRedDragon.blp
 Targetart=Abilities\Spells\Orc\FeralSpirit\feralspirittarget.mdl
-
-[BFig]
-Effectart=Abilities\Spells\Orc\FeralSpirit\feralspiritdone.mdl
 
 // furbolg
 [AIff]
@@ -546,7 +529,6 @@ Casterart=
 [AIsx]
 Art=ReplaceableTextures\CommandButtons\BTNGlove.blp
 
-//improved attack speed
 [AIs2]
 Art=ReplaceableTextures\CommandButtons\BTNGlove.blp
 
@@ -557,7 +539,6 @@ Art=ReplaceableTextures\CommandButtons\BTNMaskOfDeath.blp
 Targetart=
 // special art played on hero when ability fires
 Specialart=Abilities\Spells\Undead\VampiricAura\VampiricAuraTarget.mdl
-Missileart=Abilities\Spells\Items\WandOfNeutralization\NeutralizationMissile.mdl
 
 // cloak of flames
 [AIcf]
@@ -1054,7 +1035,7 @@ Missileart=Abilities\Weapons\ProcMissile\ProcMissile.mdl
 MissileHoming=1
 Targetart=Abilities\Spells\Items\OrbSlow\OrbSlow.mdl
 Targetattach=weapon
-//Specialart=
+Specialart=
 
 [AIos]
 Art=ReplaceableTextures\CommandButtons\BTNSlow.blp
@@ -1077,7 +1058,6 @@ Buttonpos=0,2
 Unbuttonpos=0,2
 Order=spiritlinkaoe
 Effectsound=PowerupSound
-LightningEffect=SPLK
 
 // Rebirth
 [AIrb]
@@ -1086,7 +1066,6 @@ Effectsound=PowerupSound
 
 [BIrb]
 Buffart=ReplaceableTextures\CommandButtons\BTNRune.blp
-Effectart=Abilities\Spells\Orc\FeralSpirit\feralspiritdone.mdl
 
 // Dark Summoning
 [AUds]
@@ -1129,8 +1108,6 @@ Order=purge
 [AIps]
 Art=ReplaceableTextures\CommandButtons\BTNEntrapmentWard.blp
 Order=purge
-Specialart=Abilities\Spells\Orc\Purge\PurgeBuffTarget.mdl
-Specialattach=origin
 
 //#RESTNOBETA
 [AItg]
@@ -1171,7 +1148,7 @@ Targetattach=origin
 [AIfx]
 Art=ReplaceableTextures\CommandButtons\BTNOrcBattleStandard.blp
 Targetart=Objects\InventoryItems\BattleStandard\BattleStandard.mdl
-Targetattach=chest
+Targetattach=cheat
 
 // Hero attacks get fire damage bonus, persistent, Orb of Gul'dan
 [AIgd]
@@ -1180,7 +1157,6 @@ Missileart=Abilities\Weapons\IllidanMissile\IllidanMissile.mdl
 Targetart=Abilities\Spells\Items\AIfb\AIfbTarget.mdl
 Targetattach=weapon
 Specialart=Abilities\Spells\Items\AIfb\AIfbSpecialArt.mdl
-Specialattach=chest
 
 // tiny blacksmith
 [AIbb]
@@ -1230,7 +1206,6 @@ MissileHoming=1
 [AIfz]
 Art=ReplaceableTextures\CommandButtons\BTNCorpseExplode.blp
 Targetart=Abilities\Spells\Demon\DemonBoltImpact\DemonBoltImpact.mdl
-LightningEffect=AFOD
 
 // item death pact
 [AIdp]
@@ -1290,31 +1265,25 @@ Effectsound=PenguinSqueek
 [AIfw]
 Art=ReplaceableTextures\CommandButtons\BTNOrbOfFire.blp
 Missileart=Abilities\Weapons\FireBallMissile\FireBallMissile.mdl
-Missilehoming=1
 Targetart=Abilities\Spells\Items\AIfb\AIfbTarget.mdl
 Targetattach=weapon
 Specialart=Abilities\Spells\Items\AIfb\AIfbSpecialArt.mdl
-Specialattach=chest
 
 // item cold bonus
 [AIft]
 Art=ReplaceableTextures\CommandButtons\BTNOrbOfFrost.blp
 Missileart=Abilities\Weapons\LichMissile\LichMissile.mdl
-Missilehoming=1
 Targetart=Abilities\Spells\Items\AIob\AIobTarget.mdl
 Targetattach=weapon
 Specialart=Abilities\Spells\Items\AIob\AIobSpecialArt.mdl
-Specialattach=chest
 
 // item lightning bonus
 [AIlx]
 Art=ReplaceableTextures\CommandButtons\BTNOrbOfLightning.blp
 Missileart=Abilities\Weapons\FarseerMissile\FarseerMissile.mdl
-Missilehoming=1
 Targetart=Abilities\Spells\Items\AIlb\AIlbTarget.mdl
 Targetattach=weapon
 Specialart=Abilities\Spells\Items\AIlb\AIlbSpecialArt.mdl
-Specialattach=chest
 
 // purge part of lightning orb
 [AIlp]
@@ -1336,7 +1305,6 @@ Missileart=Abilities\Spells\Orc\LightningBolt\LightningBoltMissile.mdl
 Missilespeed=1500
 Targetart=Abilities\Weapons\Bolt\BoltImpact.mdl
 Order=chainlightning
-LightningEffect=CLPB,CLSB
 
 // item berserk
 [AIxk]

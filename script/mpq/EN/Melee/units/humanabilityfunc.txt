@@ -3,8 +3,6 @@
 Art=ReplaceableTextures\CommandButtons\BTNMagicLariet.blp
 Buttonpos=0,2
 Order=magicleash
-Animnames=spell,looping
-LightningEffect=LEAS
 
 // Aerial Shackles Caster
 [Bmlc]
@@ -14,7 +12,6 @@ Effectsoundlooped=AerialShacklesLoop
 [Bmlt]
 Buffart=ReplaceableTextures\CommandButtons\BTNMagicLariet.blp
 Targetart=Abilities\Spells\Human\AerialShackles\AerialShacklesTarget.mdl
-Targetattach=chest,mount
 
 // area of effect detection (scry)
 [AHta]
@@ -48,7 +45,6 @@ Order=controlmagic
 
 [Bcmg]
 Buffart=ReplaceableTextures\CommandButtons\BTNControlMagic.blp
-Effectart=Abilities\Spells\Orc\FeralSpirit\feralspiritdone.mdl
 
 // Siphon Mana
 [AHdr]
@@ -57,16 +53,6 @@ Researchart=ReplaceableTextures\CommandButtons\BTNManaDrain.blp
 Buttonpos=2,2
 Researchbuttonpos=2,0
 Effectsoundlooped=SiphonManaLoop
-LightningEffect=DRAB,DRAL,DRAM
-
-[Bdbb]
-Buffart=ReplaceableTextures\CommandButtons\BTNLifeDrain.blp
-
-[Bdbl]
-Buffart=ReplaceableTextures\CommandButtons\BTNLifeDrain.blp
-
-[Bdbm]
-Buffart=ReplaceableTextures\CommandButtons\BTNManaDrain.blp
 
 // Drain Life & Mana (Caster)
 // This buff isn't ever visible on the info card.
@@ -189,7 +175,6 @@ Art=ReplaceableTextures\CommandButtons\BTNCloudOfFog.blp
 Requires=Rhcd
 Buttonpos=1,2
 Order=cloudoffog
-Animnames=stand,channel
 
 [Bclf]
 Buffart=ReplaceableTextures\CommandButtons\BTNCloudOfFog.blp
@@ -210,7 +195,6 @@ Order=flamestrike
 Effectart=Abilities\Spells\Human\FlameStrike\FlameStrikeTarget.mdl
 // Impact art
 Specialart=Abilities\Spells\Human\FlameStrike\FlameStrike1.mdl,Abilities\Spells\Human\FlameStrike\FlameStrike2.mdl,Abilities\Spells\Human\FlameStrike\FlameStrike.mdl
-Animnames=spell,channel
 
 [BHfs]
 // Burning art
@@ -243,7 +227,7 @@ Researchart=ReplaceableTextures\CommandButtons\BTNMarkOfFire.blp
 Buttonpos=3,2
 Researchbuttonpos=3,0
 Specialart=Abilities\Spells\Human\MarkOfChaos\MarkOfChaosTarget.mdl
-Order=summonphoenix
+Order=phoenix
 
 // Phoenix (morph)
 [Aphx]
@@ -263,6 +247,7 @@ MissileHoming=1
 [Bpxf]
 Buffart=ReplaceableTextures\CommandButtons\BTNMarkOfFire.blp
 Targetart=Abilities\Spells\Other\BreathOfFire\BreathOfFireDamage.mdl
+Bufftip=Phoenix
 
 // Flying Machine Bombs
 [Agyb]
@@ -299,7 +284,6 @@ Buttonpos=0,2
 Requires=Rhfl
 Order=flare
 Casterart=Abilities\Spells\Human\Flare\FlareCaster.mdl
-Animnames=spell,attack
 
 [Xfla]
 Effectart=Abilities\Spells\Human\Flare\FlareTarget.mdl
@@ -362,10 +346,6 @@ Orderoff=healoff
 Spelldetail=1
 Buffart=ReplaceableTextures\CommandButtons\BTNHeal.blp
 
-[BNhe]
-Spelldetail=1
-Buffart=ReplaceableTextures\CommandButtons\BTNSlow.blp
-
 // Slow
 [Aslo]
 Art=ReplaceableTextures\CommandButtons\BTNSlowOn.blp
@@ -425,7 +405,6 @@ Buttonpos=0,2
 Researchbuttonpos=0,0
 Casterart=
 Order=blizzard
-Animnames=stand,channel
 
 [BHbd]
 Buffart=ReplaceableTextures\CommandButtons\BTNBlizzard.blp
@@ -485,7 +464,6 @@ Missileart=Abilities\Spells\Human\StormBolt\StormBoltMissile.mdl
 Missilespeed=1000
 MissileHoming=1
 Order=thunderbolt
-Animnames=spell,throw
 
 [BHtb]
 Buffart=ReplaceableTextures\CommandButtons\BTNStormBolt.blp
@@ -502,7 +480,6 @@ Casterart=Abilities\Spells\Human\Thunderclap\ThunderClapCaster.mdl
 Casterattach=origin
 Effectart=
 Order=thunderclap
-Animnames=spell,slam
 
 [BHtc]
 Buffart=ReplaceableTextures\CommandButtons\BTNThunderclap.blp

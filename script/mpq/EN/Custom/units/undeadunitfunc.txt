@@ -1,5 +1,5 @@
 [Ucrl]
-Art=ReplaceableTextures\CommandButtons\BTNHeroCryptLord.blp
+Art=ReplaceableTextures\CommandButtons\BTNHeroCryptLord.tga
 Buttonpos=0,1
 RequiresCount=3
 Requires=
@@ -7,23 +7,22 @@ Requires1=unp1
 Requires2=unp2
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
-ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-cryptlord.blp
 
 [uaco]
 Builds=unpl,uzig,usep,ugrv,uaod,utod,uslh,ubon,usap,ugol,utom
-Art=ReplaceableTextures\CommandButtons\BTNAcolyte.blp
+Art=ReplaceableTextures\CommandButtons\BTNAcolyte.tga
 Buttonpos=0,0
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 
 [uabo]
 Requires=unp2
-Art=ReplaceableTextures\CommandButtons\BTNAbomination.blp
+Art=ReplaceableTextures\CommandButtons\BTNAbomination.tga
 Buttonpos=1,0
 Specialart=Units\Undead\Abomination\AbominationExplosion.mdl
 Attachmentanimprops=large
 
 [Udea]
-Art=ReplaceableTextures\CommandButtons\BTNHeroDeathKnight.blp
+Art=ReplaceableTextures\CommandButtons\BTNHeroDeathKnight.tga
 Buttonpos=0,2
 RequiresCount=3
 Requires=
@@ -31,22 +30,21 @@ Requires1=unp1
 Requires2=unp2
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
-ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-deathknight.blp
 
 [uban]
 //Requires=unp2
-Art=ReplaceableTextures\CommandButtons\BTNBanshee.blp
+Art=ReplaceableTextures\CommandButtons\BTNBanshee.tga
 Buttonpos=1,0
 Missileart=Abilities\Weapons\BansheeMissile\BansheeMissile.mdl
 Missilearc=0.00
 Missilespeed=900
 MissileHoming=1
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
-Casterupgradeart=UI\Widgets\Console\Human\infocard-banshee.blp
+Casterupgradeart=UI\Widgets\Console\Human\infocard-banshee.tga
 
 [ucrm]
 Requires=ugrv
-Art=ReplaceableTextures\CommandButtons\BTNCryptFiend.blp
+Art=ReplaceableTextures\CommandButtons\BTNCryptFiend.tga
 Buttonpos=1,0
 Missileart=Abilities\Weapons\CryptFiendMissile\CryptFiendMissile.mdl
 Missilearc=0.15
@@ -58,7 +56,7 @@ Attachmentanimprops=medium
 DependencyOr=ucrm
 // do NOT put a similar DependencyOr under ucrm
 Requires=ugrv
-Art=ReplaceableTextures\CommandButtons\BTNCryptFiend.blp
+Art=ReplaceableTextures\CommandButtons\BTNCryptFiend.tga
 Buttonpos=1,0
 Missileart=Abilities\Weapons\CryptFiendMissile\CryptFiendMissile.mdl
 Missilearc=0.15
@@ -67,7 +65,7 @@ Specialart=Objects\Spawnmodels\Demon\DemonLargeDeathExplode\DemonLargeDeathExplo
 Attachmentanimprops=medium
 
 [Udre]
-Art=ReplaceableTextures\CommandButtons\BTNHeroDreadLord.blp
+Art=ReplaceableTextures\CommandButtons\BTNHeroDreadLord.tga
 Buttonpos=1,2
 RequiresCount=3
 Requires=
@@ -75,10 +73,9 @@ Requires1=unp1
 Requires2=unp2
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
-ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-dreadlord.blp
 
 [ufro]
-Art=ReplaceableTextures\CommandButtons\BTNFrostWyrm.blp
+Art=ReplaceableTextures\CommandButtons\BTNFrostWyrm.tga
 Buttonpos=0,0
 Missileart=Abilities\Weapons\FrostWyrmMissile\FrostWyrmMissile.mdl
 Missilearc=0.1
@@ -90,7 +87,7 @@ Attachmentanimprops=large
 Requires=ugrv,unp2
 DependencyOr=ugrm
 // do NOT put a similar DependencyOr under ugrm
-Art=ReplaceableTextures\CommandButtons\BTNGargoyle.blp
+Art=ReplaceableTextures\CommandButtons\BTNGargoyle.tga
 Buttonpos=2,0
 Missileart=Abilities\Weapons\GargoyleMissile\GargoyleMissile.mdl
 Missilearc=0.0
@@ -100,7 +97,7 @@ Attachmentanimprops=medium
 
 [ugrm]
 Requires=ugrv,unp2
-Art=ReplaceableTextures\CommandButtons\BTNStoneForm.blp
+Art=ReplaceableTextures\CommandButtons\BTNStoneForm.tga
 Buttonpos=2,0
 Missileart=Abilities\Weapons\GargoyleMissile\GargoyleMissile.mdl
 Missilearc=0.0
@@ -110,12 +107,12 @@ Attachmentanimprops=medium
 Attachmentlinkprops=alternate
 
 [ugho]
-Art=ReplaceableTextures\CommandButtons\BTNGhoul.blp
+Art=ReplaceableTextures\CommandButtons\BTNGhoul.tga
 Buttonpos=0,0
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 
 [Ulic]
-Art=ReplaceableTextures\CommandButtons\BTNLichVersion2.blp
+Art=ReplaceableTextures\CommandButtons\BTNLichVersion2.tga
 Buttonpos=2,2
 Missileart=Abilities\Weapons\LichMissile\LichMissile.mdl
 Missilearc=0.0
@@ -127,26 +124,25 @@ Requires1=unp1
 Requires2=unp2
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
-ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-lich.blp
 
 [unec]
-Art=ReplaceableTextures\CommandButtons\BTNNecromancer.blp
+Art=ReplaceableTextures\CommandButtons\BTNNecromancer.tga
 Buttonpos=0,0
 Missileart=Abilities\Weapons\NecromancerMissile\NecromancerMissile.mdl
 Missilearc=0.00
 Missilespeed=900
 MissileHoming=1
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
-Casterupgradeart=UI\Widgets\Console\Human\infocard-necromancer.blp
+Casterupgradeart=UI\Widgets\Console\Human\infocard-necromancer.tga
 
 [uske]
-Art=ReplaceableTextures\CommandButtons\BTNSkeletonWarrior.blp
+Art=ReplaceableTextures\CommandButtons\BTNSkeletonWarrior.tga
 
 [uplg]
-Art=ReplaceableTextures\PassiveButtons\PASBTNPlagueCloud.blp
+Art=ReplaceableTextures\PassiveButtons\PASBTNPlagueCloud.tga
 
 [uskm]
-Art=ReplaceableTextures\CommandButtons\BTNSkeletonMage.blp
+Art=ReplaceableTextures\CommandButtons\BTNSkeletonMage.tga
 Missileart=Abilities\Weapons\SkeletalMageMissile\SkeletalMageMissile.mdl
 Missilearc=0.00
 Missilespeed=900
@@ -154,7 +150,7 @@ MissileHoming=1
 
 [uaod]
 Trains=Udea,Ulic,Udre,Ucrl
-Art=ReplaceableTextures\CommandButtons\BTNAltarOfDarkness.blp
+Art=ReplaceableTextures\CommandButtons\BTNAltarOfDarkness.tga
 Buttonpos=1,1
 BuildingSoundLabel=UndeadBuildingConstructionLoop
 LoopingSoundFadeIn=512
@@ -167,7 +163,7 @@ Revive=1
 Upgrade=unp1
 Trains=uaco
 Researches=Rupm
-Art=ReplaceableTextures\CommandButtons\BTNNecropolis.blp
+Art=ReplaceableTextures\CommandButtons\BTNNecropolis.tga
 Buttonpos=0,0
 BuildingSoundLabel=UndeadBuildingConstructionLoop
 LoopingSoundFadeIn=512
@@ -184,7 +180,7 @@ Upgrade=unp2
 Trains=uaco
 Researches=Rupm
 Animprops=upgrade,first
-Art=ReplaceableTextures\CommandButtons\BTNHallOfTheDead.blp
+Art=ReplaceableTextures\CommandButtons\BTNHallOfTheDead.tga
 Buttonpos=0,2
 BuildingSoundLabel=UndeadBuildingConstructionLoop
 LoopingSoundFadeIn=512
@@ -201,7 +197,7 @@ Requires=uaod
 Trains=uaco
 Researches=Rupm
 Animprops=upgrade,second
-Art=ReplaceableTextures\CommandButtons\BTNBlackCitadel.blp
+Art=ReplaceableTextures\CommandButtons\BTNBlackCitadel.tga
 Buttonpos=0,2
 BuildingSoundLabel=UndeadBuildingConstructionLoop
 LoopingSoundFadeIn=512
@@ -215,7 +211,7 @@ Attachmentanimprops=large
 
 [usep]
 Trains=ugho,ucry,ugar
-Art=ReplaceableTextures\CommandButtons\BTNCrypt.blp
+Art=ReplaceableTextures\CommandButtons\BTNCrypt.tga
 Buttonpos=1,0
 Researches=Ruac,Ruwb,Rugf,Rusf,Rubu
 BuildingSoundLabel=UndeadBuildingConstructionLoop
@@ -228,7 +224,7 @@ Attachmentanimprops=medium
 Requires=unp1,ugrv
 Researches=Rune,Ruba
 Trains=unec,uban
-Art=ReplaceableTextures\CommandButtons\BTNTempleOfTheDamned.blp
+Art=ReplaceableTextures\CommandButtons\BTNTempleOfTheDamned.tga
 Buttonpos=2,1
 Researches=Rusl,Rusm
 BuildingSoundLabel=UndeadBuildingConstructionLoop
@@ -239,7 +235,7 @@ Attachmentanimprops=medium
 
 // Tomb of Relics
 [utom]
-Art=ReplaceableTextures\CommandButtons\BTNTombOfRelics.blp
+Art=ReplaceableTextures\CommandButtons\BTNTombOfRelics.tga
 Buttonpos=2,2
 Makeitems=rnec,plcl,skul,phea,pman,stwp,ocor,shea
 Specialart=Objects\Spawnmodels\Undead\UCancelDeath\UCancelDeath.mdl
@@ -247,7 +243,7 @@ Attachmentanimprops=medium
 
 // Undead Controlled Gold Mine
 [ugol]
-Art=ReplaceableTextures\CommandButtons\BTNGoldMine.blp
+Art=ReplaceableTextures\CommandButtons\BTNGoldMine.tga
 Buttonpos=2,0
 BuildingSoundLabel=UndeadBuildingConstructionLoop
 LoopingSoundFadeIn=512
@@ -257,7 +253,7 @@ Attachmentanimprops=large
 
 [uzig]
 Upgrade=uzg1,uzg2
-Art=ReplaceableTextures\CommandButtons\BTNZiggurat.blp
+Art=ReplaceableTextures\CommandButtons\BTNZiggurat.tga
 Buttonpos=0,1
 BuildingSoundLabel=UndeadBuildingConstructionLoop
 LoopingSoundFadeIn=512
@@ -268,7 +264,7 @@ Attachmentanimprops=medium
 [uzg1]
 Requires=ugrv
 Animprops=upgrade,first
-Art=ReplaceableTextures\CommandButtons\BTNZigguratUpgrade.blp
+Art=ReplaceableTextures\CommandButtons\BTNZigguratUpgrade.tga
 Buttonpos=0,2
 BuildingSoundLabel=UndeadBuildingConstructionLoop
 LoopingSoundFadeIn=512
@@ -282,7 +278,7 @@ Attachmentanimprops=medium
 
 [uzg2]
 Animprops=upgrade,second
-Art=ReplaceableTextures\CommandButtons\BTNFrostTower.blp
+Art=ReplaceableTextures\CommandButtons\BTNFrostTower.tga
 Buttonpos=1,2
 BuildingSoundLabel=UndeadBuildingConstructionLoop
 LoopingSoundFadeIn=512
@@ -295,7 +291,7 @@ Specialart=Objects\Spawnmodels\Undead\UCancelDeath\UCancelDeath.mdl
 Attachmentanimprops=medium
 
 [umtw]
-Art=ReplaceableTextures\CommandButtons\BTNMeatWagon.blp
+Art=ReplaceableTextures\CommandButtons\BTNMeatWagon.tga
 Buttonpos=0,0
 Missileart=Abilities\Weapons\MeatwagonMissile\MeatwagonMissile.mdl
 Missilearc=0.3
@@ -306,7 +302,7 @@ Attachmentanimprops=large
 Requires=unp2,usap
 Trains=ufro
 Researches=Rufb
-Art=ReplaceableTextures\CommandButtons\BTNBoneyard.blp
+Art=ReplaceableTextures\CommandButtons\BTNBoneyard.tga
 Buttonpos=1,2
 BuildingSoundLabel=UndeadBuildingConstructionLoop
 LoopingSoundFadeIn=512
@@ -316,7 +312,7 @@ Attachmentanimprops=large
 
 [usap]
 Requires=unp1
-Art=ReplaceableTextures\CommandButtons\BTNSacrificialPit.blp
+Art=ReplaceableTextures\CommandButtons\BTNSacrificialPit.tga
 Buttonpos=0,2
 BuildingSoundLabel=UndeadBuildingConstructionLoop
 LoopingSoundFadeIn=512
@@ -328,7 +324,7 @@ Attachmentanimprops=medium
 Requires=unp1,ugrv
 Researches=Rupc,Rusp,Ruex
 Trains=umtw,uabo,uobs
-Art=ReplaceableTextures\CommandButtons\BTNSlaughterhouse.blp
+Art=ReplaceableTextures\CommandButtons\BTNSlaughterhouse.tga
 Buttonpos=3,1
 BuildingSoundLabel=UndeadBuildingConstructionLoop
 LoopingSoundFadeIn=512
@@ -337,12 +333,12 @@ Specialart=Objects\Spawnmodels\Undead\UCancelDeath\UCancelDeath.mdl
 
 // shade
 [ushd]
-Art=ReplaceableTextures\CommandButtons\BTNShade.blp
+Art=ReplaceableTextures\CommandButtons\BTNShade.tga
 
 // graveyard
 [ugrv]
 Researches=Rume,Ruar,Rura,Rucr
-Art=ReplaceableTextures\CommandButtons\BTNGraveyard.blp
+Art=ReplaceableTextures\CommandButtons\BTNGraveyard.tga
 Buttonpos=3,0
 BuildingSoundLabel=UndeadBuildingConstructionLoop
 LoopingSoundFadeIn=512
@@ -352,25 +348,25 @@ Attachmentanimprops=large
 
 // carrion scarabs
 [ucs1]
-Art=ReplaceableTextures\CommandButtons\BTNCarrionScarabs.blp
+Art=ReplaceableTextures\CommandButtons\BTNCarrionScarabs.tga
 
 [ucs2]
 DependencyOr=ucsB
-Art=ReplaceableTextures\CommandButtons\BTNCarrionScarabs.blp
+Art=ReplaceableTextures\CommandButtons\BTNCarrionScarabs.tga
 
 [ucsB]
-Art=ReplaceableTextures\CommandButtons\BTNCarrionScarabs.blp
+Art=ReplaceableTextures\CommandButtons\BTNCarrionScarabs.tga
 
 [ucs3]
 DependencyOr=ucsC
-Art=ReplaceableTextures\CommandButtons\BTNCarrionScarabs.blp
+Art=ReplaceableTextures\CommandButtons\BTNCarrionScarabs.tga
 
 [ucsC]
-Art=ReplaceableTextures\CommandButtons\BTNCarrionScarabs.blp
+Art=ReplaceableTextures\CommandButtons\BTNCarrionScarabs.tga
 
 // locust
 [uloc]
-Art=ReplaceableTextures\CommandButtons\BTNLocustSwarm.blp
+Art=ReplaceableTextures\CommandButtons\BTNLocustSwarm.tga
 Missileart=Abilities\Weapons\LocustMissile\LocustMissile.mdl
 Missilearc=0.15
 Missilespeed=500
@@ -378,7 +374,7 @@ Missilespeed=500
 // obsidian statue
 [uobs]
 DependencyOr=ubsp
-Art=ReplaceableTextures\CommandButtons\BTNObsidianStatue.blp
+Art=ReplaceableTextures\CommandButtons\BTNObsidianStatue.tga
 Buttonpos=2,0
 Missileart=Abilities\Weapons\FarseerMissile\FarseerMissile.mdl
 Missilearc=0.15
@@ -389,7 +385,7 @@ Requires=utom
 
 // obsidian destroyer
 [ubsp]
-Art=ReplaceableTextures\CommandButtons\BTNDestroyer.blp
+Art=ReplaceableTextures\CommandButtons\BTNDestroyer.tga
 Missileart=Abilities\Weapons\AvengerMissile\AvengerMissile.mdl
 Missilearc=0.0
 Missilespeed=900
@@ -400,12 +396,12 @@ Animprops=alternate
 
 //#RESTNOBETA
 [ubot]
-Art=ReplaceableTextures\CommandButtons\BTNUndeadTransport.blp
+Art=ReplaceableTextures\CommandButtons\BTNUndeadTransport.tga
 Attachmentanimprops=large
 Buttonpos=0,0
 
 [udes]
-Art=ReplaceableTextures\CommandButtons\BTNUndeadDestroyer.blp
+Art=ReplaceableTextures\CommandButtons\BTNUndeadDestroyer.tga
 Buttonpos=1,0
 Missileart=Abilities\Weapons\BoatMissile\BoatMissile.mdl
 Missilearc=0.10
@@ -413,7 +409,7 @@ Missilespeed=900
 Attachmentanimprops=large
 
 [uubs]
-Art=ReplaceableTextures\CommandButtons\BTNUndeadBattleShip.blp
+Art=ReplaceableTextures\CommandButtons\BTNUndeadBattleShip.tga
 Buttonpos=2,0
 Missileart=Abilities\Weapons\BoatMissile\BoatMissile.mdl
 Missilearc=0.10

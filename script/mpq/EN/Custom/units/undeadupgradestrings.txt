@@ -1,109 +1,109 @@
-﻿[Rusp]
-Name=破坏者形态
-Tip=研究破坏者形态(|cffffcc00X|r)
-Ubertip="让十胜石雕像能变成破坏者，一种必须吞噬其他单位的魔法能量来维持自己的魔法能量的大型飞行单位。破坏者具有吞噬魔法，吸收魔法，魔法免疫和毁灭之球技能。|n|n|cffffcc00能攻击地面和空中单位。|r"
-Hotkey=X
+[Rusp]
+Name=Destroyer Form
+Tip=Research Des|cffffcc00t|rroyer Form
+Ubertip="Allows the Obsidian Statue to transform into a Destroyer, a large flying unit that must devour magic to sustain its mana. The Destroyer has Spell Immunity, Devour Magic, Absorb Mana, and Orb of Annihilation. |n|n|cffffcc00Attacks land and air units.|r"
+Hotkey=T
 
 [Rume]
-Name=邪恶力量,中级邪恶力量,高级邪恶力量
-Tip=升级到邪恶力量(|cffffcc00S|r),升级到中级邪恶力量(|cffffcc00S|r),升级到高级邪恶力量(|cffffcc00S|r)
-Ubertip="增加食尸鬼，绞肉车，憎恶，骷髅战士和骷髅魔法师的攻击力。","进一步增加食尸鬼，绞肉车，憎恶，骷髅战士和骷髅魔法师的攻击力。","进一步增加食尸鬼，绞肉车，憎恶，骷髅战士和骷髅魔法师的攻击力。"
+Name=Unholy Strength,Improved Unholy Strength,Advanced Unholy Strength
+Tip=Upgrade to Unholy |cffffcc00S|rtrength,Upgrade to Improved Unholy |cffffcc00S|rtrength,Upgrade to Advanced Unholy |cffffcc00S|rtrength
+Ubertip="Increases the attack damage of Ghouls, Meat Wagons, Abominations, Skeleton Warriors, and Skeletal Mages.","Further increases the attack damage of Ghouls, Meat Wagons, Abominations, Skeleton Warriors, and Skeletal Mages.","Further increases the attack damage of Ghouls, Meat Wagons, Abominations, Skeleton Warriors, and Skeletal Mages."
 Hotkey=S,S,S
 
 [Rura]
-Name=生物攻击,中级生物攻击,高级生物攻击
-Tip=升级到生物攻击(|cffffcc00A|r),升级到中级生物攻击(|cffffcc00A|r),升级到高级生物攻击(|cffffcc00A|r)
-Ubertip="增加穴居恶魔、石像鬼、冰霜巨龙和破坏者的攻击力。","进一步增加穴居恶魔、石像鬼、冰霜巨龙和破坏者的攻击力。","进一步增加穴居恶魔、石像鬼、冰霜巨龙和破坏者的攻击力。"
+Name=Creature Attack,Improved Creature Attack,Advanced Creature Attack
+Tip=Upgrade to Creature |cffffcc00A|rttack,Upgrade to Improved Creature |cffffcc00A|rttack,Upgrade to Advanced Creature |cffffcc00A|rttack
+Ubertip="Increases the attack damage of Crypt Fiends, Gargoyles, Destroyers, and Frost Wyrms.","Further increases the attack damage of Crypt Fiends, Gargoyles, Destroyers, and Frost Wyrms.","Further increases the attack damage of Crypt Fiends, Gargoyles, Destroyers, and Frost Wyrms."
 Hotkey=A,A,A
 
 [Ruar]
-Name=邪恶装甲,中级邪恶装甲,高级邪恶装甲
-Tip=升级到邪恶装甲(|cffffcc00U|r),升级到中级邪恶装甲(|cffffcc00U|r),升级到高级邪恶装甲(|cffffcc00U|r)
-Ubertip="增加食尸鬼，憎恶，骷髅战士和骷髅魔法师的防御力。","进一步增加食尸鬼，憎恶，骷髅战士和骷髅魔法师的防御力。","进一步增加食尸鬼，憎恶，骷髅战士和骷髅魔法师的防御力。"
+Name=Unholy Armor,Improved Unholy Armor,Advanced Unholy Armor
+Tip=Upgrade to |cffffcc00U|rnholy Armor,Upgrade to Improved |cffffcc00U|rnholy Armor,Upgrade to Advanced |cffffcc00U|rnholy Armor
+Ubertip="Increases the armor of Ghouls, Abominations, Skeleton Warriors, and Skeletal Mages.","Further increases the armor of Ghouls, Abominations, Skeleton Warriors, and Skeletal Mages.","Further increases the armor of Ghouls, Abominations, Skeleton Warriors, and Skeletal Mages."
 Hotkey=U,U,U
 
 [Rucr]
-Name=生物甲壳,中级生物甲壳,高级生物甲壳
-Tip=升级到生物甲壳(|cffffcc00C|r),升级到中级生物甲壳(|cffffcc00C|r),升级到生物甲壳(|cffffcc00C|r)
-Ubertip="增加地穴恶魔、石像鬼、 冰霜巨龙和破坏者的护甲。 ","进一步增加地穴恶魔、石像鬼、冰霜巨龙和破坏者的护甲。 ","进一步增加地穴恶魔、石像鬼、冰霜巨龙和破坏者的护甲。"
+Name=Creature Carapace,Improved Creature Carapace,Advanced Creature Carapace
+Tip=Upgrade to Creature |cffffcc00C|rarapace,Upgrade to Improved Creature |cffffcc00C|rarapace,Upgrade to Advanced Creature |cffffcc00C|rarapace
+Ubertip="Increases the armor of Crypt Fiends, Gargoyles, Destroyers, and Frost Wyrms.","Further increases the armor of Crypt Fiends, Gargoyles, Destroyers, and Frost Wyrms.","Further increases the armor of the Crypt Fiends, Gargoyles, Destroyers, and Frost Wyrms."
 Hotkey=C,C,C
 
 [Ruac]
-Name=吞食尸体
-Tip=研究吞食尸体(|cffffcc00C|r)
-Ubertip="使得食尸鬼和憎恶能吞食附近的一个尸体来恢复自己的生命值。"
+Name=Cannibalize
+Tip=Research |cffffcc00C|rannibalize
+Ubertip="Enables Ghouls and Abominations to use the Cannibalize ability. Cannibalize consumes a nearby corpse to restore health."
 Hotkey=C
 
 [Rugf]
-Name=食尸鬼狂热
-Tip=研究食尸鬼狂热(|cffffcc00Z|r)
-Ubertip="增加食尸鬼<Rugf,base1,%>%的攻击速度并加快其移动速度。"
+Name=Ghoul Frenzy
+Tip=Research Ghoul Fren|cffffcc00z|ry
+Ubertip="Increases the attack rate of Ghouls by <Rugf,base1,%>%, and increases their movement speed."
 Hotkey=Z
 
 [Ruwb]
-Name=蛛网
-Tip=研究蛛网(|cffffcc00W|r)
-Ubertip="使得穴居恶魔能将敌人的某个空中单位捕获到地面，从而让己方的地面单位可以对其进行攻击。"
+Name=Web
+Tip=Research |cffffcc00W|reb
+Ubertip="Enables Crypt Fiends to use the Web ability. Web binds a target enemy air unit in webbing, forcing it to the ground. Webbed units can be hit as though they were land units."
 Hotkey=W
 
 [Rusf]
-Name=石像形态
-Tip=研究石像形态(|cffffcc00S|r)
-Ubertip="石像形态技能能使石像鬼变成一座具有极高护甲，魔法免疫，生命值恢复加快的雕像。在这期间石像鬼也不能攻击任何敌人。"
+Name=Stone Form
+Tip=Research |cffffcc00S|rtone Form
+Ubertip="Enables the ability for Gargoyles to assume Stone Form. Stone Form transforms the Gargoyle into a statue with high armor, spell immunity, and regeneration. The Gargoyle cannot attack in this form."
 Hotkey=S
 
 [Rune]
-Name=不死族巫师专家训练,不死族巫师大师训练
-Tip=不死族巫师专家训练(|cffffcc00E|r),不死族巫师大师训练(|cffffcc00E|r)
-Ubertip="增加不死族巫师的魔法最大值，魔法恢复速度，生命值和攻击力。并使其具有邪恶狂热技能。","增加不死族巫师的魔法最大值，魔法恢复速度，生命值和攻击力。并使其具有残废技能。"
+Name=Necromancer Adept Training,Necromancer Master Training
+Tip=N|cffffcc00e|rcromancer Adept Training,N|cffffcc00e|rcromancer Master Training
+Ubertip="Increases Necromancers' mana capacity, mana regeneration rate, hit points, and gives them the ability to cast Unholy Frenzy.","Increases Necromancers' mana capacity, mana regeneration rate, hit points, and gives them the ability to cast Cripple."
 Hotkey=E,E
 
 [Ruba]
-Name=女妖专家训练,女妖大师训练
-Tip=女妖专家训练(|cffffcc00A|r),女妖大师训练(|cffffcc00A|r)
-Ubertip="增加女妖的魔法最大值，魔法恢复速度，生命值和攻击力。并使其具有反魔法外壳技能。","增加女妖的魔法最大值，魔法恢复速度，生命值和攻击力。并使其具有占据技能。"
+Name=Banshee Adept Training,Banshee Master Training
+Tip=B|cffffcc00a|rnshee Adept Training,B|cffffcc00a|rnshee Master Training
+Ubertip="Increases Banshees' mana capacity, mana regeneration rate, hit points, and gives them the ability to cast Anti-magic Shell.","Increases Banshees' mana capacity, mana regeneration rate, hit points, and gives them the ability to cast Possession."
 Hotkey=A,A
 
 [Rufb]
-Name=冰冻喷吐
-Tip=研究冰冻喷吐(|cffffcc00B|r)
-Ubertip="使得霜冻巨龙的攻击能在一段时间内使受攻击的建筑物暂时失去功效。"
+Name=Freezing Breath
+Tip=Research Freezing |cffffcc00B|rreath
+Ubertip="Enables Frost Wyrms to use the Freezing Breath ability. When cast on a building, temporarily stops production."
 Hotkey=B
 
 [Rusl]
-Name=骨质增强术
-Tip=研究骨质增强术(|cffffcc00S|r)
-Ubertip="能增加召唤出来的骷髅战士的持续时间<Rusl,base1>秒。"
+Name=Skeletal Longevity
+Tip=Research |cffffcc00S|rkeletal Longevity
+Ubertip="Increases the duration of raised Skeleton Warriors and Skeletal Mages by <Rusl,base1> seconds."
 Hotkey=S
 
 [Rupc]
-Name=疾病云雾
-Tip=研究疾病云雾(|cffffcc00D|r)
-Ubertip="使得憎恶能带有疾病云雾光环，从而在<Aap1,DataA1>内对周围的单位造成每秒<Aap1,DataB1>点的伤害。而绞肉车的攻击也可以带有疾病效果从而在<Aap2,DataA1>秒内对周围的单位造成每秒<Aap2,DataB1>点的伤害。|n不死族的单位对疾病云雾免疫。"
+Name=Disease Cloud
+Tip=Research |cffffcc00D|risease Cloud
+Ubertip="Gives Abominations a Disease Cloud aura that deals <Aap1,DataB1> damage per second for <Aap1,DataA1> seconds to nearby enemy units. Meat Wagons will cause Disease Clouds wherever they attack that deal <Aap2,DataB1> damage per second for <Aap2,DataA1> seconds to nearby enemy units. |nUndead are immune to Disease Cloud."
 Hotkey=D
 
 [Rusm]
-Name=骷髅法术
-Tip=研究骷髅法术(|cffffcc00M|r)
-Ubertip="让复活死尸技能召唤出来的两个骷髅中的一个成为骷髅魔法师。"
+Name=Skeletal Mastery
+Tip=Research Skeletal |cffffcc00M|rastery
+Ubertip="Causes one of the two skeletons created by Raise Dead to be a Skeletal Mage."
 Hotkey=M
 
 [Rubu]
-Name=钻地
-Tip=研究钻地(|cffffcc00B|r)
-Ubertip="让穴居恶魔具有钻地技能。钻地的穴居恶魔是隐形的，并获得提升的生命恢复速度，但不可攻击。"
+Name=Burrow
+Tip=Research |cffffcc00B|rurrow
+Ubertip="Crypt Fiends gain the ability to burrow. Burrowed Crypt Fiends are invisible and gain increased hit point regeneration, but cannot attack."
 Hotkey=B
 
 
 [Ruex]
-Name=挖掘尸体
-Tip=挖掘尸体(|cffffcc00E|r)
-Ubertip="让绞肉车能制造出尸体。"
+Name=Exhume Corpses
+Tip=Research |cffffcc00E|rxhume Corpses
+Ubertip="Gives Meat Wagons the ability to generate corpses."
 Hotkey=E
 
 [Rupm]
-Name=背包技能
-EditorSuffix= (不死族)
-Tip=研究背包技能(|cffffcc00B|r)
-Ubertip="给予指定的不死族地面单位携带物品的能力。"
+Name=Backpack
+EditorSuffix= (Undead)
+Tip=Research |cffffcc00B|rackpack
+Ubertip="Gives specific Undead ground units the ability to carry items."
 Hotkey=B

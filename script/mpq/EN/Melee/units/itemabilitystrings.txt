@@ -2,303 +2,302 @@
 
 // Rune of the Watcher
 [APwt]
-Name=岗哨神符
+Name=Rune of the Watcher
 
 // Blink (item)
 [AIbk]
-Name=闪烁(物品等级)
+Name=Blink (Item Version)
 
 // One time permanent strength gain ability, usually on a Tome
 [AIsm]
-Name=能增加力量的物品
+Name=Item Strength Gain
 
 // One time permanent agility gain ability, usually on a tome
 [AIam]
-Name=能增加敏捷度的物品
+Name=Item Agility Gain
 
 // short duration single target speed bonus
 [AIsp]
-Name=能暂时加快移动速度的物品
+Name=Item Temporary Speed Bonus
 
 // continuous Attack Bonus
 [AIat]
-Name=增加攻击力的物品
-EditorSuffix=(+3)
+Name=Item Damage Bonus
 
 // continuous Defense Bonus
 [AIde]
-Name=能增加护甲的物品
+Name=Item Armor Bonus
 
 // area of effect damage of destructables
 [AIdm]
-Name=能对范围内的树木/墙壁造成伤害的物品
+Name=Item Area tree/wall damage
 
 // One time permanent hero experience gain, usually on a tome
 [AIem]
-Name=能获取经验值的物品
+Name=Item Experience Gain
 
 [AIe2]
-Name=能获取经验值的物品
-EditorSuffix= (大型)
+Name=Item Experience Gain
+EditorSuffix= (Greater)
 
 // Cloud of Fog
 [AIfg]
-Name=乌云技能
-Tip=乌云技能(|cffffcc00C|r)
-Ubertip="能产生一小块乌云使得一定范围内的建筑物丧失远程攻击的能力。|n持续<Aclf,Dur1>秒。"
+Name=Cloud of Fog
+Tip=|cffffcc00C|rloud of Fog
+Ubertip="Creates a small cloud that stops buildings with ranged attacks that are within it from attacking. |nLasts <Aclf,Dur1> seconds."
 Hotkey=C
 
 // Flag Ability, to show something on a hero carrying the flag
 [AIfl]
-Name=抢夺旗帜
+Name=Item Capture The Flag
 
 // human flag
 [AIfm]
-Name=抢夺旗帜
-EditorSuffix=(人族)
+Name=Item Capture The Flag
+EditorSuffix=(Human)
 
 // night elf flag
 [AIfn]
-Name=抢夺旗帜
-EditorSuffix=(暗夜精灵族)
+Name=Item Capture The Flag
+EditorSuffix=(Night Elf)
 
 // orc flag
 [AIfo]
-Name=抢夺旗帜
-EditorSuffix=(兽族)
+Name=Item Capture The Flag
+EditorSuffix=(Orc)
 
 // undead flag
 [AIfe]
-Name=抢夺旗帜
-EditorSuffix=(不死族)
+Name=Item Capture The Flag
+EditorSuffix=(Undead)
 
 // One time permanent hero level gain, usually on a tome
 [AIlm]
-Name=能提高等级的物品
+Name=Item Level Gain
 
 // One time permanent intelligence gain, usually on a Tome
 [AIim]
-Name=能提高智力的物品
+Name=Item Intelligence Gain
 
 // One time permanent int/agi/str gain
 [AIxm]
-Name=能提高英雄三个属性的物品
+Name=Item Int/Agi/Str gain
 
 // single shot one target healing (potions, typically)
 [AIhe]
-Name=具有医疗效果的物品
+Name=Item Healing
 
 [AIhx]
-Name=具有医疗效果的物品
-EditorSuffix=(最小的)
+Name=Item Healing
+EditorSuffix=(least)
 
 // single shot group area effect healing (scrolls, typically)
 [AIha]
-Name=能进行范围医疗的物品
+Name=Item Area Healing
 
 [AIhb]
-Name=能进行范围医疗的物品
-EditorSuffix= (大型)
+Name=Item Area Healing
+EditorSuffix= (Greater)
 
 // single shot group area effect healing (powerup, lesser)
 [APh1]
-Name=力量上升治疗区域减小
+Name=Powerup Area Healing Lesser
 
 // single shot group area effect healing (powerup)
 [APh2]
-Name=力量上升治疗区域 
+Name=Powerup Area Healing 
 
 // single shot group area effect healing (powerup, greater)
 [APh3]
-Name=力量上升治疗区域增强
+Name=Powerup Area Healing Greater
 
 
 // short duration single target invisibility (potion)
 [AIvi]
-Name=能让单位暂时隐身的物品
+Name=Item Temporary Invisibility
 
 // short duration single target invulnerability (potion)
 [AIvu]
-Name=能让单位暂时无敌的物品
+Name=Item Temporary Invulnerability
 
 [AIvl]
-Name=能让单位暂时无敌的物品
-EditorSuffix= (小型)
+Name=Item Temporary Invulnerability
+EditorSuffix= (Lesser)
 
 // single shot one target mana regain (potions, typically)
 [AIma]
-Name=能增加魔法恢复速度的物品
+Name=Item Mana Regain
 
 // single shot group area effect mana regain (scrolls, typically)
 [AImr]
-Name=能提高一定范围内所有单位魔法值的物品
+Name=Item Area Mana Regain
 
 // single shot group area effect mana regain (rune)
 [APmr]
-Name=神秘区域魔法恢复
+Name=Rune Area Mana Regain
 
 // single shot group area effect mana regain (rune, greater)
 [APmg]
-Name=神秘区域魔法恢复增强
+Name=Rune Area Mana Regain Greater
 
 // single shot one target life/mana restore (potion)
 [AIre]
-Name=能进行医疗和增加魔法值的单位
+Name=Item Heal/Mana Regain
 
 // single shot group area effect life/mana restore (scroll)
 [AIra]
-Name=能提高一定范围内所有单位魔法值和生命值的物品
+Name=Item Area Heal/Mana Regain
 
 // single shot group area effect life/mana restore (rune)
 [APra]
-Name=神秘区域生命/魔法恢复
+Name=Rune Area Heal/Mana Regain
 
 // area of effect application of a defensive buff (scroll of protection)
 [AIda]
-Name=能暂时提高一定范围内所有单位护甲的物品
+Name=Item Temporary Area Armor Bonus
 
 // area of effect application of a defensive buff (scroll of protection) (with healing)
 [AIdb]
-Name=能暂时加强范围内所有单位护甲的物品
-EditorSuffix= (具有生命与魔法恢复技能)
+Name=Item Temporary Area Armor Bonus
+EditorSuffix= (with Life & Mana Healing)
 
 // buff that AIda applies
 [Bdef]
-Bufftip=守护卷轴
-Buffubertip="该单位受到了守护卷轴的作用，因此它的护甲暂时得到了加强。"
+Bufftip=Scroll of Protection
+Buffubertip="This unit is affected by a Scroll of Protection; its armor is temporarily increased."
 
 // area of effect detection (crystal ball)
 [AIta]
-Name=能探测一定区域的物品
+Name=Item Area Detection
 
 // continuous Mana regeneration (ring)
 [AIrm]
-Name=能增加魔法恢复速度的物品
+Name=Item Mana Regeneration
 
 [AIfi]
-Name=霹雳闪电物品
+Name=Item Firebolt
 
 // Illusion generator
 [AIil]
-Name=幻象物品
+Name=Item Illusions
 
 [BIil]
-Bufftip=幻象物品
-Buffubertip="该单位是一个幻象，因此将从敌人那里得到额外的伤害。"
+Bufftip=Illusion
+Buffubertip="This unit is an illusion; it takes extra damage from enemies."
 
 // Dispel effect
 [AIdi]
-Name=具有驱逐魔法效果的物品
+Name=Item Dispel
 
 [AIds]
-Name=具有驱逐魔法效果的物品
-EditorSuffix= (有使用间隔)
+Name=Item Dispel
+EditorSuffix= (with cooldown)
 
 // Dispel effect (powerup)
 [APdi]
-Name=力量上升驱散
+Name=Powerup Dispel
 
 // Hero attacks get fire damage bonus, persistent, Orb of Fire
 [AIfb]
-Name=能带有火焰伤害的物品
+Name=Item Attack Fire Bonus
 
 // Hero attacks get lightning damage bonus, persistent, Orb of Lightning
 [AIlb]
-Name=能带有闪电伤害的物品
+Name=Item Attack Lightning Bonus
 
 // Hero attacks get black arrow bonus
 [AIdf]
-Name=能带有黑箭攻击伤害的物品
+Name=Item Attack Black Arrow Bonus
 
 // purge portion of lightning orb
 [AIlp]
-Name=带有净化效果的物品
+Name=Item Purge
 EditorSuffix= (1)
 
 // Hero attacks get frost damage bonus, persistent, Orb of Frost
 [AIob]
-Name=带有霜冻攻击效果的物品
+Name=Item Attack Frost Bonus
 
 [AIpb]
-Name=带有毒药效果的物品
+Name=Item Attack Poison Bonus
 
 [AIcb]
-Name=带有腐蚀攻击效果的物品
+Name=Item Attack Corruption Bonus
 
 [BIcb]
-Bufftip=腐蚀
-Buffubertip="该单位受到了腐蚀之球的攻击，因此其护甲得到了削弱。"
+Bufftip=Corruption
+Buffubertip="This unit was hit by an Orb of Corruption; its armor is temporarily reduced."
 
 // Hero sight range increase, persistent, Telescope
 [AIsi]
-Name=能提高视野范围的物品
+Name=Item Sight Range Bonus
 
 // Soul Gem Hero soul theft ability
 [AIso]
-Name=能盗取单位灵魂的物品
+Name=Item Soul Theft
 
 // Soul Gem Hero soul-carying ability - remove this to release the soul
 [Asou]
-Name=能占据单位灵魂的物品
+Name=Item Soul Possession
 
 // caster buff for AIso
 [BIsv]
-Bufftip=盗取灵魂
-Buffubertip="这是一个英雄的灵魂。"
+Bufftip=Soul Theft
+Buffubertip="This is the soul of a Hero."
 
 // reincarnation (ankh)
 [AIrc]
-Name=具有重生效果的物品
+Name=Item Reincarnation
 
 // recall (amulet)
 [AIrt]
-Name=召唤物品
+Name=Item Recall
 
 [AItp]
-Name=回城卷轴物品
+Name=Item Town Portal
 
 [AIco]
-Name=命令物品
+Name=Item Command
 
 // figurine unit summon ability - red drake
 [AIfd]
-Name=能召唤红龙的物品
+Name=Item Red Drake Summon
 
 // furbolg
 [AIff]
-Name=能召唤熊怪的物品
+Name=Item Furbolg Summon
 
 // rock golem
 [AIfr]
-Name=能召唤岩石傀儡的物品
+Name=Item Rock Golem Summon
 
 // doom guard
 [AIfu]
-Name=能召唤毁灭守卫的物品
+Name=Item Doom Guard Summon
 
 // felhound
 [AIfh]
-Name=能召唤地狱犬的物品
+Name=Item Felhound Summon
 
 // skeleton
 [AIfs]
-Name=能召唤骷髅战士的物品
+Name=Item Skeleton Summon
 
 // Ice Revenant
 [AIir]
-Name=能召唤冰冻幽灵的物品
+Name=Item Ice Revenant Summon
 
 // Ursa Warrior
 [AIuw]
-Name=能召唤熊怪战士的物品
+Name=Item Ursa Warrior Summon
 
 [BFig]
-Bufftip=召唤出来的物品
-Buffubertip="对于驱逐魔法，召唤出来的单位将受到额外的伤害。"
+Bufftip=Summoned Unit
+Buffubertip="Summoned units take additional damage from dispels."
 
 // place goblin land mine
 [AIpm]
-Name=能置放地精地雷的物品
+Name=Item Place Goblin Land Mine
 
 // permanent attack bonus
 [AIaa]
@@ -309,753 +308,743 @@ Name=Item Permanent Damage Gain
 Name=Item Permanent Life Gain
 
 [AIpx]
-Name=能永久增加生命值的物品
-EditorSuffix=(较小的)
+Name=Item Permanent Life Gain
+EditorSuffix=(lesser)
 
 // vampiric life steal ability
 [AIva]
-Name=能盗取生命值的物品
+Name=Item Life Steal
 
 // cloak of flames immolation
 [AIcf]
-Name=具有献祭效果的物品
+Name=Item Immolation
 
 // Cloak of Flames immolation buff
 [BIcf]
-Bufftip=火焰风衣
-Buffubertip="该单位拥有火焰风衣，周围的地面单位会受到持续的伤害。"
+Bufftip=Cloak of Flames
+Buffubertip="This unit has a Cloak of Flames; nearby enemy ground units will take damage over time."
 
 // hero stat bonus
 [AIab]
-Name=能提高英雄属性的物品
+Name=Item Hero Stat Bonus
 
 // freeze damage bonus
 [AIzb]
-Name=带有冰冻攻击伤害的物品
+Name=Item Freeze Damage Bonus
 
 // max life bonus
 [AIml]
-Name=能增加生命值的物品
+Name=Item Life Bonus
 
 [AIlz]
-Name=能增加生命值的物品
-EditorSuffix=(最小的)
+Name=Item Life Bonus
+EditorSuffix=(least)
 
 // regen life
 [Arel]
-Name=提高英雄生命值恢复速度的物品
+Name=Item Life Regeneration
 
 // anti-magic shield
 [Aami]
-Name=具有反魔法盾的物品
+Name=Item Anti-Magic Shell
 
 // max mana bonus
 [AImm]
-Name=能增加魔法值的物品
+Name=Item Mana Bonus
 
 [AImz]
-Name=能增加魔法值的物品(100)
+Name=Item Mana Bonus (100)
 
 [AImv]
-Name=能增加魔法值的物品(75)
+Name=Item Mana Bonus (75)
 
 [AI2m]
-Name=能增加魔法值的物品(200)
+Name=Item Mana Bonus (200)
 
 // attack speed increase
 [AIas]
-Name=能提高攻击速度的物品
+Name=Item Attack Speed Bonus
 
 [AIsx]
-Name=能提高攻击速度的物品
-EditorSuffix= (加速手套)
+Name=Item Attack Speed Bonus
+EditorSuffix= (Gloves of Haste)
 
 [AIs2]
-Name=能提高进攻速度的物品
-EditorSuffix= (较大的)
+Name=Item Attack Speed Bonus
+EditorSuffix= (Greater)
 
 [AIan]
-Name=能操纵死尸的物品
+Name=Item Animate Dead
 
 [AIrs]
-Name=具有复活效果的物品
+Name=Item Resurrection
 
 [AIrx]
-Name=具有复活效果的物品
-EditorSuffix=(魔法施放间隔时间)
+Name=Item Resurrection
+EditorSuffix=(cooldown)
 
 [APrl]
-Name=小型复活神符
+Name=Lesser Rune Resurrection
 
 [APrr]
-Name=大型复活神符
+Name=Greater Rune Resurrection
 
 [AIaa]
-Name=能增加攻击力的物品
+Name=Item Attack Damage Gain
 
 [AImi]
-Name=能增加生命值的物品
+Name=Item Life Gain
 
 [AIms]
-Name=能提高移动速度的物品
+Name=Item Move Speed Bonus
 
 [AIa3]
-Name=能提高英雄属性的物品
-EditorSuffix=(+3 敏捷度)
+Name=Item Hero Stat Bonus
+EditorSuffix=(+3 Agility)
 
 [AIa4]
-Name=能提高英雄属性的物品
-EditorSuffix=(+4 敏捷度)
+Name=Item Hero Stat Bonus
+EditorSuffix=(+4 Agility)
 
 [AIa6]
-Name=能提高英雄属性的物品
-EditorSuffix=(+6 敏捷度)
+Name=Item Hero Stat Bonus
+EditorSuffix=(+6 Agility)
 
 [AIaz]
-Name=能提高英雄属性的物品
-EditorSuffix=(+10 敏捷度)
+Name=Item Hero Stat Bonus
+EditorSuffix=(+10 Agility)
 
 [AIx5]
-Name=能提高英雄属性的物品
-EditorSuffix=(+5 所有属性)
+Name=Item Hero Stat Bonus
+EditorSuffix=(+5 All Stats)
 
 [AIx2]
-Name=能提高英雄属性的物品
-EditorSuffix=(+2 所有属性)
+Name=Item Hero Stat Bonus
+EditorSuffix=(+2 All Stats)
 
 [AIs3]
-Name=能提高英雄属性的物品
-EditorSuffix=(+3 力量)
+Name=Item Hero Stat Bonus
+EditorSuffix=(+3 Strength)
 
 [AIs4]
-Name=能提高英雄属性的物品
-EditorSuffix=(+4 力量)
+Name=Item Hero Stat Bonus
+EditorSuffix=(+4 Strength)
 
 [AIs6]
-Name=能提高英雄属性的物品
-EditorSuffix=(+6 力量)
+Name=Item Hero Stat Bonus
+EditorSuffix=(+6 Strength)
 
 [AIi3]
-Name=能提高英雄属性的物品
-EditorSuffix=(+3 智力)
+Name=Item Hero Stat Bonus
+EditorSuffix=(+3 Intelligence)
 
 [AIi4]
-Name=能提高英雄属性的物品
-EditorSuffix=(+4 智力)
+Name=Item Hero Stat Bonus
+EditorSuffix=(+4 Intelligence)
 
 [AIi6]
-Name=能提高英雄属性的物品
-EditorSuffix=(+6 智力)
+Name=Item Hero Stat Bonus
+EditorSuffix=(+6 Intelligence)
 
 [AIgm]
-Name=能增加敏捷度的物品
+Name=Item Agility Gain
 EditorSuffix=(+2)
 
 [AItm]
-Name=能提高智力的物品
+Name=Item Intelligence Gain
 EditorSuffix=(+2)
 
 [AInm]
-Name=能增加力量的物品
+Name=Item Strength Gain
 EditorSuffix=(+2)
 
 [AIt6]
-Name=增加攻击力的物品
+Name=Item Damage Bonus
 EditorSuffix=(+6)
 
 [AIt9]
-Name=增加攻击力的物品
+Name=Item Damage Bonus
 EditorSuffix=(+9)
 
 [AItc]
-Name=增加攻击力的物品
+Name=Item Damage Bonus
 EditorSuffix=(+12)
 
 [AItf]
-Name=增加攻击力的物品
+Name=Item Damage Bonus
 EditorSuffix=(+15)
 
 [AIcy]
-Name=飓风
-Tip=飓风(|cffffcc00C|r)
-Ubertip="将一个目标非机械敌单位抛入空中，使其无法移动，攻击或使用魔法，同时使其他单无法攻击或对其使用魔法。|n持续<AIcy,Dur1>秒。"
+Name=Cyclone
+Tip=|cffffcc00C|ryclone
+Ubertip="Tosses a target non-mechanical enemy unit into the air, rendering it unable to move, attack or cast spells, and stopping others from attacking or casting on it. |nLasts <AIcy,Dur1> seconds."
 Hotkey=C
-EditorSuffix=(物品)
+EditorSuffix=(Item)
 
 [AId1]
-Name=能提高护甲的物品
+Name=Item Armor Bonus
 EditorSuffix=(+1)
 
 [AId2]
-Name=能提高护甲的物品
+Name=Item Armor Bonus
 EditorSuffix=(+2)
 
 [AId3]
-Name=能提高护甲的物品
+Name=Item Armor Bonus
 EditorSuffix=(+3)
 
 [AId4]
-Name=能提高护甲的物品
+Name=Item Armor Bonus
 EditorSuffix=(+4)
 
 [AId5]
-Name=能提高护甲的物品
+Name=Item Armor Bonus
 EditorSuffix=(+5)
 
 [AId7]
-Name=能加强护甲的物品
+Name=Item Armor Bonus
 EditorSuffix=(+7)
 
 [AId8]
-Name=能提高护甲的物品
+Name=Item Armor Bonus
 EditorSuffix=(+8)
 
 [AId0]
-Name=能提高护甲的物品
+Name=Item Armor Bonus
 EditorSuffix=(+10)
 
 [AIin]
-EditorSuffix=(物品)
+EditorSuffix=(Item)
 
 [AIlf]
-Name=能增加生命值的物品
-EditorSuffix=(最小的)
+Name=Item Life Bonus
+EditorSuffix=(Least)
 
 [AIl1]
-Name=能增加生命值的物品
-EditorSuffix=(较小的)
+Name=Item Life Bonus
+EditorSuffix=(Lesser)
 
 [AIl2]
-Name=能增加生命值的物品
-EditorSuffix=(较大的)
+Name=Item Life Bonus
+EditorSuffix=(Greater)
 
 [Arll]
-Name=提高英雄生命值恢复速度的物品
-EditorSuffix=(较小的)
+Name=Item Life Regeneration
+EditorSuffix=(Lesser)
 
 [AIh1]
-Name=具有医疗效果的物品
-EditorSuffix=(较小的)
+Name=Item Healing
+EditorSuffix=(Lesser)
 
 [AIh2]
-Name=具有医疗效果的物品
-EditorSuffix=(较大的)
+Name=Item Healing
+EditorSuffix=(Greater)
 
 [AIhw]
-Name=治疗守卫
-Ubertip="召唤一个不可移动的守卫来治疗周围的非机械友方单位<Aoar,DataA1,%>%生命值/秒，持续时间为 <AIhw,Dur1>秒。"
-EditorSuffix=(物品)
+Name=Healing Ward
+Ubertip="Summons an immovable ward that heals <Aoar,DataA1,%>% of a nearby friendly non-mechanical unit's hit points per second. |nLasts <AIhw,Dur1> seconds."
+EditorSuffix=(Item)
 
 [AIsw]
-Name=岗哨守卫
-Ubertip="召唤出一个固定隐形的守卫来监视一定的区域。|n能看见隐形单位。|n持续<AIsw,Dur1>秒。"
-EditorSuffix=(物品)
+Name=Sentry Ward
+Ubertip="Summons an invisible and immovable ward that provides vision in an area. |nCan see invisible units. |nLasts <AIsw,Dur1> seconds."
+EditorSuffix=(Item)
 
 [AIv1]
-Name=能让单位暂时隐身的物品
-EditorSuffix=(较小的)
+Name=Item Temporary Invisibility
+EditorSuffix=(Lesser)
 
 [AIv2]
-Name=能让单位暂时隐身的物品
-EditorSuffix=(较大的)
+Name=Item Temporary Invisibility
+EditorSuffix=(Greater)
 
 [AIm1]
-Name=能增加魔法恢复速度的物品
-EditorSuffix=(较小的)
+Name=Item Mana Regain
+EditorSuffix=(Lesser)
 
 [AIm2]
-Name=能增加魔法恢复速度的物品
-EditorSuffix=(较大的)
+Name=Item Mana Regain
+EditorSuffix=(Greater)
 
 [AIrn]
-EditorSuffix=(较小的)
+EditorSuffix=(Lesser)
 
 [AIad]
-EditorSuffix=(物品)
+EditorSuffix=(Item)
 
 [AIcd]
-EditorSuffix=(物品)
+EditorSuffix=(Item)
 
 [AIba]
-EditorSuffix=(物品)
+EditorSuffix=(Item)
 
 [AIav]
-EditorSuffix=(物品)
+EditorSuffix=(Item)
 
 [AIar]
-EditorSuffix=(物品)
+EditorSuffix=(Item)
 
 [AIae]
-EditorSuffix=(物品)
+EditorSuffix=(Item)
 
 [AIau]
-EditorSuffix=(物品)
+EditorSuffix=(Item)
 
 [AIls]
-Name=闪电护盾
-Ubertip="在目标单位周围形成一个带电护罩，能对其周围的单位造成每秒<AIls,DataA1>点的伤害。|n持续<AIls,Dur1>秒。"
-EditorSuffix=(物品)
+Name=Lightning Shield
+Ubertip="Forms a shield of electricity around a target unit, dealing <AIls,DataA1> damage per second to units around it. |nLasts <AIls,Dur1> seconds."
+EditorSuffix=(Item)
 
 [AIrr]
-Name=咆哮
-Ubertip="增加周围友军单位<AIrr,DataA1,%>%的攻击力。|n持续<AIrr,Dur1>秒。"
-EditorSuffix=(物品)
+Name=Roar
+Ubertip="Gives friendly nearby units a <AIrr,DataA1,%>% bonus to damage. |nLasts <AIrr,Dur1> seconds."
+EditorSuffix=(Item)
 
 [AIev]
-Name=闪避
-Ubertip="给予<AIev,DataA1,%>%的概率来躲避掉敌人的攻击。"
-EditorSuffix=(物品)
+Name=Evasion
+Ubertip="Gives a <AIev,DataA1,%>% chance to avoid an attack."
+EditorSuffix=(Item)
 
 [AImx]
-Name=魔法免疫
-Ubertip="让目标单位对所有魔法免疫。"
-EditorSuffix=(物品)
+Name=Spell Immunity
+Ubertip="Renders this unit immune to all spells."
+EditorSuffix=(Item)
 
 [AImb]
-Name=能增加魔法值的物品
-EditorSuffix=(最小的)
+Name=Item Mana Bonus
+EditorSuffix=(Least)
 
 [AIbm]
-Name=能增加魔法值的物品
-EditorSuffix=(较大的)
+Name=Item Mana Bonus
+EditorSuffix=(Greater)
 
 [AIuv]
-Name=夜视能力
-EditorSuffix=(物品)
+Name=Ultravision
+EditorSuffix=(Item)
 
 [AImh]
-Name=能永久增加生命值的物品
+Name=Item Permanent Life Gain
 EditorSuffix=(+50)
 
 [AIa1]
-Name=能提高英雄属性的物品
-EditorSuffix=(+1 敏捷度)
+Name=Item Hero Stat Bonus
+EditorSuffix=(+1 Agility)
 
 [AIx1]
-Name=能提高英雄属性的物品
-EditorSuffix=(+1 所有属性)
+Name=Item Hero Stat Bonus
+EditorSuffix=(+1 All Stats)
 
 [AIs1]
-Name=能提高英雄属性的物品
-EditorSuffix=(+1 力量)
+Name=Item Hero Stat Bonus
+EditorSuffix=(+1 Strength)
 
 [AIi1]
-Name=能提高英雄属性的物品
-EditorSuffix=(+1 智力)
+Name=Item Hero Stat Bonus
+EditorSuffix=(+1 Intelligence)
 
 [AIfc]
-Name=飞行地毯
+Name=Flying Carpet
 
 // Healing Salve
 [AIrl]
-Name=医疗剂
+Name=Healing Salve
 
 [BIrl]
-Bufftip=再生物品
-Buffubertip="该单位身上带有再生物品，因此其生命值将会持续地恢复。"
+Bufftip=Regeneration
+Buffubertip="This unit has Regeneration on it; its hit points will regenerate over time."
 
 // Clarity Potion
 [AIpr]
-Name=净化药水
+Name=Clarity Potion
 
 [AIpl]
-Name=小净化药水
+Name=Lesser Clarity Potion
 
 // generic rejuv potion/scroll base
 [AIp1]
-Name=普通物品-回复效果
+Name=Generic Item-Rejuv Effect
 
 [BIrm]
-Bufftip=净化药水
-Buffubertip="该单位使用了净化药水，因此其魔法值会持续地恢复。"
+Bufftip=Clarity Potion
+Buffubertip="This unit drank a Clarity Potion; its mana will regenerate over time."
 
 [AIp2]
-Name=普通物品-回复效果
+Name=Generic Item-Rejuv Effect
 EditorSuffix= (II)
 
 [AIp3]
-Name=普通物品-回复效果
+Name=Generic Item-Rejuv Effect
 EditorSuffix= (III)
 
 [AIp4]
-Name=普通物品-回复效果
+Name=Generic Item-Rejuv Effect
 EditorSuffix= (IV)
 
 [AIp5]
-Name=普通物品-回复效果
+Name=Generic Item-Rejuv Effect
 EditorSuffix= (V)
 
 [AIp6]
-Name=普通物品-回复效果
+Name=Generic Item-Rejuv Effect
 EditorSuffix= (VI)
 
 // Scroll of Regeneration
 [AIsl]
-Name=恢复卷轴
+Name=Scroll of Regeneration
 
 [BIrg]
-Bufftip=生命恢复
-Buffubertip="该单位将会逐渐恢复生命值和魔力值。"
-EditorSuffix= (物品)
+Bufftip=Rejuvenation
+Buffubertip="This unit will regenerate health and mana over time."
 
 // One time permanent gold increase
 [AIgo]
-Name=金箱子
+Name=Chest of Gold
 
 // One time permanent lumber increase
 [AIlu]
-Name=木材堆
+Name=Bundle of Lumber
 
 // Flare Gun
 [AIfa]
-Name=信号枪
+Name=Flare Gun
 
 [AIrv]
-Name=能显示整个地图的物品
+Name=Item Reveal Entire Map
 
 
 // Wand of Neutralization
 [AIdc]
-Name=带有锁链驱逐效果的物品
+Name=Item Chain Dispel
 
 // Spider Silk
 [AIwb]
-Name=带有蛛网技能的物品
+Name=Item Web
 
 // Monster Lure
 [AImo]
-Name=怪兽诱捕守卫
+Name=Monster Lure
 
 [BImo]
-Bufftip=怪兽诱捕守卫
-Buffubertip="周围的中立单位都将受到诱惑而为你服务。"
+Bufftip=Monster Lure
+Buffubertip="Nearby creeps will be summoned to this lure."
 
 // Random Item
 [AIri]
-Name=随机物品
+Name=Random Item
 
 // Blight Placement
 [Ablp]
-Name=荒芜之地的置放
+Name=Blight Placement
 
 // Steal
 [Aste]
-Name=盗取
+Name=Steal
 
 // Change TOD
 [AIct]
-Name=改变一天的时间
+Name=Change Time of Day
 
 // Vampiric Potion
 [AIpv]
-Name=吸血药水
+Name=Vampiric Potion
 
 [BIpv]
-Bufftip=吸血药水
-Buffubertip="该英雄使用了吸血药水;因此其攻击力得到了增加，而且攻击的同时也能增加自己的生命值。"
+Name=Vampiric Potion
+Bufftip=Vampiric Potion
+Buffubertip="This Hero used a Vampiric Potion; the Hero has increased damage and a life-draining attack."
 
 // Spell Damage Reduction
 [AIsr]
-Name=魔法伤害减少
+Name=Spell Damage Reduction
 
 // Build Tiny Castle
 [AIbl]
-Name=建造小型的城堡
+Name=Build Tiny Castle
 
 // Build Tiny Castle
 [AIbg]
-Name=建造小型的大厅
+Name=Build Tiny Great Hall
 
 //build tiny tower
 [AIbt]
-Name=建造小型的哨塔 
+Name=Build Tiny Scout Tower 
 
 
 // Shadowsight
 [Ashs]
-Name=影子权杖
+Name=Wand of Shadowsight
 
 [Bshs]
-Bufftip=影子权杖
-Buffubertip="该单位受到了影子权杖的作用; 因此其将暴露在敌人的视野之下。"
+Bufftip=Wand of Shadowsight
+Buffubertip="This unit was hit by a Wand of Shadowsight; it is revealed to an enemy player."
 
 // Tome of Retraining
 [Aret]
-Name=再训练之书
+Name=Tome of Retraining
 
 // Staff of Teleportation
 [AImt]
-Name=传送权杖
+Name=Staff of Teleportation
 
 // Staff of Preservation
 [ANpr]
-Name=保存权杖
+Name=Staff of Preservation
 
 // Mechanical Critter
 [Amec]
-Name=机械类的小玩艺
+Name=Mechanical Critter
 
 [Bmec]
-Bufftip=机械类的小玩艺
-Buffubertip="召唤出来的单位会受到驱逐魔法的伤害。"
+Bufftip=Mechanical Critter
+Buffubertip="Summoned units take damage from dispels."
 
 // Spell Shield
 [ANss]
-Name=魔法护盾
-EditorSuffix= (护身符)
+Name=Spell Shield
+EditorSuffix= (Amulet)
 
 // Spell Shield (AOE)
 [ANse]
-Name=魔法护盾
-EditorSuffix= (神符)
+Name=Spell Shield
+EditorSuffix= (Rune)
 
 [BNss]
-Bufftip=魔法护盾
-Buffubertip="一种可以阻挡法师的防护之盾。"
+Bufftip=Spell Shield
+Buffubertip="A protective shield that blocks a spell."
 
 // Spell book
 [Aspb]
-Name=魔法书
+Name=Spell Book
 
 // Raise Dead
 [AIrd]
-Name=复活死尸(物品)
+Name=Raise Dead (Item)
 
 // Staff of Sanctuary
 [ANsa]
-Name=避难权杖
+Name=Staff of Sanctuary
 
 [BNsa]
-Bufftip=避难权杖
-Buffubertip="该单位处于避难权杖的效果之下，因此其生命值将持续地恢复，但是不能移动，攻击和施放任何魔法。"
+Bufftip=Sanctuary
+Buffubertip="This unit is under the effects of a Staff of Sanctuary; its hit points will regenerate over time, but it cannot move, attack or cast spells."
 
 [AIsa]
-Name=加速卷轴
+Name=Scroll of Haste
 
 [APsa]
-Name=速度神符
+Name=Rune of Speed
 
 [AItb]
-Name=尘土之影
+Name=Dust of Appearance
 
 [Bdet]
-Bufftip=尘土之影
-Buffubertip="尘土之影能显示出敌人的隐形单位。"
+Bufftip=Dust of Appearance
+Buffubertip="The Dust of Appearance reveals invisible units to enemy players."
 
 [AIsb]
-Name=减速之球 
+Name=Orb of Slow 
 
 [AIll]
-Name=闪电之球(新的)
+Name=Orb of Lightning (new)
 
 [AIos]
-Name=减速
-Tip=减速(|cffffcc00W|r)
-Ubertip="减慢目标单位<AIos,DataB1,%>%的攻击速度和<AIos,DataA1,%>%的移动速度。|n持续<AIos,Dur1>秒。"
-EditorSuffix= (圆球视野)
+Name=Slow
+Tip=Slo|cffffcc00w|r
+Ubertip="Slows a target enemy unit's attack rate by <AIos,DataB1,%>% and movement speed by <AIos,DataA1,%>%. |nLasts <AIos,Dur1> seconds."
+EditorSuffix= (Orb Version)
 
 // Orb of Darkness
 [ANbs]
-Name=黑暗之球
+Name=Orb of Darkness
 
 // Spirit Link (AOE)
 [Aspp]
-Name=灵魂锁链
-EditorSuffix= (地区)
+Name=Spirit Link
+EditorSuffix= (Area)
 
 [AIrb]
-Name=重生
+Name=Rebirth
 
 [BIrb]
-Bufftip=再生
-Buffubertip="这个单位重生了。"
+Bufftip=Reborn
+Buffubertip="This unit has been reborn."
 
 // Dark Summoning
 [AUds]
-Name=黑暗召唤
-Tip=黑暗召唤(|cffffcc00D|r)
-Ubertip="召唤出<AUds,DataA1>个友军单位来到自己的身边。"
+Name=Dark Summoning
+Tip=|cffffcc00D|rark Summoning
+Ubertip="Summons <AUds,DataA1> friendly units from a target area to the caster."
 Hotkey=D
-Researchtip="学习黑暗召唤(|cffffcc00D|r)"
-Researchubertip="召唤出<AUds,DataA1>个友军单位来到自己的身边。"
+Researchtip="Learn |cffffcc00D|rark Summoning"
+Researchubertip="Summons <AUds,DataA1> friendly units from a target area to the caster."
 Researchhotkey=D
 
 // anti-magic shield
 [AIxs]
-Name=具有反魔法盾的物品
+Name=Item Anti-Magic Shell
 
 // divine shield item
 [AIdv]
-Name=物品神圣护甲
+Name=Item Divine Shield
 
 // silence item
 [AIse]
-Name=物品沉默
+Name=Item Silence
 
 // item purge
 [AIpg]
-Name=带有净化效果的物品
+Name=Item Purge
 EditorSuffix= (2)
 
 // item purge
 [AIps]
-Name=带有净化效果的物品
+Name=Item Purge
 EditorSuffix= (3)
 
 //#RESTNOBETA
 [AItg]
-Name=增加攻击力的物品
+Name=Item Damage Bonus
 EditorSuffix=(+1)
 
 [AIth]
-Name=增加攻击力的物品
+Name=Item Damage Bonus
 EditorSuffix=(+2)
 
 [AIti]
-Name=增加攻击力的物品
+Name=Item Damage Bonus
 EditorSuffix=(+4)
 
 [AItj]
-Name=增加攻击力的物品
+Name=Item Damage Bonus
 EditorSuffix=(+5)
 
 [AItk]
-Name=增加攻击力的物品
+Name=Item Damage Bonus
 EditorSuffix=(+7)
 
 [AItl]
-Name=增加攻击力的物品
+Name=Item Damage Bonus
 EditorSuffix=(+8)
 
 [AItn]
-Name=增加攻击力的物品
+Name=Item Damage Bonus
 EditorSuffix=(+10)
 
 [AItx]
-Name=增加攻击力的物品
+Name=Item Damage Bonus
 EditorSuffix=(+20)
 
 [AIh3]
-Name=最小的医疗能力
-EditorSuffix=(增加魔法施放间隔时间)
+Name=Least Healing
+EditorSuffix=(slow cooldown)
 
 // orcish battle standard
 [AIfx]
-Name=物品兽族战斗标准
+Name=Item Orcish Battle Standard
 
 // Hero attacks get fire damage bonus, persistent, Orb of Gul'dan
 [AIgd]
-Name=能带有火焰伤害的物品
-EditorSuffix= (古尔丹)
+Name=Item Attack Fire Bonus
+EditorSuffix= (Gul'dan)
 
 
 // tiny altar of kings
 [AIbh]
-Name=建造微型国王祭坛
+Name=Build Tiny Altar of Kings
 
 // tiny blacksmith
 [AIbb]
-Name=建造微型铁匠铺
+Name=Build Tiny Blacksmith
 
 // tiny lumber mill
 [AIbr]
-Name=建造微型伐木场
+Name=Build Tiny Lumber Mill
 
 // tiny farm
 [AIbf]
-Name=建造微型农场
+Name=Build Tiny Farm
 
 // tiny barracks
 [AIbs]
-Name=建造微型兵营
+Name=Build Tiny Barracks
 
 [AIdn]
-Name=影子之球 技能
+Name=Shadow Orb Ability
 
 [AInd]
-Name=鼓舞
-EditorSuffix= (特别战役物品)
+Name=Reanimation
+EditorSuffix= (special campaign item)
 
 [AIuf]
-Name=邪恶狂热
-EditorSuffix= (物品)
+Name=Unholy Frenzy
+EditorSuffix= (item)
 
 [AIcm]
-Name=控制魔法
-EditorSuffix= (物品)
+Name=Control Magic
+EditorSuffix= (item)
 
 [AIfz]
-Name=死亡之指
-EditorSuffix= (物品)
+Name=Finger of Death
+EditorSuffix= (item)
 
 [AIdp]
-Name=死亡契约
-EditorSuffix= (物品)
+Name=Death Pact
+EditorSuffix= (item)
 
 [AIdd]
-Name=防御
-EditorSuffix= (物品)
+Name=Defend
+EditorSuffix= (item)
 
 [AIbx]
-Name=重击
-EditorSuffix= (物品)
+Name=Bash
+EditorSuffix= (item)
 
 [AIwm]
-Name=水奴
-EditorSuffix= (物品)
+Name=Watery Minion
+EditorSuffix= (item)
 
 [AIsh]
-Name=召唤巨魔猎头者
-EditorSuffix= (物品)
+Name=Summon Headhunter
+EditorSuffix= (item)
 
 [BIsh]
-Bufftip=猎头者灵魂
+Bufftip=Headhunter Spirit
 
 [AIgx]
-Name=恢复光环
-EditorSuffix= (物品)
+Name=Regeneration Aura
+EditorSuffix= (item)
 
 [AIhl]
-Name=神圣之光
-EditorSuffix= (物品)
+Name=Holy Light
+EditorSuffix= (item)
 
 [AIsz]
-Name=慢性毒药
-EditorSuffix= (物品)
+Name=Slow Poison
+EditorSuffix= (item)
 
 [AIpz]
-Name=企鹅怪兽
+Name=Penguin Squeek
 
 [AIfw]
-Name=近战攻击带有火焰伤害
+Name=Melee Fire Damage Bonus
 
 [AIft]
-Name=近战攻击带有冰冻伤害
+Name=Melee Cold Damage Bonus
 
 [AIlx]
-Name=近战攻击带有闪电伤害
+Name=Melee Lightning Damage Bonus
 
 [AIcs]
-Name=致命一击
-EditorSuffix= (物品)
+Name=Critical Strike
+EditorSuffix= (item)
 
 [AIdd]
 Name=Passive Defense
 
 [AIcl]
-Name=闪电链
-EditorSuffix= (物品)
+Name=Chain Lightning
+EditorSuffix= (item)
 
 [AIxk]
-Name=狂暴愤怒
-EditorSuffix= (物品)
-
-//----------------------------------------------------
-// Buffs with no in-game text
-// EditorName is for the Object Editor list only
-
-[BIwb]
-EditorName=物品网
-
-[Btrv]
-EditorName=传送 显示
+Name=Berserk
+EditorSuffix= (item)

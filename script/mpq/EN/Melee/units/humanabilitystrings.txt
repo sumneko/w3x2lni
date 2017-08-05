@@ -1,90 +1,75 @@
-﻿// Aerial Shackles
+// Aerial Shackles
 [Amls]
-Name=空中锁镣
-Tip=空中锁镣(|cffffcc00E|r)
-Ubertip="以魔力禁锢一个目标敌空中单位，使其不能移动或攻击，并每秒受到<Amls,DataA1>伤害力。|n持续<Amls,Dur1>秒。"
+Name=Aerial Shackles
+Tip=A|cffffcc00e|rrial Shackles
+Ubertip="Magically binds a target enemy air unit, so that it cannot move or attack and takes <Amls,DataA1> damage per second. |nLasts <Amls,Dur1> seconds."
 Hotkey=E
 
 // Aerial Shackles Target
 [Bmlt]
-Bufftip=空中锁镣
-Buffubertip="该单位已受空中锁镣禁锢，无法移动或攻击，并且不断受到伤害。"
+Bufftip=Aerial Shackles
+Buffubertip="This unit is bound in Aerial Shackles; it cannot move or attack and will take damage over time."
 
 // area of effect detection (scry)
 [AHta]
-Name=显示
-Tip=显示(|cffffcc00R|r)
-Ubertip="在地图上显示一块区域。|n探测到隐形的单位。|n持续<AHta,Dur1>秒。"
+Name=Reveal
+Tip=|cffffcc00R|reveal
+Ubertip="Reveals an area of the map. |nDetects invisible units. |nLasts <AHta,Dur1> seconds."
 Hotkey=R
 
 // Feedback
 [Afbk]
-Name=魔法回应
-EditorSuffix= (魔法破坏者)
-Tip=魔法回应
-Ubertip="魔法破坏者每次攻击消耗目标<Afbk,DataA1>点魔法值。魔法燃烧后将会对攻击对象造成伤害。"
+Name=Feedback
+EditorSuffix= (Spell Breaker)
+Tip=Feedback
+Ubertip="Spell Breaker attacks destroy <Afbk,DataA1> mana per hit. The mana combusts, dealing damage to the attacked unit."
 
 // Feedback
 [Afbt]
-Name=魔法回应
-EditorSuffix= (神秘之塔)
-Tip=魔法回应
-Ubertip="塔的每次攻击消耗目标<Afbt,DataA1>点魔法值，同时还对于目标造成相同数值的伤害。|n|n这种塔的攻击对于召唤出来的单位还能造成<Afbt,DataE1>点的附加伤害。"
+Name=Feedback
+EditorSuffix= (Arcane Tower)
+Tip=Feedback
+Ubertip="This tower's attacks destroy <Afbt,DataA1> mana per hit. The mana combusts, dealing damage to the attacked unit."
 
 
 // Control Magic
 [Acmg]
-Name=控制魔法
-Tip=控制魔法(|cffffcc00C|r)
-Ubertip="控制一个敌军的召唤单位。消耗的魔法值基为召唤单位生命值的<Acmg,DataB1,%>%。"
+Name=Control Magic
+Tip=|cffffcc00C|rontrol Magic
+Ubertip="Takes control of an enemy summoned unit. The mana cost is <Acmg,DataB1,%>% of the summoned unit's base hit points."
 Hotkey=C
 
 [Bcmg]
-Bufftip=控制魔法
-Buffubertip="这个单位可以被控制。它现在遵从一个新主人了。"
+Bufftip=Control Magic
+Buffubertip="This unit has been controlled; it obeys a new master now."
 
 // Siphon Mana
 [AHdr]
-Name=魔法吸吮
-Tip=魔法吸吮(|cffffcc00N|r) - [|cffffcc00等级 1|r],魔法吸吮(|cffffcc00N|r) - [|cffffcc00等级 2|r],魔法吸吮(|cffffcc00N|r) - [|cffffcc00等级 3|r]
-Ubertip="让魔法能量在血魔法师和目标单位之间转移。能每秒吸取敌人<AHdr,DataB1>点魔法值。或者是每秒向己方单位转移<AHdr,DataE1>点魔法值。|n|n吸吮魔法能让血魔法师的魔法值超过它自己的最大值。但是如果你不是尽快使用超量的魔法值的话，那么这些魔法值会很快消失。|n持续<AHdr,Dur1>秒。","让魔法能量在血魔法师和目标单位之间转移。能每秒吸取敌人<AHdr,DataB2>点魔法值。或者是每秒向己方单位转移<AHdr,DataE2>点魔法值。|n|n吸吮魔法能让血魔法师的魔法值超过它自己的最大值。但是如果你不是尽快使用超量的魔法值的话，那么这些魔法值会很快地消失。|n持续<AHdr,Dur2>秒。","让魔法能量在血魔法师和目标单位之间转移。能每秒吸取敌人<AHdr,DataB3>点魔法值。或者是每秒向己方单位转移<AHdr,DataE3>点魔法值。|n|n吸吮魔法能让血魔法师的魔法值超过它自己的最大值。但是如果你不是尽快使用超量的魔法值的话，那么这些魔法值会很快地消失。|n持续<AHdr,Dur3>秒。"
+Name=Siphon Mana
+Tip=Sipho|cffffcc00n|r Mana - [|cffffcc00Level 1|r],Sipho|cffffcc00n|r Mana - [|cffffcc00Level 2|r],Sipho|cffffcc00n|r Mana - [|cffffcc00Level 3|r]
+Ubertip="Absorbs the magical energies of a target enemy unit by taking <AHdr,DataB1> mana per second from it and giving it to the Blood Mage. |nLasts <AHdr,Dur1> seconds.","Absorbs the magical energies of a target enemy unit by taking <AHdr,DataB2> mana per second from it and giving it to the Blood Mage. |nLasts <AHdr,Dur2> seconds.","Absorbs the magical energies of a target enemy unit by taking <AHdr,DataB3> mana per second from it and giving it to the Blood Mage. |nLasts <AHdr,Dur3> seconds."
 Hotkey=N
-Researchtip="学习魔法吸吮(|cffffcc00N|r) - [|cffffcc00等级 %d|r]"
-Researchubertip="让魔法能量在血魔法师和目标单位之间转移。能每秒吸取敌人一定点数的魔法值。或者是每秒向己方单位转移一定点数的魔法值。|n|n吸吮魔法能让血魔法师的魔法值超过它自己的最大值。但是如果你不是尽快使用超量的魔法值的话，那么这些魔法值会很快地消失。|n持续<AHdr,Dur1>秒。|n|n|cffffcc00等级 1|r - 每秒吸取点<AHdr,DataB1>魔法值。|n|cffffcc00等级 2|r - 每秒吸取<AHdr,DataB2>点魔法值。 |n|cffffcc00等级 3|r - 每秒吸取<AHdr,DataB3>点魔法值。" 
+Researchtip="Learn Sipho|cffffcc00n|r Mana - [|cffffcc00Level %d|r]"
+Researchubertip="Absorbs the magical energies of a target enemy unit by taking mana from it every second and giving it to the Blood Mage. |nLasts <AHdr,Dur1> seconds. |n|n|cffffcc00Level 1|r - <AHdr,DataB1> mana drained per second. |n|cffffcc00Level 2|r - <AHdr,DataB2> mana drained per second. |n|cffffcc00Level 3|r - <AHdr,DataB3> mana drained per second." 
 Researchhotkey=N
-
-[Bdbb]
-Name=吸取生命值和魔法值（附加）
-Bufftip=吸取生命值和魔法值
-Buffubertip="这个单位具有额外的生命值和魔法值。但是这个额外的值会消失得很快。"
-
-[Bdbl]
-Name=吸取生命（附加）
-Bufftip=吸取生命
-Buffubertip="这个单位具有额外的生命值。但是这个额外的值会消失得很快。"
-
-[Bdbm]
-Name=吸取魔法（附加）
-Bufftip=吸取魔法
-Buffubertip="这个单位具有额外的魔法值。但是这个额外的值会消失得很快。"
 
 // Flak Cannons
 [Aflk]
-Name=高射炮火
-Tip=高射炮火
-Ubertip="强大的加农炮对空将会造成区域性伤害。"
+Name=Flak Cannons
+Tip=Flak Cannons
+Ubertip="Uses powerful cannons to deal area effect damage against air units."
 
 // Frag Shards
 [Afsh]
-Name=碎片攻击
-Tip=碎片攻击
-Ubertip="迫击炮小队使用碎片攻击的迫击炮，将会增加其对无护甲和中型护甲单位的伤害。"
+Name=Fragmentation Shards
+Tip=Fragmentation Shards
+Ubertip="Uses fragmentation mortars to increase damage dealt to Unarmored and Medium armor units."
 
 // Barrage
 [Aroc]
-Name=弹幕攻击
-Tip=弹幕攻击
-Ubertip="对周围的敌方空中单位进行强有力的弹幕攻击。每次发射能造成<hrtt,mindmg2> - <hrtt,maxdmg2>点的伤害。"
+Name=Barrage
+Tip=Barrage
+Ubertip="Fires powerful rockets at nearby enemy air units, dealing <Aroc,DataA1> damage per hit."
 
 // Tank upgrade
 [Srtt]
@@ -92,451 +77,396 @@ Requires=Rhrt
 
 // Magic Defense
 [Amdf]
-Name=魔法防御
-Tip=魔法防御(|cffffcc00D|r)
-Untip=停止使用魔法防御(|cffffcc00D|r)
-Ubertip="激活该技能来获得魔法免疫，但是会减慢<Adef,DataC1,%>%的移动速度。"
-Unubertip="取消激活该技能能恢复到正常的移动速度，但是同时也对魔法不再免疫。"
+Name=Magic Defense
+Tip=Magic |cffffcc00D|refense
+Untip=Stop Magic |cffffcc00D|refense
+Ubertip="Activate to gain magic immunity, but have <Adef,DataC1,%>% reduced movement speed."
+Unubertip="Deactivate to move at normal speed, but take damage from spells."
 Hotkey=D
 Unhotkey=D
 
 // Sphere
 [Asph]
-Name=球体
+Name=Sphere
 
 // Spell Steal
 [Asps]
-Name=魔法盗取
-Tip=魔法盗取(|cffffcc00T|r)
-Ubertip="从敌人身上盗取正面效果的魔法并将其运用到附近的友军单位身上。或者是将友军单位身上的一个负面效果魔法应用到敌方单位身上。"
-Untip="|cffc3dbff点击右键以激活自动施放功能。|r"
-Unubertip="|cffc3dbff点击右键以取消自动施放功能。|r"
+Name=Spell Steal
+Tip=Spell S|cffffcc00t|real
+Ubertip="Steals a positive buff from an enemy unit and applies it to a nearby friendly unit, or takes a negative buff from a friendly unit and applies it to a nearby enemy unit."
+Untip="|cffc3dbffRight-click to activate auto-casting.|r"
+Unubertip="|cffc3dbffRight-click to deactivate auto-casting.|r"
 Hotkey=T
 Unhotkey=T
 
 // Cloud
 [Aclf]
-Name=乌云技能
-Tip=乌云技能(|cffffcc00C|r)
-Ubertip="施放在具有远程攻击能力的敌方建筑物上使其丧失攻击力。|n持续<Aclf,Dur1>秒。"
+Name=Cloud
+Tip=|cffffcc00C|rloud
+Ubertip="Cast on enemy buildings with ranged attacks to stop the buildings from attacking. |nLasts <Aclf,Dur1> seconds."
 Hotkey=C
 
 [Bclf]
-Bufftip=乌云技能
-Buffubertip="该建筑物中了乌云技能，所以丧失了远程攻击的能力。"
+Bufftip=Cloud
+Buffubertip="This building has a Cloud on it, and cannot use its ranged attack."
 
 // Flame Strike
 [AHfs]
-Name=烈焰风暴
-Tip=烈焰风暴(|cffffcc00F|r) - [|cffffcc00等级 1|r],烈焰风暴(|cffffcc00F|r) - [|cffffcc00等级 2|r],烈焰风暴(|cffffcc00F|r) - [|cffffcc00等级 3|r]
-Ubertip="召唤出一道巨大的火焰，持续时间为3秒，每秒对敌方的地面单位造成45点的伤害。在火焰慢慢熄灭的过程中，敌方单位将持续受到极度轻微的伤害。","召唤出一道巨大的火焰，持续时间为3秒，每秒对敌方的地面单位造成80点的伤害。在火焰慢慢熄灭的过程中，敌方单位将持续受到轻微的伤害。","召唤出一道巨大的火焰，持续时间为3秒，每秒对敌方的地面单位造成110点的伤害。在火焰慢慢熄灭的过程中，敌方单位将持续受到中等程度的伤害。"
+Name=Flame Strike
+Tip=|cffffcc00F|rlame Strike - [|cffffcc00Level 1|r],|cffffcc00F|rlame Strike - [|cffffcc00Level 2|r],|cffffcc00F|rlame Strike - [|cffffcc00Level 3|r]
+Ubertip="Conjures a pillar of flame that burns ground units for 45 damage a second for 3 seconds. As the pillar of flame subsides, units within the fire continue to take minor damage.","Conjures a pillar of flame that burns ground units for 80 damage a second for 3 seconds. As the pillar of flame subsides, units within the fire continue to take light damage.","Conjures a pillar of flame that burns ground units for 110 damage a second for 3 seconds. As the pillar of flame subsides, units within the fire continue to take moderate damage."
 Hotkey=F
-Researchtip="学习烈焰风暴(|cffffcc00F|r) - [|cffffcc00等级 %d|r]"
-Researchubertip="召唤出一道巨大的火焰，对目标区域内的敌方步兵造成长时间的伤害。|n|n|cffffcc00等级 1|r -持续3秒，每秒45点的伤害，在接下来的6秒时间内持续造成极度轻微的伤害。|n|cffffcc00等级 2|r -持续3秒，每秒80点的伤害，在接下来的6秒时间内持续造成轻微的伤害。|n|cffffcc00等级 3|r -持续3秒，每秒110点的伤害，在接下来的6秒时间内持续造成中等程度的伤害。"
+Researchtip="Learn |cffffcc00F|rlame Strike - [|cffffcc00Level %d|r]"
+Researchubertip="Conjures a pillar of fire which damages ground units in a target area over time. |n|n|cffffcc00Level 1|r - 45 damage a second for 3 seconds, followed by minor damage for 6 seconds. |n|cffffcc00Level 2|r - 80 damage a second for 3 seconds, followed by light damage for 6 seconds. |n|cffffcc00Level 3|r - 110 damage a second for 3 seconds, followed by moderate damage for 6 seconds."
 Researchhotkey=F
 
 [BHfs]
-Bufftip=烈焰风暴
-Buffubertip="该单位处于烈焰风暴的攻击之中，因此会在一定时间内持续受到伤害。"
+Bufftip=Flame Strike
+Buffubertip="This unit is in a Flame Strike, and is taking damage over time."
 
 // Banish
 [AHbn]
-Name=驱散
-Tip=驱散(|cffffcc00B|r) - [|cffffcc00等级 1|r],驱散(|cffffcc00B|r) - [|cffffcc00等级 2|r],驱散(|cffffcc00B|r) - [|cffffcc00等级 3|r]
-Ubertip="使一个非机械单位的重量变轻，并通过 <AHbn,DataA1,%>% 降低其移动速度持续 <AHbn,Dur1> 秒。变轻的单位不能攻击，但是他们能够施放魔法，几个魔法可以形成更强大的攻击。","使一个非机械单位的重量变轻，并通过 <AHbn,DataA2,%>% 降低其移动速度持续 <AHbn,Dur2> 秒。 变轻的单位不能攻击，但是他们能够施放魔法，几个魔法可以形成更强大的攻击。","使一个非机械单位的重量变轻，并通过 <AHbn,DataA3,%>% 降低其移动速度持续 <AHbn,Dur3> 秒。 变轻的单位不能攻击，但是他们能够施放魔法，几个魔法可以形成更强大的攻击。"
+Name=Banish
+Tip=|cffffcc00B|ranish - [|cffffcc00Level 1|r],|cffffcc00B|ranish - [|cffffcc00Level 2|r],|cffffcc00B|ranish - [|cffffcc00Level 3|r]
+Ubertip="Turns a non-mechanical unit ethereal and slows its movement speed by <AHbn,DataA1,%>% for <AHbn,Dur1> seconds. Ethereal creatures cannot attack, but they can cast spells and certain spells cast upon them will have a greater effect.","Turns a unit ethereal and slows its movement speed by <AHbn,DataA2,%>% for <AHbn,Dur2> seconds. Ethereal creatures cannot attack, but they can cast spells and certain spells cast upon them will have a greater effect.","Turns a unit ethereal and slows its movement speed by <AHbn,DataA3,%>% for <AHbn,Dur3> seconds. Ethereal creatures cannot attack, but they can cast spells and certain spells cast upon them will have a greater effect."
 Hotkey=B
-Researchtip="学习驱散(|cffffcc00B|r) - [|cffffcc00等级 %d|r]"
-Researchubertip="使一个非机械单位的重量变轻，并通过 <AHbn,DataA1,%>% 在较短时期降低其移动速度。 变轻的单位不能攻击，但是他们能够施放魔法，几个魔法可以形成更强大的攻击。 |n|n|cffffcc00等级 1|r - <AHbn,Cost1> 魔法, 持续 <AHbn,Dur1> 秒。 |n|cffffcc00等级 2|r - <AHbn,Cost2> 魔法, 持续 <AHbn,Dur2> 秒。 |n|cffffcc00等级 3|r - <AHbn,Cost3> 魔法, 持续 <AHbn,Dur3> 秒。"
+Researchtip="Learn |cffffcc00B|ranish - [|cffffcc00Level %d|r]"
+Researchubertip="Turns a non-mechanical unit ethereal and slows its movement speed by <AHbn,DataA1,%>% for a short duration. Ethereal creatures cannot attack, but they can cast spells and certain spells cast upon them will have a greater effect. |n|n|cffffcc00Level 1|r - Lasts <AHbn,Dur1> seconds for <AHbn,Cost1> mana. |n|cffffcc00Level 2|r - Lasts <AHbn,Dur2> seconds for <AHbn,Cost2> mana. |n|cffffcc00Level 3|r - Lasts <AHbn,Dur3> seconds for <AHbn,Cost3> mana."
 Researchhotkey=B
 
 [BHbn]
-Bufftip=驱散
-Buffubertip="该单位被驱散了并处于虚无状态之中。被化为虚无的单位不能攻击，但是能施放魔法。敌人的魔法也会对其造成额外的伤害。"
+Bufftip=Banish
+Buffubertip="This unit is Banished; Banished creatures cannot attack, but they can cast spells and will take extra damage from Magic attacks and spells."
 
 // Summon Phoenix
 [AHpx]
-Name=火凤凰
-Tip=火凤凰(|cffffcc00X|r)
-Ubertip="召唤一只强大的火凤凰。火凤凰全身燃烧剧烈的火焰，烧伤附近的空中敌人。具有魔法免疫、抗性皮肤。当火凤凰死后，会变成一只蛋，可以再次孵化成火凤凰。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Name=Phoenix
+Tip=Phoeni|cffffcc00x|r
+Ubertip="Summons a powerful Phoenix. The Phoenix burns with such intensity that it damages itself and nearby enemy units. Has Spell Immunity, and Resistant Skin. When a Phoenix dies, it creates an egg that will hatch into a Phoenix. |n|n|cffffcc00Attacks land and air units.|r"
 Hotkey=X
-Researchtip=学习火凤凰(|cffffcc00X|r)
-Researchubertip="召唤一只强大的火凤凰。火凤凰全身燃烧剧烈的火焰，烧伤附近的空中敌人。具有魔法免疫、抗性皮肤。当火凤凰死后，会变成一只蛋，可以再次孵化成火凤凰。|n|n|cffffcc00能攻击地面和空中单位。|r"
+Researchtip=Learn Phoeni|cffffcc00x|r
+Researchubertip="Summons a powerful Phoenix. The Phoenix burns with such intensity that it damages itself and nearby enemy units. Has Spell Immunity, and Resistant Skin. When a Phoenix dies, it creates an egg that will hatch into a Phoenix. |n|n|cffffcc00Attacks land and air units.|r"
 Researchhotkey=X
 
 // Phoenix (morph)
 [Aphx]
-Name=火凤凰变形(和凤凰蛋有关的)
+Name=Phoenix Morphing (Egg Related)
 
 // Phoenix (progress bar)
 [Bphx]
-Bufftip=火凤凰
-Buffubertip="火凤凰的力量显现了。"
+Bufftip=Phoenix
+Buffubertip="The power of the Phoenix unfolds."
 
 // Phoenix Fire
 [Apxf]
-Name=凤凰火焰
-Tip=凤凰火焰
-Ubertip="火焰流淌，灼烧附近的敌单位。"
+Name=Phoenix Fire
+Tip=Phoenix Fire
+Ubertip="Fires down streams of flame, lighting nearby enemies on fire."
 
 // Phoenix Fire
 [Bpxf]
-Bufftip=凤凰火焰
-Buffubertip="该单位正受到凤凰火焰的灼伤，不断受到伤害。"
+Bufftip=Phoenix Fire
+Buffubertip="This unit is being burned by Phoenix Fire; it will take damage over time."
 
 // Flying Machine Bombs
 [Agyb]
-Name=飞行机器炸弹
-Tip=飞行机器炸弹
-Ubertip="使得飞行机器能攻击地面单位。"
+Name=Flying Machine Bombs
+Tip=Flying Machine Bombs
+Ubertip="Allows Flying Machines to attack land units."
 
 // Storm hammers
 [Asth]
-Name=风暴战锤
-Tip=风暴战锤
-Ubertip="让狮鹫骑士的战锤能进行弹射，从而对多个敌人造成伤害。"
+Name=Storm Hammers
+Tip=Storm Hammers
+Ubertip="Causes a Gryphon Rider's attacks to damage multiple units."
 
 // Flying Machine Vision
 [Agyv]
-Name=真实视域
-Tip=真实视域
-Ubertip="显示周围的隐形单位。"
-EditorSuffix= (飞行机器)
+Name=True Sight
+Tip=True Sight
+Ubertip="Reveals nearby invisible units."
+EditorSuffix= (Flying Machine)
 
 // Defend
 [Adef]
-Name=防御
-Tip=防御(|cffffcc00D|r)
-Ubertip="激活以拥有<Adef,DataF1>%的概率反弹穿刺攻击。对于没有被反弹的攻击，也只会受到<Adef,DataA1,%>%的伤害。如果防御状态被激活，移动速度会变成<Adef,DataC1,%>%的常规速度。"
-Untip=停止防御(|cffffcc00D|r)
-Unubertip="取消防御模式，回到以往的移动速度。"
+Name=Defend
+Tip=|cffffcc00D|refend
+Ubertip="Activate to take only <Adef,DataA1,%>% of the damage from Piercing attacks, but have <Adef,DataC1,%>% reduced movement speed."
+Untip=Stop |cffffcc00D|refend
+Unubertip="Deactivate to move at normal speed, but take regular damage from Piercing attacks."
 Hotkey=D
 Unhotkey=D
 
 // Flare
 [Afla]
-Name=照明弹
-Tip=照明弹(|cffffcc00F|r)
-Ubertip="在目标区域内投射一颗矮人族的照明弹，从而在<Afla,Dur1>秒的时间内驱散那里的战争迷雾。|n也能探测到隐形单位。"
+Name=Flare
+Tip=|cffffcc00F|rlare
+Ubertip="Launches a Dwarven flare above a target point, which reveals that area for <Afla,Dur1> seconds. |nReveals invisible units.
 Hotkey=F
 
 // Magic Sentry (passive)
 [Adts]
-Name=魔法岗哨
-Tip=魔法岗哨
-Ubertip="显示周围的隐形单位。"
-EditorSuffix= (人族的防御塔)
+Name=Magic Sentry
+Tip=Magic Sentry
+Ubertip="Reveals nearby invisible units."
+EditorSuffix= (Human Towers)
 
 // Inner Fire
 [Ainf]
-Name=心灵之火
-Tip=心灵之火(|cffffcc00F|r)
-Ubertip="增加目标友军单位<Ainf,DataA1,%>%的攻击力和<Ainf,DataB1>的防御力。|n持续<Ainf,Dur1>秒。"
-Untip="|cffc3dbff点击右键以激活自动施放功能。|r"
-Unubertip="|cffc3dbff点击右键以取消自动施放功能。|r"
+Name=Inner Fire
+Tip=Inner |cffffcc00F|rire
+Ubertip="Increases a target friendly unit's damage by <Ainf,DataA1,%>% and armor by <Ainf,DataB1>. |nLasts <Ainf,Dur1> seconds."
+Untip="|cffc3dbffRight-click to activate auto-casting.|r"
+Unubertip="|cffc3dbffRight-click to deactivate auto-casting.|r"
 Hotkey=F
 Unhotkey=F
 
 [Binf]
-Bufftip=心灵之火
-Buffubertip="该单位拥有心灵之火，所以其防御和攻击力都得到了加强。"
+Bufftip=Inner Fire
+Buffubertip="This unit has Inner Fire; its armor and attack damage are increased."
 
 // Dispel Magic
 [Adis]
-Name=驱逐魔法
-Tip=驱逐魔法(|cffffcc00D|r)
-UberTip="驱散目标区域内的所有魔法效果。|n|cffffcc00能对召唤出来的单位造成<Adis,DataB1>的伤害。|r"
+Name=Dispel Magic
+Tip=|cffffcc00D|rispel Magic
+UberTip="Removes all buffs from units in a target area. |n|cffffcc00Deals <Adis,DataB1> damage to summoned units.|r"
 Hotkey=D
 
 // Heal
 [Ahea]
-Name=医疗
-Tip=医疗(|cffffcc00E|r)
-Ubertip="医疗一个友军的非机械受伤单位，恢复其<Ahea,DataA1>的生命值。"
-Untip="|cffc3dbff点击右键以激活自动施放功能。|r"
-Unubertip="|cffc3dbff点击右键以取消自动施放功能。|r"
+Name=Heal
+Tip=H|cffffcc00e|ral
+Ubertip="Heals a target friendly non-mechanical wounded unit for <Ahea,DataA1> hit points."
+Untip="|cffc3dbffRight-click to activate auto-casting.|r"
+Unubertip="|cffc3dbffRight-click to deactivate auto-casting.|r"
 Hotkey=E
 Unhotkey=E
 
 [Bhea]
-Bufftip=医疗
-Buffubertip="该单位正在被医疗，其丧失的生命值将得到恢复。"
-
-[BNhe]
-Bufftip=中立的医疗
-Buffubertip="该单位正在被医疗；其丧失的生命值将得到恢复。"
+Bufftip=Heal
+Buffubertip="This unit is being healed; lost hit points are being restored."
 
 // Slow
 [Aslo]
-Name=减速
-Tip=减速(|cffffcc00W|r)
-Ubertip="减慢目标单位<Aslo,DataB1,%>%的攻击速度和<Aslo,DataA1,%>%的移动速度。|n持续<Aslo,Dur1>秒。"
-Untip="|cffc3dbff点击右键以激活自动施放功能。|r"
-Unubertip="|cffc3dbff点击右键以取消自动施放功能。|r"
+Name=Slow
+Tip=Slo|cffffcc00w|r
+Ubertip="Slows a target enemy unit's attack rate by <Aslo,DataB1,%>% and movement speed by <Aslo,DataA1,%>%. |nLasts <Aslo,Dur1> seconds."
+Untip="|cffc3dbffRight-click to activate auto-casting.|r"
+Unubertip="|cffc3dbffRight-click to deactivate auto-casting.|r"
 Hotkey=W
 Unhotkey=W
 
 [Bslo]
-Bufftip=减速
-Buffubertip="该单位被减速了，其移动速度和攻击速度都会下降。"
+Bufftip=Slow
+Buffubertip="This unit is slowed; its movement speed and attack rate are reduced."
 
 // Invisibility
 [Aivs]
-Name=隐形术
-Tip=隐形术(|cffffcc00I|r)
-Ubertip="使目标单位处于隐形，但是一旦其攻击或者使用魔法则会显露原形。|n持续 <Aivs,Dur1>秒。"
+Name=Invisibility
+Tip=|cffffcc00I|rnvisibility
+Ubertip="Makes a unit invisible. If the unit attacks, uses an ability or casts a spell, it will become visible. |nLasts <Aivs,Dur1> seconds."
 Hotkey=I
 
 [Binv]
-Bufftip=隐形术
-Buffubertip="该单位处于隐形的状态之中; 敌人不能看到其存在。如果它攻击或者施放魔法，那么就会暴露出自己的踪迹。"
+Bufftip=Invisibility
+Buffubertip="This unit is invisible; enemy units cannot see it. If it attacks or casts a spell, it will become visible."
 
 // Polymorph
 [Aply]
-Name=变形术
-Tip=变形术(|cffffcc00O|r)
-Ubertip="使得敌人的一个单位变成一头小绵羊，保有原有的生命值和防御，但是会使其丧失攻击力。|n不能被用在英雄身上。|n持续<Aply,Dur1>秒。"
+Name=Polymorph
+Tip=Polym|cffffcc00o|rrph
+Ubertip="Turns a target enemy unit into a sheep. The targeted unit retains its hit points and armor, but cannot attack. |nCannot be cast on Heroes. |nLasts <Aply,Dur1> seconds."
 Hotkey=O
 
 [Bply]
-Bufftip=变形术
-Buffubertip="该单位被施放了变形术，因此被变成了一头温顺的小绵羊。"
+Bufftip=Polymorph
+Buffubertip="This unit is Polymorphed; it is transformed into a sheep."
 
 // Blizzard
 [AHbz]
-Name=暴风雪
-Tip=暴风雪(|cffffcc00B|r) - [|cffffcc00等级 1|r],暴风雪(|cffffcc00B|r) - [|cffffcc00等级 2|r],暴风雪(|cffffcc00B|r) - [|cffffcc00等级 3|r]
-Ubertip="召唤出<AHbz,DataA1>次的冰片攻击，每一次攻击能对一小块区域内的单位造成<AHbz,DataB1>的伤害值。","召唤出<AHbz,DataA2>次的冰片攻击，每一次攻击能对一小块区域内的单位造成<AHbz,DataB2>的伤害值。","召唤出<AHbz,DataA3> 次的冰片攻击，每一次攻击能对一小块区域内的单位造成<AHbz,DataB3>的伤害值。"
+Name=Blizzard
+Tip=|cffffcc00B|rlizzard - [|cffffcc00Level 1|r],|cffffcc00B|rlizzard - [|cffffcc00Level 2|r],|cffffcc00B|rlizzard - [|cffffcc00Level 3|r]
+Ubertip="Calls down <AHbz,DataA1> freezing ice shard waves; each wave deals <AHbz,DataB1> damage to units in an area","Calls down <AHbz,DataA2> freezing ice shard waves; each wave deals <AHbz,DataB2> damage to units in an area","Calls down <AHbz,DataA3> freezing ice shard waves; each wave deals <AHbz,DataB3> damage to units in an area."
 Hotkey=B
-Researchtip="学习暴风雪(|cffffcc00B|r) - [|cffffcc00等级 %d|r]"
-Researchubertip="能召唤出若干次冰片攻击，对目标区域内的单位造成一定的伤害。|n|n|cffffcc00等级 1|r -<AHbz,DataA1>次攻击，每次造成<AHbz,DataB1>点的伤害。|n|cffffcc00等级 2|r -<AHbz,DataA2>次攻击，每次造成<AHbz,DataB2>点的伤害。|n|cffffcc00等级 3|r -<AHbz,DataA3>次攻击，每次造成<AHbz,DataB3>点的伤害。"
+Researchtip="Learn |cffffcc00B|rlizzard - [|cffffcc00Level %d|r]"
+Researchubertip="Calls down waves of freezing ice shards that damage units in a target area. |n|n|cffffcc00Level 1|r - <AHbz,DataA1> waves at <AHbz,DataB1> damage each. |n|cffffcc00Level 2|r - <AHbz,DataA2> waves at <AHbz,DataB2> damage each. |n|cffffcc00Level 3|r - <AHbz,DataA3> waves at <AHbz,DataB3> damage each."
 Researchhotkey=B
 
 [BHbd]
-Bufftip=暴风雪
-Buffubertip="该单位正受到暴风雪的攻击伤害。"
+Bufftip=Blizzard
+Buffubertip="This unit is being damaged by Blizzard."
 
 // Summon Water Elemental
 [AHwe]
-Name=召唤水元素
-Tip=召唤水元素(|cffffcc00W|r) - [|cffffcc00等级 1|r],召唤水元素(|cffffcc00W|r) - [|cffffcc00等级 2|r],召唤水元素(|cffffcc00W|r) - [|cffffcc00等级 3|r] 
-Ubertip="召唤出一个具有<hwat,realHP>生命值的水元素来帮大魔法师进行战斗。攻击力为<hwat,mindmg1> - <hwat,maxdmg1>点。|n持续<AHwe,Dur1>秒。|n|n|cffffcc00能攻击地面和空中单位。|r","召唤出一个具有<hwt2,realHP>生命值的水元素来帮大魔法师进行战斗。攻击力为<hwt2,mindmg1>-<hwt2,maxdmg1>点。|n持续<AHwe,Dur1>秒。|n|n|cffffcc00能攻击地面和空中单位。|r","召唤出一个具有<hwt3,realHP>生命值的水元素来帮大魔法师进行战斗。攻击力为<hwt3,mindmg1>-<hwt3,maxdmg1>点。|n持续<AHwe,Dur1>秒。|n|n|cffffcc00能攻击地面和空中单位。|r"
-ResearchUberTip="召唤出一个水元素来帮大魔法师进行战斗。|n持续<AHwe,Dur1>秒。|n|n|cffffcc00能攻击地面和空中单位。|r|n|n|cffffcc00等级 1|r - <hwat,realHP>点生命值，<hwat,mindmg1>-<hwat,maxdmg1>点的伤害。|n|cffffcc00等级 2|r - <hwt2,realHP>点生命值，<hwt2,mindmg1>-<hwt2,maxdmg1>点的伤害。|n|cffffcc00等级 3|r - <hwt3,realHP>点生命值，<hwt3,mindmg1>-<hwt3,maxdmg1>点的伤害。"
+Name=Summon Water Elemental
+Tip=Summon |cffffcc00W|rater Elemental - [|cffffcc00Level 1|r],Summon |cffffcc00W|rater Elemental - [|cffffcc00Level 2|r],Summon |cffffcc00W|rater Elemental - [|cffffcc00Level 3|r] 
+Ubertip="Summons a water elemental to attack the Archmage's enemies. Has <hwat,realHP> hit points and deals <hwat,mindmg1> - <hwat,maxdmg1> damage. |nLasts <AHwe,Dur1> seconds. |n|n|cffffcc00Attacks land and air units.|r","Summons a water elemental to attack the Archmage's enemies. Has <hwt2,realHP> hit points and deals <hwt2,mindmg1> - <hwt2,maxdmg1> damage. |nLasts <AHwe,Dur1> seconds. |n|n|cffffcc00Attacks land and air units.|r","Summons a water elemental to attack the Archmage's enemies. Has <hwt3,realHP> hit points and deals <hwt3,mindmg1> - <hwt3,maxdmg1> damage. |nLasts <AHwe,Dur1> seconds. |n|n|cffffcc00Attacks land and air units.|r"
+ResearchUberTip="Summons a water elemental to attack the Archmage's enemies. |nLasts <AHwe,Dur1> seconds. |n|n|cffffcc00Attacks land and air units.|r |n|n|cffffcc00Level 1|r - <hwat,realHP> hit points, <hwat,mindmg1> - <hwat,maxdmg1> damage. |n|cffffcc00Level 2|r - <hwt2,realHP> hit points, <hwt2,mindmg1> - <hwt2,maxdmg1> damage. |n|cffffcc00Level 3|r - <hwt3,realHP> hit points, <hwt3,mindmg1> - <hwt3,maxdmg1> damage."
 Hotkey=W
-Researchtip="学习召唤水元素(|cffffcc00W|r) - [|cffffcc00等级 %d|r]"
+Researchtip="Learn Summon |cffffcc00W|rater Elemental - [|cffffcc00Level %d|r]"
 Researchhotkey=W
 
 [BHwe]
-Bufftip=水元素
-Buffubertip="召唤出来的单位容易遭到驱散。"
+Bufftip=Water Elemental
+Buffubertip="Summoned units are vulnerable to dispels."
 
 // Brilliance Aura
 [AHab]
-Name=辉煌光环
-Tip=辉煌光环 - [|cffffcc00等级 1|r],辉煌光环 - [|cffffcc00等级 2|r],辉煌光环 - [|cffffcc00等级 3|r]
-Ubertip="能加快周围友军单位的魔法值恢复速度。","能加快周围友军单位的魔法值恢复速度。","能加快周围友军单位的魔法值恢复速度。"
-Researchtip="学习辉煌光环(|cffffcc00R|r) - [|cffffcc00等级 %d|r]"
-Researchubertip="能加快周围友军单位的魔法值恢复速度。|n|n|cffffcc00等级 1|r -能缓慢地加快周围友军的魔法值恢复速度。|n|cffffcc00等级 2|r -能稍快地加快周围友军的魔法值恢复速度。|n|cffffcc00等级 3|r -能迅速地加快周围友军的魔法值恢复速度。"
+Name=Brilliance Aura
+Tip=Brilliance Aura - [|cffffcc00Level 1|r],Brilliance Aura - [|cffffcc00Level 2|r],Brilliance Aura - [|cffffcc00Level 3|r]
+Ubertip="Gives additional mana regeneration to nearby friendly units.","Gives additional mana regeneration to nearby friendly units.","Gives additional mana regeneration to nearby friendly units."
+Researchtip="Learn B|cffffcc00r|rilliance Aura - [|cffffcc00Level %d|r]"
+Researchubertip="Gives additional mana regeneration to nearby friendly units. |n|n|cffffcc00Level 1|r - Grants minor mana regeneration. |n|cffffcc00Level 2|r - Grants moderate mana regeneration. |n|cffffcc00Level 3|r - Grants heavy mana regeneration."
 Researchhotkey=R
 
 [BHab]
-Bufftip=辉煌光环
-Buffubertip="该单位处于辉煌光环之下，因此其魔法恢复速度将加快。"
+Bufftip=Brilliance Aura
+Buffubertip="This unit is under the effects of Brilliance Aura; it has an increased mana regeneration."
 
 // Mass Teleport
 [AHmt]
-Name=群体传送
-Tip=群体传送(|cffffcc00T|r)
-Ubertip="将<AHmt,DataA1>个单位（包括大魔法师在内）传送到一个友军单位或者建筑物旁边。"
+Name=Mass Teleport
+Tip=Mass |cffffcc00T|releport
+Ubertip="Teleports <AHmt,DataA1> of the player's nearby units, including the Archmage, to a friendly ground unit or structure."
 Hotkey=T
-Researchtip=学习群体传送(|cffffcc00T|r)
-Researchubertip="将<AHmt,DataA1>个单位（包括大魔法师在内）传送到一个友军单位或者建筑物旁边。"
+Researchtip=Learn Mass |cffffcc00T|releport
+Researchubertip="Teleports <AHmt,DataA1> of the player's nearby units, including the Archmage, to a friendly ground unit or structure."
 Researchhotkey=T
 Globalmessage=
 Globalsound=
 
 // Storm Bolt
 [AHtb]
-Name=风暴之锤
-Tip=风暴之锤(|cffffcc00T|r) - [|cffffcc00等级 1|r], 风暴之锤(|cffffcc00T|r) - [|cffffcc00等级 2|r], 风暴之锤(|cffffcc00T|r) - [|cffffcc00等级 3|r]
-Ubertip="向目标投掷一巨大的魔法锤，对其造成<AHtb,DataA1>点伤害并使其<AHtb,Dur1>秒内处于眩晕状态。","向目标投掷一巨大的魔法锤，对其造成<AHtb,DataA2> 点伤害并使其<AHtb,Dur2>秒内处于眩晕状态。","向目标投掷一巨大的魔法锤，对其造成<AHtb,DataA3>点伤害并使其<AHtb,Dur3>秒内处于眩晕状态。"
+Name=Storm Bolt
+Tip=S|cffffcc00t|rorm Bolt - [|cffffcc00Level 1|r],S|cffffcc00t|rorm Bolt - [|cffffcc00Level 2|r],S|cffffcc00t|rorm Bolt - [|cffffcc00Level 3|r]
+Ubertip="Throws a magical hammer at a target enemy unit, dealing <AHtb,DataA1> damage and stunning the target for <AHtb,Dur1> seconds.","Throws a magical hammer at a target enemy unit, dealing <AHtb,DataA2> damage and stunning the target for <AHtb,Dur2> seconds.","Throws a magical hammer at a target enemy unit, dealing <AHtb,DataA3> damage and stunning the target for <AHtb,Dur3> seconds."
 Hotkey=T
-Researchtip="学习风暴之锤(|cffffcc00T|r) - [|cffffcc00等级 %d|r]"
-Researchubertip="向目标投掷一巨大的魔法锤，对其造成一定伤害并使其处于眩晕状态。|n|n|cffffcc00等级 1|r - <AHtb,DataA1>点伤害，<AHtb,Dur1>秒眩晕状态。|n|cffffcc00等级 2|r - <AHtb,DataA2>点伤害，<AHtb,Dur2>秒眩晕状态。|n|cffffcc00等级 3|r - <AHtb,DataA3>点伤害，<AHtb,Dur3>秒眩晕状态。"
+Researchtip="Learn S|cffffcc00t|rorm Bolt - [|cffffcc00Level %d|r]"
+Researchubertip="A magical hammer that is thrown at an enemy unit, causing damage and stunning the target. |n|n|cffffcc00Level 1|r - <AHtb,DataA1> damage, <AHtb,Dur1> second stun. |n|cffffcc00Level 2|r - <AHtb,DataA2> damage, <AHtb,Dur2> second stun. |n|cffffcc00Level 3|r - <AHtb,DataA3> damage, <AHtb,Dur3> second stun."
 Researchhotkey=T
 
 [BHtb]
-Bufftip=风暴之锤
-Buffubertip="该单位遭到了风暴之锤的攻击，因此不能移动，攻击或者施放魔法。"
+Bufftip=Storm Bolt
+Buffubertip="This unit is stunned by Storm Bolt; it cannot move, attack, or cast spells."
 
 // Thunder Clap
 [AHtc]
-Name=雷霆一击
-Tip=雷霆一击(|cffffcc00C|r) - [|cffffcc00等级 1|r],雷霆一击(|cffffcc00C|r) - [|cffffcc00等级 2|r],雷霆一击(|cffffcc00C|r) - [|cffffcc00等级 3|r]
-Ubertip="重击地面，对周围的地面单位造成<AHtc,DataA1>点伤害并使其减慢 <AHtc,DataC1,%>%的移动速度和<AHtc,DataD1,%>%的攻击速度。","重击地面，对周围的地面单位造成<AHtc,DataA2>点伤害并使其减慢<AHtc,DataC2,%>%的移动速度和<AHtc,DataD2,%>%的攻击速度。","重击地面，对周围的地面单位造成<AHtc,DataA3>点伤害并使其减慢<AHtc,DataC3,%>%的移动速度和<AHtc,DataD3,%>%的攻击速度。"
+Name=Thunder Clap
+Tip=Thunder |cffffcc00C|rlap - [|cffffcc00Level 1|r],Thunder |cffffcc00C|rlap - [|cffffcc00Level 2|r],Thunder |cffffcc00C|rlap - [|cffffcc00Level 3|r]
+Ubertip="Slams the ground, dealing <AHtc,DataA1> damage to nearby enemy land units and slowing their movement by <AHtc,DataC1,%>% and attack rate by <AHtc,DataD1,%>%.","Slams the ground, dealing <AHtc,DataA2> damage to nearby enemy land units and slowing their movement by <AHtc,DataC2,%>% and attack rate by <AHtc,DataD2,%>%.","Slams the ground, dealing <AHtc,DataA3> damage to nearby enemy land units and slowing their movement by <AHtc,DataC3,%>% and attack rate by <AHtc,DataD3,%>%."
 Hotkey=C
-Researchtip="学习雷霆一击(|cffffcc00C|r) - [|cffffcc00等级 %d|r]"
-Researchubertip="重击地面，对周围的地面单位造成伤害并减慢其移动速度和攻击速度。|n|n|cffffcc00等级 1|r - <AHtc,DataA1>点伤害，<AHtc,DataC1,%>%的移动速度，<AHtc,DataD1,%>%的攻击速度。|n|cffffcc00等级 2|r - <AHtc,DataA2>点伤害，<AHtc,DataC2,%>%的移动速度，<AHtc,DataD2,%>%的攻击速度。|n|cffffcc00等级 3|r - <AHtc,DataA3>点伤害，<AHtc,DataC3,%>%的移动速度，<AHtc,DataD3,%>%的攻击速度。"
+Researchtip="Learn Thunder |cffffcc00C|rlap - [|cffffcc00Level %d|r]"
+Researchubertip="Slams the ground, dealing damage to and slowing the movement speed and attack rate of nearby enemy land units. |n|n|cffffcc00Level 1|r - <AHtc,DataA1> damage, <AHtc,DataC1,%>% move, <AHtc,DataD1,%>% attack. |n|cffffcc00Level 2|r - <AHtc,DataA2> damage, <AHtc,DataC2,%>% move, <AHtc,DataD2,%>% attack. |n|cffffcc00Level 3|r - <AHtc,DataA3> damage, <AHtc,DataC3,%>% move, <AHtc,DataD3,%>% attack."
 Researchhotkey=C
 
 [BHtc]
-Bufftip=雷霆一击
-Buffubertip="该单位受到了雷霆一击的攻击，其移动速度和攻击速度都会减慢。"
+Bufftip=Thunder Clap
+Buffubertip="This unit has been hit by Thunder Clap; its movement speed and attack rate are reduced."
 
 // Bash
 [AHbh]
-Name=重击
-Tip=重击 - [|cffffcc00等级 1|r],重击 - [|cffffcc00等级 2|r],重击 - [|cffffcc00等级 3|r]
-Ubertip="给予<AHbh,DataA1>%的概率使得山丘之王的常规攻击能附带<AHbh,DataC1>点的额外伤害值，并在<AHbh,Dur1>秒内使得对手处于眩晕状态。","给予<AHbh,DataA2>%的概率使得山丘之王的常规攻击能附带<AHbh,DataC1>点的额外伤害值，并在<AHbh,Dur1>秒内使得对手处于眩晕状态。","给予<AHbh,DataA3>%的概率使得山丘之王的常规攻击能附带<AHbh,DataC1>点的额外伤害值，并在<AHbh,Dur1>秒内使得对手处于眩晕状态。"
-Researchtip="学习重击(|cffffcc00B|r) - [|cffffcc00等级 %d|r]"
-Researchubertip="给予一定的概率使得山丘之王的常规攻击能附带<AHbh,DataC1>点的附加伤害值并在<AHbh,Dur1>秒内使得对手处于眩晕状态。|n|n|cffffcc00等级 1|r - 每次攻击<AHbh,DataA1>%的概率。|n|cffffcc00等级 2|r - 每次攻击<AHbh,DataA2>%的概率。|n|cffffcc00等级 3|r - 每次攻击<AHbh,DataA3>%的概率。"
+Name=Bash
+Tip=Bash - [|cffffcc00Level 1|r],Bash - [|cffffcc00Level 2|r],Bash - [|cffffcc00Level 3|r]
+Ubertip="Gives a <AHbh,DataA1>% chance that an attack will do <AHbh,DataC1> bonus damage and stun an opponent for <AHbh,Dur1> seconds.","Gives a <AHbh,DataA2>% chance that an attack will do <AHbh,DataC1> bonus damage and stun an opponent for <AHbh,Dur1> seconds.","Gives a <AHbh,DataA3>% chance that an attack will do <AHbh,DataC1> bonus damage and stun an opponent for <AHbh,Dur1> seconds."
+Researchtip="Learn |cffffcc00B|rash - [|cffffcc00Level %d|r]"
+Researchubertip="Gives a chance that an attack will do <AHbh,DataC1> bonus damage and stun an opponent for <AHbh,Dur1> seconds. |n|n|cffffcc00Level 1|r - <AHbh,DataA1>% chance per attack. |n|cffffcc00Level 2|r - <AHbh,DataA2>% chance per attack. |n|cffffcc00Level 3|r - <AHbh,DataA3>% chance per attack."
 Researchhotkey=B
 
 [BHbh]
-Bufftip=重击
-Buffubertip="这个单位遭到了重击，因此不能移动，攻击和施放魔法。"
+Bufftip=Bash
+Buffubertip="This unit has been Bashed; it cannot move, attack, or cast spells."
 
 // Avatar
 [AHav]
-Name=天神下凡
-Tip=激活天神下凡(|cffffcc00V|r)
-UberTip="激活该技能能提高山丘之王<AHav,DataA1>点的护甲，<AHav,DataB1>点的生命值，<AHav,DataC1>点的攻击力并使其对魔法免疫。|n持续<AHav,Dur1>秒。"
-Untip=取消天神下凡(|cffffcc00V|r)
+Name=Avatar
+Tip=Activate A|cffffcc00v|ratar
+UberTip="Activate Avatar to give the Mountain King <AHav,DataA1> bonus armor, <AHav,DataB1> bonus hit points, <AHav,DataC1> bonus damage and spell immunity. |nLasts <AHav,Dur1> seconds."
+Untip=Deactivate A|cffffcc00v|ratar
 UnUberTip=""
 Hotkey=V
 Unhotkey=V
-Researchtip=学习天神下凡(|cffffcc00V|r)
-ResearchUberTip="激活了该技能以后能提高山丘之王<AHav,DataA1>点的护甲, <AHav,DataB1>点的生命值,<AHav,DataC1> 点的攻击力并使其对魔法免疫。|n持续<AHav,Dur1>秒。"
+Researchtip=Learn A|cffffcc00v|ratar
+ResearchUberTip="When Avatar is activated, it gives the Mountain King <AHav,DataA1> bonus armor, <AHav,DataB1> bonus hit points, <AHav,DataC1> bonus damage and spell immunity. |nLasts <AHav,Dur1> seconds."
 Researchhotkey=V
 
 [BHav]
-Bufftip=天神下凡
-Buffubertip="该单位处于天神下凡的状态之中，因此其生命值、攻击力、护甲都得到了加强。而且还会魔法免疫。"
+Bufftip=Avatar
+Buffubertip="This unit is in Avatar form; it has increased hit points, attack damage, armor, and is immune to spells."
 
 // Holy Light
 [AHhb]
-Name=神圣之光
-Tip=神圣之光(|cffffcc00T|r)  - [|cffffcc00等级 1|r], 神圣之光(|cffffcc00T|r) - [|cffffcc00等级 2|r], 神圣之光(|cffffcc00T|r) - [|cffffcc00等级 3|r]
-UberTip="神圣之光能治愈友军单位<AHhb,DataA1>点的生命值或者对敌军的不死单位造成一半的伤害。","神圣之光能治愈友军单位<AHhb,DataA2>点的生命值或者对敌军的不死单位造成一半的伤害。","神圣之光能治愈友军单位<AHhb,DataA3>点的生命值或者对敌军的不死单位造成一半的伤害。"
+Name=Holy Light
+Tip=Holy Ligh|cffffcc00t|r - [|cffffcc00Level 1|r],Holy Ligh|cffffcc00t|r - [|cffffcc00Level 2|r],Holy Ligh|cffffcc00t|r - [|cffffcc00Level 3|r]
+UberTip="A holy light that can heal a friendly living unit for <AHhb,DataA1> or deal half damage to an enemy Undead unit.","A holy light that can heal a friendly living unit for <AHhb,DataA2> or deal half damage to an enemy Undead unit.","A holy light that can heal a friendly living unit for <AHhb,DataA3> or deal half damage to an enemy Undead unit."
 Hotkey=T
-Researchtip="学习神圣之光(|cffffcc00T|r) - [|cffffcc00等级 %d|r]"
-Researchubertip="神圣之光能治愈友军单位或者对敌军的不死单位造成一定的伤害。|n|n|cffffcc00等级 1|r - 恢复友军单位<AHhb,DataA1>点的生命值。|n|cffffcc00等级 2|r - 恢复友军单位<AHhb,DataA2>点的生命值。|n|cffffcc00等级 3|r - 恢复友军单位<AHhb,DataA3>点的生命值。"
+Researchtip="Learn Holy Ligh|cffffcc00t|r - [|cffffcc00Level %d|r]"
+Researchubertip="A holy light that can heal a friendly living unit or damage an enemy Undead unit. |n|n|cffffcc00Level 1|r - Heals for <AHhb,DataA1> hit points. |n|cffffcc00Level 2|r - Heals for <AHhb,DataA2> hit points. |n|cffffcc00Level 3|r - Heals for <AHhb,DataA3> hit points. "
 Researchhotkey=T
 
 // Divine Shield
 [AHds]
-Name=神圣护甲
-Tip=激活神圣护甲(|cffffcc00D|r) - [|cffffcc00等级 1|r],激活神圣护甲(|cffffcc00D|r)  - [|cffffcc00等级 2|r],激活神圣护甲(|cffffcc00D|r)  - [|cffffcc00等级 3|r]
-Ubertip="在<AHds,Dur1>秒内使得圣骑士对所有的攻击免疫。","在<AHds,Dur2>秒内使得圣骑士对所有的攻击免疫。","在<AHds,Dur3>秒内使得圣骑士对所有的攻击免疫。"
-Untip=取消神圣护甲(|cffffcc00D|r)
+Name=Divine Shield
+Tip=Activate |cffffcc00D|rivine Shield - [|cffffcc00Level 1|r],Activate |cffffcc00D|rivine Shield - [|cffffcc00Level 2|r],Activate |cffffcc00D|rivine Shield - [|cffffcc00Level 3|r]
+Ubertip="An impenetrable shield surrounds this unit, protecting it from all damage and spells for <AHds,Dur1> seconds.","An impenetrable shield surrounds this unit, protecting it from all damage and spells for <AHds,Dur2> seconds.","An impenetrable shield surrounds this unit, protecting it from all damage and spells for <AHds,Dur3> seconds."
+Untip=Deactivate |cffffcc00D|rivine Shield
 Hotkey=D
 Unhotkey=D
-Researchtip="学习神圣护甲(|cffffcc00D|r) - [|cffffcc00等级 %d|r]"
-Researchubertip="在一定的时间内使得圣骑士对所有的攻击免疫。|n|n|cffffcc00等级 1|r - 持续<AHds,Dur1>秒。|n|cffffcc00等级 2|r - 持续<AHds,Dur2>秒。|n|cffffcc00等级 3|r - 持续<AHds,Dur3>秒。"
+Researchtip="Learn |cffffcc00D|rivine Shield - [|cffffcc00Level %d|r]"
+Researchubertip="An impenetrable shield surrounds the Paladin, protecting him from all damage and spells for a set amount of time. |n|n|cffffcc00Level 1|r - Lasts <AHds,Dur1> seconds. |n|cffffcc00Level 2|r - Lasts <AHds,Dur2> seconds. |n|cffffcc00Level 3|r - Lasts <AHds,Dur3> seconds."
 Researchhotkey=D
 Globalmessage=
 Globalsound=
 
 [BHds]
-Bufftip=神圣护甲
-Buffubertip="该单位处于神圣护甲的保护之下，因此是无敌的。"
+Bufftip=Divine Shield
+Buffubertip="This unit is under a Divine Shield; it is invulnerable."
 
 // Devotion Aura
 [AHad]
-Name=专注光环
-Tip=专注光环 - [|cffffcc00等级 1|r],专注光环 - [|cffffcc00等级 2|r],专注光环 - [|cffffcc00等级 3|r]
-Ubertip="为周围友军提供<AHad,DataA1>点的额外护甲。","为周围友军提供<AHad,DataA2>点的额外护甲。","为周围友军提供<AHad,DataA3>点的额外护甲。"
-Researchtip="学习专注光环(|cffffcc00V|r) - [|cffffcc00等级 %d|r]"
-Researchubertip="为周围友军提供一定额外的护甲。|n|n|cffffcc00等级 1|r - 增加<AHad,DataA1>点的护甲。|n|cffffcc00等级 2|r - 增加<AHad,DataA2>点的护甲。|n|cffffcc00等级 3|r - 增加<AHad,DataA3>点的护甲。"
+Name=Devotion Aura
+Tip=Devotion Aura - [|cffffcc00Level 1|r],Devotion Aura - [|cffffcc00Level 2|r],Devotion Aura - [|cffffcc00Level 3|r]
+Ubertip="Gives <AHad,DataA1> additional armor to nearby friendly units.","Gives <AHad,DataA2> additional armor to nearby friendly units.","Gives <AHad,DataA3> additional armor to nearby friendly units."
+Researchtip="Learn De|cffffcc00v|rotion Aura - [|cffffcc00Level %d|r]"
+Researchubertip="Gives additional armor to nearby friendly units. |n|n|cffffcc00Level 1|r - Increases base armor by <AHad,DataA1>. |n|cffffcc00Level 2|r - Increases base armor by <AHad,DataA2>. |n|cffffcc00Level 3|r - Increases base armor by <AHad,DataA3>."
 Researchhotkey=V
 
 [BHad]
-Bufftip=专注光环
-Buffubertip="该单位处于专注光环的作用之下，因此提高了护甲。"
+Bufftip=Devotion Aura
+Buffubertip="This unit is under the effects of Devotion Aura; it has increased armor."
 
 // Resurrection
 [AHre]
-Name=复活
-Tip=复活(|cffffcc00R|r)
-Ubertip="复活周围<AHre,DataA1>个友军单位。"
+Name=Resurrection
+Tip=|cffffcc00R|resurrection
+Ubertip="Brings back to life the corpses of <AHre,DataA1> friendly nearby units."
 Hotkey=R
-Researchtip=学习复活(|cffffcc00R|r)
-Researchubertip="复活周围<AHre,DataA1>个友军单位。"
+Researchtip=Learn |cffffcc00R|resurrection
+Researchubertip="Brings back to life the corpses of <AHre,DataA1> friendly nearby units."
 Researchhotkey=R
 
 // Militia
 [Amil]
-Name=战斗号召
-Tip=战斗号召(|cffffcc00C|r)
-Untip=回到工作(|cffffcc00W|r)
-Ubertip="让农民跑到最近的一个城镇大厅从而转变成民兵。|n持续<Amil,Dur1>秒。"
-Unubertip="让民兵跑到最近的一个城镇大厅从而让其重新变回农民。"
+Name=Call to Arms
+Tip=|cffffcc00C|rall to Arms
+Untip=Back to |cffffcc00W|rork
+Ubertip="Run to the nearest Town Hall to arm the Peasant, converting him into Militia. |nLasts <Amil,Dur1> seconds."
+Unubertip="Run to the nearest Town Hall to disarm the Militia, converting it into a Peasant."
 Hotkey=C
 Unhotkey=W
-EditorSuffix= (农民)
+EditorSuffix= (Peasant)
 
 [Bmil]
-Bufftip=民兵
-Buffubertip="该农民变成了民兵，所有其移动速度，攻击速度，攻击力，护甲都得到了加强。"
+Bufftip=Militia
+Buffubertip="This unit has become Militia; its movement speed, attack rate, attack damage, and armor have been increased."
 
 // Militia Conversion
 [Amic]
-Name=战斗号召
-Tip=战斗号召(|cffffcc00C|r)
-Untip=回到工作(|cffffcc00W|r)
-Ubertip="让附近的农民过来从而让其变成民兵。|n持续<Amil,Dur1>秒。"
-Unubertip="让附近的民兵过来从而让其重新变成农民。"
+Name=Call To Arms
+Tip=|cffffcc00C|rall to Arms
+Untip=Back to |cffffcc00W|rork
+Ubertip="Call all nearby Peasants to the Town Hall to be converted to Militia. |nLasts <Amil,Dur1> seconds."
+Unubertip="Call all nearby Militia to the Town Hall to be converted to Peasants."
 Hotkey=C
 Unhotkey=W
-EditorSuffix= (城镇大厅)
+EditorSuffix= (Town Hall)
 
-//----------------------------------------------------
-// Buffs with no in-game text
-// EditorName is for the Object Editor list only
-
-[BHbz]
-EditorName=暴风雪 (施法者)
-
-[Bdcb]
-EditorName=汲取生命值和魔法值(施法者)
-
-[Bdcl]
-EditorName=汲取生命值(施法者)
-
-[Bdcm]
-EditorName=汲取魔法值 (施法者)
-
-[Bdtb]
-EditorName=汲取生命值和魔法值(目标)
-
-[Bdtl]
-EditorName=汲取生命值(目标)
-
-[Bdtm]
-EditorName=汲取魔法值 (目标)
-
-[Bmlc]
-EditorName=空中锁镣(施法者)
-
-[Bivs]
-EditorName=隐形 (额外的)
-
-[XHbz]
-EditorName=暴风雪 (效果)
-
-[XHfs]
-EditorName=烈焰风暴(效果)
-
-[Xclf]
-EditorName=乌云 (效果)
-
-[Xfla]
-EditorName=照明弹(效果)
-
-[Xfhs]
-EditorName=建筑物伤害 – 人族  小
-
-[Xfhm]
-EditorName=建筑物伤害 – 人族  中
-
-[Xfhl]
-EditorName=建筑物伤害 – 人族  大

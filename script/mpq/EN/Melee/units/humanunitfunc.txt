@@ -10,7 +10,6 @@ Requires=
 Requires1=hkee
 Requires2=hcas
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
-ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-sorceror.blp
 
 [halt]
 Trains=Hamg,Hmkg,Hpal,Hblm
@@ -39,7 +38,6 @@ Requires1=hkee
 Requires2=hcas
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
 Attachmentanimprops=medium
-ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-archmage.blp
 
 [harm]	
 Requires=hkee,hbla
@@ -245,7 +243,6 @@ Requires=
 Requires1=hkee
 Requires2=hcas
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
-ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-mountainking.blp
 
 [hmpr]
 Art=ReplaceableTextures\CommandButtons\BTNPriest.blp
@@ -274,7 +271,6 @@ Requires=
 Requires1=hkee
 Requires2=hcas
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
-ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-paladin.blp
 
 [hpea]
 Builds=htow,hhou,hbar,hbla,hwtw,halt,harm,hars,hlum,hgra,hvlt

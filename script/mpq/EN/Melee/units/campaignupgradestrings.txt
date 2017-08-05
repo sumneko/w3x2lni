@@ -1,35 +1,35 @@
 [Rnsw]
-Name=娜迦海妖专家训练,娜迦海妖大师训练
-Tip=研究娜迦海妖专家训练(|cffffcc00N|r),研究娜迦海妖大师训练(|cffffcc00N|r)
-Ubertip="增加娜迦海妖的魔力容量、魔力回复速率、生命值，并给予她们施放霜冻护甲的能力。","增加娜迦海妖的魔力容量、魔力回复速率、生命值并给予她们施放飓风的能力。"
+Name=Naga Siren Adept Training,Naga Siren Master Training
+Tip=Research |cffffcc00N|raga Siren Adept Training,Research |cffffcc00N|raga Siren Master Training
+Ubertip="Increases Naga Sirens' mana capacity, mana regeneration rate, hit points, and gives them the ability to cast Frost Armor.","Increases Naga Sirens' mana capacity, mana regeneration rate, hit points, and gives them the ability to cast Cyclone."
 Hotkey=N,N
 
 [Rnen]
-Name=诱捕
-Tip=研究诱捕(|cffffcc00N|r)
-Ubertip="使娜迦暴徒能够使用诱捕技能。能将一个目标空中单位固定在地面上，使其不能移动。被诱捕的空中单位可以当作地面单位进行攻击。"
+Name=Ensnare
+Tip=Research E|cffffcc00n|rsnare
+Ubertip="Enables Naga Myrmidons to use the Ensnare ability. Ensnare causes a target enemy unit to be bound to the ground so that it cannot move. Air units that are ensnared can be attacked as though they were land units."
 Hotkey=N
 
 [Rnsi]
-Name=驱逐魔法
-Tip=研究驱逐魔法(|cffffcc00B|r)
-Ubertip="给予飞蛇驱散敌单位正面效果的魔法，及友方单位负面效果魔法的能力。|n对召唤单位造成伤害。"
+Name=Abolish Magic
+Tip=Research A|cffffcc00b|rolish Magic
+Ubertip="Gives the Couatl the ability to dispel positive buffs from enemy units, and negative buffs from friendly units. |nDamages summoned units."
 Hotkey=B
 
 [Rnam]
-Name=珊瑚鳞甲,壳质鳞甲,尖刺鳞甲
-Tip=升级到珊瑚鳞甲(|cffffcc00C|r),升级壳质鳞甲(|cffffcc00C|r),升级到尖刺鳞甲(|cffffcc00C|r)
-Ubertip="增加娜迦族攻击单位的防御力。","进一步增加娜迦攻击单位的防御力。","进一步增加娜迦攻击单位的防御力。"
+Name=Coral Scales,Chitinous Scales,Razorspine Scales
+Tip=Upgrade to Coral S|cffffcc00c|rales,Upgrade to Chitinous S|cffffcc00c|rales,Upgrade to Razorspine S|cffffcc00c|rales
+Ubertip="Increases the armor of Naga attack units.","Further increases the armor of Naga attack units.","Further increases the the armor of Naga attack units."
 Hotkey=C,C,C
 
 [Rnat]
-Name=珊瑚剑,壳质剑,尖刺剑
-Tip=升级到珊瑚剑(|cffffcc00B|r),升级到壳质剑(|cffffcc00B|r),升级到尖刺剑(|cffffcc00B|r)
-Ubertip="增加娜迦族攻击单位的攻击力。","进一步增加娜迦族攻击单位的攻击。","增加娜迦族攻击单位的攻击。"
+Name=Coral Blades,Chitinous Blades,Razorspine Blades
+Tip=Upgrade to Coral |cffffcc00B|rlades,Upgrade to Chitinous |cffffcc00B|rlades,Upgrade to Razorspine |cffffcc00B|rlades
+Ubertip="Increases the attack damage of Naga attack units.","Further increases the attack damage of Naga attack units.","Further increases the attack damage of Naga attack units."
 Hotkey=B,B,B
 
 [Rnsb]
-Name=潜水
-Tip=研究潜水(|cffffcc00U|r)
-Ubertip="给予娜迦暴徒和飞龙潜入水中，隐去行踪的能力。"
+Name=Submerge
+Tip=Research S|cffffcc00u|rbmerge
+Ubertip="Gives Naga Myrmidons and Snap Dragons the ability to submerge under water, hiding them from view."
 Hotkey=U

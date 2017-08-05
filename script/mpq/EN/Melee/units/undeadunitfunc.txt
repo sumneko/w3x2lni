@@ -7,7 +7,6 @@ Requires1=unp1
 Requires2=unp2
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
-ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-cryptlord.blp
 
 [uaco]
 Builds=unpl,uzig,usep,ugrv,uaod,utod,uslh,ubon,usap,ugol,utom
@@ -31,7 +30,6 @@ Requires1=unp1
 Requires2=unp2
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
-ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-deathknight.blp
 
 [uban]
 //Requires=unp2
@@ -75,7 +73,6 @@ Requires1=unp1
 Requires2=unp2
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
-ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-dreadlord.blp
 
 [ufro]
 Art=ReplaceableTextures\CommandButtons\BTNFrostWyrm.blp
@@ -127,7 +124,6 @@ Requires1=unp1
 Requires2=unp2
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
-ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-lich.blp
 
 [unec]
 Art=ReplaceableTextures\CommandButtons\BTNNecromancer.blp
