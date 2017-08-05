@@ -160,8 +160,9 @@ function mt:initialize(root)
 end
 
 function mt:update()
-    self.mpq = self.root / 'script' / 'mpq' / self.config.language / self.config.version
-    self.default = self.prebuilt / 'default' / self.config.language / self.config.version
+    local version = self.config.version or 'Custom'
+    self.mpq = self.root / 'script' / 'mpq' / self.config.language / version
+    self.default = self.prebuilt / 'default' / self.config.language / version
 end
 
 -- 加载脚本

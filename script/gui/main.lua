@@ -81,8 +81,6 @@ local function save_config()
 target_format = %s
 -- 语言(CH, EN)
 language = CH
--- 版本(Melee, Custom)
-version = Custom
 ]]):format(config.target_format)
 
     for _, type in ipairs {'slk', 'lni', 'obj'} do
