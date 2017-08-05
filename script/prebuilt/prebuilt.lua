@@ -134,12 +134,11 @@ local function set_config()
     config.target_storage = 'dir'
 end
 
-local function dofile(language, version, template)
+local function dofile(version, template)
     message('==================')
-    message(('    %s %s    '):format(language, version))
+    message(('    %s %s    '):format(w2l.config.language, version))
     message('==================')
 
-    w2l.config.language = language
     w2l.config.version = version
     w2l:update()
     fs.create_directories(w2l.default)
@@ -175,10 +174,8 @@ local function main()
     prebuilt_keydata(w2l)
     prebuilt_search(w2l)
 
-    dofile('CH', 'Melee')
-    dofile('CH', 'Custom', 'template')
-    dofile('EN', 'Melee')
-    dofile('EN', 'Custom')
+    dofile('Melee')
+    dofile('Custom', 'template')
 
     -- 生成技能命令映射
     --local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'))
