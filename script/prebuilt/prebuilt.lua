@@ -136,7 +136,7 @@ end
 
 local function dofile(version, template)
     message('==================')
-    message(('    %s %s    '):format(w2l.config.language, version))
+    message(('       %s      '):format(version))
     message('==================')
 
     w2l.config.version = version

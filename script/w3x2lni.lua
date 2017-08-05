@@ -161,7 +161,7 @@ end
 
 function mt:update()
     local version = self.config.version or 'Custom'
-    self.mpq = self.root / 'script' / 'mpq' / self.config.language / version
+    self.mpq = self.root / 'script' / 'mpq' / version
     self.default = self.prebuilt / 'default' / version
 end
 

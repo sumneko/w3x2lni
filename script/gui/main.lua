@@ -79,8 +79,6 @@ local function save_config()
 [root]
 -- 转换后的目标格式(lni, obj, slk)
 target_format = %s
--- 语言(CH, EN)
-language = CH
 ]]):format(config.target_format)
 
     for _, type in ipairs {'slk', 'lni', 'obj'} do
