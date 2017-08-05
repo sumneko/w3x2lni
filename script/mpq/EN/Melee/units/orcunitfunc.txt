@@ -47,6 +47,7 @@ Requires=
 Requires1=ostr
 Requires2=ofrt
 Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-blademaster.blp
 
 [ocat]
 Requires=ofor,ostr
@@ -83,6 +84,7 @@ Requires1=ostr
 Requires2=ofrt
 Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-farseer.blp
 
 [ofor]
 Attachmentanimprops=medium
@@ -152,7 +154,7 @@ Art=ReplaceableTextures\CommandButtons\BTNHealingWard.blp
 [okod]
 Requires=ofor
 Art=ReplaceableTextures\CommandButtons\BTNKotoBeast.blp
-Buttonpos=1,0
+Buttonpos=2,0
 Missileart=Abilities\Weapons\Axe\AxeMissile.mdl
 Missilearc=0.15
 Missilespeed=1200
@@ -250,6 +252,7 @@ Requires=
 Requires1=ostr
 Requires2=ofrt
 Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-shadowhunter.blp
 
 [otau]
 Requires=otto
@@ -259,7 +262,7 @@ Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
 Attachmentanimprops=medium
 
 [otbr]
-Requires=ofrt,ovln
+Requires=ovln
 Art=ReplaceableTextures\CommandButtons\BTNTrollBatRider.blp
 Buttonpos=3,0
 Missileart=Abilities\Weapons\BatTrollMissile\BatTrollMissile.mdl
@@ -276,6 +279,7 @@ Requires1=ostr
 Requires2=ofrt
 Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
 Attachmentanimprops=large
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-taurenchieftain.blp
 
 [otrb]
 Art=ReplaceableTextures\CommandButtons\BTNTrollBurrow.blp
@@ -306,9 +310,8 @@ LoopingSoundFadeOut=512
 Specialart=Objects\Spawnmodels\Human\HCancelDeath\HCancelDeath.mdl
 
 [owyv]
-Requires=ofrt
 Art=ReplaceableTextures\CommandButtons\BTNWyvernRider.blp
-Buttonpos=2,0
+Buttonpos=1,0
 Missileart=abilities\weapons\WyvernSpear\WyvernSpearMissile.mdl
 Missilearc=0.15
 Missilespeed=1200
@@ -322,7 +325,7 @@ Art=ReplaceableTextures\CommandButtons\BTNStasisTrap.blp
 Attachmentanimprops=medium
 Art=ReplaceableTextures\CommandButtons\BTNVoodooLounge.blp
 Buttonpos=1,2
-Makeitems=shas,hslv,dust,phea,pman,stwp,tgrh,oli2
+Makeitems=shas,hslv,plcl,phea,pman,stwp,tgrh,oli2
 BuildingSoundLabel=OrcBuildingConstructionLoop
 LoopingSoundFadeIn=512
 LoopingSoundFadeOut=512
@@ -350,6 +353,7 @@ Missilearc=0.00
 Missilespeed=900
 MissileHoming=1
 Casterupgradeart=UI\Widgets\Console\Human\infocard-spiritwalker.blp
+Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
 
 [ospm]
 Attachmentanimprops=medium
@@ -360,6 +364,7 @@ Missilearc=0.00
 Missilespeed=900
 MissileHoming=1
 Casterupgradeart=UI\Widgets\Console\Human\infocard-spiritwalker.blp
+Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
 
 //#RESTNOBETA
 [oshy]

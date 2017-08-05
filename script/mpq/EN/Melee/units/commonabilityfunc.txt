@@ -87,6 +87,7 @@ Unbuttonpos=1,1
 Order=repair
 Orderon=repairon
 Orderoff=repairoff
+Animnames=stand,work
 
 // Stun buff
 [BSTN]
@@ -103,3 +104,18 @@ Targetattach=overhead
 [ARal]
 Art=ReplaceableTextures\CommandButtons\BTNRallyPoint.blp,ReplaceableTextures\CommandButtons\BTNOrcRallyPoint.blp,ReplaceableTextures\CommandButtons\BTNRallyPointUndead.blp,ReplaceableTextures\CommandButtons\BTNRallyPointNightElf.blp
 Buttonpos=3,1
+
+[AEpa]
+Art=ReplaceableTextures\CommandButtons\BTNSearingArrowsOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNSearingArrowsOff.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNSearingArrows.blp
+Buttonpos=1,2
+Unbuttonpos=1,2
+Researchbuttonpos=1,0
+Missileart=Abilities\Weapons\SearingArrow\SearingArrowMissile.mdl
+Missilespeed=1500
+MissileHoming=1
+Order=poisonarrowstarg
+Orderon=poisonarrows
+Orderoff=unpoisonarrows
+Animnames=attack

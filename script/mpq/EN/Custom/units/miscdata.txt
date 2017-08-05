@@ -3,11 +3,6 @@
 // Range around selected ground area to search for a target
 CloseEnoughRange=100
 
-// Max revival cost of a hero
-HeroMaxReviveCostGold=700
-HeroMaxReviveCostLumber=0
-HeroMaxReviveTime=150
-
 // Radius of building blight dispel
 BuildingUnblightRadius=350
 
@@ -35,6 +30,7 @@ CancelTime=6
 BulletDeathTime=5
 EffectDeathTime=5
 FogFlashTime=3
+CreepCampPathingCellDistance=26
 
 // follow ranges
 FollowRange=300
@@ -70,24 +66,6 @@ DayHours=24
 // maximum amount of gold a gold mine can have
 GoldMineMaxGold=1000000
 
-// the distance at which heroes still gain XP for dying units
-HeroExpRange=1200
-
-// factors for calculating the cost, time to revive a hero
-// goldRevivalCost = originalCost * (ReviveBaseFactor + (ReviveLevelFactor*(level-1)))
-//	but not exceeding originalCost * ReviveMaxFactor
-// lumberRevivalCost = originalCost * (ReviveBaseLumberFactor + (ReviveLumberLevelFactor*(level-1)))
-//	but not exceeding originalCost * ReviveMaxFactor
-// revivalTime = originalTime * level * ReviveTimeFactor
-//	but not exceeding originalTime * ReviveMaxTimeFactor
-ReviveBaseFactor=.40
-ReviveLevelFactor=.10
-ReviveBaseLumberFactor=0
-ReviveLumberLevelFactor=0
-ReviveMaxFactor=4.0
-ReviveTimeFactor=0.5
-ReviveMaxTimeFactor=2.0
-
 // this is the amount where a gold mine is considered low.
 LowGoldAmount=1500
 
@@ -97,69 +75,13 @@ GoldMineOwnDuration=2.0
 // this is the speed units change visibility (smaller = "cloak" slower)
 InvisSpeed=0.4
 
-FrostMoveSpeedDecrease=0.5
-FrostAttackSpeedDecrease=0.25
-
 // All selection circles will have this added to their z coord
 SelectionCircleBaseZ=16
 
-// Experience & Level Information
-MaxHeroLevel=10
-NeedHeroXP=200,500,900,1400,2000,2700,3500,4400,5400,5400
-GrantHeroXP=80,100,120,140,160,200,240,280,320,400
-GrantNormalXP=20,30,40,60,80,120,160,240,320,480
-PlayerKillBonus=1.25
-StrAttackBonus=1.0
-StrHitPointBonus=25
-StrRegenBonus=0.05
-IntManaBonus=15
-IntRegenBonus=0.05
-AgiDefenseBonus=0.30
-AgiDefenseBase=-2
-AgiMoveBonus=0
-
-// Hero Inventory Items
-DropItemRange=100
-GiveItemRange=150
-PickupItemRange=150
-
-// combat related entries
-CallForHelp=600
-CreepCallForHelp=600
-DefenseArmor=0.06
-
-PierceVsSmall=0.75
-PierceVsLarge=1.50
-PierceVsFort=0.35
-PierceVsHero=0.50
-SpellsVsHero=0.75
-MagicVsHero=0.50
-MagicVsSmall=0.75
-NormalVsSmall=1.50
-NonSiegeVsFort=0.50
-SiegeVsFort=1.50
-SiegeVsSmall=0.50
-SiegeVsHero=0.50
-AllVsDivine=0.05
-
-
-// After a unit has strayed 'GuardDistance' from where it started,
-// that unit begins thinking about heading back to its start position.
-// If the unit has move 'GuardDistance' away from "home" at any time 
-// and spends 'GuardReturnTime' seconds chasing a target without getting
-// attacked by anyone, the unit indeed turns around and heads home.
-//
-GuardDistance=600
-GuardReturnTime=5.0
-
-// refund rates
-ConstructionRefundRate=0.75	// for cancelled construction
-ResearchRefundRate=1.0		// for cancelled research of spells or unit improvements
-ReviveRefundRate=1.0		// for cancelled hero revival
-TrainRefundRate=1.0		// currently applied regardless of location in queue
-UpgradeRefundRate=0.75		// for a cancelled structure upgrade
-
-ConstructionLifeDrainRate=10.0	// hp per second drained when building construction is halted
+// item shadow data
+ItemShadowFile=Shadow
+ItemShadowSize=120,120
+ItemShadowOffset=50,50
 
 // seconds between attack notifications
 AttackNotifyDelay=30.0
@@ -168,3 +90,5 @@ AttackNotifyRange=1250
 // alliance resource trading increments
 TradingIncSmall=100
 TradingIncLarge=200
+
+MissDamageReduction=0.5

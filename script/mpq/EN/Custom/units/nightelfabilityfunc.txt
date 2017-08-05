@@ -1,4 +1,237 @@
-// begin night elf abilities
+// Vengeance
+[Avng]
+Art=ReplaceableTextures\CommandButtons\BTNAvengingWatcherOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNAvengingWatcherOff.blp
+Buttonpos=0,2
+Unbuttonpos=0,2
+Researchbuttonpos=0,0
+Targetart=Abilities\Spells\Orc\FeralSpirit\feralspiritdone.mdl
+Order=Vengeance
+Orderon=Vengeanceon
+Orderoff=Vengeanceoff
+
+[Bvng]
+Buffart=ReplaceableTextures\CommandButtons\BTNAvengingWatcher.blp
+Effectart=Abilities\Spells\Orc\FeralSpirit\feralspiritdone.mdl
+
+// Mana Flare
+[Amfl]
+Art=ReplaceableTextures\CommandButtons\BTNManaFlare.blp
+Unart=ReplaceableTextures\CommandButtons\BTNManaFlareOff.blp
+Buttonpos=1,2
+Unbuttonpos=1,2
+Order=manaflareon
+Unorder=manaflareoff
+
+[Bmfl]
+Buffart=ReplaceableTextures\CommandButtons\BTNManaFlare.blp
+Targetart=Abilities\Spells\Human\ManaFlare\ManaFlareBase.mdl
+Targetattach=overhead
+Effectsoundlooped=ManaFlareLoop
+LightningEffect=MFPB
+
+[Bmfa]
+Buffart=ReplaceableTextures\CommandButtons\BTNManaFlare.blp
+Targetart=Abilities\Spells\Human\ManaFlare\ManaFlareTarget.mdl
+Targetattach=overhead
+Missileart=Abilities\Spells\Human\ManaFlare\ManaFlareMissile.mdl
+Missilespeed=1000
+MissileHoming=1
+Specialart=Abilities\Spells\Human\ManaFlare\ManaFlareBoltImpact.mdl
+
+// Phase Shift
+[Apsh]
+Art=ReplaceableTextures\CommandButtons\BTNPhaseShiftOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNPhaseShiftOff.blp
+Buttonpos=0,2
+Unbuttonpos=0,2
+Effectsound=ShadowMeld
+Orderon=phaseshifton
+Orderoff=phaseshiftoff
+Order=phaseshift
+Specialart=Abilities\Spells\NightElf\FaerieDragonInvis\FaerieDragon_Invis.mdl
+
+[Bpsh]
+Buffart=ReplaceableTextures\CommandButtons\BTNPhaseShift.blp
+Specialart=Abilities\Spells\NightElf\FaerieDragonInvis\FaerieDragon_Invis.mdl
+
+// Ethereal
+[Aetl]
+Art=ReplaceableTextures\CommandButtons\BTNTemp.blp
+Buttonpos=2,2
+
+// Sphere
+[Asp1]
+Targetart=Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs1.mdl
+Targetattachcount=1
+Targetattach=sprite,first
+Missileart=Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs1.mdl
+Missilearc=0.05
+Missilespeed=1400
+
+// Sphere
+[Asp2]
+Targetart=Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs1.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs2.mdl
+Targetattachcount=2
+Targetattach=sprite,first
+Targetattach1=sprite,second
+Missileart=Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs1.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs2.mdl
+Missilearc=0.05
+Missilespeed=1400
+
+// Sphere
+[Asp3]
+Targetart=Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs1.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs2.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs3.mdl
+Targetattachcount=3
+Targetattach=sprite,first
+Targetattach1=sprite,second
+Targetattach2=sprite,third
+Missileart=Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs1.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs2.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs3.mdl
+Missilearc=0.05
+Missilespeed=1400
+
+// Sphere
+[Asp4]
+Targetart=Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs1.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs2.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs3.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs4.mdl
+Targetattachcount=4
+Targetattach=sprite,first
+Targetattach1=sprite,second
+Targetattach2=sprite,third
+Targetattach3=sprite,fourth
+Missileart=Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs1.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs2.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs3.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs4.mdl
+Missilearc=0.05
+Missilespeed=1400
+
+// Sphere
+[Asp5]
+Targetart=Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs1.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs2.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs3.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs4.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs5.mdl
+Targetattachcount=5
+Targetattach=sprite,first
+Targetattach1=sprite,second
+Targetattach2=sprite,third
+Targetattach3=sprite,fourth
+Targetattach4=sprite,fifth
+Missileart=Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs1.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs2.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs3.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs4.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs5.mdl
+Missilearc=0.05
+Missilespeed=1400
+
+// Sphere
+[Asp6]
+Targetart=Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs1.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs2.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs3.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs4.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs5.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs6.mdl
+Targetattachcount=6
+Targetattach=sprite,first
+Targetattach1=sprite,second
+Targetattach2=sprite,third
+Targetattach3=sprite,fourth
+Targetattach4=sprite,fifth
+Targetattach5=sprite,sixth
+Missileart=Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs1.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs2.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs3.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs4.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs5.mdl,Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceOrbs6.mdl
+Missilearc=0.05
+Missilespeed=1400
+
+// Night Elf Build
+[AEbu]
+Art=ReplaceableTextures\CommandButtons\BTNNightElfBuild.blp
+Buttonpos=0,2
+Order=nightelfbuild
+
+// Grab Tree
+[Agra]
+Art=ReplaceableTextures\CommandButtons\BTNGrabTree.blp
+Buttonpos=1,2
+Order=grabtree
+Animnames=spell,eattree
+
+// Hardened Skin
+[Assk]
+Requires=Rehs
+Art=ReplaceableTextures\PassiveButtons\PASBTNHardenedSkin.blp
+Buttonpos=2,2
+Casterart=
+
+// Resistant Skin
+[Arsk]
+Art=ReplaceableTextures\PassiveButtons\PASBTNResistantSkin.blp
+Buttonpos=3,2
+Casterart=
+Requires=Rers
+
+// Taunt
+[Atau]
+Art=ReplaceableTextures\CommandButtons\BTNTaunt.blp
+Buttonpos=0,2
+Order=taunt
+Casterart=Abilities\Spells\NightElf\Taunt\TauntCaster.mdl
+
+[Btau]
+Buffart=ReplaceableTextures\CommandButtons\BTNTaunt.blp
+
+// Blink
+[AEbl]
+Art=ReplaceableTextures\CommandButtons\BTNBlink.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNBlink.blp
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=blink
+// Art to play at the new coordinate
+Areaeffectart=Abilities\Spells\NightElf\Blink\BlinkTarget.mdl
+// Art to leave behind at old coordinate
+Specialart=Abilities\Spells\NightElf\Blink\BlinkCaster.mdl
+Animnames=spell,throw
+
+// Fan of Knives
+[AEfk]
+Art=ReplaceableTextures\CommandButtons\BTNFanOfKnives.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNFanOfKnives.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=fanofknives
+Casterart=
+Effectart=Abilities\Spells\NightElf\FanOfKnives\FanOfKnivesCaster.mdl
+Missileart=Abilities\Spells\NightElf\FanOfKnives\FanOfKnivesMissile.mdl
+Missilespeed=700
+MissileArc=0.10
+Animnames=spell,slam
+
+// Shadow Strike
+[AEsh]
+Art=ReplaceableTextures\CommandButtons\BTNShadowStrike.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNShadowStrike.blp
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Missileart=Abilities\Spells\NightElf\shadowstrike\ShadowStrikeMissile.mdl
+Missilespeed=1200
+MissileArc=0.0
+MissileHoming=1
+Order=shadowstrike
+
+// Shadow Strike Non Stack Buff
+[BEsh]
+Buffart=ReplaceableTextures\CommandButtons\BTNShadowStrike.blp
+Targetart=Abilities\Spells\NightElf\shadowstrike\shadowstrike.mdl
+Targetattach=overhead
+
+// Shadow Strike Stack Buff
+[BEsi]
+Buffart=ReplaceableTextures\CommandButtons\BTNShadowStrike.blp
+Targetart=Abilities\Spells\NightElf\shadowstrike\shadowstrike.mdl
+Targetattach=overhead
+
+// Spirit of Vengeance
+[AEsv]
+Art=ReplaceableTextures\CommandButtons\BTNSpiritOfVengeance.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNSpiritOfVengeance.blp
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Missileart=Abilities\Spells\NightElf\SpiritOfVengeance\SpiritOfVengeanceBirthMissile.mdl
+Missilespeed=700
+MissileArc=0.50
+Targetart=Abilities\Spells\Orc\FeralSpirit\feralspiritdone.mdl
+Order=spiritofvengeance
+
+[BEsv]
+Buffart=ReplaceableTextures\CommandButtons\BTNSpiritOfVengeance.blp
+Effectart=Abilities\Spells\Orc\FeralSpirit\feralspiritdone.mdl
 
 // Cargo Load entangled mine
 [Slo2]
@@ -6,15 +239,20 @@ Art=ReplaceableTextures\CommandButtons\BTNLoad.blp
 Buttonpos=0,2
 Order=load
 
-// Impaling Bolt
-[Aimp]
-Requires=Repb
-Art=ReplaceableTextures\PassiveButtons\PASBTNImpalingBolt.blp
-Buttonpos=0,2
+// Impaling Bolt - see unitfunc
+//[Aimp]
+//Requires=Repb
+//Art=ReplaceableTextures\PassiveButtons\PASBTNImpalingBolt.blp
+//Buttonpos=0,2
 
 // Moon Glaive
 [Amgl]
 Requires=Remg
+Art=ReplaceableTextures\PassiveButtons\PASBTNUpgradeMoonGlaive.blp
+Buttonpos=1,2
+
+// Moon Glaive
+[Amgr]
 Art=ReplaceableTextures\PassiveButtons\PASBTNUpgradeMoonGlaive.blp
 Buttonpos=1,2
 
@@ -23,8 +261,16 @@ Buttonpos=1,2
 Art=ReplaceableTextures\PassiveButtons\PASBTNSlowPoison.blp
 Buttonpos=1,2
 
+// Slow Poison Non Stack Buff
 [Bspo]
-Buffart=ReplaceableTextures\CommandButtons\BTNEnvenomedSpear.blp
+Spelldetail=2
+Buffart=ReplaceableTextures\CommandButtons\BTNSlowPoison.blp
+Targetart=Abilities\Weapons\PoisonSting\PoisonStingTarget.mdl
+
+// Slow Poison Stack Buff
+[Bssd]
+Spelldetail=2
+Buffart=ReplaceableTextures\PassiveButtons\PASBTNSlowPoison.blp
 Targetart=Abilities\Weapons\PoisonSting\PoisonStingTarget.mdl
 
 // Shadow Meld passive nighttime cloaking ability, with its "Hide" button
@@ -34,9 +280,31 @@ Buttonpos=2,1
 Effectsound=ShadowMeld
 Order=ambush
 
+// Shadow Meld passive nighttime cloaking ability, with its "Hide" button
+[Ahid]
+Art=ReplaceableTextures\CommandButtons\BTNAmbush.blp
+Buttonpos=2,1
+Effectsound=ShadowMeld
+Order=ambush
+
+// instant
+[Sshm]
+Art=ReplaceableTextures\CommandButtons\BTNAmbush.blp
+Buttonpos=2,1
+Effectsound=ShadowMeld
+Order=ambush
+
 // Sentinel
 [Aesn]
 Requires=Resc
+Art=ReplaceableTextures\CommandButtons\BTNSentinel.blp
+Buttonpos=0,2
+MissileSpeed=1500
+Missileart=Units\NightElf\Owl\Owl.mdl
+Order=sentinel
+
+// Sentinel
+[Aesr]
 Art=ReplaceableTextures\CommandButtons\BTNSentinel.blp
 Buttonpos=0,2
 MissileSpeed=1500
@@ -60,6 +328,7 @@ Order=eattree
 Art=ReplaceableTextures\CommandButtons\BTNManaRechargeOn.blp
 Unart=ReplaceableTextures\CommandButtons\BTNManaRechargeOff.blp
 Buttonpos=0,0
+Unbuttonpos=0,0
 // One for each normal race, and a special one for demons and their corrupted moon well.
 Effectart=Abilities\Spells\NightElf\MoonWell\MoonWellTarget.mdl,Abilities\Spells\NightElf\MoonWell\MoonWellTarget.mdl,Abilities\Spells\NightElf\MoonWell\MoonWellTarget.mdl,Abilities\Spells\NightElf\MoonWell\MoonWellTarget.mdl,Abilities\Spells\NightElf\MoonWell\CorruptedMoonWellTarget.mdl
 Casterart=Abilities\Spells\NightElf\MoonWell\MoonWellCasterArt.mdl
@@ -68,19 +337,25 @@ Order=recharge
 
 // Wisp Harvest
 [Awha]
-// Wisp Harvest uses button art and position from the [Ahar] Harvest ability.
+Art=ReplaceableTextures\CommandButtons\BTNGatherGold.blp
+Unart=ReplaceableTextures\CommandButtons\BTNReturnGoods.blp
+Buttonpos=3,1
+UnButtonpos=3,1
 Targetart=Abilities\Spells\NightElf\TargetArtLumber\TargetArtLumber.mdl
 Targetattach=origin
 Effectsoundlooped=WispHarvestLoop
-//Order=??
+Order=harvest
 
 // Wisp Harvest (Invulnerable)
 [Awh2]
-// Wisp Harvest uses button art and position from the [Ahar] Harvest ability.
+Art=ReplaceableTextures\CommandButtons\BTNGatherGold.blp
+Unart=ReplaceableTextures\CommandButtons\BTNReturnGoods.blp
+Buttonpos=3,1
+UnButtonpos=3,1
 Targetart=Abilities\Spells\NightElf\TargetArtLumber\TargetArtLumber.mdl
 Targetattach=origin
 Effectsoundlooped=WispHarvestLoop
-//Order=??
+Order=harvest
 
 // Detonate
 [Adtn]
@@ -173,12 +448,24 @@ Buttonpos=2,2
 [Ault]
 Requires=Reuv
 
+//Elune's Grace
+[Aegr]
+Art=ReplaceableTextures\PassiveButtons\PASBTNElunesBlessing.blp
+Buttonpos=1,2
+
 // Couple
 [Acoa]
 Art=ReplaceableTextures\CommandButtons\BTNHippogriffRider.blp
 Buttonpos=0,2
 Requires=Reht
 Effectsound=HippogryphTaming
+//Order=??
+
+// Couple (Archer)
+[Aco2]
+Art=ReplaceableTextures\CommandButtons\BTNHippogriffRider.blp
+Buttonpos=0,2
+Requires=Reht
 //Order=??
 
 [Acoh]
@@ -188,12 +475,28 @@ Requires=Reht
 Effectsound=HippogryphTaming
 //Order=??
 
+// Couple (Hippo)
+[Aco3]
+Art=ReplaceableTextures\CommandButtons\BTNHippogriffRider.blp
+Buttonpos=0,2
+Requires=Reht
+Effectsound=HippogryphTaming
+//Order=??
+
+// Decouple
+[Adec]
+Art=ReplaceableTextures\CommandButtons\BTNArcher.blp
+Buttonpos=0,2
+Requires=Reht
+Effectsound=HippogryphTaming
+Order=decouple
+
 // Corrosive Breath
 [Acor]
 Art=ReplaceableTextures\PassiveButtons\PASBTNCorrosiveBreath.blp
 Buttonpos=0,2
 Requires=Recb
-Missileart=Abilities\Spells\NightElf\CorrosiveBreath\CorrosiveBreathMissile.mdl
+Missileart=Abilities\Weapons\ChimaeraAcidMissile\ChimaeraAcidMissile.mdl
 Missilespeed=1000
 Order=corrosivebreath
 
@@ -210,6 +513,7 @@ Buttonpos=0,2
 Researchbuttonpos=0,0
 Targetart=Abilities\Spells\NightElf\ManaBurn\ManaBurnTarget.mdl
 Order=manaburn
+LightningEffect=MBUR
 
 // Immolation
 [AEim]
@@ -226,7 +530,7 @@ Unorder=unimmolation
 Buffart=ReplaceableTextures\CommandButtons\BTNImmolationOn.blp
 Targetart=Abilities\Spells\NightElf\Immolation\ImmolationTarget.mdl
 Specialart=Abilities\Spells\NightElf\Immolation\ImmolationDamage.mdl
-Specialartattach=head
+Specialattach=head
 
 // Evasion
 [AEev]
@@ -245,6 +549,14 @@ Order=metamorphosis
 
 // Illidan Metamorphosis
 [AEIl]
+Art=ReplaceableTextures\CommandButtons\BTNMetamorphosis.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNMetamorphosis.blp
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=metamorphosis
+
+// Evil Illidan Metamorphosis
+[AEvi]
 Art=ReplaceableTextures\CommandButtons\BTNMetamorphosis.blp
 Researchart=ReplaceableTextures\CommandButtons\BTNMetamorphosis.blp
 Buttonpos=3,2
@@ -290,11 +602,12 @@ Targetart=Abilities\Spells\NightElf\ThornsAura\ThornsAura.mdl
 Targetattach=origin
 
 [BEah]
+Spelldetail=2
 Buffart=ReplaceableTextures\CommandButtons\BTNThorns.blp
 Targetart=Abilities\Spells\Other\GeneralAuraTarget\GeneralAuraTarget.mdl
 Targetattach=origin
 Specialart=Abilities\Spells\NightElf\ThornsAura\ThornsAuraDamage.mdl
-Specialartattach=head
+Specialattach=head
 
 // Tranquility
 [AEtq]
@@ -303,6 +616,7 @@ Researchart=ReplaceableTextures\CommandButtons\BTNTranquility.blp
 Buttonpos=3,2
 Researchbuttonpos=3,0
 Order=tranquility
+Animnames=stand,channel
 
 // Tranquility life regeneration
 [AEtr]
@@ -332,8 +646,10 @@ Unbuttonpos=1,2
 Researchbuttonpos=1,0
 Missileart=Abilities\Weapons\SearingArrow\SearingArrowMissile.mdl
 Missilespeed=1500
+MissileHoming=1
 Order=flamingarrows
 Unorder=unflamingarrows
+Animnames=attack
 
 // Trueshot Aura
 [AEar]
@@ -345,6 +661,7 @@ Targetart=Abilities\Spells\NightElf\TrueshotAura\TrueshotAura.mdl
 Targetattach=origin
 
 [BEar]
+Spelldetail=2
 Buffart=ReplaceableTextures\CommandButtons\BTNTrueShot.blp
 Targetart=Abilities\Spells\Other\GeneralAuraTarget\GeneralAuraTarget.mdl
 Targetattach=origin
@@ -357,6 +674,7 @@ Buttonpos=3,2
 Researchbuttonpos=3,0
 Casterart=
 Order=starfall
+Animnames=spell,looping
 
 // Starfall life drain
 [AEsd]
@@ -374,6 +692,7 @@ Buttonpos=3,2
 Researchbuttonpos=3,0
 Casterart=
 Order=starfall
+Animnames=spell,looping
 
 // Faerie Fire
 [Afae]
@@ -385,7 +704,19 @@ order=faeriefire
 orderon=faeriefireon
 orderoff=faeriefireoff
 
+// Faerie Fire (storm crow form)
+[Afa2]
+Requires=Reec
+Art=ReplaceableTextures\CommandButtons\BTNFaerieFireOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNFaerieFireOff.blp
+Buttonpos=0,2
+Unbuttonpos=0,2
+order=faeriefire
+orderon=faeriefireon
+orderoff=faeriefireoff
+
 [Bfae]
+Spelldetail=1
 Targetart=Abilities\Spells\NightElf\FaerieFire\FaerieFireTarget.mdl
 Targetattach=head
 Buffart=ReplaceableTextures\CommandButtons\BTNFaerieFire.blp
@@ -402,6 +733,12 @@ order=cyclone
 Buffart=ReplaceableTextures\CommandButtons\BTNCyclone.blp
 Effectart=Abilities\Spells\NightElf\Cyclone\CycloneTarget.mdl
 Targetattach=sprite,first
+Effectsoundlooped=CycloneLoop
+
+[Bcy2]
+Buffart=ReplaceableTextures\CommandButtons\BTNCyclone.blp
+Effectart=Abilities\Spells\NightElf\Cyclone\CycloneTarget.mdl
+Effectattach=sprite,first
 Effectsoundlooped=CycloneLoop
 
 // Rejuvenation
@@ -428,14 +765,27 @@ Effectsoundlooped=WispRenewLoop
 Order=renew
 Orderon=renewon
 Orderoff=renewoff
+Animnames=stand,work
 
 // Roar
 [Aroa]
 Art=ReplaceableTextures\CommandButtons\BTNBattleRoar.blp
 Buttonpos=0,2
 Casterart=Abilities\Spells\NightElf\BattleRoar\RoarCaster.mdl
+Order=roar
+Animnames=spell,slam
+
+// Roar (bear form)
+[Ara2]
+Requires=Reeb
+Art=ReplaceableTextures\CommandButtons\BTNBattleRoar.blp
+Buttonpos=0,2
+Casterart=Abilities\Spells\NightElf\BattleRoar\RoarCaster.mdl
+Order=roar
+Animnames=spell,slam
 
 [Broa]
+Spelldetail=1
 Buffart=ReplaceableTextures\CommandButtons\BTNBattleRoar.blp
 Targetart=Abilities\Spells\NightElf\BattleRoar\RoarTarget.mdl
 Targetattach=overhead
@@ -445,6 +795,7 @@ Targetattach=overhead
 Missileart=Abilities\Weapons\ChimaeraLightningMissile\ChimaeraLightningMissile.mdl
 Missilespeed=1500
 Targetart=Abilities\Weapons\Bolt\BoltImpact.mdl
+LightningEffect=CHIM
 
 // tree of life upgrade ability
 [Atol]
@@ -453,7 +804,6 @@ Targetattachcount=3
 Targetattach=origin
 Targetattach1=hand,left
 Targetattach2=hand,right
-
 
 // used by creep ability
 [Bbar]
@@ -468,7 +818,6 @@ Targetattachcount=2
 Targetattach=sprite,first
 Targetattach1=sprite,fourth
 Effectsoundlooped=NightElfFireSmall
-
 
 // medium
 [Xfnm]

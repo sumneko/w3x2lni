@@ -1,10 +1,10 @@
 [Rusp]
-Art=ReplaceableTextures\CommandButtons\BTNDestroyer.tga
+Art=ReplaceableTextures\CommandButtons\BTNDestroyer.blp
 ButtonPos=2,2
 Requires=unp2,utom
 
 [Rume]
-Art=ReplaceableTextures\CommandButtons\BTNUnholyStrength.tga,ReplaceableTextures\CommandButtons\BTNImprovedUnholyStrength.tga,ReplaceableTextures\CommandButtons\BTNAdvancedUnholyStrength.tga
+Art=ReplaceableTextures\CommandButtons\BTNUnholyStrength.blp,ReplaceableTextures\CommandButtons\BTNImprovedUnholyStrength.blp,ReplaceableTextures\CommandButtons\BTNAdvancedUnholyStrength.blp
 Buttonpos=0,0
 Requirescount=3
 Requires=
@@ -12,7 +12,7 @@ Requires1=unp1
 Requires2=unp2
 
 [Rura]
-Art=ReplaceableTextures\CommandButtons\BTNCreatureAttack.tga,ReplaceableTextures\CommandButtons\BTNImprovedCreatureAttack.tga,ReplaceableTextures\CommandButtons\BTNAdvancedCreatureAttack.tga
+Art=ReplaceableTextures\CommandButtons\BTNCreatureAttack.blp,ReplaceableTextures\CommandButtons\BTNImprovedCreatureAttack.blp,ReplaceableTextures\CommandButtons\BTNAdvancedCreatureAttack.blp
 Buttonpos=1,0
 Requirescount=3
 Requires=
@@ -20,7 +20,7 @@ Requires1=unp1
 Requires2=unp2
 
 [Ruar]
-Art=ReplaceableTextures\CommandButtons\BTNUnholyArmor.tga,ReplaceableTextures\CommandButtons\BTNImprovedUnholyArmor.tga,ReplaceableTextures\CommandButtons\BTNAdvancedUnholyArmor.tga
+Art=ReplaceableTextures\CommandButtons\BTNUnholyArmor.blp,ReplaceableTextures\CommandButtons\BTNImprovedUnholyArmor.blp,ReplaceableTextures\CommandButtons\BTNAdvancedUnholyArmor.blp
 Buttonpos=0,1
 Requirescount=3
 Requires=
@@ -28,7 +28,7 @@ Requires1=unp1
 Requires2=unp2
 
 [Rucr]
-Art=ReplaceableTextures\CommandButtons\BTNCreatureCarapace.tga,ReplaceableTextures\CommandButtons\BTNImprovedCreatureCarapace.tga,ReplaceableTextures\CommandButtons\BTNAdvancedCreatureCarapace.tga
+Art=ReplaceableTextures\CommandButtons\BTNCreatureCarapace.blp,ReplaceableTextures\CommandButtons\BTNImprovedCreatureCarapace.blp,ReplaceableTextures\CommandButtons\BTNAdvancedCreatureCarapace.blp
 Buttonpos=1,1
 Requirescount=3
 Requires=
@@ -36,67 +36,67 @@ Requires1=unp1
 Requires2=unp2
 
 [Ruac]
-Art=ReplaceableTextures\CommandButtons\BTNCannibalize.tga
+Art=ReplaceableTextures\CommandButtons\BTNCannibalize.blp
 Buttonpos=0,1
 
 [Rugf]
-Art=ReplaceableTextures\CommandButtons\BTNGhoulFrenzy.tga
+Art=ReplaceableTextures\CommandButtons\BTNGhoulFrenzy.blp
 Buttonpos=0,2
 Requires=ugrv,unp2
 
 [Ruwb]
-Art=ReplaceableTextures\CommandButtons\BTNWeb.tga
+Art=ReplaceableTextures\CommandButtons\BTNWeb.blp
 Buttonpos=1,2
 Requires=ugrv,unp1
 
 [Rusf]
-Art=ReplaceableTextures\CommandButtons\BTNStoneForm.tga
+Art=ReplaceableTextures\CommandButtons\BTNStoneForm.blp
 Buttonpos=2,2
 Requires=ugrv,unp2
 
 [Rune]
-Art=ReplaceableTextures\CommandButtons\BTNNecromancerAdept.tga,ReplaceableTextures\CommandButtons\BTNNecromancerMaster.tga
+Art=ReplaceableTextures\CommandButtons\BTNNecromancerAdept.blp,ReplaceableTextures\CommandButtons\BTNNecromancerMaster.blp
 Buttonpos=0,2
 Requirescount=2
 Requires=
 Requires1=unp2
 
 [Ruba]
-Art=ReplaceableTextures\CommandButtons\BTNBansheeAdept.tga,ReplaceableTextures\CommandButtons\BTNBansheeMaster.tga
+Art=ReplaceableTextures\CommandButtons\BTNBansheeAdept.blp,ReplaceableTextures\CommandButtons\BTNBansheeMaster.blp
 Buttonpos=1,2
 Requirescount=2
 Requires=
 Requires1=unp2
 
 [Rufb]
-Art=ReplaceableTextures\CommandButtons\BTNFreezingBreath.tga
+Art=ReplaceableTextures\CommandButtons\BTNFreezingBreath.blp
 Buttonpos=0,2
 
 [Rusl]
-Art=ReplaceableTextures\CommandButtons\BTNSkeletalLongevity.tga
+Art=ReplaceableTextures\CommandButtons\BTNSkeletalLongevity.blp
 Buttonpos=2,2
 
 [Rupc]
-Art=ReplaceableTextures\CommandButtons\BTNPlagueCloud.tga
+Art=ReplaceableTextures\CommandButtons\BTNPlagueCloud.blp
 Buttonpos=1,2
 Requires=unp2
 
 [Rusm]
 Requires=unp2
-Art=ReplaceableTextures\CommandButtons\BTNSkeletonMage.tga
+Art=ReplaceableTextures\CommandButtons\BTNSkeletonMage.blp
 Buttonpos=2,1
 
 [Rubu]
-Art=ReplaceableTextures\CommandButtons\BTNCryptFiendBurrow.tga
+Art=ReplaceableTextures\CommandButtons\BTNCryptFiendBurrow.blp
 Buttonpos=1,1
 Requires=unp1,ugrv
 
 [Ruex]
-Art=ReplaceableTextures\CommandButtons\BTNExhumeCorpses.tga
+Art=ReplaceableTextures\CommandButtons\BTNExhumeCorpses.blp
 Buttonpos=0,2
 Requires=unp2
 
 [Rupm]
-Art=ReplaceableTextures\CommandButtons\BTNPackBeast.tga
+Art=ReplaceableTextures\CommandButtons\BTNPackBeast.blp
 Buttonpos=3,0
 Requires=utom

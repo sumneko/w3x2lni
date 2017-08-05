@@ -50,6 +50,7 @@ Researchbuttonpos=1,0
 Missileart=Abilities\Spells\Orc\Shockwave\ShockwaveMissile.mdl
 Missilespeed=1050
 Order=shockwave
+Animnames=attack,slam
 
 // Spirit Beast
 [ACs8]
@@ -184,6 +185,7 @@ Art=ReplaceableTextures\CommandButtons\BTNAntiMagicShell.blp
 Casterart=Abilities\Spells\Other\ANrm\ANrmTarget.mdl
 Buttonpos=3,2
 Order=roar
+Animnames=spell,slam
 
 // Channel
 [ANcl]
@@ -195,6 +197,7 @@ Casterattach=origin
 Targetart=Abilities\Spells\Undead\DeathPact\DeathPactTarget.mdl
 Targetattach=origin
 Effectart=Abilities\Spells\Undead\DeathPact\DeathPactTarget.mdl
+Animnames=spell,channel
 
 //orc campaign hero stuff
 
@@ -206,6 +209,7 @@ Buttonpos=1,2
 Researchbuttonpos=1,0
 Casterart=Abilities\Spells\Orc\WarStomp\WarStompCaster.mdl
 Order=stomp
+Animnames=spell,slam
 
 // Shockwave (Cairne)
 [AOs2] 
@@ -216,6 +220,7 @@ Researchbuttonpos=0,0
 Missileart=Abilities\Spells\Orc\Shockwave\ShockwaveMissile.mdl
 Missilespeed=1050
 Order=shockwave
+Animnames=attack,slam
 
 // Endurance Aura (Cairne)
 [AOr2]
@@ -244,6 +249,8 @@ Buttonpos=0,2
 Researchbuttonpos=0,0
 Targetart=Abilities\Spells\Orc\HealingWave\HealingWaveTarget.mdl
 Order=healingwave
+Animnames=spell,throw
+LightningEffect=HWPB,HWSB
 
 // Hex (rokhan)
 [ANhx]
@@ -279,6 +286,7 @@ Researchart=ReplaceableTextures\CommandButtons\BTNQuillBeast.blp
 Researchbuttonpos=1,0
 Targetart=Abilities\Spells\Orc\FeralSpirit\feralspiritdone.mdl
 Order=summonquillbeast
+Animnames=spell,slam
 
 // Stampede (Rexxar)
 [Arsp]
@@ -292,6 +300,7 @@ Missilespeed=500
 Effectsoundlooped=StampedeLoop
 Effectsound=StampedeCast
 Order=stampede
+Animnames=spell,looping
 
 // Battle Roar
 [ANbr]
@@ -301,6 +310,7 @@ Buttonpos=2,2
 Researchbuttonpos=2,0
 Casterart=Abilities\Spells\NightElf\BattleRoar\RoarCaster.mdl
 Order=battleroar
+Animnames=spell,slam
 
 [BNbr]
 Spelldetail=1
@@ -316,6 +326,7 @@ Researchart=ReplaceableTextures\CommandButtons\BTNGrizzlyBear.blp
 Researchbuttonpos=0,0
 Specialart=Abilities\Spells\Orc\FeralSpirit\feralspiritdone.mdl
 Order=spiritwolf
+Animnames=spell,slam
 
 // Storm Bolt (campaign)
 [ANsb]
@@ -327,6 +338,7 @@ Missileart=Abilities\Spells\Human\StormBolt\StormBoltMissile.mdl
 Missilespeed=1000
 MissileHoming=1
 Order=thunderbolt
+Animnames=spell,throw
 
 // Breath of Fire (Chen)
 [ANcf]
@@ -337,6 +349,7 @@ Researchbuttonpos=0,0
 Missileart=Abilities\Spells\Other\BreathOfFire\BreathOfFireMissile.mdl
 Missilespeed=1050
 Order=breathoffire
+Animnames=spell,slam
 
 // Drunken Brawler (Chen)
 [Acdb]
@@ -354,7 +367,7 @@ Researchbuttonpos=1,0
 Missileart=Abilities\Spells\Other\StrongDrink\BrewmasterMissile.mdl
 Missilearc=0.15
 Missilespeed=1500
-Order=strongdrink
+Order=drunkenhaze
 
 // Earth, Storm, and Fire (Chen)
 [Acef]
@@ -368,7 +381,7 @@ Missileart=Units\Creeps\FirePandarenBrewmaster\FirePandarenBrewmaster_Missile.md
 Missilearc=0.75
 Missilespeed=150
 Effectsound=StormEarthFireSound
-
+Animnames=spell,throw
 
 // Voodoo Spirits (Rokhan)
 [AOls]

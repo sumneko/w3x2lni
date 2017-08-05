@@ -89,11 +89,13 @@ Unbuttonpos=1,2
 Missileart=Abilities\Spells\Undead\OrbOfDeath\AnnihilationMissile.mdl
 Missilespeed=1500
 MissileHoming=1
+Animnames=attack
 
 // Devour Magic
 [Advm]
 Art=ReplaceableTextures\CommandButtons\BTNDevourMagic.blp
 Buttonpos=0,2
+Specialart=Abilities\Spells\Human\DispelMagic\DispelMagicTarget.mdl
 Missileart=Abilities\Spells\Undead\DevourMagic\DevourMagicBirthMissile.mdl
 Missilespeed=1200
 Missilearc=0.10
@@ -186,7 +188,6 @@ Researchbuttonpos=1,0
 //Unorder=Unthornyshield
  
 [BUts]
-Spelldetail=2
 Buffart=ReplaceableTextures\CommandButtons\BTNThornShield.blp
 Targetart=Abilities\Spells\Undead\ThornyShield\ThornyShieldTargetChestLeft.mdl,Abilities\Spells\Undead\ThornyShield\ThornyShieldTargetChestRight.mdl,Abilities\Spells\Undead\ThornyShield\ThornyShieldTargetChestMountLeft.mdl,Abilities\Spells\Undead\ThornyShield\ThornyShieldTargetChestMountRight.mdl
 Targetattachcount=4
@@ -290,6 +291,7 @@ Requires=Ruac
 Art=ReplaceableTextures\CommandButtons\BTNCannibalize.blp
 Buttonpos=0,2
 Order=cannibalize
+Animnames=stand,channel
 
 // Cannibalize (abomination)
 [Acn2]
@@ -297,6 +299,7 @@ Requires=Ruac
 Art=ReplaceableTextures\CommandButtons\BTNCannibalize.blp
 Buttonpos=0,2
 Order=cannibalize
+Animnames=stand,channel
 
 // Spider Attack
 [Aspa]
@@ -411,6 +414,13 @@ Buttonpos=0,2
 Missileart=Abilities\Weapons\ZigguratFrostMissile\ZigguratFrostMissile.mdl
 
 
+// Frost Attack (1,2) button pos
+[Afr2]
+Art=ReplaceableTextures\PassiveButtons\PASBTNFrost.blp
+Buttonpos=1,2
+Missileart=Abilities\Weapons\ZigguratFrostMissile\ZigguratFrostMissile.mdl
+
+
 // Freezing Breath
 [Afrz]
 Art=ReplaceableTextures\PassiveButtons\PASBTNFreezingBreath.blp
@@ -482,7 +492,19 @@ Buttonpos=1,2
 Requires=Ruba
 Order=antimagicshell
 
+// Anti-magic Shell
+[Aam2]
+Art=ReplaceableTextures\CommandButtons\BTNAntiMagicShell.blp
+Buttonpos=1,2
+Requires=Ruba
+Order=antimagicshell
+
 [Bams]
+Buffart=ReplaceableTextures\CommandButtons\BTNAntiMagicShell.blp
+Targetart=Abilities\Spells\Undead\AntiMagicShell\AntiMagicShell.mdl
+Targetattach=overhead
+
+[Bam2]
 Buffart=ReplaceableTextures\CommandButtons\BTNAntiMagicShell.blp
 Targetart=Abilities\Spells\Undead\AntiMagicShell\AntiMagicShell.mdl
 Targetattach=overhead
@@ -498,6 +520,28 @@ Missileart=Abilities\Spells\Undead\Possession\PossessionMissile.mdl
 Missilespeed=1500
 MissileHoming=1
 Order=possession
+
+// Possession
+[Aps2]
+Art=ReplaceableTextures\CommandButtons\BTNPossession.blp
+Buttonpos=2,2
+SpecialArt=
+Requires=Ruba
+Requiresamount=2
+Missileart=Abilities\Spells\Undead\Possession\PossessionMissile.mdl
+Missilespeed=1500
+MissileHoming=1
+Order=possession
+
+[Bpos]
+Buffart=ReplaceableTextures\CommandButtons\BTNPossession.blp
+Targetart=Abilities\Spells\Undead\Possession\PossessionTarget.mdl
+Targetattach=overhead
+
+// Buff for looping caster art.
+[Bpoc]
+Targetart=Abilities\Spells\Undead\Possession\PossessionCaster.mdl
+Targetattach=overhead
 
 // Death Coil
 [AUdc]
@@ -552,6 +596,7 @@ Missileart=Abilities\Spells\Undead\CarrionSwarm\CarrionSwarmMissile.mdl
 Missilespeed=1100
 Specialart=Abilities\Spells\Undead\CarrionSwarm\CarrionSwarmDamage.mdl
 Order=carrionswarm
+Animnames=attack,slam
 
 // Sleep
 [AUsl]
@@ -648,6 +693,7 @@ Researchart=ReplaceableTextures\CommandButtons\BTNDeathAndDecay.blp
 Buttonpos=3,2
 Researchbuttonpos=3,0
 Order=deathanddecay
+Animnames=stand,channel
 
 [XUdd]
 Effectart=Abilities\Spells\Undead\DeathandDecay\DeathandDecayTarget.mdl
@@ -685,6 +731,7 @@ Effectsoundlooped=AcolyteRestoreLoop
 Order=restoration
 Orderon=restorationon
 Orderoff=restorationoff
+Animnames=stand,work
 
 // Unholy Aura
 [AUau]

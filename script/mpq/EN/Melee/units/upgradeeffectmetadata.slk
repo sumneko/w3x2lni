@@ -1,5 +1,5 @@
 ID;PWXL;N;E
-B;X21;Y53;D0
+B;X21;Y56;D0
 C;X1;Y1;K"ID"
 C;X2;K"effectID"
 C;X3;K"comment"
@@ -537,6 +537,30 @@ C;X5;K"WESTRING_EEVAL_UROB"
 C;X6;K"attackBits"
 C;X7;K0
 C;X8;K3
+C;X9;K0
+C;X10;K1
+C;X1;Y54;K"uart"
+C;X2;K"rart"
+C;X3;K"Armor Type"
+C;X4;K"Base"
+C;X5;K"WESTRING_EEVAL_UART"
+C;X6;K"defenseTypeInt"
+C;X9;K0
+C;X10;K1
+C;X1;Y55;K"utma"
+C;X2;K"rtma"
+C;X3;K"Tech Max Allowed"
+C;X4;K"Base"
+C;X5;K"WESTRING_EEVAL_UTMA"
+C;X6;K"techAvail"
+C;X9;K0
+C;X10;K1
+C;X1;Y56;K"ttma"
+C;X2;K"rtma"
+C;X3;K"Tech Max Allowed"
+C;X4;K"Code"
+C;X5;K"WESTRING_EEVAL_TTMA"
+C;X6;K"unitCode"
 C;X9;K0
 C;X10;K1
 E

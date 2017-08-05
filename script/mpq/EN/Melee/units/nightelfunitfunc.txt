@@ -15,6 +15,7 @@ Buttonpos=3,0
 Missileart=Abilities\Weapons\AncientProtectorMissile\AncientProtectorMissile.mdl
 Missilearc=0.10
 Missilespeed=750
+MissileHoming=0,1
 BuildingSoundLabel=NightElfGrowingLoop
 LoopingSoundFadeIn=512
 LoopingSoundFadeOut=512
@@ -113,6 +114,7 @@ Missilearc=0.0
 Missilespeed=900
 MissileHoming=1
 Specialart=Objects\Spawnmodels\NightElf\NightElfLargeDeathExplode\NightElfLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-demonhunter.blp
 
 [Edmm]
 Art=ReplaceableTextures\CommandButtons\BTNMetamorphosis.blp
@@ -130,6 +132,7 @@ Attachmentanimprops=medium
 Attachmentlinkprops=alternate
 Boneprops=alternate
 Animprops=alternateex
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-demonhunter.blp
 
 [Ekee]
 Art=ReplaceableTextures\CommandButtons\BTNKeeperOfTheGrove.blp
@@ -144,6 +147,7 @@ Missilespeed=900
 MissileHoming=1
 Specialart=Objects\Spawnmodels\NightElf\NightElfLargeDeathExplode\NightElfLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-keeperofthegrove.blp
 
 [Emoo]
 Art=ReplaceableTextures\CommandButtons\BTNPriestessOfTheMoon.blp
@@ -158,6 +162,7 @@ Requires1=etoa
 Requires2=etoe
 Specialart=Objects\Spawnmodels\NightElf\NightElfLargeDeathExplode\NightElfLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-priestessofthemoon.blp
 
 [Ewar]
 Art=ReplaceableTextures\CommandButtons\BTNHeroWarden.blp
@@ -171,6 +176,7 @@ Requires1=etoa
 Requires2=etoe
 Specialart=Objects\Spawnmodels\NightElf\NightElfLargeDeathExplode\NightElfLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-warden.blp
 
 [esen]
 Requires=edob

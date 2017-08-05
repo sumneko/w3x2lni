@@ -99,6 +99,7 @@ Unbuttonpos=0,2
 Targetart=Abilities\Spells\Orc\SpiritLink\SpiritLinkZapTarget.mdl
 Casterart=Abilities\Spells\Orc\SpiritLink\SpiritLinkZapTarget.mdl
 Order=spiritlink
+LightningEffect=SPLK
 
 [Bspl]
 Buffart=ReplaceableTextures\CommandButtons\BTNSpiritLink.blp
@@ -150,6 +151,8 @@ Buttonpos=0,2
 Researchbuttonpos=0,0
 Targetart=Abilities\Spells\Orc\HealingWave\HealingWaveTarget.mdl
 Order=healingwave
+Animnames=spell,throw
+LightningEffect=HWPB,HWSB
 
 // Hex
 [AOhx]
@@ -170,7 +173,7 @@ Art=ReplaceableTextures\CommandButtons\BTNSerpentWard.blp
 Researchart=ReplaceableTextures\CommandButtons\BTNSerpentWard.blp
 Buttonpos=2,2
 Researchbuttonpos=2,0
-Order=Serpentward
+Order=ward
 
 // Voodoo
 [AOvd]
@@ -178,7 +181,8 @@ Art=ReplaceableTextures\CommandButtons\BTNBigBadVoodooSpell.blp
 Researchart=ReplaceableTextures\CommandButtons\BTNBigBadVoodooSpell.blp
 Buttonpos=3,2
 Researchbuttonpos=3,0
-Order=Voodoo
+Order=voodoo
+Animnames=stand,channel
 
 [BOvd]
 Buffart=ReplaceableTextures\CommandButtons\BTNBigBadVoodooSpell.blp
@@ -195,6 +199,7 @@ Buttonpos=0,2
 Missileart=Abilities\Weapons\FireBallMissile\FireBallMissile.mdl
 Missilespeed=1000
 MissileHoming=1
+Animnames=spell,throw
 
 // Chaos conversion
 [Acha]
@@ -267,6 +272,7 @@ Targetattach=chest,mount
 Art=ReplaceableTextures\PassiveButtons\PASBTNSmash.blp
 Buttonpos=0,2
 Requires=Rows
+Animnames=slam
 
 // Devour
 [Adev]
@@ -280,12 +286,22 @@ Order=devour
 [Bdvv]
 Buffart=ReplaceableTextures\CommandButtons\BTNDevour.blp
 
-// Purge
+// Purge (classic)
 [Aprg]
 Art=ReplaceableTextures\CommandButtons\BTNPurge.blp
 Specialart=Abilities\Spells\Orc\Purge\PurgeBuffTarget.mdl
+Specialattach=origin
 Buttonpos=0,2
 Order=purge
+
+// Purge (expansion melee)
+[Apg2]
+Art=ReplaceableTextures\CommandButtons\BTNPurge.blp
+Specialart=Abilities\Spells\Orc\Purge\PurgeBuffTarget.mdl
+Specialattach=origin
+Buttonpos=0,2
+Order=purge
+
 
 [Bprg]
 Buffart=ReplaceableTextures\CommandButtons\BTNPurge.blp
@@ -332,7 +348,7 @@ Buttonpos=0,2
 Order=evileye
 
 [Beye]
-Art=ReplaceableTextures\CommandButtons\BTNSentryWard.blp
+Buffart=ReplaceableTextures\CommandButtons\BTNSentryWard.blp
 
 // Stasis Trap spell
 [Asta]
@@ -403,6 +419,18 @@ Targetart=Abilities\Weapons\PoisonSting\PoisonStingTarget.mdl
 [Bpsd]
 Spelldetail=2
 Buffart=ReplaceableTextures\CommandButtons\BTNEnvenomedSpear.blp
+Targetart=Abilities\Weapons\PoisonSting\PoisonStingTarget.mdl
+
+// Venom Non Stack Buff
+[BIpb]
+Spelldetail=2
+Buffart=ReplaceableTextures\CommandButtons\BTNOrbOfVenom.blp
+Targetart=Abilities\Weapons\PoisonSting\PoisonStingTarget.mdl
+
+// Venom Stack Buff
+[BIpd]
+Spelldetail=2
+Buffart=ReplaceableTextures\CommandButtons\BTNOrbOfVenom.blp
 Targetart=Abilities\Weapons\PoisonSting\PoisonStingTarget.mdl
 
 // Tracking (Passive)
@@ -485,6 +513,8 @@ Missileart=Abilities\Spells\Orc\LightningBolt\LightningBoltMissile.mdl
 Missilespeed=1500
 Targetart=Abilities\Weapons\Bolt\BoltImpact.mdl
 Order=chainlightning
+Animnames=spell,chain
+LightningEffect=CLPB,CLSB
 
 // Far Sight
 [AOfs]
@@ -501,6 +531,7 @@ Researchart=ReplaceableTextures\CommandButtons\BTNEarthquake.blp
 Buttonpos=3,2
 Researchbuttonpos=3,0
 Order=earthquake
+Animnames=spell,looping
 
 [BOeq]
 Buffart=ReplaceableTextures\CommandButtons\BTNEarthquake.blp
@@ -520,6 +551,7 @@ Researchbuttonpos=0,0
 Missileart=Abilities\Spells\Orc\Shockwave\ShockwaveMissile.mdl
 Missilespeed=1050
 Order=shockwave
+Animnames=attack,slam
 
 // Endurance Aura
 [AOae]
@@ -567,6 +599,7 @@ Buttonpos=1,2
 Researchbuttonpos=1,0
 Casterart=Abilities\Spells\Orc\WarStomp\WarStompCaster.mdl
 Order=stomp
+Animnames=spell,slam
 
 [BOws]
 Buffart=ReplaceableTextures\CommandButtons\BTNWarStomp.blp

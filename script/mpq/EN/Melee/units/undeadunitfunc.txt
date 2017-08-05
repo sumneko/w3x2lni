@@ -7,6 +7,7 @@ Requires1=unp1
 Requires2=unp2
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-cryptlord.blp
 
 [uaco]
 Builds=unpl,uzig,usep,ugrv,uaod,utod,uslh,ubon,usap,ugol,utom
@@ -30,6 +31,7 @@ Requires1=unp1
 Requires2=unp2
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-deathknight.blp
 
 [uban]
 //Requires=unp2
@@ -73,6 +75,7 @@ Requires1=unp1
 Requires2=unp2
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-dreadlord.blp
 
 [ufro]
 Art=ReplaceableTextures\CommandButtons\BTNFrostWyrm.blp
@@ -84,7 +87,7 @@ MissileHoming=1
 Attachmentanimprops=large
 
 [ugar]
-Requires=ugrv,unp2
+Requires=ugrv,unp1
 DependencyOr=ugrm
 // do NOT put a similar DependencyOr under ugrm
 Art=ReplaceableTextures\CommandButtons\BTNGargoyle.blp
@@ -124,6 +127,7 @@ Requires1=unp1
 Requires2=unp2
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-lich.blp
 
 [unec]
 Art=ReplaceableTextures\CommandButtons\BTNNecromancer.blp
@@ -185,9 +189,9 @@ Buttonpos=0,2
 BuildingSoundLabel=UndeadBuildingConstructionLoop
 LoopingSoundFadeIn=512
 LoopingSoundFadeOut=512
-Missileart=Abilities\Weapons\ZigguratMissile\ZigguratMissile.mdl
-Missilearc=0.15
-Missilespeed=900
+Missileart=Abilities\Weapons\ZigguratFrostMissile\ZigguratFrostMissile.mdl
+Missilearc=0.00
+Missilespeed=1200
 MissileHoming=1
 Specialart=Objects\Spawnmodels\Undead\UCancelDeath\UCancelDeath.mdl
 Attachmentanimprops=large
@@ -202,9 +206,9 @@ Buttonpos=0,2
 BuildingSoundLabel=UndeadBuildingConstructionLoop
 LoopingSoundFadeIn=512
 LoopingSoundFadeOut=512
-Missileart=Abilities\Weapons\ZigguratMissile\ZigguratMissile.mdl
-Missilearc=0.15
-Missilespeed=900
+Missileart=Abilities\Weapons\ZigguratFrostMissile\ZigguratFrostMissile.mdl
+Missilearc=0.00
+Missilespeed=1200
 MissileHoming=1
 Specialart=Objects\Spawnmodels\Undead\UCancelDeath\UCancelDeath.mdl
 Attachmentanimprops=large
@@ -237,7 +241,7 @@ Attachmentanimprops=medium
 [utom]
 Art=ReplaceableTextures\CommandButtons\BTNTombOfRelics.blp
 Buttonpos=2,2
-Makeitems=rnec,plcl,skul,phea,pman,stwp,ocor,shea
+Makeitems=rnec,dust,skul,phea,pman,stwp,ocor,shea
 Specialart=Objects\Spawnmodels\Undead\UCancelDeath\UCancelDeath.mdl
 Attachmentanimprops=medium
 

@@ -1,10 +1,10 @@
 [Rhss]
 Requires=hvlt,hcas
-Art=ReplaceableTextures\CommandButtons\BTNControlMagic.tga
+Art=ReplaceableTextures\CommandButtons\BTNControlMagic.blp
 Buttonpos=2,1
 
 [Rhme]
-Art=ReplaceableTextures\CommandButtons\BTNSteelMelee.tga,ReplaceableTextures\CommandButtons\BTNThoriumMelee.tga,ReplaceableTextures\CommandButtons\BTNArcaniteMelee.tga
+Art=ReplaceableTextures\CommandButtons\BTNSteelMelee.blp,ReplaceableTextures\CommandButtons\BTNThoriumMelee.blp,ReplaceableTextures\CommandButtons\BTNArcaniteMelee.blp
 Buttonpos=0,0
 Requirescount=3
 Requires=
@@ -12,7 +12,7 @@ Requires1=hkee
 Requires2=hcas
 
 [Rhra]
-Art=ReplaceableTextures\CommandButtons\BTNHumanMissileUpOne.tga,ReplaceableTextures\CommandButtons\BTNHumanMissileUpTwo.tga,ReplaceableTextures\CommandButtons\BTNHumanMissileUpThree.tga
+Art=ReplaceableTextures\CommandButtons\BTNHumanMissileUpOne.blp,ReplaceableTextures\CommandButtons\BTNHumanMissileUpTwo.blp,ReplaceableTextures\CommandButtons\BTNHumanMissileUpThree.blp
 Buttonpos=1,0
 Requirescount=3
 Requires=
@@ -20,7 +20,7 @@ Requires1=hkee
 Requires2=hcas
 
 [Rhar]
-Art=ReplaceableTextures\CommandButtons\BTNHumanArmorUpOne.tga,ReplaceableTextures\CommandButtons\BTNHumanArmorUpTwo.tga,ReplaceableTextures\CommandButtons\BTNHumanArmorUpThree.tga
+Art=ReplaceableTextures\CommandButtons\BTNHumanArmorUpOne.blp,ReplaceableTextures\CommandButtons\BTNHumanArmorUpTwo.blp,ReplaceableTextures\CommandButtons\BTNHumanArmorUpThree.blp
 Buttonpos=0,1
 Requirescount=3
 Requires=
@@ -28,7 +28,7 @@ Requires1=hkee
 Requires2=hcas
 
 [Rhla]
-Art=ReplaceableTextures\CommandButtons\BTNLeatherUpgradeOne.tga,ReplaceableTextures\CommandButtons\BTNLeatherUpgradeTwo.tga,ReplaceableTextures\CommandButtons\BTNLeatherUpgradeThree.tga
+Art=ReplaceableTextures\CommandButtons\BTNLeatherUpgradeOne.blp,ReplaceableTextures\CommandButtons\BTNLeatherUpgradeTwo.blp,ReplaceableTextures\CommandButtons\BTNLeatherUpgradeThree.blp
 Buttonpos=1,1
 Requirescount=3
 Requires=
@@ -36,7 +36,7 @@ Requires1=hkee
 Requires2=hcas
 
 [Rhac]
-Art=ReplaceableTextures\CommandButtons\BTNStoneArchitecture.tga,ReplaceableTextures\CommandButtons\BTNArcaniteArchitecture.tga,ReplaceableTextures\CommandButtons\BTNImbuedMasonry.tga
+Art=ReplaceableTextures\CommandButtons\BTNStoneArchitecture.blp,ReplaceableTextures\CommandButtons\BTNArcaniteArchitecture.blp,ReplaceableTextures\CommandButtons\BTNImbuedMasonry.blp
 Buttonpos=1,0
 Requirescount=3
 Requires=
@@ -44,80 +44,80 @@ Requires1=hkee
 Requires2=hcas
 
 [Rhgb]
-Art=ReplaceableTextures\CommandButtons\BTNHumanArtilleryUpOne.tga
+Art=ReplaceableTextures\CommandButtons\BTNHumanArtilleryUpOne.blp
 Buttonpos=0,2
 Requires=hcas
 
 [Rhlh]
-Art=ReplaceableTextures\CommandButtons\BTNHumanLumberUpgrade1.tga,ReplaceableTextures\CommandButtons\BTNHumanLumberUpgrade2.tga
+Art=ReplaceableTextures\CommandButtons\BTNHumanLumberUpgrade1.blp,ReplaceableTextures\CommandButtons\BTNHumanLumberUpgrade2.blp
 Buttonpos=0,0
 Requirescount=2
 Requires=hkee
 Requires1=hcas
 
 [Rhde]
-Art=ReplaceableTextures\CommandButtons\BTNDefend.tga
+Art=ReplaceableTextures\CommandButtons\BTNDefend.blp
 Buttonpos=0,2
 
 [Rhan]
-Art=ReplaceableTextures\CommandButtons\BTNAnimalWarTraining.tga
+Art=ReplaceableTextures\CommandButtons\BTNAnimalWarTraining.blp
 Buttonpos=2,2
 Requires=hlum,hcas,hbla
 
 [Rhpt]
-Art=ReplaceableTextures\CommandButtons\BTNPriestAdept.tga,ReplaceableTextures\CommandButtons\BTNPriestMaster.tga
+Art=ReplaceableTextures\CommandButtons\BTNPriestAdept.blp,ReplaceableTextures\CommandButtons\BTNPriestMaster.blp
 Buttonpos=1,2
 Requirescount=2
 Requires=
 Requires1=hcas
 
 [Rhst]
-Art=ReplaceableTextures\CommandButtons\BTNSorceressAdept.tga,ReplaceableTextures\CommandButtons\BTNSorceressMaster.tga
+Art=ReplaceableTextures\CommandButtons\BTNSorceressAdept.blp,ReplaceableTextures\CommandButtons\BTNSorceressMaster.blp
 Buttonpos=0,2
 Requirescount=2
 Requires=
 Requires1=hcas
 
 [Rhri]
-Art=ReplaceableTextures\CommandButtons\BTNDwarvenLongRifle.tga
+Art=ReplaceableTextures\CommandButtons\BTNDwarvenLongRifle.blp
 Buttonpos=1,2
 Requires=harm
 
 [Rhse]
-Art=ReplaceableTextures\CommandButtons\BTNMagicalSentry.tga
+Art=ReplaceableTextures\CommandButtons\BTNMagicalSentry.blp
 Buttonpos=2,2
 
 [Rhfl]
-Art=ReplaceableTextures\CommandButtons\BTNFlare.tga
+Art=ReplaceableTextures\CommandButtons\BTNFlare.blp
 Buttonpos=1,2
 Requires=hkee
 
 [Rhhb]
-Art=ReplaceableTextures\CommandButtons\BTNStormHammer.tga
+Art=ReplaceableTextures\CommandButtons\BTNStormHammer.blp
 Buttonpos=0,2
 Requires=
 
 [Rhrt]
-Art=ReplaceableTextures\CommandButtons\BTNScatterRockets.tga
+Art=ReplaceableTextures\CommandButtons\BTNScatterRockets.blp
 Buttonpos=2,2
 Requires=hcas
 
 [Rhpm]
-Art=ReplaceableTextures\CommandButtons\BTNPackBeast.tga
+Art=ReplaceableTextures\CommandButtons\BTNPackBeast.blp
 Buttonpos=3,0
 Requires=hvlt
 
 [Rhfc]
-Art=ReplaceableTextures\CommandButtons\BTNFlakCannons.tga
+Art=ReplaceableTextures\CommandButtons\BTNFlakCannons.blp
 Buttonpos=0,1
 Requires=hcas
 
 [Rhfs]
-Art=ReplaceableTextures\CommandButtons\BTNFragmentationBombs.tga
+Art=ReplaceableTextures\CommandButtons\BTNFragmentationBombs.blp
 Buttonpos=1,1
 Requires=hcas
 
 [Rhcd]
-Art=ReplaceableTextures\CommandButtons\BTNCloudOfFog.tga
+Art=ReplaceableTextures\CommandButtons\BTNCloudOfFog.blp
 Buttonpos=1,2
 Requires=hvlt

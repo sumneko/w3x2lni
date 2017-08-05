@@ -1,6 +1,6 @@
 // permits dependencies upon heroes
 [HERO]
-DependencyOr=Hamg,Hblm,Hmkg,Hpal,Obla,Ofar,Oshd,Otch,Edem,Ekee,Emoo,Ewar,Ucrl,Udea,Udre,Ulic,Npbm,Nbrn,Nngs,Nplh,Nbst
+DependencyOr=Hamg,Hblm,Hmkg,Hpal,Obla,Ofar,Oshd,Otch,Edem,Ekee,Emoo,Ewar,Ucrl,Udea,Udre,Ulic,Npbm,Nbrn,Nngs,Nplh,Nbst,Nalc,Ntin,Nfir
 
 [nwad]
 Art=ReplaceableTextures\CommandButtons\BTNSentryWard.blp
@@ -14,6 +14,17 @@ Missilespeed=900
 
 // skeleton
 [nske]
+Art=ReplaceableTextures\CommandButtons\BTNSkeletonWarrior.blp
+
+// skeletal archer (summoned)
+[nsca]
+Art=ReplaceableTextures\CommandButtons\BTNSkeletonArcher.blp
+Missileart=Abilities\Weapons\Arrow\ArrowMissile.mdl
+Missilearc=0.15
+Missilespeed=900
+
+// skeleton (summoned)
+[nsce]
 Art=ReplaceableTextures\CommandButtons\BTNSkeletonWarrior.blp
 
 // giant skeleton
@@ -989,7 +1000,7 @@ Sellunits=npfl,ndrm,nvdw,ndrd
 // Tavern
 [ntav]
 Art=ReplaceableTextures\CommandButtons\BTNTavern.blp
-Sellunits=Nngs,Nbrn,Npbm,Nplh,Nbst
+Sellunits=Nalc,Ntin,Nfir,Nngs,Nbrn,Npbm,Nplh,Nbst
 
 // Fountain of Power
 [nmoo]
@@ -1373,6 +1384,16 @@ MissileHoming=1
 Attachmentanimprops=medium
 Specialart=Objects\Spawnmodels\Demon\DemonLargeDeathExplode\DemonLargeDeathExplode.mdl
 
+//summoned doomguard
+[nba2]
+Art=ReplaceableTextures\CommandButtons\BTNDoomGuard.blp
+Missileart=Abilities\Weapons\DemonHunterMissile\DemonHunterMissile.mdl
+Missilearc=0.0
+Missilespeed=900
+MissileHoming=1
+Attachmentanimprops=medium
+Specialart=Objects\Spawnmodels\Demon\DemonLargeDeathExplode\DemonLargeDeathExplode.mdl
+
 [nglm]
 Art=ReplaceableTextures\CommandButtons\BTNGoblinLandMine.blp
 
@@ -1541,6 +1562,7 @@ Missilespeed=900
 Buttonpos=2,1
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
 Attachmentanimprops=large
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-pandarenbrewmaster.blp
 
 // fire
 [npn1]
@@ -1561,6 +1583,137 @@ Attachmentanimprops=medium
 Art=ReplaceableTextures\CommandButtons\BTNEarthBrewmaster.blp
 Attachmentanimprops=medium
 
+// Alchemist
+[Nalc]
+Art=ReplaceableTextures\CommandButtons\BTNHeroAlchemist.blp
+Requirescount=3
+Requires=TALT
+Requires1=TWN2,TALT
+Requires2=TWN3,TALT
+Missileart=Abilities\Weapons\BrewmasterMissile\BrewmasterMissile.mdl
+Missilearc=0.15
+Missilespeed=900
+Buttonpos=3,2
+Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+Attachmentanimprops=large
+DependencyOr=Nalm,Nal2,Nal3
+// do NOT put a similar DependencyOr on Nalm
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-alchemist.blp
+
+// Alchemist
+[Nalm]
+Art=ReplaceableTextures\CommandButtons\BTNHeroAlchemist.blp
+Requirescount=3
+Requires=TALT
+Requires1=TWN2,TALT
+Requires2=TWN3,TALT
+Missileart=Abilities\Weapons\BrewmasterMissile\BrewmasterMissile.mdl
+Missilearc=0.15
+Missilespeed=900
+Buttonpos=3,2
+Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+Attachmentanimprops=large
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-alchemist.blp
+
+// Alchemist
+[Nal2]
+Art=ReplaceableTextures\CommandButtons\BTNHeroAlchemist.blp
+Requirescount=3
+Requires=TALT
+Requires1=TWN2,TALT
+Requires2=TWN3,TALT
+Missileart=Abilities\Weapons\BrewmasterMissile\BrewmasterMissile.mdl
+Missilearc=0.15
+Missilespeed=900
+Buttonpos=3,2
+Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+Attachmentanimprops=large
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-alchemist.blp
+
+// Alchemist
+[Nal3]
+Art=ReplaceableTextures\CommandButtons\BTNHeroAlchemist.blp
+Requirescount=3
+Requires=TALT
+Requires1=TWN2,TALT
+Requires2=TWN3,TALT
+Missileart=Abilities\Weapons\BrewmasterMissile\BrewmasterMissile.mdl
+Missilearc=0.15
+Missilespeed=900
+Buttonpos=3,2
+Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+Attachmentanimprops=large
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-alchemist.blp
+
+// Tinker
+[Ntin]
+Art=ReplaceableTextures\CommandButtons\BTNHeroTinker.blp
+Requirescount=3
+Requires=TALT
+Requires1=TWN2,TALT
+Requires2=TWN3,TALT
+Missileart=Abilities\Weapons\BrewmasterMissile\BrewmasterMissile.mdl
+Missilearc=0.15
+Missilespeed=900
+Buttonpos=2,2
+Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+Attachmentanimprops=large
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-tinker.blp
+
+// Tinker -- Robo Goblin
+[Nrob]
+Art=ReplaceableTextures\CommandButtons\BTNHeroTinker.blp
+Requirescount=3
+Requires=TALT
+Requires1=TWN2,TALT
+Requires2=TWN3,TALT
+Missileart=Abilities\Weapons\BrewmasterMissile\BrewmasterMissile.mdl
+Missilearc=0.15
+Missilespeed=900
+Buttonpos=2,2
+Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+Attachmentanimprops=large
+Attachmentlinkprops=alternate
+Boneprops=alternate
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-tinker.blp
+
+// clockwerk goblin 
+[ncgb]
+Art=ReplaceableTextures\CommandButtons\BTNClockWerkGoblin.blp
+Attachmentanimprops=medium
+
+// clockwerk goblin 
+[ncg1]
+Art=ReplaceableTextures\CommandButtons\BTNClockWerkGoblin.blp
+Attachmentanimprops=medium
+
+// clockwerk goblin 
+[ncg2]
+Art=ReplaceableTextures\CommandButtons\BTNClockWerkGoblin.blp
+Attachmentanimprops=medium
+
+// clockwerk goblin 
+[ncg3]
+Art=ReplaceableTextures\CommandButtons\BTNClockWerkGoblin.blp
+Attachmentanimprops=medium
+
+// pocket factory (level 1)
+[nfac]
+Art=ReplaceableTextures\CommandButtons\BTNPocketFactory.blp
+Attachmentanimprops=medium
+
+// pocket factory (level 2)
+[nfa1]
+Art=ReplaceableTextures\CommandButtons\BTNPocketFactory.blp
+Attachmentanimprops=medium
+
+// pocket factory (level 3)
+[nfa2]
+Art=ReplaceableTextures\CommandButtons\BTNPocketFactory.blp
+Attachmentanimprops=medium
+
+
+
 // Dark Ranger
 [Nbrn]
 Art=ReplaceableTextures\CommandButtons\BTNBansheeRanger.blp
@@ -1573,6 +1726,7 @@ Specialart=Objects\Spawnmodels\Demon\DemonLargeDeathExplode\DemonLargeDeathExplo
 Missileart=Abilities\Weapons\Arrow\ArrowMissile.mdl
 Missilearc=0.15
 Missilespeed=900
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-bansheeranger.blp
 
 [ndr1]
 Art=ReplaceableTextures\CommandButtons\BTNSkeletonWarrior.blp
@@ -1594,6 +1748,31 @@ Specialart=Objects\Spawnmodels\Orc\OrcSmallDeathExplode\OrcSmallDeathExplode.mdl
 Art=ReplaceableTextures\CommandButtons\BTNSpinyCrab.blp
 Buttonpos=0,0
 Specialart=Objects\Spawnmodels\Orc\OrcSmallDeathExplode\OrcSmallDeathExplode.mdl
+
+// Chicken critter
+[nech]
+Art=ReplaceableTextures\CommandButtons\BTNCritterChicken.blp
+Buttonpos=0,0
+Specialart=Objects\Spawnmodels\Orc\OrcSmallDeathExplode\OrcSmallDeathExplode.mdl
+
+// Frog critter
+[nfro]
+Art=ReplaceableTextures\CommandButtons\BTNHex.blp
+Buttonpos=0,0
+Specialart=Objects\Spawnmodels\Orc\OrcSmallDeathExplode\OrcSmallDeathExplode.mdl
+
+// Rabbit critter
+[necr]
+Art=ReplaceableTextures\CommandButtons\BTNCritterRabbit.blp
+Buttonpos=0,0
+Specialart=Objects\Spawnmodels\Orc\OrcSmallDeathExplode\OrcSmallDeathExplode.mdl
+
+// Raccoon critter
+[nrac]
+Art=ReplaceableTextures\CommandButtons\BTNRacoon.blp
+Buttonpos=0,0
+Specialart=Objects\Spawnmodels\Orc\OrcSmallDeathExplode\OrcSmallDeathExplode.mdl
+
 
 // hermit crab critter
 [nhmc]
@@ -1935,6 +2114,51 @@ Specialart=Objects\Spawnmodels\Demon\DemonLargeDeathExplode\DemonLargeDeathExplo
 Missileart=Abilities\Weapons\NagaArrowMissile\NagaArrowMissile.mdl
 Missilearc=0.08
 Missilespeed=1200
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-seawitch.blp
+
+// Firelord
+[Nfir]
+Art=ReplaceableTextures\CommandButtons\BTNHeroAvatarOfFlame.blp
+Requirescount=3
+Requires=TALT
+Requires1=TWN2,TALT
+Requires2=TWN3,TALT
+Buttonpos=3,1
+Specialart=Objects\Spawnmodels\Demon\DemonLargeDeathExplode\DemonLargeDeathExplode.mdl
+Missileart=Abilities\Weapons\LordofFlameMissile\LordofFlameMissile.mdl
+Missilearc=0.08
+MissileHoming=1
+Missilespeed=1200
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-avatarofflame.blp
+
+//lava spawn 1
+[nlv1]
+Art=ReplaceableTextures\CommandButtons\BTNLavaSpawn.blp
+Missileart=Abilities\Weapons\LavaSpawnMissile\LavaSpawnMissile.mdl
+Missilearc=0.15
+MissileHoming=1
+Missilespeed=1000
+Attachmentanimprops=medium
+
+//lava spawn 2
+[nlv2]
+Art=ReplaceableTextures\CommandButtons\BTNLavaSpawn.blp
+Missileart=Abilities\Weapons\LavaSpawnMissile\LavaSpawnMissile.mdl
+Missilearc=0.15
+MissileHoming=1
+Missilespeed=1000
+Attachmentanimprops=medium
+
+//lava spawn 3
+[nlv3]
+Art=ReplaceableTextures\CommandButtons\BTNLavaSpawn.blp
+Missileart=Abilities\Weapons\LavaSpawnMissile\LavaSpawnMissile.mdl
+Missilearc=0.15
+MissileHoming=1
+Missilespeed=1000
+Attachmentanimprops=medium
+
+
 
 // neutral hireable pit lord
 [Nplh]
@@ -1946,6 +2170,7 @@ Requirescount=3
 Requires=TALT
 Requires1=TWN2,TALT
 Requires2=TWN3,TALT
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-pitlord.blp
 
 
 // Beastmaster
@@ -1958,6 +2183,7 @@ Requirescount=3
 Requires=TALT
 Requires1=TWN2,TALT
 Requires2=TWN3,TALT
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-beastmaster.blp
 
 // grizzly bears
 [ngz1]
@@ -2030,7 +2256,6 @@ Specialart=Objects\Spawnmodels\Orc\OrcSmallDeathExplode\OrcSmallDeathExplode.mdl
 
 
 //#RESTNOBETA
-
 
 
 // mammoth

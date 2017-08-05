@@ -2,10 +2,12 @@
 [Harf]
 Art=ReplaceableTextures\CommandButtons\BTNArthas.blp
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-arthas.blp
 
 [Hart]
 Art=ReplaceableTextures\CommandButtons\BTNArthas.blp
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-arthas.blp
 
 [Hant]
 Art=ReplaceableTextures\CommandButtons\BTNHeroArchMage.blp
@@ -23,30 +25,37 @@ Requires1=hkee
 Requires2=hcas
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-archmage.blp
 
 [Huth]
 Art=ReplaceableTextures\CommandButtons\BTNHeroPaladin.blp
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-paladin.blp
 
 [Hpb1]
 Art=ReplaceableTextures\CommandButtons\BTNHeroPaladin.blp
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-paladin.blp
 
 [Hpb2]
 Art=ReplaceableTextures\CommandButtons\BTNHeroPaladin.blp
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-paladin.blp
 
 [Hdgo]
 Art=ReplaceableTextures\CommandButtons\BTNHeroPaladin.blp
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-paladin.blp
 
 [Hmgd]
 Art=ReplaceableTextures\CommandButtons\BTNHeroPaladin.blp
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-paladin.blp
 
 [Hhkl]
 Art=ReplaceableTextures\CommandButtons\BTNHeroPaladin.blp
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-paladin.blp
 
 [Hjai]
 Art=ReplaceableTextures\CommandButtons\BTNJaina.blp
@@ -55,10 +64,12 @@ Missilearc=0.15
 Missilespeed=900
 MissileHoming=1
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-jaina.blp
 
 [Hmbr]
 Art=ReplaceableTextures\CommandButtons\BTNHeroMountainKing.blp
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-mountainking.blp
 
 [Hvwd]
 Art=ReplaceableTextures\CommandButtons\BTNSylvanusWindrunner.blp
@@ -67,6 +78,7 @@ Missilearc=0.15
 Missilespeed=900
 MissileHoming=1
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-sylvanus.blp
 
 // Kael
 [Hkal]
@@ -77,6 +89,7 @@ Missilearc=0.15
 Missilespeed=900
 MissileHoming=1
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-sorceror.blp
 
 // Lady Vashj
 [Hvsh]
@@ -86,11 +99,13 @@ Specialart=Objects\Spawnmodels\Demon\DemonLargeDeathExplode\DemonLargeDeathExplo
 Missileart=Abilities\Weapons\NagaArrowMissile\NagaArrowMissile.mdl
 Missilearc=0.08
 Missilespeed=1200
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-seawitch.blp
 
 // Lord Garithos
 [Hlgr]
 Art=ReplaceableTextures\CommandButtons\BTNGarithos.blp
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-garithos.blp
 
 // Arcane Observatory
 [haro]
@@ -123,6 +138,7 @@ Attachmentanimprops=medium
 [Hapm]
 Art=ReplaceableTextures\CommandButtons\BTNHeroPaladin.blp
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-paladin.blp
 
 [hrdh]
 Art=ReplaceableTextures\CommandButtons\BTNRiderlessHorse.blp
@@ -138,6 +154,7 @@ Missilearc=0.15
 Missilespeed=900
 MissileHoming=1
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-archmage.blp
 
 // Orc Units
 [Othr]
@@ -148,25 +165,30 @@ Missilespeed=1200
 MissileHoming=1
 Attachmentanimprops=medium
 Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-thrall.blp
 
 [Ogrh]
 Art=ReplaceableTextures\CommandButtons\BTNHellScream.blp
 Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-grom.blp
 
 [Opgh]
 Art=ReplaceableTextures\CommandButtons\BTNChaosGrom.blp
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-chaosgrom.blp
 
 [Ocbh]
 Art=ReplaceableTextures\CommandButtons\BTNHeroTaurenChieftain.blp
 Attachmentanimprops=medium
 Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-taurenchieftain.blp
 
 //expansion version of cairne bloodhoof
 [Ocb2]
 Art=ReplaceableTextures\CommandButtons\BTNHeroTaurenChieftain.blp
 Attachmentanimprops=medium
 Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-taurenchieftain.blp
 
 [owar]
 Art=ReplaceableTextures\CommandButtons\BTNChaosWarlord.blp
@@ -199,6 +221,7 @@ Missilearc=0.00
 Missilespeed=900
 MissileHoming=1
 Specialart=Objects\Spawnmodels\Orc\OrcSmallDeathExplode\OrcSmallDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-guldan.blp
 
 // nazgrel, orc wolfrider
 [onzg]
@@ -217,6 +240,7 @@ Missilespeed=1200
 MissileHoming=1
 Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-farseer.blp
 
 // Rokhan
 [Orkn]
@@ -227,6 +251,7 @@ Missilearc=0.15
 Missilespeed=900
 Attachmentanimprops=medium
 Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-shadowhunter.blp
 
 // mathog
 [omtg]
@@ -260,6 +285,7 @@ Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
 Art=ReplaceableTextures\CommandButtons\BTNHeroBlademaster.blp
 Buttonpos=0,2
 Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-blademaster.blp
 
 // Rexxar
 [Orex]
@@ -270,23 +296,24 @@ Missilearc=0.15
 Missilespeed=900
 Attachmentanimprops=large
 Specialart=Objects\Spawnmodels\Demon\DemonLargeDeathExplode\DemonLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-beastmaster.blp
 
-//level 1 Misha
+//Misha level 1
 [ngzc]
 Art=ReplaceableTextures\CommandButtons\BTNGrizzlyBear.blp
 Attachmentanimprops=medium
 
-//level 2 Misha
+//Misha level 2
 [ngzd]
 Art=ReplaceableTextures\CommandButtons\BTNGrizzlyBear.blp
 Attachmentanimprops=medium
 
-//level 3 Misha
+//Misha level 3
 [ngza]
 Art=ReplaceableTextures\CommandButtons\BTNGrizzlyBear.blp
 Attachmentanimprops=large
 
-//level 4 Misha
+//Misha level 4
 [ngz4]
 Art=ReplaceableTextures\CommandButtons\BTNGrizzlyBear.blp
 Attachmentanimprops=large
@@ -348,6 +375,7 @@ Attachmentanimprops=large
 Art=ReplaceableTextures\CommandButtons\BTNHeroDeathKnight.blp
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-deathknight.blp
 
 [Uktl]
 Art=ReplaceableTextures\CommandButtons\BTNLichVersion2.blp
@@ -356,42 +384,50 @@ Missilearc=0.0
 Missilespeed=900
 MissileHoming=1
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-lich.blp
 
 [Umal]
 Art=ReplaceableTextures\CommandButtons\BTNHeroDreadlord.blp
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-dreadlord.blp
 
 [Utic]
 Art=ReplaceableTextures\CommandButtons\BTNTichondrius.blp
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-tichondrius.blp
 
 [Uvar]
 Art=ReplaceableTextures\CommandButtons\BTNHeroDreadlord.blp
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-dreadlord.blp
 
 [Udth]
 Art=ReplaceableTextures\CommandButtons\BTNHeroDreadlord.blp
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-dreadlord.blp
 
 [Ubal]
 Art=ReplaceableTextures\CommandButtons\BTNTichondrius.blp
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-tichondrius.blp
 
 [Uvng]
 Art=ReplaceableTextures\CommandButtons\BTNHeroDreadlord.blp
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-dreadlord.blp
 
 [Uanb]
 Art=ReplaceableTextures\CommandButtons\BTNHeroCryptLord.blp
 Buttonpos=0,1
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-cryptlord.blp
 
 [uktn]
 Art=ReplaceableTextures\CommandButtons\BTNKelThuzad.blp
@@ -409,6 +445,7 @@ Specialart=Objects\Spawnmodels\Demon\DemonLargeDeathExplode\DemonLargeDeathExplo
 Missileart=Abilities\Weapons\Arrow\ArrowMissile.mdl
 Missilearc=0.15
 Missilespeed=900
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-bansheeranger.blp
 
 [uktg]
 Art=ReplaceableTextures\CommandButtons\BTNGhostOfKelThuzad.blp
@@ -420,6 +457,7 @@ Missilearc=0.0
 Missilespeed=900
 MissileHoming=1
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-archimonde.blp
 
 // sylvanus windrunner banshee
 [uswb]
@@ -462,6 +500,7 @@ Attachmentanimprops=large
 DependencyOr=Eilm
 Art=ReplaceableTextures\CommandButtons\BTNHeroDemonHunter.blp
 Specialart=Objects\Spawnmodels\NightElf\NightElfLargeDeathExplode\NightElfLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-demonhunter.blp
 
 [Eilm]
 Art=ReplaceableTextures\CommandButtons\BTNHeroDemonHunter.blp
@@ -473,6 +512,7 @@ Specialart=Objects\Spawnmodels\NightElf\NightElfLargeDeathExplode\NightElfLargeD
 Attachmentanimprops=medium
 Attachmentlinkprops=alternate
 Animprops=alternateex
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-demonhunter.blp
 
 [Eidm]
 Art=ReplaceableTextures\CommandButtons\BTNHeroDemonHunter.blp
@@ -484,6 +524,7 @@ Specialart=Objects\Spawnmodels\NightElf\NightElfLargeDeathExplode\NightElfLargeD
 Attachmentanimprops=medium
 Attachmentlinkprops=alternate
 Animprops=alternate,alternateex
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-demonhunter.blp
 
 [Ecen]
 Art=ReplaceableTextures\CommandButtons\BTNKeeperOfTheGrove.blp
@@ -493,6 +534,7 @@ Missilespeed=1300
 MissileHoming=1
 Specialart=Objects\Spawnmodels\NightElf\NightElfLargeDeathExplode\NightElfLargeDeathExplode.mdl
 Attachmentanimprops=large
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-keeperofthegrove.blp
 
 [Ekgg]
 Art=ReplaceableTextures\CommandButtons\BTNKeeperGhostBlue.blp
@@ -502,6 +544,7 @@ Missilespeed=1300
 MissileHoming=1
 Specialart=Objects\Spawnmodels\NightElf\NightElfLargeDeathExplode\NightElfLargeDeathExplode.mdl
 Attachmentanimprops=large
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-keeperofthegrove.blp
 
 [Efur]
 Art=ReplaceableTextures\CommandButtons\BTNFurion.blp
@@ -510,6 +553,7 @@ Missilearc=0.10
 Missilespeed=900
 MissileHoming=1
 Specialart=Objects\Spawnmodels\NightElf\NightElfLargeDeathExplode\NightElfLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-furion.blp
 
 // Malfurion
 [Emfr]
@@ -519,6 +563,7 @@ Missilearc=0.10
 Missilespeed=900
 MissileHoming=1
 Specialart=Objects\Spawnmodels\NightElf\NightElfLargeDeathExplode\NightElfLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-furion.blp
 
 [Emns]
 Art=ReplaceableTextures\CommandButtons\BTNFurion.blp
@@ -527,6 +572,7 @@ Missilearc=0.10
 Missilespeed=900
 MissileHoming=1
 Specialart=Objects\Spawnmodels\NightElf\NightElfLargeDeathExplode\NightElfLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-furion.blp
 
 // Maiev
 [Ewrd]
@@ -537,6 +583,7 @@ Missilearc=0.15
 Missilespeed=900
 Specialart=Objects\Spawnmodels\NightElf\NightElfLargeDeathExplode\NightElfLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-warden.blp
 
 // evil illidan morphed
 [Eevm]
@@ -549,6 +596,7 @@ Specialart=Objects\Spawnmodels\NightElf\NightElfLargeDeathExplode\NightElfLargeD
 Attachmentanimprops=medium
 Attachmentlinkprops=alternate
 Animprops=alternateex
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-demonhunter.blp
 
 // evil illidan
 [Eevi]
@@ -559,6 +607,7 @@ Missilearc=0.0
 Missilespeed=900
 MissileHoming=1
 Specialart=Objects\Spawnmodels\NightElf\NightElfLargeDeathExplode\NightElfLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-demonhunter.blp
 
 // Naisha
 [ensh]
@@ -585,6 +634,7 @@ Missilespeed=900
 MissileHoming=1
 Specialart=Objects\Spawnmodels\NightElf\NightElfLargeDeathExplode\NightElfLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-priestessofthemoon.blp
 
 [enec]
 Art=ReplaceableTextures\CommandButtons\BTNNightElfRunner.blp
@@ -598,6 +648,7 @@ Attachmentanimprops=large
 [Nbbc]
 Art=ReplaceableTextures\CommandButtons\BTNChaosBlademaster.blp
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-chaosblademaster.blp
 
 [nckb]
 Art=ReplaceableTextures\CommandButtons\BTNChaosKotoBeast.blp
@@ -662,10 +713,12 @@ Boneprops=alternate
 [Nman]
 Art=ReplaceableTextures\CommandButtons\BTNMannoroth.blp
 Attachmentanimprops=large
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-mannaroth.blp
 
 [Npld]
 Art=ReplaceableTextures\CommandButtons\BTNPitLord.blp
 Attachmentanimprops=large
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-pitlord.blp
 
 [nser]
 Art=ReplaceableTextures\CommandButtons\BTNBlackDragon.blp
@@ -892,6 +945,7 @@ Missilearc=0.0
 Missilespeed=900
 MissileHoming=1
 Specialart=Objects\Spawnmodels\Undead\UndeadLargeDeathExplode\UndeadLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-lich.blp
 
 // hi-poly Abomination, used for cinematics
 [uabc]
@@ -906,6 +960,7 @@ Attachmentanimprops=large
 Art=ReplaceableTextures\CommandButtons\BTNHeroTaurenChieftain.blp
 Attachmentanimprops=medium
 Specialart=Objects\Spawnmodels\Orc\OrcLargeDeathExplode\OrcLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-taurenchieftain.blp
 
 [zmar]
 Art=ReplaceableTextures\CommandButtons\BTNMarine.blp
@@ -1154,6 +1209,7 @@ Missilearc=0.15
 Missilespeed=1200
 MissileHoming=1
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-akama.blp
 
 [nsw1]
 Art=ReplaceableTextures\CommandButtons\BTNFelHound.blp
@@ -1224,6 +1280,7 @@ Revive=1
 [Nmag]
 Art=ReplaceableTextures\CommandButtons\BTNPitLord.blp
 Attachmentanimprops=large
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-pitlord.blp
 
 [Nklj]
 Art=ReplaceableTextures\CommandButtons\BTNKiljaedin.blp
@@ -1232,6 +1289,7 @@ Missilearc=0.0
 Missilespeed=900
 MissileHoming=1
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-archimonde.blp
 
 [Nkjx]
 Art=ReplaceableTextures\CommandButtons\BTNKiljaedin.blp
@@ -1240,6 +1298,7 @@ Missilearc=0.0
 Missilespeed=900
 MissileHoming=1
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-archimonde.blp
 
 [nfv0]
 Art=ReplaceableTextures\CommandButtons\BTNNightElfFishingVillage.blp
@@ -1299,6 +1358,7 @@ Missilespeed=900
 Buttonpos=1,1
 Specialart=Objects\Spawnmodels\Human\HumanLargeDeathExplode\HumanLargeDeathExplode.mdl
 Attachmentanimprops=medium
+ScoreScreenIcon=UI\Glues\ScoreScreen\scorescreen-hero-pandarenbrewmaster.blp
 
 [nhew]
 Art=ReplaceableTextures\CommandButtons\BTNElfVillager.blp
@@ -1460,11 +1520,11 @@ Attachmentanimprops=medium
 
 // zone indicator
 [nzin]
-Art=ReplaceableTextures\CommandButtons\BTNTemp.blp
+Art=ReplaceableTextures\CommandButtons\BTNPortal.blp
 
 // bindstones
 [nbse]
-Art=ReplaceableTextures\CommandButtons\BTNTemp.blp
+Art=ReplaceableTextures\CommandButtons\BTNResStone.blp
 
 [nbsw]
-Art=ReplaceableTextures\CommandButtons\BTNTemp.blp
+Art=ReplaceableTextures\CommandButtons\BTNResStone.blp

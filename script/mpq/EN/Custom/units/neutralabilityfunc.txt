@@ -1,4 +1,1146 @@
-// begin neutral abilities
+//-----------------------------------------------------------------------------
+// FIRELORD
+//-----------------------------------------------------------------------------
+
+// Incinerate
+[ANic]
+Art=ReplaceableTextures\PassiveButtons\PASBTNIncinerate.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNIncinerate.blp
+Buttonpos=2,2
+Researchbuttonpos=2,0
+order=incinerate
+Missileart=Abilities\Weapons\LordofFlameMissile\LordofFlameMissile.mdl
+Missilespeed=1000
+MissileHoming=1
+Missilearc=0.35
+
+// Incinerate (Arrow)
+[ANia]
+Art=ReplaceableTextures\CommandButtons\BTNIncinerateOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNIncinerateOff.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNIncinerate.blp
+Buttonpos=2,2
+Unbuttonpos=2,2
+Researchbuttonpos=2,0
+order=incineratearrow
+orderon=incineratearrowon
+orderoff=incineratearrowon
+Missileart=Abilities\Weapons\LordofFlameMissile\LordofFlameMissile.mdl
+Missilespeed=1000
+MissileHoming=1
+Missilearc=0.35
+
+[BNic]
+Buffart=ReplaceableTextures\CommandButtons\BTNIncinerate.blp
+Specialart=Abilities\Spells\Other\Incinerate\FireLordDeathExplode.mdl
+Targetart=Abilities\Spells\Other\Incinerate\IncinerateBuff.mdl
+Targetattach=chest
+
+// Soul Burn
+[ANso]
+Art=ReplaceableTextures\CommandButtons\BTNSoulBurn.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNSoulBurn.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+order=soulburn
+
+[BNso]
+Buffart=ReplaceableTextures\CommandButtons\BTNSoulBurn.blp
+Targetart=Abilities\Spells\Other\SoulBurn\SoulBurnbuff.mdl
+Targetattach=overhead
+
+// Summon Lava Spawn
+[ANlm]
+Art=ReplaceableTextures\CommandButtons\BTNLavaSpawn.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNLavaSpawn.blp
+Buttonpos=1,2
+Researchbuttonpos=1,0
+order=slimemonster
+
+[BNlm]
+// SpecialArt is used when the lava monster splits, and is played on the source
+Missileart=Abilities\Weapons\LavaSpawnMissile\LavaSpawnBirthMissile.mdl
+Missilespeed=200
+MissileHoming=1
+Missilearc=.99
+
+// Volcano
+[ANvc]
+Art=ReplaceableTextures\CommandButtons\BTNVolcano.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNVolcano.blp
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Animnames=stand,channel
+order=volcano
+
+[BNvc]
+Buffart=ReplaceableTextures\CommandButtons\BTNVolcano.blp
+Targetart=Abilities\Spells\Human\Thunderclap\ThunderclapTarget.mdl
+Targetattach=overhead
+
+[XNvc]
+Specialart=Abilities\Spells\Other\Volcano\VolcanoDeath.mdl
+Effectsoundlooped=VolcanoLoop
+Missileart=Abilities\Spells\Other\Volcano\VolcanoMissile.mdl
+Missilespeed=400
+MissileHoming=1
+Missilearc=0.8
+
+//-----------------------------------------------------------------------------
+// TINKER
+//-----------------------------------------------------------------------------
+
+// Summon Factory 0
+[ANsy]
+Art=ReplaceableTextures\CommandButtons\BTNPocketFactory.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNPocketFactory.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missileart=Units\Creeps\HeroTinkerFactory\HeroTinkerFactoryMissle.mdl
+Missilespeed=1000
+MissileHoming=1
+Missilearc=0.35
+Animnames=spell,Slam
+Order=summonfactory
+
+// Summon Factory 1
+[ANs1]
+Art=ReplaceableTextures\CommandButtons\BTNPocketFactory.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNPocketFactory.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missileart=Units\Creeps\HeroTinkerFactory\HeroTinkerFactoryMissle.mdl
+Missilespeed=1000
+MissileHoming=1
+Missilearc=0.35
+Animnames=spell,Slam
+Order=summonfactory
+
+// Summon Factory 2
+[ANs2]
+Art=ReplaceableTextures\CommandButtons\BTNPocketFactory.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNPocketFactory.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missileart=Units\Creeps\HeroTinkerFactory\HeroTinkerFactoryMissle.mdl
+Missilespeed=1000
+MissileHoming=1
+Missilearc=0.35
+Animnames=spell,Slam
+Order=summonfactory
+
+// Summon Factory 3
+[ANs3]
+Art=ReplaceableTextures\CommandButtons\BTNPocketFactory.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNPocketFactory.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missileart=Units\Creeps\HeroTinkerFactory\HeroTinkerFactoryMissle.mdl
+Missilespeed=1000
+MissileHoming=1
+Missilearc=0.35
+Animnames=spell,Slam
+Order=summonfactory
+
+[BNfy]
+
+// Cluster Rockets 0
+[ANcs]
+Art=ReplaceableTextures\CommandButtons\BTNClusterRockets.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNClusterRockets.blp
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=clusterrockets
+Missileart=Abilities\Spells\Other\TinkerRocket\TinkerRocketMissile.mdl
+Missilespeed=700
+MissileHoming=1
+Missilearc=0.2
+Animnamescount=4
+Animnames=spell,one
+Animnames1=spell,two
+Animnames2=spell,three
+Animnames3=spell,three
+
+// Cluster Rockets 1
+[ANc1]
+Art=ReplaceableTextures\CommandButtons\BTNClusterRockets.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNClusterRockets.blp
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=clusterrockets
+Missileart=Abilities\Spells\Other\TinkerRocket\TinkerRocketMissile.mdl
+Missilespeed=700
+MissileHoming=1
+Missilearc=0.2
+Animnamescount=4
+Animnames=spell,one
+Animnames1=spell,two
+Animnames2=spell,three
+Animnames3=spell,three
+
+// Cluster Rockets 2
+[ANc2]
+Art=ReplaceableTextures\CommandButtons\BTNClusterRockets.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNClusterRockets.blp
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=clusterrockets
+Missileart=Abilities\Spells\Other\TinkerRocket\TinkerRocketMissile.mdl
+Missilespeed=700
+MissileHoming=1
+Missilearc=0.2
+Animnamescount=4
+Animnames=spell,one
+Animnames1=spell,two
+Animnames2=spell,three
+Animnames3=spell,three
+
+// Cluster Rockets 3
+[ANc3]
+Art=ReplaceableTextures\CommandButtons\BTNClusterRockets.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNClusterRockets.blp
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=clusterrockets
+Missileart=Abilities\Spells\Other\TinkerRocket\TinkerRocketMissile.mdl
+Missilespeed=700
+MissileHoming=1
+Missilearc=0.2
+Animnamescount=4
+Animnames=spell,one
+Animnames1=spell,two
+Animnames2=spell,three
+Animnames3=spell,three
+
+[BNcs]
+Buffart=ReplaceableTextures\CommandButtons\BTNClusterRockets.blp
+Targetart=Abilities\Spells\Human\Thunderclap\ThunderclapTarget.mdl
+Targetattach=overhead
+
+[XNcs]
+
+// Engineering Upgrade
+[ANeg]
+Art=ReplaceableTextures\CommandButtons\PASBTNEngineeringUpgrade.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNEngineeringUpgrade.blp
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Order=engineeringupgrade
+
+[BNeg]
+Buffart=ReplaceableTextures\CommandButtons\BTNEngineeringUpgrade.blp
+Targetart=Abilities\Spells\Undead\ThornyShield\ThornyShieldTargetChestLeft.mdl,Abilities\Spells\Undead\ThornyShield\ThornyShieldTargetChestRight.mdl,Abilities\Spells\Undead\ThornyShield\ThornyShieldTargetChestMountLeft.mdl,Abilities\Spells\Undead\ThornyShield\ThornyShieldTargetChestMountRight.mdl
+Targetattachcount=4
+Targetattach=chest,left
+Targetattach1=chest,right
+Targetattach2=chest,mount,left
+Targetattach3=chest,mount,right
+
+// Robo-Goblin 0
+[ANrg]
+Art=ReplaceableTextures\CommandButtons\BTNROBOGOBLIN.blp
+Unart=ReplaceableTextures\CommandButtons\BTNHeroTinker.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNROBOGOBLIN.blp
+Buttonpos=3,2
+Unbuttonpos=3,2
+Researchbuttonpos=3,0
+Order=robogoblin
+Unorder=unrobogoblin
+
+// Robo-Goblin 1
+[ANg1]
+Art=ReplaceableTextures\CommandButtons\BTNROBOGOBLIN.blp
+Unart=ReplaceableTextures\CommandButtons\BTNHeroTinker.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNROBOGOBLIN.blp
+Buttonpos=3,2
+Unbuttonpos=3,2
+Researchbuttonpos=3,0
+Order=robogoblin
+Unorder=unrobogoblin
+
+// Robo-Goblin 2
+[ANg2]
+Art=ReplaceableTextures\CommandButtons\BTNROBOGOBLIN.blp
+Unart=ReplaceableTextures\CommandButtons\BTNHeroTinker.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNROBOGOBLIN.blp
+Buttonpos=3,2
+Unbuttonpos=3,2
+Researchbuttonpos=3,0
+Order=robogoblin
+Unorder=unrobogoblin
+
+// Robo-Goblin 3
+[ANg3]
+Art=ReplaceableTextures\CommandButtons\BTNROBOGOBLIN.blp
+Unart=ReplaceableTextures\CommandButtons\BTNHeroTinker.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNROBOGOBLIN.blp
+Buttonpos=3,2
+Unbuttonpos=3,2
+Researchbuttonpos=3,0
+Order=robogoblin
+Unorder=unrobogoblin
+
+// Demolish 0
+[ANde]
+Art=ReplaceableTextures\PassiveButtons\PASBTNDemolish.blp
+Buttonpos=1,1
+Order=demolish
+
+// Demolish 1
+[ANd1]
+Art=ReplaceableTextures\PassiveButtons\PASBTNDemolish.blp
+Buttonpos=1,1
+Order=demolish
+
+// Demolish 2
+[ANd2]
+Art=ReplaceableTextures\PassiveButtons\PASBTNDemolish.blp
+Buttonpos=1,1
+Order=demolish
+
+// Demolish 3
+[ANd3]
+Art=ReplaceableTextures\PassiveButtons\PASBTNDemolish.blp
+Buttonpos=1,1
+Order=demolish
+
+// Factory 0
+[ANfy]
+Art=ReplaceableTextures\CommandButtons\BTNPocketFactory.blp
+Buttonpos=0,2
+
+// Factory 1
+[ANf1]
+Art=ReplaceableTextures\CommandButtons\BTNPocketFactory.blp
+Buttonpos=0,2
+
+// Factory 2
+[ANf2]
+Art=ReplaceableTextures\CommandButtons\BTNPocketFactory.blp
+Buttonpos=0,2
+
+// Factory 3
+[ANf3]
+Art=ReplaceableTextures\CommandButtons\BTNPocketFactory.blp
+Buttonpos=0,2
+
+[BNcg]
+
+//-----------------------------------------------------------------------------
+// ALCHEMIST
+//-----------------------------------------------------------------------------
+
+// Healing Spray
+[ANhs]
+Art=ReplaceableTextures\CommandButtons\BTNHealingSpray.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNHealingSpray.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missileart=Abilities\Spells\Other\HealingSpray\HealBottleMissile.mdl
+Missilespeed=700
+Missilearc=0.4
+Casterart=
+Order=healingspray
+Animnames=spell,looping
+
+[BNhs]
+Buffart=ReplaceableTextures\CommandButtons\BTNHealingSpray.blp
+
+[XNhs]
+Specialart=Abilities\Spells\Human\Heal\HealTarget.mdl
+
+// Acid Bomb
+[ANab]
+Art=ReplaceableTextures\CommandButtons\BTNAcidBomb.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNAcidBomb.blp
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Missileart=Abilities\Spells\Other\AcidBomb\BottleMissile.mdl
+Missilespeed=700
+Missilearc=0.4
+MissileHoming=1
+order=acidbomb
+Animnames=Attack,two,Spell
+
+[BNab]
+Buffart=ReplaceableTextures\CommandButtons\BTNAcidBomb.blp
+Targetart=Abilities\Spells\Other\AcidBomb\BottleImpact.mdl
+Targetattach=chest
+
+// Chemical Rage
+[ANcr]
+Art=ReplaceableTextures\CommandButtons\BTNChemicalRage.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNChemicalRage.blp
+Buttonpos=1,2
+Researchbuttonpos=1,0
+order=chemicalrage
+
+[BNcr]
+Buffart=ReplaceableTextures\CommandButtons\BTNChemicalRage.blp
+
+// Transmute
+[ANtm]
+Art=ReplaceableTextures\CommandButtons\BTNTransmute.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNTransmute.blp
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Missileart=Abilities\Spells\Other\Transmute\GoldBottleMissile.mdl
+Missilespeed=700
+Missilearc=0.4
+MissileHoming=1
+order=transmute
+Animnames=Attack,two,Spell
+
+[BNtm]
+Buffart=ReplaceableTextures\CommandButtons\BTNTransmute.blp
+Specialart=Abilities\Spells\Other\Transmute\PileofGold.mdl
+
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+
+
+//glyph of foritifaciton
+[AIgf]
+
+//Glyph of Ultravision
+[AIgu]
+
+//slow on tornado
+[Aasl]
+
+//tornado damage
+[Atdg]
+
+//Tornado Spin
+[Atsp]
+
+//Tornado Wander
+[Atwa]
+
+
+//spawn skeleton
+[Asod]
+
+
+
+
+// Orb of Annihilation
+[ANak]
+Art=ReplaceableTextures\CommandButtons\BTNQuillSpray.blp
+Unart=ReplaceableTextures\CommandButtons\BTNQuillSprayOff.blp
+Buttonpos=1,2
+Unbuttonpos=1,2
+Missileart=Abilities\Weapons\QuillSprayMissile\QuillSprayMissile.mdl
+Missilespeed=1500
+MissileHoming=1
+
+// Blink (beastmaster bear)
+[ANbl]
+Art=ReplaceableTextures\CommandButtons\BTNBearBlink.blp
+Buttonpos=0,2
+Order=blink
+// Art to play at the new coordinate
+Areaeffectart=Abilities\Spells\NightElf\Blink\BlinkTarget.mdl
+// Art to leave behind at old coordinate
+Specialart=Abilities\Spells\NightElf\Blink\BlinkCaster.mdl
+Animnames=spell,throw
+
+// Burrow (Barbed Arachnathid)
+[Abu5]
+Art=ReplaceableTextures\CommandButtons\BTNCryptFiendBurrow.blp
+Unart=ReplaceableTextures\CommandButtons\BTNCryptFiendUnBurrow.blp
+Buttonpos=3,2
+Unbuttonpos=3,2
+Order=burrow
+Unorder=unburrow
+
+// Parasite (Eredar)
+[ACpa]
+Art=ReplaceableTextures\CommandButtons\BTNParasiteOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNParasiteOff.blp
+Buttonpos=0,2
+Unbuttonpos=0,2
+Missileart=Abilities\Spells\Other\Parasite\ParasiteMissile.mdl
+Missilespeed=1900
+Missilehoming=1
+Orderon=parasiteon
+Orderoff=parasiteoff
+Order=parasite
+
+// Siphon Mana (Creep)
+[ACsm]
+Art=ReplaceableTextures\CommandButtons\BTNManaDrain.blp
+Buttonpos=2,2
+Effectsoundlooped=SiphonManaLoop
+Animnames=stand,channel
+LightningEffect=DRAB,DRAL,DRAM
+
+// Banish
+[ACbn]
+Art=ReplaceableTextures\CommandButtons\BTNBanish.blp
+Buttonpos=1,2
+Order=banish
+
+// Devour Magic (Creep)
+[ACde]
+Art=ReplaceableTextures\CommandButtons\BTNDevourMagic.blp
+Buttonpos=0,2
+Missileart=Abilities\Spells\Undead\DevourMagic\DevourMagicBirthMissile.mdl
+Missilespeed=1500
+MissileHoming=1
+
+// Chain Dispel
+[Ache]
+Buttonpos=1,2
+Art=ReplaceableTextures\CommandButtons\BTNWandOfNeutralization.blp
+Missileart=Abilities\Spells\Items\WandOfNeutralization\NeutralizationMissile.mdl
+Missilespeed=900
+MissileHoming=1
+
+
+
+// Hardened Skin
+[Ansk]
+Art=ReplaceableTextures\PassiveButtons\PASBTNHardenedSkin.blp
+Buttonpos=2,2
+Casterart=
+
+// Mana Shield
+[ANms]
+Art=ReplaceableTextures\CommandButtons\BTNNeutralManaShield.blp
+Unart=ReplaceableTextures\CommandButtons\BTNNeutralManaShieldOff.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNNeutralManaShield.blp
+Buttonpos=2,2
+Unbuttonpos=2,2
+Researchbuttonpos=2,0
+Effectsound=ManaShieldCastSound
+Orderon=manashieldon
+Orderoff=manashieldoff
+
+[BNms]
+Buffart=ReplaceableTextures\CommandButtons\BTNNeutralManaShield.blp
+Targetart=Abilities\Spells\Human\ManaShield\ManaShieldCaster.mdl
+
+// Rain of Fire
+[ANrf]
+Art=ReplaceableTextures\CommandButtons\BTNFire.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNFire.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Casterart=
+Order=rainoffire
+Animnames=spell,looping
+
+// Rain of Fire (creep, greater)
+[ACrg]
+Art=ReplaceableTextures\CommandButtons\BTNFire.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNFire.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Casterart=
+Order=rainoffire
+Animnames=spell,looping
+
+[BNrd]
+Buffart=ReplaceableTextures\CommandButtons\BTNFire.blp
+Targetart=Abilities\Spells\Human\FlameStrike\FlameStrikeDamageTarget.mdl
+
+[XErf]
+Effectart=Abilities\Spells\Demon\RainOfFire\RainOfFireTarget.mdl
+Effectsoundlooped=RainOfFireLoop
+Effectsound=RainOfFireWave
+
+// Frost Arrows
+[ANfa]
+Art=ReplaceableTextures\CommandButtons\BTNColdArrowsOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNColdArrowsOff.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNColdArrows.blp
+Buttonpos=1,2
+Unbuttonpos=1,2
+Researchbuttonpos=1,0
+Missileart=Abilities\Spells\Other\FrostArrows\NagaColdArrowMissile.mdl
+Missilearc=0.15
+Missilespeed=1500
+MissileHoming=1
+Animnames=attack
+
+// Cold Arrows
+[AHca]
+Art=ReplaceableTextures\CommandButtons\BTNColdArrowsOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNColdArrowsOff.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNColdArrows.blp
+Buttonpos=1,2
+Unbuttonpos=1,2
+Researchbuttonpos=1,0
+Missileart=Abilities\Weapons\ColdArrow\ColdArrowMissile.mdl
+Missilearc=0.15
+Missilespeed=1500
+MissileHoming=1
+Animnames=attack
+
+// Cold Arrow Buff (Non-Stacking)
+[BHca]
+Buffart=ReplaceableTextures\CommandButtons\BTNColdArrows.blp
+Targetart=
+
+// Cold Arrow Buff (Stacking)
+[Bcsd]
+Buffart=ReplaceableTextures\CommandButtons\BTNColdArrows.blp
+Targetart=
+
+// Cold Arrow Buff (Stack Info)
+[Bcsi]
+
+// Cleaving Attack
+[ANca]
+Art=ReplaceableTextures\PassiveButtons\PASBTNCleavingAttack.blp
+Buttonpos=2,2
+Researchart=ReplaceableTextures\CommandButtons\BTNCleavingAttack.blp
+Researchbuttonpos=2,0
+Specialart=Abilities\Spells\Other\Cleave\CleaveDamageTarget.mdl
+Specialattach=chest
+
+// Cleaving Attack (creep)
+[ACce]
+Art=ReplaceableTextures\PassiveButtons\PASBTNCleavingAttack.blp
+Buttonpos=1,2
+Specialart=Abilities\Spells\Other\Cleave\CleaveDamageTarget.mdl
+Specialattach=chest
+
+// Howl of Terror
+[ANht]
+Art=ReplaceableTextures\CommandButtons\BTNHowlOfTerror.blp
+Buttonpos=1,2
+Researchart=ReplaceableTextures\CommandButtons\BTNHowlOfTerror.blp
+Researchbuttonpos=1,0
+Casterart=Abilities\Spells\Other\HowlOfTerror\HowlCaster.mdl
+Order=howlofterror
+Animnames=spell,slam
+
+[BNht]
+Buffart=ReplaceableTextures\CommandButtons\BTNHowlOfTerror.blp
+Targetart=Abilities\Spells\Other\HowlOfTerror\HowlTarget.mdl
+
+// Howl of Terror
+[Acht]
+Art=ReplaceableTextures\CommandButtons\BTNHowlOfTerror.blp
+Buttonpos=0,2
+Casterart=Abilities\Spells\Other\HowlOfTerror\HowlCaster.mdl
+Order=howlofterror
+Animnames=spell,slam
+
+// Doom
+[ANdo]
+Art=ReplaceableTextures\CommandButtons\BTNDoom.blp
+Buttonpos=3,2
+Researchart=ReplaceableTextures\CommandButtons\BTNDoom.blp
+Researchbuttonpos=3,0
+Order=doom
+
+[BNdo]
+Buffart=ReplaceableTextures\CommandButtons\BTNDoom.blp
+Targetart=Abilities\Spells\Other\Doom\DoomTarget.mdl
+
+[BNdi]
+// no buffart, this is not displayed
+Targetart=Abilities\Spells\Other\Doom\DoomDeath.mdl
+Effectart=Abilities\Spells\Other\Doom\DoomDeath.mdl
+
+// Earth, Storm, and Fire
+[ANef]
+Art=ReplaceableTextures\CommandButtons\BTNStormEarth&Fire.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNStormEarth&Fire.blp
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Specialart=Abilities\Spells\Human\Polymorph\PolyMorphDoneGround.mdl
+Order=elementalfury
+Missileart=Units\Creeps\FirePandarenBrewmaster\FirePandarenBrewmaster_Missile.mdl,Units\Creeps\StormPandarenBrewmaster\StormPandarenBrewmaster_Missile.mdl,Units\Creeps\EarthPandarenBrewmaster\EarthPandarenBrewmaster_Missile.mdl
+Missilearc=0.75
+Missilespeed=150
+Effectsound=StormEarthFireSound
+Animnames=spell,throw
+
+[BNef]
+Buffart=ReplaceableTextures\CommandButtons\BTNStormEarth&Fire.blp
+// Effectart on birth
+Effectart=Abilities\Spells\Orc\MirrorImage\MirrorImageDeathCaster.mdl
+// Specialart on death
+Specialart=Abilities\Spells\Orc\MirrorImage\MirrorImageDeathCaster.mdl
+
+// Wind Walk (Creep)
+[ANwk]
+Art=ReplaceableTextures\CommandButtons\BTNWindWalkOn.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNWindWalkOn.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Effectsound=WindWalk
+Order=windwalk
+
+// Taunt (neutral)
+[ANta]
+Art=ReplaceableTextures\CommandButtons\BTNPandaTaunt.blp
+Buttonpos=0,2
+Order=taunt
+Casterart=Abilities\Spells\NightElf\Taunt\TauntCaster.mdl
+
+// Life Drain
+[ANdr]
+Art=ReplaceableTextures\CommandButtons\BTNLifeDrain.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNLifeDrain.blp
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Effectsoundlooped=DrainLoop
+Animnames=spell,channel
+LightningEffect=DRAB,DRAL,DRAM
+
+// Life Drain(Creep)
+[ACdr]
+Art=ReplaceableTextures\CommandButtons\BTNLifeDrain.blp
+Buttonpos=0,2
+Effectsoundlooped=DrainLoop
+Animnames=stand,channel
+LightningEffect=DRAB,DRAL,DRAM
+
+// Unit Inventory (2 slot)
+// undead
+[Aiun]
+Requires=Rupm
+Art=ReplaceableTextures\CommandButtons\BTNPackBeast.blp
+
+// orc
+[Aion]
+Requires=Ropm
+Art=ReplaceableTextures\CommandButtons\BTNPackBeast.blp
+
+// human
+[Aihn]
+Requires=Rhpm
+Art=ReplaceableTextures\CommandButtons\BTNPackBeast.blp
+
+// night elf
+[Aien]
+Requires=Repm
+Art=ReplaceableTextures\CommandButtons\BTNPackBeast.blp
+
+// Summon Grizzly
+[ANsg]
+Art=ReplaceableTextures\CommandButtons\BTNGrizzlyBear.blp
+Buttonpos=0,2
+Researchart=ReplaceableTextures\CommandButtons\BTNGrizzlyBear.blp
+Researchbuttonpos=0,0
+Targetart=Abilities\Spells\Orc\FeralSpirit\feralspiritdone.mdl
+Order=summongrizzly
+Animnames=spell,slam
+
+[BNsg]
+Buffart=ReplaceableTextures\CommandButtons\BTNGrizzlyBear.blp
+Effectart=Abilities\Spells\Orc\FeralSpirit\feralspiritdone.mdl
+
+// Summon Quillbeast
+[ANsq]
+Art=ReplaceableTextures\CommandButtons\BTNQuillBeast.blp
+Buttonpos=1,2
+Researchart=ReplaceableTextures\CommandButtons\BTNQuillBeast.blp
+Researchbuttonpos=1,0
+Targetart=Abilities\Spells\Orc\FeralSpirit\feralspiritdone.mdl
+Order=summonquillbeast
+Animnames=spell,slam
+
+[BNsq]
+Buffart=ReplaceableTextures\CommandButtons\BTNQuillBeast.blp
+Effectart=Abilities\Spells\Orc\FeralSpirit\feralspiritdone.mdl
+
+// Summon War Eagle
+[ANsw]
+Art=ReplaceableTextures\CommandButtons\BTNWarEagle.blp
+Buttonpos=2,2
+Researchart=ReplaceableTextures\CommandButtons\BTNWarEagle.blp
+Researchbuttonpos=2,0
+Targetart=Abilities\Spells\Orc\FeralSpirit\feralspiritdone.mdl
+Order=summonwareagle
+Animnames=spell,slam
+
+[BNsw]
+Buffart=ReplaceableTextures\CommandButtons\BTNWarEagle.blp
+Effectart=Abilities\Spells\Orc\FeralSpirit\feralspiritdone.mdl
+
+// Stampede
+[ANst]
+Art=ReplaceableTextures\CommandButtons\BTNStampede.blp
+Buttonpos=3,2
+Researchart=ReplaceableTextures\CommandButtons\BTNStampede.blp
+Researchbuttonpos=3,0
+Specialart=Abilities\Spells\Other\Stampede\StampedeMissileDeath.mdl
+Missileart=Abilities\Spells\Other\Stampede\StampedeMissile.mdl
+Missilespeed=500
+Effectsoundlooped=StampedeLoop
+//#LINENOBETA
+Effectsound=StampedeCast
+Order=stampede
+Animnames=spell,looping
+
+// Hex  (Creep)
+[AChx]
+Art=ReplaceableTextures\CommandButtons\BTNHex.blp
+Buttonpos=1,2
+Specialart=Abilities\Spells\Human\Polymorph\PolyMorphDoneGround.mdl
+Order=hex
+
+// Entangling Roots Seaweed Version (Creep)
+[Aenw]
+Art=ReplaceableTextures\CommandButtons\BTNEntanglingRoots.blp
+Buttonpos=0,2
+Casterart=
+Order=entanglingroots
+
+// Healing Wave (creep)
+[AChV]
+Art=ReplaceableTextures\CommandButtons\BTNHealingWave.blp
+Buttonpos=0,2
+Targetart=Abilities\Spells\Orc\HealingWave\HealingWaveTarget.mdl
+Order=healingwave
+Animnames=spell,throw
+LightningEffect=HWPB,HWSB
+
+// Silence (Creep)
+[ACsi]
+Art=ReplaceableTextures\CommandButtons\BTNSilence.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNSilence.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=silence
+Effectart=Abilities\Spells\Other\Silence\SilenceAreaBirth.mdl
+
+// Mana Shield(Creep)
+[ACmf]
+Art=ReplaceableTextures\CommandButtons\BTNNeutralManaShield.blp
+Unart=ReplaceableTextures\CommandButtons\BTNneutralManaShieldOff.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNNeutralManaShield.blp
+Buttonpos=1,2
+Unbuttonpos=1,2
+Effectsound=ManaShieldCastSound
+Order=manashield
+
+// Shadow Strike
+[ACss]
+Art=ReplaceableTextures\CommandButtons\BTNShadowStrike.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNShadowStrike.blp
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Missileart=Abilities\Spells\NightElf\shadowstrike\ShadowStrikeMissile.mdl
+Missilespeed=1200
+MissileArc=0.0
+MissileHoming=1
+Order=shadowstrike
+
+// Frost Bolt
+[ACcb]
+Art=ReplaceableTextures\CommandButtons\BTNFrostBolt.blp
+Buttonpos=0,2
+Missileart=Abilities\Spells\Other\FrostBolt\FrostBoltMissile.mdl
+Missilespeed=1000
+MissileHoming=1
+Order=thunderbolt
+Animnames=spell,throw
+
+// Breath of Frost (creep)
+[ACbf]
+Art=ReplaceableTextures\CommandButtons\BTNBreathOfFrost.blp
+Buttonpos=0,2
+Missileart=Abilities\Spells\Other\BreathOfFrost\BreathOfFrostMissile.mdl
+Missilespeed=1050
+Order=breathoffire
+Animnames=spell,slam
+
+[BCbf]
+Buffart=ReplaceableTextures\CommandButtons\BTNBreathOfFrost.blp
+Targetart=Abilities\Spells\Other\BreathOfFrost\BreathOfFrostTarget.mdl
+Targetattach=
+
+// Breath of Fire (creep)
+[ACbc]
+Art=ReplaceableTextures\CommandButtons\BTNFireForTheCannon.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNFireForTheCannon.blp
+Buttonpos=0,2
+Missileart=Abilities\Spells\Other\BreathOfFire\BreathOfFireMissile.mdl
+Missilespeed=1050
+Targetart=Abilities\Spells\Other\BreathOfFire\BreathOfFireDamage.mdl
+Order=breathoffire
+Animnames=spell,slam
+
+// Flame Strike
+[ACfs]
+Art=ReplaceableTextures\CommandButtons\BTNWallOfFire.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNWallOfFire.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=flamestrike
+// Beware art
+Effectart=Abilities\Spells\Human\FlameStrike\FlameStrikeTarget.mdl
+// Impact art
+Specialart=Abilities\Spells\Human\FlameStrike\FlameStrike1.mdl,Abilities\Spells\Human\FlameStrike\FlameStrike2.mdl,Abilities\Spells\Human\FlameStrike\FlameStrike.mdl
+Animnames=spell,channel
+
+// Flame Strike (improved creep)
+[ANfs]
+Art=ReplaceableTextures\CommandButtons\BTNWallOfFire.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNWallOfFire.blp
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=flamestrike
+// Beware art
+Effectart=Abilities\Spells\Human\FlameStrike\FlameStrikeTarget.mdl
+// Impact art
+Specialart=Abilities\Spells\Human\FlameStrike\FlameStrike1.mdl,Abilities\Spells\Human\FlameStrike\FlameStrike2.mdl,Abilities\Spells\Human\FlameStrike\FlameStrike.mdl
+Animnames=spell,channel
+
+// Impale
+[ACmp]
+Art=ReplaceableTextures\CommandButtons\BTNImpale.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNImpale.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Specialart=Abilities\Spells\Undead\Impale\ImpaleMissTarget.mdl
+Order=impale
+
+// Neutral Build
+[ANbu]
+Art=ReplaceableTextures\CommandButtons\BTNBasicStruct.blp
+Buttonpos=0,2
+Order=build
+
+// Inventory
+[AInv]
+
+// Thorns
+[ANth]
+Art=ReplaceableTextures\PassiveButtons\PASBTNThornShield.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNThornShield.blp
+Buttonpos=1,2
+Unbuttonpos=1,2
+Researchbuttonpos=1,0
+Order=Thornyshield
+Unorder=Unthornyshield
+
+// Thorns, dragon turtle, 2,2 button pos
+[ANt2]
+Art=ReplaceableTextures\PassiveButtons\PASBTNThornShield.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNThornShield.blp
+Buttonpos=2,2
+Researchbuttonpos=1,0
+Order=Thornyshield
+
+
+// Mind Rot
+[ANmr]
+Art=ReplaceableTextures\CommandButtons\BTNTemp.blp
+Buttonpos=0,2
+Order=mindrot
+
+[BNmr]
+Buffart=ReplaceableTextures\CommandButtons\BTNTemp.blp
+
+// Preservation
+[ANpr]
+
+// Pulverize (sea giant)
+[ACpv]
+Art=ReplaceableTextures\PassiveButtons\PASBTNSeaGiantPulverize.blp
+Buttonpos=0,2
+Animnames=slam
+
+// Spell Shield
+[ANss]
+
+// Breath of Fire
+[ANbf]
+Art=ReplaceableTextures\CommandButtons\BTNBreathOfFire.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNBreathOfFire.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missileart=Abilities\Spells\Other\BreathOfFire\BreathOfFireMissile.mdl
+Missilespeed=1050
+Order=breathoffire
+Animnames=spell,slam
+
+[BNbf]
+Buffart=ReplaceableTextures\CommandButtons\BTNBreathOfFire.blp
+Targetart=Abilities\Spells\Other\BreathOfFire\BreathOfFireDamage.mdl
+Targetattach=
+
+// Drunken Brawler
+[ANdb]
+Art=ReplaceableTextures\PassiveButtons\PASBTNDrunkenDodge.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNDrunkenDodge.blp
+Buttonpos=2,2
+Researchbuttonpos=2,0
+
+// Drunken Haze
+[ANdh]
+Art=ReplaceableTextures\CommandButtons\BTNStrongDrink.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNStrongDrink.blp
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Missileart=Abilities\Spells\Other\StrongDrink\BrewmasterMissile.mdl
+Missilearc=0.15
+Missilespeed=1500
+Order=drunkenhaze
+
+[BNdh]
+Buffart=ReplaceableTextures\CommandButtons\BTNStrongDrink.blp
+Targetart=Abilities\Spells\Other\StrongDrink\BrewmasterTarget.mdl
+Targetattach=overhead
+
+// Silence
+[ANsi]
+Art=ReplaceableTextures\CommandButtons\BTNSilence.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNSilence.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=silence
+Effectart=Abilities\Spells\Other\Silence\SilenceAreaBirth.mdl
+
+[BNsi]
+Buffart=ReplaceableTextures\CommandButtons\BTNSilence.blp
+Targetart=Abilities\Spells\Other\Silence\SilenceTarget.mdl
+Targetattach=overhead
+
+// Black Arrow
+[ANba]
+Art=ReplaceableTextures\CommandButtons\BTNTheBlackArrowOnOff.blp
+Unart=ReplaceableTextures\CommandButtons\BTNTheBlackArrowOnOff.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNTheBlackArrow.blp
+Buttonpos=1,2
+Unbuttonpos=1,2
+Researchbuttonpos=1,0
+Missileart=Abilities\Spells\Other\BlackArrow\BlackArrowMissile.mdl
+Missilespeed=1050
+MissileHoming=1
+Orderon=blackarrowon
+Orderoff=blackarrowoff
+Order=blackarrow
+Animnames=attack
+
+[BNba]
+Buffart=ReplaceableTextures\CommandButtons\BTNTheBlackArrow.blp
+
+[BNdm]
+Buffart=ReplaceableTextures\CommandButtons\BTNTheBlackArrow.blp
+
+// Black Arrow
+[ACbk]
+Art=ReplaceableTextures\CommandButtons\BTNTheBlackArrowOnOff.blp
+Unart=ReplaceableTextures\CommandButtons\BTNTheBlackArrowOnOff.blp
+Buttonpos=0,2
+Unbuttonpos=0,2
+Missileart=Abilities\Spells\Other\BlackArrow\BlackArrowMissile.mdl
+Missilespeed=1050
+MissileHoming=1
+Orderon=blackarrowon
+Orderoff=blackarrowoff
+Order=blackarrow
+Animnames=attack
+
+// Charm (Creep)
+[ACch]
+Art=ReplaceableTextures\CommandButtons\BTNCharm.blp
+Buttonpos=3,2
+Order=charm
+Targetart=Abilities\Spells\Other\Charm\CharmTarget.mdl
+Targetattach=overhead
+
+// Charm
+[ANch]
+Art=ReplaceableTextures\CommandButtons\BTNCharm.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNCharm.blp
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=charm
+Targetart=Abilities\Spells\Other\Charm\CharmTarget.mdl
+Targetattach=overhead
+
+[BNch]
+//disabled because charm is now permanent
+//Buffart=ReplaceableTextures\CommandButtons\BTNCharm.blp
+
+// Monsoon
+[ANmo]
+Art=ReplaceableTextures\CommandButtons\BTNMonsoon.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNMonsoon.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Casterart=
+Order=monsoon
+Animnames=stand,channel
+
+[ANmd]
+Targetart=Abilities\Spells\Other\Monsoon\MonsoonBoltTarget.mdl
+Targetattach=origin
+
+[BNmo]
+Buffart=ReplaceableTextures\CommandButtons\BTNMonsoon.blp
+
+[XNmo]
+Effectart=Abilities\Spells\Other\Monsoon\MonsoonRain.mdl
+Effectsoundlooped=MonsoonLoop
+
+// creep monsoon
+[ACmo]
+Art=ReplaceableTextures\CommandButtons\BTNMonsoon.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNMonsoon.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=monsoon
+Animnames=stand,channel
+
+// Watery Minion
+[ANwm]
+Art=ReplaceableTextures\CommandButtons\BTNMurgulTideWarrior.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNMurgulTideWarrior.blp
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Targetart=Abilities\Spells\Orc\FeralSpirit\feralspiritdone.mdl
+Order=wateryminion
+
+[BNwm]
+Buffart=ReplaceableTextures\CommandButtons\BTNMurgulTideWarrior.blp
+Effectart=Abilities\Spells\Orc\FeralSpirit\feralspiritdone.mdl
+
+// watery minion makrura
+[Aslp]
+Art=ReplaceableTextures\CommandButtons\BTNLobstrokkRed.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNLobstrokkRed.blp
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Targetart=Abilities\Spells\Orc\FeralSpirit\feralspiritdone.mdl
+Order=wateryminion
+
+// Tornado
+[ANto]
+Art=ReplaceableTextures\CommandButtons\BTNTornado.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNTornado.blp
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Casterart=
+Order=tornado
+Animnames=spell,channel
+
+// Tornado - Slow Aura
+[Basl]
+Buffart=ReplaceableTextures\CommandButtons\BTNTornado.blp
+Targetart=Abilities\Spells\Other\Tornado\Tornado_Target.mdl
+
+// Tornado - Spin
+[Btsp]
+Buffart=ReplaceableTextures\CommandButtons\BTNTornado.blp
+Effectart=Abilities\Spells\Other\Tornado\TornadoElementalSmall.mdl
+Effectattach=sprite,first
+
+[XNto]
+Effectart=Abilities\Spells\Other\Tornado\Tornado.mdl
+
+[BNto]
+Effectsoundlooped=TornadoLoop
 
 // Healing Ward (Creep)
 [AChw]
@@ -12,18 +1154,53 @@ Art=ReplaceableTextures\CommandButtons\BTNRejuvenation.blp
 Buttonpos=0,2
 order=rejuvination
 
+// magic immunity (creep)
+[ACmi]
+Art=ReplaceableTextures\PassiveButtons\PASBTNGenericSpellImmunity.blp
+Buttonpos=2,2
+
 // Magic Immunity (Archimonde)
 [ACm2]
-Art=ReplaceableTextures\PassiveButtons\PASBTNMagicImmunity.blp
+Art=ReplaceableTextures\PassiveButtons\PASBTNGenericSpellImmunity.blp
 Buttonpos=1,1
 
 // Magic Immunity (Dragons)
 [ACm3]
-Art=ReplaceableTextures\PassiveButtons\PASBTNMagicImmunity.blp
+Art=ReplaceableTextures\PassiveButtons\PASBTNGenericSpellImmunity.blp
 Buttonpos=1,2
+
+// creep polymorph
+[ACpy]
+Art=ReplaceableTextures\CommandButtons\BTNPolymorph.blp
+Buttonpos=2,2
+Casterart=
+Specialart=Abilities\Spells\Human\Polymorph\PolyMorphTarget.mdl
+Effectart=Abilities\Spells\Human\Polymorph\PolyMorphFallingSheepArt.mdl
+Order=polymorph
+
+// creep possession
+[ACps]
+Art=ReplaceableTextures\CommandButtons\BTNPossession.blp
+Buttonpos=2,2
+Missileart=Abilities\Spells\Undead\Possession\PossessionMissile.mdl
+Missilespeed=1500
+MissileHoming=1
+Order=possession
+
+// creep purge
+[ACpu]
+Art=ReplaceableTextures\CommandButtons\BTNPurge.blp
+Specialart=Abilities\Spells\Orc\Purge\PurgeBuffTarget.mdl
+Buttonpos=0,2
+Order=purge
 
 // general detect invis
 [Adtg]
+Art=ReplaceableTextures\PassiveButtons\PASBTNScout.blp
+Buttonpos=0,2
+
+// general detect invis
+[ANtr]
 Art=ReplaceableTextures\PassiveButtons\PASBTNScout.blp
 Buttonpos=0,2
 
@@ -49,6 +1226,11 @@ Effectart=Abilities\Spells\Demon\DarkConversion\ZombifyTarget.mdl
 
 // Dark Conversion (Fast)
 [SNdc]
+Art=ReplaceableTextures\CommandButtons\BTNSleep.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNSleep.blp
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Order=darkconversion
 
 // Soul Preservation
 [ANsl]
@@ -85,6 +1267,15 @@ Art=ReplaceableTextures\CommandButtons\BTNInfernalStone.blp
 Researchart=ReplaceableTextures\CommandButtons\BTNInfernalStone.blp
 Buttonpos=1,2
 Researchbuttonpos=1,0
+Animnames=spell,slam
+
+// Rain of Chaos (modified button pos)
+[ANr3]
+Art=ReplaceableTextures\CommandButtons\BTNInfernalStone.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNInfernalStone.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Animnames=spell,slam
 
 // Finger of Death
 [ANfd]
@@ -93,6 +1284,34 @@ Researchart=ReplaceableTextures\CommandButtons\BTNCorpseExplode.blp
 Buttonpos=3,2
 Researchbuttonpos=3,0
 Targetart=Abilities\Spells\Demon\DemonBoltImpact\DemonBoltImpact.mdl
+LightningEffect=AFOD
+
+// Finger of Pain
+[ACfd]
+Art=ReplaceableTextures\CommandButtons\BTNCorpseExplode.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNCorpseExplode.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Targetart=Abilities\Spells\Demon\DemonBoltImpact\DemonBoltImpact.mdl
+LightningEffect=AFOD
+
+// Finger of Pain
+[ACf3]
+Art=ReplaceableTextures\CommandButtons\BTNCorpseExplode.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNCorpseExplode.blp
+Buttonpos=2,1
+Researchbuttonpos=0,1
+Targetart=Abilities\Spells\Demon\DemonBoltImpact\DemonBoltImpact.mdl
+LightningEffect=AFOD
+
+// Finger of Death
+[Afod]
+Art=ReplaceableTextures\CommandButtons\BTNCorpseExplode.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNCorpseExplode.blp
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Targetart=Abilities\Spells\Demon\DemonBoltImpact\DemonBoltImpact.mdl
+LightningEffect=AFOD
 
 // Cargo Hold Death
 [Achd]
@@ -111,11 +1330,27 @@ Buttonpos=0,2
 [BNpi]
 Targetart=
 Specialart=Abilities\Spells\NightElf\Immolation\ImmolationDamage.mdl
-Specialartattach=head
+Specialattach=head
+
+[Apig]
+Art=ReplaceableTextures\PassiveButtons\PASBTNImmolation.blp
+Buttonpos=0,2
+
+[Bpig]
+Targetart=Abilities\Spells\Other\ImmolationRed\ImmolationRedTarget.mdl
+Targetattach=chest
+Specialart=Abilities\Spells\Other\ImmolationRed\ImmolationRedDamage.mdl
+Specialattach=chest
 
 // Bunker
 [Abun]
 Effectsound=LoadUnload
+
+[Sbtl]
+Art=ReplaceableTextures\CommandButtons\BTNBattleStations.blp
+Buttonpos=0,2
+Effectsound=BurrowBattleStations
+Order=battlestations
 
 // Cargo Hold
 [Acar]
@@ -133,17 +1368,26 @@ Art=ReplaceableTextures\CommandButtons\BTNUnLoad.blp
 Buttonpos=1,2
 Order=unload
 
+[Sdro]
+Art=ReplaceableTextures\CommandButtons\BTNUnLoad.blp
+Buttonpos=1,2
+Order=unload
+
 // Cargo Unload (Instant)
 [Adri]
 Art=ReplaceableTextures\CommandButtons\BTNUnLoad.blp
 Buttonpos=1,2
 Order=unload
 
+// Neutral Spell
+[AAns]
+Art=ReplaceableTextures\CommandButtons\BTNReturnGoods.blp
+Buttonpos=0,0
+
 // Reveal
 [Andt]
 Art=ReplaceableTextures\CommandButtons\BTNReveal.blp
 Buttonpos=0,0
-Casterart=Abilities\Spells\Other\TempSpellArt\TempSpellArt.mdl
 
 // Currently Unused
 // Neutral G2L Exchange
@@ -174,8 +1418,46 @@ Effectsoundlooped=FountainOfLifeLoop
 Targetart=Abilities\Spells\Other\ANrl\ANrlTarget.mdl
 Effectsoundlooped=FountainOfLifeLoop
 
+// cargo hold meat wagon
+[Sch2]
+Effectsound=LoadUnload
+
+// cargo hold transport
+[Sch3]
+Effectsound=LoadUnload
+
+// cargo hold tank
+[Sch4]
+Effectsound=LoadUnload
+
+// cargo hold ship
+[Sch5]
+Effectsound=LoadUnload
+
 // 'select hero to use' ability for neutral buildings
 [Aneu]
+Art=ReplaceableTextures\CommandButtons\BTNSelectHeroOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNSelectHeroOff.blp
+Buttonpos=0,0
+Unbuttonpos=3,2
+Casterart=Abilities\Spells\Other\Aneu\AneuCaster.mdl
+Targetart=Abilities\Spells\Other\Aneu\AneuTarget.mdl
+Casterattach=overhead
+Targetattach=overhead
+
+// select any unit
+[Ane2]
+Art=ReplaceableTextures\CommandButtons\BTNSelectHeroOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNSelectHeroOff.blp
+Buttonpos=0,0
+Unbuttonpos=3,2
+Casterart=Abilities\Spells\Other\Aneu\AneuCaster.mdl
+Targetart=Abilities\Spells\Other\Aneu\AneuTarget.mdl
+Casterattach=overhead
+Targetattach=overhead
+
+// 'select hero to use' ability for allied buildings
+[Aall]
 Art=ReplaceableTextures\CommandButtons\BTNSelectHeroOn.blp
 Unart=ReplaceableTextures\CommandButtons\BTNSelectHeroOff.blp
 Buttonpos=0,0
@@ -212,10 +1494,34 @@ Buttonpos=0,2
 Unbuttonpos=0,2
 Order=selfdestruct
 
+// Kaboom! (clockwerk, level 1)
+[Asdg]
+Art=ReplaceableTextures\CommandButtons\BTNSelfDestructOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNSelfDestructOff.blp
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=selfdestruct
+
+// Kaboom! (clockwerk, level 2)
+[Asd2]
+Art=ReplaceableTextures\CommandButtons\BTNSelfDestructOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNSelfDestructOff.blp
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=selfdestruct
+
+// Kaboom! (clockwerk, level 3)
+[Asd3]
+Art=ReplaceableTextures\CommandButtons\BTNSelfDestructOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNSelfDestructOff.blp
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=selfdestruct
+
 // Medivh Crow Form
 [Amrf]
 Art=ReplaceableTextures\CommandButtons\BTNRavenForm.blp
-Unart=ReplaceableTextures\CommandButtons\BTNDruidOfTheTalon.blp
+Unart=ReplaceableTextures\CommandButtons\BTNMedivh.blp
 Buttonpos=3,2
 Unbuttonpos=3,2
 Order=ravenform
@@ -252,6 +1558,12 @@ Casterart=Abilities\Spells\Human\Thunderclap\ThunderClapCaster.mdl
 Casterattach=origin
 Effectart=
 Order=creepthunderclap
+Animnames=spell,slam
+
+[BCtc]
+Buffart=ReplaceableTextures\CommandButtons\BTNGolemThunderclap.blp
+Targetart=Abilities\Spells\Orc\StasisTrap\StasisTotemTarget.mdl
+Targetattach=overhead
 
 // Creep Thunder Clap (Thunder Lizard)
 [ACt2]
@@ -261,14 +1573,45 @@ Casterart=Abilities\Spells\Human\Thunderclap\ThunderClapCaster.mdl
 Casterattach=origin
 Effectart=
 Order=creepthunderclap
+Animnames=spell,slam
 
 // Creep Storm Bolt
 [ACtb]
 Art=ReplaceableTextures\CommandButtons\BTNGolemStormBolt.blp
 Buttonpos=0,2
 Missileart=Abilities\Weapons\RockBoltMissile\RockBoltMissile.mdl
+Missilearc=.30
 Missilespeed=1000
 Order=creepthunderbolt
+Animnames=spell,throw
+
+// creep bloodlust (B hotkey version)
+[ACbb]
+Art=ReplaceableTextures\CommandButtons\BTNBloodLustOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNBloodLustOff.blp
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=bloodlust
+OrderOn=bloodluston
+OrderOff=bloodlustoff
+
+// Quill Beast Frenzy (beastmaster)
+[Afzy]
+Art=ReplaceableTextures\CommandButtons\BTNBloodLustOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNBloodLustOff.blp
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=frenzy
+OrderOn=frenzyon
+OrderOff=frenzyoff
+
+[Bfzy]
+Spelldetail=1
+Buffart=ReplaceableTextures\CommandButtons\BTNBloodLust.blp
+Targetart=Abilities\Spells\Orc\Bloodlust\BloodlustTarget.mdl,Abilities\Spells\Orc\Bloodlust\BloodlustSpecial.mdl
+Targetattachcount=2
+Targetattach=hand,left
+Targetattach1=hand,right
 
 // creep bloodlust
 [ACbl]
@@ -280,25 +1623,19 @@ Order=bloodlust
 OrderOn=bloodluston
 OrderOff=bloodlustoff
 
-// Creep Devour
+// creep cannibalize
+[ACcn]
+Art=ReplaceableTextures\CommandButtons\BTNCannibalize.blp
+Buttonpos=0,2
+Order=cannibalize
+Animnames=spell,channel
+
+// Dragon Creep Devour
 [ACdv]
 Art=ReplaceableTextures\CommandButtons\BTNRedDragonDevour.blp
 Buttonpos=0,2
 Order=creepdevour
-
-// Creep Rain of Fire
-[ANrf]
-Art=ReplaceableTextures\CommandButtons\BTNFire.blp
-Researchart=ReplaceableTextures\CommandButtons\BTNFire.blp
-Buttonpos=3,2
-Researchbuttonpos=3,0
-Casterart=
-Order=rainoffire
-
-[XErf]
-Effectart=Abilities\Spells\Demon\RainOfFire\RainOfFireTarget.mdl
-Effectsoundlooped=RainOfFireLoop
-Effectsound=RainOfFireWave
+Animnames=attack,spell
 
 // demon reincarnation
 [ANrn]
@@ -315,6 +1652,8 @@ Buttonpos=0,2
 Researchart=ReplaceableTextures\CommandButtons\BTNFireBolt.blp
 Missileart=Abilities\Weapons\FireBallMissile\FireBallMissile.mdl
 Missilespeed=1000
+MissileHoming=1
+Animnames=spell,throw
 
 // spawn spiderlings on death
 [Assp]
@@ -322,13 +1661,26 @@ Missilespeed=1000
 // spawn spiders on death
 [Aspd]
 
+// spawn hydra on death
+[Aspy]
+
+// spawn hydra hatchling on death
+[Aspt]
+
 [AOac]
 Art=ReplaceableTextures\PassiveButtons\PASBTNGnollCommandAura.blp
 Buttonpos=0,2
 Targetart=Abilities\Spells\Orc\WarDrums\DrumsCasterHeal.mdl
 Targetattach=origin
 
+[ACac]
+Art=ReplaceableTextures\PassiveButtons\PASBTNGnollCommandAura.blp
+Buttonpos=0,2
+Targetart=Abilities\Spells\Orc\WarDrums\DrumsCasterHeal.mdl
+Targetattach=origin
+
 [BOac]
+SpellDetail=1
 Buffart=ReplaceableTextures\CommandButtons\BTNGnollCommandAura.blp
 Targetart=Abilities\Spells\Other\GeneralAuraTarget\GeneralAuraTarget.mdl
 Targetattach=origin
@@ -356,6 +1708,27 @@ Buttonpos=0,2
 Researchbuttonpos=0,0
 Targetart=Abilities\Spells\NightElf\ManaBurn\ManaBurnTarget.mdl
 Order=manaburn
+LightningEffect=MBUR
+
+// version 2 mana burn
+[Amnb]
+Art=ReplaceableTextures\CommandButtons\BTNManaBurn.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNManaBurn.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Targetart=Abilities\Spells\NightElf\ManaBurn\ManaBurnTarget.mdl
+Order=manaburn
+LightningEffect=MBUR
+
+// version 2 mana burn
+[Ambb]
+Art=ReplaceableTextures\CommandButtons\BTNManaBurn.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNManaBurn.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Targetart=Abilities\Spells\NightElf\ManaBurn\ManaBurnTarget.mdl
+Order=manaburn
+LightningEffect=MBUR
 
 // creep sleep
 [ACsl]
@@ -404,12 +1777,25 @@ Art=ReplaceableTextures\PassiveButtons\PASBTNBash.blp
 Buttonpos=2,2
 Order=bash
 
+// beastmaster bash
+[ANbh]
+Art=ReplaceableTextures\PassiveButtons\PASBTNBash.blp
+Buttonpos=1,2
+Order=bash
+
+// beastmaster maul
+[ANb2]
+Art=ReplaceableTextures\PassiveButtons\PASBTNBash.blp
+Buttonpos=1,2
+Order=bash
+
 // creep blizzard
 [ACbz]
 Art=ReplaceableTextures\CommandButtons\BTNBlizzard.blp
 Buttonpos=0,2
 Casterart=
 Order=blizzard
+Animnames=spell,looping
 
 // creep carrion swarm
 [ACca]
@@ -419,6 +1805,7 @@ Missileart=Abilities\Spells\Undead\CarrionSwarm\CarrionSwarmMissile.mdl
 Missilespeed=1100
 Specialart=Abilities\Spells\Undead\CarrionSwarm\CarrionSwarmDamage.mdl
 Order=carrionswarm
+Animnames=attack,slam
 
 // creep chain lightning
 [ACcl]
@@ -428,6 +1815,8 @@ Missileart=Abilities\Spells\Orc\LightningBolt\LightningBoltMissile.mdl
 Missilespeed=1500
 Targetart=Abilities\Weapons\Bolt\BoltImpact.mdl
 Order=chainlightning
+Animnames=spell,throw
+LightningEffect=CLPB,CLSB
 
 // creep cold arrows
 [ACcw]
@@ -438,11 +1827,35 @@ Unbuttonpos=0,2
 Missileart=Abilities\Weapons\ColdArrow\ColdArrowMissile.mdl
 Missilearc=0.15
 Missilespeed=1500
+MissileHoming=1
+Animnames=attack
+
+// creep cripple
+[ACcr]
+Art=ReplaceableTextures\CommandButtons\BTNCripple.blp
+Buttonpos=2,2
+order=cripple
 
 // creep critical strike
 [ACct]
 Art=ReplaceableTextures\PassiveButtons\PASBTNCriticalStrike.blp
 Buttonpos=2,2
+
+// creep curse
+[ACcs]
+Art=ReplaceableTextures\CommandButtons\BTNCurseOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNCurseOff.blp
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=curse
+Orderon=curseon
+Orderoff=curseoff
+
+// creep cyclone
+[ACcy]
+Art=ReplaceableTextures\CommandButtons\BTNCyclone.blp
+Buttonpos=1,2
+order=cyclone
 
 // cenarius' cyclone
 [SCc1]
@@ -456,6 +1869,7 @@ Art=ReplaceableTextures\CommandButtons\BTNDeathCoil.blp
 Buttonpos=0,2
 Missileart=Abilities\Spells\Undead\DeathCoil\DeathCoilMissile.mdl
 Missilespeed=1100
+MissileHoming=1
 Specialart=Abilities\Spells\Undead\DeathCoil\DeathCoilSpecialArt.mdl
 Order=deathcoil
 
@@ -484,6 +1898,16 @@ Buttonpos=2,2
 Art=ReplaceableTextures\PassiveButtons\PASBTNEvasion.blp
 Buttonpos=2,2
 
+// creep faerie fire
+[ACff]
+Art=ReplaceableTextures\CommandButtons\BTNFaerieFireOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNFaerieFireOff.blp
+Buttonpos=0,2
+Unbuttonpos=0,2
+order=faeriefire
+orderon=faeriefireon
+orderoff=faeriefireoff
+
 // creep feral spirit
 [ACsf]
 Art=ReplaceableTextures\CommandButtons\BTNSpiritWolf.blp
@@ -504,6 +1928,8 @@ Art=ReplaceableTextures\CommandButtons\BTNFireBolt.blp
 Buttonpos=0,2
 Missileart=Abilities\Weapons\FireBallMissile\FireBallMissile.mdl
 Missilespeed=1000
+MissileHoming=1
+Animnames=spell,throw
 
 // creep force of nature
 [ACfr]
@@ -511,11 +1937,21 @@ Art=ReplaceableTextures\CommandButtons\BTNEnt.blp
 Buttonpos=1,2
 Order=forceofnature
 
-// creep frost armor
+// creep frost armor (old)
 [ACfa]
 Art=ReplaceableTextures\CommandButtons\BTNFrostArmor.blp
 Buttonpos=1,2
 Order=frostarmor
+
+// creep frost armor (new, autocast)
+[ACf2]
+Art=ReplaceableTextures\CommandButtons\BTNFrostArmorOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNFrostArmorOff.blp
+Buttonpos=1,2
+Unbuttonpos=1,2
+Order=frostarmor
+Orderon=frostarmoron
+Orderoff=frostarmoroff
 
 // creep frost nova
 [ACfn]
@@ -523,10 +1959,47 @@ Art=ReplaceableTextures\CommandButtons\BTNGlacier.blp
 Buttonpos=0,2
 Effectart=Abilities\Spells\Undead\FrostNova\FrostNovaTarget.mdl
 Order=frostnova
+Animnames=spell,slam
+
+// archimonde's ghoul's lumber
+[Ahr2]
+Art=ReplaceableTextures\CommandButtons\BTNGatherGold.blp
+Unart=ReplaceableTextures\CommandButtons\BTNReturnGoods.blp
+Buttonpos=3,1
+UnButtonpos=3,1
+Order=harvest
 
 // goblin shredders lumber
 [Ahr3]
+Art=ReplaceableTextures\CommandButtons\BTNGatherGold.blp
+Unart=ReplaceableTextures\CommandButtons\BTNReturnGoods.blp
+Buttonpos=3,1
+UnButtonpos=3,1
 Order=harvest
+
+// creep heal normal
+[Anh1]
+Art=ReplaceableTextures\CommandButtons\BTNHealOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNHealOff.blp
+Buttonpos=0,2
+Unbuttonpos=0,2
+Casterart=
+Targetart=Abilities\Spells\Human\Heal\HealTarget.mdl
+Order=heal
+Orderon=healon
+Orderoff=healoff
+
+// creep heal high
+[Anh2]
+Art=ReplaceableTextures\CommandButtons\BTNHealOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNHealOff.blp
+Buttonpos=0,2
+Unbuttonpos=0,2
+Casterart=
+Targetart=Abilities\Spells\Human\Heal\HealTarget.mdl
+Order=heal
+Orderon=healon
+Orderoff=healoff
 
 // creep immolation
 [ACim]
@@ -537,12 +2010,103 @@ Unbuttonpos=1,2
 Order=immolation
 Unorder=unimmolation
 
+// creep inner fire
+[ACif]
+Art=ReplaceableTextures\CommandButtons\BTNInnerFireOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNInnerFireOff.blp
+Buttonpos=2,2
+Unbuttonpos=2,2
+Effectsound=InnerFireCast
+Order=innerfire
+Orderon=innerfireon
+Orderoff=innerfireoff
+
+// creep lightning shield
+[ACls]
+Art=ReplaceableTextures\CommandButtons\BTNLightningShield.blp
+Buttonpos=1,2
+Order=lightningshield
+
+// burrow load
+[Sloa]
+Art=ReplaceableTextures\CommandButtons\BTNLoad.blp
+Buttonpos=0,2
+Order=load
+
+// ship load
+[Slo3]
+Art=ReplaceableTextures\CommandButtons\BTNLoad.blp
+Buttonpos=0,2
+Order=load
+
 // creep rain of fire
 [ACrf]
 Art=ReplaceableTextures\CommandButtons\BTNFire.blp
 Buttonpos=3,2
 Casterart=
 Order=rainoffire
+
+// creep raise dead
+[ACrd]
+Art=ReplaceableTextures\CommandButtons\BTNRaiseDeadOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNRaiseDeadOff.blp
+Buttonpos=0,2
+Unbuttonpos=0,2
+Effectart=Abilities\Spells\Undead\RaiseSkeletonWarrior\RaiseSkeleton.mdl
+Order=raisedead
+Orderon=raisedeadon
+Orderoff=raisedeadoff
+
+// creep rejuvenation
+[ACrj]
+Art=ReplaceableTextures\CommandButtons\BTNRejuvenation.blp
+Buttonpos=1,2
+order=rejuvination
+
+// human repair
+[Ahrp]
+Art=ReplaceableTextures\CommandButtons\BTNRepairOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNRepairOff.blp
+Buttonpos=1,1
+Unbuttonpos=1,1
+Order=repair
+Orderon=repairon
+Orderoff=repairoff
+Animnames=stand,work
+
+// creep roar
+[ACro]
+Art=ReplaceableTextures\CommandButtons\BTNBattleRoar.blp
+Buttonpos=0,2
+Casterart=Abilities\Spells\NightElf\BattleRoar\RoarCaster.mdl
+Order=roar
+Animnames=spell,slam
+
+// skeletal orc champion roar
+[ACr1]
+Art=ReplaceableTextures\CommandButtons\BTNBattleRoar.blp
+Buttonpos=0,2
+Casterart=Abilities\Spells\NightElf\BattleRoar\RoarCaster.mdl
+Order=roar
+Animnames=spell,slam
+
+// root Ancients
+[Aro1]
+Art=ReplaceableTextures\CommandButtons\BTNRoot.blp
+Unart=ReplaceableTextures\CommandButtons\BTNUproot.blp
+Buttonpos=3,2
+Unbuttonpos=3,2
+Order=root
+Unorder=unroot
+
+// root ancient protector
+[Aro2]
+Art=ReplaceableTextures\CommandButtons\BTNRoot.blp
+Unart=ReplaceableTextures\CommandButtons\BTNUproot.blp
+Buttonpos=3,2
+Unbuttonpos=3,2
+Order=root
+Unorder=unroot
 
 // creep searing arrows
 [ACsa]
@@ -552,8 +2116,18 @@ Buttonpos=1,2
 Unbuttonpos=1,2
 Missileart=Abilities\Weapons\SearingArrow\SearingArrowMissile.mdl
 Missilespeed=1500
+MissileHoming=1
 Order=flamingarrows
 Unorder=unflamingarrows
+Animnames=attack
+
+// sell items
+[Asid]
+Art=ReplaceableTextures\CommandButtons\BTNSell.blp
+
+// sell units
+[Asud]
+Art=ReplaceableTextures\CommandButtons\BTNHire.blp
 
 // creep shockwave
 [ACsh]
@@ -562,6 +2136,7 @@ Buttonpos=0,2
 Missileart=Abilities\Spells\Orc\Shockwave\ShockwaveMissile.mdl
 Missilespeed=1050
 Order=shockwave
+Animnames=attack,slam
 
 // trap shockwave
 [ACst]
@@ -570,6 +2145,7 @@ Buttonpos=0,2
 Missileart=Abilities\Spells\Orc\Shockwave\ShockwaveMissile.mdl
 Missilespeed=1050
 Order=shockwave
+Animnames=attack,slam
 
 // creep thorns aura
 [ACah]
@@ -585,6 +2161,18 @@ Buttonpos=2,2
 Targetart=Abilities\Spells\Undead\UnholyAura\UnholyAura.mdl
 Targetattach=origin
 
+// creep unholy frenzy
+[ACuf]
+Art=ReplaceableTextures\CommandButtons\BTNUnholyFrenzy.blp
+Buttonpos=1,2
+Order=unholyfrenzy
+
+// vampiric attack
+[SCva]
+Art=ReplaceableTextures\CommandButtons\BTNFrostMourne.blp
+Specialart=Abilities\Spells\Undead\VampiricAura\VampiricAuraTarget.mdl
+Missileart=Abilities\Spells\Items\WandOfNeutralization\NeutralizationMissile.mdl
+
 // creep vampiric aura
 [ACvp]
 Art=ReplaceableTextures\PassiveButtons\PASBTNVampiricAura.blp
@@ -592,12 +2180,29 @@ Buttonpos=2,2
 Targetart=Abilities\Spells\Undead\VampiricAura\VampiricAura.mdl
 Targetattach=origin
 
-// creep war stomp
+// generic creep war stomp
 [Awrs]
 Art=ReplaceableTextures\CommandButtons\BTNWarStomp.blp
 Buttonpos=1,2
 Casterart=Abilities\Spells\Orc\WarStomp\WarStompCaster.mdl
 Order=stomp
+Animnames=slam
+
+// hydra creep war stomp
+[Awrh]
+Art=ReplaceableTextures\CommandButtons\BTNHydraWarStomp.blp
+Buttonpos=1,2
+Casterart=Abilities\Spells\Orc\WarStomp\WarStompCaster.mdl
+Order=stomp
+Animnames=slam
+
+// Sea Giant creep war stomp
+[Awrg]
+Art=ReplaceableTextures\CommandButtons\BTNSeaGiantWarStomp.blp
+Buttonpos=1,2
+Casterart=Abilities\Spells\Orc\WarStomp\WarStompCaster.mdl
+Order=stomp
+Animnames=slam
 
 // creep devotion aura
 [ACav]
@@ -611,17 +2216,34 @@ Targetattach=origin
 Art=ReplaceableTextures\PassiveButtons\PASBTNEnvenomedSpear.blp
 Buttonpos=0,2
 
+// creep web
+[ACwb]
+Art=ReplaceableTextures\CommandButtons\BTNWebOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNWebOff.blp
+Buttonpos=0,2
+Unbuttonpos=0,2
+Missileart=Abilities\Spells\Undead\Web\Webmissile.mdl
+Missilespeed=1500
+MissileHoming=1
+Order=web
+Orderon=webon
+Orderoff=weboff
+
 // mana regeneration aura
 [Aarm]
 Art=
 
 [Barm]
+Spelldetail=1
 Buffart=
 Targetart=Abilities\Spells\Other\ANrl\ANrlTarget.mdl
 Effectsoundlooped=FountainOfLifeLoop
 
 // life regeneration aura creep
 [ACnr]
+Art=ReplaceableTextures\CommandButtons\BTNHeal.blp
+
+[ANre]
 Art=ReplaceableTextures\CommandButtons\BTNHeal.blp
 
 // super death and decay
@@ -631,6 +2253,7 @@ Researchart=ReplaceableTextures\CommandButtons\BTNDeathAndDecay.blp
 Buttonpos=3,2
 Researchbuttonpos=3,0
 Order=deathanddecay
+Animnames=spell,looping
 
 // dispel magic
 [Adsm]
@@ -640,6 +2263,32 @@ Targetart=Abilities\Spells\Human\DispelMagic\DispelMagicTarget.mdl
 Specialart=Abilities\Spells\Human\DispelMagic\DispelMagicTarget.mdl
 Order=dispel
 
+// creep auto-dispel
+[ACdm]
+Art=ReplaceableTextures\CommandButtons\BTNDryadDispelMagicOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNDryadDispelMagicOff.blp
+Requires=Resi
+Buttonpos=0,2
+Unbuttonpos=0,2
+Casterart=
+Targetart=Abilities\Spells\Human\DispelMagic\DispelMagicTarget.mdl
+Order=autodispel
+Orderon=autodispelon
+Orderoff=autodispeloff
+
+// creep auto-dispel (button pos 1,2)
+[ACd2]
+Art=ReplaceableTextures\CommandButtons\BTNDryadDispelMagicOn.blp
+Unart=ReplaceableTextures\CommandButtons\BTNDryadDispelMagicOff.blp
+Requires=Resi
+Buttonpos=1,2
+Unbuttonpos=1,2
+Casterart=
+Targetart=Abilities\Spells\Human\DispelMagic\DispelMagicTarget.mdl
+Order=autodispel
+Orderon=autodispelon
+Orderoff=autodispeloff
+
 // super earthquake
 [SNeq]
 Art=ReplaceableTextures\CommandButtons\BTNEarthquake.blp
@@ -647,6 +2296,7 @@ Researchart=ReplaceableTextures\CommandButtons\BTNEarthquake.blp
 Buttonpos=3,2
 Researchbuttonpos=3,0
 Order=earthquake
+Animnames=spell,looping
 
 // endurance aura
 [SCae]
@@ -662,4 +2312,90 @@ Buttonpos=0,2
 Requires=Roen
 Missileart=Abilities\Spells\Orc\Ensnare\EnsnareMissile.mdl
 Missilespeed=1500
+MissileHoming=1
 Order=ensnare
+Animnames=spell,entangle
+
+// Crushing Wave
+[ACcv]
+Art=ReplaceableTextures\CommandButtons\BTNCrushingWave.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNCrushingWave.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missileart=Abilities\Spells\Other\CrushingWave\CrushingWaveMissile.mdl
+Missilespeed=1100
+Specialart=Abilities\Spells\Other\CrushingWave\CrushingWaveDamage.mdl
+Order=carrionswarm
+Animnames=attack,slam
+
+// Crushing Wave (Dragon Turtle, 1,2 UI position)
+[ACc2]
+Art=ReplaceableTextures\CommandButtons\BTNCrushingWave.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNCrushingWave.blp
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Missileart=Abilities\Spells\Other\CrushingWave\CrushingWaveMissile.mdl
+Missilespeed=1100
+Specialart=Abilities\Spells\Other\CrushingWave\CrushingWaveDamage.mdl
+Order=carrionswarm
+Animnames=attack,slam
+
+// Crushing Wave (Lesser Version)
+[ACc3]
+Art=ReplaceableTextures\CommandButtons\BTNCrushingWave.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNCrushingWave.blp
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Missileart=Abilities\Spells\Other\CrushingWave\CrushingWaveMissile.mdl
+Missilespeed=1100
+Specialart=Abilities\Spells\Other\CrushingWave\CrushingWaveDamage.mdl
+Order=carrionswarm
+Animnames=attack,slam
+
+// summon sea elemental
+[ACwe]
+Art=ReplaceableTextures\CommandButtons\BTNSeaElemental.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNSeaElemental.blp
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=waterelemental
+
+// neutral interact
+[Anei]
+Art=ReplaceableTextures\CommandButtons\BTNSelectUnit.blp
+Buttonpos=3,2
+
+// permanent flyer immolation
+[Apmf]
+Art=ReplaceableTextures\PassiveButtons\PASBTNImmolation.blp
+Buttonpos=0,2
+
+// Neutral Resistant Skin
+[ACrk]
+Art=ReplaceableTextures\PassiveButtons\PASBTNThickFur.blp
+Buttonpos=3,2
+
+
+// Neutral Resistant Skin (altered button pos)
+[ACsk]
+Art=ReplaceableTextures\PassiveButtons\PASBTNThickFur.blp
+Buttonpos=3,1
+
+
+// Forked Lightning
+[ANfl]
+Art=ReplaceableTextures\CommandButtons\BTNMonsoon.blp
+Researchart=ReplaceableTextures\CommandButtons\BTNMonsoon.blp
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Specialart=Abilities\Weapons\Bolt\BoltImpact.mdl
+Order=forkedlightning
+LightningEffect=FORK
+
+// Forked Lightning
+[ACfl]
+Art=ReplaceableTextures\CommandButtons\BTNMonsoon.blp
+Buttonpos=0,2
+Specialart=Abilities\Weapons\Bolt\BoltImpact.mdl
+Order=forkedlightning
+LightningEffect=FORK

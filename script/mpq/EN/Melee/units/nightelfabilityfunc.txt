@@ -28,6 +28,7 @@ Buffart=ReplaceableTextures\CommandButtons\BTNManaFlare.blp
 Targetart=Abilities\Spells\Human\ManaFlare\ManaFlareBase.mdl
 Targetattach=overhead
 Effectsoundlooped=ManaFlareLoop
+LightningEffect=MFPB
 
 [Bmfa]
 Buffart=ReplaceableTextures\CommandButtons\BTNManaFlare.blp
@@ -139,6 +140,7 @@ Order=nightelfbuild
 Art=ReplaceableTextures\CommandButtons\BTNGrabTree.blp
 Buttonpos=1,2
 Order=grabtree
+Animnames=spell,eattree
 
 // Hardened Skin
 [Assk]
@@ -161,6 +163,9 @@ Buttonpos=0,2
 Order=taunt
 Casterart=Abilities\Spells\NightElf\Taunt\TauntCaster.mdl
 
+[Btau]
+Buffart=ReplaceableTextures\CommandButtons\BTNTaunt.blp
+
 // Blink
 [AEbl]
 Art=ReplaceableTextures\CommandButtons\BTNBlink.blp
@@ -172,6 +177,7 @@ Order=blink
 Areaeffectart=Abilities\Spells\NightElf\Blink\BlinkTarget.mdl
 // Art to leave behind at old coordinate
 Specialart=Abilities\Spells\NightElf\Blink\BlinkCaster.mdl
+Animnames=spell,throw
 
 // Fan of Knives
 [AEfk]
@@ -185,6 +191,7 @@ Effectart=Abilities\Spells\NightElf\FanOfKnives\FanOfKnivesCaster.mdl
 Missileart=Abilities\Spells\NightElf\FanOfKnives\FanOfKnivesMissile.mdl
 Missilespeed=700
 MissileArc=0.10
+Animnames=spell,slam
 
 // Shadow Strike
 [AEsh]
@@ -257,13 +264,13 @@ Buttonpos=1,2
 // Slow Poison Non Stack Buff
 [Bspo]
 Spelldetail=2
-Buffart=ReplaceableTextures\CommandButtons\BTNEnvenomedSpear.blp
+Buffart=ReplaceableTextures\CommandButtons\BTNSlowPoison.blp
 Targetart=Abilities\Weapons\PoisonSting\PoisonStingTarget.mdl
 
 // Slow Poison Stack Buff
 [Bssd]
 Spelldetail=2
-Buffart=ReplaceableTextures\CommandButtons\BTNEnvenomedSpear.blp
+Buffart=ReplaceableTextures\PassiveButtons\PASBTNSlowPoison.blp
 Targetart=Abilities\Weapons\PoisonSting\PoisonStingTarget.mdl
 
 // Shadow Meld passive nighttime cloaking ability, with its "Hide" button
@@ -441,6 +448,11 @@ Buttonpos=2,2
 [Ault]
 Requires=Reuv
 
+//Elune's Grace
+[Aegr]
+Art=ReplaceableTextures\PassiveButtons\PASBTNElunesBlessing.blp
+Buttonpos=1,2
+
 // Couple
 [Acoa]
 Art=ReplaceableTextures\CommandButtons\BTNHippogriffRider.blp
@@ -501,6 +513,7 @@ Buttonpos=0,2
 Researchbuttonpos=0,0
 Targetart=Abilities\Spells\NightElf\ManaBurn\ManaBurnTarget.mdl
 Order=manaburn
+LightningEffect=MBUR
 
 // Immolation
 [AEim]
@@ -603,6 +616,7 @@ Researchart=ReplaceableTextures\CommandButtons\BTNTranquility.blp
 Buttonpos=3,2
 Researchbuttonpos=3,0
 Order=tranquility
+Animnames=stand,channel
 
 // Tranquility life regeneration
 [AEtr]
@@ -635,6 +649,7 @@ Missilespeed=1500
 MissileHoming=1
 Order=flamingarrows
 Unorder=unflamingarrows
+Animnames=attack
 
 // Trueshot Aura
 [AEar]
@@ -659,6 +674,7 @@ Buttonpos=3,2
 Researchbuttonpos=3,0
 Casterart=
 Order=starfall
+Animnames=spell,looping
 
 // Starfall life drain
 [AEsd]
@@ -676,6 +692,7 @@ Buttonpos=3,2
 Researchbuttonpos=3,0
 Casterart=
 Order=starfall
+Animnames=spell,looping
 
 // Faerie Fire
 [Afae]
@@ -748,6 +765,7 @@ Effectsoundlooped=WispRenewLoop
 Order=renew
 Orderon=renewon
 Orderoff=renewoff
+Animnames=stand,work
 
 // Roar
 [Aroa]
@@ -755,6 +773,7 @@ Art=ReplaceableTextures\CommandButtons\BTNBattleRoar.blp
 Buttonpos=0,2
 Casterart=Abilities\Spells\NightElf\BattleRoar\RoarCaster.mdl
 Order=roar
+Animnames=spell,slam
 
 // Roar (bear form)
 [Ara2]
@@ -763,6 +782,7 @@ Art=ReplaceableTextures\CommandButtons\BTNBattleRoar.blp
 Buttonpos=0,2
 Casterart=Abilities\Spells\NightElf\BattleRoar\RoarCaster.mdl
 Order=roar
+Animnames=spell,slam
 
 [Broa]
 Spelldetail=1
@@ -775,6 +795,7 @@ Targetattach=overhead
 Missileart=Abilities\Weapons\ChimaeraLightningMissile\ChimaeraLightningMissile.mdl
 Missilespeed=1500
 Targetart=Abilities\Weapons\Bolt\BoltImpact.mdl
+LightningEffect=CHIM
 
 // tree of life upgrade ability
 [Atol]
