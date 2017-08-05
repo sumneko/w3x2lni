@@ -88,6 +88,9 @@ local function remove_same_as_txt(key, data, default, obj, ttype)
 end
 
 local function clean_obj(name, obj, type, default)
+    if not obj then
+        return
+    end
     local parent = obj._parent
     local max_level = obj._max_level
     local default = default[parent]
