@@ -150,6 +150,7 @@ function mt:initialize(root)
     self.meta = self.root / 'script' / 'metadata'
     self.defined = self.prebuilt / 'defined'
     self.mpq = self.root / 'script' / 'mpq'
+    self.custom = self.root / 'script' / 'custom'
     self.info   = lni(assert(io.load(self.root / 'script' / 'info.ini')), 'info')
     self.config = lni(assert(io.load(self.root / 'config.ini')), 'config')
 
