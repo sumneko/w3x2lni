@@ -66,7 +66,7 @@ local function extract_file(mpq, name, dir)
     end
     fs.create_directories(path:parent_path())
     local res = mpq:extract(name, path)
-    result[name] = res
+    result[path:string()] = res
 end
 
 local function report_fail()
@@ -93,6 +93,16 @@ local function extract_mpq(mpqs)
         extract_file(mpq, 'UI\\WorldEditStrings.txt')
 
         extract_file(mpq, 'Doodads\\Doodads.slk')
+
+        extract_file(mpq, 'units\\MiscGame.txt')
+        extract_file(mpq, 'units\\MiscData.txt')
+        if i == 1 then
+            extract_file(mpq, 'units\\MiscGame.txt', w2l.custom / 'Custom_V1')
+            extract_file(mpq, 'units\\MiscData.txt', w2l.custom / 'Custom_V1')
+        else
+            extract_file(mpq, 'Custom_V1\\units\\MiscGame.txt')
+            extract_file(mpq, 'Custom_V1\\units\\MiscData.txt')
+        end
 
         for type, slks in pairs(w2l.info.slk) do
             if type ~= 'doodad' then
@@ -121,7 +131,7 @@ end
 local function main()
     if not arg[1] then
         message('没有指定目录')
-        arg[1] = uni.u2a 'D:\\魔兽争霸III'
+        arg[1] = uni.u2a 'D:\\魔兽争霸III正版镜像'
         --return
     end
 

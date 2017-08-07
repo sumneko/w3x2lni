@@ -32,6 +32,21 @@
             "console": "ansi"
         },
         {
+            "name": "解析mpq",
+            "type": "lua",
+            "request": "launch",
+            "program": "${workspaceRoot}/script/custom_mpq.lua",
+            "stopOnEntry": false,
+            "cwd": "${workspaceRoot}/bin",
+            "path": "",
+            "cpath": "${workspaceRoot}/bin/?.dll;",
+            "luadll": "${workspaceRoot}/bin/luacore.dll",
+            "arg0": "${workspaceRoot}/w3x2lni.exe",
+            "arg": [
+            ],
+            "console": "ansi"
+        },
+        {
             "name": "测试",
             "type": "lua",
             "request": "launch",
