@@ -13,7 +13,12 @@ local save_map = require 'save_map'
 w2l:initialize()
 
 function message(...)
-    print(...)
+    local tbl = {...}
+    local count = select('#', ...)
+    for i = 1, count do
+        tbl[i] = tostring(tbl[i]):gsub('[\r\n]', ' ')
+    end
+    print(table.concat(tbl, ' '))
 end
 
 local input = fs.path(uni.a2u(arg[1]))

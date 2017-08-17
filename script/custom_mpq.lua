@@ -19,7 +19,7 @@ function message(...)
     local tbl = {...}
     local count = select('#', ...)
     for i = 1, count do
-        tbl[i] = uni.u2a(tostring(tbl[i]))
+        tbl[i] = uni.u2a(tostring(tbl[i])):gsub('[\r\n]', ' ')
     end
     print(table.concat(tbl, ' '))
 end
