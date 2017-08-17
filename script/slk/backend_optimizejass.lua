@@ -39,11 +39,9 @@ return function (w2l, archive)
         archive:set('scripts\\war3map.j', buf)
     end
 
-    create_report(report, nil, '脚本混淆失败',     1)
-    create_report(report, nil, '没有混淆函数名',   1)
-    create_report(report, nil, '强制引用全部函数', 1)
-    create_report(report, 1,   '引用函数',        5)
-    create_report(report, 2,   '未引用的全局变量', 20)
-    create_report(report, 3,   '未引用的函数',     20)
-    create_report(report, 4,   '未引用的局部变量', 20)
+    create_report(report, 1,   '混淆脚本',        10)
+    create_report(report, 2,   '引用函数',        5)
+    create_report(report, 3,   '未引用的全局变量', 20)
+    create_report(report, 4,   '未引用的函数',     20)
+    create_report(report, 5,   '未引用的局部变量', 20)
 end
