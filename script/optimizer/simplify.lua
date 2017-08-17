@@ -128,7 +128,7 @@ local function check_confuse(line)
     if confuse1 then
         if not global_variable_any then
             global_variable_any = true
-            report('混淆脚本', '没有混淆全局变量名', ('第[%d]行：注册了实数变量变化事件'):format(line.line))
+            report('混淆脚本', '没有混淆全局实数变量', ('第[%d]行：注册了实数变量变化事件'):format(line.line))
         end
     end
 end
@@ -273,7 +273,9 @@ local function fix_globals()
         return
     end
     for _, global in ipairs(jass.globals) do
-        global.confused = nil
+        if global.type == 'real' and not global.array then
+            global.confused = nil
+        end
     end
 end
 
