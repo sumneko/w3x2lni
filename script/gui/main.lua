@@ -79,6 +79,8 @@ local function save_config()
 [root]
 -- 转换后的目标格式(lni, obj, slk)
 target_format = %s
+-- 使用谁的mpq(default, custom)
+mpq = default
 ]]):format(config.target_format)
 
     for _, type in ipairs {'slk', 'lni', 'obj'} do

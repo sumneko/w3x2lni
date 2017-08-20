@@ -149,7 +149,6 @@ function mt:initialize(root)
     self.prebuilt = self.root / 'script' / 'prebuilt'
     self.meta = self.root / 'script' / 'meta'
     self.defined = self.meta / 'defined'
-    self.mpq = self.root / 'data' / 'default'
     self.custom = self.root / 'data' / 'custom'
     self.info   = lni(assert(io.load(self.root / 'script' / 'info.ini')), 'info')
     self.config = lni(assert(io.load(self.root / 'config.ini')), 'config')
@@ -163,6 +162,7 @@ function mt:initialize(root)
 end
 
 function mt:update()
+    self.mpq = self.root / 'data' / self.config.mpq
     if self.config.version == 'Melee' then
         self.agent = self.mpq
         self.default = self.mpq / 'prebuilt' / 'Melee'

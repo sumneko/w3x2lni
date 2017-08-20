@@ -5,7 +5,8 @@ elseif arg[1] == '-prebuilt' then
     local nk = require 'nuklear'
     nk:console()
     table.remove(arg, 1)
-    require 'prebuilt.prebuilt'
+    local prebuilt = require 'prebuilt.prebuilt'
+    prebuilt:complete()
     os.execute('pause')
 elseif arg[1] == '-slk' then
     local nk = require 'nuklear'

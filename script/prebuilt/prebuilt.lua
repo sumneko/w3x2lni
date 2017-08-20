@@ -211,11 +211,14 @@ local function set_config()
     config.target_storage = 'dir'
 end
 
-local function dofile(version, template)
+local mt = {}
+
+function mt:dofile(mpq, version, template)
     message('==================')
     message(('       %s      '):format(version))
     message('==================')
 
+    w2l.config.mpq     = mpq
     w2l.config.version = version
     w2l:update()
     fs.create_directories(w2l.default)
@@ -238,7 +241,7 @@ local function dofile(version, template)
     end
 end
 
-local function main()
+function mt:complete()
     set_config()
 
     fs.create_directories(w2l.template)
@@ -251,8 +254,8 @@ local function main()
     prebuilt_keydata(w2l)
     prebuilt_search(w2l)
 
-    dofile('Melee')
-    dofile('Custom', 'template')
+    self:dofile('default', 'Melee')
+    self:dofile('default', 'Custom', 'template')
 
     -- 生成技能命令映射
     --local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'))
@@ -262,4 +265,4 @@ local function main()
     message('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
 end
 
-main()
+return mt
