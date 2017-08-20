@@ -3,6 +3,6 @@
 !/bin/
 !/.vscode/
 !/template/
-!/mpq/
+!/data/
 *.w3x
-script/custom/
+data/custom/
