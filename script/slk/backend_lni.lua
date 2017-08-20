@@ -139,7 +139,7 @@ end
 
 local function write_table(slk)
     local list = {}
-    for id in pairs(slk) do
+    for id, obj in pairs(slk) do
         if not remove_unuse_object or obj._mark then
             list[#list+1] = id
         end
