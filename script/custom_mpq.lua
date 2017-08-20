@@ -136,7 +136,7 @@ local function main()
 
     prebuilt:set_config()
     prebuilt:dofile('custom', 'Melee')
-    prebuilt:dofile('custom', 'Custom', 'template')
+    prebuilt:dofile('custom', 'Custom')
 
     message('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
 end
