@@ -68,17 +68,29 @@ local function prebuilt_typedefine(w2l)
     io.save(w2l.defined / 'typedefine.ini', table.concat(f, '\r\n'))
 end
 
-local function insert_buff(t, code, sort, race)
-	t[code] = {
-		code = code,
-		comments = 'YDWE',
-		isEffect = 0,
-		version = 1,
-		useInEditor = 1,
-		sort = sort,
-		race = race,
-		InBeta = 1
-	}
+local abilitybuffdata = {
+    {'alias',   'code', 'comments', 'isEffect', 'version', 'useInEditor', 'sort', 'race' , 'InBeta'},
+    ['Bdbl'] = {'Bdbl', 'YDWE'    , 0         , 1        , 1            , 'hero', 'human', 1       },
+    ['Bdbm'] = {'Bdbm', 'YDWE'    , 0         , 1        , 1            , 'hero', 'human', 1       },
+    ['BHtb'] = {'BHtb', 'YDWE'    , 0         , 1        , 1            , 'unit', 'other', 1       },
+    ['Bsta'] = {'Bsta', 'YDWE'    , 0         , 1        , 1            , 'unit', 'orc'  , 1       },
+    ['Bdbb'] = {'Bdbb', 'YDWE'    , 0         , 1        , 1            , 'hero', 'human', 1       },
+    ['BIpb'] = {'BIpb', 'YDWE'    , 0         , 1        , 1            , 'item', 'other', 1       },
+    ['BIpd'] = {'BIpd', 'YDWE'    , 0         , 1        , 1            , 'item', 'other', 1       },
+    ['Btlf'] = {'Btlf', 'YDWE'    , 0         , 1        , 1            , 'unit', 'other', 1       },
+}
+
+local function merge_slk(t, fix)
+    for k, v in pairs(fix) do
+        if k ~= 1 then
+            t[k] = {}
+            for i, key in ipairs(fix[1]) do
+                if i ~= 1 then
+                    t[k][key] = v[i-1]
+                end
+            end
+        end
+    end
 end
 
 local function build_slk()
@@ -97,14 +109,7 @@ local function build_slk()
 	local slk = w2l:frontend_slk(function(name)
 		if name == 'units\\abilitybuffdata.slk' then
 			function hook(t)
-				insert_buff(t, 'Bdbl', 'hero', 'human') 
-				insert_buff(t, 'Bdbm', 'hero', 'human')
-				insert_buff(t, 'BHtb', 'unit', 'other')
-				insert_buff(t, 'Bsta', 'unit', 'orc')
-				insert_buff(t, 'Bdbb', 'hero', 'human')
-				insert_buff(t, 'BIpb', 'item', 'other')
-				insert_buff(t, 'BIpd', 'item', 'other')
-				insert_buff(t, 'Btlf', 'unit', 'other')
+                merge_slk(t, abilitybuffdata)
 			end
 		end
 		return ar1:get(name) or ar2:get(name)
