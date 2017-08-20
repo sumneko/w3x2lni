@@ -9,6 +9,7 @@ local w2l  = require 'w3x2lni'
 local uni      = require 'ffi.unicode'
 local stormlib = require 'ffi.stormlib'
 local sleep = require 'ffi.sleep'
+local prebuilt = require 'prebuilt.prebuilt'
 
 w2l:initialize()
 
@@ -132,6 +133,10 @@ local function main()
 
     extract_mpq(mpqs)
     report_fail()
+
+    prebuilt:set_config()
+    prebuilt:dofile('custom', 'Melee')
+    prebuilt:dofile('custom', 'Custom', 'template')
 
     message('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
 end

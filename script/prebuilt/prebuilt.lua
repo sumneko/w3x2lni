@@ -189,7 +189,9 @@ local function build_slk()
 	return slk
 end
 
-local function set_config()
+local mt = {}
+
+function mt:set_config()
     local config = w2l.config
     -- 转换后的目标格式(lni, obj, slk)
     config.target_format = 'lni'
@@ -210,8 +212,6 @@ local function set_config()
     -- 转换为地图还是目录(mpq, dir)
     config.target_storage = 'dir'
 end
-
-local mt = {}
 
 function mt:dofile(mpq, version, template)
     message('==================')
@@ -242,7 +242,7 @@ function mt:dofile(mpq, version, template)
 end
 
 function mt:complete()
-    set_config()
+    self:set_config()
 
     fs.create_directories(w2l.template)
     fs.create_directories(w2l.defined)
