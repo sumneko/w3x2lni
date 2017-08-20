@@ -165,10 +165,10 @@ end
 function mt:update()
     if self.config.version == 'Melee' then
         self.agent = self.mpq
-        self.default = self.mpq / 'Melee'
+        self.default = self.mpq / 'prebuilt' / 'Melee'
     else
         self.agent = self.mpq / 'Custom_V1'
-        self.default = self.mpq / 'Custom'
+        self.default = self.mpq / 'prebuilt' / 'Custom'
     end
 end
 
