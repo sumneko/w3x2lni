@@ -16,6 +16,7 @@ local prebuilt_search = require 'prebuilt.prebuilt_search'
 local prebuilt_miscnames = require 'prebuilt.prebuilt_miscnames'
 local w3xparser = require 'w3xparser'
 local slk = w3xparser.slk
+local txt = w3xparser.txt
 
 w2l:initialize()
 
@@ -93,6 +94,63 @@ local function merge_slk(t, fix)
     end
 end
 
+local miscdata = {
+    ['Misc'] = {
+        ['GoldTextHeight']             = {0.024},
+        ['GoldTextVelocity']           = {0, 0.03},
+        ['LumberTextHeight']           = {0.024},
+        ['LumberTextVelocity']         = {0, 0.03},
+        ['BountyTextHeight']           = {0.024},
+        ['BountyTextVelocity']         = {0, 0.03},
+        ['MissTextHeight']             = {0.024},
+        ['MissTextVelocity']           = {0, 0.03},
+        ['CriticalStrikeTextHeight']   = {0.024},
+        ['CriticalStrikeTextVelocity'] = {0, 0.04},
+        ['ShadowStrikeTextHeight']     = {0.024},
+        ['ShadowStrikeTextVelocity']   = {0, 0.04},
+        ['ManaBurnTextHeight']         = {0.024},
+        ['ManaBurnTextVelocity']       = {0, 0.04},
+        ['BashTextVelocity']           = {0, 0.04},
+    },
+    ['Terrain'] = {
+        ['MaxSlope']                   = {90},
+        ['MaxHeight']                  = {1920},
+        ['MinHeight']                  = {-1920},
+    },
+    ['FontHeights'] = {
+        ['ToolTipName']                = {0.011},
+        ['ToolTipDesc']                = {0.011},
+        ['ToolTipCost']                = {0.011},
+        ['ChatEditBar']                = {0.013},
+        ['CommandButtonNumber']        = {0.009},
+        ['WorldFrameMessage']          = {0.015},
+        ['WorldFrameTopMessage']       = {0.024},
+        ['WorldFrameUnitMessage']      = {0.015},
+        ['WorldFrameChatMessage']      = {0.013},
+        ['Inventory']                  = {0.011},
+        ['LeaderBoard']                = {0.007},
+        ['PortraitStats']              = {0.011},
+        ['UnitTipPlayerName']          = {0.011},
+        ['UnitTipDesc']                = {0.011},
+        ['ScoreScreenNormal']          = {0.011},
+        ['ScoreScreenLarge']           = {0.011},
+        ['ScoreScreenTeam']            = {0.009},
+    },
+}
+
+local function merge_txt(t, fix)
+    for name, data in pairs(fix) do
+        name = name:lower()
+        if not t[name] then
+            t[name] = {}
+        end
+        for k, v in pairs(data) do
+            k = k:lower()
+            t[name][k] = v
+        end
+    end
+end
+
 local function build_slk()
 	local hook
 	function w2l:parse_slk(buf)
@@ -107,14 +165,27 @@ local function build_slk()
 	local ar1 = archive(w2l.agent)
     local ar2 = archive(w2l.mpq)
 	local slk = w2l:frontend_slk(function(name)
-		if name == 'units\\abilitybuffdata.slk' then
+		if name:lower() == 'units\\abilitybuffdata.slk' then
 			function hook(t)
                 merge_slk(t, abilitybuffdata)
 			end
 		end
 		return ar1:get(name) or ar2:get(name)
 	end)
-	w2l:frontend_misc(ar1:get('war3mapmisc.txt') or ar2:get('war3mapmisc.txt'), slk)
+
+	local hook
+	function w2l:parse_txt(buf, name, ...)
+        local r = txt(buf, name, ...)
+        if name:lower() == 'ui\\miscdata.txt' then
+            merge_txt(r, miscdata)
+        end
+        return r
+	end
+    local archive = {}
+    function archive:get(name)
+		return ar1:get(name) or ar2:get(name)
+    end
+	w2l:frontend_misc(archive, slk)
 	return slk
 end
 

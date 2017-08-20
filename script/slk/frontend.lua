@@ -215,5 +215,5 @@ return function(w2l, archive, slk)
     progress:start(1)
     update_then_merge(w2l, slks, objs, lnis, slk)
     progress:finish()
-    w2l:frontend_misc(archive:get('war3mapmisc.txt'), slk)
+    w2l:frontend_misc(archive, slk)
 end
