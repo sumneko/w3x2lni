@@ -38,6 +38,7 @@ local mpq_names = {
     'War3.mpq',
     'War3x.mpq',
     'War3xLocal.mpq',
+    'War3Patch.mpq',
 }
 
 local function open_mpq(dir)
@@ -56,12 +57,12 @@ end
 
 local result = {} 
 
-local function extract_file(mpq, name, dir)
-    if not dir then
-        dir = w2l.custom
-    end
-    local path = dir / name
+local function extract_file(mpq, name)
+    local path = w2l.custom / name
     if fs.exists(path) then
+        return
+    end
+    if not mpq:has_file(name) then
         return
     end
     fs.create_directories(path:parent_path())
@@ -83,46 +84,27 @@ local function report_fail()
 end
 
 local function extract_mpq(mpqs)
-    for i = 3, 1, -1 do
+    for i = 4, 1, -1 do
         local mpq = mpqs[i]
-        extract_file(mpq, 'Scripts\\Common.j')
-        extract_file(mpq, 'Scripts\\Blizzard.j')
-        
-        extract_file(mpq, 'UI\\MiscData.txt')
-        extract_file(mpq, 'UI\\UnitEditorData.txt')
-        extract_file(mpq, 'UI\\WorldEditStrings.txt')
+        for _, root in ipairs {'', 'Custom_V1\\'} do
+            extract_file(mpq, root .. 'Scripts\\Common.j')
+            extract_file(mpq, root .. 'Scripts\\Blizzard.j')
+            
+            extract_file(mpq, root .. 'UI\\MiscData.txt')
+            extract_file(mpq, root .. 'UI\\UnitEditorData.txt')
+            extract_file(mpq, root .. 'UI\\WorldEditStrings.txt')
 
-        extract_file(mpq, 'Doodads\\Doodads.slk')
+            extract_file(mpq, root .. 'units\\MiscGame.txt')
+            extract_file(mpq, root .. 'units\\MiscData.txt')
 
-        extract_file(mpq, 'units\\MiscGame.txt')
-        extract_file(mpq, 'units\\MiscData.txt')
-        if i == 1 then
-            extract_file(mpq, 'units\\MiscGame.txt', w2l.custom / 'Custom_V1')
-            extract_file(mpq, 'units\\MiscData.txt', w2l.custom / 'Custom_V1')
-        else
-            extract_file(mpq, 'Custom_V1\\units\\MiscGame.txt')
-            extract_file(mpq, 'Custom_V1\\units\\MiscData.txt')
-        end
-
-        for type, slks in pairs(w2l.info.slk) do
-            if type ~= 'doodad' then
+            for type, slks in pairs(w2l.info.slk) do
                 for _, name in ipairs(slks) do
-                    extract_file(mpq, name)
-                    if i == 1 then
-                        extract_file(mpq, name, w2l.custom / 'Custom_V1')
-                    else
-                        extract_file(mpq, 'Custom_V1\\' .. name)
-                    end
+                    extract_file(mpq, root .. name)
                 end
             end
-        end
 
-        for _, name in ipairs(w2l.info.txt) do
-            extract_file(mpq, name)
-            if i == 1 then
-                extract_file(mpq, name, w2l.custom / 'Custom_V1')
-            else
-                extract_file(mpq, 'Custom_V1\\' .. name)
+            for _, name in ipairs(w2l.info.txt) do
+                extract_file(mpq, root .. name)
             end
         end
     end
@@ -131,7 +113,7 @@ end
 local function main()
     if not arg[1] then
         message('没有指定目录')
-        arg[1] = uni.u2a 'D:\\魔兽争霸III正版镜像'
+        arg[1] = uni.u2a 'D:\\魔兽争霸III正版镜像-1.28.5'
         --return
     end
 
