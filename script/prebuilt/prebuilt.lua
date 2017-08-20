@@ -32,7 +32,7 @@ function message(...)
 end
 
 local function prebuilt_codemapped(w2l)
-    local template = w2l:parse_slk(io.load(w2l.agent / w2l.info.slk.ability[1]))
+    local template = w2l:parse_slk(io.load(w2l.agent / w2l.info.slk.ability[1]) or io.load(w2l.mpq / w2l.info.slk.ability[1]))
     local t = {}
     for id, d in pairs(template) do
         t[id] = d.code
@@ -47,7 +47,7 @@ local function prebuilt_codemapped(w2l)
 end
 
 local function prebuilt_typedefine(w2l)
-    local uniteditordata = w2l:parse_txt(io.load(w2l.mpq / 'ui' / 'uniteditordata.txt'))
+    local uniteditordata = w2l:parse_txt(io.load(w2l.meta / 'uniteditordata.txt'))
     local f = {}
     f[#f+1] = ('%s = %s'):format('int', 0)
     f[#f+1] = ('%s = %s'):format('bool', 0)
@@ -92,7 +92,8 @@ local function build_slk()
 		end
 		return slk(buf)
 	end
-	local ar = archive(w2l.agent)
+	local ar1 = archive(w2l.agent)
+    local ar2 = archive(w2l.mpq)
 	local slk = w2l:frontend_slk(function(name)
 		if name == 'units\\abilitybuffdata.slk' then
 			function hook(t)
@@ -106,12 +107,9 @@ local function build_slk()
 				insert_buff(t, 'Btlf', 'unit', 'other')
 			end
 		end
-        if name == 'doodads\\doodads.slk' then
-            return archive(w2l.mpq):get(name)
-        end
-		return ar:get(name)
+		return ar1:get(name) or ar2:get(name)
 	end)
-	w2l:frontend_misc(ar, slk)
+	w2l:frontend_misc(ar1:get('war3mapmisc.txt') or ar2:get('war3mapmisc.txt'), slk)
 	return slk
 end
 
