@@ -147,7 +147,7 @@ function mt:initialize(root)
     self.root = root or get_exepath()
     self.template = self.root / 'template'
     self.prebuilt = self.root / 'script' / 'prebuilt'
-    self.meta = self.root / 'script' / 'metadata'
+    self.meta = self.root / 'script' / 'meta'
     self.defined = self.meta / 'defined'
     self.mpq = self.root / 'data' / 'default'
     self.custom = self.root / 'data' / 'custom'
