@@ -1,7 +1,4 @@
-(function()
-    local exepath = package.cpath:sub(1, (package.cpath:find(';') or 0)-6)
-    package.path = package.path .. ';' .. exepath .. '..\\script\\?.lua'
-end)()
+
 
 require 'filesystem'
 require 'utility'

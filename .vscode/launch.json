@@ -20,7 +20,7 @@
             "name": "预生成",
             "type": "lua",
             "request": "launch",
-            "program": "${workspaceRoot}/script/prebuilt/prebuilt.lua",
+            "program": "${workspaceRoot}/script/prebuilt/init.lua",
             "stopOnEntry": false,
             "cwd": "${workspaceRoot}/bin",
             "path": "",

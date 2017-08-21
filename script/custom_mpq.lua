@@ -59,7 +59,7 @@ end
 local result = {} 
 
 local function extract_file(mpq, name)
-    local path = w2l.custom / name
+    local path = w2l.mpq / name
     if fs.exists(path) then
         return
     end
@@ -110,9 +110,10 @@ local function extract_mpq(mpqs)
 end
 
 local function main()
-    if not arg[1] then
+    if #arg == 0 then
         message('没有指定目录')
         arg[1] = uni.u2a 'D:\\魔兽争霸III正版镜像-1.28.5'
+        arg[2] = uni.u2a 'custom'
         --return
     end
 
@@ -125,18 +126,20 @@ local function main()
     if not mpqs then
         return
     end
+    prebuilt:set_config()
+    w2l.config.mpq = arg[2]
+    w2l:update()
 
-    if fs.exists(w2l.custom) then
-        task(fs.remove_all, w2l.custom)
+    if fs.exists(w2l.mpq) then
+        task(fs.remove_all, w2l.mpq)
     end
-    task(fs.create_directories, w2l.custom)
+    task(fs.create_directories, w2l.mpq)
 
     extract_mpq(mpqs)
     report_fail()
 
-    prebuilt:set_config()
-    prebuilt:dofile('custom', 'Melee')
-    prebuilt:dofile('custom', 'Custom')
+    prebuilt:dofile(arg[2], 'Melee')
+    prebuilt:dofile(arg[2], 'Custom')
 
     message('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
 end
