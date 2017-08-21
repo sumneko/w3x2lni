@@ -3,6 +3,5 @@
 !/bin/
 !/.vscode/
 !/template/
-!/data/
+!/data/default/
 *.w3x
-data/custom/
