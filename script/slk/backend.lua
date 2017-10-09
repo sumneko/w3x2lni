@@ -200,8 +200,8 @@ local function to_slk(w2l, archive, slk)
     for _, type in ipairs(slk_list) do
         local data = slk[type]
         object[type] = {}
-        for _, slk in ipairs(w2l.info.slk[type]) do
-            archive:set(slk, w2l:backend_slk(type, slk, data, report, object[type]))
+        for _, name in ipairs(w2l.info.slk[type]) do
+            archive:set(name, w2l:backend_slk(type, name, data, report, object[type], slk))
         end
     end
 
