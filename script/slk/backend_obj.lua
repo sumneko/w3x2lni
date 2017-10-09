@@ -154,8 +154,8 @@ local function write_object(chunk, name, obj)
         end
     end
     
-    local parent = obj._parent
-    if name == parent or obj._slk then
+    local parent = obj._slk_id or obj._parent
+    if (name == parent or obj._slk) and not obj._slk_id then
         write('c4', name)
         write('c4', '\0\0\0\0')
     else
@@ -199,6 +199,9 @@ local function is_enable_obj(obj, remove_unuse_object)
     if not obj._slk and obj._id ~= obj._parent then
         return true
     end
+    if obj._slk_id then
+        return true
+    end
     for key, value in pairs(obj) do
         if key:sub(1, 1) ~= '_' then
             if type(value) == 'table' then
@@ -218,8 +221,8 @@ local function sort_chunk(chunk, remove_unuse_object)
     local user = {}
     for name, obj in pairs(chunk) do
         if is_enable_obj(obj, remove_unuse_object) then
-            local parent = obj._parent
-            if name == parent or obj._slk then
+            local parent = obj._slk_id or obj._parent
+            if (name == parent or obj._slk) and not obj._slk_id then
                 origin[#origin+1] = name
             else
                 user[#user+1] = name

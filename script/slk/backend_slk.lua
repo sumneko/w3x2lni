@@ -26,6 +26,8 @@ local remove_unuse_object
 local slk_type
 local object
 local default
+local all_slk
+local used
 
 local displaytype = {
     unit = '单位',
@@ -99,6 +101,48 @@ local slk_keys = {
         'doodID','file','Name','doodClass','soundLoop','selSize','defScale','minScale','maxScale','maxPitch','maxRoll','visRadius','walkable','numVar','floats','shadow','showInFog','animInFog','fixedRot','pathTex','showInMM','useMMColor','MMRed','MMGreen','MMBlue','vertR01','vertG01','vertB01','vertR02','vertG02','vertB02','vertR03','vertG03','vertB03','vertR04','vertG04','vertB04','vertR05','vertG05','vertB05','vertR06','vertG06','vertB06','vertR07','vertG07','vertB07','vertR08','vertG08','vertB08','vertR09','vertG09','vertB09','vertR10','vertG10','vertB10',
     },
 }
+
+local index = {1, 1, 1, 1}
+local strs1 = {}
+for c in ('!@#$%^&*()-_=+\\|/?>.<,`~'):gmatch '.' do
+    strs1[#strs1+1] = c
+end
+local strs2 = {}
+for c in ('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'):gmatch '.' do
+    strs2[#strs2+1] = c
+end
+local function find_unused_id()
+    if not used then
+        used = {}
+        for _, data in pairs(all_slk) do
+            for id in pairs(data) do
+                used[id] = true
+            end
+        end
+    end
+    while true do
+        local id = strs1[index[1]] .. strs2[index[2]] .. strs2[index[3]] .. strs2[index[4]]
+        if not used[id] then
+            used[id] = true
+            return id
+        end
+        for i = 4, 1, -1 do
+            if i > 1 then
+                index[i] = index[i] + 1
+                if index[i] > #strs2 then
+                    index[i] = 1
+                else
+                    break
+                end
+            else
+                index[i] = index[i] + 1
+                if index[i] > #strs1 then
+                    return nil
+                end
+            end
+        end
+    end
+end
 
 local function add_end()
     lines[#lines+1] = 'E'
@@ -298,8 +342,16 @@ local function load_obj(id, obj, slk_name)
         obj_data._mark   = obj._mark
         obj_data._parent = obj._parent
     end
+    if not is_usable_string(obj._id) then
+        obj._slk_id = find_unused_id()
+        obj_data._slk_id = obj._slk_id
+        report_failed(obj, 'id', '对象ID可以被转换为数字', '')
+        if not obj._slk_id then
+            return nil
+        end
+    end
     local slk_data = {}
-    slk_data[slk_keys[slk_name][1]] = id
+    slk_data[slk_keys[slk_name][1]] = obj._slk_id or obj._id
     slk_data['code'] = obj._code
     slk_data['name'] = obj._name
     obj._slk = true
@@ -321,11 +373,12 @@ local function load_chunk(chunk, slk_name)
     end
 end
 
-return function(w2l_, type, slk_name, chunk, report_, obj)
+return function(w2l_, type, slk_name, chunk, report_, obj, slk_)
     slk = {}
     w2l = w2l_
     report = report_
     object = obj
+    all_slk = slk_
     cx = nil
     cy = nil
     remove_unuse_object = w2l.config.remove_unuse_object

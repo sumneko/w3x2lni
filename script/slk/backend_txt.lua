@@ -176,7 +176,7 @@ local function stringify_obj(str, obj)
         return a[1]:lower() < b[1]:lower()
     end)
     local empty = true
-    str[#str+1] = ('[%s]'):format(obj._id)
+    str[#str+1] = ('[%s]'):format(obj._slk_id or obj._id)
     for _, kv in ipairs(keyval) do
         local key, val = kv[1], kv[2]
         if val ~= '' then
@@ -275,6 +275,7 @@ local function prebuild_obj(name, obj)
     end
     if next(r) then
         r._id = obj._id
+        r._slk_id = obj._slk_id
         return r
     end
 end
