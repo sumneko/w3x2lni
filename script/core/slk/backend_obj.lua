@@ -57,8 +57,8 @@ local function format_value(value)
 end
 
 local function report(reason, obj, key, tip)
-    message('-report|6%s', ('%s %s %s'):format(reason, displaytype[ttype], get_displayname(obj)))
-    message('-tip', ('[%s]: %s'):format(key, format_value(tip)))
+    print('-report|6%s', ('%s %s %s'):format(reason, displaytype[ttype], get_displayname(obj)))
+    print('-tip', ('[%s]: %s'):format(key, format_value(tip)))
 end
 
 local function write(format, ...)
@@ -117,7 +117,7 @@ end
 
 local function write_object(chunk, name, obj)
     if #name ~= 4 then
-        message('-report|6无效的物编对象', ('[%s] %s'):format(name, '对象ID不合法'))
+        print('-report|6无效的物编对象', ('[%s] %s'):format(name, '对象ID不合法'))
         return
     end
     local keys = {}
@@ -183,7 +183,7 @@ local function write_chunk(names, data, n, max)
         if os_clock() - clock > 0.1 then
             clock = os_clock()
             progress((i+n) / max)
-            message(('正在转换%s: [%s] (%d/%d)'):format(ttype, data[name]._id, i+n, max))
+            print(('正在转换%s: [%s] (%d/%d)'):format(ttype, data[name]._id, i+n, max))
         end
     end
 end

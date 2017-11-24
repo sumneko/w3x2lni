@@ -5,7 +5,7 @@ local type = type
 
 local function load_slk(w2l, archive, force_slk)
     if force_slk then
-        message('-report|9其他', '物编信息不完整,强制读取slk文件')
+        print('-report|9其他', '物编信息不完整,强制读取slk文件')
     end
     if force_slk or w2l.config.read_slk then
         return w2l:frontend_slk(function(name)
@@ -30,7 +30,7 @@ local function load_obj(w2l, archive, wts)
         local force
         local count = count + 1
         if buf then
-            message('正在转换', name)
+            print('正在转换', name)
             objs[type], force = w2l:frontend_obj(type, buf, wts)
             progress(count / 7)
             if force then
@@ -52,7 +52,7 @@ local function load_lni(w2l, archive)
         count = count + 1
         local buf = archive:get(name)
         if buf then
-            message('正在转换', name)
+            print('正在转换', name)
             lnis[type] = w2l:frontend_lni(type, buf)
             progress(count / 7)
             archive:set(name, false)
@@ -170,8 +170,8 @@ local function update_then_merge(w2l, slks, objs, lnis, slk)
                     break
                 end
                 local displayname = get_displayname(slk[type][data[1]])
-                message('-report|6无效的物编数据', ('%s %s %s'):format(displaytype[type], data[1], displayname))
-                message('-tip', ('[%s]: %s'):format(data[2], data[3]))
+                print('-report|6无效的物编数据', ('%s %s %s'):format(displaytype[type], data[1], displayname))
+                print('-tip', ('[%s]: %s'):format(data[2], data[3]))
             end
         end
         if report2 then
@@ -179,9 +179,9 @@ local function update_then_merge(w2l, slks, objs, lnis, slk)
                 if not report2[i] then
                     break
                 end
-                message('-report|6无效的物编数据', report2[i][1])
+                print('-report|6无效的物编数据', report2[i][1])
                 if report2[i][2] then
-                    message('-tip', report2[i][2])
+                    print('-tip', report2[i][2])
                 end
             end
         end
@@ -196,22 +196,22 @@ return function(w2l, archive, slk)
     slk.w3i = load_w3i(w2l, archive, slk)
     update_version(w2l, slk.w3i)
 
-    message('读取obj...')
+    print('读取obj...')
     progress:start(0.4)
     local objs, force_slk1 = load_obj(w2l, archive, slk.wts)
     progress:finish()
 
-    message('读取lni...')
+    print('读取lni...')
     progress:start(0.6)
     local lnis, force_slk2 = load_lni(w2l, archive)
     progress:finish()
 
-    message('读取slk...')
+    print('读取slk...')
     progress:start(0.8)
     local slks = load_slk(w2l, archive, force_slk1 or force_slk2)
     progress:finish()
     
-    message('合并物编数据...')
+    print('合并物编数据...')
     progress:start(1)
     update_then_merge(w2l, slks, objs, lnis, slk)
     progress:finish()

@@ -51,9 +51,9 @@ function mt:save(w3i, encrypt)
                 clock = os_clock()
                 progress(count / self.write_count)
                 if self:get_type() == 'mpq' then
-                    message(('正在打包文件... (%d/%d)'):format(count, self.write_count))
+                    print(('正在打包文件... (%d/%d)'):format(count, self.write_count))
                 else
-                    message(('正在导出文件... (%d/%d)'):format(count, self.write_count))
+                    print(('正在导出文件... (%d/%d)'):format(count, self.write_count))
                 end
             end
         end
@@ -133,7 +133,7 @@ return function (pathorhandle, tp)
             ar._type = 'mpq'
         end
         if not ar.handle then
-            message('地图打开失败')
+            print('地图打开失败')
             return nil
         end
     else

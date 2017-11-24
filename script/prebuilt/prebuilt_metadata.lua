@@ -217,7 +217,7 @@ local function parse_id(w2l, metadata, id, meta, type, has_level)
                 metadata[code] = {}
             end
             if metadata[code][lkey] and metadata[code][lkey].id ~= data.id then
-                message('ID不同:', 'skill', name, 'code', code)
+                print('ID不同:', 'skill', name, 'code', code)
             end
             metadata[code][lkey] = data
         end
@@ -283,7 +283,7 @@ local function copy_code(t, template)
                     local dest = t[code][k]
                     if dest then
                         if v.id ~= dest.id then
-                            message('id不同:', k, 'skill:', name, v.id, 'code:', code, dest.id)
+                            print('id不同:', k, 'skill:', name, v.id, 'code:', code, dest.id)
                         end
                     else
                         t[code][k] = v

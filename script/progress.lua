@@ -12,7 +12,7 @@ local progress = 0
 local function send_progress()
     local newprogress = current * (max_rate - min_rate) + min_rate
     if progress + 0.01 < newprogress then
-        message('-progress', newprogress)
+        print('-progress', newprogress)
         progress = newprogress
     end
 end

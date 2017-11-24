@@ -92,9 +92,9 @@ local function format_marktip(slk, marktip)
 end
 
 local function report_object(slk, type, o)
-    message('-report|4简化', displaytype[type], get_displayname(o))
+    print('-report|4简化', displaytype[type], get_displayname(o))
     if o._mark then
-        message('-tip', format_marktip(slk, o._mark))
+        print('-tip', format_marktip(slk, o._mark))
     end
 end
 
@@ -166,10 +166,10 @@ local function remove_unuse(w2l, slk)
     end
 
     if unuse_origin + unuse_custom > 0 then
-        message('-report|4简化', ('简化掉的对象数: %d/%d'):format(unuse_origin + unuse_custom, total_origin + total_custom))
+        print('-report|4简化', ('简化掉的对象数: %d/%d'):format(unuse_origin + unuse_custom, total_origin + total_custom))
     end
     if total_origin - unuse_origin > 0 then
-        message('-report|4简化', ('保留的默认对象数: %d/%d'):format(total_origin - unuse_origin, total_origin))
+        print('-report|4简化', ('保留的默认对象数: %d/%d'):format(total_origin - unuse_origin, total_origin))
         report_list(slk, origin_list, 'unit', 10)
         report_list(slk, origin_list, 'ability', 10)
         report_list(slk, origin_list, 'item', 10)
@@ -179,7 +179,7 @@ local function remove_unuse(w2l, slk)
         report_list(slk, origin_list, 'doodad', 3)
     end
     if unuse_custom > 0 then
-        message('-report|4简化', ('简化掉的自定义对象数: %d/%d'):format(unuse_custom, total_custom))
+        print('-report|4简化', ('简化掉的自定义对象数: %d/%d'):format(unuse_custom, total_custom))
         report_list(slk, custom_list, 'unit', 10)
         report_list(slk, custom_list, 'ability', 10)
         report_list(slk, custom_list, 'item', 10)
@@ -228,15 +228,15 @@ local function to_slk(w2l, archive, slk)
 
     if report.n > 0 then
         local index = 1
-        message('-report|3没有SLK化的数据', ('合计: %d'):format(report.n))
+        print('-report|3没有SLK化的数据', ('合计: %d'):format(report.n))
         for tip, list in pairs(report) do
             if #tip > 1 then
                 local n = 0
-                message('-report|3没有SLK化的数据', ('%d.%s'):format(index, tip))
+                print('-report|3没有SLK化的数据', ('%d.%s'):format(index, tip))
                 index = index + 1
                 for _, msg in pairs(list) do
-                    message('-report|3没有SLK化的数据', msg[1])
-                    message('-tip', msg[2])
+                    print('-report|3没有SLK化的数据', msg[1])
+                    print('-tip', msg[2])
                     n = n + 1
                     if n > 20 then
                         break
@@ -259,24 +259,24 @@ return function (w2l, archive, slk)
     progress(0.1)
 
     progress:start(0.1)
-    message('清理数据...')
+    print('清理数据...')
     w2l:backend_searchparent(slk)
     progress:finish()
 
     if w2l.config.remove_unuse_object then
-        message('标记简化对象...')
+        print('标记简化对象...')
         w2l:backend_mark(archive, slk)
         progress(0.2)
     end
 
     if w2l.config.target_format == 'slk' then
-        message('计算描述中的公式...')
+        print('计算描述中的公式...')
         w2l:backend_computed(slk)
         progress(0.3)
     end
 
     if w2l.config.remove_unuse_object then
-        message('移除简化对象...')
+        print('移除简化对象...')
         progress:start(0.5)
         remove_unuse(w2l, slk)
         progress:finish()
@@ -287,7 +287,7 @@ return function (w2l, archive, slk)
     progress:finish()
     
     progress:start(0.9)
-    message('转换物编文件...')
+    print('转换物编文件...')
     if w2l.config.target_format == 'lni' then
         to_lni(w2l, archive, slk)
     elseif w2l.config.target_format == 'obj' then
@@ -297,14 +297,14 @@ return function (w2l, archive, slk)
     end
     progress:finish()
 
-    message('转换脚本...')
+    print('转换脚本...')
     w2l:backend_convertjass(archive, slk.wts)
     if not w2l.config.remove_we_only then
         w2l:backend_convertwtg(archive, slk.wts)
     end
     progress(0.92)
 
-    message('转换其他文件...')
+    print('转换其他文件...')
     archive:set('war3mapmisc.txt', w2l:backend_misc(slk.misc, slk.txt, slk.wts))
     progress(0.93)
 
@@ -323,7 +323,7 @@ return function (w2l, archive, slk)
         end
     end
 
-    message('重新生成字符串...')
+    print('重新生成字符串...')
     local content = w2l:refresh_wts(slk.wts)
     if #content > 0 then
         archive:set('war3map.wts', content)
@@ -333,7 +333,7 @@ return function (w2l, archive, slk)
     progress(0.95)
 
     if w2l.config.optimize_jass then
-        message('优化脚本...')
+        print('优化脚本...')
         w2l:backend_optimizejass(archive)
     end
     progress(1)

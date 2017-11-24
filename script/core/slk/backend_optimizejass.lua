@@ -11,13 +11,13 @@ local function create_report(report, title, type, max)
         fix = math.random(0, #msgs - max)
     end
     if title then
-        message('-report|8脚本优化', ('%d.%s    总计：%d'):format(title, type, #msgs))
+        print('-report|8脚本优化', ('%d.%s    总计：%d'):format(title, type, #msgs))
     end
     for i = 1, max do
         local msg = msgs[i+fix]
         if msg then
-            message('-report|8脚本优化', msg[1])
-            message('-tip', msg[2])
+            print('-report|8脚本优化', msg[1])
+            print('-tip', msg[2])
         end
     end
 end

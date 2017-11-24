@@ -79,8 +79,8 @@ local function computed_value(slk, str, name, field)
            or slk.item[id]
            or slk.upgrade[id]
     if not o then
-        message('-report|5公式计算失败', get_displayname_by_id(slk, name))
-        message('-tip', ('%s: <%s>'):format(field, str))
+        print('-report|5公式计算失败', get_displayname_by_id(slk, name))
+        print('-tip', ('%s: <%s>'):format(field, str))
         return
     end
     key = key:lower()
@@ -110,8 +110,8 @@ local function computed_value(slk, str, name, field)
         end
         return math.floor(res)
     end
-    message('-report|5公式计算失败', get_displayname_by_id(slk, id))
-    message('-tip', ('%s: <%s>'):format(field, str))
+    print('-report|5公式计算失败', get_displayname_by_id(slk, id))
+    print('-tip', ('%s: <%s>'):format(field, str))
     return res
 end
 

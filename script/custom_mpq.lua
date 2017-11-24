@@ -13,7 +13,8 @@ local prebuilt = require 'prebuilt.prebuilt'
 
 w2l:initialize()
 
-function message(...)
+local std_print = print
+function print(...)
     if select(1, ...) == '-progress' then
         return
     end
@@ -22,7 +23,7 @@ function message(...)
     for i = 1, count do
         tbl[i] = uni.u2a(tostring(tbl[i])):gsub('[\r\n]', ' ')
     end
-    print(table.concat(tbl, ' '))
+    std_print(table.concat(tbl, ' '))
 end
 
 local function task(f, ...)
@@ -48,7 +49,7 @@ local function open_mpq(dir)
     for i, name in ipairs(mpq_names) do
         mpqs[i] = stormlib.open(dir / name, true)
         if mpqs[i] == nil then
-            message('文件打开失败：', (dir / name):string())
+            print('文件打开失败：', (dir / name):string())
             return nil
         end
     end
@@ -80,7 +81,7 @@ local function report_fail()
     end
     table.sort(tbl)
     for _, name in ipairs(tbl) do
-        message('文件导出失败：', name)
+        print('文件导出失败：', name)
     end
 end
 
@@ -111,7 +112,7 @@ end
 
 local function main()
     if #arg == 0 then
-        message('没有指定目录')
+        print('没有指定目录')
         arg[1] = uni.u2a 'D:\\魔兽争霸III正版镜像-1.28.5'
         arg[2] = uni.u2a 'custom'
         --return
@@ -141,7 +142,7 @@ local function main()
     prebuilt:dofile(arg[2], 'Melee')
     prebuilt:dofile(arg[2], 'Custom')
 
-    message('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
+    print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
 end
 
 main()

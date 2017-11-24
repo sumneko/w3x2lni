@@ -12,18 +12,19 @@ local archive = require 'archive'
 local save_map = require 'save_map'
 w2l:initialize()
 
-function message(...)
+local std_print = print
+function print(...)
     local tbl = {...}
     local count = select('#', ...)
     for i = 1, count do
         tbl[i] = tostring(tbl[i]):gsub('[\r\n]', ' ')
     end
-    print(table.concat(tbl, ' '))
+    std_print(table.concat(tbl, ' '))
 end
 
 local input = fs.path(uni.a2u(arg[1]))
 
-message('正在打开地图...')
+print('正在打开地图...')
 local slk = {}
 local input_ar = archive(input)
 if not input_ar then
@@ -49,20 +50,20 @@ if not output_ar then
     return
 end
 
-message('正在读取物编...')
+print('正在读取物编...')
 progress:start(0.4)
 w2l:frontend(input_ar, slk)
 progress:finish()
 
-message('正在转换...')
+print('正在转换...')
 progress:start(0.8)
 w2l:backend(input_ar, slk)
 progress:finish()
 
-message('正在生成文件...')
+print('正在生成文件...')
 progress:start(1)
 save_map(w2l, output_ar, slk.w3i, input_ar)
 progress:finish()
 output_ar:close()
 input_ar:close()
-message('转换完毕,用时 ' .. os.clock() .. ' 秒') 
+print('转换完毕,用时 ' .. os.clock() .. ' 秒') 

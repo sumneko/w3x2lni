@@ -143,7 +143,7 @@ local function create_search(w2l, type, search)
                     local key = get_key2(w2l, type, code, id)
                     local type = enable_type[meta.type]
                     if search[code][key] and search[code][key] ~= type then
-                        message('类型不同:', 'skill', name, 'code', code)
+                        print('类型不同:', 'skill', name, 'code', code)
                     end
                     search[code][key] = type
                 end
@@ -158,7 +158,7 @@ local function create_search(w2l, type, search)
 end
 
 return function(w2l)
-    message('正在生成search')
+    print('正在生成search')
     local search = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
         create_search(w2l, type, search)

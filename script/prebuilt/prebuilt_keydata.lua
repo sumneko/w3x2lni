@@ -91,7 +91,7 @@ local function stringify(f, name, t)
 end
 
 return function(w2l)
-    message('正在生成keydata')
+    print('正在生成keydata')
     local keydata = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
         create_keydata(w2l, type, keydata)

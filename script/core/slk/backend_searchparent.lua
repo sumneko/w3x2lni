@@ -140,7 +140,7 @@ local function processing(w2l, type, chunk)
         parse_obj(name, chunk[name], default, config, type)
         if os_clock() - clock >= 0.1 then
             clock = os_clock()
-            message(('搜索最优模板[%s] (%d/%d)'):format(chunk[name]._id, i, #names))
+            print(('搜索最优模板[%s] (%d/%d)'):format(chunk[name]._id, i, #names))
             progress(i / #names)
         end
     end

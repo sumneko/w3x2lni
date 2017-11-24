@@ -13,7 +13,7 @@ local function read_triggerdata(self, file_name_in)
 
     local content    = io.load(file_name_in)
     if not content then
-        message('文件无效:' .. file_name_in:string())
+        print('文件无效:' .. file_name_in:string())
         return
     end
 

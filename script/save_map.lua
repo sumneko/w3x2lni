@@ -45,9 +45,9 @@ local function search_mpq(map)
         end
     end
 
-    message('-report|1严重错误', ('还有%d个文件没有读取'):format(total - map.read_count))
-    message('-tip', '这些文件被丢弃了,请包含完整(listfile)')
-    message('-report|1严重错误', ('读取(%d/%d)个文件'):format(map.read_count, total))
+    print('-report|1严重错误', ('还有%d个文件没有读取'):format(total - map.read_count))
+    print('-tip', '这些文件被丢弃了,请包含完整(listfile)')
+    print('-report|1严重错误', ('读取(%d/%d)个文件'):format(map.read_count, total))
 end
 
 local function scan_dir(dir, callback)
@@ -138,6 +138,6 @@ return function (w2l, output_ar, w3i, input_ar)
     end
 
     if not output_ar:save(w3i, w2l.config.remove_we_only) then
-        message('创建新地图失败,可能文件被占用了')
+        print('创建新地图失败,可能文件被占用了')
     end
 end

@@ -50,7 +50,7 @@ local function stringify(f, name, t)
 end
 
 return function(w2l)
-    message('正在生成keydata')
+    print('正在生成keydata')
     local keydata = {}
     create_miscnames(w2l, keydata)
     local f = {}

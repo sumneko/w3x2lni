@@ -17,7 +17,8 @@ local txt = w3xparser.txt
 
 w2l:initialize()
 
-function message(...)
+local std_print = print
+function print(...)
     if select(1, ...) == '-progress' then
         return
     end
@@ -26,7 +27,7 @@ function message(...)
     for i = 1, count do
         tbl[i] = uni.u2a(tostring(tbl[i])):gsub('[\r\n]', ' ')
     end
-    print(table.concat(tbl, ' '))
+    std_print(table.concat(tbl, ' '))
 end
 
 local function prebuilt_codemapped(w2l)
@@ -211,9 +212,9 @@ function mt:set_config()
 end
 
 function mt:dofile(mpq, version, template)
-    message('==================')
-    message(('       %s      '):format(version))
-    message('==================')
+    print('==================')
+    print(('       %s      '):format(version))
+    print('==================')
 
     w2l.config.mpq     = mpq
     w2l.config.version = version
@@ -221,7 +222,7 @@ function mt:dofile(mpq, version, template)
     fs.create_directories(w2l.default)
 
 	local slk = build_slk()
-    message('正在生成default')
+    print('正在生成default')
     for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         local data = slk[ttype]
         io.save(w2l.default / (ttype .. '.ini'), default2lni(data))
@@ -229,7 +230,7 @@ function mt:dofile(mpq, version, template)
     io.save(w2l.default / 'txt.ini', default2lni(slk.txt))
     
     if template then
-        message('正在生成template')
+        print('正在生成template')
         for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
             local data = w2l:frontend_merge(ttype, slk[ttype], {})
             io.save(w2l.template / (ttype .. '.ini'), w2l:backend_lni(ttype, data))
@@ -259,7 +260,7 @@ function mt:complete()
     --local order_list = order_prebuilt(skill_data)
     --io.save(w2l.root / 'script' / 'order' / 'order_list.lua', order_list)
 
-    message('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
+    print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
 end
 
 return mt

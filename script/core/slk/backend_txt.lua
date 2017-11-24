@@ -285,8 +285,8 @@ local function prebuild_merge(obj, a, b)
     if a._type ~= b._type then
         local tp1, _, name1 = get_displayname(a)
         local tp2, _, name2 = get_displayname(b)
-        message('-report|2警告', ('对象的ID冲突[%s]'):format(obj._id))
-        message('-tip', ('[%s]%s --> [%s]%s'):format(tp1, name1, tp2, name2))
+        print('-report|2警告', ('对象的ID冲突[%s]'):format(obj._id))
+        print('-tip', ('[%s]%s --> [%s]%s'):format(tp1, name1, tp2, name2))
     end
     for k, v in pairs(b) do
         if k == '_id' or k == '_type' then

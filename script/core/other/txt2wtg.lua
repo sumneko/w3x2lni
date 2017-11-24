@@ -1,7 +1,7 @@
 local function txt2wtg(self, file_name_in, file_name_out)
     local content    = io.load(file_name_in)
     if not content then
-        message('文件无效:' .. file_name_in:string())
+        print('文件无效:' .. file_name_in:string())
         return
     end
 
@@ -61,7 +61,7 @@ local function txt2wtg(self, file_name_in, file_name_out)
                     var.value    = s:match '%=(.-)$'
                 end
 
-                --message(var.type, var.name, var.array_size, var.value)
+                --print(var.type, var.name, var.array_size, var.value)
                 goto continue
             end
 
@@ -77,7 +77,7 @@ local function txt2wtg(self, file_name_in, file_name_out)
                 table.insert(chunk.categories, category)
 
                 category.name, category.id, category.comment    = name, id, comment == '*' and 1 or 0
-                --message(name, id)
+                --print(name, id)
 
                 goto continue
             end
@@ -90,7 +90,7 @@ local function txt2wtg(self, file_name_in, file_name_out)
                 function readEca(is_arg, is_child)
                     local eca_args, value    = line:match '^[\t]*(.-)%:(.-)$'
 
-                    --message('line:' .. line)
+                    --print('line:' .. line)
                     if value then
                         local eca    = {}
 
@@ -120,13 +120,13 @@ local function txt2wtg(self, file_name_in, file_name_out)
                         eca.enable    = eca_args:match '[%*%#]'
 
                         --读取这个ECA下有多少参数
-                        --message(eca.type, eca.name)
+                        --print(eca.type, eca.name)
                         local state_args    = self.function_state
                         [eca.type]
                         [eca.name]
                         .args
                         local arg_count    = #state_args
-                        --message(arg_count)
+                        --print(arg_count)
                         eca.args    = {}
 
                         for i = 1, arg_count do
@@ -136,7 +136,7 @@ local function txt2wtg(self, file_name_in, file_name_out)
                         --读取这个ECA下有多少子项
                         if eca.child_eca_count then
                             eca.child_ecas    = {}
-                            --message(eca.name, eca.child_eca_count)
+                            --print(eca.name, eca.child_eca_count)
                             for i = 1, eca.child_eca_count do
                                 read()
                                 readEca(false, eca.child_ecas)
@@ -162,13 +162,13 @@ local function txt2wtg(self, file_name_in, file_name_out)
                         if arg.has_child == '*' then
                             --数组索引
                             arg.insert_index    = 1
-                            --message(has_child .. ':child_index:' .. arg.value)
+                            --print(has_child .. ':child_index:' .. arg.value)
                             arg.args    = {}
                             readArg(arg.args)
                         elseif arg.has_child == '#' then
                             --函数调用
                             arg.insert_call        = 1
-                            --message(has_child .. ':child_call:' .. arg.value)
+                            --print(has_child .. ':child_call:' .. arg.value)
 
                             --只有在函数调用时,参数中才会保存函数的名字
                             if arg.type ~= 3 then
