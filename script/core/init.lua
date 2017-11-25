@@ -147,7 +147,7 @@ end
 
 function mt:set_config(config)
     self.config = config
-    self.mpq = '..\\..\\data\\' .. self.config.mpq
+    self.mpq = 'data\\' .. self.config.mpq
     if self.config.version == 'Melee' then
         self.agent = self.mpq
         self.default = self.mpq .. '\\prebuilt\\Melee'
