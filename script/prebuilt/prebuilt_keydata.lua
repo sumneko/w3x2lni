@@ -56,7 +56,7 @@ local function is_enable(meta, type)
 end
 
 local function create_keydata(w2l, type, keydata)
-    local metadata = w2l:parse_slk(io.load(w2l.meta / w2l.info.metadata[type]))
+    local metadata = w2l:parse_slk(io.load(w2l.root / w2l.meta / w2l.info.metadata[type]))
     metadata.Ytip = nil
     for id, meta in pairs(metadata) do
         if is_enable(meta, type) and not meta.useSpecific or meta.section then
@@ -105,5 +105,5 @@ return function(w2l)
     for k, v in sortpairs(keydata) do
         stringify(f, k, v)
     end
-    io.save(w2l.defined / 'keydata.ini', table.concat(f, '\r\n'))
+    io.save(w2l.root / w2l.defined / 'keydata.ini', table.concat(f, '\r\n'))
 end

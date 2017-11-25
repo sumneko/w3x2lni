@@ -15,8 +15,16 @@ function mt:initialize(root)
         return
     end
     self.initialized = true
-    self.root = root or get_exepath()
-    core:initialize(self.root)
+    if not root then
+        root = get_exepath()
+    end
+    self.root = root
+
+    local function loader(path)
+        return io.load(root / path)
+    end
+
+    core:initialize(loader)
 end
 
 return mt

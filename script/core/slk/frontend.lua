@@ -14,7 +14,7 @@ local function load_slk(w2l, archive, force_slk)
                 archive:set(name, false)
                 return buf
             end
-            return io.load(w2l.agent / name) or io.load(w2l.mpq / name)
+            return w2l.loader(w2l.agent .. '\\' .. name) or w2l.loader(w2l.mpq .. '\\' .. name)
         end)
     else
         return w2l:get_default(true)

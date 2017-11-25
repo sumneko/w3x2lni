@@ -132,9 +132,9 @@ local function main()
     w2l:update()
 
     if fs.exists(w2l.mpq) then
-        task(fs.remove_all, w2l.mpq)
+        task(fs.remove_all, w2l.root / w2l.mpq)
     end
-    task(fs.create_directories, w2l.mpq)
+    task(fs.create_directories, w2l.root / w2l.mpq)
 
     extract_mpq(mpqs)
     report_fail()

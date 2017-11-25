@@ -108,7 +108,7 @@ return function (w2l_, archieve, slk)
     local miscnames = w2l:miscnames()
     local misc = {}
     for _, name in ipairs {"UI\\MiscData.txt", "Units\\MiscData.txt", "Units\\MiscGame.txt"} do
-        local buf = io.load(w2l.agent / name) or io.load(w2l.mpq / name)
+        local buf = w2l.loader(w2l.agent .. '\\' .. name) or w2l.loader(w2l.mpq .. '\\' .. name)
         w2l:parse_txt(buf, name, misc)
     end
     local buf = archieve:get('war3mapmisc.txt')

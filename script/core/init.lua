@@ -34,21 +34,21 @@ end
 
 function mt:metadata()
     if not metadata then
-        metadata = lni(io.load(self.defined / 'metadata.ini'))
+        metadata = lni(self.loader(self.defined .. '\\metadata.ini'))
     end
     return metadata
 end
 
 function mt:keydata()
     if not keydata then
-        keydata = lni(io.load(self.defined / 'keydata.ini'))
+        keydata = lni(self.loader(self.defined .. '\\keydata.ini'))
     end
     return keydata
 end
 
 function mt:miscnames()
     if not miscnames then
-        miscnames = lni(io.load(self.defined / 'miscnames.ini'))
+        miscnames = lni(self.loader(self.defined .. '\\miscnames.ini'))
     end
     return miscnames
 end
@@ -56,7 +56,7 @@ end
 function mt:editstring(str)
     -- TODO: WESTRING不区分大小写，不过我们把WorldEditStrings.txt改了，暂时不会出现问题
     if not editstring then
-        editstring = ini(io.load(self.meta / 'WorldEditStrings.txt'))['WorldEditStrings']
+        editstring = ini(self.loader(self.meta .. '\\WorldEditStrings.txt'))['WorldEditStrings']
     end
     if not editstring[str] then
         return str
@@ -70,7 +70,7 @@ end
 local function create_default(w2l)
     local default = {}
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'txt', 'misc'} do
-        local str = io.load(w2l.default / (name .. '.ini'))
+        local str = w2l.loader(w2l.default .. '\\' .. name .. '.ini')
         if str then
             default[name] = lni(str)
         end
@@ -134,18 +134,19 @@ function mt:refresh_wts(wts)
     return table.concat(lines, '\r\n\r\n')
 end
 
-function mt:initialize(root)
+function mt:initialize(loader)
     if self.initialized then
         return
     end
     self.initialized = true
     self.root = root
-    self.template = self.root / 'template'
-    self.prebuilt = self.root / 'script' / 'prebuilt'
-    self.meta = self.root / 'script' / 'meta'
-    self.defined = self.meta / 'defined'
-    self.info   = lni(assert(io.load(self.root / 'script' / 'info.ini')), 'info')
-    self.config = lni(assert(io.load(self.root / 'config.ini')), 'config')
+    self.loader = loader
+    self.template = 'template'
+    self.prebuilt = 'script\\prebuilt'
+    self.meta = 'script\\meta'
+    self.defined = self.meta .. '\\defined'
+    self.info   = lni(assert(self.loader('script\\info.ini')), 'info')
+    self.config = lni(assert(self.loader('config.ini')), 'config')
 
     local fmt = self.config.target_format
     for k, v in pairs(self.config[fmt]) do
@@ -156,13 +157,13 @@ function mt:initialize(root)
 end
 
 function mt:update()
-    self.mpq = self.root / 'data' / self.config.mpq
+    self.mpq = 'data\\' .. self.config.mpq
     if self.config.version == 'Melee' then
         self.agent = self.mpq
-        self.default = self.mpq / 'prebuilt' / 'Melee'
+        self.default = self.mpq .. '\\prebuilt\\Melee'
     else
-        self.agent = self.mpq / 'Custom_V1'
-        self.default = self.mpq / 'prebuilt' / 'Custom'
+        self.agent = self.mpq .. '\\Custom_V1'
+        self.default = self.mpq .. '\\prebuilt\\Custom'
     end
 end
 
