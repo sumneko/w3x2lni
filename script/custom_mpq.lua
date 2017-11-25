@@ -11,21 +11,6 @@ local stormlib = require 'ffi.stormlib'
 local sleep = require 'ffi.sleep'
 local prebuilt = require 'prebuilt.prebuilt'
 
-w2l:initialize()
-
-local std_print = print
-function print(...)
-    if select(1, ...) == '-progress' then
-        return
-    end
-    local tbl = {...}
-    local count = select('#', ...)
-    for i = 1, count do
-        tbl[i] = uni.u2a(tostring(tbl[i])):gsub('[\r\n]', ' ')
-    end
-    std_print(table.concat(tbl, ' '))
-end
-
 local function task(f, ...)
     for i = 1, 99 do
         if pcall(f, ...) then
