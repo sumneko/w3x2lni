@@ -26,7 +26,7 @@ end
 local codemapped
 local function get_codemapped(w2l, id)
     if not codemapped then
-        codemapped = w2l:parse_lni(io.load(w2l.root / w2l.defined / 'codemapped.ini'))
+        codemapped = w2l:parse_lni(io.load(w2l.core / w2l.defined / 'codemapped.ini'))
     end
     return codemapped[id] or id
 end
@@ -130,7 +130,7 @@ end
 
 local function create_search(w2l, type, search)
     search[type] = {}
-    local metadata = w2l:parse_slk(io.load(w2l.root / w2l.meta / w2l.info.metadata[type]))
+    local metadata = w2l:parse_slk(io.load(w2l.core / w2l.meta / w2l.info.metadata[type]))
     for id, meta in pairs(metadata) do
         if is_enable(meta, type) then
             local objs = meta.useSpecific or meta.section
@@ -172,5 +172,5 @@ return function(w2l)
     for k, v in sortpairs(search) do
         stringify(f, k, v)
     end
-    io.save(w2l.root / w2l.defined / 'search.ini', table.concat(f, '\r\n'))
+    io.save(w2l.core / w2l.defined / 'search.ini', table.concat(f, '\r\n'))
 end

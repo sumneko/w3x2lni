@@ -112,14 +112,14 @@ local function main()
     if not mpqs then
         return
     end
-    prebuilt:set_config()
-    w2l.config.mpq = arg[2]
-    w2l:update()
+    local config = prebuilt:get_config()
+    config.mpq = arg[2]
+    w2l:set_config(config)
 
     if fs.exists(w2l.mpq) then
-        task(fs.remove_all, w2l.root / w2l.mpq)
+        task(fs.remove_all, w2l.core / w2l.mpq)
     end
-    task(fs.create_directories, w2l.root / w2l.mpq)
+    task(fs.create_directories, w2l.core / w2l.mpq)
 
     extract_mpq(mpqs)
     report_fail()

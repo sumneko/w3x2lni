@@ -140,21 +140,14 @@ function mt:initialize(loader)
     end
     self.initialized = true
     self.loader = loader
-    self.meta = 'script\\core\\meta'
+    self.meta = 'meta'
     self.defined = self.meta .. '\\defined'
-    self.info   = lni(assert(self.loader('script\\core\\info.ini')), 'info')
-    self.config = lni(assert(self.loader('config.ini')), 'config')
-
-    local fmt = self.config.target_format
-    for k, v in pairs(self.config[fmt]) do
-        self.config[k] = v
-    end
-    
-    self:update()
+    self.info   = lni(assert(self.loader('info.ini')), 'info')
 end
 
-function mt:update()
-    self.mpq = 'data\\' .. self.config.mpq
+function mt:set_config(config)
+    self.config = config
+    self.mpq = '..\\..\\data\\' .. self.config.mpq
     if self.config.version == 'Melee' then
         self.agent = self.mpq
         self.default = self.mpq .. '\\prebuilt\\Melee'

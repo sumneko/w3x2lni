@@ -98,7 +98,7 @@ local function update_version(w2l, w3i)
     elseif set == 2 then
         w2l.config.version = 'Melee'
     end
-    w2l:update()
+    w2l:set_config(w2l.config)
 end
 
 local displaytype = {

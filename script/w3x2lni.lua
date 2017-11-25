@@ -1,6 +1,7 @@
 require 'utility'
 local uni = require 'ffi.unicode'
 local core = require 'core'
+local lni = require 'lni-c'
 
 local function get_exepath()
     return fs.path(uni.a2u(package.cpath:sub(1, (package.cpath:find(';') or 0)-6))):remove_filename():remove_filename()
@@ -20,13 +21,19 @@ function mt:initialize(root)
     end
     self.root = root
     self.template = 'template'
-    self.defined = 'script\\core\\meta\\defined'
+    self.core = self.root / 'script' / 'core'
 
     local function loader(path)
-        return io.load(root / path)
+        return io.load(self.core / path)
     end
+    core:initialize(loader, config)
 
-    core:initialize(loader)
+    local config = lni(assert(io.load(self.root / 'config.ini')), 'config')
+    local fmt = config.target_format
+    for k, v in pairs(config[fmt]) do
+        config[k] = v
+    end
+    core:set_config(config)
 end
 
 return mt
