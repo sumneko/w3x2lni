@@ -140,10 +140,9 @@ function mt:initialize(loader)
     end
     self.initialized = true
     self.loader = loader
-    self.prebuilt = 'script\\prebuilt'
-    self.meta = 'script\\meta'
+    self.meta = 'script\\core\\meta'
     self.defined = self.meta .. '\\defined'
-    self.info   = lni(assert(self.loader('script\\info.ini')), 'info')
+    self.info   = lni(assert(self.loader('script\\core\\info.ini')), 'info')
     self.config = lni(assert(self.loader('config.ini')), 'config')
 
     local fmt = self.config.target_format
