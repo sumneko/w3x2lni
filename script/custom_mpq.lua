@@ -5,7 +5,7 @@ end)()
 
 require 'filesystem'
 require 'utility'
-local w2l  = require 'core'
+local w2l  = require 'w3x2lni'
 local uni      = require 'ffi.unicode'
 local stormlib = require 'ffi.stormlib'
 local sleep = require 'ffi.sleep'

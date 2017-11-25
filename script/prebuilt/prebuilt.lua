@@ -2,7 +2,7 @@
 
 require 'filesystem'
 require 'utility'
-local w2l  = require 'core'
+local w2l  = require 'w3x2lni'
 local uni      = require 'ffi.unicode'
 local archive = require 'archive'
 local order_prebuilt = require 'order.prebuilt'
