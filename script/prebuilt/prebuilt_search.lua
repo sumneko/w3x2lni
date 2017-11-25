@@ -130,7 +130,7 @@ end
 
 local function create_search(w2l, type, search)
     search[type] = {}
-    local metadata = w2l:parse_slk(io.load(w2l.core / w2l.meta / w2l.info.metadata[type]))
+    local metadata = w2l:parse_slk(io.load(w2l.meta / w2l.info.metadata[type]))
     for id, meta in pairs(metadata) do
         if is_enable(meta, type) then
             local objs = meta.useSpecific or meta.section

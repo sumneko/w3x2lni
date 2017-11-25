@@ -46,7 +46,7 @@ local function prebuilt_codemapped(w2l)
 end
 
 local function prebuilt_typedefine(w2l)
-    local uniteditordata = w2l:parse_txt(io.load(w2l.core / w2l.meta / 'uniteditordata.txt'))
+    local uniteditordata = w2l:parse_txt(io.load(w2l.meta / 'uniteditordata.txt'))
     local f = {}
     f[#f+1] = ('%s = %s'):format('int', 0)
     f[#f+1] = ('%s = %s'):format('bool', 0)
@@ -236,14 +236,14 @@ function mt:dofile(mpq, version, template)
         print('正在生成template')
         for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
             local data = w2l:frontend_merge(ttype, slk[ttype], {})
-            io.save(w2l.root / w2l.template / (ttype .. '.ini'), w2l:backend_lni(ttype, data))
+            io.save(w2l.template / (ttype .. '.ini'), w2l:backend_lni(ttype, data))
         end
-        io.save(w2l.root / w2l.template / 'txt.ini', w2l:backend_txtlni(slk.txt))
+        io.save(w2l.template / 'txt.ini', w2l:backend_txtlni(slk.txt))
     end
 end
 
 function mt:complete()
-    fs.create_directories(w2l.root / w2l.template)
+    fs.create_directories(w2l.template)
     fs.create_directories(w2l.core / w2l.defined)
 
     prebuilt_codemapped(w2l)
@@ -257,7 +257,7 @@ function mt:complete()
     self:dofile('default', 'Custom', 'template')
 
     -- 生成技能命令映射
-    --local skill_data = w2l:parse_lni(io.load(w2l.root / w2l.template / 'ability.ini'))
+    --local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'))
     --local order_list = order_prebuilt(skill_data)
     --io.save(w2l.root / 'script' / 'order' / 'order_list.lua', order_list)
 

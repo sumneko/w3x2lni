@@ -56,7 +56,7 @@ end
 function mt:editstring(str)
     -- TODO: WESTRING不区分大小写，不过我们把WorldEditStrings.txt改了，暂时不会出现问题
     if not editstring then
-        editstring = ini(self.loader(self.meta .. '\\WorldEditStrings.txt'))['WorldEditStrings']
+        editstring = ini(self.loader('\\WorldEditStrings.txt'))['WorldEditStrings']
     end
     if not editstring[str] then
         return str
@@ -140,8 +140,7 @@ function mt:initialize(loader)
     end
     self.initialized = true
     self.loader = loader
-    self.meta = 'meta'
-    self.defined = self.meta .. '\\defined'
+    self.defined = '\\defined'
     self.info   = lni(assert(self.loader('info.ini')), 'info')
 end
 

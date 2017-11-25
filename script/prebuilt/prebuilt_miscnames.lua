@@ -25,7 +25,7 @@ local function fmtstring(s)
 end
 
 local function create_miscnames(w2l, keydata)
-    local metadata = w2l:parse_slk(io.load(w2l.core / w2l.meta / w2l.info.metadata['misc']))
+    local metadata = w2l:parse_slk(io.load(w2l.meta / w2l.info.metadata['misc']))
     local names = {}
     keydata['misc_names'] = {}
     for id, meta in pairs(metadata) do
