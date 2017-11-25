@@ -45,7 +45,7 @@ end
 local result = {} 
 
 local function extract_file(mpq, name)
-    local path = w2l.core / w2l.mpq / name
+    local path = w2l.mpq / name
     if fs.exists(path) then
         return
     end
@@ -116,10 +116,10 @@ local function main()
     config.mpq = arg[2]
     w2l:set_config(config)
 
-    if fs.exists(w2l.core / w2l.mpq) then
-        task(fs.remove_all, w2l.core / w2l.mpq)
+    if fs.exists(w2l.mpq) then
+        task(fs.remove_all, w2l.mpq)
     end
-    task(fs.create_directories, w2l.core / w2l.mpq)
+    task(fs.create_directories, w2l.mpq)
 
     extract_mpq(mpqs)
     report_fail()

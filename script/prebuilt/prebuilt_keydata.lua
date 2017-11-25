@@ -105,5 +105,5 @@ return function(w2l)
     for k, v in sortpairs(keydata) do
         stringify(f, k, v)
     end
-    io.save(w2l.core / w2l.defined / 'keydata.ini', table.concat(f, '\r\n'))
+    io.save(w2l.defined / 'keydata.ini', table.concat(f, '\r\n'))
 end

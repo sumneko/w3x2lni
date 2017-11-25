@@ -9,7 +9,20 @@ end
 
 local mt = {}
 
-setmetatable(mt, { __index = core })
+setmetatable(mt, {
+    __index = function(self, key)
+        local value = core[key]
+        if type(value) == 'function' then
+            return function (obj, ...)
+                if obj == self then
+                    obj = core
+                end
+                return value(obj, ...)
+            end
+        end
+        return value
+    end,
+})
 
 function mt:initialize(root)
     if self.initialized then
@@ -20,21 +33,31 @@ function mt:initialize(root)
         root = get_exepath()
     end
     self.root = root
+    self.core     = self.root / 'script' / 'core'
     self.template = self.root / 'template'
-    self.core = self.root / 'script' / 'core'
-    self.meta = self.root / 'script' / 'meta'
+    self.meta     = self.root / 'script' / 'meta'
 
     local function loader(path)
         return io.load(self.core / path)
     end
     core:initialize(loader, config)
 
+    self.defined  = self.core / core.defined
+    self.info     = lni(assert(io.load(self.core / 'info.ini')), 'info')
+
     local config = lni(assert(io.load(self.root / 'config.ini')), 'config')
     local fmt = config.target_format
     for k, v in pairs(config[fmt]) do
         config[k] = v
     end
+    self:set_config(config)
+end
+
+function mt:set_config(config)
     core:set_config(config)
+    self.mpq = self.core / core.mpq
+    self.agent = self.core / core.agent
+    self.default = self.core / core.default
 end
 
 return mt

@@ -31,7 +31,7 @@ function print(...)
 end
 
 local function prebuilt_codemapped(w2l)
-    local template = w2l:parse_slk(io.load(w2l.core / w2l.agent / w2l.info.slk.ability[1]) or io.load(w2l.core / w2l.mpq / w2l.info.slk.ability[1]))
+    local template = w2l:parse_slk(io.load(w2l.agent / w2l.info.slk.ability[1]) or io.load(w2l.mpq / w2l.info.slk.ability[1]))
     local t = {}
     for id, d in pairs(template) do
         t[id] = d.code
@@ -42,7 +42,7 @@ local function prebuilt_codemapped(w2l)
     end
     table.sort(f)
     table.insert(f, 1, '[root]')
-    io.save(w2l.core / w2l.defined / 'codemapped.ini', table.concat(f, '\r\n'))
+    io.save(w2l.defined / 'codemapped.ini', table.concat(f, '\r\n'))
 end
 
 local function prebuilt_typedefine(w2l)
@@ -64,7 +64,7 @@ local function prebuilt_typedefine(w2l)
     end
     table.sort(f)
     table.insert(f, 1, '[root]')
-    io.save(w2l.core / w2l.defined / 'typedefine.ini', table.concat(f, '\r\n'))
+    io.save(w2l.defined / 'typedefine.ini', table.concat(f, '\r\n'))
 end
 
 local abilitybuffdata = {
@@ -160,8 +160,8 @@ local function build_slk()
 		end
 		return slk(buf)
 	end
-	local ar1 = archive(w2l.core / w2l.agent)
-    local ar2 = archive(w2l.core / w2l.mpq)
+	local ar1 = archive(w2l.agent)
+    local ar2 = archive(w2l.mpq)
 	local slk = w2l:frontend_slk(function(name)
 		if name:lower() == 'units\\abilitybuffdata.slk' then
 			function hook(t)
@@ -222,15 +222,15 @@ function mt:dofile(mpq, version, template)
     config.mpq     = mpq
     config.version = version
     w2l:set_config(config)
-    fs.create_directories(w2l.core / w2l.default)
+    fs.create_directories(w2l.default)
 
 	local slk = build_slk()
     print('正在生成default')
     for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         local data = slk[ttype]
-        io.save(w2l.core / w2l.default / (ttype .. '.ini'), default2lni(data))
+        io.save(w2l.default / (ttype .. '.ini'), default2lni(data))
     end
-    io.save(w2l.core / w2l.default / 'txt.ini', default2lni(slk.txt))
+    io.save(w2l.default / 'txt.ini', default2lni(slk.txt))
     
     if template then
         print('正在生成template')
@@ -244,7 +244,7 @@ end
 
 function mt:complete()
     fs.create_directories(w2l.template)
-    fs.create_directories(w2l.core / w2l.defined)
+    fs.create_directories(w2l.defined)
 
     prebuilt_codemapped(w2l)
     prebuilt_typedefine(w2l)

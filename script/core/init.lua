@@ -139,8 +139,8 @@ function mt:initialize(loader)
         return
     end
     self.initialized = true
-    self.loader = loader
-    self.defined = '\\defined'
+    self.loader  = loader
+    self.defined = 'defined'
     self.info   = lni(assert(self.loader('info.ini')), 'info')
 end
 

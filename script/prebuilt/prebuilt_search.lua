@@ -26,7 +26,7 @@ end
 local codemapped
 local function get_codemapped(w2l, id)
     if not codemapped then
-        codemapped = w2l:parse_lni(io.load(w2l.core / w2l.defined / 'codemapped.ini'))
+        codemapped = w2l:parse_lni(io.load(w2l.defined / 'codemapped.ini'))
     end
     return codemapped[id] or id
 end
@@ -172,5 +172,5 @@ return function(w2l)
     for k, v in sortpairs(search) do
         stringify(f, k, v)
     end
-    io.save(w2l.core / w2l.defined / 'search.ini', table.concat(f, '\r\n'))
+    io.save(w2l.defined / 'search.ini', table.concat(f, '\r\n'))
 end
