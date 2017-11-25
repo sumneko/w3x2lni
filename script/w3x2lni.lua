@@ -20,6 +20,7 @@ function mt:initialize(root)
     end
     self.root = root
     self.template = 'template'
+    self.defined = 'script\\core\\meta\\defined'
 
     local function loader(path)
         return io.load(root / path)
