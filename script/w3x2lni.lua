@@ -19,6 +19,7 @@ function mt:initialize(root)
         root = get_exepath()
     end
     self.root = root
+    self.template = 'template'
 
     local function loader(path)
         return io.load(root / path)

@@ -139,9 +139,7 @@ function mt:initialize(loader)
         return
     end
     self.initialized = true
-    self.root = root
     self.loader = loader
-    self.template = 'template'
     self.prebuilt = 'script\\prebuilt'
     self.meta = 'script\\meta'
     self.defined = self.meta .. '\\defined'
