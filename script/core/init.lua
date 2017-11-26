@@ -33,21 +33,21 @@ end
 
 function mt:metadata()
     if not metadata then
-        metadata = lni(self.loader(self.defined .. '\\metadata.ini'))
+        metadata = lni(self:loader(self.defined .. '\\metadata.ini'))
     end
     return metadata
 end
 
 function mt:keydata()
     if not keydata then
-        keydata = lni(self.loader(self.defined .. '\\keydata.ini'))
+        keydata = lni(self:loader(self.defined .. '\\keydata.ini'))
     end
     return keydata
 end
 
 function mt:miscnames()
     if not miscnames then
-        miscnames = lni(self.loader(self.defined .. '\\miscnames.ini'))
+        miscnames = lni(self:loader(self.defined .. '\\miscnames.ini'))
     end
     return miscnames
 end
@@ -55,7 +55,7 @@ end
 function mt:editstring(str)
     -- TODO: WESTRING不区分大小写，不过我们把WorldEditStrings.txt改了，暂时不会出现问题
     if not editstring then
-        editstring = ini(self.loader('\\WorldEditStrings.txt'))['WorldEditStrings']
+        editstring = ini(self:loader('\\WorldEditStrings.txt'))['WorldEditStrings']
     end
     if not editstring[str] then
         return str
@@ -69,7 +69,7 @@ end
 local function create_default(w2l)
     local default = {}
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'txt', 'misc'} do
-        local str = w2l.loader(w2l.default .. '\\' .. name .. '.ini')
+        local str = w2l:loader(w2l.default .. '\\' .. name .. '.ini')
         if str then
             default[name] = lni(str)
         end
@@ -189,14 +189,23 @@ setmetatable(mt, {
 
 progress = require 'progress'
 
-function mt:initialize(loader)
+function mt:loader(path)
+    local f = io.open(path)
+    if f then
+        local buf = f:read 'a'
+        f:close()
+        return buf
+    end
+    return nil
+end
+
+function mt:initialize()
     if self.initialized then
         return
     end
     self.initialized = true
-    self.loader = loader
     self.defined = 'defined'
-    self.info   = lni(assert(self.loader('info.ini')), 'info')
+    self.info   = lni(assert(self:loader('info.ini')), 'info')
 end
 
 function mt:set_config(config)

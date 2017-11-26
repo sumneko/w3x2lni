@@ -102,17 +102,25 @@ end
 local function sandbox(dir)
     local _ENV = standard()
     local _PATH = ''
+    local _IO_PATH = ''
     local _LOADED = {}
-    _ENV.require = function (name)
-        return require(name, _LOADED, _PATH, _ENV)
-    end
     if dir then
         local pos = dir:find [[[/\][^\/]*$]]
         if pos then
             _PATH = dir:sub(1, pos) .. '?.lua'
+            _IO_PATH = dir:sub(1, pos)
         end
     end
+    _ENV.require = function (name)
+        return require(name, _LOADED, _PATH, _ENV)
+    end
     _ENV.package = { }
+    local io_open = io.open
+    _ENV.io = {
+        open = function (path, mode)
+            return io_open(_IO_PATH .. path, mode)
+        end,
+    }
     return _ENV
 end
 

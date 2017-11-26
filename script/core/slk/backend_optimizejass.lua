@@ -23,8 +23,8 @@ local function create_report(report, title, type, max)
 end
 
 return function (w2l, archive)
-    local common   = archive:get 'common.j'   or archive:get 'scripts\\common.j'   or w2l.loader(w2l.mpq .. '\\scripts\\common.j')
-    local blizzard = archive:get 'blizzard.j' or archive:get 'scripts\\blizzard.j' or w2l.loader(w2l.mpq .. '\\scripts\\blizzard.j')
+    local common   = archive:get 'common.j'   or archive:get 'scripts\\common.j'   or w2l:loader(w2l.mpq .. '\\scripts\\common.j')
+    local blizzard = archive:get 'blizzard.j' or archive:get 'scripts\\blizzard.j' or w2l:loader(w2l.mpq .. '\\scripts\\blizzard.j')
     local war3map  = archive:get 'war3map.j'  or archive:get 'scripts\\war3map.j'
     local ast
     ast = parser(common,   'common.j',   ast)
