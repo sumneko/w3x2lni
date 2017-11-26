@@ -31,23 +31,27 @@ function mt:parse_ini(buf)
     return ini(buf)
 end
 
+function mt:defined(name)
+    return lni(self:loader('defined\\' .. name .. '.ini'))
+end
+
 function mt:metadata()
     if not metadata then
-        metadata = lni(self:loader(self.defined .. '\\metadata.ini'))
+        metadata = self:defined 'metadata'
     end
     return metadata
 end
 
 function mt:keydata()
     if not keydata then
-        keydata = lni(self:loader(self.defined .. '\\keydata.ini'))
+        keydata = self:defined 'keydata'
     end
     return keydata
 end
 
 function mt:miscnames()
     if not miscnames then
-        miscnames = lni(self:loader(self.defined .. '\\miscnames.ini'))
+        miscnames = self:defined 'miscnames'
     end
     return miscnames
 end
@@ -161,8 +165,6 @@ function mt:loader(path)
     end
     return nil
 end
-
-mt.defined = 'defined'
 
 function mt:set_config(config)
     self.config = config

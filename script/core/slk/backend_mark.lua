@@ -380,7 +380,7 @@ end
 return function(w2l, archive, slk_)
     slk = slk_
     if not search then
-        search = w2l:parse_lni(assert(w2l:loader(w2l.defined .. '\\search.ini')))
+        search = w2l:defined 'search'
     end
     buffmap = {}
     for i in pairs(slk.buff) do

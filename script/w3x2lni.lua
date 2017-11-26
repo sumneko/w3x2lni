@@ -36,7 +36,7 @@ function mt:initialize(root)
     self.core     = self.root / 'script' / 'core'
     self.template = self.root / 'template'
     self.meta     = self.root / 'script' / 'meta'
-    self.defined  = self.core / core.defined
+    self.defined  = self.core / 'defined'
     self.info     = lni(assert(io.load(self.core / 'info.ini')), 'info')
 
     local config = lni(assert(io.load(self.root / 'config.ini')), 'config')
