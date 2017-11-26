@@ -29,6 +29,7 @@ function print(...)
     end
     std_print(table.concat(tbl, ' '))
 end
+w2l:messager(print)
 
 local function prebuilt_codemapped(w2l)
     local template = w2l:parse_slk(io.load(w2l.agent / w2l.info.slk.ability[1]) or io.load(w2l.mpq / w2l.info.slk.ability[1]))

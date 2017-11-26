@@ -156,6 +156,10 @@ function mt:set_config(config)
     end
 end
 
+function mt:messager(prt)
+    print = prt
+end
+
 -- 加载脚本
 local slk_convertors = {
     ['frontend']             = true,

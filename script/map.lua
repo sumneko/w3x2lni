@@ -21,6 +21,7 @@ function print(...)
     end
     std_print(table.concat(tbl, ' '))
 end
+w2l:messager(print)
 
 local input = fs.path(uni.a2u(arg[1]))
 
