@@ -135,6 +135,10 @@ end
 
 setmetatable(mt, mt)
 function mt:__index(name)
+    if name == 'info' then
+        self.info = lni(assert(self:loader('info.ini')), 'info')
+        return self.info
+    end
     if package.loaded[name] ~= nil then
         return package.loaded[name]
     end
@@ -158,14 +162,7 @@ function mt:loader(path)
     return nil
 end
 
-function mt:initialize()
-    if self.initialized then
-        return
-    end
-    self.initialized = true
-    self.defined = 'defined'
-    self.info   = lni(assert(self:loader('info.ini')), 'info')
-end
+mt.defined = 'defined'
 
 function mt:set_config(config)
     self.config = config
