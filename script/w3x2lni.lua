@@ -45,13 +45,17 @@ function mt:initialize(root)
         config[k] = v
     end
     self:set_config(config)
+
+    core:set_loader(function(path)
+        return io.load(self.root / 'data' / path)
+    end)
 end
 
 function mt:set_config(config)
     core:set_config(config)
-    self.mpq = self.core / core.mpq
-    self.agent = self.core / core.agent
-    self.default = self.core / core.default
+    self.mpq = self.root / 'data' / core.mpq
+    self.agent = self.root / 'data' / core.agent
+    self.default = self.root / 'data' / core.default
 end
 
 function mt:__newindex(key, value)
