@@ -190,6 +190,5 @@ end
 
 mt:set_messager(print)
 mt:set_progress(require 'progress')
-mt:set_loader(io.load)
 
 return mt
