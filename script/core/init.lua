@@ -15,6 +15,16 @@ local default
 local miscnames
 local wts
 
+local function load_file(path)
+    local f = io.open(path)
+    if f then
+        local buf = f:read 'a'
+        f:close()
+        return buf
+    end
+    return nil
+end
+
 function mt:parse_lni(...)
     return lni(...)
 end
@@ -32,7 +42,7 @@ function mt:parse_ini(buf)
 end
 
 function mt:defined(name)
-    return lni(io.load('defined\\' .. name .. '.ini'))
+    return lni(load_file('defined\\' .. name .. '.ini'))
 end
 
 function mt:metadata()
@@ -59,7 +69,7 @@ end
 function mt:editstring(str)
     -- TODO: WESTRING不区分大小写，不过我们把WorldEditStrings.txt改了，暂时不会出现问题
     if not editstring then
-        editstring = ini(io.load('\\WorldEditStrings.txt'))['WorldEditStrings']
+        editstring = ini(load_file('\\WorldEditStrings.txt'))['WorldEditStrings']
     end
     if not editstring[str] then
         return str
@@ -137,20 +147,10 @@ function mt:refresh_wts(wts)
     return table.concat(lines, '\r\n\r\n')
 end
 
-function io.load(path)
-    local f = io.open(path)
-    if f then
-        local buf = f:read 'a'
-        f:close()
-        return buf
-    end
-    return nil
-end
-
 setmetatable(mt, mt)
 function mt:__index(name)
     if name == 'info' then
-        self.info = lni(assert(io.load('info.ini')), 'info')
+        self.info = lni(assert(load_file('info.ini')), 'info')
         return self.info
     end
     if package.loaded[name] ~= nil then
