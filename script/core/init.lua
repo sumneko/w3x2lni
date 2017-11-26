@@ -86,6 +86,8 @@ local function create_default(w2l)
         local str = w2l.loader(w2l.default .. '\\' .. name .. '.ini')
         if str then
             default[name] = lni(str)
+        else
+            
         end
     end
     return default

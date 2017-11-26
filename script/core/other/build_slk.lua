@@ -1,8 +1,8 @@
 local w3xparser = require 'w3xparser'
-local archive = require 'archive'
-local w2l  = require 'w3x2lni'
 local slk = w3xparser.slk
 local txt = w3xparser.txt
+
+local w2l
 
 local abilitybuffdata = {
     {'alias',   'code', 'comments', 'isEffect', 'version', 'useInEditor', 'sort', 'race' , 'InBeta'},
@@ -86,7 +86,9 @@ local function merge_txt(t, fix)
     end
 end
 
-return function ()
+return function (_w2l)
+    w2l = _w2l
+    
 	local hook
 	function w2l:parse_slk(buf)
 		if hook then
@@ -96,16 +98,20 @@ return function ()
 			return r
 		end
 		return slk(buf)
-	end
-	local ar1 = archive(w2l.agent)
-    local ar2 = archive(w2l.mpq)
+    end
+    
+    local archive = {}
+    function archive:get(name)
+		return w2l.loader(w2l.agent .. '\\' .. name) or w2l.loader(w2l.mpq .. '\\' .. name)
+    end
+
 	local slk = w2l:frontend_slk(function(name)
 		if name:lower() == 'units\\abilitybuffdata.slk' then
 			function hook(t)
                 merge_slk(t, abilitybuffdata)
 			end
 		end
-		return ar1:get(name) or ar2:get(name)
+		return archive:get(name)
 	end)
 
 	local hook
@@ -116,10 +122,6 @@ return function ()
         end
         return r
 	end
-    local archive = {}
-    function archive:get(name)
-		return ar1:get(name) or ar2:get(name)
-    end
 	w2l:frontend_misc(archive, slk)
 	return slk
 end

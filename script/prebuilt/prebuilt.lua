@@ -10,7 +10,6 @@ local prebuilt_metadata = require 'prebuilt.prebuilt_metadata'
 local prebuilt_keydata = require 'prebuilt.prebuilt_keydata'
 local prebuilt_search = require 'prebuilt.prebuilt_search'
 local prebuilt_miscnames = require 'prebuilt.prebuilt_miscnames'
-local build_slk = require 'prebuilt.build_slk'
 
 w2l:initialize()
 
@@ -102,7 +101,7 @@ function mt:dofile(mpq, version, template)
     w2l:set_config(config)
     fs.create_directories(w2l.default)
 
-	local slk = build_slk()
+	local slk = w2l:build_slk()
     print('正在生成default')
     for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         local data = slk[ttype]
