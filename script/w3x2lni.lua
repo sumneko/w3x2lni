@@ -1,7 +1,8 @@
 require 'utility'
 local uni = require 'ffi.unicode'
-local core = require 'core'
+local sandbox = require 'sandbox'
 local lni = require 'lni-c'
+local core = sandbox 'core'
 
 local function get_exepath()
     return fs.path(uni.a2u(package.cpath:sub(1, (package.cpath:find(';') or 0)-6))):remove_filename():remove_filename()
