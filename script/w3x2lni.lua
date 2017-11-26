@@ -40,7 +40,7 @@ function mt:initialize(root)
     local function loader(path)
         return io.load(self.core / path)
     end
-    core:initialize(loader, config)
+    core:initialize(loader)
 
     self.defined  = self.core / core.defined
     self.info     = lni(assert(io.load(self.core / 'info.ini')), 'info')

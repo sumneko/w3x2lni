@@ -134,32 +134,6 @@ function mt:refresh_wts(wts)
     return table.concat(lines, '\r\n\r\n')
 end
 
-function mt:initialize(loader)
-    if self.initialized then
-        return
-    end
-    self.initialized = true
-    self.loader  = loader
-    self.defined = 'defined'
-    self.info   = lni(assert(self.loader('info.ini')), 'info')
-end
-
-function mt:set_config(config)
-    self.config = config
-    self.mpq = 'data\\' .. self.config.mpq
-    if self.config.version == 'Melee' then
-        self.agent = self.mpq
-        self.default = self.mpq .. '\\prebuilt\\Melee'
-    else
-        self.agent = self.mpq .. '\\Custom_V1'
-        self.default = self.mpq .. '\\prebuilt\\Custom'
-    end
-end
-
-function mt:messager(prt)
-    print = prt
-end
-
 -- 加载脚本
 local slk_convertors = {
     ['frontend']             = true,
@@ -213,5 +187,31 @@ setmetatable(mt, {
         return nil
     end,
 })
+
+function mt:initialize(loader)
+    if self.initialized then
+        return
+    end
+    self.initialized = true
+    self.loader = loader
+    self.defined = 'defined'
+    self.info   = lni(assert(self.loader('info.ini')), 'info')
+end
+
+function mt:set_config(config)
+    self.config = config
+    self.mpq = 'data\\' .. self.config.mpq
+    if self.config.version == 'Melee' then
+        self.agent = self.mpq
+        self.default = self.mpq .. '\\prebuilt\\Melee'
+    else
+        self.agent = self.mpq .. '\\Custom_V1'
+        self.default = self.mpq .. '\\prebuilt\\Custom'
+    end
+end
+
+function mt:messager(prt)
+    print = prt
+end
 
 return mt
