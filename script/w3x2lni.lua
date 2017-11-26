@@ -8,21 +8,20 @@ local function get_exepath()
 end
 
 local mt = {}
+setmetatable(mt, mt)
 
-setmetatable(mt, {
-    __index = function(self, key)
-        local value = core[key]
-        if type(value) == 'function' then
-            return function (obj, ...)
-                if obj == self then
-                    obj = core
-                end
-                return value(obj, ...)
+function mt:__index(key)
+    local value = core[key]
+    if type(value) == 'function' then
+        return function (obj, ...)
+            if obj == self then
+                obj = core
             end
+            return value(obj, ...)
         end
-        return value
-    end,
-})
+    end
+    return value
+end
 
 function mt:initialize(root)
     if self.initialized then
@@ -58,6 +57,14 @@ function mt:set_config(config)
     self.mpq = self.core / core.mpq
     self.agent = self.core / core.agent
     self.default = self.core / core.default
+end
+
+function mt:__newindex(key, value)
+    if type(value) == 'function' and type(core[key]) == 'function' then
+        core[key] = value
+        return
+    end
+    rawset(self, key, value)
 end
 
 return mt
