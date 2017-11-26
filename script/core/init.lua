@@ -32,7 +32,7 @@ function mt:parse_ini(buf)
 end
 
 function mt:defined(name)
-    return lni(self.loader('defined\\' .. name .. '.ini'))
+    return lni(io.load('defined\\' .. name .. '.ini'))
 end
 
 function mt:metadata()
@@ -59,7 +59,7 @@ end
 function mt:editstring(str)
     -- TODO: WESTRING不区分大小写，不过我们把WorldEditStrings.txt改了，暂时不会出现问题
     if not editstring then
-        editstring = ini(self.loader('\\WorldEditStrings.txt'))['WorldEditStrings']
+        editstring = ini(io.load('\\WorldEditStrings.txt'))['WorldEditStrings']
     end
     if not editstring[str] then
         return str
@@ -73,7 +73,7 @@ end
 local function create_default(w2l)
     local default = {}
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'txt', 'misc'} do
-        local str = w2l.data_loader(w2l.default .. '\\' .. name .. '.ini')
+        local str = w2l.loader(w2l.default .. '\\' .. name .. '.ini')
         if str then
             default[name] = lni(str)
         end
@@ -137,10 +137,20 @@ function mt:refresh_wts(wts)
     return table.concat(lines, '\r\n\r\n')
 end
 
+function io.load(path)
+    local f = io.open(path)
+    if f then
+        local buf = f:read 'a'
+        f:close()
+        return buf
+    end
+    return nil
+end
+
 setmetatable(mt, mt)
 function mt:__index(name)
     if name == 'info' then
-        self.info = lni(assert(self.loader('info.ini')), 'info')
+        self.info = lni(assert(io.load('info.ini')), 'info')
         return self.info
     end
     if package.loaded[name] ~= nil then
@@ -175,21 +185,11 @@ function mt:set_progress(func)
 end
 
 function mt:set_loader(loader)
-    self.data_loader = loader
-end
-
-function mt.loader(path)
-    local f = io.open(path)
-    if f then
-        local buf = f:read 'a'
-        f:close()
-        return buf
-    end
-    return nil
+    self.loader = loader
 end
 
 mt:set_messager(print)
 mt:set_progress(require 'progress')
-mt:set_loader(mt.loader)
+mt:set_loader(io.load)
 
 return mt
