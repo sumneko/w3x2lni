@@ -1,5 +1,3 @@
-local progress = require 'progress'
-
 local os_clock = os.clock
 
 local output = {

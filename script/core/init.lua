@@ -1,4 +1,3 @@
-
 local w3xparser = require 'w3xparser'
 local lni = require 'lni-c'
 local slk = w3xparser.slk
@@ -188,6 +187,8 @@ setmetatable(mt, {
     end,
 })
 
+progress = require 'progress'
+
 function mt:initialize(loader)
     if self.initialized then
         return
@@ -210,8 +211,12 @@ function mt:set_config(config)
     end
 end
 
-function mt:messager(prt)
+function mt:set_messager(prt)
     print = prt
+end
+
+function mt:set_progress(func)
+    progress = func
 end
 
 return mt

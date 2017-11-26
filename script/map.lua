@@ -7,9 +7,9 @@ require 'filesystem'
 require 'utility'
 local uni = require 'ffi.unicode'
 local w2l = require 'w3x2lni'
-local progress = require 'progress'
 local archive = require 'archive'
 local save_map = require 'save_map'
+progress = require 'progress'
 w2l:initialize()
 
 local std_print = print
@@ -21,7 +21,8 @@ function print(...)
     end
     std_print(table.concat(tbl, ' '))
 end
-w2l:messager(print)
+w2l:set_messager(print)
+w2l:set_progress(progress)
 
 local input = fs.path(uni.a2u(arg[1]))
 

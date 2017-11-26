@@ -1,6 +1,5 @@
 local mpq = require 'archive_mpq'
 local dir = require 'archive_dir'
-local progress = require 'progress'
 
 local os_clock = os.clock
 

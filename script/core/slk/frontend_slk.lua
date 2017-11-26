@@ -1,5 +1,4 @@
 local w3xparser = require 'w3xparser'
-local progress = require 'progress'
 
 local math_floor = math.floor
 local pairs = pairs
