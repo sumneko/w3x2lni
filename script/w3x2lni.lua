@@ -37,10 +37,7 @@ function mt:initialize(root)
     self.template = self.root / 'template'
     self.meta     = self.root / 'script' / 'meta'
 
-    local function loader(path)
-        return io.load(self.core / path)
-    end
-    core:initialize(loader)
+    core:initialize()
 
     self.defined  = self.core / core.defined
     self.info     = lni(assert(io.load(self.core / 'info.ini')), 'info')
