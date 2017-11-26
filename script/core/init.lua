@@ -133,59 +133,18 @@ function mt:refresh_wts(wts)
     return table.concat(lines, '\r\n\r\n')
 end
 
--- 加载脚本
-local slk_convertors = {
-    ['frontend']             = true,
-    ['frontend_wts']         = true,
-    ['frontend_slk']         = true,
-    ['frontend_lni']         = true,
-    ['frontend_obj']         = true,
-    ['frontend_misc']        = true,
-    ['frontend_updateobj']   = true,
-    ['frontend_updatelni']   = true,
-    ['frontend_merge']       = true,
-    ['backend']              = true,
-    ['backend_mark']         = true,
-    ['backend_lni']          = true,
-    ['backend_slk']          = true,
-    ['backend_txt']          = true,
-    ['backend_obj']          = true,
-    ['backend_searchjass']   = true,
-    ['backend_convertjass']  = true,
-    ['backend_convertwtg']   = true,
-    ['backend_searchdoo']    = true,
-    ['backend_computed']     = true,
-    ['backend_extra_txt']    = true,
-    ['backend_txtlni']       = true,
-    ['backend_misc']         = true,
-    ['backend_skin']         = true,
-    ['backend_searchparent'] = true,
-    ['backend_cleanobj']     = true,
-    ['backend_imp']          = true,
-    ['backend_optimizejass'] = true,
-}
-
-local other_convertors = {
-    ['lni2w3i']         = true,
-    ['read_w3i']        = true,
-    ['w3i2lni']         = true,
-    ['create_unitsdoo'] = true,
-}
-
-setmetatable(mt, {
-    __index = function(self, name)
-        if slk_convertors[name] then
-            local res = require('slk.' .. name)
-            self[name] = res
-            return res
-        elseif other_convertors[name] then
-            local res = require('other.' .. name)
-            self[name] = res
-            return res
-        end
-        return nil
-    end,
-})
+setmetatable(mt, mt)
+function mt:__index(name)
+    if package.loaded[name] ~= nil then
+        return package.loaded[name]
+    end
+    if package.searchpath('slk.'..name, package.path) then
+        package.loaded[name] = require('slk.'..name)
+    elseif package.searchpath('other.'..name, package.path) then
+        package.loaded[name] = require('other.'..name)
+    end
+    return package.loaded[name]
+end
 
 progress = require 'progress'
 
