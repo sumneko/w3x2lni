@@ -103,11 +103,9 @@ function mt:dofile(mpq, version, template)
 
 	local slk = w2l:build_slk()
     print('正在生成default')
-    for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-        local data = slk[ttype]
-        io.save(w2l.default / (ttype .. '.ini'), default2lni(data))
+    for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc', 'txt'} do
+        io.save(w2l.default / (ttype .. '.ini'), default2lni(slk[ttype]))
     end
-    io.save(w2l.default / 'txt.ini', default2lni(slk.txt))
     
     if template then
         print('正在生成template')
