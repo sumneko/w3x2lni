@@ -82,13 +82,18 @@ end
 
 local function create_default(w2l)
     local default = {}
+    local need_build = false
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'txt', 'misc'} do
         local str = w2l.loader(w2l.default .. '\\' .. name .. '.ini')
         if str then
             default[name] = lni(str)
         else
-            
+            need_build = true
+            break
         end
+    end
+    if need_build then
+        default = w2l:build_slk()
     end
     return default
 end
