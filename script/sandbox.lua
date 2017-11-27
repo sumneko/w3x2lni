@@ -40,9 +40,23 @@ local function standard()
     return r
 end
 
-local function sandbox_env(dir)
+local function make_preload(list)
+    if not list then
+        return {}
+    end
+    local res = {}
+    for _, name in ipairs(list) do
+        local r = require(name)
+        res[name] = function() return r end
+    end
+    return res
+end
+
+local function sandbox_env(dir, prelist)
     local _E = standard()
     local _ROOT = ''
+    local _PRELOAD = make_preload(prelist)
+    local _LOADED = {}
     if dir then
         local pos = dir:find [[[/\][^\/]*$]]
         if pos then
@@ -81,7 +95,6 @@ local function sandbox_env(dir)
     end
 
     local function searcher_preload(name)
-        local _PRELOAD = _E.package.preload
         assert(type(_PRELOAD) == "table", "'package.preload' must be a table")
         if _PRELOAD[name] == nil then
             return ("\n\tno field package.preload['%s']"):format(name)
@@ -102,23 +115,6 @@ local function sandbox_env(dir)
     	return f, filename
     end
 
-    local function searcher_c(name)
-        local symbolname = string.gsub(name, "%.", "_")
-        local pos = symbolname:find '-'
-        if pos then
-            symbolname = symbolname:sub(1, pos-1)
-        end
-    	local filename, err = package.searchpath(name, package.cpath)
-    	if not filename then
-    		return err
-    	end
-        local f, err = package.loadlib(filename, "luaopen_"..symbolname)
-        if not f then
-            error(("error loading module '%s' from file '%s':\n\t%s"):format(name, filename, err))
-        end
-    	return f, filename
-    end
-
     local function require_load(name)
         local msg = ''
         local _SEARCHERS = _E.package.searchers
@@ -136,7 +132,6 @@ local function sandbox_env(dir)
 
     _E.require = function(name)
         assert(type(name) == "string", ("bad argument #1 to 'require' (string expected, got %s)"):format(type(name)))
-        local _LOADED = _E.package.loaded
     	local p = _LOADED[name]
     	if p ~= nil then
     		return p
@@ -160,10 +155,10 @@ local function sandbox_env(dir)
             !
             -
         ]],
-        loaded = {},
+        loaded = _LOADED,
         path = '?.lua',
-        preload = {},
-        searchers = { searcher_preload, searcher_c, searcher_lua },
+        preload = _PRELOAD,
+        searchers = { searcher_preload, searcher_lua },
         searchpath = searchpath,
     }
     _E.io = {
@@ -187,14 +182,14 @@ local function sandbox_load(name, searchers)
 end
 
 local _SANDBOX = {}
-return function(name)
+return function(name, prelist)
     assert(type(name) == "string", ("bad argument #1 to 'sandbox' (string expected, got %s)"):format(type(name)))
 	local p = _SANDBOX[name]
 	if p ~= nil then
 		return p
 	end
 	local init, extra = sandbox_load(name, package.searchers)
-    debug.setupvalue(init, 1, sandbox_env(extra))
+    debug.setupvalue(init, 1, sandbox_env(extra, prelist))
 	local res = init(name, extra)
 	if res ~= nil then
 		_SANDBOX[name] = res
