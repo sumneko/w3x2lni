@@ -58,12 +58,4 @@ function mt:set_config(config)
     self.default = self.root / 'data' / core.default
 end
 
-function mt:__newindex(key, value)
-    if type(value) == 'function' and type(core[key]) == 'function' then
-        core[key] = value
-        return
-    end
-    rawset(self, key, value)
-end
-
 return mt
