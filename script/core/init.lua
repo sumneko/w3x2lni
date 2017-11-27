@@ -69,7 +69,7 @@ end
 function mt:editstring(str)
     -- TODO: WESTRING不区分大小写，不过我们把WorldEditStrings.txt改了，暂时不会出现问题
     if not editstring then
-        editstring = ini(load_file('\\WorldEditStrings.txt'))['WorldEditStrings']
+        editstring = ini(self.loader(self.mpq .. '\\UI\\WorldEditStrings.txt'))['WorldEditStrings']
     end
     if not editstring[str] then
         return str
