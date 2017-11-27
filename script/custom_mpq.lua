@@ -78,6 +78,7 @@ local function extract_mpq(mpqs)
             extract_file(mpq, root .. 'Scripts\\Blizzard.j')
             
             extract_file(mpq, root .. 'UI\\MiscData.txt')
+            extract_file(mpq, root .. 'UI\\WorldEditStrings.txt')
 
             extract_file(mpq, root .. 'units\\MiscGame.txt')
             extract_file(mpq, root .. 'units\\MiscData.txt')
