@@ -64,19 +64,21 @@ local function sandbox_env(dir, prelist)
         end
     end
 
-    local function io_open(path, ...)
-        --TODO
-        return io.open(_ROOT .. path, ...)
+    _package_load = package.load
+    if not _package_load then
+        function _package_load(path)
+            local f, e = io.open(path)
+            if not f then
+                return nil, e
+            end
+            local buf = f:read 'a'
+            f:close()
+            return buf
+        end
     end
 
-    local function loadfile(name, ...)
-        local f, err = io_open(name)
-        if not f then
-            return nil, err
-        end
-        local buf = f:read 'a'
-        f:close()
-        return load(buf, '@' .. name, ...)
+    local function package_load(path)
+        return _package_load(_ROOT .. path)
     end
 
     local function searchpath(name, path)
@@ -84,12 +86,11 @@ local function sandbox_env(dir, prelist)
     	name = string.gsub(name, '%.', '/')
     	for c in string.gmatch(path, '[^;]+') do
     		local filename = string.gsub(c, '%?', name)
-    		local f = io_open(filename)
-    		if f then
-    			f:close()
-    			return filename
+    		local buf = package_load(filename)
+    		if buf then
+    			return filename, buf
     		end
-            err = err .. ("\n\tno file '%s'"):format(_ROOT .. filename)
+            err = err .. ("\n\tno file '%s'"):format(filename)
         end
         return nil, err
     end
@@ -108,7 +109,7 @@ local function sandbox_env(dir, prelist)
     	if not filename then
     		return err
     	end
-    	local f, err = loadfile(filename)
+    	local f, err = load(err, '@' .. filename)
     	if not f then
     		error(("error loading module '%s' from file '%s':\n\t%s"):format(name, filename, err))
     	end
@@ -159,10 +160,18 @@ local function sandbox_env(dir, prelist)
         path = '?.lua',
         preload = _PRELOAD,
         searchers = { searcher_preload, searcher_lua },
-        searchpath = searchpath,
+        searchpath = function(name, path)
+            local r, e = searchpath(name, path)
+            if r then return r end
+            return nil, e
+        end
+    ,
+        load = package_load,
     }
     _E.io = {
-        open = io_open,
+        open = function(path)
+            return io.open(_ROOT .. path)
+        end,
     }
     return _E
 end
