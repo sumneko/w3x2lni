@@ -114,14 +114,7 @@ local function sandbox(dir)
     _ENV.require = function (name)
         return require(name, _LOADED, _PATH, _ENV)
     end
-    local package_searchpath = package.searchpath
-    _ENV.package = {
-        loaded = _LOADED,
-        path = '',
-        searchpath = function (name, path)
-            return package_searchpath(name, _PATH)
-        end,
-    }
+    _ENV.package = { }
     local io_open = io.open
     _ENV.io = {
         open = function (path, mode)

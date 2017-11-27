@@ -160,15 +160,19 @@ function mt:__index(name)
         self.info = lni(assert(load_file('info.ini')), 'info')
         return self.info
     end
-    if package.loaded[name] ~= nil then
-        return package.loaded[name]
+    local f = io.open('slk\\'..name..'.lua')
+    if f then
+        f:close()
+        self[name] = require('slk.'..name)
+        return self[name]
     end
-    if package.searchpath('slk.'..name, package.path) then
-        package.loaded[name] = require('slk.'..name)
-    elseif package.searchpath('other.'..name, package.path) then
-        package.loaded[name] = require('other.'..name)
+    local f = io.open('other\\'..name..'.lua')
+    if f then
+        f:close()
+        self[name] = require('other.'..name)
+        return self[name]
     end
-    return package.loaded[name]
+    return nil
 end
 
 function mt:set_config(config)
