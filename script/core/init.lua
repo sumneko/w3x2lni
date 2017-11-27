@@ -199,7 +199,7 @@ function mt:set_loader(loader)
     self.loader = loader
 end
 
-mt:set_messager(print)
+mt:set_messager(function() end)
 mt:set_progress(require 'progress')
 
 return mt
