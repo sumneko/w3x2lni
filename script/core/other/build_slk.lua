@@ -1,7 +1,3 @@
-local w3xparser = require 'w3xparser'
-local slk = w3xparser.slk
-local txt = w3xparser.txt
-
 local w2l
 
 local abilitybuffdata = {
@@ -89,15 +85,18 @@ end
 return function (_w2l)
     w2l = _w2l
     
+    local slk = w2l.parse_slk
+    local txt = w2l.parse_txt
+    
 	local hook
 	function w2l:parse_slk(buf)
 		if hook then
-			local r = slk(buf)
+			local r = slk(self, buf)
 			hook(r)
 			hook = nil
 			return r
 		end
-		return slk(buf)
+		return slk(self, buf)
     end
     
     local archive = {}
@@ -105,7 +104,7 @@ return function (_w2l)
 		return w2l.loader(w2l.agent .. '\\' .. name) or w2l.loader(w2l.mpq .. '\\' .. name)
     end
 
-	local slk = w2l:frontend_slk(function(name)
+	local result = w2l:frontend_slk(function(name)
 		if name:lower() == 'units\\abilitybuffdata.slk' then
 			function hook(t)
                 merge_slk(t, abilitybuffdata)
@@ -116,12 +115,16 @@ return function (_w2l)
 
 	local hook
 	function w2l:parse_txt(buf, name, ...)
-        local r = txt(buf, name, ...)
+        local r = txt(self, buf, name, ...)
         if name:lower() == 'ui\\miscdata.txt' then
             merge_txt(r, miscdata)
         end
         return r
 	end
-	w2l:frontend_misc(archive, slk)
-	return slk
+    w2l:frontend_misc(archive, result)
+
+    w2l.parse_slk = slk
+    w2l.parse_txt = txt
+
+	return result
 end
