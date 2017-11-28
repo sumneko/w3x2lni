@@ -1,4 +1,4 @@
-local function standard()
+local function standard(loaded)
     local r = {}
     for _, s in ipairs {
         --'package',
@@ -10,6 +10,11 @@ local function standard()
         'math',
         'utf8',
         'debug',
+    } do
+        r[s] = _G[s]
+        loaded[s] = _G[s]
+    end
+    for _, s in ipairs {
         'assert',
         'collectgarbage',
         --'dofile',
@@ -41,21 +46,27 @@ local function standard()
 end
 
 local function sandbox_env(root, loaded)
-    local _E = standard()
+    local _LOADED = loaded or {}
+    local _E = standard(_LOADED)
     local _ROOT = root
     local _PRELOAD = {}
-    local _LOADED = loaded or {}
-    
-    local function io_open(path, mode)
-        return io.open(_ROOT .. path, mode)
+
+    local rioOpen = _E.io and _E.io.open or io.open
+
+    local function ioOpen(path, mode)
+        return rioOpen(_ROOT .. path, mode)
     end
+
+    _E.io = {
+        open = ioOpen,
+    }
 
     local function searchpath(name, path)
         local err = ''
     	name = string.gsub(name, '%.', '/')
     	for c in string.gmatch(path, '[^;]+') do
     		local filename = string.gsub(c, '%?', name)
-    		local f = io_open(filename)
+    		local f = ioOpen(filename)
             if f then
                 f:close()
     			return filename
@@ -66,7 +77,7 @@ local function sandbox_env(root, loaded)
     end
 
     local function loadfile(filename)
-        local f, e = io_open(filename)
+        local f, e = ioOpen(filename)
         if not f then
             return nil, e
         end
@@ -141,9 +152,6 @@ local function sandbox_env(root, loaded)
         preload = _PRELOAD,
         searchers = { searcher_preload, searcher_lua },
         searchpath = searchpath
-    }
-    _E.io = {
-        open = io_open,
     }
     return _E
 end
