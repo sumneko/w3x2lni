@@ -40,33 +40,14 @@ local function standard()
     return r
 end
 
-local function sandbox_env(dir, loaded)
+local function sandbox_env(root, loaded)
     local _E = standard()
-    local _ROOT = ''
+    local _ROOT = root
     local _PRELOAD = {}
     local _LOADED = loaded or {}
-    if dir then
-        local pos = dir:find [[[/\][^\/]*$]]
-        if pos then
-            _ROOT = dir:sub(1, pos)
-        end
-    end
-
-    _package_load = package.load
-    if not _package_load then
-        function _package_load(path)
-            local f, e = io.open(path)
-            if not f then
-                return nil, e
-            end
-            local buf = f:read 'a'
-            f:close()
-            return buf
-        end
-    end
-
-    local function package_load(path)
-        return _package_load(_ROOT .. path)
+    
+    local function io_open(path, mode)
+        return io.open(_ROOT .. path, mode)
     end
 
     local function searchpath(name, path)
@@ -74,13 +55,24 @@ local function sandbox_env(dir, loaded)
     	name = string.gsub(name, '%.', '/')
     	for c in string.gmatch(path, '[^;]+') do
     		local filename = string.gsub(c, '%?', name)
-    		local buf = package_load(filename)
-    		if buf then
-    			return filename, buf
+    		local f = io_open(filename)
+            if f then
+                f:close()
+    			return filename
     		end
             err = err .. ("\n\tno file '%s'"):format(filename)
         end
         return nil, err
+    end
+
+    local function loadfile(filename)
+        local f, e = io_open(filename)
+        if not f then
+            return nil, e
+        end
+        local buf = f:read 'a'
+        f:close()
+        return load(buf, '@' .. filename)
     end
 
     local function searcher_preload(name)
@@ -97,7 +89,7 @@ local function sandbox_env(dir, loaded)
     	if not filename then
     		return err
     	end
-    	local f, err = load(err, '@' .. filename)
+    	local f, err = loadfile(filename)
     	if not f then
     		error(("error loading module '%s' from file '%s':\n\t%s"):format(name, filename, err))
     	end
@@ -148,18 +140,10 @@ local function sandbox_env(dir, loaded)
         path = '?.lua',
         preload = _PRELOAD,
         searchers = { searcher_preload, searcher_lua },
-        searchpath = function(name, path)
-            local r, e = searchpath(name, path)
-            if r then return r end
-            return nil, e
-        end
-    ,
-        load = _package_load,
+        searchpath = searchpath
     }
     _E.io = {
-        open = function(path, mode)
-            return io.open(_ROOT .. path, mode)
-        end,
+        open = io_open,
     }
     return _E
 end
@@ -178,6 +162,15 @@ local function sandbox_load(name, searchers)
     error(("module '%s' not found:%s"):format(name, msg))
 end
 
+local function getparent(path)
+    if path then
+        local pos = path:find [[[/\][^\/]*$]]
+        if pos then
+            return path:sub(1, pos)
+        end
+    end
+end
+
 local _SANDBOX = {}
 return function(name, loaded)
     assert(type(name) == "string", ("bad argument #1 to 'sandbox' (string expected, got %s)"):format(type(name)))
@@ -185,8 +178,12 @@ return function(name, loaded)
 	if p ~= nil then
 		return p
 	end
-	local init, extra = sandbox_load(name, package.searchers)
-    debug.setupvalue(init, 1, sandbox_env(extra, loaded))
+    local init, extra = sandbox_load(name, package.searchers)
+    local root = getparent(extra)
+    if not root then
+        return error(("module '%s' not found"):format(name))
+    end
+    debug.setupvalue(init, 1, sandbox_env(root, loaded))
 	local res = init(name, extra)
 	if res ~= nil then
 		_SANDBOX[name] = res
