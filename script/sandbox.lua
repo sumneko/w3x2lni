@@ -40,23 +40,11 @@ local function standard()
     return r
 end
 
-local function make_preload(list)
-    if not list then
-        return {}
-    end
-    local res = {}
-    for _, name in ipairs(list) do
-        local r = require(name)
-        res[name] = function() return r end
-    end
-    return res
-end
-
-local function sandbox_env(dir, prelist)
+local function sandbox_env(dir, loaded)
     local _E = standard()
     local _ROOT = ''
-    local _PRELOAD = make_preload(prelist)
-    local _LOADED = {}
+    local _PRELOAD = {}
+    local _LOADED = loaded or {}
     if dir then
         local pos = dir:find [[[/\][^\/]*$]]
         if pos then
@@ -169,8 +157,8 @@ local function sandbox_env(dir, prelist)
         load = _package_load,
     }
     _E.io = {
-        open = function(path)
-            return io.open(_ROOT .. path)
+        open = function(path, mode)
+            return io.open(_ROOT .. path, mode)
         end,
     }
     return _E
@@ -191,14 +179,14 @@ local function sandbox_load(name, searchers)
 end
 
 local _SANDBOX = {}
-return function(name, prelist)
+return function(name, loaded)
     assert(type(name) == "string", ("bad argument #1 to 'sandbox' (string expected, got %s)"):format(type(name)))
 	local p = _SANDBOX[name]
 	if p ~= nil then
 		return p
 	end
 	local init, extra = sandbox_load(name, package.searchers)
-    debug.setupvalue(init, 1, sandbox_env(extra, prelist))
+    debug.setupvalue(init, 1, sandbox_env(extra, loaded))
 	local res = init(name, extra)
 	if res ~= nil then
 		_SANDBOX[name] = res
