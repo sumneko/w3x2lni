@@ -166,7 +166,7 @@ local function sandbox_env(dir, prelist)
             return nil, e
         end
     ,
-        load = package_load,
+        load = _package_load,
     }
     _E.io = {
         open = function(path)
