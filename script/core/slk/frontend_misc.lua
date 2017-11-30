@@ -1,4 +1,5 @@
 local w3xparser = require 'w3xparser'
+local loader = require 'loader'
 
 local string_lower = string.lower
 local table_concat = table.concat
@@ -108,7 +109,7 @@ return function (w2l_, archieve, slk)
     local miscnames = w2l:miscnames()
     local misc = {}
     for _, name in ipairs {"UI\\MiscData.txt", "Units\\MiscData.txt", "Units\\MiscGame.txt"} do
-        local buf = w2l.loader(w2l.agent .. '\\' .. name) or w2l.loader(w2l.mpq .. '\\' .. name)
+        local buf = loader:mpq_load(w2l.agent .. '\\' .. name) or loader:mpq_load(w2l.mpq .. '\\' .. name)
         w2l:parse_txt(buf, name, misc)
     end
     local buf = archieve:get('war3mapmisc.txt')

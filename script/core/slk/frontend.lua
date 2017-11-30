@@ -1,4 +1,5 @@
 local progress = require 'progress'
+local loader = require 'loader'
 local pairs = pairs
 local type = type
 
@@ -13,7 +14,7 @@ local function load_slk(w2l, archive, force_slk)
                 archive:set(name, false)
                 return buf
             end
-            return w2l.loader(w2l.agent .. '\\' .. name) or w2l.loader(w2l.mpq .. '\\' .. name)
+            return loader:mpq_load(w2l.agent .. '\\' .. name) or loader:mpq_load(w2l.mpq .. '\\' .. name)
         end)
     else
         return w2l:get_default(true)

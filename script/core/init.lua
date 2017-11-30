@@ -1,4 +1,5 @@
 local w3xparser = require 'w3xparser'
+local loader = require 'loader'
 local lni = require 'lni-c'
 local slk = w3xparser.slk
 local txt = w3xparser.txt
@@ -69,7 +70,7 @@ end
 function mt:editstring(str)
     -- TODO: WESTRING不区分大小写，不过我们把WorldEditStrings.txt改了，暂时不会出现问题
     if not editstring then
-        editstring = ini(self.loader(self.mpq .. '\\UI\\WorldEditStrings.txt'))['WorldEditStrings']
+        editstring = ini(loader:mpq_load(self.mpq .. '\\UI\\WorldEditStrings.txt'))['WorldEditStrings']
     end
     if not editstring[str] then
         return str
@@ -84,7 +85,7 @@ local function create_default(w2l)
     local default = {}
     local need_build = false
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'txt', 'misc'} do
-        local str = w2l.loader(w2l.default .. '\\' .. name .. '.ini')
+        local str = loader:mpq_load(w2l.default .. '\\' .. name .. '.ini')
         if str then
             default[name] = lni(str)
         else
@@ -189,10 +190,6 @@ end
 
 function mt:set_messager(prt)
     print = prt
-end
-
-function mt:set_loader(loader)
-    self.loader = loader
 end
 
 mt:set_messager(function() end)

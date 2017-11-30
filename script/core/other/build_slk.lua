@@ -1,3 +1,4 @@
+local loader = require 'loader'
 local w2l
 
 local abilitybuffdata = {
@@ -101,7 +102,7 @@ return function (_w2l)
     
     local archive = {}
     function archive:get(name)
-		return w2l.loader(w2l.agent .. '\\' .. name) or w2l.loader(w2l.mpq .. '\\' .. name)
+		return loader:mpq_load(w2l.agent .. '\\' .. name) or loader:mpq_load(w2l.mpq .. '\\' .. name)
     end
 
 	local result = w2l:frontend_slk(function(name)

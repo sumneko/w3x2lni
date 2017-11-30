@@ -2,12 +2,14 @@ require 'utility'
 local uni = require 'ffi.unicode'
 local sandbox = require 'sandbox'
 local lni = require 'lni-c'
+local loader = require 'loader'
 
 local core = sandbox('core', { 
     ['w3xparser'] = require 'w3xparser',
     ['lni-c']     = require 'lni-c',
     ['lpeg']      = require 'lpeg',
     ['progress']  = require 'progress',
+    ['loader']    = require 'loader',
 })
 
 local function get_exepath()
@@ -52,7 +54,7 @@ function mt:initialize(root)
     end
     self:set_config(config)
 
-    core:set_loader(function(path)
+    loader:set_mpq_loader(function(path)
         return io.load(self.root / 'data' / path)
     end)
 end
