@@ -1,3 +1,4 @@
+local progress = require 'progress'
 local table_insert = table.insert
 local table_sort = table.sort
 local math_type = math.type

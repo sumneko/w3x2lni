@@ -1,3 +1,4 @@
+local progress = require 'progress'
 local type = type
 local pairs = pairs
 local os_clock = os.clock

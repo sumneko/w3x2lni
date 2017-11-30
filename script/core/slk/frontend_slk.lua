@@ -1,3 +1,4 @@
+local progress = require 'progress'
 local w3xparser = require 'w3xparser'
 
 local math_floor = math.floor

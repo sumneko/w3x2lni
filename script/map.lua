@@ -22,7 +22,6 @@ function print(...)
     std_print(table.concat(tbl, ' '))
 end
 w2l:set_messager(print)
-w2l:set_progress(progress)
 
 local input = fs.path(uni.a2u(arg[1]))
 

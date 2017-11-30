@@ -1,3 +1,4 @@
+local progress = require 'progress'
 local pairs = pairs
 
 local keydata

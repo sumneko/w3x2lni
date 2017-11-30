@@ -5,7 +5,9 @@ local lni = require 'lni-c'
 
 local core = sandbox('core', { 
     ['w3xparser'] = require 'w3xparser',
-    ['lni-c'] = require 'lni-c',
+    ['lni-c']     = require 'lni-c',
+    ['lpeg']      = require 'lpeg',
+    ['progress']  = require 'progress',
 })
 
 local function get_exepath()

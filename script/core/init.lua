@@ -191,15 +191,10 @@ function mt:set_messager(prt)
     print = prt
 end
 
-function mt:set_progress(func)
-    progress = func
-end
-
 function mt:set_loader(loader)
     self.loader = loader
 end
 
 mt:set_messager(function() end)
-mt:set_progress(require 'progress')
 
 return mt
