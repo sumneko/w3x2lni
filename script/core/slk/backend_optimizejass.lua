@@ -23,10 +23,10 @@ local function create_report(report, title, type, max)
     end
 end
 
-return function (w2l, archive)
-    local common   = archive:get 'common.j'   or archive:get 'scripts\\common.j'   or loader:mpq_load(w2l.mpq .. '\\scripts\\common.j')
-    local blizzard = archive:get 'blizzard.j' or archive:get 'scripts\\blizzard.j' or loader:mpq_load(w2l.mpq .. '\\scripts\\blizzard.j')
-    local war3map  = archive:get 'war3map.j'  or archive:get 'scripts\\war3map.j'
+return function (w2l)
+    local common   = loader:map_load 'common.j'   or loader:map_load 'scripts\\common.j'   or loader:mpq_load(w2l.mpq .. '\\scripts\\common.j')
+    local blizzard = loader:map_load 'blizzard.j' or loader:map_load 'scripts\\blizzard.j' or loader:mpq_load(w2l.mpq .. '\\scripts\\blizzard.j')
+    local war3map  = loader:map_load 'war3map.j'  or loader:map_load 'scripts\\war3map.j'
     local ast
     ast = parser(common,   'common.j',   ast)
     ast = parser(blizzard, 'blizzard.j', ast)
@@ -34,10 +34,10 @@ return function (w2l, archive)
     
     local buf, report = optimizer(ast, w2l.config)
 
-    if archive:get 'war3map.j' then
-        archive:set('war3map.j', buf)
+    if loader:map_load 'war3map.j' then
+        loader:map_save('war3map.j', buf)
     else
-        archive:set('scripts\\war3map.j', buf)
+        loader:map_save('scripts\\war3map.j', buf)
     end
 
     create_report(report, 1,   '混淆脚本',        10)

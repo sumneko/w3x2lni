@@ -102,7 +102,7 @@ local function merge_misc(misc, txt, map_misc, metadata, miscnames, slk)
     end
 end
 
-return function (w2l_, archieve, slk)
+return function (w2l_, slk)
     w2l = w2l_
     marks = {}
     local metadata = w2l:metadata()
@@ -112,7 +112,7 @@ return function (w2l_, archieve, slk)
         local buf = loader:mpq_load(w2l.agent .. '\\' .. name) or loader:mpq_load(w2l.mpq .. '\\' .. name)
         w2l:parse_txt(buf, name, misc)
     end
-    local buf = archieve:get('war3mapmisc.txt')
+    local buf = loader:map_load('war3mapmisc.txt')
     if buf then
         local map_misc = w2l:parse_txt(buf, 'war3mapmisc.txt')
         merge_misc(misc, slk.txt, map_misc, metadata, miscnames, slk)

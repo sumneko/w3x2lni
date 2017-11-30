@@ -9,6 +9,7 @@ local uni = require 'ffi.unicode'
 local w2l = require 'w3x2lni'
 local archive = require 'archive'
 local save_map = require 'save_map'
+local loader = require 'loader'
 progress = require 'progress'
 w2l:initialize()
 
@@ -51,14 +52,22 @@ if not output_ar then
     return
 end
 
+loader:set_map_loader(function(filename)
+    return input_ar:get(filename)
+end)
+
+loader:set_map_saver(function(filename, buf)
+    return input_ar:set(filename, buf)
+end)
+
 print('正在读取物编...')
 progress:start(0.4)
-w2l:frontend(input_ar, slk)
+w2l:frontend(slk)
 progress:finish()
 
 print('正在转换...')
 progress:start(0.8)
-w2l:backend(input_ar, slk)
+w2l:backend(slk)
 progress:finish()
 
 print('正在生成文件...')

@@ -1,4 +1,5 @@
 local progress = require 'progress'
+local loader = require 'loader'
 local os_clock = os.clock
 
 local output = {
@@ -10,7 +11,7 @@ local output = {
     txt     = 'units\\itemabilitystrings.txt',
 }
 
-local function to_lni(w2l, archive, slk)
+local function to_lni(w2l, slk)
     --转换物编
     local count = 0
     for ttype, filename in pairs(w2l.info.lni) do
@@ -20,17 +21,17 @@ local function to_lni(w2l, archive, slk)
         local content = w2l:backend_lni(ttype, data)
         progress:finish()
         if content then
-            archive:set(filename, content)
+            loader:map_save(filename, content)
         end
     end
 
     local content = w2l:backend_txtlni(slk['txt'])
     if content then
-        archive:set('war3map.txt.ini', content)
+        loader:map_save('war3map.txt.ini', content)
     end
 end
 
-local function to_obj(w2l, archive, slk)
+local function to_obj(w2l, slk)
     --转换物编
     local count = 0
     for type, filename in pairs(w2l.info.obj) do
@@ -40,13 +41,13 @@ local function to_obj(w2l, archive, slk)
         local content = w2l:backend_obj(type, data, slk.wts)
         progress:finish()
         if content then
-            archive:set(filename, content)
+            loader:map_save(filename, content)
         end
     end
 
     local content = w2l:backend_txtlni(slk['txt'])
     if content then
-        archive:set('war3map.txt.ini', content)
+        loader:map_save('war3map.txt.ini', content)
     end
 end
 
@@ -189,7 +190,7 @@ local function remove_unuse(w2l, slk)
     end
 end
 
-local function to_slk(w2l, archive, slk)
+local function to_slk(w2l, slk)
     local report = { n = 0 }
     local object = {}
     local slk_list = {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable'}
@@ -200,29 +201,29 @@ local function to_slk(w2l, archive, slk)
         local data = slk[type]
         object[type] = {}
         for _, name in ipairs(w2l.info.slk[type]) do
-            archive:set(name, w2l:backend_slk(type, name, data, report, object[type], slk))
+            loader:map_save(name, w2l:backend_slk(type, name, data, report, object[type], slk))
         end
     end
 
     for _, filename in ipairs(w2l.info.txt) do
-        archive:set(filename, '')
+        loader:map_save(filename, '')
     end
     local txt = w2l:backend_txt(slk, report, object)
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade'} do
-        archive:set(output[type], txt[type])
+        loader:map_save(output[type], txt[type])
     end
 
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable', 'doodad'} do
         local data = object[type] or slk[type]
         local content = w2l:backend_obj(type, data, slk.wts)
         if content then
-            archive:set(w2l.info.obj[type], content)
+            loader:map_save(w2l.info.obj[type], content)
         end
     end
 
     local content = w2l:backend_extra_txt(slk['txt'])
     if content then
-        archive:set(output['txt'], content)
+        loader:map_save(output['txt'], content)
     end
 
     if report.n > 0 then
@@ -246,13 +247,13 @@ local function to_slk(w2l, archive, slk)
     end
 end
 
-return function (w2l, archive, slk)
+return function (w2l, slk)
     if slk.w3i then
         if w2l.config.target_format == 'lni' then
-            archive:set('war3map.w3i.ini', w2l:w3i2lni(slk.w3i), slk.wts)
-            archive:set('war3map.w3i', false)
+            loader:map_save('war3map.w3i.ini', w2l:w3i2lni(slk.w3i), slk.wts)
+            loader:map_save('war3map.w3i', false)
         else
-            archive:set('war3map.w3i', w2l:lni2w3i(slk.w3i, slk.wts))
+            loader:map_save('war3map.w3i', w2l:lni2w3i(slk.w3i, slk.wts))
         end
     end
     progress(0.1)
@@ -264,7 +265,7 @@ return function (w2l, archive, slk)
 
     if w2l.config.remove_unuse_object then
         print('标记简化对象...')
-        w2l:backend_mark(archive, slk)
+        w2l:backend_mark(slk)
         progress(0.2)
     end
 
@@ -288,52 +289,52 @@ return function (w2l, archive, slk)
     progress:start(0.9)
     print('转换物编文件...')
     if w2l.config.target_format == 'lni' then
-        to_lni(w2l, archive, slk)
+        to_lni(w2l, slk)
     elseif w2l.config.target_format == 'obj' then
-        to_obj(w2l, archive, slk)
+        to_obj(w2l, slk)
     elseif w2l.config.target_format == 'slk' then
-        to_slk(w2l, archive, slk)
+        to_slk(w2l, slk)
     end
     progress:finish()
 
     print('转换脚本...')
-    w2l:backend_convertjass(archive, slk.wts)
+    w2l:backend_convertjass(slk.wts)
     if not w2l.config.remove_we_only then
-        w2l:backend_convertwtg(archive, slk.wts)
+        w2l:backend_convertwtg(slk.wts)
     end
     progress(0.92)
 
     print('转换其他文件...')
-    archive:set('war3mapmisc.txt', w2l:backend_misc(slk.misc, slk.txt, slk.wts))
+    loader:map_save('war3mapmisc.txt', w2l:backend_misc(slk.misc, slk.txt, slk.wts))
     progress(0.93)
 
-    local buf = archive:get 'war3mapskin.txt'
+    local buf = loader:map_load 'war3mapskin.txt'
     if buf then
         local skin = w2l:parse_ini(buf)
-        archive:set('war3mapskin.txt', w2l:backend_skin(skin, slk.wts))
+        loader:map_save('war3mapskin.txt', w2l:backend_skin(skin, slk.wts))
     end
     progress(0.94)
 
     if w2l.config.target_format == 'lni' then
-        local buf = archive:get 'war3map.imp'
+        local buf = loader:map_load 'war3map.imp'
         if buf then
-            archive:set('war3map.imp', false)
-            archive:set('war3map.imp.ini', w2l:backend_imp(archive, buf))
+            loader:map_save('war3map.imp', false)
+            loader:map_save('war3map.imp.ini', w2l:backend_imp(buf))
         end
     end
 
     print('重新生成字符串...')
     local content = w2l:refresh_wts(slk.wts)
     if #content > 0 then
-        archive:set('war3map.wts', content)
+        loader:map_save('war3map.wts', content)
     else
-        archive:set('war3map.wts', false)
+        loader:map_save('war3map.wts', false)
     end
     progress(0.95)
 
     if w2l.config.optimize_jass then
         print('优化脚本...')
-        w2l:backend_optimizejass(archive)
+        w2l:backend_optimizejass()
     end
     progress(1)
 end

@@ -100,10 +100,10 @@ return function (_w2l)
 		return slk(self, buf)
     end
     
-    local archive = {}
-    function archive:get(name)
+    local real_map_loader = loader.map_loader
+    loader:set_map_loader(function(name)
 		return loader:mpq_load(w2l.agent .. '\\' .. name) or loader:mpq_load(w2l.mpq .. '\\' .. name)
-    end
+    end)
 
 	local result = w2l:frontend_slk(function(name)
 		if name:lower() == 'units\\abilitybuffdata.slk' then
@@ -111,7 +111,7 @@ return function (_w2l)
                 merge_slk(t, abilitybuffdata)
 			end
 		end
-		return archive:get(name)
+		return loader:map_load(name)
 	end)
 
 	local hook
@@ -122,10 +122,11 @@ return function (_w2l)
         end
         return r
 	end
-    w2l:frontend_misc(archive, result)
+    w2l:frontend_misc(result)
 
     w2l.parse_slk = slk
     w2l.parse_txt = txt
+    loader:set_map_loader(real_map_loader)
 
 	return result
 end

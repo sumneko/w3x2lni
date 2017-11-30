@@ -1,4 +1,5 @@
 local lpeg = require 'lpeg'
+local loader = require 'loader'
 local w2l
 local wts
 
@@ -30,17 +31,17 @@ local any  = C((1 - mtch)^1)
 local pjass = (mtch + any)^0 / function(...)
     return table.concat {...}
 end
-return function (w2l_, archive, wts_)
+return function (w2l_, wts_)
     local name = 'war3map.j'
-    local buf = archive:get(name)
+    local buf = loader:map_load(name)
     if not buf then
         name = 'scripts\\war3map.j'
-        buf = archive:get(name)
+        buf = loader:map_load(name)
         if not buf then
             return
         end
     end
     w2l = w2l_
     wts = wts_
-    archive:set(name, pjass:match(buf))
+    loader:map_save(name, pjass:match(buf))
 end

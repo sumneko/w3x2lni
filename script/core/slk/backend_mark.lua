@@ -1,3 +1,4 @@
+local loader = require 'loader'
 local std_type = type
 local mustuse =  {
     ability = {
@@ -316,8 +317,8 @@ local function mark_marketplace(slk, flag)
     end
 end
 
-local function mark_doo(w2l, archive, slk)
-    local destructable, doodad = w2l:backend_searchdoo(archive)
+local function mark_doo(w2l, slk)
+    local destructable, doodad = w2l:backend_searchdoo()
     if not destructable then
         return
     end
@@ -333,10 +334,17 @@ local function mark_doo(w2l, archive, slk)
     end
 end
 
-local function mark_lua(w2l, archive, slk)
-    local buf = archive:get('reference.lua')
+local function mark_lua(w2l, slk)
+    local buf = loader:map_load('reference.lua')
     if not buf then
         return
+    end
+    local archive = {}
+    function archive:get(filename)
+        return loader:map_load(filename)
+    end
+    function archive:set(filename, buf)
+        return loader:map_save(filename, buf)
     end
     local env = {
         archive  = archive,
@@ -377,7 +385,7 @@ local function mark_lua(w2l, archive, slk)
     end
 end
 
-return function(w2l, archive, slk_)
+return function(w2l, slk_)
     slk = slk_
     if not search then
         search = w2l:defined 'search'
@@ -393,10 +401,10 @@ return function(w2l, archive, slk_)
         end
     end
     slk.mustuse = mustuse
-    local jasslist, jassflag = w2l:backend_searchjass(archive)
+    local jasslist, jassflag = w2l:backend_searchjass()
     mark_mustuse(slk)
     mark_jass(slk, jasslist, jassflag)
-    mark_doo(w2l, archive, slk)
-    mark_lua(w2l, archive, slk)
+    mark_doo(w2l, slk)
+    mark_lua(w2l, slk)
     mark_marketplace(slk, jassflag)
 end

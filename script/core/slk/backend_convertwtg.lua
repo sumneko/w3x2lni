@@ -1,3 +1,4 @@
+local loader = require 'loader'
 local w2l
 local wts
 
@@ -26,13 +27,13 @@ local pwtg = (mtch + any)^0 / function(...)
     return table.concat {...}
 end
 
-return function (w2l_, archive, wts_)
+return function (w2l_, wts_)
     local name = 'war3map.wtg'
-    local buf = archive:get(name)
+    local buf = loader:map_load(name)
     if not buf then
         return
     end
     w2l = w2l_
     wts = wts_
-    archive:set(name, pwtg:match(buf))
+    loader:map_save(name, pwtg:match(buf))
 end

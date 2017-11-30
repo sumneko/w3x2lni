@@ -3,15 +3,15 @@ local loader = require 'loader'
 local pairs = pairs
 local type = type
 
-local function load_slk(w2l, archive, force_slk)
+local function load_slk(w2l, force_slk)
     if force_slk then
         print('-report|9其他', '物编信息不完整,强制读取slk文件')
     end
     if force_slk or w2l.config.read_slk then
         return w2l:frontend_slk(function(name)
-            local buf = archive:get(name)
+            local buf = loader:map_load(name)
             if buf then
-                archive:set(name, false)
+                loader:map_save(name, false)
                 return buf
             end
             return loader:mpq_load(w2l.agent .. '\\' .. name) or loader:mpq_load(w2l.mpq .. '\\' .. name)
@@ -21,12 +21,12 @@ local function load_slk(w2l, archive, force_slk)
     end
 end
 
-local function load_obj(w2l, archive, wts)
+local function load_obj(w2l, wts)
     local objs = {}
     local force_slk
     local count = 0
     for type, name in pairs(w2l.info.obj) do
-        local buf = archive:get(name)
+        local buf = loader:map_load(name)
         local force
         local count = count + 1
         if buf then
@@ -36,13 +36,13 @@ local function load_obj(w2l, archive, wts)
             if force then
                 force_slk = true
             end
-            archive:set(name, false)
+            loader:map_save(name, false)
         end
     end
     return objs, force_slk
 end
 
-local function load_lni(w2l, archive)
+local function load_lni(w2l)
     local lnis = {}
     if not w2l.config.read_lni then
         return lnis
@@ -50,30 +50,30 @@ local function load_lni(w2l, archive)
     local count = 0
     for type, name in pairs(w2l.info.lni) do
         count = count + 1
-        local buf = archive:get(name)
+        local buf = loader:map_load(name)
         if buf then
             print('正在转换', name)
             lnis[type] = w2l:frontend_lni(type, buf)
             progress(count / 7)
-            archive:set(name, false)
+            loader:map_save(name, false)
         end
     end
 
-    local buf = archive:get('war3map.txt.ini')
+    local buf = loader:map_load('war3map.txt.ini')
     if buf then
         lnis['txt'] = w2l:parse_lni(buf, 'txt')
-        archive:set('war3map.txt.ini', false)
+        loader:map_save('war3map.txt.ini', false)
     end
     return lnis
 end
 
-local function load_w3i(w2l, archive, slk)
-    local buf = archive:get 'war3map.w3i.ini'
+local function load_w3i(w2l, slk)
+    local buf = loader:map_load 'war3map.w3i.ini'
     if buf and w2l.config.read_lni then
-        archive:set('war3map.w3i.ini', false)
+        loader:map_save('war3map.w3i.ini', false)
         return w2l:parse_lni(buf)
     else
-        buf = archive:get 'war3map.w3i'
+        buf = loader:map_load 'war3map.w3i'
         if buf then
             return w2l:read_w3i(buf, slk.wts)
         end
@@ -188,32 +188,32 @@ local function update_then_merge(w2l, slks, objs, lnis, slk)
     end
 end
 
-return function(w2l, archive, slk)
+return function(w2l, slk)
     --读取字符串
-    slk.wts = w2l:frontend_wts(archive:get('war3map.wts'))
+    slk.wts = w2l:frontend_wts(loader:map_load('war3map.wts'))
     progress(0.2)
 
-    slk.w3i = load_w3i(w2l, archive, slk)
+    slk.w3i = load_w3i(w2l, slk)
     update_version(w2l, slk.w3i)
 
     print('读取obj...')
     progress:start(0.4)
-    local objs, force_slk1 = load_obj(w2l, archive, slk.wts)
+    local objs, force_slk1 = load_obj(w2l, slk.wts)
     progress:finish()
 
     print('读取lni...')
     progress:start(0.6)
-    local lnis, force_slk2 = load_lni(w2l, archive)
+    local lnis, force_slk2 = load_lni(w2l)
     progress:finish()
 
     print('读取slk...')
     progress:start(0.8)
-    local slks = load_slk(w2l, archive, force_slk1 or force_slk2)
+    local slks = load_slk(w2l, force_slk1 or force_slk2)
     progress:finish()
     
     print('合并物编数据...')
     progress:start(1)
     update_then_merge(w2l, slks, objs, lnis, slk)
     progress:finish()
-    w2l:frontend_misc(archive, slk)
+    w2l:frontend_misc(slk)
 end
