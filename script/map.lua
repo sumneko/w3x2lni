@@ -10,7 +10,7 @@ local w2l = require 'w3x2lni'
 local archive = require 'archive'
 local save_map = require 'save_map'
 local loader = require 'loader'
-progress = require 'progress'
+local progress = require 'progress'
 w2l:initialize()
 
 local std_print = print
