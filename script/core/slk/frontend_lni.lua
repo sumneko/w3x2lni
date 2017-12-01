@@ -20,10 +20,10 @@ local function add_obj(type, name, level_key, obj)
     return new_obj
 end
 
-return function (w2l_, type, buf)
+return function (w2l_, type, buf, filename)
     w2l = w2l_
     default = w2l:get_default()[type]
-    local lni = w2l:parse_lni(buf)
+    local lni = w2l:parse_lni(buf, filename)
     local metadata = w2l:metadata()[type]
     local level_key = w2l.info.key.max_level[type]
     if level_key then

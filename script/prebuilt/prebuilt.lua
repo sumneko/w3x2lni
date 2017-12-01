@@ -132,7 +132,7 @@ function mt:complete()
     self:dofile('default', 'Custom', 'template')
 
     -- 生成技能命令映射
-    --local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'))
+    --local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'), 'ability.ini')
     --local order_list = order_prebuilt(skill_data)
     --io.save(w2l.root / 'script' / 'order' / 'order_list.lua', order_list)
 

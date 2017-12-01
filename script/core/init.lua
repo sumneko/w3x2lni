@@ -26,8 +26,8 @@ local function load_file(path)
     return nil
 end
 
-function mt:parse_lni(...)
-    return lni(...)
+function mt:parse_lni(buf, filename, ...)
+    return lni(buf, filename, ...)
 end
 
 function mt:parse_slk(buf)

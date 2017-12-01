@@ -4,7 +4,7 @@ local slk = w3xparser.slk
 local codemapped
 local function get_codemapped(w2l, id)
     if not codemapped then
-        codemapped = w2l:parse_lni(io.load(w2l.defined / 'codemapped.ini'))
+        codemapped = w2l:parse_lni(io.load(w2l.defined / 'codemapped.ini'), 'codemapped.ini')
     end
     return codemapped[id] or id
 end
@@ -90,7 +90,7 @@ local cant_empty = {
 local typedefine
 local function get_typedefine(w2l, type)
     if not typedefine then
-        typedefine = w2l:parse_lni(io.load(w2l.defined / 'typedefine.ini'))
+        typedefine = w2l:parse_lni(io.load(w2l.defined / 'typedefine.ini'), 'typedefine.ini')
     end
     return typedefine[type:lower()] or 3
 end

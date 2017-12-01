@@ -68,7 +68,7 @@ local function search_dir(map)
     end)
 end
 
-local function save_imp(w2l, output_ar, imp_buf)
+local function save_imp(w2l, output_ar, imp_buf, filename)
     local impignore = {}
     for _, name in ipairs(w2l.info.pack.impignore) do
         impignore[name] = true
@@ -80,7 +80,7 @@ local function save_imp(w2l, output_ar, imp_buf)
         end
     end
     if imp_buf then
-        local imp_lni = w2l:parse_lni(imp_buf)
+        local imp_lni = w2l:parse_lni(imp_buf, filename)
         for _, name in ipairs(imp_lni.import) do
             local name = name:lower()
             if impignore[name] then
@@ -134,7 +134,7 @@ return function (w2l, output_ar, w3i, input_ar)
     end
 
     if not w2l.config.remove_we_only and output_ar:get_type() == 'mpq' then
-        save_imp(w2l, output_ar, imp)
+        save_imp(w2l, output_ar, imp, 'war3map.imp.ini')
     end
 
     if not output_ar:save(w3i, w2l.config.remove_we_only) then

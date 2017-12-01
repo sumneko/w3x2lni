@@ -26,7 +26,7 @@ end
 local codemapped
 local function get_codemapped(w2l, id)
     if not codemapped then
-        codemapped = w2l:parse_lni(io.load(w2l.defined / 'codemapped.ini'))
+        codemapped = w2l:parse_lni(io.load(w2l.defined / 'codemapped.ini'), 'codemapped.ini')
     end
     return codemapped[id] or id
 end

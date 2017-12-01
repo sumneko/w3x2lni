@@ -53,7 +53,7 @@ local function load_lni(w2l)
         local buf = loader:map_load(name)
         if buf then
             print('正在转换', name)
-            lnis[type] = w2l:frontend_lni(type, buf)
+            lnis[type] = w2l:frontend_lni(type, buf, name)
             progress(count / 7)
             loader:map_save(name, false)
         end
@@ -61,7 +61,7 @@ local function load_lni(w2l)
 
     local buf = loader:map_load('war3map.txt.ini')
     if buf then
-        lnis['txt'] = w2l:parse_lni(buf, 'txt')
+        lnis['txt'] = w2l:parse_lni(buf, 'war3map.txt.ini')
         loader:map_save('war3map.txt.ini', false)
     end
     return lnis
@@ -71,7 +71,7 @@ local function load_w3i(w2l, slk)
     local buf = loader:map_load 'war3map.w3i.ini'
     if buf and w2l.config.read_lni then
         loader:map_save('war3map.w3i.ini', false)
-        return w2l:parse_lni(buf)
+        return w2l:parse_lni(buf, 'war3map.w3i.ini')
     else
         buf = loader:map_load 'war3map.w3i'
         if buf then
