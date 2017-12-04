@@ -104,13 +104,13 @@ return function (w2l, output_ar, w3i, input_ar)
         search_dir(input_ar)
     end
     if w2l.config.remove_we_only then
-        input_ar:set('war3map.wtg', false)
-        input_ar:set('war3map.wct', false)
-        input_ar:set('war3map.imp', false)
-        input_ar:set('war3map.w3s', false)
-        input_ar:set('war3map.w3r', false)
-        input_ar:set('war3map.w3c', false)
-        input_ar:set('war3mapunits.doo', false)
+        input_ar:remove('war3map.wtg')
+        input_ar:remove('war3map.wct')
+        input_ar:remove('war3map.imp')
+        input_ar:remove('war3map.w3s')
+        input_ar:remove('war3map.w3r')
+        input_ar:remove('war3map.w3c')
+        input_ar:remove('war3mapunits.doo')
     else
         if not input_ar:get 'war3mapunits.doo' then
             input_ar:set('war3mapunits.doo', w2l:create_unitsdoo())
@@ -124,13 +124,13 @@ return function (w2l, output_ar, w3i, input_ar)
             output_ar:set(name, buf)
         end
     end
-    output_ar:set('(listfile)', false)
-    output_ar:set('(signature)', false)
-    output_ar:set('(attributes)', false)
+    output_ar:remove('(listfile)')
+    output_ar:remove('(signature)')
+    output_ar:remove('(attributes)')
 
     local imp = input_ar:get 'war3map.imp.ini'
     if w2l.config.target_format ~= 'lni' then
-        output_ar:set('war3map.imp.ini', false)
+        output_ar:remove('war3map.imp.ini')
     end
 
     if not w2l.config.remove_we_only and output_ar:get_type() == 'mpq' then

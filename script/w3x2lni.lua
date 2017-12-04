@@ -54,9 +54,9 @@ function mt:initialize(root)
     end
     self:set_config(config)
 
-    loader:set_mpq_loader(function(path)
-        return io.load(self.root / 'data' / path)
-    end)
+    function loader:on_mpq_load(filename)
+        return io.load(root / 'data' / filename)
+    end
 end
 
 function mt:set_config(config)

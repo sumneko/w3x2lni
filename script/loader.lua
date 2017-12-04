@@ -1,36 +1,31 @@
 local mt = {}
 
 function mt:mpq_load(filename)
-    if self.mpq_loader then
-        return self.mpq_loader(filename)
+    if self.on_mpq_load then
+        return self:on_mpq_load(filename)
     end
     return nil
 end
 
 function mt:map_load(filename)
-    if self.map_loader then
-        return self.map_loader(filename)
+    if self.on_map_load then
+        return self:on_map_load(filename)
     end
     return nil
 end
 
 function mt:map_save(filename, buf)
-    if self.map_saver then
-        return self.map_saver(filename, buf)
+    if self.on_map_save then
+        return self:on_map_save(filename, buf)
     end
     return false
 end
 
-function mt:set_mpq_loader(func)
-    self.mpq_loader = func
-end
-
-function mt:set_map_loader(func)
-    self.map_loader = func
-end
-
-function mt:set_map_saver(func)
-    self.map_saver = func
+function mt:map_remove(filename)
+    if self.on_map_remove then
+        return self:on_map_remove(filename)
+    end
+    return false
 end
 
 return mt

@@ -52,13 +52,17 @@ if not output_ar then
     return
 end
 
-loader:set_map_loader(function(filename)
+function loader:on_map_load(filename)
     return input_ar:get(filename)
-end)
+end
 
-loader:set_map_saver(function(filename, buf)
+function loader:on_map_save(filename, buf)
     return input_ar:set(filename, buf)
-end)
+end
+
+function loader:on_map_remove(filename)
+    return input_ar:remove(filename)
+end
 
 print('正在读取物编...')
 progress:start(0.4)
