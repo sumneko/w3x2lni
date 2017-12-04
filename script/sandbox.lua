@@ -51,7 +51,7 @@ local function sandbox_env(root, loaded)
     local _ROOT = root
     local _PRELOAD = {}
 
-    local rioOpen = _E.io and _E.io.open or io.open
+    local rioOpen = loaded.io and loaded.io.open or io.open
 
     local function ioOpen(path, mode)
         return rioOpen(_ROOT .. path, mode)
