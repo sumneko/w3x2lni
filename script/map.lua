@@ -6,7 +6,7 @@ end)()
 require 'filesystem'
 require 'utility'
 local uni = require 'ffi.unicode'
-local w2l = require 'w3x2lni'
+local w2l = (require 'w3x2lni')()
 local archive = require 'archive'
 local save_map = require 'save_map'
 local progress = require 'progress'

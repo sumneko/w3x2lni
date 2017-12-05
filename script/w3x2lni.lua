@@ -8,16 +8,19 @@ local core = sandbox('core', {
     ['lni-c']     = require 'lni-c',
     ['lpeg']      = require 'lpeg',
     ['progress']  = require 'progress',
-})
+})()
 
 local function get_exepath()
     return fs.path(uni.a2u(package.cpath:sub(1, (package.cpath:find(';') or 0)-6))):remove_filename():remove_filename()
 end
 
 local mt = {}
-setmetatable(mt, mt)
 
 function mt:__index(key)
+    local value = mt[key]
+    if value then
+        return value
+    end
     local value = core[key]
     if type(value) == 'function' then
         return function (obj, ...)
@@ -72,4 +75,6 @@ function mt:set_config(config)
     self.default = self.root / 'data' / core.default
 end
 
-return mt
+return function ()
+    return setmetatable({}, mt)
+end

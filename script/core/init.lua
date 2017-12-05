@@ -193,4 +193,7 @@ end
 
 mt:set_messager(function() end)
 
-return mt
+return function ()
+    local self = setmetatable({}, { __index = mt })
+    return self
+end
