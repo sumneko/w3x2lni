@@ -1,5 +1,6 @@
 local w3xparser = require 'w3xparser'
 local lni = require 'lni-c'
+local progress = require 'progress'
 local slk = w3xparser.slk
 local txt = w3xparser.txt
 local ini = w3xparser.ini
@@ -184,12 +185,14 @@ function mt:set_config(config)
     end
 end
 
-function mt:set_messager(prt)
-    print = prt
+function mt:set_messager(messager)
+    self.message = messager
+    self.progress:set_messager(messager)
+    print = messager
 end
 
-mt:set_messager(function() end)
-
 return function ()
-    return setmetatable({}, { __index = mt })
+    local self = setmetatable({}, { __index = mt })
+    self.progress = progress()
+    return self
 end

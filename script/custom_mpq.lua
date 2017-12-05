@@ -5,7 +5,7 @@ end)()
 
 require 'filesystem'
 require 'utility'
-local w2l  = (require 'w3x2lni')()
+local w3x2lni  = require 'w3x2lni'
 local uni      = require 'ffi.unicode'
 local stormlib = require 'ffi.stormlib'
 local sleep = require 'ffi.sleep'
@@ -115,6 +115,7 @@ local function main()
     end
     local config = prebuilt:get_config()
     config.mpq = arg[2]
+    local w2l = w3x2lni()
     w2l:set_config(config)
 
     if fs.exists(w2l.mpq) then

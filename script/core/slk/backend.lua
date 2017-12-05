@@ -1,4 +1,3 @@
-local progress = require 'progress'
 local os_clock = os.clock
 
 local output = {
@@ -16,9 +15,9 @@ local function to_lni(w2l, slk)
     for ttype, filename in pairs(w2l.info.lni) do
         count = count + 1
         local data = slk[ttype]
-        progress:start(count / 7)
+        w2l.progress:start(count / 7)
         local content = w2l:backend_lni(ttype, data)
-        progress:finish()
+        w2l.progress:finish()
         if content then
             w2l:map_save(filename, content)
         end
@@ -36,9 +35,9 @@ local function to_obj(w2l, slk)
     for type, filename in pairs(w2l.info.obj) do
         count = count + 1
         local data = slk[type]
-        progress:start(count / 7)
+        w2l.progress:start(count / 7)
         local content = w2l:backend_obj(type, data, slk.wts)
-        progress:finish()
+        w2l.progress:finish()
         if content then
             w2l:map_save(filename, content)
         end
@@ -255,37 +254,37 @@ return function (w2l, slk)
             w2l:map_save('war3map.w3i', w2l:lni2w3i(slk.w3i, slk.wts))
         end
     end
-    progress(0.1)
+    w2l.progress(0.1)
 
-    progress:start(0.1)
+    w2l.progress:start(0.1)
     print('清理数据...')
     w2l:backend_searchparent(slk)
-    progress:finish()
+    w2l.progress:finish()
 
     if w2l.config.remove_unuse_object then
         print('标记简化对象...')
         w2l:backend_mark(slk)
-        progress(0.2)
+        w2l.progress(0.2)
     end
 
     if w2l.config.target_format == 'slk' then
         print('计算描述中的公式...')
         w2l:backend_computed(slk)
-        progress(0.3)
+        w2l.progress(0.3)
     end
 
     if w2l.config.remove_unuse_object then
         print('移除简化对象...')
-        progress:start(0.5)
+        w2l.progress:start(0.5)
         remove_unuse(w2l, slk)
-        progress:finish()
+        w2l.progress:finish()
     end
 
-    progress:start(0.7)
+    w2l.progress:start(0.7)
     w2l:backend_cleanobj(slk)
-    progress:finish()
+    w2l.progress:finish()
     
-    progress:start(0.9)
+    w2l.progress:start(0.9)
     print('转换物编文件...')
     if w2l.config.target_format == 'lni' then
         to_lni(w2l, slk)
@@ -294,25 +293,25 @@ return function (w2l, slk)
     elseif w2l.config.target_format == 'slk' then
         to_slk(w2l, slk)
     end
-    progress:finish()
+    w2l.progress:finish()
 
     print('转换脚本...')
     w2l:backend_convertjass(slk.wts)
     if not w2l.config.remove_we_only then
         w2l:backend_convertwtg(slk.wts)
     end
-    progress(0.92)
+    w2l.progress(0.92)
 
     print('转换其他文件...')
     w2l:map_save('war3mapmisc.txt', w2l:backend_misc(slk.misc, slk.txt, slk.wts))
-    progress(0.93)
+    w2l.progress(0.93)
 
     local buf = w2l:map_load 'war3mapskin.txt'
     if buf then
         local skin = w2l:parse_ini(buf)
         w2l:map_save('war3mapskin.txt', w2l:backend_skin(skin, slk.wts))
     end
-    progress(0.94)
+    w2l.progress(0.94)
 
     if w2l.config.target_format == 'lni' then
         local buf = w2l:map_load 'war3map.imp'
@@ -329,11 +328,11 @@ return function (w2l, slk)
     else
         w2l:map_remove('war3map.wts')
     end
-    progress(0.95)
+    w2l.progress(0.95)
 
     if w2l.config.optimize_jass then
         print('优化脚本...')
         w2l:backend_optimizejass()
     end
-    progress(1)
+    w2l.progress(1)
 end

@@ -83,7 +83,7 @@ local function sandbox_env(root, loaded)
         end
         local buf = f:read 'a'
         f:close()
-        return load(buf, '@' .. filename)
+        return load(buf, '@' .. _ROOT .. filename)
     end
 
     local function searcher_preload(name)

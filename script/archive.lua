@@ -1,6 +1,5 @@
 local mpq = require 'archive_mpq'
 local dir = require 'archive_dir'
-local progress = require 'progress'
 
 local os_clock = os.clock
 
@@ -34,7 +33,7 @@ function mt:close()
     return self.handle:close()
 end
 
-function mt:save(w3i, encrypt)
+function mt:save(w3i, progress, encrypt)
     if self:is_readonly() then
         return false
     end

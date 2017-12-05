@@ -1,8 +1,6 @@
-
-
 require 'filesystem'
 require 'utility'
-local w2l  = (require 'w3x2lni')()
+local w3x2lni  = require 'w3x2lni'
 local uni      = require 'ffi.unicode'
 local order_prebuilt = require 'order.prebuilt'
 local default2lni = require 'prebuilt.default2lni'
@@ -11,7 +9,7 @@ local prebuilt_keydata = require 'prebuilt.prebuilt_keydata'
 local prebuilt_search = require 'prebuilt.prebuilt_search'
 local prebuilt_miscnames = require 'prebuilt.prebuilt_miscnames'
 
-w2l:initialize()
+local w2l = w3x2lni()
 
 local std_print = print
 function print(...)

@@ -1,4 +1,3 @@
-local progress = require 'progress'
 local pairs = pairs
 local type = type
 
@@ -31,7 +30,7 @@ local function load_obj(w2l, wts)
         if buf then
             print('正在转换', name)
             objs[type], force = w2l:frontend_obj(type, buf, wts)
-            progress(count / 7)
+            w2l.progress(count / 7)
             if force then
                 force_slk = true
             end
@@ -53,7 +52,7 @@ local function load_lni(w2l)
         if buf then
             print('正在转换', name)
             lnis[type] = w2l:frontend_lni(type, buf, name)
-            progress(count / 7)
+            w2l.progress(count / 7)
             w2l:map_remove(name)
         end
     end
@@ -190,29 +189,29 @@ end
 return function(w2l, slk)
     --读取字符串
     slk.wts = w2l:frontend_wts(w2l:map_load('war3map.wts'))
-    progress(0.2)
+    w2l.progress(0.2)
 
     slk.w3i = load_w3i(w2l, slk)
     update_version(w2l, slk.w3i)
 
     print('读取obj...')
-    progress:start(0.4)
+    w2l.progress:start(0.4)
     local objs, force_slk1 = load_obj(w2l, slk.wts)
-    progress:finish()
+    w2l.progress:finish()
 
     print('读取lni...')
-    progress:start(0.6)
+    w2l.progress:start(0.6)
     local lnis, force_slk2 = load_lni(w2l)
-    progress:finish()
+    w2l.progress:finish()
 
     print('读取slk...')
-    progress:start(0.8)
+    w2l.progress:start(0.8)
     local slks = load_slk(w2l, force_slk1 or force_slk2)
-    progress:finish()
+    w2l.progress:finish()
     
     print('合并物编数据...')
-    progress:start(1)
+    w2l.progress:start(1)
     update_then_merge(w2l, slks, objs, lnis, slk)
-    progress:finish()
+    w2l.progress:finish()
     w2l:frontend_misc(slk)
 end

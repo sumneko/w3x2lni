@@ -1,4 +1,3 @@
-local progress = require 'progress'
 local w3xparser = require 'w3xparser'
 
 local table_insert = table.insert
@@ -182,7 +181,7 @@ local function write_chunk(names, data, n, max)
         write_object(data, name, data[name])
         if os_clock() - clock > 0.1 then
             clock = os_clock()
-            progress((i+n) / max)
+            w2l.progress((i+n) / max)
             print(('正在转换%s: [%s] (%d/%d)'):format(ttype, data[name]._id, i+n, max))
         end
     end

@@ -7,7 +7,6 @@ local core = sandbox('core', {
     ['w3xparser'] = require 'w3xparser',
     ['lni-c']     = require 'lni-c',
     ['lpeg']      = require 'lpeg',
-    ['progress']  = require 'progress',
 })()
 
 local function get_exepath()
@@ -41,7 +40,7 @@ function mt:__newindex(key, value)
     end
 end
 
-function mt:initialize(root)
+local function initialize(self, root)
     if self.initialized then
         return
     end
@@ -75,6 +74,8 @@ function mt:set_config(config)
     self.default = self.root / 'data' / core.default
 end
 
-return function ()
-    return setmetatable({}, mt)
+return function (root)
+    local self = setmetatable({}, mt)
+    initialize(self, root)
+    return self
 end

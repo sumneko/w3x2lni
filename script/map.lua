@@ -6,11 +6,10 @@ end)()
 require 'filesystem'
 require 'utility'
 local uni = require 'ffi.unicode'
-local w2l = (require 'w3x2lni')()
+local w3x2lni = require 'w3x2lni'
 local archive = require 'archive'
 local save_map = require 'save_map'
-local progress = require 'progress'
-w2l:initialize()
+local w2l = w3x2lni()
 
 local std_print = print
 function print(...)
@@ -64,19 +63,19 @@ function w2l:map_remove(filename)
 end
 
 print('正在读取物编...')
-progress:start(0.4)
+w2l.progress:start(0.4)
 w2l:frontend(slk)
-progress:finish()
+w2l.progress:finish()
 
 print('正在转换...')
-progress:start(0.8)
+w2l.progress:start(0.8)
 w2l:backend(slk)
-progress:finish()
+w2l.progress:finish()
 
 print('正在生成文件...')
-progress:start(1)
+w2l.progress:start(1)
 save_map(w2l, output_ar, slk.w3i, input_ar)
-progress:finish()
+w2l.progress:finish()
 output_ar:close()
 input_ar:close()
 print('转换完毕,用时 ' .. os.clock() .. ' 秒') 
