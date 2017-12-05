@@ -152,24 +152,29 @@ function mt:refresh_wts(wts)
     return table.concat(lines, '\r\n\r\n')
 end
 
-setmetatable(mt, mt)
 function mt:__index(name)
+    local value = mt[name]
+    if value then
+        return value
+    end
+    if self.loaded[name] then
+        return nil
+    end
     if name == 'info' then
         self.info = lni(assert(load_file('info.ini')), 'info')
         return self.info
     end
-    local f = io.open('slk\\'..name..'.lua')
-    if f then
-        f:close()
-        self[name] = require('slk.'..name)
-        return self[name]
+    local suc, res = pcall(require, 'slk.'..name)
+    if suc then
+        self[name] = res
+        return res
     end
-    local f = io.open('other\\'..name..'.lua')
-    if f then
-        f:close()
-        self[name] = require('other.'..name)
-        return self[name]
+    local suc, res = pcall(require, 'other.'..name)
+    if suc then
+        self[name] = res
+        return res
     end
+    self.loaded[name] = true
     return nil
 end
 
@@ -191,7 +196,8 @@ function mt:set_messager(messager)
 end
 
 return function ()
-    local self = setmetatable({}, { __index = mt })
+    local self = setmetatable({}, mt)
     self.progress = progress()
+    self.loaded = {}
     return self
 end
