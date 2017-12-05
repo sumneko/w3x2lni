@@ -1,6 +1,5 @@
 local lpeg = require 'lpeg'
 local w3xparser = require 'w3xparser'
-local loader = require 'loader'
 local wtonumber = w3xparser.tonumber
 local ids
 local marks
@@ -127,9 +126,9 @@ local word = sp * (real + int + str + id) * sp
 local pjass = (ign + word + S'=+-*/><!()[],' + err'syntax error')^0
 
 return function (w2l)
-    local buf = loader:map_load('war3map.j')
+    local buf = w2l:map_load('war3map.j')
     if not buf then
-        buf = loader:map_load('scripts\\war3map.j')
+        buf = w2l:map_load('scripts\\war3map.j')
         if not buf then
             return
         end

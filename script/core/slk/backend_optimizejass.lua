@@ -1,6 +1,5 @@
 local parser    = require 'parser.init'
 local optimizer = require 'optimizer.init'
-local loader = require 'loader'
 
 local function create_report(report, title, type, max)
     local msgs = report[type]
@@ -24,9 +23,9 @@ local function create_report(report, title, type, max)
 end
 
 return function (w2l)
-    local common   = loader:map_load 'common.j'   or loader:map_load 'scripts\\common.j'   or loader:mpq_load(w2l.mpq .. '\\scripts\\common.j')
-    local blizzard = loader:map_load 'blizzard.j' or loader:map_load 'scripts\\blizzard.j' or loader:mpq_load(w2l.mpq .. '\\scripts\\blizzard.j')
-    local war3map  = loader:map_load 'war3map.j'  or loader:map_load 'scripts\\war3map.j'
+    local common   = w2l:map_load 'common.j'   or w2l:map_load 'scripts\\common.j'   or w2l:mpq_load(w2l.mpq .. '\\scripts\\common.j')
+    local blizzard = w2l:map_load 'blizzard.j' or w2l:map_load 'scripts\\blizzard.j' or w2l:mpq_load(w2l.mpq .. '\\scripts\\blizzard.j')
+    local war3map  = w2l:map_load 'war3map.j'  or w2l:map_load 'scripts\\war3map.j'
     local ast
     ast = parser(common,   'common.j',   ast)
     ast = parser(blizzard, 'blizzard.j', ast)
@@ -34,10 +33,10 @@ return function (w2l)
     
     local buf, report = optimizer(ast, w2l.config)
 
-    if loader:map_load 'war3map.j' then
-        loader:map_save('war3map.j', buf)
+    if w2l:map_load 'war3map.j' then
+        w2l:map_save('war3map.j', buf)
     else
-        loader:map_save('scripts\\war3map.j', buf)
+        w2l:map_save('scripts\\war3map.j', buf)
     end
 
     create_report(report, 1,   '混淆脚本',        10)

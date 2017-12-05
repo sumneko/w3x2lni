@@ -9,7 +9,6 @@ local uni = require 'ffi.unicode'
 local w2l = require 'w3x2lni'
 local archive = require 'archive'
 local save_map = require 'save_map'
-local loader = require 'loader'
 local progress = require 'progress'
 w2l:initialize()
 
@@ -52,15 +51,15 @@ if not output_ar then
     return
 end
 
-function loader:on_map_load(filename)
+function w2l:map_load(filename)
     return input_ar:get(filename)
 end
 
-function loader:on_map_save(filename, buf)
+function w2l:map_save(filename, buf)
     return input_ar:set(filename, buf)
 end
 
-function loader:on_map_remove(filename)
+function w2l:map_remove(filename)
     return input_ar:remove(filename)
 end
 

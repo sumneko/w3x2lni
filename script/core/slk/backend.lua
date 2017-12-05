@@ -1,5 +1,4 @@
 local progress = require 'progress'
-local loader = require 'loader'
 local os_clock = os.clock
 
 local output = {
@@ -21,13 +20,13 @@ local function to_lni(w2l, slk)
         local content = w2l:backend_lni(ttype, data)
         progress:finish()
         if content then
-            loader:map_save(filename, content)
+            w2l:map_save(filename, content)
         end
     end
 
     local content = w2l:backend_txtlni(slk['txt'])
     if content then
-        loader:map_save('war3map.txt.ini', content)
+        w2l:map_save('war3map.txt.ini', content)
     end
 end
 
@@ -41,13 +40,13 @@ local function to_obj(w2l, slk)
         local content = w2l:backend_obj(type, data, slk.wts)
         progress:finish()
         if content then
-            loader:map_save(filename, content)
+            w2l:map_save(filename, content)
         end
     end
 
     local content = w2l:backend_txtlni(slk['txt'])
     if content then
-        loader:map_save('war3map.txt.ini', content)
+        w2l:map_save('war3map.txt.ini', content)
     end
 end
 
@@ -201,29 +200,29 @@ local function to_slk(w2l, slk)
         local data = slk[type]
         object[type] = {}
         for _, name in ipairs(w2l.info.slk[type]) do
-            loader:map_save(name, w2l:backend_slk(type, name, data, report, object[type], slk))
+            w2l:map_save(name, w2l:backend_slk(type, name, data, report, object[type], slk))
         end
     end
 
     for _, filename in ipairs(w2l.info.txt) do
-        loader:map_save(filename, '')
+        w2l:map_save(filename, '')
     end
     local txt = w2l:backend_txt(slk, report, object)
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade'} do
-        loader:map_save(output[type], txt[type])
+        w2l:map_save(output[type], txt[type])
     end
 
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable', 'doodad'} do
         local data = object[type] or slk[type]
         local content = w2l:backend_obj(type, data, slk.wts)
         if content then
-            loader:map_save(w2l.info.obj[type], content)
+            w2l:map_save(w2l.info.obj[type], content)
         end
     end
 
     local content = w2l:backend_extra_txt(slk['txt'])
     if content then
-        loader:map_save(output['txt'], content)
+        w2l:map_save(output['txt'], content)
     end
 
     if report.n > 0 then
@@ -250,10 +249,10 @@ end
 return function (w2l, slk)
     if slk.w3i then
         if w2l.config.target_format == 'lni' then
-            loader:map_save('war3map.w3i.ini', w2l:w3i2lni(slk.w3i), slk.wts)
-            loader:map_remove('war3map.w3i')
+            w2l:map_save('war3map.w3i.ini', w2l:w3i2lni(slk.w3i), slk.wts)
+            w2l:map_remove('war3map.w3i')
         else
-            loader:map_save('war3map.w3i', w2l:lni2w3i(slk.w3i, slk.wts))
+            w2l:map_save('war3map.w3i', w2l:lni2w3i(slk.w3i, slk.wts))
         end
     end
     progress(0.1)
@@ -305,30 +304,30 @@ return function (w2l, slk)
     progress(0.92)
 
     print('转换其他文件...')
-    loader:map_save('war3mapmisc.txt', w2l:backend_misc(slk.misc, slk.txt, slk.wts))
+    w2l:map_save('war3mapmisc.txt', w2l:backend_misc(slk.misc, slk.txt, slk.wts))
     progress(0.93)
 
-    local buf = loader:map_load 'war3mapskin.txt'
+    local buf = w2l:map_load 'war3mapskin.txt'
     if buf then
         local skin = w2l:parse_ini(buf)
-        loader:map_save('war3mapskin.txt', w2l:backend_skin(skin, slk.wts))
+        w2l:map_save('war3mapskin.txt', w2l:backend_skin(skin, slk.wts))
     end
     progress(0.94)
 
     if w2l.config.target_format == 'lni' then
-        local buf = loader:map_load 'war3map.imp'
+        local buf = w2l:map_load 'war3map.imp'
         if buf then
-            loader:map_remove('war3map.imp')
-            loader:map_save('war3map.imp.ini', w2l:backend_imp(buf))
+            w2l:map_remove('war3map.imp')
+            w2l:map_save('war3map.imp.ini', w2l:backend_imp(buf))
         end
     end
 
     print('重新生成字符串...')
     local content = w2l:refresh_wts(slk.wts)
     if #content > 0 then
-        loader:map_save('war3map.wts', content)
+        w2l:map_save('war3map.wts', content)
     else
-        loader:map_remove('war3map.wts')
+        w2l:map_remove('war3map.wts')
     end
     progress(0.95)
 

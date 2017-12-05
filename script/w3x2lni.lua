@@ -2,14 +2,12 @@ require 'utility'
 local uni = require 'ffi.unicode'
 local sandbox = require 'sandbox'
 local lni = require 'lni-c'
-local loader = require 'loader'
 
 local core = sandbox('core', { 
     ['w3xparser'] = require 'w3xparser',
     ['lni-c']     = require 'lni-c',
     ['lpeg']      = require 'lpeg',
     ['progress']  = require 'progress',
-    ['loader']    = require 'loader',
 })
 
 local function get_exepath()
@@ -30,6 +28,14 @@ function mt:__index(key)
         end
     end
     return value
+end
+
+function mt:__newindex(key, value)
+    if key == 'mpq_load' or key == 'map_load' or key == 'map_save' or key == 'map_remove' then
+        core[key] = value
+    else
+        rawset(self, key, value)
+    end
 end
 
 function mt:initialize(root)
@@ -54,7 +60,7 @@ function mt:initialize(root)
     end
     self:set_config(config)
 
-    function loader:on_mpq_load(filename)
+    function core:mpq_load(filename)
         return io.load(root / 'data' / filename)
     end
 end

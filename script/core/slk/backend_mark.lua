@@ -1,4 +1,3 @@
-local loader = require 'loader'
 local std_type = type
 local mustuse =  {
     ability = {
@@ -335,19 +334,19 @@ local function mark_doo(w2l, slk)
 end
 
 local function mark_lua(w2l, slk)
-    local buf = loader:map_load('reference.lua')
+    local buf = w2l:map_load('reference.lua')
     if not buf then
         return
     end
     local archive = {}
     function archive:get(filename)
-        return loader:map_load(filename)
+        return w2l:map_load(filename)
     end
     function archive:set(filename, buf)
         if buf then
-            return loader:map_save(filename, buf)
+            return w2l:map_save(filename, buf)
         else
-            return loader:map_remove(filename)
+            return w2l:map_remove(filename)
         end
     end
     local env = {
