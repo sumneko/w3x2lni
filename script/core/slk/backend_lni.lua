@@ -32,7 +32,7 @@ local function format_value(tp, value)
     elseif tp == 1 or tp == 2 then
         return ('%.4f'):format(value)
     elseif tp == 3 then
-        value = w2l:editstring(value)
+        value = w2l:get_editstring(value)
         if value:match '[\n\r]' then
             return ('[=[\r\n%s]=]'):format(value)
         else
@@ -59,7 +59,7 @@ local function write_data(meta, data, lines)
         key = ('%q'):format(key)
     end
     if meta.displayname then
-        lines[#lines+1] = {'-- %s', w2l:editstring(meta.displayname):gsub('^%s*(.-)%s*$', '%1')}
+        lines[#lines+1] = {'-- %s', w2l:get_editstring(meta.displayname):gsub('^%s*(.-)%s*$', '%1')}
     end
     if not len then
         lines[#lines+1] = {'%s = %s', key, format_value(meta.type, data)}

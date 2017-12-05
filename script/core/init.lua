@@ -10,10 +10,7 @@ local mt = {}
 
 local metadata
 local keydata
-local editstring
-local default
 local miscnames
-local wts
 
 local function load_file(path)
     local f = io.open(path)
@@ -66,17 +63,17 @@ function mt:miscnames()
     return miscnames
 end
 
-function mt:editstring(str)
+function mt:get_editstring(str)
     -- TODO: WESTRING不区分大小写，不过我们把WorldEditStrings.txt改了，暂时不会出现问题
-    if not editstring then
-        editstring = ini(self:mpq_load(self.mpq .. '\\UI\\WorldEditStrings.txt'))['WorldEditStrings']
+    if not self.editstring then
+        self.editstring = ini(self:mpq_load(self.mpq .. '\\UI\\WorldEditStrings.txt'))['WorldEditStrings']
     end
-    if not editstring[str] then
+    if not self.editstring[str] then
         return str
     end
     repeat
-        str = editstring[str]
-    until not editstring[str]
+        str = self.editstring[str]
+    until not self.editstring[str]
     return str:gsub('%c+', '')
 end
 
@@ -102,10 +99,10 @@ function mt:get_default(create)
     if create then
         return create_default(self)
     end
-    if not default then
-        default = create_default(self)
+    if not self.default_data then
+        self.default_data = create_default(self)
     end
-    return default
+    return self.default_data
 end
 
 -- 同时有英文逗号和英文双引号的字符串存在txt里会解析出错
@@ -194,6 +191,5 @@ end
 mt:set_messager(function() end)
 
 return function ()
-    local self = setmetatable({}, { __index = mt })
-    return self
+    return setmetatable({}, { __index = mt })
 end
