@@ -71,6 +71,23 @@
             "runtimeExecutable": "${workspaceRoot}/w3x2lni.exe",
             "luadll": "${workspaceRoot}/bin/luacore.dll",
             "console": "utf8"
+        },
+        {
+            "name": "检查触发器",
+            "type": "lua",
+            "request": "launch",
+            "program": "${workspaceRoot}/script/check_wtg.lua",
+            "stopOnEntry": true,
+            "cwd": "${workspaceRoot}/bin",
+            "path": "",
+            "cpath": "${workspaceRoot}/bin/?.dll;",
+            "luadll": "${workspaceRoot}/bin/luacore.dll",
+            "arg0": "${workspaceRoot}/w3x2lni.exe",
+            "arg": [
+                "${workspaceRoot}/All_Star_Battle_3.1d_editor2.w3x",
+                "D:/魔兽争霸III/YDWE1.31.8正式版/"
+            ],
+            "console": "utf8"
         }
     ]
 }

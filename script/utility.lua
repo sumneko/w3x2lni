@@ -6,7 +6,11 @@ local uni = require 'ffi.unicode'
 local real_io_open = io.open
 
 function io.open(path, mode)
-    return real_io_open(uni.u2a(path), mode)
+    if type(path) == 'string' then
+        return real_io_open(uni.u2a(path), mode)
+    else
+        return real_io_open(uni.u2a(path:string()), mode)
+    end
 end
 
 function io.load(file_path)

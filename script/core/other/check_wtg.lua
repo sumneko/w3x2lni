@@ -1,10 +1,4 @@
-local function wtg2txt(self, file_name_in, file_name_out)
-    local content    = io.load(file_name_in)
-    if not content then
-        print('文件无效:' .. file_name_in:string())
-        return
-    end
-
+local function wtg2txt(w2l, content, state)
     local index    = 1
     local len    = #content
 
@@ -158,7 +152,11 @@ local function wtg2txt(self, file_name_in, file_name_out)
         eca.args    = args
 
         --print(eca.type, eca.name)
-        local state_args    = self.function_state[eca.type][eca.name].args
+        local function_data = state[eca.type][eca.name]
+        if not function_data then
+            error(('触发器UI[%s]不存在'):format(eca.name))
+        end
+        local state_args    = function_data.args
         local arg_count    = #state_args
 
         --print('args:' .. arg_count)
@@ -465,9 +463,10 @@ local function wtg2txt(self, file_name_in, file_name_out)
         
     end
 
-    io.save(file_name_out, table.concat(lines, '\r\n'):convert_wts(true))
+    --io.save(file_name_out, table.concat(lines, '\r\n'):convert_wts(true))
 
     --io.save(file_name_out, table.concat(lines, '\r\n'))    --貌似wtg文件写入文本会出错
+    return table.concat(lines, '\r\n')
 end
 
 return wtg2txt

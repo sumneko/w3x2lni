@@ -2,20 +2,8 @@ local table_insert = table.insert
 local table_remove = table.remove
 local ipairs = ipairs
 
-local function read_triggerdata(self, file_name_in)
-    local function_state
-    if self.function_state then
-        function_state = self.function_state
-    else
-        function_state = {}
-        self.function_state    = function_state
-    end
-
-    local content    = io.load(file_name_in)
-    if not content then
-        print('文件无效:' .. file_name_in:string())
-        return
-    end
+local function read_triggerdata(self, content)
+    local function_state = {}
 
     local funcs 
     funcs = {
@@ -85,6 +73,7 @@ local function read_triggerdata(self, file_name_in)
         end
     end
 
+    return function_state
 end
 
 return read_triggerdata
