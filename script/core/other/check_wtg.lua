@@ -1,3 +1,19 @@
+local function create_lines(tab)
+	local lines = {}
+	local tabs = ('\t'):rep(tab or 0)
+	lines.tab = tab or 0
+	
+	local function push(self, mo)
+		local line = tabs .. mo
+		table.insert(self, line)
+		return function(...)
+			self[#self] = line:format(...)
+		end
+	end
+
+	return setmetatable(lines, {__call = push})
+end
+
 local function wtg2txt(w2l, content, state)
     local index    = 1
     local len    = #content
@@ -205,7 +221,7 @@ local function wtg2txt(w2l, content, state)
     end
 
     --开始转化文本
-    local lines    = string.create_lines(1)
+    local lines    = create_lines(1)
     
     do
         
@@ -215,7 +231,7 @@ local function wtg2txt(w2l, content, state)
 
         --全局变量
         local function f()
-            local lines = string.create_lines(2)
+            local lines = create_lines(2)
             for i, var in ipairs(chunk.vars) do
                 if var.is_array == 1 then
                     if var.value ~= '' then
@@ -239,7 +255,7 @@ local function wtg2txt(w2l, content, state)
 
         --触发器类别(文件夹)
         local function f()
-            local lines = string.create_lines(2)
+            local lines = create_lines(2)
 
             for _, category in ipairs(chunk.categories) do
                 lines '{%q, %d, %d}' (
@@ -261,11 +277,11 @@ local function wtg2txt(w2l, content, state)
 
         --触发器
         local function f()
-            local lines = string.create_lines(2)
+            local lines = create_lines(2)
 
             for _, trigger in ipairs(chunk.triggers) do
                 local function f()
-                    local lines = string.create_lines(3)
+                    local lines = create_lines(3)
                     
                     lines '[\'%s\']=%q' ('名称', trigger.name)
                     lines '[\'%s\']=%q' ('描述', trigger.des)
@@ -281,10 +297,10 @@ local function wtg2txt(w2l, content, state)
                     if max > 0 then
                         
                         local function f()
-                            local lines = string.create_lines(4)
-                            local lines_event = string.create_lines(5)
-                            local lines_condition = string.create_lines(5)
-                            local lines_action = string.create_lines(5)
+                            local lines = create_lines(4)
+                            local lines_event = create_lines(5)
+                            local lines_condition = create_lines(5)
+                            local lines_action = create_lines(5)
                         
                             local tab    = 1
                             local ecas, index = trigger.ecas, 1
@@ -314,7 +330,7 @@ local function wtg2txt(w2l, content, state)
                                 end
 
                                 local function f(tab)
-                                    local lines = string.create_lines()
+                                    local lines = create_lines()
 
                                     lines '%q' (eca.name)
                                     if eca.enable == 0 then
@@ -329,10 +345,10 @@ local function wtg2txt(w2l, content, state)
                                 else
                                     --参数
                                     local function f2(tab)
-                                        local lines = string.create_lines()
+                                        local lines = create_lines()
                                         
                                         local function f(tab)
-                                            local lines = string.create_lines(tab + 1)
+                                            local lines = create_lines(tab + 1)
                                             local index = 1
 
                                             local function push_arg(arg, lines_arg)
@@ -352,10 +368,10 @@ local function wtg2txt(w2l, content, state)
                                                     --索引
                                                     if arg.insert_index == 1 then
                                                         local function f2(tab)
-                                                            local lines = string.create_lines()
+                                                            local lines = create_lines()
                                                             
                                                             local function f(tab)
-                                                                local lines = string.create_lines(tab + 1)
+                                                                local lines = create_lines(tab + 1)
                                                                 
                                                                 push_arg(nil, lines)
 
@@ -444,10 +460,10 @@ local function wtg2txt(w2l, content, state)
                         end
                         
                         lines '[\'%s\']={\r\n%s' ('触发', f())
-                        lines '}'
+                        lines '},'
                         
                     end
-                    return table.concat(lines, ',\r\n')
+                    return table.concat(lines, '\r\n')
                 end
                 lines '{\r\n%s' (f(trigger))
                 lines '},'
@@ -466,7 +482,7 @@ local function wtg2txt(w2l, content, state)
     --io.save(file_name_out, table.concat(lines, '\r\n'):convert_wts(true))
 
     --io.save(file_name_out, table.concat(lines, '\r\n'))    --貌似wtg文件写入文本会出错
-    return table.concat(lines, '\r\n')
+    return 'return\r\n{\r\n' .. table.concat(lines, '\r\n') .. '\r\n}\r\n'
 end
 
 return wtg2txt
