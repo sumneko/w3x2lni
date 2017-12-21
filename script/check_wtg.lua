@@ -78,5 +78,6 @@ if not wtg or not data then
 end
 
 local state = w2l:read_triggerdata(data)
-local buf = w2l:check_wtg(wtg, state)
-io.save(map_path:parent_path() / (map_path:filename():string() .. '_wtg.txt'), buf)
+local data = w2l:wtg_reader(wtg, state)
+local buf = w2l:wtg_writer(data)
+io.save(map_path:parent_path() / (map_path:filename():string() .. '.txt'), buf)

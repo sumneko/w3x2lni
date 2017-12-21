@@ -84,7 +84,7 @@
             "luadll": "${workspaceRoot}/bin/luacore.dll",
             "arg0": "${workspaceRoot}/w3x2lni.exe",
             "arg": [
-                "D:/魔兽争霸III/YDWE1.31.8正式版/example(演示地图)/逆天/逆天-局部变量循环-不冲突的计数.w3x",
+                "D:/魔兽争霸III/YDWE1.31.8正式版/example(演示地图)/JAPI/移动类型.w3x",
                 "D:/魔兽争霸III/YDWE1.31.8正式版/"
             ],
             "console": "utf8"
