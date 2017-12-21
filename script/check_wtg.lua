@@ -66,18 +66,20 @@ function loader:triggerdata()
 			t = ui.merge(t, ui.new_reader(path))
 		end
 	end
-	return ui.old_writer(t)
+	--return ui.old_writer(t)
+	return t
 end
 
 local map = archive(map_path)
 local wtg = map:get 'war3map.wtg'
 loader:config()
-local data = loader:triggerdata()
-if not wtg or not data then
+local state = loader:triggerdata()
+if not wtg or not state then
     return false
 end
 
-local state = w2l:read_triggerdata(data)
+local clock = os.clock()
 local data = w2l:wtg_reader(wtg, state)
+print('用时：', os.clock() - clock)
 local buf = w2l:wtg_writer(data)
 io.save(map_path:parent_path() / (map_path:filename():string() .. '.txt'), buf)

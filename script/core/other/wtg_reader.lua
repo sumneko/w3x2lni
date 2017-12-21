@@ -1,3 +1,33 @@
+local function get_arg_count(state, type, name)
+    local tbl
+    if type == 0 then
+        tbl = state.ui.event
+    elseif type == 1 then
+        tbl = state.ui.condition
+    elseif type == 2 then
+        tbl = state.ui.action
+    elseif type == 3 then
+        tbl = state.ui.call
+    else
+        error(('函数类型错误[%s]'):format(type))
+    end
+    local data = tbl[name]
+    if not data then
+        error(('触发器UI[%s]不存在'):format(name))
+    end
+    if data.args then
+        local count = 0
+        for _, arg in ipairs(data.args) do
+            if arg.type ~= 'nothing' then
+                count = count + 1
+            end
+        end
+        return count
+    else
+        return 0
+    end
+end
+
 local function wtg2txt(w2l, content, state)
     local index    = 1
     local len    = #content
@@ -152,12 +182,8 @@ local function wtg2txt(w2l, content, state)
         eca.args    = args
 
         --print(eca.type, eca.name)
-        local function_data = state[eca.type][eca.name]
-        if not function_data then
-            error(('触发器UI[%s]不存在'):format(eca.name))
-        end
-        local state_args    = function_data.args
-        local arg_count    = #state_args
+        
+        local arg_count    = get_arg_count(state, eca.type, eca.name)
 
         --print('args:' .. arg_count)
 
