@@ -288,29 +288,10 @@ local function read_trigger()
 end
 
 local function read_triggers()
-    local saved_unpack_index = unpack_index
-    try_count = 0
-    while true do
-        local suc, err = pcall(function()
-            unpack_index = saved_unpack_index
-            local count = unpack 'l'
-            chunk.triggers = {}
-            for i = 1, count do
-                table.insert(chunk.triggers, read_trigger())
-            end
-        end)
-        if suc then
-            break
-        else
-            try_count = try_count + 1
-            assert(try_count < 1000, '在大量尝试后放弃修复。')
-            print(err)
-            if retry then
-                retry = false
-            else
-                fix_arg()
-            end
-        end
+    local count = unpack 'l'
+    chunk.triggers = {}
+    for i = 1, count do
+        table.insert(chunk.triggers, read_trigger())
     end
 end
 
@@ -366,7 +347,26 @@ return function (w2l, wtg_, state_)
     read_head()
     read_categories()
     read_vars()
-    read_triggers()
+    
+    local saved_unpack_index = unpack_index
+    while true do
+        local suc, err = pcall(function()
+            unpack_index = saved_unpack_index
+            read_triggers()
+        end)
+        if suc then
+            break
+        else
+            try_count = try_count + 1
+            assert(try_count < 1000, '在大量尝试后放弃修复。')
+            print(err)
+            if retry then
+                retry = false
+            else
+                fix_arg()
+            end
+        end
+    end
     
     fill_fix()
     
