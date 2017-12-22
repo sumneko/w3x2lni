@@ -70,6 +70,8 @@ function loader:triggerdata()
 	return t
 end
 
+w2l:set_messager(print)
+
 local map = archive(map_path)
 local wtg = map:get 'war3map.wtg'
 loader:config()

@@ -1,3 +1,4 @@
+local w2l
 local wtg
 local state
 local chunk
@@ -6,22 +7,26 @@ local read_eca
 local fix
 local fix_step
 local retry
+local abort
 
 local function fix_arg(n)
     n = n or #fix_step
-    assert(n > 0, '未知UI参数超过10个，放弃修复。')
+    if n <= 0 then
+        abort = true
+        error '未知UI参数超过10个，放弃修复。'
+    end
     local step = fix_step[n]
     if not step.args then
         step.args = {}
     end
     if #step.args > 10 then
         step.args = nil
-        print(('猜测[%s]的参数数量为[0]'):format(step.name))
+        w2l.message(('猜测[%s]的参数数量为[0]'):format(step.name))
         fix_arg(n-1)
         return
     end
     table.insert(step.args, {})
-    print(('猜测[%s]的参数数量为[%d]'):format(step.name, #step.args))
+    w2l.message(('猜测[%s]的参数数量为[%d]'):format(step.name, #step.args))
 end
 
 local function try_fix(tp, name)
@@ -29,10 +34,10 @@ local function try_fix(tp, name)
         fix.ui[tp] = {}
     end
     if not fix.ui[tp][name] then
-        print(('触发器UI[%s]不存在'):format(name))
+        w2l.message(('触发器UI[%s]不存在'):format(name))
         fix.ui[tp][name] = { name = name , fix = true }
         table.insert(fix_step, fix.ui[tp][name])
-        print(('猜测[%s]的参数数量为[0]'):format(name))
+        w2l.message(('猜测[%s]的参数数量为[0]'):format(name))
         try_count = 0
     end
     return fix.ui[tp][name]
@@ -132,7 +137,7 @@ local function get_preset_type(name)
     if preset_map[name] then
         return preset_map[name], 1.0
     else
-        return 'unknow', 0.0
+        return 'unknowtype', 0.0
     end
 end
 
@@ -147,7 +152,7 @@ local function get_var_type(name)
     if var_map[name] then
         return var_map[name], 1.0
     else
-        return 'unknow', 0.0
+        return 'unknowtype', 0.0
     end
 end
 
@@ -173,7 +178,7 @@ local function get_call_type(name, ui_type, ui_guess_level)
     if ui then
         return get_ui_returns(ui, ui_type, ui_guess_level)
     else
-        return 'unknow', 0.0
+        return 'unknowtype', 0.0
     end
 end
 
@@ -204,7 +209,7 @@ end
 
 local function fix_arg_type(ui_arg, arg)
     local ui_guess_level = ui_arg.guess_level or 0
-    local ui_arg_type = ui_arg.type or 'unknow'
+    local ui_arg_type = ui_arg.type or 'unknowtype'
     local tp, arg_guess_level = get_arg_type(arg, ui_arg_type, ui_guess_level)
     if arg_guess_level > ui_guess_level then
         ui_arg.type = tp
@@ -295,10 +300,18 @@ local function read_triggers()
     end
 end
 
-local function add_type(type)
-end
-
 local function fill_fix()
+    if not next(fix.ui) then
+        return
+    end
+    fix.ui.define = {
+        TriggerCategories = {
+            { 'TC_UNKNOWUI', '未知UI,ReplaceableTextures\\CommandButtons\\BTNInfernal.blp' },
+        },
+        TriggerType = {
+            { 'unknowtype', '1,0,0,未知参数类型,string'},
+        },
+    }
     for _, type in pairs(type_map) do
         if fix.ui[type] then
             for _, ui in pairs(fix.ui[type]) do
@@ -307,10 +320,9 @@ local function fill_fix()
                 if ui.args then
                     for i, arg in ipairs(ui.args) do
                         if not arg.type then
-                            arg.type = 'unknow'
+                            arg.type = 'unknowtype'
                             arg.guess_level = 0
                         end
-                        add_type(arg.type)
                         table.insert(arg_types, (' ${%s} '):format(arg.type))
                         if arg.guess_level == 0 then
                             table.insert(comment, ('第 %d 个参数类型未知。'):format(i))
@@ -326,16 +338,17 @@ local function fill_fix()
                         table.insert(comment, ('返回类型不确定。'):format(i))
                     end
                 end
-                ui.title = ('未知UI：%s'):format(ui.name)
-                ui.description = ('未知UI：%s(%s)'):format(ui.name, table.concat(arg_types, ','))
-                ui.category = 'TC_NOTHING'
+                ui.title = ('%s'):format(ui.name)
+                ui.description = ('%s(%s)'):format(ui.name, table.concat(arg_types, ','))
+                ui.category = 'TC_UNKNOWUI'
                 ui.comment = table.concat(comment, '\n')
             end
         end
     end
 end
 
-return function (w2l, wtg_, state_)
+return function (w2l_, wtg_, state_)
+    w2l = w2l_
     wtg = wtg_
     state = state_
     unpack_index = 1
@@ -358,8 +371,8 @@ return function (w2l, wtg_, state_)
             break
         else
             try_count = try_count + 1
+            assert(not abort, err)
             assert(try_count < 1000, '在大量尝试后放弃修复。')
-            print(err)
             if retry then
                 retry = false
             else
