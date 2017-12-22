@@ -162,13 +162,13 @@ return function (w2l, chunk)
                                                 else
                                                     --索引
                                                     if arg.insert_index == 1 then
-                                                        local function f2(tab)
+                                                        local function f2(index, tab)
                                                             local lines = create_lines()
                                                             
                                                             local function f(tab)
                                                                 local lines = create_lines(tab + 1)
                                                                 
-                                                                push_arg(nil, lines)
+                                                                push_arg(index, lines)
 
                                                                 return table.concat(lines, ',\r\n')
                                                             end
@@ -179,7 +179,7 @@ return function (w2l, chunk)
                                                             return table.concat(lines, '\r\n')
                                                         end
                                                         
-                                                        lines '{%q, %d, %s' (arg.value, arg.type, f2(lines.tab))
+                                                        lines '{%q, %d, %s' (arg.value, arg.type, f2(arg.index, lines.tab))
                                                         lines '}}'
                                                     else
                                                         lines '{%q, %d}' (arg.value, arg.type)

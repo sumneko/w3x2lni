@@ -124,23 +124,6 @@ local arg_type_map = {
     [3]  = 'constant',
 }
 
-local function read_arg()
-    local arg = {}
-    arg.type        = unpack 'l'
-    arg.value       = unpack 'z'
-    arg.insert_call = unpack 'l'
-    assert(arg_type_map[arg.type], 'arg.type 错误')
-    assert(arg.insert_call == 0 or arg.insert_call == 1, 'arg.insert_call 错误')
-
-    if arg.insert_call == 1 then
-        arg.eca = read_eca(false)
-    end
-
-    arg.insert_index = unpack 'l'
-    assert(arg.insert_index == 0 or arg.insert_index == 1, 'arg.insert_index 错误')
-    return arg
-end
-
 local preset_map
 local function get_preset_type(name)
     if not preset_map then
@@ -253,17 +236,24 @@ local function fix_arg_type(ui, ui_arg, arg, args)
     end
 end
 
-local function read_args(args, count, ui)
-    for i = 1, count do
-        local arg = read_arg()
-        table.insert(args, arg)
-        if arg.insert_index == 1 then
-            read_args(args, 1)
-        end
-        if ui then
-            fix_arg_type(ui, ui.args[i], arg, args)
-        end
+local function read_arg()
+    local arg = {}
+    arg.type        = unpack 'l'
+    arg.value       = unpack 'z'
+    arg.insert_call = unpack 'l'
+    assert(arg_type_map[arg.type], 'arg.type 错误')
+    assert(arg.insert_call == 0 or arg.insert_call == 1, 'arg.insert_call 错误')
+
+    if arg.insert_call == 1 then
+        arg.eca = read_eca(false)
     end
+
+    arg.insert_index = unpack 'l'
+    assert(arg.insert_index == 0 or arg.insert_index == 1, 'arg.insert_index 错误')
+    if arg.insert_index == 1 then
+        arg.index = read_arg()
+    end
+    return arg
 end
 
 function read_eca(is_child)
@@ -282,13 +272,13 @@ function read_eca(is_child)
     eca.args = {}
     local ui = get_ui_define(type_map[eca.type], eca.name)
     if ui.args then
-        local count = 0
         for _, arg in ipairs(ui.args) do
             if arg.type ~= 'nothing' then
-                count = count + 1
+                local arg = read_arg(ui)
+                table.insert(eca.args, arg)
+                fix_arg_type(ui, ui.args[#eca.args], arg, eca.args)
             end
         end
-        read_args(eca.args, count, ui)
     end
     eca.child_count = unpack 'l'
     return eca
