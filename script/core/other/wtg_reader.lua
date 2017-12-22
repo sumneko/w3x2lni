@@ -1,9 +1,11 @@
 local wtg
 local state
+local chunk
 local unpack_index
 local read_eca
 local fix
 local fix_step
+local retry
 
 local function fix_arg(n)
     n = n or #fix_step
@@ -23,17 +25,17 @@ local function fix_arg(n)
 end
 
 local function try_fix(tp, name)
-    if not fix[tp] then
-        fix[tp] = {}
+    if not fix.ui[tp] then
+        fix.ui[tp] = {}
     end
-    if not fix[tp][name] then
+    if not fix.ui[tp][name] then
         print(('触发器UI[%s]不存在'):format(name))
-        fix[tp][name] = { name = name , fix = true }
-        table.insert(fix_step, fix[tp][name])
+        fix.ui[tp][name] = { name = name , fix = true }
+        table.insert(fix_step, fix.ui[tp][name])
         print(('猜测[%s]的参数数量为[0]'):format(name))
         try_count = 0
     end
-    return fix[tp][name]
+    return fix.ui[tp][name]
 end
 
 local type_map = {
@@ -44,8 +46,7 @@ local type_map = {
 }
 
 local function get_ui_define(type, name)
-    local tp = type_map[type]
-    return state.ui[tp][name] or try_fix(tp, name)
+    return state.ui[type][name] or try_fix(type, name)
 end
 
 local function unpack(fmt)
@@ -54,7 +55,7 @@ local function unpack(fmt)
     return result
 end
 
-local function read_head(chunk)
+local function read_head()
     chunk.file_id  = unpack 'c4'
     chunk.file_ver = unpack 'l'
 end
@@ -67,7 +68,7 @@ local function read_category()
     return category
 end
 
-local function read_categories(chunk)
+local function read_categories()
     local count = unpack 'l'
     chunk.categories = {}
     for i = 1, count do
@@ -87,7 +88,7 @@ local function read_var()
     return var
 end
 
-local function read_vars(chunk)
+local function read_vars()
     chunk.int_unknow_1 = unpack 'l'
     local count = unpack 'l'
     chunk.vars = {}
@@ -99,8 +100,8 @@ end
 local arg_type_map = {
     [0] = 'preset',
     [1] = 'var',
-    [2] = 'function',
-    [3] = 'code',
+    [2] = 'call',
+    [3] = 'constant',
 }
 
 local function read_arg()
@@ -120,17 +121,110 @@ local function read_arg()
     return arg
 end
 
-local function read_args(args, count)
-    if count == 0 then
-        return
+local preset_map
+local function get_preset_type(name)
+    if not preset_map then
+        preset_map = {}
+        for _, line in ipairs(state.ui.define.TriggerParams) do
+            preset_map[line[1]] = line[2]:match '%d+%,([%w_]+)%,'
+        end
     end
-    local arg = read_arg()
-    if arg.insert_index == 1 then
-        read_args(args, 1)
+    if preset_map[name] then
+        return preset_map[name], 1.0
+    else
+        return 'unknow', 0.0
     end
-    table.insert(args, arg)
-    count = count - 1
-    return read_args(args, count)
+end
+
+local var_map
+local function get_var_type(name)
+    if not var_map then
+        var_map = {}
+        for _, var in ipairs(chunk.vars) do
+            var_map[var.name] = var.type
+        end
+    end
+    if var_map[name] then
+        return var_map[name], 1.0
+    else
+        return 'unknow', 0.0
+    end
+end
+
+local function get_ui_returns(ui, ui_type, ui_guess_level)
+    if not ui.fix then
+        return ui.returns, 1.0
+    end
+    if not ui.returns_guess_level then
+        ui.returns = ui_type
+        ui.returns_guess_level = ui_guess_level
+    end
+    if ui.returns ~= ui_type and ui.returns_guess_level < ui_guess_level then
+        ui.returns = ui_type
+        ui.returns_guess_level = ui_guess_level
+        retry = true
+        error(('重新计算[%s]的参数类型。'):format(ui.name))
+    end
+    return ui.returns, ui.returns_guess_level
+end
+
+local function get_call_type(name, ui_type, ui_guess_level)
+    local ui = get_ui_define('call', name)
+    if ui then
+        return get_ui_returns(ui, ui_type, ui_guess_level)
+    else
+        return 'unknow', 0.0
+    end
+end
+
+local function get_constant_type(value)
+    if value == 'true' or value == 'false' then
+        return 'boolean', 0.1
+    elseif value:match '^[%-]?[1-9][%d]*$' then
+        return 'integer', 0.2
+    elseif value:math '^[%-]?[1-9][%d]*[%.][%d]*$' then
+        return 'real', 0.3
+    else
+        return 'string', 0.4
+    end
+end
+
+local function get_arg_type(arg, ui_type, ui_guess_level)
+    local atp = arg_type_map[arg.type]
+    if atp == 'preset' then
+        return get_preset_type(arg.value)
+    elseif atp == 'var' then
+        return get_var_type(arg.value)
+    elseif atp == 'call' then
+        return get_call_type(arg.value, ui_type, ui_guess_level)
+    else
+        return get_constant_type(arg.value)
+    end
+end
+
+local function fix_arg_type(ui_arg, arg)
+    local ui_guess_level = ui_arg.guess_level or 0
+    local ui_arg_type = ui_arg.type or 'unknow'
+    local tp, arg_guess_level = get_arg_type(arg, ui_arg_type, ui_guess_level)
+    if arg_guess_level > ui_guess_level then
+        ui_arg.type = tp
+        ui_arg.guess_level = arg_guess_level
+    end
+end
+
+local function read_args(args, count, ui)
+    for i = 1, count do
+        local arg = read_arg()
+        table.insert(args, arg)
+        if arg.insert_index == 1 then
+            read_args(args, 1)
+        end
+        if ui then
+            if ui.fix then
+                fix_arg_type(ui.args[i], arg)
+            end
+        end
+    end
 end
 
 function read_eca(is_child)
@@ -147,7 +241,7 @@ function read_eca(is_child)
     assert(eca.enable == 0 or eca.enable == 1, 'eca.enable 错误')
 
     eca.args = {}
-    local ui = get_ui_define(eca.type, eca.name)
+    local ui = get_ui_define(type_map[eca.type], eca.name)
     if ui.args then
         local count = 0
         for _, arg in ipairs(ui.args) do
@@ -155,9 +249,7 @@ function read_eca(is_child)
                 count = count + 1
             end
         end
-        read_args(eca.args, count)
-    else
-        read_args(eca.args, 0)
+        read_args(eca.args, count, ui)
     end
     eca.child_count = unpack 'l'
     return eca
@@ -195,7 +287,7 @@ local function read_trigger()
     return trigger
 end
 
-local function read_triggers(chunk)
+local function read_triggers()
     local saved_unpack_index = unpack_index
     try_count = 0
     while true do
@@ -213,7 +305,51 @@ local function read_triggers(chunk)
             try_count = try_count + 1
             assert(try_count < 1000, '在大量尝试后放弃修复。')
             print(err)
-            fix_arg()
+            if retry then
+                retry = false
+            else
+                fix_arg()
+            end
+        end
+    end
+end
+
+local function add_type(type)
+end
+
+local function fill_fix()
+    for _, type in pairs(type_map) do
+        if fix.ui[type] then
+            for _, ui in pairs(fix.ui[type]) do
+                local arg_types = {}
+                local comment = {}
+                if ui.args then
+                    for i, arg in ipairs(ui.args) do
+                        if not arg.type then
+                            arg.type = 'unknow'
+                            arg.guess_level = 0
+                        end
+                        add_type(arg.type)
+                        table.insert(arg_types, (' ${%s} '):format(arg.type))
+                        if arg.guess_level == 0 then
+                            table.insert(comment, ('第 %d 个参数类型未知。'):format(i))
+                        elseif arg.guess_level < 1 then
+                            table.insert(comment, ('第 %d 个参数类型可能不正确。'):format(i))
+                        end
+                    end
+                end
+                if ui.returns then
+                    if ui.returns_guess_level == 0 then
+                        table.insert(comment, ('返回类型未知。'):format(i))
+                    elseif ui.returns_guess_level < 1 then
+                        table.insert(comment, ('返回类型不确定。'):format(i))
+                    end
+                end
+                ui.title = ('未知UI：%s'):format(ui.name)
+                ui.description = ('未知UI：%s(%s)'):format(ui.name, table.concat(arg_types, ','))
+                ui.category = 'TC_NOTHING'
+                ui.comment = table.concat(comment, '\n')
+            end
         end
     end
 end
@@ -223,14 +359,16 @@ return function (w2l, wtg_, state_)
     state = state_
     unpack_index = 1
     try_count = 0
-    fix = {}
+    fix = { ui = {} }
     fix_step = {}
-    local chunk = {}
+    chunk = {}
 
-    read_head(chunk)
-    read_categories(chunk)
-    read_vars(chunk)
-    read_triggers(chunk)
+    read_head()
+    read_categories()
+    read_vars()
+    read_triggers()
+    
+    fill_fix()
     
     return chunk, fix
 end
