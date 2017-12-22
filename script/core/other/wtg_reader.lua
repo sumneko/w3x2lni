@@ -50,7 +50,7 @@ local function try_fix(tp, name)
             fix.categories[tp]['TC_UNKNOWUI'] = {}
             table.insert(fix.categories[tp], 'TC_UNKNOWUI')
         end
-        table.insert(fix.categories[tp]['TC_UNKNOWUI'], ui)
+        table.insert(fix.categories[tp]['TC_UNKNOWUI'], fix.ui[tp][name])
         w2l.message(('猜测[%s]的参数数量为[0]'):format(name))
         try_count = 0
     end
