@@ -18,7 +18,7 @@ local function fix_arg(n)
         fix_arg(n-1)
         return
     end
-    table.insert(step.args, { type = 'unknow' })
+    table.insert(step.args, {})
     print(('猜测[%s]的参数数量为[%d]'):format(step.name, #step.args))
 end
 
@@ -28,7 +28,7 @@ local function try_fix(tp, name)
     end
     if not fix[tp][name] then
         print(('触发器UI[%s]不存在'):format(name))
-        fix[tp][name] = { name = name }
+        fix[tp][name] = { name = name , fix = true }
         table.insert(fix_step, fix[tp][name])
         print(('猜测[%s]的参数数量为[0]'):format(name))
         try_count = 0
@@ -43,24 +43,9 @@ local type_map = {
     [3] = 'call',
 }
 
-local function get_arg_count(type, name)
+local function get_ui_define(type, name)
     local tp = type_map[type]
-    local tbl = state.ui[tp]
-    local data = tbl[name]
-    if not data then
-        data = try_fix(tp, name)
-    end
-    if data.args then
-        local count = 0
-        for _, arg in ipairs(data.args) do
-            if arg.type ~= 'nothing' then
-                count = count + 1
-            end
-        end
-        return count
-    else
-        return 0
-    end
+    return state.ui[tp][name] or try_fix(tp, name)
 end
 
 local function unpack(fmt)
@@ -141,7 +126,7 @@ local function read_args(args, count)
     end
     local arg = read_arg()
     if arg.insert_index == 1 then
-        count = count + 1
+        read_args(args, 1)
     end
     table.insert(args, arg)
     count = count - 1
@@ -162,8 +147,18 @@ function read_eca(is_child)
     assert(eca.enable == 0 or eca.enable == 1, 'eca.enable 错误')
 
     eca.args = {}
-    read_args(eca.args, get_arg_count(eca.type, eca.name))
-    
+    local ui = get_ui_define(eca.type, eca.name)
+    if ui.args then
+        local count = 0
+        for _, arg in ipairs(ui.args) do
+            if arg.type ~= 'nothing' then
+                count = count + 1
+            end
+        end
+        read_args(eca.args, count)
+    else
+        read_args(eca.args, 0)
+    end
     eca.child_count = unpack 'l'
     return eca
 end
