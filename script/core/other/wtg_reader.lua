@@ -6,7 +6,7 @@ local unpack_index
 local read_eca
 local fix
 local fix_step
-local retry
+local retry_point
 local abort
 
 local function fix_arg(n)
@@ -22,12 +22,12 @@ local function fix_arg(n)
     local step = fix_step[n]
     if #step.args >= 100 then
         step.args = {}
-        fix_arg(n-1)
         w2l.message(('猜测[%s]的参数数量为[0]'):format(step.name))
-        return
+        return fix_arg(n-1)
     end
     table.insert(step.args, {})
     w2l.message(('猜测[%s]的参数数量为[%d]'):format(step.name, #step.args))
+    return step.save_point
 end
 
 local function try_fix(tp, name)
@@ -36,7 +36,12 @@ local function try_fix(tp, name)
     end
     if not fix.ui[tp][name] then
         w2l.message(('触发器UI[%s]不存在'):format(name))
-        fix.ui[tp][name] = { name = name , fix = true , args = {} }
+        fix.ui[tp][name] = {
+            name = name,
+            fix = true,
+            args = {},
+            save_point = save_point,
+        }
         table.insert(fix_step, fix.ui[tp][name])
         w2l.message(('猜测[%s]的参数数量为[0]'):format(name))
         try_count = 0
@@ -169,7 +174,7 @@ local function get_ui_returns(ui, ui_type, ui_guess_level)
     if ui.returns ~= ui_type and ui.returns_guess_level < ui_guess_level then
         ui.returns = ui_type
         ui.returns_guess_level = ui_guess_level
-        retry = true
+        retry_point = ui.save_point
         error(('重新计算[%s]的参数类型。'):format(ui.name))
     end
     return ui.returns, ui.returns_guess_level
@@ -299,8 +304,29 @@ end
 local function read_triggers()
     local count = unpack 'l'
     chunk.triggers = {}
-    for i = 1, count do
-        table.insert(chunk.triggers, read_trigger())
+    local pos = 1
+    while true do
+        local suc, err = pcall(function()
+            for i = pos, count do
+                save_point = { i, unpack_index }
+                chunk.triggers[i] = read_trigger()
+            end
+        end)
+        if suc then
+            break
+        else
+            try_count = try_count + 1
+            assert(not abort, err)
+            assert(try_count < 1000, '在大量尝试后放弃修复。')
+            --w2l.message(err)
+            if retry_point then
+                pos, unpack_index = retry_point[1], retry_point[2]
+                retry_point = false
+            else
+                local load_point = fix_arg()
+                pos, unpack_index = load_point[1], load_point[2]
+            end
+        end
     end
 end
 
@@ -378,27 +404,7 @@ return function (w2l_, wtg_, state_)
     read_head()
     read_categories()
     read_vars()
-    
-    local saved_unpack_index = unpack_index
-    while true do
-        local suc, err = pcall(function()
-            unpack_index = saved_unpack_index
-            read_triggers()
-        end)
-        if suc then
-            break
-        else
-            try_count = try_count + 1
-            assert(not abort, err)
-            assert(try_count < 1000, '在大量尝试后放弃修复。')
-            --w2l.message(err)
-            if retry then
-                retry = false
-            else
-                fix_arg()
-            end
-        end
-    end
+    read_triggers()
     
     fill_fix()
     
