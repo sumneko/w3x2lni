@@ -19,6 +19,12 @@ elseif arg[1] == '-mpq' then
     table.remove(arg, 1)
     require 'custom_mpq'
     os.execute('pause')
+elseif arg[1] == '-fix_wtg' then
+    local nk = require 'nuklear'
+    nk:console()
+    table.remove(arg, 1)
+    require 'fix_wtg'
+    os.execute('pause')
 else
     require 'gui.main'
 end

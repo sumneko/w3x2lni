@@ -13,7 +13,7 @@ local ui = require 'ui-builder'
 local w2l = w3x2lni()
 
 local map_path = fs.path(arg[1])
-local ydwe_path = fs.path(arg[2])
+local ydwe_path = fs.path(arg[2] or "D:/魔兽争霸III/YDWE1.31.8正式版/")
 local mpq_path = ydwe_path / 'share' / 'mpq'
 
 local function string_trim (self) 
@@ -70,6 +70,18 @@ function loader:triggerdata()
 	return t
 end
 
+local std_print = print
+function print(...)
+    if select(1, ...) == '-progress' then
+        return
+    end
+    local tbl = {...}
+    local count = select('#', ...)
+    for i = 1, count do
+        tbl[i] = uni.u2a(tostring(tbl[i])):gsub('[\r\n]', ' ')
+    end
+    std_print(table.concat(tbl, ' '))
+end
 w2l:set_messager(print)
 
 local map = archive(map_path)
@@ -82,6 +94,7 @@ end
 
 local clock = os.clock()
 local data = w2l:wtg_reader(wtg, state)
-print('用时：', os.clock() - clock)
+print('读取wtg用时：', os.clock() - clock)
 local buf = w2l:wtg_writer(data)
 io.save(map_path:parent_path() / (map_path:filename():string() .. '.txt'), buf)
+print('成功')
