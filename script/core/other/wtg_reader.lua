@@ -40,9 +40,17 @@ local function try_fix(tp, name)
             name = name,
             fix = true,
             args = {},
+            category = 'TC_UNKNOWUI',
             save_point = save_point,
         }
         table.insert(fix_step, fix.ui[tp][name])
+        
+        if not fix.categories[tp] then
+            fix.categories[tp] = {}
+            fix.categories[tp]['TC_UNKNOWUI'] = {}
+            table.insert(fix.categories[tp], 'TC_UNKNOWUI')
+        end
+        table.insert(fix.categories[tp]['TC_UNKNOWUI'], ui)
         w2l.message(('猜测[%s]的参数数量为[0]'):format(name))
         try_count = 0
     end
@@ -220,15 +228,26 @@ local function get_arg_type(arg, ui_type, ui_guess_level)
     end
 end
 
-local function fix_arg_type(ui_arg, arg)
-    local ui_guess_level = ui_arg.guess_level or 0.0
+local function fix_arg_type(ui, ui_arg, arg, args)
     local ui_arg_type = ui_arg.type or 'unknowtype'
+    local ui_guess_level
+    if ui.fix then
+        ui_guess_level = ui_arg.guess_level or 0.0
+    else
+        ui_guess_level = 1.0
+    end
     if ui_arg_type == 'AnyGlobal' or ui_arg_type == 'Null' then
         ui_arg_type = 'unknowtype'
         ui_guess_level = 0.0
     end
+    --if ui.name == 'SetVariable' then
+    --    if ui_arg == ui.args[2] then
+    --        ui_arg_type = 'unknowtype'
+    --        ui_guess_level = 0.0
+    --    end
+    --end
     local tp, arg_guess_level = get_arg_type(arg, ui_arg_type, ui_guess_level)
-    if arg_guess_level > ui_guess_level then
+    if ui.fix and arg_guess_level > ui_guess_level then
         ui_arg.type = tp
         ui_arg.guess_level = arg_guess_level
     end
@@ -242,9 +261,7 @@ local function read_args(args, count, ui)
             read_args(args, 1)
         end
         if ui then
-            if ui.fix then
-                fix_arg_type(ui.args[i], arg)
-            end
+            fix_arg_type(ui, ui.args[i], arg, args)
         end
     end
 end
@@ -338,20 +355,10 @@ local function read_triggers()
     end
 end
 
-local function add_ui(type, ui)
-    local category = ui.category
-    if not fix.categories[type][category] then
-        fix.categories[type][category] = {}
-        table.insert(fix.categories[type], category)
-    end
-    table.insert(fix.categories[type][category], ui)
-end
-
 local function fill_fix()
     if not next(fix.ui) then
         return nil
     end
-    fix.categories = {}
     fix.ui.define = {
         TriggerCategories = {
             { 'TC_UNKNOWUI', '未知UI,ReplaceableTextures\\CommandButtons\\BTNInfernal.blp' },
@@ -391,10 +398,7 @@ local function fill_fix()
             end
             ui.title = ('%s'):format(ui.name)
             ui.description = ('%s(%s)'):format(ui.name, table.concat(arg_types, ','))
-            ui.category = 'TC_UNKNOWUI'
             ui.comment = table.concat(comment, '\n')
-
-            add_ui(type, ui)
         end
     end
 end
@@ -405,7 +409,7 @@ return function (w2l_, wtg_, state_)
     state = state_
     unpack_index = 1
     try_count = 0
-    fix = { ui = {} }
+    fix = { ui = {} , categories = {} }
     fix_step = {}
     chunk = {}
 
