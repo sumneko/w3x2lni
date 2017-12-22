@@ -212,27 +212,32 @@ local function get_arg_type(arg, ui_type, ui_guess_level)
 end
 
 local function fix_arg_type(ui, ui_arg, arg, args)
-    local ui_arg_type = ui_arg.type or 'unknowtype'
+    local ui_arg_type
     local ui_guess_level
     if ui.fix then
+        ui_arg_type = ui_arg.type or 'unknowtype'
         ui_guess_level = ui_arg.guess_level or 0.0
     else
+        ui_arg_type = ui_arg.type
         ui_guess_level = 1.0
     end
     if ui_arg_type == 'AnyGlobal' or ui_arg_type == 'Null' then
         ui_arg_type = 'unknowtype'
         ui_guess_level = 0.0
     end
-    --if ui.name == 'SetVariable' then
-    --    if ui_arg == ui.args[2] then
-    --        ui_arg_type = 'unknowtype'
-    --        ui_guess_level = 0.0
-    --    end
-    --end
     local tp, arg_guess_level = get_arg_type(arg, ui_arg_type, ui_guess_level)
     if ui.fix and arg_guess_level > ui_guess_level then
         ui_arg.type = tp
         ui_arg.guess_level = arg_guess_level
+    end
+    if arg_guess_level == 1.0 then
+        arg.arg_type = tp
+    end
+    if ui.name == 'SetVariable' then
+        if arg == args[2] and args[1].arg_type then
+            ui_arg_type = args[1].arg_type
+            ui_guess_level = 1.0
+        end
     end
 end
 
