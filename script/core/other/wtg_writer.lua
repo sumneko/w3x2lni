@@ -36,7 +36,7 @@ return function (w2l, chunk)
                     end
                 else
                     if var.value ~= '' then
-                        lines '{%q, %q, %d, %q}':format(var.type, var.name, 0, var.value)
+                        lines '{%q, %q, %d, %q}' (var.type, var.name, 0, var.value)
                     else
                         lines '{%q, %q}' (var.type, var.name)
                     end

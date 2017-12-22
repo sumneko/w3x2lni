@@ -96,8 +96,8 @@ local clock = os.clock()
 local data, fix = w2l:wtg_reader(wtg, state)
 print('读取wtg用时：', os.clock() - clock)
 
---local buf = w2l:wtg_writer(data)
---io.save(map_path:parent_path() / (map_path:filename():string() .. '.txt'), buf)
+local buf = w2l:wtg_writer(data)
+io.save(map_path:parent_path() / (map_path:filename():string() .. '.txt'), buf)
 
 local bufs = {ui.new_writer(fix)}
 io.save(map_path:parent_path() / 'define.txt',    bufs[1])
