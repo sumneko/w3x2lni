@@ -165,7 +165,11 @@ end
 
 local function get_ui_returns(ui, ui_type, ui_guess_level)
     if not ui.fix then
-        return ui.returns, 1.0
+        if ui.returns == 'AnyReturnType' then
+            return 'unknow', 0.0
+        else
+            return ui.returns, 1.0
+        end
     end
     if not ui.returns_guess_level then
         ui.returns = ui_type
@@ -217,8 +221,12 @@ local function get_arg_type(arg, ui_type, ui_guess_level)
 end
 
 local function fix_arg_type(ui_arg, arg)
-    local ui_guess_level = ui_arg.guess_level or 0
+    local ui_guess_level = ui_arg.guess_level or 0.0
     local ui_arg_type = ui_arg.type or 'unknowtype'
+    if ui_arg_type == 'AnyGlobal' or ui_arg_type == 'Null' then
+        ui_arg_type = 'unknowtype'
+        ui_guess_level = 0.0
+    end
     local tp, arg_guess_level = get_arg_type(arg, ui_arg_type, ui_guess_level)
     if arg_guess_level > ui_guess_level then
         ui_arg.type = tp
