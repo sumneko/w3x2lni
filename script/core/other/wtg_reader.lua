@@ -20,11 +20,8 @@ local function fix_arg(n)
         end
     end
     local step = fix_step[n]
-    if not step.args then
-        step.args = {}
-    end
     if #step.args >= 100 then
-        step.args = nil
+        step.args = {}
         fix_arg(n-1)
         w2l.message(('猜测[%s]的参数数量为[0]'):format(step.name))
         return
@@ -39,7 +36,7 @@ local function try_fix(tp, name)
     end
     if not fix.ui[tp][name] then
         w2l.message(('触发器UI[%s]不存在'):format(name))
-        fix.ui[tp][name] = { name = name , fix = true }
+        fix.ui[tp][name] = { name = name , fix = true , args = {} }
         table.insert(fix_step, fix.ui[tp][name])
         w2l.message(('猜测[%s]的参数数量为[0]'):format(name))
         try_count = 0
@@ -339,18 +336,16 @@ local function fill_fix()
         for _, ui in pairs(fix.ui[type]) do
             local arg_types = {}
             local comment = {}
-            if ui.args then
-                for i, arg in ipairs(ui.args) do
-                    if not arg.type then
-                        arg.type = 'unknowtype'
-                        arg.guess_level = 0
-                    end
-                    table.insert(arg_types, (' ${%s} '):format(arg.type))
-                    if arg.guess_level == 0 then
-                        table.insert(comment, ('第 %d 个参数类型未知。'):format(i))
-                    elseif arg.guess_level < 1 then
-                        table.insert(comment, ('第 %d 个参数类型可能不正确。'):format(i))
-                    end
+            for i, arg in ipairs(ui.args) do
+                if not arg.type then
+                    arg.type = 'unknowtype'
+                    arg.guess_level = 0
+                end
+                table.insert(arg_types, (' ${%s} '):format(arg.type))
+                if arg.guess_level == 0 then
+                    table.insert(comment, ('第 %d 个参数类型未知。'):format(i))
+                elseif arg.guess_level < 1 then
+                    table.insert(comment, ('第 %d 个参数类型可能不正确。'):format(i))
                 end
             end
             if ui.returns then
