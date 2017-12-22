@@ -13,13 +13,17 @@ local function fix_arg(n)
     n = n or #fix_step
     if n <= 0 then
         abort = true
-        error '未知UI参数超过10个，放弃修复。'
+        if #fix_step > 0 then
+            error '未知UI参数超过10个，放弃修复。'
+        else
+            error '触发器文件错误。'
+        end
     end
     local step = fix_step[n]
     if not step.args then
         step.args = {}
     end
-    if #step.args > 10 then
+    if #step.args >= 10 then
         step.args = nil
         w2l.message(('猜测[%s]的参数数量为[0]'):format(step.name))
         fix_arg(n-1)
@@ -103,10 +107,11 @@ local function read_vars()
 end
 
 local arg_type_map = {
-    [0] = 'preset',
-    [1] = 'var',
-    [2] = 'call',
-    [3] = 'constant',
+    [-1] = 'disabled',
+    [0]  = 'preset',
+    [1]  = 'var',
+    [2]  = 'call',
+    [3]  = 'constant',
 }
 
 local function read_arg()
@@ -196,7 +201,9 @@ end
 
 local function get_arg_type(arg, ui_type, ui_guess_level)
     local atp = arg_type_map[arg.type]
-    if atp == 'preset' then
+    if atp == 'disabled' then
+        return 'unknowtype', 0.0
+    elseif atp == 'preset' then
         return get_preset_type(arg.value)
     elseif atp == 'var' then
         return get_var_type(arg.value)
@@ -242,7 +249,7 @@ function read_eca(is_child)
     eca.enable = unpack 'l'
 
     assert(type_map[eca.type], 'eca.type 错误')
-    assert(eca.name:match '^[%w%s_]+$', ('eca.name 错误：[%s]'):format(eca.name))
+    assert(eca.name:match '^[%g%s]+$', ('eca.name 错误：[%s]'):format(eca.name))
     assert(eca.enable == 0 or eca.enable == 1, 'eca.enable 错误')
 
     eca.args = {}
