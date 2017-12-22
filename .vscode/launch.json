@@ -73,21 +73,21 @@
             "console": "utf8"
         },
         {
-            "name": "检查触发器",
+            "name": "修复触发器",
             "type": "lua",
             "request": "launch",
-            "program": "${workspaceRoot}/script/check_wtg.lua",
-            "stopOnEntry": true,
+            "program": "${workspaceRoot}/script/fix_wtg.lua",
+            "stopOnEntry": false,
             "cwd": "${workspaceRoot}/bin",
             "path": "",
             "cpath": "${workspaceRoot}/bin/?.dll;",
             "luadll": "${workspaceRoot}/bin/luacore.dll",
             "arg0": "${workspaceRoot}/w3x2lni.exe",
             "arg": [
-                "D:/魔兽争霸III/YDWE1.31.8正式版/example(演示地图)/JAPI/移动类型.w3x",
+                "${workspaceRoot}/FinaldayDefendApocalypse.Ver3.3.w3x",
                 "D:/魔兽争霸III/YDWE1.31.8正式版/"
             ],
-            "console": "utf8"
+            "console": "ansi"
         }
     ]
 }
