@@ -192,7 +192,7 @@ local function get_constant_type(value)
         return 'boolean', 0.1
     elseif value:match '^[%-]?[1-9][%d]*$' then
         return 'integer', 0.2
-    elseif value:math '^[%-]?[1-9][%d]*[%.][%d]*$' then
+    elseif value:match '^[%-]?[1-9][%d]*[%.][%d]*$' then
         return 'real', 0.3
     else
         return 'string', 0.4
@@ -380,6 +380,7 @@ return function (w2l_, wtg_, state_)
             try_count = try_count + 1
             assert(not abort, err)
             assert(try_count < 1000, '在大量尝试后放弃修复。')
+            --w2l.message(err)
             if retry then
                 retry = false
             else
