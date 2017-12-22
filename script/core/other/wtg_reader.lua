@@ -307,10 +307,20 @@ local function read_triggers()
     end
 end
 
+local function add_ui(type, ui)
+    local category = ui.category
+    if not fix.categories[type][category] then
+        fix.categories[type][category] = {}
+        table.insert(fix.categories[type], category)
+    end
+    table.insert(fix.categories[type][category], ui)
+end
+
 local function fill_fix()
     if not next(fix.ui) then
-        return
+        return nil
     end
+    fix.categories = {}
     fix.ui.define = {
         TriggerCategories = {
             { 'TC_UNKNOWUI', '未知UI,ReplaceableTextures\\CommandButtons\\BTNInfernal.blp' },
@@ -320,36 +330,42 @@ local function fill_fix()
         },
     }
     for _, type in pairs(type_map) do
-        if fix.ui[type] then
-            for _, ui in pairs(fix.ui[type]) do
-                local arg_types = {}
-                local comment = {}
-                if ui.args then
-                    for i, arg in ipairs(ui.args) do
-                        if not arg.type then
-                            arg.type = 'unknowtype'
-                            arg.guess_level = 0
-                        end
-                        table.insert(arg_types, (' ${%s} '):format(arg.type))
-                        if arg.guess_level == 0 then
-                            table.insert(comment, ('第 %d 个参数类型未知。'):format(i))
-                        elseif arg.guess_level < 1 then
-                            table.insert(comment, ('第 %d 个参数类型可能不正确。'):format(i))
-                        end
+        if not fix.ui[type] then
+            fix.ui[type] = {}
+        end
+        if not fix.categories[type] then
+            fix.categories[type] = {}
+        end
+        for _, ui in pairs(fix.ui[type]) do
+            local arg_types = {}
+            local comment = {}
+            if ui.args then
+                for i, arg in ipairs(ui.args) do
+                    if not arg.type then
+                        arg.type = 'unknowtype'
+                        arg.guess_level = 0
+                    end
+                    table.insert(arg_types, (' ${%s} '):format(arg.type))
+                    if arg.guess_level == 0 then
+                        table.insert(comment, ('第 %d 个参数类型未知。'):format(i))
+                    elseif arg.guess_level < 1 then
+                        table.insert(comment, ('第 %d 个参数类型可能不正确。'):format(i))
                     end
                 end
-                if ui.returns then
-                    if ui.returns_guess_level == 0 then
-                        table.insert(comment, ('返回类型未知。'):format(i))
-                    elseif ui.returns_guess_level < 1 then
-                        table.insert(comment, ('返回类型不确定。'):format(i))
-                    end
-                end
-                ui.title = ('%s'):format(ui.name)
-                ui.description = ('%s(%s)'):format(ui.name, table.concat(arg_types, ','))
-                ui.category = 'TC_UNKNOWUI'
-                ui.comment = table.concat(comment, '\n')
             end
+            if ui.returns then
+                if ui.returns_guess_level == 0 then
+                    table.insert(comment, ('返回类型未知。'):format(i))
+                elseif ui.returns_guess_level < 1 then
+                    table.insert(comment, ('返回类型不确定。'):format(i))
+                end
+            end
+            ui.title = ('%s'):format(ui.name)
+            ui.description = ('%s(%s)'):format(ui.name, table.concat(arg_types, ','))
+            ui.category = 'TC_UNKNOWUI'
+            ui.comment = table.concat(comment, '\n')
+
+            add_ui(type, ui)
         end
     end
 end

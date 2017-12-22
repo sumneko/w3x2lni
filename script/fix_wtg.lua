@@ -93,8 +93,17 @@ if not wtg or not state then
 end
 
 local clock = os.clock()
-local data = w2l:wtg_reader(wtg, state)
+local data, fix = w2l:wtg_reader(wtg, state)
 print('读取wtg用时：', os.clock() - clock)
-local buf = w2l:wtg_writer(data)
-io.save(map_path:parent_path() / (map_path:filename():string() .. '.txt'), buf)
-print('成功')
+
+--local buf = w2l:wtg_writer(data)
+--io.save(map_path:parent_path() / (map_path:filename():string() .. '.txt'), buf)
+
+local bufs = {ui.new_writer(fix)}
+io.save(map_path:parent_path() / 'define.txt',    bufs[1])
+io.save(map_path:parent_path() / 'event.txt',     bufs[2])
+io.save(map_path:parent_path() / 'condition.txt', bufs[3])
+io.save(map_path:parent_path() / 'action.txt',    bufs[4])
+io.save(map_path:parent_path() / 'call.txt',      bufs[5])
+
+print('成功，修复wtg总用时：', os.clock() - clock)
