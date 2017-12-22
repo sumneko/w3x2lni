@@ -14,7 +14,7 @@ local function fix_arg(n)
     if n <= 0 then
         abort = true
         if #fix_step > 0 then
-            error '未知UI参数超过10个，放弃修复。'
+            error '未知UI参数超过100个，放弃修复。'
         else
             error '触发器文件错误。'
         end
@@ -23,10 +23,10 @@ local function fix_arg(n)
     if not step.args then
         step.args = {}
     end
-    if #step.args >= 10 then
+    if #step.args >= 100 then
         step.args = nil
-        w2l.message(('猜测[%s]的参数数量为[0]'):format(step.name))
         fix_arg(n-1)
+        w2l.message(('猜测[%s]的参数数量为[0]'):format(step.name))
         return
     end
     table.insert(step.args, {})
