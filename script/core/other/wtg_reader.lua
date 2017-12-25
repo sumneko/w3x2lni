@@ -151,14 +151,16 @@ local function get_preset_type(name, ui_type, ui_guess_level)
         end
     end
     if preset_map[name] then
-        if fixed_preset[name] and ui_guess_level >= preset_map[name][2] then
-            preset_map[name] = {ui_type, ui_guess_level}
-        end
         return preset_map[name][1], preset_map[name][2]
+    elseif fixed_preset[name] then
+        if ui_guess_level > fixed_preset[name][2] then
+            fixed_preset[name][1] = ui_type
+            fixed_preset[name][2] = ui_guess_level
+        end
+        return fixed_preset[name][1], fixed_preset[name][2]
     else
-        preset_map[name] = {ui_type, ui_guess_level}
-        fixed_preset[name] = true
-        return ui_type, ui_guess_level
+        fixed_preset[name] = {ui_type, ui_guess_level}
+        return fixed_preset[name][1], fixed_preset[name][2]
     end
 end
 
@@ -415,10 +417,10 @@ local function fill_fix()
             ui.comment = table.concat(comment)
         end
     end
-    for name in pairs(fixed_preset) do
+    for name, value in pairs(fixed_preset) do
         table.insert(fix.ui.define.TriggerParams, {
             name,
-            ('0,%s,%s,%s'):format(preset_map[name][1], get_valid(name, preset_map[name][1]), name),
+            ('0,%s,%s,%s'):format(value[1], get_valid(name, value[1]), name),
         })
     end
     table.sort(fix.ui.define.TriggerParams, function(a, b)
