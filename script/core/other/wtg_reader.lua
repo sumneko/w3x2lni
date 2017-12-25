@@ -219,6 +219,8 @@ local function get_constant_type(value)
         return 'integer', 0.2
     elseif value:match '^[%-]?[1-9][%d]*[%.][%d]*$' then
         return 'real', 0.3
+    elseif #value > 128 then
+        return 'StringExt', 1.0
     else
         return 'string', 0.4
     end
