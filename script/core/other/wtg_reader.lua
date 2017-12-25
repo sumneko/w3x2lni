@@ -129,7 +129,13 @@ local function get_preset_type(name)
     if not preset_map then
         preset_map = {}
         for _, line in ipairs(state.ui.define.TriggerParams) do
-            preset_map[line[1]] = line[2]:match '%d+%,([%w_]+)%,'
+            local key = line[1]
+            local type = line[2]:match '%d+%,([%w_]+)%,'
+            if type == 'typename' then
+                preset_map[key] = key:match '^.-_(.+)$'
+            else
+                preset_map[key] = type
+            end
         end
     end
     if preset_map[name] then
@@ -221,23 +227,34 @@ local function fix_arg_type(ui, ui_arg, arg, args)
         ui_arg_type = ui_arg.type
         ui_guess_level = 1.0
     end
-    if ui_arg_type == 'AnyGlobal' or ui_arg_type == 'Null' then
+    if ui_arg_type == 'AnyGlobal' then
         ui_arg_type = 'unknowtype'
         ui_guess_level = 0.0
+    elseif ui_arg_type == 'Null' then
+        ui_arg_type = 'unknowtype'
+        ui_guess_level = 0.0
+        local ok
+        for i = #args, 1, -1 do
+            if ok then
+                if ui.args[i].type == 'AnyGlobal' or ui.args[i].type == 'typename' then
+                    if args[i].arg_type then
+                        ui_arg_type = args[i].arg_type
+                        ui_guess_level = 1.0
+                    end
+                    break
+                end
+            elseif args[i] == arg then
+                ok = true
+            end
+        end
     end
     local tp, arg_guess_level = get_arg_type(arg, ui_arg_type, ui_guess_level)
-    if ui.fix and arg_guess_level > ui_guess_level then
+    if ui.fix and arg_guess_level > ui_guess_level and ui_arg_type ~= 'AnyGlobal' and ui_arg_type ~= 'Null' then
         ui_arg.type = tp
         ui_arg.guess_level = arg_guess_level
     end
     if arg_guess_level == 1.0 then
         arg.arg_type = tp
-    end
-    if ui.name == 'SetVariable' then
-        if arg == args[2] and args[1].arg_type then
-            ui_arg_type = args[1].arg_type
-            ui_guess_level = 1.0
-        end
     end
 end
 
