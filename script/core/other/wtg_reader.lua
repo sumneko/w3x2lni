@@ -124,6 +124,7 @@ local arg_type_map = {
 }
 
 local preset_map
+local fixed_preset
 local function get_valid(name, ui_type)
     if ui_type == 'boolean' then
         return false
@@ -150,13 +151,13 @@ local function get_preset_type(name, ui_type, ui_guess_level)
         end
     end
     if preset_map[name] then
+        if fixed_preset[name] and ui_guess_level >= preset_map[name][2] then
+            preset_map[name] = {ui_type, ui_guess_level}
+        end
         return preset_map[name][1], preset_map[name][2]
     else
         preset_map[name] = {ui_type, ui_guess_level}
-        table.insert(fix.ui.define.TriggerParams, {
-            name,
-            ('0,%s,%s,%s'):format(ui_type, get_valid(name, ui_type), name),
-        })
+        fixed_preset[name] = true
         return ui_type, ui_guess_level
     end
 end
@@ -414,6 +415,12 @@ local function fill_fix()
             ui.comment = table.concat(comment)
         end
     end
+    for name in pairs(fixed_preset) do
+        table.insert(fix.ui.define.TriggerParams, {
+            name,
+            ('0,%s,%s,%s'):format(preset_map[name][1], get_valid(name, preset_map[name][1]), name),
+        })
+    end
     table.sort(fix.ui.define.TriggerParams, function(a, b)
         return a[1] < b[1]
     end)
@@ -446,6 +453,7 @@ return function (w2l_, wtg_, state_)
         },
     }
     fix_step = {}
+    fixed_preset = {}
     chunk = {}
 
     read_head()
