@@ -56,6 +56,13 @@ local function try_fix(tp, name)
     return fix.ui[tp][name]
 end
 
+local unknowtypes
+local function new_unknow()
+    local name = ('未知类型%03d'):format(#unknowtypes + 1)
+    table.insert(unknowtypes, name)
+    return name
+end
+
 local type_map = {
     [0] = 'event',
     [1] = 'condition',
@@ -172,17 +179,13 @@ local function get_var_type(name)
             var_map[var.name] = var.type
         end
     end
-    if var_map[name] then
-        return var_map[name], 1.0
-    else
-        return 'unknowtype', 0.0
-    end
+    return var_map[name], 1.0
 end
 
 local function get_ui_returns(ui, ui_type, ui_guess_level)
     if not ui.fix then
         if ui.returns == 'AnyReturnType' then
-            return 'unknow', 0.0
+            return ui_type, ui_guess_level
         else
             return ui.returns, 1.0
         end
@@ -205,7 +208,7 @@ local function get_call_type(name, ui_type, ui_guess_level)
     if ui then
         return get_ui_returns(ui, ui_type, ui_guess_level)
     else
-        return 'unknowtype', 0.0
+        return ui_type, ui_guess_level
     end
 end
 
@@ -224,7 +227,7 @@ end
 local function get_arg_type(arg, ui_type, ui_guess_level)
     local atp = arg_type_map[arg.type]
     if atp == 'disabled' then
-        return 'unknowtype', 0.0
+        return new_unknow(), 0.0
     elseif atp == 'preset' then
         return get_preset_type(arg.value, ui_type, ui_guess_level)
     elseif atp == 'var' then
@@ -240,41 +243,42 @@ local function fix_arg_type(ui, ui_arg, arg, args)
     local ui_arg_type
     local ui_guess_level
     if ui.fix then
-        ui_arg_type = ui_arg.type or 'unknowtype'
-        ui_guess_level = ui_arg.guess_level or 0.0
+        if not ui_arg.type then
+            ui_arg.type = new_unknow()
+            ui_arg.guess_level = 0.0
+        end
+        ui_arg_type = ui_arg.type
+        ui_guess_level = ui_arg.guess_level
     else
         ui_arg_type = ui_arg.type
         ui_guess_level = 1.0
     end
     if ui_arg_type == 'AnyGlobal' then
-        ui_arg_type = 'unknowtype'
         ui_guess_level = 0.0
     elseif ui_arg_type == 'Null' then
-        ui_arg_type = 'unknowtype'
-        ui_guess_level = 0.0
         local ok
+        local start
         for i = #args, 1, -1 do
-            if ok then
+            if start then
                 if ui.args[i].type == 'AnyGlobal' or ui.args[i].type == 'typename' then
-                    if args[i].arg_type then
-                        ui_arg_type = args[i].arg_type
-                        ui_guess_level = 1.0
-                    end
+                    ui_arg_type = args[i].arg_type
+                    ui_guess_level = args[i].arg_guess_level
+                    ok = true
                     break
                 end
             elseif args[i] == arg then
-                ok = true
+                start = true
             end
         end
+        assert(ok)
     end
     local tp, arg_guess_level = get_arg_type(arg, ui_arg_type, ui_guess_level)
     if ui.fix and arg_guess_level > ui_guess_level and ui_arg_type ~= 'AnyGlobal' and ui_arg_type ~= 'Null' then
         ui_arg.type = tp
         ui_arg.guess_level = arg_guess_level
     end
-    if arg_guess_level == 1.0 then
-        arg.arg_type = tp
-    end
+    arg.arg_type = tp
+    arg.arg_guess_level = arg_guess_level
 end
 
 local function read_arg()
@@ -387,15 +391,13 @@ local function read_triggers()
 end
 
 local function fill_fix()
-    table.insert(fix.ui.define.TriggerCategories, { 'TC_UNKNOWUI', '未知UI,ReplaceableTextures\\CommandButtons\\BTNInfernal.blp' })
-    table.insert(fix.ui.define.TriggerTypes, { 'unknowtype', '0,0,0,未知类型,string'})
     for _, type in pairs(type_map) do
         for _, ui in pairs(fix.ui[type]) do
             local arg_types = {}
             local comment = {}
             for i, arg in ipairs(ui.args) do
                 if not arg.type then
-                    arg.type = 'unknowtype'
+                    arg.type = new_unknow()
                     arg.guess_level = 0
                 end
                 table.insert(arg_types, (' ${%s} '):format(arg.type))
@@ -417,6 +419,12 @@ local function fill_fix()
             ui.comment = table.concat(comment)
         end
     end
+    
+    table.insert(fix.ui.define.TriggerCategories, { 'TC_UNKNOWUI', '未知UI,ReplaceableTextures\\CommandButtons\\BTNInfernal.blp' })
+    for _, name in ipairs(unknowtypes) do
+        table.insert(fix.ui.define.TriggerTypes, { name, ('0,0,0,%s,string'):format(name)})
+    end
+
     for name, value in pairs(fixed_preset) do
         table.insert(fix.ui.define.TriggerParams, {
             name,
@@ -456,6 +464,7 @@ return function (w2l_, wtg_, state_)
     }
     fix_step = {}
     fixed_preset = {}
+    unknowtypes = {}
     chunk = {}
 
     read_head()
