@@ -410,7 +410,7 @@ local function fill_fix()
             end
             ui.title = ('%s'):format(ui.name)
             ui.description = ('%s(%s)'):format(ui.name, table.concat(arg_types, ','))
-            ui.comment = table.concat(comment, '\n')
+            ui.comment = table.concat(comment)
         end
     end
 end
