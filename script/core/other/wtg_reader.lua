@@ -375,7 +375,7 @@ local function fill_fix()
         TriggerCategories = {
             { 'TC_UNKNOWUI', '未知UI,ReplaceableTextures\\CommandButtons\\BTNInfernal.blp' },
         },
-        TriggerType = {
+        TriggerTypes = {
             { 'unknowtype', '1,0,0,未知参数类型,string'},
         },
     }

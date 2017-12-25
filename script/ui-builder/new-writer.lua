@@ -51,17 +51,19 @@ function mt:stringify_ui(t)
             if u.returns then
                 table.insert(str, ('returns = %s'):format(u.returns))
             end
-            for _, arg in ipairs(u.args) do
-                table.insert(str, '[[.args]]')
-                table.insert(str, ('type = %s'):format(arg.type))
-                if arg.default then
-                    table.insert(str, ('default = %q'):format(arg.default))
-                end
-                if arg.min then
-                    table.insert(str, ('min = %s'):format(arg.min))
-                end
-                if arg.max then
-                    table.insert(str, ('max = %s'):format(arg.max))
+            if u.args then
+                for _, arg in ipairs(u.args) do
+                    table.insert(str, '[[.args]]')
+                    table.insert(str, ('type = %s'):format(arg.type))
+                    if arg.default then
+                        table.insert(str, ('default = %q'):format(arg.default))
+                    end
+                    if arg.min then
+                        table.insert(str, ('min = %s'):format(arg.min))
+                    end
+                    if arg.max then
+                        table.insert(str, ('max = %s'):format(arg.max))
+                    end
                 end
             end
             table.insert(str, '')

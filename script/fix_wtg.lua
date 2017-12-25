@@ -93,13 +93,13 @@ if not wtg or not state then
 end
 
 local clock = os.clock()
-local data, fix = w2l:wtg_reader(wtg, state)
+local data = w2l:wtg_fixer(wtg, state)
 print('读取wtg用时：', os.clock() - clock)
 
 local buf = w2l:wtg_writer(data)
 io.save(map_path:parent_path() / (map_path:filename():string() .. '.txt'), buf)
 
-local bufs = {ui.new_writer(fix)}
+local bufs = {ui.new_writer(state)}
 io.save(map_path:parent_path() / 'define.txt',    bufs[1])
 io.save(map_path:parent_path() / 'event.txt',     bufs[2])
 io.save(map_path:parent_path() / 'condition.txt', bufs[3])
