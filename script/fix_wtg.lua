@@ -46,6 +46,8 @@ function loader:config()
 			-- do nothing
 		elseif not enable_japi and (string_trim(line) == 'japi') then
 			-- do nothing
+		elseif string_trim(line) == 'unknowui' then
+			-- do nothing
 		else
 			table.insert(self.list, mpq_path / string_trim(line))
 		end
@@ -103,7 +105,7 @@ local buf = w2l:wtg_writer(data)
 io.save(map_path:parent_path() / (map_path:filename():string() .. '.txt'), buf)
 
 ui.merge(state, fix)
-local bufs = {ui.new_writer(state)}
+local bufs = {ui.new_writer(fix)}
 io.save(map_path:parent_path() / 'define.txt',    bufs[1])
 io.save(map_path:parent_path() / 'event.txt',     bufs[2])
 io.save(map_path:parent_path() / 'condition.txt', bufs[3])
