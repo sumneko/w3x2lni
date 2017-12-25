@@ -11,9 +11,8 @@ local function switch(value)
     end
 end
 
-function mt:read_ui(type, path)
-	local f = io.open(path, "r")
-    if not f then
+function mt:read_ui(type, buf)
+    if not buf then
         return
     end
     local lastkey
@@ -42,8 +41,6 @@ function mt:read_ui(type, path)
             last = value
         end,
     })
-    local buf = f:read 'a'
-    f:close()
     lni(buf, type, t)
     savelast()
 end
@@ -97,13 +94,12 @@ function mt:parse(section, key, value)
     }
 end
 
-function mt:read_define(path)
-	local f = io.open(path, "r")
-    if not f then
+function mt:read_define(buf)
+    if not buf then
         return
     end
 	local section = nil
-	for line in f:lines() do
+	for line in buf:gmatch '[^\r\n]+' do
 		if line:sub(1,1) == "[" then
 			section = line:sub(2, #line - 1)
 		elseif line:sub(1,2) == "//" then
@@ -116,20 +112,19 @@ function mt:read_define(path)
 			end
 		end
 	end
-	f:close()
 end
 
-function mt:read(path)
+function mt:read(loader)
     self:reset()
-    self:read_define(path / [[define.txt]])
-    self:read_ui('event', path / [[event.txt]])
-    self:read_ui('condition', path / [[condition.txt]])
-    self:read_ui('action', path / [[action.txt]])
-    self:read_ui('call', path / [[call.txt]])
+    self:read_define(loader [[define.txt]])
+    self:read_ui('event', loader [[event.txt]])
+    self:read_ui('condition', loader [[condition.txt]])
+    self:read_ui('action', loader [[action.txt]])
+    self:read_ui('call', loader [[call.txt]])
 end
 
-return function(path)
+return function(loader)
     local obj = setmetatable({}, mt)
-    obj:read(path)
+    obj:read(loader)
     return obj
 end

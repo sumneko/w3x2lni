@@ -9,8 +9,8 @@ local uni = require 'ffi.unicode'
 local w3x2lni = require 'w3x2lni'
 local archive = require 'archive'
 local save_map = require 'save_map'
-local ui = require 'ui-builder'
 local w2l = w3x2lni()
+local ui = w2l.ui_builder
 
 local map_path = fs.path(arg[1])
 local ydwe_path = fs.path(arg[2] or "D:/魔兽争霸III/YDWE1.31.8正式版/")
@@ -61,9 +61,13 @@ function loader:triggerdata()
 	local t = nil
 	for _, path in ipairs(self.list) do
 		if fs.exists(path / 'ui') then
-			t = ui.merge(t, ui.old_reader(path / 'ui'))
+			t = ui.merge(t, ui.old_reader(function(filename)
+				return io.load(path / 'ui' / filename)
+			end))
 		else
-			t = ui.merge(t, ui.new_reader(path))
+			t = ui.merge(t, ui.new_reader(function(filename)
+				return io.load(path / filename)
+			end))
 		end
 	end
 	--return ui.old_writer(t)

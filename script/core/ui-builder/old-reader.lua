@@ -201,10 +201,10 @@ function mt:parse(section, key, value)
     }
 end
 
-function mt:readfile(path)
-	local f = assert(io.open(path, "r"))
+function mt:readfile(buf)
+	local f = assert(buf)
 	local section = nil
-	for line in f:lines() do
+	for line in buf:gmatch '[^\r\n]+' do
 		if line:sub(1,1) == "[" then
 			section = line:sub(2, #line - 1)
 		elseif line:sub(1,2) == "//" then
@@ -217,7 +217,6 @@ function mt:readfile(path)
 			end
 		end
 	end
-	f:close()
 end
 
 function mt:reset()
@@ -236,14 +235,14 @@ function mt:reset()
     }
 end
 
-function mt:read(path)
+function mt:read(loader)
     self:reset()
-    self:readfile(path / [[TriggerData.txt]])
-    self:readfile(path / [[TriggerStrings.txt]])
+    self:readfile(loader [[TriggerData.txt]])
+    self:readfile(loader [[TriggerStrings.txt]])
 end
 
-return function(path)
+return function(loader)
     local obj = setmetatable({}, mt)
-    obj:read(path)
+    obj:read(loader)
     return obj
 end
