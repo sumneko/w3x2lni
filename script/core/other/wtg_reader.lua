@@ -45,8 +45,7 @@ local function try_fix(tp, name)
         }
         table.insert(fix_step, fix.ui[tp][name])
         
-        if not fix.categories[tp] then
-            fix.categories[tp] = {}
+        if not fix.categories[tp]['TC_UNKNOWUI'] then
             fix.categories[tp]['TC_UNKNOWUI'] = {}
             table.insert(fix.categories[tp], 'TC_UNKNOWUI')
         end
@@ -125,23 +124,40 @@ local arg_type_map = {
 }
 
 local preset_map
-local function get_preset_type(name)
+local function get_valid(name, ui_type)
+    if ui_type == 'boolean' then
+        return false
+    elseif ui_type == 'integer' then
+        return 0
+    elseif ui_type == 'real' then
+        return 0.0
+    else
+        return name
+    end
+end
+
+local function get_preset_type(name, ui_type, ui_guess_level)
     if not preset_map then
         preset_map = {}
         for _, line in ipairs(state.ui.define.TriggerParams) do
             local key = line[1]
             local type = line[2]:match '%d+%,([%w_]+)%,'
             if type == 'typename' then
-                preset_map[key] = key:match '^.-_(.+)$'
+                preset_map[key] = {key:match '^.-_(.+)$', 1.0}
             else
-                preset_map[key] = type
+                preset_map[key] = {type, 1.0}
             end
         end
     end
     if preset_map[name] then
-        return preset_map[name], 1.0
+        return preset_map[name][1], preset_map[name][2]
     else
-        return 'unknowtype', 0.0
+        preset_map[name] = {ui_type, ui_guess_level}
+        table.insert(fix.ui.define.TriggerParams, {
+            name,
+            ('0,%s,%s,%s'):format(ui_type, get_valid(name, ui_type), name),
+        })
+        return ui_type, ui_guess_level
     end
 end
 
@@ -207,7 +223,7 @@ local function get_arg_type(arg, ui_type, ui_guess_level)
     if atp == 'disabled' then
         return 'unknowtype', 0.0
     elseif atp == 'preset' then
-        return get_preset_type(arg.value)
+        return get_preset_type(arg.value, ui_type, ui_guess_level)
     elseif atp == 'var' then
         return get_var_type(arg.value)
     elseif atp == 'call' then
@@ -355,7 +371,7 @@ local function read_triggers()
             try_count = try_count + 1
             assert(not abort, err)
             assert(try_count < 1000, '在大量尝试后放弃修复。')
-            --w2l.message(err)
+            w2l.message(err)
             if retry_point then
                 pos, unpack_index = retry_point[1], retry_point[2]
                 retry_point = false
@@ -368,24 +384,9 @@ local function read_triggers()
 end
 
 local function fill_fix()
-    if not next(fix.ui) then
-        return nil
-    end
-    fix.ui.define = {
-        TriggerCategories = {
-            { 'TC_UNKNOWUI', '未知UI,ReplaceableTextures\\CommandButtons\\BTNInfernal.blp' },
-        },
-        TriggerTypes = {
-            { 'unknowtype', '1,0,0,未知类型,string'},
-        },
-    }
+    table.insert(fix.ui.define.TriggerCategories, { 'TC_UNKNOWUI', '未知UI,ReplaceableTextures\\CommandButtons\\BTNInfernal.blp' })
+    table.insert(fix.ui.define.TriggerTypes, { 'unknowtype', '0,0,0,未知类型,string'})
     for _, type in pairs(type_map) do
-        if not fix.ui[type] then
-            fix.ui[type] = {}
-        end
-        if not fix.categories[type] then
-            fix.categories[type] = {}
-        end
         for _, ui in pairs(fix.ui[type]) do
             local arg_types = {}
             local comment = {}
@@ -413,6 +414,9 @@ local function fill_fix()
             ui.comment = table.concat(comment)
         end
     end
+    table.sort(fix.ui.define.TriggerParams, function(a, b)
+        return a[1] < b[1]
+    end)
 end
 
 return function (w2l_, wtg_, state_)
@@ -421,7 +425,26 @@ return function (w2l_, wtg_, state_)
     state = state_
     unpack_index = 1
     try_count = 0
-    fix = { ui = {} , categories = {} }
+    fix = {
+        ui = {
+            action = {},
+            call = {},
+            condition = {},
+            event = {},
+            define = {
+                TriggerParams = {},
+                TriggerCategories = {},
+                TriggerTypes = {},
+            },
+        },
+        categories = {
+            action = {},
+            define = {},
+            call = {},
+            condition = {},
+            event = {},
+        },
+    }
     fix_step = {}
     chunk = {}
 
