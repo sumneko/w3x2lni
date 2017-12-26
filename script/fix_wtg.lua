@@ -92,6 +92,22 @@ function loader:triggerdata()
 	return t
 end
 
+local function new_config()
+	local lines = {}
+	local f = io.open((mpq_path / 'config'):string(), 'r')
+	if not f then
+		return nil
+	end
+	for line in f:lines() do
+		if string_trim(line) == 'unknowui' then
+			return nil
+		end
+		table.insert(lines, line)
+	end
+	table.insert(lines, 'unknowui')
+	return table.concat(lines, '\n')
+end
+
 w2l:set_messager(print)
 
 local map = archive(map_path)
@@ -111,10 +127,16 @@ io.save(map_path:parent_path() / (map_path:filename():string() .. '.txt'), buf)
 
 ui.merge(state, fix)
 local bufs = {ui.new_writer(fix)}
-io.save(map_path:parent_path() / 'define.txt',    bufs[1])
-io.save(map_path:parent_path() / 'event.txt',     bufs[2])
-io.save(map_path:parent_path() / 'condition.txt', bufs[3])
-io.save(map_path:parent_path() / 'action.txt',    bufs[4])
-io.save(map_path:parent_path() / 'call.txt',      bufs[5])
+fs.create_directories(map_path:parent_path() / 'unknowui')
+io.save(map_path:parent_path() / 'unknowui' / 'define.txt',    bufs[1])
+io.save(map_path:parent_path() / 'unknowui' / 'event.txt',     bufs[2])
+io.save(map_path:parent_path() / 'unknowui' / 'condition.txt', bufs[3])
+io.save(map_path:parent_path() / 'unknowui' / 'action.txt',    bufs[4])
+io.save(map_path:parent_path() / 'unknowui' / 'call.txt',      bufs[5])
+
+local config = new_config()
+if config then
+	io.save(map_path:parent_path() / 'config', config)
+end
 
 print('成功，修复wtg总用时：', os.clock() - clock)
