@@ -12,8 +12,25 @@ local save_map = require 'save_map'
 local w2l = w3x2lni()
 local ui = w2l.ui_builder
 
+local std_print = print
+function print(...)
+    if select(1, ...) == '-progress' then
+        return
+    end
+    local tbl = {...}
+    local count = select('#', ...)
+    for i = 1, count do
+        tbl[i] = uni.u2a(tostring(tbl[i])):gsub('[\r\n]', ' ')
+    end
+    std_print(table.concat(tbl, ' '))
+end
+
+if arg[0]:find('..', 1, true) then
+	arg[1] = uni.a2u(arg[1])
+	arg[2] = uni.a2u(arg[2])
+end
 local map_path = fs.path(arg[1])
-local ydwe_path = fs.path(arg[2] or "D:/魔兽争霸III/YDWE1.31.8正式版/")
+local ydwe_path = fs.path(arg[2])
 local mpq_path = ydwe_path / 'share' / 'mpq'
 
 local function string_trim (self) 
@@ -75,18 +92,6 @@ function loader:triggerdata()
 	return t
 end
 
-local std_print = print
-function print(...)
-    if select(1, ...) == '-progress' then
-        return
-    end
-    local tbl = {...}
-    local count = select('#', ...)
-    for i = 1, count do
-        tbl[i] = uni.u2a(tostring(tbl[i])):gsub('[\r\n]', ' ')
-    end
-    std_print(table.concat(tbl, ' '))
-end
 w2l:set_messager(print)
 
 local map = archive(map_path)
