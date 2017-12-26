@@ -397,6 +397,8 @@ local function fill_fix()
         for _, ui in pairs(fix.ui[type]) do
             local arg_types = {}
             local comment = {}
+            local comment_guess = {}
+            local comment_unknow = {}
             for i, arg in ipairs(ui.args) do
                 if not arg.type then
                     arg.type = new_unknow()
@@ -404,10 +406,16 @@ local function fill_fix()
                 end
                 table.insert(arg_types, (' ${%s} '):format(arg.type))
                 if arg.guess_level == 0 then
-                    table.insert(comment, ('第 %d 个参数类型未知。'):format(i))
+                    table.insert(comment_unknow, i)
                 elseif arg.guess_level < 1 then
-                    table.insert(comment, ('第 %d 个参数类型可能不正确。'):format(i))
+                    table.insert(comment_guess, i)
                 end
+            end
+            if #comment_unknow > 0 then
+                table.insert(comment, ('第 %s 个参数未知。'):format(table.concat(comment_unknow, ',')))
+            end
+            if #comment_guess > 0 then
+                table.insert(comment, ('第 %s 个参数不确定。'):format(table.concat(comment_guess, ',')))
             end
             if ui.returns then
                 if ui.returns_guess_level == 0 then
@@ -422,7 +430,7 @@ local function fill_fix()
         end
     end
     
-    table.insert(fix.ui.define.TriggerCategories, { 'TC_UNKNOWUI', '未知UI,ReplaceableTextures\\CommandButtons\\BTNInfernal.blp' })
+    table.insert(fix.ui.define.TriggerCategories, { 'TC_UNKNOWUI', '[未知UI],ReplaceableTextures\\CommandButtons\\BTNPolymorph.blp' })
     for _, name in ipairs(unknowtypes) do
         table.insert(fix.ui.define.TriggerTypes, { name, ('0,0,0,%s,string'):format(name)})
     end
