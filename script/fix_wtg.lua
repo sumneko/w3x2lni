@@ -32,6 +32,7 @@ end
 local map_path = fs.path(arg[1])
 local ydwe_path = fs.path(arg[2])
 local mpq_path = ydwe_path / 'share' / 'mpq'
+local map_name = map_path:stem():string()
 
 local function string_trim (self) 
 	return self:gsub("^%s*(.-)%s*$", "%1")
@@ -63,7 +64,7 @@ function loader:config()
 			-- do nothing
 		elseif not enable_japi and (string_trim(line) == 'japi') then
 			-- do nothing
-		elseif string_trim(line) == 'unknowui' then
+		elseif string_trim(line) == map_name then
 			-- do nothing
 		else
 			table.insert(self.list, mpq_path / string_trim(line))
@@ -99,12 +100,12 @@ local function new_config()
 		return nil
 	end
 	for line in f:lines() do
-		if string_trim(line) == 'unknowui' then
+		if string_trim(line) == map_name then
 			return nil
 		end
 		table.insert(lines, line)
 	end
-	table.insert(lines, 'unknowui')
+	table.insert(lines, map_name)
 	return table.concat(lines, '\n')
 end
 
@@ -127,12 +128,12 @@ io.save(map_path:parent_path() / (map_path:filename():string() .. '.txt'), buf)
 
 ui.merge(state, fix)
 local bufs = {ui.new_writer(fix)}
-fs.create_directories(map_path:parent_path() / 'unknowui')
-io.save(map_path:parent_path() / 'unknowui' / 'define.txt',    bufs[1])
-io.save(map_path:parent_path() / 'unknowui' / 'event.txt',     bufs[2])
-io.save(map_path:parent_path() / 'unknowui' / 'condition.txt', bufs[3])
-io.save(map_path:parent_path() / 'unknowui' / 'action.txt',    bufs[4])
-io.save(map_path:parent_path() / 'unknowui' / 'call.txt',      bufs[5])
+fs.create_directories(map_path:parent_path() / map_name)
+io.save(map_path:parent_path() / map_name / 'define.txt',    bufs[1])
+io.save(map_path:parent_path() / map_name / 'event.txt',     bufs[2])
+io.save(map_path:parent_path() / map_name / 'condition.txt', bufs[3])
+io.save(map_path:parent_path() / map_name / 'action.txt',    bufs[4])
+io.save(map_path:parent_path() / map_name / 'call.txt',      bufs[5])
 
 local config = new_config()
 if config then
