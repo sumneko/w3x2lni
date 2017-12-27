@@ -65,13 +65,17 @@ local function initialize(self, root)
     function core:mpq_load(filename)
         return io.load(root / 'data' / filename)
     end
+
+    function core:prebuilt_load(filename)
+        return io.load(root / 'data' / 'prebuilt' / filename)
+    end
 end
 
 function mt:set_config(config)
     core:set_config(config)
     self.mpq = self.root / 'data' / core.mpq
     self.agent = self.root / 'data' / core.agent
-    self.default = self.root / 'data' / core.default
+    self.default = self.root / 'data' / 'prebuilt' / core.default
 end
 
 return function (root)
