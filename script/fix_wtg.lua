@@ -10,7 +10,7 @@ local w3x2lni = require 'w3x2lni'
 local archive = require 'archive'
 local save_map = require 'save_map'
 local w2l = w3x2lni()
-local ui = require 'ui-builder'
+local ui = w2l.ui_builder
 
 local std_print = print
 function print(...)
@@ -111,15 +111,15 @@ end
 
 w2l:set_messager(print)
 
-loader:config()
-local state = loader:triggerdata()
-
-local clock = os.clock()
 local map = archive(map_path)
 local wtg = map:get 'war3map.wtg'
+loader:config()
+local state = loader:triggerdata()
 if not wtg or not state then
     return false
 end
+
+local clock = os.clock()
 local data, fix = w2l:wtg_reader(wtg, state)
 print('读取wtg用时：', os.clock() - clock)
 
