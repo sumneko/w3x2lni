@@ -25,7 +25,7 @@ function mt:stringify_define(t)
 end
 
 local function constr(str)
-    if str:find('%s') then
+    if str:find('[%s%.%:%[%]]') then
         return ('%q'):format(str)
     end
     return str
@@ -35,7 +35,7 @@ function mt:stringify_ui(t)
     local str = {}
     for _, category in ipairs(t) do
         for _, u in ipairs(t[category]) do
-            table.insert(str, ('[%q]'):format(constr(u.name)))
+            table.insert(str, ('[%s]'):format(constr(u.name)))
             table.insert(str, ('title = %q'):format(u.title))
             table.insert(str, ('description = %q'):format(u.description))
             if u.comment then
