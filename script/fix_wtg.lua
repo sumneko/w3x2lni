@@ -64,7 +64,7 @@ function loader:config()
 			-- do nothing
 		elseif not enable_japi and (string_trim(line) == 'japi') then
 			-- do nothing
-		elseif string_trim(line) == map_name then
+		--elseif string_trim(line) == map_name then
 			-- do nothing
 		else
 			table.insert(self.list, mpq_path / string_trim(line))
@@ -110,14 +110,20 @@ local function new_config()
 end
 
 w2l:set_messager(print)
-
-local map = archive(map_path)
-local wtg = map:get 'war3map.wtg'
 loader:config()
 local state = loader:triggerdata()
+
+local clock = os.clock()
+local map = archive(map_path)
+local wtg = map:get 'war3map.wtg'
 if not wtg or not state then
     return false
 end
+print('打开地图用时：', os.clock() - clock)
+
+local clock = os.clock()
+local suc = w2l:wtg_checker(wtg, state)
+print('检查wtg结果：', suc, '用时：', os.clock() - clock)
 
 local clock = os.clock()
 local data, fix = w2l:wtg_reader(wtg, state)
