@@ -313,7 +313,7 @@ function read_eca(is_child)
     eca.enable = unpack 'l'
 
     assert(type_map[eca.type], 'eca.type 错误')
-    assert(eca.name:match '^[%g%s]+$', ('eca.name 错误：[%s]'):format(eca.name))
+    assert(eca.name:match '^[%g%s]*$', ('eca.name 错误：[%s]'):format(eca.name))
     assert(eca.enable == 0 or eca.enable == 1, 'eca.enable 错误')
 
     eca.args = {}
