@@ -64,7 +64,7 @@ function loader:config()
 			-- do nothing
 		elseif not enable_japi and (string_trim(line) == 'japi') then
 			-- do nothing
-		--elseif string_trim(line) == map_name then
+		elseif string_trim(line) == map_name then
 			-- do nothing
 		else
 			table.insert(self.list, mpq_path / string_trim(line))
