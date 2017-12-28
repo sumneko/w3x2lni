@@ -49,8 +49,7 @@ local function read_categories()
 end
 
 local function read_var()
-    _, _, index = string_unpack('zz', wtg, index)
-    _, index = string_unpack('z', wtg, index + 16)
+    _, _, _, _, _, _, _, index = string_unpack('zzllllz', wtg, index)
 end
 
 local function read_vars()
