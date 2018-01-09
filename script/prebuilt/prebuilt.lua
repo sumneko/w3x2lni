@@ -29,7 +29,7 @@ function w2l:map_load(filename)
 end
 
 local function prebuilt_codemapped(w2l)
-    local template = w2l:parse_slk(io.load(w2l.agent / w2l.info.slk.ability[1]) or io.load(w2l.mpq / w2l.info.slk.ability[1]))
+    local template = w2l:parse_slk(w2l:mpq_loader(w2l.info.slk.ability[1]))
     local t = {}
     for id, d in pairs(template) do
         t[id] = d.code
@@ -71,6 +71,8 @@ function mt:get_config()
     local config = {}
     -- 转换后的目标格式(lni, obj, slk)
     config.target_format = 'lni'
+    -- 使用的语言
+    config.lang = 'zh-CN'
     -- 是否分析slk文件
     config.read_slk = true
     -- 分析slk时寻找id最优解的次数,0表示无限,寻找次数越多速度越慢
