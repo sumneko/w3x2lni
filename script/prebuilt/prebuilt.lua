@@ -29,7 +29,7 @@ function w2l:map_load(filename)
 end
 
 local function prebuilt_codemapped(w2l)
-    local template = w2l:parse_slk(w2l:mpq_loader(w2l.info.slk.ability[1]))
+    local template = w2l:parse_slk(w2l:mpq_load(w2l.info.slk.ability[1]))
     local t = {}
     for id, d in pairs(template) do
         t[id] = d.code

@@ -68,7 +68,7 @@ end
 function mt:get_editstring(str)
     -- TODO: WESTRING不区分大小写，不过我们把WorldEditStrings.txt改了，暂时不会出现问题
     if not self.editstring then
-        self.editstring = ini(self:mpq_loader('UI\\WorldEditStrings.txt'))['WorldEditStrings']
+        self.editstring = ini(self:mpq_load('UI\\WorldEditStrings.txt'))['WorldEditStrings']
     end
     if not self.editstring[str] then
         return str
@@ -83,7 +83,7 @@ local function create_default(w2l)
     local default = {}
     local need_build = false
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'txt', 'misc'} do
-        local str = w2l:prebuilt_loader(w2l.default .. '\\' .. name .. '.ini')
+        local str = w2l:prebuilt_load(name .. '.ini')
         if str then
             default[name] = lni(str)
         else
@@ -228,14 +228,6 @@ function mt:set_config(config)
     else
         self.mpq_path:open 'Custom_V1'
     end
-end
-
-function mt:mpq_loader(filename)
-    return self:mpq_load(filename)
-end
-
-function mt:prebuilt_loader(filename)
-    return self:prebuilt_load(filename)
 end
 
 function mt:set_messager(messager)
