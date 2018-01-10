@@ -102,12 +102,13 @@ function mt:dofile(mpq, version, template)
     config.mpq     = mpq
     config.version = version
     w2l:set_config(config)
-    fs.create_directories(w2l.default)
+    local prebuilt_path = w2l.root / 'data' / 'prebuilt' / w2l.mpq_path:first_path()
+    fs.create_directories(prebuilt_path)
 
 	local slk = w2l:build_slk()
     print('正在生成default')
     for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc', 'txt'} do
-        io.save(w2l.default / (ttype .. '.ini'), default2lni(slk[ttype]))
+        io.save(prebuilt_path / (ttype .. '.ini'), default2lni(slk[ttype]))
     end
     
     if template then

@@ -1,4 +1,5 @@
 local w3xparser = require 'w3xparser'
+local mpq_path = require 'mpq_path'
 local lni = require 'lni-c'
 local progress = require 'progress'
 local slk = w3xparser.slk
@@ -219,26 +220,22 @@ end
 
 function mt:set_config(config)
     self.config = config
-    self.mpq = self.config.mpq
-    self.path = new_path()
-    self.path:open(config.lang)
+    self.mpq_path = mpq_path()
+    self.mpq_path:open(config.mpq)
+    self.mpq_path:open(config.lang)
     if self.config.version == 'Melee' then
-        self.path:open 'Melee_V1'
+        self.mpq_path:open 'Melee_V1'
     else
-        self.path:open 'Custom_V1'
+        self.mpq_path:open 'Custom_V1'
     end
 end
 
 function mt:mpq_loader(filename)
-    return self.path:each_path(function(path)
-        return self:mpq_load(self.mpq .. path .. filename)
-    end)
+    return self:mpq_load(filename)
 end
 
 function mt:prebuilt_loader(filename)
-    return self.path:each_path(function(path)
-        return self:prebuilt_load(self.mpq .. path .. filename)
-    end)
+    return self:prebuilt_load(filename)
 end
 
 function mt:set_messager(messager)

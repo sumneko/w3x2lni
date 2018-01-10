@@ -7,6 +7,7 @@ local core = sandbox('core', {
     ['w3xparser'] = require 'w3xparser',
     ['lni-c']     = require 'lni-c',
     ['lpeg']      = require 'lpeg',
+    ['mpq_path']  = require 'mpq_path',
 })()
 
 local function get_exepath()
@@ -63,18 +64,16 @@ local function initialize(self, root)
     self:set_config(config)
 
     function core:mpq_load(filename)
-        return io.load(root / 'data' / 'units' / filename)
+        return core.mpq_path:each_path(function(path)
+            return io.load(root / 'data' / 'units' / path / filename)
+        end)
     end
 
     function core:prebuilt_load(filename)
-        return io.load(root / 'data' / 'prebuilt' / filename)
+        return core.mpq_path:each_path(function(path)
+            return io.load(root / 'data' / 'prebuilt' / path / filename)
+        end)
     end
-end
-
-function mt:set_config(config)
-    core:set_config(config)
-    self.mpq = self.root / 'data' / core.mpq
-    self.default = self.root / 'data' / 'prebuilt' / core.default
 end
 
 return function (root)
