@@ -71,8 +71,6 @@ function mt:get_config()
     local config = {}
     -- 转换后的目标格式(lni, obj, slk)
     config.target_format = 'lni'
-    -- 使用的语言
-    config.lang = 'zh-CN'
     -- 是否分析slk文件
     config.read_slk = true
     -- 分析slk时寻找id最优解的次数,0表示无限,寻找次数越多速度越慢
@@ -93,14 +91,15 @@ function mt:get_config()
     return config
 end
 
-function mt:dofile(mpq, version, template)
+function mt:dofile(mpq, lang, version, template)
     print('==================')
-    print(('       %s      '):format(version))
+    print(('  %s  %s  '):format(lang, version))
     print('==================')
 
     local config = self:get_config()
     config.mpq     = mpq
     config.version = version
+    config.lang    = lang
     w2l:set_config(config)
     local prebuilt_path = w2l.root / 'data' / 'prebuilt' / w2l.mpq_path:first_path()
     fs.create_directories(prebuilt_path)
@@ -132,8 +131,10 @@ function mt:complete()
     prebuilt_keydata(w2l)
     prebuilt_search(w2l)
 
-    self:dofile('default', 'Melee')
-    self:dofile('default', 'Custom', 'template')
+    self:dofile('default', 'zh-CN', 'Melee')
+    self:dofile('default', 'zh-CN', 'Custom', 'template')
+    self:dofile('default', 'en-US', 'Melee')
+    self:dofile('default', 'en-US', 'Custom')
 
     -- 生成技能命令映射
     --local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'), 'ability.ini')
