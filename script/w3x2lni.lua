@@ -64,7 +64,7 @@ local function initialize(self, root)
 
     function core:mpq_load(filename)
         return core.mpq_path:each_path(function(path)
-            return io.load(root / 'data' / 'units' / path / filename)
+            return io.load(root / 'data' / 'mpq' / path / filename)
         end)
     end
 
