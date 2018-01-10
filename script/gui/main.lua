@@ -81,6 +81,8 @@ local function save_config()
 target_format = %s
 -- 使用谁的mpq(default, custom)
 mpq = default
+-- 使用的语言
+lang = zh-CN
 ]]):format(config.target_format)
 
     for _, type in ipairs {'slk', 'lni', 'obj'} do

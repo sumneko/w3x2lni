@@ -7,7 +7,6 @@ local core = sandbox('core', {
     ['w3xparser'] = require 'w3xparser',
     ['lni-c']     = require 'lni-c',
     ['lpeg']      = require 'lpeg',
-    ['mpq_path']  = require 'mpq_path',
 })()
 
 local function get_exepath()
