@@ -63,7 +63,7 @@ local function initialize(self, root)
     self:set_config(config)
 
     function core:mpq_load(filename)
-        return io.load(root / 'data' / filename)
+        return io.load(root / 'data' / 'units' / filename)
     end
 
     function core:prebuilt_load(filename)

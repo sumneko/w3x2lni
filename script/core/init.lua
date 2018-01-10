@@ -82,7 +82,7 @@ local function create_default(w2l)
     local default = {}
     local need_build = false
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'txt', 'misc'} do
-        local str = w2l:prebuilt_load(w2l.default .. '\\' .. name .. '.ini')
+        local str = w2l:prebuilt_loader(w2l.default .. '\\' .. name .. '.ini')
         if str then
             default[name] = lni(str)
         else
@@ -224,16 +224,20 @@ function mt:set_config(config)
     self.path:open(config.lang)
     if self.config.version == 'Melee' then
         self.path:open 'Melee_V1'
-        self.default = self.mpq .. '\\Melee'
     else
         self.path:open 'Custom_V1'
-        self.default = self.mpq .. '\\Custom'
     end
 end
 
 function mt:mpq_loader(filename)
     return self.path:each_path(function(path)
         return self:mpq_load(self.mpq .. path .. filename)
+    end)
+end
+
+function mt:prebuilt_loader(filename)
+    return self.path:each_path(function(path)
+        return self:prebuilt_load(self.mpq .. path .. filename)
     end)
 end
 
