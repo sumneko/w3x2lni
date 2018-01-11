@@ -9,8 +9,8 @@ local uni = require 'ffi.unicode'
 local w3x2lni = require 'w3x2lni'
 local archive = require 'archive'
 local save_map = require 'save_map'
+local ui = require 'ui-builder'
 local w2l = w3x2lni()
-local ui = w2l.ui_builder
 
 local std_print = print
 function print(...)
