@@ -3,6 +3,7 @@ if io.load then
 end
 
 local uni = require 'ffi.unicode'
+io._open = io.open
 local real_io_open = io.open
 
 function io.open(path, mode)
