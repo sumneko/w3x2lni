@@ -421,17 +421,21 @@ function slk_proxy:refresh(report)
     if report then
         report(create_report())
     end
+    local objs = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
         if used[type] then
-            local objs = {}
+            objs[type] = {}
             for name, obj in pairs(slk[type]) do
                 if obj._parent then
-                    objs[name] = obj
+                    objs[type][name] = obj
                 end
             end
-            local buf = w2l:backend_obj(type, objs)
-            w2l:map_save(w2l.info.obj[type], buf)
         end
+    end
+    w2l:backend_cleanobj(objs)
+    for type, data in pairs(objs) do
+        local buf = w2l:backend_obj(type, data)
+        w2l:map_save(w2l.info.obj[type], buf)
     end
 end
 
