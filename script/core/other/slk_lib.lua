@@ -418,12 +418,19 @@ function slk_proxy:refresh(report)
     if not next(used) then
         return
     end
-    report(create_report())
-    for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
-        if used[name] then
-            local buf = w2l:backend_obj(name, slk[name])
-            log.debug('refresh object: ' .. w2l.info.obj[name])
-            w2l:map_save(w2l.info.obj[name], buf)
+    if report then
+        report(create_report())
+    end
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
+        if used[type] then
+            local objs = {}
+            for name, obj in pairs(slk[type]) do
+                if obj._parent then
+                    objs[name] = obj
+                end
+            end
+            local buf = w2l:backend_obj(type, objs)
+            w2l:map_save(w2l.info.obj[type], buf)
         end
     end
 end

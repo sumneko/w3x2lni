@@ -46,6 +46,10 @@ function w2l.map_load()
     return nil
 end
 
+function w2l.map_save()
+    return nil
+end
+
 local slk = w2l:slk_lib()
 
 local obj = slk.item.modt
@@ -77,4 +81,7 @@ for k, v in pairs(slk.item.I000) do
     print(k, v)
 end
 print('==============')
+
+slk:refresh()
+
 print('测试完成')
