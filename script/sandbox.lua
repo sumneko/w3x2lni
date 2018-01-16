@@ -167,6 +167,9 @@ end
 
 return function(name, loadlua, loaded)
     local init, extra = loadlua(name)
+    if not init then
+        return error(("module '%s' not found"):format(name))
+    end
     local root = getparent(extra)
     if not root then
         return error(("module '%s' not found"):format(name))
