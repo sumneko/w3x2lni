@@ -27,7 +27,7 @@ function mt:__index(key)
 end
 
 function mt:__newindex(key, value)
-    if key == 'mpq_load' or key == 'map_load' or key == 'map_save' or key == 'map_remove' then
+    if key == 'mpq_load' or key == 'map_load' or key == 'map_save' or key == 'map_remove' or key == 'prebuilt_save' then
         core[key] = value
     else
         rawset(self, key, value)
