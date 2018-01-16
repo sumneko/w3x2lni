@@ -66,27 +66,16 @@ end
 
 local mt = {}
 
-function mt:get_config()
-    local config = {}
-    -- 转换后的目标格式(lni, obj, slk)
-    config.target_format = 'lni'
-    -- 是否分析slk文件
-    config.read_slk = true
-    -- 移除超出等级的数据
-    config.remove_exceeds_level = true
-
-    return config
-end
-
 function mt:dofile(mpq, lang, version, template)
     print('==================')
     print(('  %s  %s  '):format(lang, version))
     print('==================')
 
-    local config = self:get_config()
-    config.mpq     = mpq
-    config.version = version
-    config.lang    = lang
+    local config = {
+        mpq     = mpq,
+        version = version,
+        lang    = lang,
+    }
     w2l:set_config(config)
     local prebuilt_path = w2l.root / 'data' / 'prebuilt' / w2l.mpq_path:first_path()
     fs.create_directories(prebuilt_path)

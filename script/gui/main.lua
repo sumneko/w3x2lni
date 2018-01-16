@@ -38,8 +38,6 @@ read_lni = $read_lni$
 find_id_times = $find_id_times$
 -- 移除与模板完全相同的数据
 remove_same = $remove_same$
--- 移除超出等级的数据
-remove_exceeds_level = $remove_exceeds_level$
 -- 移除只在WE使用的文件
 remove_we_only = $remove_we_only$
 -- 移除没有引用的对象
@@ -202,7 +200,6 @@ local function window_select(canvas)
         config.lni.read_slk = false
         config.lni.read_lni = true
         config.lni.remove_same = false
-        config.lni.remove_exceeds_level = true
         config.lni.remove_we_only = false
         config.lni.remove_unuse_object = false
         config.lni.mdx_squf = false
@@ -224,7 +221,6 @@ local function window_select(canvas)
         config.slk.read_slk = true
         config.lni.read_lni = true
         config.slk.remove_same = false
-        config.slk.remove_exceeds_level = true
         save_config()
         clean_convert_ui()
         set_current_theme {0, 173, 60}
@@ -240,7 +236,6 @@ local function window_select(canvas)
         config.obj.read_slk = false
         config.lni.read_lni = true
         config.obj.remove_same = true
-        config.obj.remove_exceeds_level = true
         config.obj.remove_we_only = false
         config.obj.remove_unuse_object = false
         config.obj.mdx_squf = false
