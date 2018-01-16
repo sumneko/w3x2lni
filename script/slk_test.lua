@@ -84,4 +84,7 @@ print('==============')
 
 slk:refresh()
 
+local slk = w2l:slk_lib(true)
+assert(slk.item.modt.new == '')
+
 print('测试完成')
