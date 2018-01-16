@@ -88,6 +88,20 @@
                 "D:/魔兽争霸III/YDWE1.31.8正式版/"
             ],
             "console": "ansi"
+        },
+        {
+            "name": "slk库测试",
+            "type": "lua",
+            "request": "launch",
+            "program": "${workspaceRoot}/script/slk_test.lua",
+            "stopOnEntry": false,
+            "cwd": "${workspaceRoot}/bin",
+            "path": "",
+            "cpath": "${workspaceRoot}/bin/?.dll;",
+            "luadll": "${workspaceRoot}/bin/luacore.dll",
+            "arg0": "${workspaceRoot}/w3x2lni.exe",
+            "arg": [],
+            "console": "ansi"
         }
     ]
 }
