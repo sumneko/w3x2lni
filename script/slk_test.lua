@@ -7,7 +7,6 @@ require 'filesystem'
 require 'utility'
 local uni = require 'ffi.unicode'
 local w3x2lni = require 'w3x2lni'
-local w2l = w3x2lni()
 
 local std_print = print
 function print(...)
@@ -25,12 +24,9 @@ if arg[0]:find('..', 1, true) then
 	arg[1] = uni.a2u(arg[1])
 	arg[2] = uni.a2u(arg[2])
 end
-w2l:set_messager(print)
 
 local function get_config()
     local config = {}
-    -- 转换后的目标格式(lni, obj, slk)
-    config.target_format = 'obj'
     -- 使用的语言
     config.lang = 'zh-CN'
     -- mpq目录
@@ -39,18 +35,14 @@ local function get_config()
     return config
 end
 
-local w2l = w3x2lni()
-w2l:set_config(get_config())
-
-function w2l.map_load()
-    return nil
+local function slk_lib(read_only)
+    local w2l = w3x2lni()
+    w2l:set_messager(print)
+    w2l:set_config(get_config())
+    return w2l:slk_lib(read_only)
 end
 
-function w2l.map_save()
-    return nil
-end
-
-local slk = w2l:slk_lib()
+local slk = slk_lib()
 
 local obj = slk.item.modt
 assert(obj.goldcost == 1000)
@@ -89,7 +81,9 @@ assert(slk.misc.Misc.BoneDecayTime == 88)
 
 slk:refresh()
 
-local slk = w2l:slk_lib(true)
+local slk = slk_lib(true)
 assert(slk.item.modt.new == '')
+
+assert(slk_lib() ~= slk_lib())
 
 print('测试完成')
