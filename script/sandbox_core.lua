@@ -28,25 +28,10 @@ local function search_init(name)
     error(("module '%s' not found:%s"):format(name, msg))
 end
 
-local function loadlua(name, read)
-    local f = io._open(name, 'r')
-    if not read then
-        local ok = not not f
-        f:close()
-        return ok
-    end
-    if f then
-        local str = f:read 'a'
-        f:close()
-        return load(str, '@' .. name)
-    end
-end
-
 local root = search_init('core')
 
-return sandbox(root, loadlua, { 
+return sandbox(root, io._open, { 
     ['w3xparser'] = require 'w3xparser',
     ['lni-c']     = require 'lni-c',
     ['lpeg']      = require 'lpeg',
-    ['io']        = { open = io._open }
 })()
