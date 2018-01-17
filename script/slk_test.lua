@@ -35,14 +35,14 @@ local function get_config()
     return config
 end
 
-local function slk_lib(read_only)
+local function slk_lib(read_only, safe_mode)
     local w2l = w3x2lni()
     w2l:set_messager(print)
     w2l:set_config(get_config())
-    return w2l:slk_lib(read_only)
+    return w2l:slk_lib(read_only, safe_mode)
 end
 
-local slk = slk_lib()
+local slk = slk_lib(false, true)
 
 local obj = slk.item.modt
 assert(obj.goldcost == 1000)
@@ -81,15 +81,15 @@ assert(slk.misc.Misc.BoneDecayTime == 88)
 
 slk:refresh(print)
 
-local slk = slk_lib(true)
+local slk = slk_lib(true, true)
 assert(slk.item.modt.new == '')
 
 -- 会话测试
-local slk1 = slk_lib(true)
-local slk2 = slk_lib()
+local slk1 = slk_lib(true, true)
+local slk2 = slk_lib(false, true)
 assert(slk1 ~= slk2)
 assert(not slk1.refresh)
-local slk1 = slk_lib()
+local slk1 = slk_lib(false, true)
 assert(slk1 ~= slk2)
 assert(slk1.refresh)
 
@@ -99,5 +99,14 @@ local obj2 = slk2.ability.Aloc:new('测试2')
 assert(obj2:get_id() == 'A000')
 local obj3 = slk2.ability.Aloc:new('测试1')
 assert(obj3:get_id() == 'A001')
+
+-- 安全模式
+local slk = slk_lib(false, true)
+assert(slk.ability.XXXX ~= nil)
+assert(slk.ability.Aloc.XXXX == '')
+
+local slk = slk_lib(false, false)
+assert(slk.ability.XXX == nil)
+assert(slk.ability.Aloc.XXXX == nil)
 
 print('测试完成')
