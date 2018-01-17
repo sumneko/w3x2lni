@@ -57,6 +57,9 @@ assert(obj.goldcost == 1000)
 obj.goldcost = 2000
 assert(obj.goldcost == 1000)
 
+local obj = slk.item[('>I4'):unpack('modt')]
+assert(obj.goldcost == 1000)
+
 local obj = slk.item.modt:new('测试')
 obj.goldcost = 10000
 assert(obj.goldcost == 10000)

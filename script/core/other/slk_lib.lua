@@ -318,11 +318,17 @@ local function create_object(objt, ttype, name)
     return setmetatable(o, mt)
 end
 
-local function create_proxy(type)
-    local t = slk[type]
+local function create_proxy(ttype)
+    local t = slk[ttype]
     local mt = {}
     function mt:__index(key)
-        return create_object(t[key], type, key)
+        if type(key) == 'number' then
+            local suc, res = pcall(string.pack, '>I4', key)
+            if suc then
+                key = res
+            end
+        end
+        return create_object(t[key], ttype, key)
     end
     function mt:__newindex()
     end
