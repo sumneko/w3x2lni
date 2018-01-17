@@ -85,6 +85,8 @@ for k, v in pairs(slk.item.I000) do
 end
 print('==============')
 
+assert(slk.misc.Misc.BoneDecayTime == 88)
+
 slk:refresh()
 
 local slk = w2l:slk_lib(true)
