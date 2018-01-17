@@ -79,11 +79,25 @@ print('==============')
 
 assert(slk.misc.Misc.BoneDecayTime == 88)
 
-slk:refresh()
+slk:refresh(print)
 
 local slk = slk_lib(true)
 assert(slk.item.modt.new == '')
 
-assert(slk_lib() ~= slk_lib())
+-- 会话测试
+local slk1 = slk_lib(true)
+local slk2 = slk_lib()
+assert(slk1 ~= slk2)
+assert(not slk1.refresh)
+local slk1 = slk_lib()
+assert(slk1 ~= slk2)
+assert(slk1.refresh)
+
+local obj1 = slk1.ability.Aloc:new('测试1')
+assert(obj1:get_id() == 'A000')
+local obj2 = slk2.ability.Aloc:new('测试2')
+assert(obj2:get_id() == 'A000')
+local obj3 = slk2.ability.Aloc:new('测试1')
+assert(obj3:get_id() == 'A001')
 
 print('测试完成')
