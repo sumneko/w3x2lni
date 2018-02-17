@@ -20,10 +20,6 @@ function print(...)
     end
     std_print(table.concat(tbl, ' '))
 end
-if arg[0]:find('..', 1, true) then
-	arg[1] = uni.a2u(arg[1])
-	arg[2] = uni.a2u(arg[2])
-end
 
 local function get_config()
     local config = {}

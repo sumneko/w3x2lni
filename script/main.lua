@@ -6,8 +6,8 @@ local function run_from_bat()
     local suc, msg = xpcall(function()
         if cmd == '-prebuilt' then
             require 'prebuilt.init'
-        elseif cmd == '-slk' then
-            require 'slk'
+        elseif cmd == '-slk_test' then
+            require 'slk_test'
         elseif cmd == '-mpq' then
             require 'custom_mpq'
         elseif cmd == '-fix_wtg' then
