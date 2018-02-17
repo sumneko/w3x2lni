@@ -46,9 +46,22 @@ obj.goldcost = 2000
 assert(obj.goldcost == 1000)
 
 local obj = slk.ability.AEfk
+
+assert(obj.levels == 3)
+assert(obj.levels1 == '')
+
+assert(obj.dataa == 75)
+assert(obj.dataa1 == 75)
+assert(obj.dataa2 == 125)
+
+assert(obj.code == 'AEfk')
+assert(obj._code == '')
+
 assert(obj["buttonpos:1"] == 0)
 assert(obj["buttonpos:2"] == 2)
 assert(obj.buttonpos == '0,2')
+assert(obj.buttonpos_1 == 0)
+assert(obj.buttonpos_2 == 2)
 
 local obj = slk.item[('>I4'):unpack('modt')]
 assert(obj.goldcost == 1000)
