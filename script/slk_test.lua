@@ -100,6 +100,18 @@ for k, v in pairs(slk.item.I000) do
 end
 print('==============')
 
+local obj = slk.item.modt:new('测试2')
+{
+    goldcost = 10000,
+    name = '__call测试',
+}
+assert(obj.goldcost == 10000)
+assert(obj.name == '__call测试')
+obj.goldcost = 20000
+assert(obj.goldcost == 20000)
+obj { goldcost = 30000 }
+assert(obj.goldcost == 30000)
+
 assert(slk.misc.Misc.BoneDecayTime == 88)
 
 slk:refresh(print)

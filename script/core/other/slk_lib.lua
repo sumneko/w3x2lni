@@ -270,6 +270,21 @@ function mt:create_object(objt, ttype, name)
             return key .. 1, objt[nkey][1] or ''
         end
     end
+    function mt:__call(data)
+        if not objt then
+            return self
+        end
+        if session.read_only or not objt.w2lobject then
+            return self
+        end
+        if type(data) ~= 'table' then
+            return self
+        end
+        for k, v in pairs(data) do
+            self[k] = v
+        end
+        return self
+    end
     local o = {}
     if session.read_only then
         return setmetatable(o, mt)
