@@ -377,6 +377,11 @@ function mt:create_object(objt, ttype, name)
         if type(data) ~= 'table' then
             return self
         end
+        local level_key = session.w2l.info.key.max_level[ttype]
+        if data[level_key] then
+            self[level_key] = data[level_key]
+            data[level_key] = nil
+        end
         for k, v in pairs(data) do
             self[k] = v
         end

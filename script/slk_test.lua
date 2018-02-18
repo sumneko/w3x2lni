@@ -110,19 +110,20 @@ print('==========')
 local slk = slk_lib(false, true)
 slk.ability.AHtb:new 'A233'
 {
+    levels = 5,
     Dur = 10,
 }
 assert(slk.ability.A233.Dur == 10)
 assert(slk.ability.A233.Dur2 == 5)
 slk.ability.A233.Dur2 = 10
 assert(slk.ability.A233.Dur2 == 10)
-slk.ability.A233.Dur = {10, 20, 30}
-assert(slk.ability.A233.levels == 3)
+slk.ability.A233.Dur = {10, 20, 30, 40, 50}
+assert(slk.ability.A233.levels == 5)
 assert(slk.ability.A233.Dur3 == 30)
-slk.ability.A233.levels = 5
-slk.ability.A233.Dur = {10, 50}
+slk.ability.A233.levels = 8
+slk.ability.A233.Dur = {10, 80}
 assert(slk.ability.A233.Dur2 == 20)
-assert(slk.ability.A233.Dur5 == 50)
+assert(slk.ability.A233.Dur8 == 80)
 slk.ability.A233.buttonpos = {10, 20}
 assert(slk.ability.A233.buttonpos == '10,20')
 
