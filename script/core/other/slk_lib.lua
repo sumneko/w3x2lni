@@ -260,7 +260,7 @@ function mt:create_object(objt, ttype, name)
                 end
                 nkey = next(objt, nkey)
             end
-            key = meta.field:gsub(':', '')
+            key = meta.field:gsub(':', '_')
             if type(objt[nkey]) ~= 'table' then
                 return key, objt[nkey] or ''
             end
