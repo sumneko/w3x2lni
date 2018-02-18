@@ -120,9 +120,9 @@ slk.ability.A233.Dur = {10, 20, 30}
 assert(slk.ability.A233.levels == 3)
 assert(slk.ability.A233.Dur3 == 30)
 slk.ability.A233.levels = 5
-slk.ability.A233.Dur = {1, 5}
-assert(slk.ability.A233.Dur2 == 2)
-assert(slk.ability.A233.Dur5 == 5)
+slk.ability.A233.Dur = {10, 50}
+assert(slk.ability.A233.Dur2 == 20)
+assert(slk.ability.A233.Dur5 == 50)
 slk.ability.A233.buttonpos = {10, 20}
 assert(slk.ability.A233.buttonpos == '10,20')
 
