@@ -71,6 +71,7 @@ local obj = slk.item[('>I4'):unpack('modt')]
 assert(obj.goldcost == 1000)
 
 local obj = slk.item.modt:new('测试')
+assert(obj:get_id() == 'I000')
 obj.goldcost = 10000
 assert(obj.goldcost == 10000)
 
@@ -90,27 +91,44 @@ for id, obj in pairs(slk.item) do
     end
 end
 assert(ok)
-print('==============')
-for k, v in pairs(slk.item.modt) do
-    print(k, v)
-end
-print('==============')
-for k, v in pairs(slk.item.I000) do
-    print(k, v)
-end
-print('==============')
 
 local obj = slk.item.modt:new('测试2')
+assert(obj:get_id() == 'I001')
+for k, v in pairs(slk.item.modt) do
+    assert(v == slk.item.I001[k], ('%s: %s ~= %s'):format(k, v, slk.item.I001[k]))
+end
+for k, v in pairs(slk.item.I001) do
+    assert(v == slk.item.modt[k], ('%s: %s ~= %s'):format(k, v, slk.item.I001[k]))
+end
+
+print('==========')
+for k, v in pairs(slk.ability.AHtb) do
+    print(k, v)
+end
+print('==========')
+
+local slk = slk_lib(false, true)
+slk.ability.AHtb:new 'A233'
 {
-    goldcost = 10000,
-    name = '__call测试',
+    Dur = 10,
 }
-assert(obj.goldcost == 10000)
-assert(obj.name == '__call测试')
-obj.goldcost = 20000
-assert(obj.goldcost == 20000)
-obj { goldcost = 30000 }
-assert(obj.goldcost == 30000)
+assert(slk.ability.A233.Dur == 10)
+assert(slk.ability.A233.Dur2 == 5)
+slk.ability.A233.Dur2 = 10
+assert(slk.ability.A233.Dur2 == 10)
+slk.ability.A233.Dur = {10, 20, 30}
+assert(slk.ability.A233.levels == 3)
+assert(slk.ability.A233.Dur3 == 30)
+slk.ability.A233.levels = 5
+slk.ability.A233.Dur = {1, 5}
+assert(slk.ability.A233.Dur2 == 2)
+assert(slk.ability.A233.Dur5 == 5)
+slk.ability.A233.buttonpos = {10, 20}
+assert(slk.ability.A233.buttonpos == '10,20')
+
+slk.ability.A233.levels = 10
+assert(slk.ability.A233.Dur10 == 5)
+assert(slk.ability.A233.Tip10 == slk.ability.A233.Tip3)
 
 assert(slk.misc.Misc.BoneDecayTime == 88)
 

@@ -186,6 +186,32 @@ function mt:find_id(objs, dynamics, source, tag, ttype)
     end
 end
 
+local function fill_data(data, max_level, meta, default)
+    if not meta['repeat'] then
+        return
+    end
+    for i = #data + 1, max_level do
+        if meta.profile then
+            data[i] = default[i] or data[i-1]
+        else
+            data[i] = default[i] or default[#default]
+        end
+    end
+end
+
+function mt:fill_object(obj, ttype)
+    local default = self.default[ttype][obj._parent] or self.default[ttype][obj._id]
+    local max_level = obj._max_level
+    for key, meta in pairs(self.metadata[ttype]) do
+        fill_data(obj[key], max_level, meta, default[key])
+    end
+    if self.metadata[obj._code] then
+        for key, meta in pairs(self.metadata[obj._code]) do
+            fill_data(obj[key], max_level, meta, default[key])
+        end
+    end
+end
+
 function mt:create_object(objt, ttype, name)
     local session = self
     
@@ -253,6 +279,7 @@ function mt:create_object(objt, ttype, name)
                 objt[key] = nvalue
                 if key == session.w2l.info.key.max_level[ttype] then
                     objt._max_level = nvalue
+                    session:fill_object(objt, ttype)
                 end
             end
         end
