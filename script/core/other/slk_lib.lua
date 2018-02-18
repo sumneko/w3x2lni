@@ -466,7 +466,11 @@ function mt:refresh(report)
     self.w2l:backend_cleanobj(objs)
     for type, data in pairs(objs) do
         local buf = self.w2l:backend_obj(type, data)
-        self.w2l:map_save(self.w2l.info.obj[type], buf)
+        if buf then
+            self.w2l:map_save(self.w2l.info.obj[type], buf)
+        else
+            self.w2l:map_remove(self.w2l.info.obj[type])
+        end
     end
 end
 
