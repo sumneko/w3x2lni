@@ -45,6 +45,10 @@ assert(obj.goldcost == 1000)
 obj.goldcost = 2000
 assert(obj.goldcost == 1000)
 
+local obj = slk.item.XXXX
+obj.goldcost = 2000
+assert(obj.goldcost == '')
+
 local obj = slk.ability.AEfk
 
 assert(obj.levels == 3)

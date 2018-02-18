@@ -190,6 +190,9 @@ function mt:create_object(objt, ttype, name)
         return value[level] or null
     end
     function mt:__newindex(key, nvalue)
+        if not objt then
+            return
+        end
         if session.read_only or not objt.w2lobject then
             return
         end
