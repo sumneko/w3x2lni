@@ -1,6 +1,18 @@
 local mt = {}
 mt.__index = mt
 
+local function copy_table(tbl)
+    local new = {}
+    for k, v in pairs(tbl) do
+        if type(v) == 'table' then
+            new[k] = copy_table(v)
+        else
+            new[k] = v
+        end
+    end
+    return new
+end
+
 local function try_value(t, key)
     if not t then
         return nil, nil
@@ -312,10 +324,7 @@ function mt:create_object(objt, ttype, name)
             session.dynamics[ttype][w2lobject] = id
         end
         
-        local new_obj = {}
-        for k, v in pairs(objd) do
-            new_obj[k] = v
-        end
+        local new_obj = copy_table(objd)
         new_obj._id = id
         new_obj._parent = name
         new_obj._type = ttype
