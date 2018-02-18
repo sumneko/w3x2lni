@@ -74,6 +74,11 @@ local obj = slk.item.modt:new('测试')
 obj.goldcost = 10000
 assert(obj.goldcost == 10000)
 
+obj["buttonpos:1"] = 3
+assert(obj["buttonpos:1"] == 3)
+obj.buttonpos_1 = 2
+assert(obj.buttonpos_1 == 2)
+
 local obj = slk.item[obj:get_id()]
 assert(obj.goldcost == 10000)
 

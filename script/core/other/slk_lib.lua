@@ -198,7 +198,7 @@ function mt:create_object(objt, ttype, name)
         end
         local parent = objt._parent
         local objd = session.default[ttype][parent]
-        local meta, level = get_meta(key, session.metadata[ttype], objd._code and session.metadata[objd._code])
+        local meta, level = get_meta(key:gsub('_', ':'), session.metadata[ttype], objd._code and session.metadata[objd._code])
         if not meta then
             return
         end
