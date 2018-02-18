@@ -67,6 +67,17 @@ assert(obj.buttonpos == '0,2')
 assert(obj.buttonpos_1 == 0)
 assert(obj.buttonpos_2 == 2)
 
+local obj = slk.unit.ufro
+assert(obj.rangeN1 == 300)
+local ok
+for k, v in pairs(obj) do
+    if k == 'rangeN1' then
+        assert(v == 300)
+        ok = true
+    end
+end
+assert(ok)
+
 local obj = slk.item[('>I4'):unpack('modt')]
 assert(obj.goldcost == 1000)
 
@@ -98,7 +109,7 @@ for k, v in pairs(slk.item.modt) do
     assert(v == slk.item.I001[k], ('%s: %s ~= %s'):format(k, v, slk.item.I001[k]))
 end
 for k, v in pairs(slk.item.I001) do
-    assert(v == slk.item.modt[k], ('%s: %s ~= %s'):format(k, v, slk.item.I001[k]))
+    assert(v == slk.item.modt[k], ('%s: %s ~= %s'):format(k, slk.item.modt[k], v))
 end
 
 print('==========')
