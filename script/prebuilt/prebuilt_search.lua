@@ -48,7 +48,6 @@ local enable_type = {
 
 local function fixsearch(t)
     t.item.cooldownid = nil
-    t.unit.upgrades = nil
     t.unit.auto = nil
     t.unit.dependencyor = nil
     t.unit.reviveat = nil
