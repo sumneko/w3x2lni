@@ -31,7 +31,7 @@ if arg[0]:find('..', 1, true) then
 end
 local map_path = fs.path(arg[1])
 local ydwe_path = fs.path(arg[2])
-local mpq_path = ydwe_path / 'share' / 'mpq'
+local mpq_path = ydwe_path / 'share' / 'ui'
 local map_name = map_path:stem():string()
 
 local function string_trim (self) 
