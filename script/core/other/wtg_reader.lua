@@ -217,6 +217,9 @@ local function get_ui_returns(ui, ui_type, ui_guess_level)
 end
 
 local function get_call_type(name, ui_type, ui_guess_level)
+    if ui_type == 'eventcall' then
+        return ui_type, ui_guess_level
+    end
     local ui = get_ui_define('call', name)
     if ui then
         return get_ui_returns(ui, ui_type, ui_guess_level)
