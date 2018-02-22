@@ -10,6 +10,7 @@
             "cwd": "${workspaceRoot}/bin",
             "path": "",
             "cpath": "${workspaceRoot}/bin/?.dll;",
+            "luadll": "${workspaceRoot}/bin/luacore.dll",
             "arg0": "${workspaceRoot}/w3x2lni.exe",
             "arg": [
                 "${workspaceRoot}/All_Star_Battle_3.1d_editor2.w3x"
