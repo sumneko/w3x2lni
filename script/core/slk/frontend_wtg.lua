@@ -535,7 +535,7 @@ return function (w2l_, wtg_, state_)
     var_map = nil
     unknowtypes = {}
     unknowindex = 0
-    max_guess_arg = 0
+    max_guess_arg = 10
 
     read_head()
     read_categories()
