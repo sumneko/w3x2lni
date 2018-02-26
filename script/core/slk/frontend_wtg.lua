@@ -223,11 +223,8 @@ local function get_ui_returns(ui, ui_type, ui_guess_level)
     return ui.returns, ui.returns_guess_level
 end
 
-local function get_call_type(name, ui_type, ui_guess_level)
-    if ui_type == 'eventcall' then
-        return ui_type, ui_guess_level
-    end
-    local ui = get_ui_define('call', name)
+local function get_call_type(name, eca_type, ui_type, ui_guess_level)
+    local ui = get_ui_define(eca_type, name)
     if ui then
         return get_ui_returns(ui, ui_type, ui_guess_level)
     else
@@ -258,7 +255,7 @@ local function get_arg_type(arg, ui_type, ui_guess_level)
     elseif atp == 'var' then
         return get_var_type(arg.value)
     elseif atp == 'call' then
-        return get_call_type(arg.value, ui_type, ui_guess_level)
+        return get_call_type(arg.eca.name, type_map[arg.eca.type], ui_type, ui_guess_level)
     else
         return get_constant_type(arg.value)
     end
