@@ -15,6 +15,7 @@ local fixed_preset
 local var_map
 local unknowtypes
 local unknowindex
+local max_guess_arg
 
 local function assert_then_retry(b, info)
     if b then
@@ -27,19 +28,24 @@ end
 local function fix_arg(n)
     n = n or #fix_step
     if n <= 0 then
-        if #fix_step > 0 then
-            error '未知UI参数超过100个，放弃修复。'
-        else
-            error '触发器文件错误。'
-        end
+        error '触发器文件错误。'
     end
     local step = fix_step[n]
-    if #step.args >= 100 then
-        step.args = {}
-        w2l.message(('猜测[%s]的参数数量为[0]'):format(step.name))
-        return fix_arg(n-1)
+    local max = max_guess_arg
+    if n == #fix_step then
+        max = max_guess_arg + 10
+    end
+    if #step.args >= max then
+        if n > 1 then
+            step.args = {}
+            w2l.message(('猜测[%s]的参数数量为[0]'):format(step.name))
+            return fix_arg(n-1)
+        else
+            max_guess_arg = max_guess_arg + 1
+        end
     end
     table.insert(step.args, {})
+    last_guess = step
     w2l.message(('猜测[%s]的参数数量为[%d]'):format(step.name, #step.args))
     return step.save_point
 end
@@ -393,24 +399,26 @@ local function read_triggers()
     chunk.triggers = {}
     local pos = 1
     while true do
-        local suc, err = pcall(function()
+        local suc, errs = xpcall(function()
             for i = pos, count do
                 save_point = { i, unpack_index }
                 chunk.triggers[i] = read_trigger()
             end
+        end, function (err)
+            return {err, debug.traceback(err)}
         end)
         if suc then
             break
         else
             try_count = try_count + 1
             if not need_retry then
-                error(err)
+                error(errs[2])
             end
             need_retry = false
-            if try_count > 1000 then
+            if try_count > 10000 then
                 error('在大量尝试后放弃修复。')
             end
-            w2l.message(err)
+            w2l.message(errs[1])
             if retry_point then
                 pos, unpack_index = retry_point[1], retry_point[2]
                 retry_point = false
@@ -476,10 +484,26 @@ local function fill_fix()
     end)
 end
 
+local function build_empty_state()
+    return
+    {
+        ui = {
+            action = {},
+            call = {},
+            condition = {},
+            event = {},
+            define = {
+                TriggerTypes = {},
+                TriggerParams = {},
+            },
+        }
+    }
+end
+
 return function (w2l_, wtg_, state_)
     w2l = w2l_
     wtg = wtg_
-    state = state_
+    state = state_ or build_empty_state()
     unpack_index = 1
     try_count = 0
     fix = {
@@ -511,6 +535,7 @@ return function (w2l_, wtg_, state_)
     var_map = nil
     unknowtypes = {}
     unknowindex = 0
+    max_guess_arg = 0
 
     read_head()
     read_categories()
