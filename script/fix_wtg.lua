@@ -126,7 +126,7 @@ local suc = w2l:wtg_checker(wtg, state)
 print('检查wtg结果：', suc, '用时：', os.clock() - clock)
 
 local clock = os.clock()
-local data, fix = w2l:wtg_reader(wtg, state)
+local data, fix = w2l:frontend_wtg(wtg, state)
 print('读取wtg用时：', os.clock() - clock)
 
 local buf = w2l:wtg_writer(data)

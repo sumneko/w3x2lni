@@ -1,3 +1,3 @@
 @echo off
 
-start %~dp0..\w3x2lni.exe -fix_wtg "%1" D:/魔兽争霸III/YDWE1.31.8正式版
+start %~dp0..\w3x2lni.exe -fix_wtg "%1" D:/魔兽争霸III/YDWE1.32.2_
