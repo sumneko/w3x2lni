@@ -10,8 +10,8 @@ local function run_from_bat()
             require 'slk_test'
         elseif cmd == '-mpq' then
             require 'custom_mpq'
-        elseif cmd == '-fix_wtg' then
-            require 'fix_wtg'
+        elseif cmd == '-convert_wtg' then
+            require 'convert_wtg'
         end
     end, debug.traceback)
     if not suc then
