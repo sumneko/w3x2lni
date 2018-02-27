@@ -74,10 +74,10 @@
             "console": "utf8"
         },
         {
-            "name": "修复触发器",
+            "name": "转换触发器",
             "type": "lua",
             "request": "launch",
-            "program": "${workspaceRoot}/script/fix_wtg.lua",
+            "program": "${workspaceRoot}/script/convert_wtg.lua",
             "stopOnEntry": false,
             "cwd": "${workspaceRoot}/bin",
             "path": "",
@@ -85,8 +85,8 @@
             "luadll": "${workspaceRoot}/bin/luacore.dll",
             "arg0": "${workspaceRoot}/w3x2lni.exe",
             "arg": [
-                "${workspaceRoot}/FinaldayDefendApocalypse.Ver3.3.w3x",
-                "D:/魔兽争霸III/YDWE1.31.8正式版/"
+                "${workspaceRoot}/命令ID.w3x",
+                "D:/魔兽争霸III/YDWE1.32.2_/"
             ],
             "console": "ansi"
         },
