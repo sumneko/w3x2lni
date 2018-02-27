@@ -6,6 +6,7 @@ end)()
 require 'filesystem'
 require 'utility'
 local uni = require 'ffi.unicode'
+local sleep = require 'ffi.sleep'
 local w3x2lni = require 'w3x2lni'
 local archive = require 'archive'
 local save_map = require 'save_map'
@@ -23,6 +24,16 @@ function print(...)
         tbl[i] = uni.u2a(tostring(tbl[i])):gsub('[\r\n]', ' ')
     end
     std_print(table.concat(tbl, ' '))
+end
+
+local function task(f, ...)
+    for i = 1, 99 do
+        if pcall(f, ...) then
+            return
+        end
+        sleep(10)
+    end
+    f(...)
 end
 
 if arg[0]:find('..', 1, true) then
@@ -153,7 +164,9 @@ print('读取wct用时：', os.clock() - clock)
 
 local files = w2l:backend_wtg2lni(wtg_data, wct_data)
 local dir = map_path:parent_path() / '触发器'
+task(fs.remove_all, dir)
+task(fs.create_directories, dir)
 for filename, buf in pairs(files) do
 	fs.create_directories((dir / filename):parent_path())
-	io.save(dir / (filename .. '.ini'), buf)
+	io.save(dir / filename, buf)
 end

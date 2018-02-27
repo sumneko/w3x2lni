@@ -377,15 +377,15 @@ local function read_trigger()
     trigger.type     = unpack 'l'
     trigger.enable   = unpack 'l'
     trigger.wct      = unpack 'l'
-    trigger.init     = unpack 'l'
-    trigger.run_init = unpack 'l'
+    trigger.open     = unpack 'l'
+    trigger.run      = unpack 'l'
     trigger.category = unpack 'l'
 
     assert_then_retry(trigger.type == 0 or trigger.type == 1, 'trigger.type 错误')
     assert_then_retry(trigger.enable == 0 or trigger.enable == 1, 'trigger.enable 错误')
     assert_then_retry(trigger.wct == 0 or trigger.wct == 1, 'trigger.wct 错误')
-    assert_then_retry(trigger.init == 0 or trigger.init == 1, 'trigger.init 错误')
-    assert_then_retry(trigger.run_init == 0 or trigger.run_init == 1, 'trigger.run_init 错误')
+    assert_then_retry(trigger.open == 0 or trigger.open == 1, 'trigger.open 错误')
+    assert_then_retry(trigger.run == 0 or trigger.run == 1, 'trigger.run 错误')
 
     trigger.ecas = {}
     local count = unpack 'l'
