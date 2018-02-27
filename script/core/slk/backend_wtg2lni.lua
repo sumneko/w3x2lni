@@ -27,12 +27,9 @@ local function sort_table()
     })
 end
 
-local function get_path(path)
-    return path:gsub('[$\\$/$:$*$?$"$<$>$|]', '_')
-end
-
-local function unique_path(path, files)
-    while files[path..'.ini'] do
+local function get_path(path, used)
+    path = path:gsub('[$\\$/$:$*$?$"$<$>$|]', '_')
+    while used[path] do
         local name, id = path:match '(.+)_(%d+)$'
         if name and id then
             id = id + 1
@@ -164,7 +161,30 @@ local function read_vars()
     return table.concat(lines, '\n')
 end
 
-local function read_dirs()
+local function compute_path()
+    if not wtg then
+        return
+    end
+    local map = {}
+    map[1] = {}
+    local dirs = {}
+    for _, dir in ipairs(wtg.categories) do
+        dirs[dir.id] = {}
+        map[1][dir.name] = get_path(dir.name, map[1])
+    end
+    for _, trg in ipairs(wtg.triggers) do
+        table.insert(dirs[trg.category], trg)
+    end
+    for _, dir in ipairs(wtg.categories) do
+        map[dir.name] = {}
+        for _, trg in ipairs(dirs[dir.id]) do
+            map[dir.name][trg.name] = get_path(trg.name, map[dir.name])
+        end
+    end
+    return map
+end
+
+local function read_dirs(map)
     local lines = {}
     if wtg then
         local dirs = {}
@@ -176,13 +196,14 @@ local function read_dirs()
         end
         for _, dir in ipairs(wtg.categories) do
             local data = sort_table()
+            data.name = dir.name
             data.id = dir.id
             data.comment = dir.comment
             data.triggers = {}
             for i, trg in ipairs(dirs[dir.id]) do
-                data.triggers[i] = trg.name
+                data.triggers[i] = map[dir.name][trg.name]
             end
-            write_obj(lines, dir.name, data)
+            write_obj(lines, map[1][dir.name], data)
         end
     end
     return table.concat(lines, '\n')
@@ -202,7 +223,7 @@ local function read_eca(ecas)
     return table.concat(lines, '\n')
 end
 
-local function read_trigger(trg, custom)
+local function read_trigger(trg)
     local data = sort_table()
 
     data.name   = trg.name
@@ -216,18 +237,19 @@ local function read_trigger(trg, custom)
     return write_lni(data)
 end
 
-local function read_triggers(files)
+local function read_triggers(files, map)
     if not wtg then
         return
     end
+    local triggers = {}
     local dirs = {}
     for _, dir in ipairs(wtg.categories) do
         dirs[dir.id] = dir.name
     end
     for i, trg in ipairs(wtg.triggers) do
-        local path = get_path(dirs[trg.category]) .. '/' .. get_path(trg.name)
-        path = unique_path(path, files)
-        files[path..'.ini'] = read_trigger(trg, custom)
+        local dir = dirs[trg.category]
+        local path = map[1][dir] .. '/' .. map[dir][trg.name]
+        files[path..'.ini'] = read_trigger(trg)
         if trg.wct == 1 then
             if wct then
                 files[path..'.txt'] = wct.triggers[i]
@@ -247,9 +269,11 @@ return function (w2l, wtg_, wct_)
     files['.其他.ini'] = read_info()
     files['.自定义代码.ini'] = read_custom()
     files['.变量.ini'] = read_vars()
-    files['.目录.ini'] = read_dirs()
 
-    read_triggers(files)
+    local map = compute_path()
+    
+    files['.目录.ini'] = read_dirs(map)
+    read_triggers(files, map)
 
     return files
 end
