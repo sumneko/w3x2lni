@@ -132,18 +132,18 @@ end
 
 local function read_var()
     local var = {}
-    var.name         = unpack 'z'
-    var.type         = unpack 'z'
-    var.int_unknow_1 = unpack 'l'
-    var.is_arry      = unpack 'l'
-    var.array_size   = unpack 'l'
-    var.is_default   = unpack 'l'
-    var.value        = unpack 'z'
+    var.name    = unpack 'z'
+    var.type    = unpack 'z'
+    var.unknow  = unpack 'l'
+    var.array   = unpack 'l'
+    var.size    = unpack 'l'
+    var.default = unpack 'l'
+    var.value   = unpack 'z'
     return var
 end
 
 local function read_vars()
-    chunk.int_unknow_1 = unpack 'l'
+    chunk.unknow = unpack 'l'
     local count = unpack 'l'
     chunk.vars = {}
     for i = 1, count do

@@ -150,3 +150,10 @@ print('成功，修复wtg总用时：', os.clock() - clock)
 local clock = os.clock()
 local wct_data = w2l:frontend_wct(wct)
 print('读取wct用时：', os.clock() - clock)
+
+local files = w2l:backend_wtg2lni(wtg_data, wct_data)
+local dir = map_path:parent_path() / '触发器'
+for filename, buf in pairs(files) do
+	fs.create_directories((dir / filename):parent_path())
+	io.save(dir / (filename .. '.ini'), buf)
+end
