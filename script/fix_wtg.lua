@@ -119,6 +119,7 @@ local wtg = map:get 'war3map.wtg'
 if not wtg or not state then
     return false
 end
+local wct = map:get 'war3map.wct'
 print('打开地图用时：', os.clock() - clock)
 
 local clock = os.clock()
@@ -126,11 +127,9 @@ local suc = w2l:wtg_checker(wtg, state)
 print('检查wtg结果：', suc, '用时：', os.clock() - clock)
 
 local clock = os.clock()
-local data, fix = w2l:frontend_wtg(wtg, state)
+local wtg_data, fix = w2l:frontend_wtg(wtg, state)
 print('读取wtg用时：', os.clock() - clock)
 
-local buf = w2l:wtg_writer(data)
-io.save(map_path:parent_path() / (map_path:filename():string() .. '.txt'), buf)
 
 ui.merge(state, fix)
 local bufs = {ui.new_writer(fix)}
@@ -147,3 +146,7 @@ if config then
 end
 
 print('成功，修复wtg总用时：', os.clock() - clock)
+
+local clock = os.clock()
+local wct_data = w2l:frontend_wct(wct)
+print('读取wct用时：', os.clock() - clock)
