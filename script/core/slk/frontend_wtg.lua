@@ -358,16 +358,14 @@ function read_eca(is_child, eca_type)
             end
         end
     end
-    eca.child_count = unpack 'l'
-    return eca
-end
-
-local function read_ecas(ecas, count, is_child)
-    for i = 1, count do
-        local eca = read_eca(is_child)
-        table.insert(ecas, eca)
-        read_ecas(ecas, eca.child_count, true)
+    local count = unpack 'l'
+    if count > 0 then
+        eca.child = {}
+        for i = 1, count do
+            eca.child[i] = read_eca(true)
+        end
     end
+    return eca
 end
 
 local function read_trigger()
@@ -389,7 +387,9 @@ local function read_trigger()
 
     trigger.ecas = {}
     local count = unpack 'l'
-    read_ecas(trigger.ecas, count, false)
+    for i = 1, count do
+        trigger.ecas[i] = read_eca()
+    end
 
     return trigger
 end

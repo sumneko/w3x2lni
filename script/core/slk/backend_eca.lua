@@ -12,6 +12,14 @@ local function sort_pairs(tbl)
     end
 end
 
+local arg_type_map = {
+    [-1] = '禁用',
+    [0]  = '预设',
+    [1]  = '变量',
+    [2]  = '函数',
+    [3]  = '常亮',
+}
+
 local type_map = {
     [0] = '事件',
     [1] = '条件',
@@ -19,31 +27,33 @@ local type_map = {
     [3] = '调用',
 }
 
-local function eca_loader(ecas)
-    local i = 0
-    return function ()
-        i = i + 1
-        return ecas[i]
+local function parse_arg(arg)
+    local data = {
+        type = arg_type_map[arg.type],
+        value = arg.value,
+    }
+    if arg.index then
+        data.index = parse_arg(arg.index)
     end
+    return data
 end
 
-local lines
-local function parse_eca(next_eca, parent)
-    local eca = next_eca()
-    if not eca then
-        return false
-    end
+local function parse_eca(eca, parent)
     local tp = type_map[eca.type]
     local action = {
         name = eca.name,
         enable = eca.enable,
+        args = {},
         type = tp,
         child_id = eca.child_id,
     }
-    if eca.child_count > 0 then
+    for i, arg in ipairs(eca.args) do
+        action.args[i] = parse_arg(arg)
+    end
+    if eca.child then
         action.child = {}
-        for i = 1, eca.child_count do
-            parse_eca(next_eca, action.child)
+        for _, eca in ipairs(eca.child) do
+            parse_eca(eca, action.child)
         end
     end
     local child_id = eca.child_id or eca.type
@@ -51,7 +61,7 @@ local function parse_eca(next_eca, parent)
         parent[child_id] = { type = tp }
     end
     table.insert(parent[child_id], action)
-    return true
+    return action
 end
 
 local function parse_trg(ecas)
@@ -61,13 +71,14 @@ local function parse_trg(ecas)
         [2] = { type = '动作' },
     }
 
-    local next_eca = eca_loader(ecas)
-    while parse_eca(next_eca, trg) do
+    for _, eca in ipairs(ecas) do
+        parse_eca(eca, trg)
     end
     
     return trg
 end
 
+local lines
 local convert_child
 local function convert_action(action, sp)
     local tbl = {}
