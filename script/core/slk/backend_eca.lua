@@ -27,6 +27,7 @@ local type_map = {
     [3] = '调用',
 }
 
+local parse_eca
 local function parse_arg(arg)
     local data = {
         type = arg_type_map[arg.type],
@@ -35,10 +36,13 @@ local function parse_arg(arg)
     if arg.index then
         data.index = parse_arg(arg.index)
     end
+    if arg.eca then
+        data.eca = parse_eca(arg.eca)
+    end
     return data
 end
 
-local function parse_eca(eca, parent)
+function parse_eca(eca)
     local tp = type_map[eca.type]
     local action = {
         name = eca.name,
@@ -53,26 +57,26 @@ local function parse_eca(eca, parent)
     if eca.child then
         action.child = {}
         for _, eca in ipairs(eca.child) do
-            parse_eca(eca, action.child)
+            local data = parse_eca(eca)
+            if not action.child[data.child_id] then
+                action.child[data.child_id] = { type = data.type }
+            end
+            table.insert(action.child[data.child_id], data)
         end
     end
-    local child_id = eca.child_id or eca.type
-    if not parent[child_id] then
-        parent[child_id] = { type = tp }
-    end
-    table.insert(parent[child_id], action)
     return action
 end
 
 local function parse_trg(ecas)
     local trg = {
-        [0] = { type = '事件' },
-        [1] = { type = '条件' },
-        [2] = { type = '动作' },
+        ['事件'] = {},
+        ['条件'] = {},
+        ['动作'] = {},
     }
 
     for _, eca in ipairs(ecas) do
-        parse_eca(eca, trg)
+        local data = parse_eca(eca)
+        table.insert(trg[data.type], data)
     end
     
     return trg
@@ -94,24 +98,26 @@ local function convert_action(action, sp)
 
     if action.child then
         lines[#lines+1] = (' '):rep(sp) .. '{'
-        convert_child(action.child, sp+2)
+        for _, actions in sort_pairs(action.child) do
+            convert_child(actions.type, actions, sp+2)
+        end
         lines[#lines+1] = (' '):rep(sp) .. '}'
     end
 end
 
-function convert_child(child, sp)
-    for id, actions in sort_pairs(child) do
-        lines[#lines+1] = ('%s<%s>'):format((' '):rep(sp), actions.type)
-        for _, action in ipairs(actions) do
-            convert_action(action, sp+2)
-        end
+function convert_child(name, actions, sp)
+    lines[#lines+1] = ('%s<%s>'):format((' '):rep(sp), name)
+    for _, action in ipairs(actions) do
+        convert_action(action, sp+2)
     end
 end
 
 local function convert_trg(trg)
     lines = {}
 
-    convert_child(trg, 0)
+    convert_child('事件', trg['事件'], 0)
+    convert_child('条件', trg['条件'], 0)
+    convert_child('动作', trg['动作'], 0)
 
     return table.concat(lines, '\n')
 end
