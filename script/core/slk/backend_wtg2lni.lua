@@ -1,3 +1,4 @@
+local w2l
 local wtg
 local wct
 
@@ -209,20 +210,6 @@ local function read_dirs(map)
     return table.concat(lines, '\n')
 end
 
-local function read_ecas(lines, tab, ecas)
-    for _, eca in ipairs(ecas) do
-        lines[#lines+1] = string.rep('\t', tab) .. eca.name
-    end
-end
-
-local function read_eca(ecas)
-    local lines = {}
-
-    read_ecas(lines, 0, ecas)
-    
-    return table.concat(lines, '\n')
-end
-
 local function read_trigger(trg)
     local data = sort_table()
 
@@ -255,12 +242,13 @@ local function read_triggers(files, map)
                 files[path..'.txt'] = wct.triggers[i]
             end
         else
-            files[path..'.txt'] = read_eca(trg.ecas)
+            files[path..'.txt'] = w2l:backend_eca(trg.ecas)
         end
     end
 end
 
-return function (w2l, wtg_, wct_)
+return function (w2l_, wtg_, wct_)
+    w2l = w2l_
     wtg = wtg_
     wct = wct_
 
