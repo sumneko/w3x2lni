@@ -104,11 +104,10 @@ function convert_action(action, sp, in_arg)
     end
     
     if action.child then
-        lines[#lines+1] = (' '):rep(sp) .. '{'
         for type, actions in pairs_child(action.child) do
             convert_child(type_map[type], actions, sp+2)
         end
-        lines[#lines+1] = (' '):rep(sp) .. '}'
+        lines[#lines+1] = ('%s<%s>'):format((' '):rep(sp+2), '/列表')
     end
 end
 
