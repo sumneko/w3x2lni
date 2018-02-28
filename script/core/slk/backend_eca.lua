@@ -17,7 +17,7 @@ local arg_type_map = {
     [0]  = '预设',
     [1]  = '变量',
     [2]  = '函数',
-    [3]  = '常亮',
+    [3]  = '常量',
 }
 
 local type_map = {
@@ -47,12 +47,14 @@ function parse_eca(eca)
     local action = {
         name = eca.name,
         enable = eca.enable,
-        args = {},
         type = tp,
         child_id = eca.child_id,
     }
-    for i, arg in ipairs(eca.args) do
-        action.args[i] = parse_arg(arg)
+    if #eca.args > 0 then
+        action.args = {}
+        for i, arg in ipairs(eca.args) do
+            action.args[i] = parse_arg(arg)
+        end
     end
     if eca.child then
         action.child = {}
@@ -75,16 +77,34 @@ local function parse_trg(ecas)
     }
 
     for _, eca in ipairs(ecas) do
-        local data = parse_eca(eca)
-        table.insert(trg[data.type], data)
+        local action = parse_eca(eca)
+        table.insert(trg[action.type], action)
     end
     
     return trg
 end
 
 local lines
-local convert_child
-local function convert_action(action, sp)
+local convert_action
+
+local function convert_arg(arg, sp)
+    local tbl = {}
+
+    tbl[#tbl+1] = (' '):rep(sp)
+    tbl[#tbl+1] = ('[%s]'):format(arg.value)
+    tbl[#tbl+1] = ('(%s)'):format(arg.type)
+
+    lines[#lines+1] = table.concat(tbl)
+end
+
+local function convert_child(name, actions, sp)
+    lines[#lines+1] = ('%s<%s>'):format((' '):rep(sp), name)
+    for _, action in ipairs(actions) do
+        convert_action(action, sp+2)
+    end
+end
+
+function convert_action(action, sp)
     local tbl = {}
 
     tbl[#tbl+1] = (' '):rep(sp)
@@ -96,19 +116,18 @@ local function convert_action(action, sp)
     end
     lines[#lines+1] = table.concat(tbl)
 
+    if action.args then
+        for _, arg in ipairs(action.args) do
+            convert_arg(arg, sp+2)
+        end
+    end
+    
     if action.child then
         lines[#lines+1] = (' '):rep(sp) .. '{'
         for _, actions in sort_pairs(action.child) do
             convert_child(actions.type, actions, sp+2)
         end
         lines[#lines+1] = (' '):rep(sp) .. '}'
-    end
-end
-
-function convert_child(name, actions, sp)
-    lines[#lines+1] = ('%s<%s>'):format((' '):rep(sp), name)
-    for _, action in ipairs(actions) do
-        convert_action(action, sp+2)
     end
 end
 
