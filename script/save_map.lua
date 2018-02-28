@@ -73,6 +73,20 @@ local function save_imp(w2l, output_ar, imp_buf, filename)
     for _, name in ipairs(w2l.info.pack.impignore) do
         impignore[name] = true
     end
+    for _, name in pairs(w2l.info.obj) do
+        impignore[name] = true
+    end
+    for _, name in pairs(w2l.info.lni) do
+        impignore[name] = true
+    end
+    for _, slks in pairs(w2l.info.slk) do
+        for _, name in ipairs(slks) do
+            impignore[name] = true
+        end
+    end
+    for _, name in ipairs(w2l.info.txt) do
+        impignore[name] = true
+    end
     local imp = {}
     for name, buf in pairs(output_ar) do
         if buf and not impignore[name] then
@@ -128,13 +142,12 @@ return function (w2l, output_ar, w3i, input_ar)
     output_ar:remove('(signature)')
     output_ar:remove('(attributes)')
 
-    local imp = input_ar:get 'war3map.imp.ini'
     if w2l.config.target_format ~= 'lni' then
+        local imp = input_ar:get 'war3map.imp.ini'
         output_ar:remove('war3map.imp.ini')
-    end
-
-    if not w2l.config.remove_we_only and output_ar:get_type() == 'mpq' then
-        save_imp(w2l, output_ar, imp, 'war3map.imp.ini')
+        if not w2l.config.remove_we_only then
+            save_imp(w2l, output_ar, imp, 'war3map.imp.ini')
+        end
     end
 
     if not output_ar:save(w3i, w2l.progress, w2l.config.remove_we_only) then
