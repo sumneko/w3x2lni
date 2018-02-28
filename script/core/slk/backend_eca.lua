@@ -10,7 +10,7 @@ local type_map = {
     [0] = '事件',
     [1] = '条件',
     [2] = '动作',
-    [3] = '调用',
+    [3] = '函数',
 }
 
 local function pairs_child(child)
@@ -57,10 +57,22 @@ local function convert_arg(arg, sp)
     local tbl = {}
 
     tbl[#tbl+1] = (' '):rep(sp)
-    tbl[#tbl+1] = ('[%s]'):format(arg.value)
-    tbl[#tbl+1] = ('(%s)'):format(arg_type_map[arg.type])
-
-    lines[#lines+1] = table.concat(tbl)
+    if arg.eca then
+        -- 如果参数是函数调用，就直接把eca放到arg位置上
+        convert_action(arg.eca, sp, true)
+    else
+        tbl[#tbl+1] = ('[%s]'):format(arg.value)
+        if arg.index then
+            tbl[#tbl+1] = '(数组)'
+        end
+        tbl[#tbl+1] = ('(%s)'):format(arg_type_map[arg.type])
+    
+        lines[#lines+1] = table.concat(tbl)
+    
+        if arg.index then
+            convert_arg(arg.index, sp+2)
+        end
+    end
 end
 
 local function convert_child(name, actions, sp)
@@ -70,7 +82,7 @@ local function convert_child(name, actions, sp)
     end
 end
 
-function convert_action(action, sp)
+function convert_action(action, sp, in_arg)
     local tbl = {}
 
     tbl[#tbl+1] = (' '):rep(sp)
@@ -79,6 +91,9 @@ function convert_action(action, sp)
     --tbl[#tbl+1] = ('{%s}'):format(action.child_id)
     if action.enable == 0 then
         tbl[#tbl+1] = '(禁用)'
+    end
+    if in_arg then
+        tbl[#tbl+1] = ('(%s)'):format(type_map[action.type])
     end
     lines[#lines+1] = table.concat(tbl)
 

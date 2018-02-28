@@ -166,9 +166,15 @@ local clock = os.clock()
 local files = w2l:backend_wtg2lni(wtg_data, wct_data)
 print('转换wtg用时：', os.clock() - clock)
 local dir = map_path:parent_path() / '触发器'
+
+local clock = os.clock()
 task(fs.remove_all, dir)
+print('清空目录用时：', os.clock() - clock)
+
+local clock = os.clock()
 task(fs.create_directories, dir)
 for filename, buf in pairs(files) do
 	fs.create_directories((dir / filename):parent_path())
 	io.save(dir / filename, buf)
 end
+print('创建文件用时：', os.clock() - clock)
