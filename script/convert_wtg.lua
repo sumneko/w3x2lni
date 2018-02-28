@@ -120,7 +120,7 @@ local function new_config()
 	return table.concat(lines, '\n')
 end
 
-w2l:set_messager(print)
+--w2l:set_messager(print)
 loader:config()
 local state = loader:triggerdata()
 
