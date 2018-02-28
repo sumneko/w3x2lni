@@ -121,21 +121,6 @@ local function write_lni(data)
     return table.concat(lines, '\n')
 end
 
-local function read_info()
-    local data = sort_table()
-    if wtg then
-        data.wtg = sort_table()
-        data.wtg.id = wtg.file_id
-        data.wtg.ver = wtg.file_ver
-        data.wtg.unknow = wtg.unknow
-    end
-    if wct then
-        data.wct = sort_table()
-        data.wct.ver = wct.file_ver
-    end
-    return write_lni(data)
-end
-
 local function read_custom()
     local data = sort_table()
     if wct then
@@ -254,7 +239,6 @@ return function (w2l_, wtg_, wct_)
 
     local files = {}
 
-    files['.其他.ini'] = read_info()
     files['.自定义代码.ini'] = read_custom()
     files['.变量.ini'] = read_vars()
 
