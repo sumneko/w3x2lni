@@ -313,18 +313,19 @@ local function read_arg()
     local arg = {}
     arg.type        = unpack 'l'
     arg.value       = unpack 'z'
-    arg.insert_call = unpack 'l'
     assert_then_retry(arg_type_map[arg.type], 'arg.type 错误')
-    assert_then_retry(arg.insert_call == 0 or arg.insert_call == 1, 'arg.insert_call 错误')
 
-    if arg.insert_call == 1 then
+    local insert_call = unpack 'l'
+    assert_then_retry(insert_call == 0 or insert_call == 1, 'insert_call 错误')
+
+    if insert_call == 1 then
         local eca_type = unpack 'l'
         arg.eca = read_eca(false, eca_type)
     end
 
-    arg.insert_index = unpack 'l'
-    assert_then_retry(arg.insert_index == 0 or arg.insert_index == 1, 'arg.insert_index 错误')
-    if arg.insert_index == 1 then
+    local insert_index = unpack 'l'
+    assert_then_retry(insert_index == 0 or insert_index == 1, 'insert_index 错误')
+    if insert_index == 1 then
         arg.index = read_arg()
     end
     return arg
@@ -347,17 +348,22 @@ function read_eca(is_child, eca_type)
     assert_then_retry(eca.name:match '^[%g%s]*$', ('eca.name 错误：[%s]'):format(eca.name))
     assert_then_retry(eca.enable == 0 or eca.enable == 1, 'eca.enable 错误')
 
-    eca.args = {}
+    local args
     local ui = get_ui_define(type_map[eca.type], eca.name)
     if ui.args then
         for _, arg in ipairs(ui.args) do
             if arg.type ~= 'nothing' then
                 local arg = read_arg(ui)
-                table.insert(eca.args, arg)
-                fix_arg_type(ui, ui.args[#eca.args], arg, eca.args)
+                if not args then
+                    args = {}
+                end
+                table.insert(args, arg)
+                fix_arg_type(ui, ui.args[#args], arg, args)
             end
         end
     end
+    eca.args = args
+
     local count = unpack 'l'
     if count > 0 then
         eca.child = {}
