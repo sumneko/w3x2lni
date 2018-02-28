@@ -1,17 +1,3 @@
-local function sort_pairs(tbl)
-    local keys = {}
-    for k in pairs(tbl) do
-        keys[#keys+1] = k
-    end
-    table.sort(keys)
-    local i = 0
-    return function ()
-        i = i + 1
-        local key = keys[i]
-        return key, tbl[key]
-    end
-end
-
 local arg_type_map = {
     [-1] = '禁用',
     [0]  = '预设',
@@ -27,46 +13,26 @@ local type_map = {
     [3] = '调用',
 }
 
-local parse_eca
-local function parse_arg(arg)
-    local data = {
-        type = arg_type_map[arg.type],
-        value = arg.value,
-    }
-    if arg.index then
-        data.index = parse_arg(arg.index)
-    end
-    if arg.eca then
-        data.eca = parse_eca(arg.eca)
-    end
-    return data
-end
-
-function parse_eca(eca)
-    local tp = type_map[eca.type]
-    local action = {
-        name = eca.name,
-        enable = eca.enable,
-        type = tp,
-        child_id = eca.child_id,
-    }
-    if #eca.args > 0 then
-        action.args = {}
-        for i, arg in ipairs(eca.args) do
-            action.args[i] = parse_arg(arg)
+local function pairs_child(child)
+    local childs = {}
+    local id_map = {}
+    local keys = {}
+    for _, eca in ipairs(child) do
+        local id = eca.child_id
+        if not childs[id] then
+            childs[id] = {}
+            id_map[id] = eca.type
+            keys[#keys+1] = id
         end
+        childs[id][#childs[id]+1] = eca
     end
-    if eca.child then
-        action.child = {}
-        for _, eca in ipairs(eca.child) do
-            local data = parse_eca(eca)
-            if not action.child[data.child_id] then
-                action.child[data.child_id] = { type = data.type }
-            end
-            table.insert(action.child[data.child_id], data)
-        end
+    table.sort(keys)
+    local index = 0
+    return function ()
+        index = index + 1
+        local k = keys[index]
+        return id_map[k], childs[k]
     end
-    return action
 end
 
 local function parse_trg(ecas)
@@ -77,8 +43,8 @@ local function parse_trg(ecas)
     }
 
     for _, eca in ipairs(ecas) do
-        local action = parse_eca(eca)
-        table.insert(trg[action.type], action)
+        local tp = type_map[eca.type]
+        table.insert(trg[tp], eca)
     end
     
     return trg
@@ -92,7 +58,7 @@ local function convert_arg(arg, sp)
 
     tbl[#tbl+1] = (' '):rep(sp)
     tbl[#tbl+1] = ('[%s]'):format(arg.value)
-    tbl[#tbl+1] = ('(%s)'):format(arg.type)
+    tbl[#tbl+1] = ('(%s)'):format(arg_type_map[arg.type])
 
     lines[#lines+1] = table.concat(tbl)
 end
@@ -124,8 +90,8 @@ function convert_action(action, sp)
     
     if action.child then
         lines[#lines+1] = (' '):rep(sp) .. '{'
-        for _, actions in sort_pairs(action.child) do
-            convert_child(actions.type, actions, sp+2)
+        for type, actions in pairs_child(action.child) do
+            convert_child(type_map[type], actions, sp+2)
         end
         lines[#lines+1] = (' '):rep(sp) .. '}'
     end

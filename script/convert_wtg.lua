@@ -162,7 +162,9 @@ local clock = os.clock()
 local wct_data = w2l:frontend_wct(wct)
 print('读取wct用时：', os.clock() - clock)
 
+local clock = os.clock()
 local files = w2l:backend_wtg2lni(wtg_data, wct_data)
+print('转换wtg用时：', os.clock() - clock)
 local dir = map_path:parent_path() / '触发器'
 task(fs.remove_all, dir)
 task(fs.create_directories, dir)
