@@ -227,7 +227,7 @@ local function read_triggers(files, map)
                 files[path..'.txt'] = wct.triggers[i]
             end
         else
-            files[path..'.txt'] = w2l:backend_eca(trg.ecas)
+            files[path..'.yml'] = w2l:backend_eca(trg.ecas)
         end
     end
 end
