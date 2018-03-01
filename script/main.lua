@@ -1,3 +1,8 @@
+(function()
+    local exepath = package.cpath:sub(1, (package.cpath:find(';') or 0)-6)
+    package.path = exepath .. '..\\script\\?.lua;' .. exepath .. '..\\script\\?\\init.lua;'
+end)()
+
 local function run_from_bat()
     local nk = require 'nuklear'
     nk:console()
