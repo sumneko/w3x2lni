@@ -10,7 +10,7 @@
             "cwd": "${workspaceRoot}/bin",
             "path": "",
             "cpath": "${workspaceRoot}/bin/?.dll;",
-            "luadll": "${workspaceRoot}/bin/luacore.dll",
+            "luadll": "${workspaceRoot}/bin/lua53.dll",
             "arg0": "${workspaceRoot}/w3x2lni.exe",
             "arg": [
                 "${workspaceRoot}/All_Star_Battle_3.1d_editor2.w3x"
@@ -26,7 +26,7 @@
             "cwd": "${workspaceRoot}/bin",
             "path": "",
             "cpath": "${workspaceRoot}/bin/?.dll;",
-            "luadll": "${workspaceRoot}/bin/luacore.dll",
+            "luadll": "${workspaceRoot}/bin/lua53.dll",
             "arg0": "${workspaceRoot}/w3x2lni.exe",
             "arg": [
             ],
@@ -41,7 +41,7 @@
             "cwd": "${workspaceRoot}/bin",
             "path": "",
             "cpath": "${workspaceRoot}/bin/?.dll;",
-            "luadll": "${workspaceRoot}/bin/luacore.dll",
+            "luadll": "${workspaceRoot}/bin/lua53.dll",
             "arg0": "${workspaceRoot}/w3x2lni.exe",
             "arg": [
             ],
@@ -56,7 +56,7 @@
             "cwd": "${workspaceRoot}/bin",
             "path": "",
             "cpath": "${workspaceRoot}/bin/?.dll;",
-            "luadll": "${workspaceRoot}/bin/luacore.dll",
+            "luadll": "${workspaceRoot}/bin/lua53.dll",
             "arg0": "${workspaceRoot}/w3x2lni.exe",
             "arg": [
                 "${workspaceRoot}/new_All_Star_Battle_3.1d_editor2/"
@@ -70,7 +70,7 @@
             "stopOnEntry": true,
             "cwd": "${workspaceRoot}",
             "runtimeExecutable": "${workspaceRoot}/w3x2lni.exe",
-            "luadll": "${workspaceRoot}/bin/luacore.dll",
+            "luadll": "${workspaceRoot}/bin/lua53.dll",
             "console": "utf8"
         },
         {
@@ -82,7 +82,7 @@
             "cwd": "${workspaceRoot}/bin",
             "path": "",
             "cpath": "${workspaceRoot}/bin/?.dll;",
-            "luadll": "${workspaceRoot}/bin/luacore.dll",
+            "luadll": "${workspaceRoot}/bin/lua53.dll",
             "arg0": "${workspaceRoot}/w3x2lni.exe",
             "arg": [
                 "${workspaceRoot}/命令ID.w3x",
@@ -99,7 +99,7 @@
             "cwd": "${workspaceRoot}/bin",
             "path": "",
             "cpath": "${workspaceRoot}/bin/?.dll;",
-            "luadll": "${workspaceRoot}/bin/luacore.dll",
+            "luadll": "${workspaceRoot}/bin/lua53.dll",
             "arg0": "${workspaceRoot}/w3x2lni.exe",
             "arg": [],
             "console": "ansi"

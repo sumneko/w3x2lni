@@ -1,6 +1,6 @@
 require 'filesystem'
-require 'sys'
 require 'utility'
+local process = require 'process'
 local nk = require 'nuklear'
 local srv = require 'gui.backend'
 local show_version = require 'gui.show_version'
