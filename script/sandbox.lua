@@ -131,7 +131,7 @@ local function sandbox_env(loadlua, openfile, loaded)
             -
         ]],
         loaded = _LOADED,
-        path = '?.lua',
+        path = '?.lua;?/init.lua',
         preload = _PRELOAD,
         searchers = { searcher_preload, searcher_lua },
         searchpath = searchpath
