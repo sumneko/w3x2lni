@@ -24,9 +24,6 @@
 
 --- @module lyaml.functional
 
-local _ENV = require 'std.normalize' {}
-
-
 --- `lyaml.null` value.
 -- @table NULL
 local NULL = setmetatable({}, {_type='LYAML null'})

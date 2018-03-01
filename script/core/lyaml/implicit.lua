@@ -24,15 +24,12 @@
 
 --- @module lyaml.implicit
 
-
-local _ENV = require 'std.normalize' {
-   'lyaml.functional.NULL',
-   'math',
-   'math.tointeger',
-   'string.find',
-   'string.gsub',
-   'string.sub',
-}
+local NULL = require 'lyaml.functional'.NULL
+local math = math
+local tointeger = math.tointeger
+local find = string.find
+local gsub = string.gsub
+local sub = string.sub
 
 
 local is_null = {['']=true, ['~']=true, null=true, Null=true, NULL=true}

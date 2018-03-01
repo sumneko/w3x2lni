@@ -27,22 +27,18 @@
 
 --- @module lyaml
 
-
-local _ENV = require 'std.normalize' {
-   'math',
-   'string.find',
-   'string.format',
-   'string.match',
-   'string.gsub',
-   'yaml',
-   'lyaml.functional.NULL',
-   'lyaml.explicit',
-   'lyaml.functional.anyof',
-   'lyaml.functional.id',
-   'lyaml.implicit',
-   'lyaml.functional.isnull',
-}
-
+local math = math
+local find = string.find
+local format = format
+local match = string.match
+local gsub = string.gsub
+local yaml = require 'yaml'
+local NULL = require 'lyaml.functional'.NULL
+local explicit = require 'lyaml.explicit'
+local anyof = require 'lyaml.functional'.anyof
+local id = require 'lyaml.functional'.id
+local implicit = require 'lyaml.implicit'
+local isnull = require 'lyaml.functional'.isnull
 
 local TAG_PREFIX = 'tag:yaml.org,2002:'
 
