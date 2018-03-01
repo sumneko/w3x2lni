@@ -9,7 +9,8 @@ local function unpack(fmt)
 end
 
 local function read_head()
-    chunk.file_ver = unpack 'l'
+    local ver = unpack 'l'
+    assert(ver == 1, '不支持的wct格式')
 end
 
 local function read_custom()

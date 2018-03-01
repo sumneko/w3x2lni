@@ -110,8 +110,10 @@ local function unpack(fmt)
 end
 
 local function read_head()
-    chunk.file_id  = unpack 'c4'
-    chunk.file_ver = unpack 'l'
+    local id  = unpack 'c4'
+    assert(id == 'WTG!', '触发器文件错误')
+    local ver = unpack 'l'
+    assert(ver == 7, '触发器文件版本不正确')
 end
 
 local function read_category()
@@ -134,16 +136,19 @@ local function read_var()
     local var = {}
     var.name    = unpack 'z'
     var.type    = unpack 'z'
-    var.unknow  = unpack 'l'
+    local unknow  = unpack 'l'
+    assert(unknow == 1, '未知数据2不正确')
     var.array   = unpack 'l'
     var.size    = unpack 'l'
     var.default = unpack 'l'
     var.value   = unpack 'z'
+
     return var
 end
 
 local function read_vars()
-    chunk.unknow = unpack 'l'
+    local unknow = unpack 'l'
+    assert(unknow == 2, '未知数据1不正确')
     local count = unpack 'l'
     chunk.vars = {}
     for i = 1, count do
@@ -319,8 +324,7 @@ local function read_arg()
     assert_then_retry(insert_call == 0 or insert_call == 1, 'insert_call 错误')
 
     if insert_call == 1 then
-        local eca_type = unpack 'l'
-        arg.eca = read_eca(false, eca_type)
+        arg.eca = read_eca(false)
     end
 
     local insert_index = unpack 'l'
@@ -331,15 +335,11 @@ local function read_arg()
     return arg
 end
 
-function read_eca(is_child, eca_type)
+function read_eca(is_child)
     local eca = {}
-    if eca_type then
-        eca.type = eca_type
-    else
-        eca.type = unpack 'l'
-        if is_child then
-            eca.child_id = unpack 'l'
-        end
+    eca.type = unpack 'l'
+    if is_child then
+        eca.child_id = unpack 'l'
     end
     eca.name   = unpack 'z'
     eca.enable = unpack 'l'
