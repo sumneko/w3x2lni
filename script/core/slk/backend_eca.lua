@@ -1,4 +1,4 @@
-local lyaml = require 'lyaml'
+local lyaml = require 'lyaml.init'
 
 local arg_type_map = {
     [-1] = '禁用',
@@ -26,10 +26,6 @@ local function sort_table()
             mark[k] = true
             keys[#keys+1] = k
         end
-    end
-
-    function mt:__len()
-        return #keys
     end
 
     function mt:__pairs()
@@ -71,14 +67,10 @@ local parse_eca
 local function parse_arg(arg)
     if arg.eca then
         return parse_eca(arg.eca, true)
+    elseif arg.index then
+        return { [arg.value] = { '数组', parse_arg(arg.index) }}
     else
-        local param = {}
-        if arg.index then
-            param[#param+1] = '数组'
-            parse_arg(arg, arg.index)
-        else
-            param[#param+1] = arg_type_map[arg.type]
-        end
+        return { [arg.value] = arg_type_map[arg.type] }
     end
 end
 
@@ -94,6 +86,15 @@ function parse_eca(eca, in_arg)
     if eca.args then
         for _, arg in ipairs(eca.args) do
             action[#action+1] = parse_arg(arg)
+        end
+    end
+    if eca.child then
+        for name, ecas in pairs_child(eca.child) do
+            local child = {}
+            for i, eca in ipairs(ecas) do
+                child[i] = parse_eca(eca)
+            end
+            action[#action+1] = { [type_map[name]] = child }
         end
     end
 
@@ -115,6 +116,11 @@ local function parse_trg(ecas)
     for _, eca in ipairs(ecas) do
         local tp = type_map[eca.type]
         trg[tp][#trg[tp]+1] = parse_eca(eca)
+    end
+    for k, v in pairs(trg) do
+        if #v == 0 then
+            trg[k] = lyaml.null
+        end
     end
     
     return trg
