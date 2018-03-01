@@ -1,3 +1,5 @@
+local lyaml = require 'lyaml'
+
 local arg_type_map = {
     [-1] = '禁用',
     [0]  = '预设',
@@ -12,6 +14,35 @@ local type_map = {
     [2] = '动作',
     [3] = '函数',
 }
+
+local function sort_table()
+    local keys = {}
+    local mark = {}
+    local mt = {}
+
+    function mt:__newindex(k, v)
+        rawset(self, k, v)
+        if not mark[k] then
+            mark[k] = true
+            keys[#keys+1] = k
+        end
+    end
+
+    function mt:__len()
+        return #keys
+    end
+
+    function mt:__pairs()
+        local i = 0
+        return function ()
+            i = i + 1
+            local k = keys[i]
+            return k, self[k]
+        end
+    end
+
+    return setmetatable({}, mt)
+end
 
 local function pairs_child(child)
     local childs = {}
@@ -35,93 +66,62 @@ local function pairs_child(child)
     end
 end
 
+local parse_eca
+
+local function parse_arg(arg)
+    if arg.eca then
+        return parse_eca(arg.eca, true)
+    else
+        local param = {}
+        if arg.index then
+            param[#param+1] = '数组'
+            parse_arg(arg, arg.index)
+        else
+            param[#param+1] = arg_type_map[arg.type]
+        end
+    end
+end
+
+function parse_eca(eca, in_arg)
+    local action = {}
+
+    if in_arg then
+        action[#action+1] = type_map[eca.type]
+    end
+    if eca.enable == 0 then
+        action[#action+1] = '禁用'
+    end
+    if eca.args then
+        for _, arg in ipairs(eca.args) do
+            action[#action+1] = parse_arg(arg)
+        end
+    end
+
+    if #action == 0 then
+        return eca.name
+    elseif #action == 1 and type(action[1]) ~= 'table' then
+        return { [eca.name] = action[1] }
+    else
+        return { [eca.name] = action }
+    end
+end
+
 local function parse_trg(ecas)
-    local trg = {
-        ['事件'] = {},
-        ['条件'] = {},
-        ['动作'] = {},
-    }
+    local trg = sort_table()
+    trg['事件'] = {}
+    trg['条件'] = {}
+    trg['动作'] = {}
 
     for _, eca in ipairs(ecas) do
         local tp = type_map[eca.type]
-        table.insert(trg[tp], eca)
+        trg[tp][#trg[tp]+1] = parse_eca(eca)
     end
     
     return trg
 end
 
-local lines
-local convert_action
-
-local function convert_arg(arg, sp)
-    local tbl = {}
-
-    tbl[#tbl+1] = (' '):rep(sp)
-    if arg.eca then
-        -- 如果参数是函数调用，就直接把eca放到arg位置上
-        convert_action(arg.eca, sp, true)
-    else
-        tbl[#tbl+1] = ('[%s]'):format(arg.value)
-        if arg.index then
-            tbl[#tbl+1] = '(数组)'
-        end
-        tbl[#tbl+1] = ('(%s)'):format(arg_type_map[arg.type])
-    
-        lines[#lines+1] = table.concat(tbl)
-    
-        if arg.index then
-            convert_arg(arg.index, sp+2)
-        end
-    end
-end
-
-local function convert_child(name, actions, sp)
-    lines[#lines+1] = ('%s<%s>'):format((' '):rep(sp), name)
-    for _, action in ipairs(actions) do
-        convert_action(action, sp+2)
-    end
-end
-
-function convert_action(action, sp, in_arg)
-    local tbl = {}
-
-    tbl[#tbl+1] = (' '):rep(sp)
-    tbl[#tbl+1] = ('[%s]'):format(action.name)
-    --tbl[#tbl+1] = ('{%s}'):format(action.type)
-    --tbl[#tbl+1] = ('{%s}'):format(action.child_id)
-    if action.enable == 0 then
-        tbl[#tbl+1] = '(禁用)'
-    end
-    if in_arg then
-        tbl[#tbl+1] = ('(%s)'):format(type_map[action.type])
-    end
-    lines[#lines+1] = table.concat(tbl)
-
-    if action.args then
-        for _, arg in ipairs(action.args) do
-            convert_arg(arg, sp+2)
-        end
-    end
-    
-    if action.child then
-        for type, actions in pairs_child(action.child) do
-            convert_child(type_map[type], actions, sp+2)
-        end
-    end
-end
-
-local function convert_trg(trg)
-    lines = {}
-
-    convert_child('事件', trg['事件'], 0)
-    convert_child('条件', trg['条件'], 0)
-    convert_child('动作', trg['动作'], 0)
-
-    return table.concat(lines, '\n')
-end
-
-return function (w2l_, ecas)
+return function (w2l, ecas)
     local trg = parse_trg(ecas)
-    local buf = convert_trg(trg)
+    local buf = lyaml.dump {trg}
     return buf
 end
