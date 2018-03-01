@@ -41,7 +41,7 @@ function mt:read_ui(type, buf)
             last = value
         end,
     })
-    lni(buf, type, t)
+    lni(buf, type, {t})
     savelast()
 end
 
