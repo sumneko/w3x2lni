@@ -51,12 +51,8 @@ function mt:update_pipe()
     self:update_out()
     self:update_err()
     if not self.process:is_running() then
-        if self.process:peek(self.out_rd) ~= 0 then
-            self.output = self.output .. self.out_rd:read '*a'
-        end
-        if self.process:peek(self.err_rd) ~= 0 then
-            self.error = self.error .. self.err_rd:read '*a'
-        end
+        self.output = self.output .. self.out_rd:read 'a'
+        self.error = self.error .. self.err_rd:read 'a'
         self.process:close()
         return true
     end
