@@ -25,7 +25,7 @@ NK_TEXT_LEFT           = NK_TEXT_ALIGN_MIDDLE | NK_TEXT_ALIGN_LEFT
 NK_TEXT_CENTERED       = NK_TEXT_ALIGN_MIDDLE | NK_TEXT_ALIGN_CENTERED
 NK_TEXT_RIGHT          = NK_TEXT_ALIGN_MIDDLE | NK_TEXT_ALIGN_RIGHT
 
-local root = fs.get(fs.DIR_EXE):remove_filename()
+local root = fs.current_path():remove_filename()
 local config = lni(io.load(root / 'config.ini'))
 local fmt = nil
 
@@ -256,7 +256,7 @@ local backend
 local function update_backend()
     if showconsole then
         showconsole = false
-        nk:console()
+        --nk:console()
     end
     if not backend then
         return
@@ -372,7 +372,7 @@ local function window_convert(canvas)
     else
         if canvas:button('开始') then
             canvas:progress(0, 100)
-            backend = srv.async_popen(('"%s" -backend "%s"'):format(fs.get(fs.DIR_EXE):string(), mappath:string()))
+            backend = srv.async_popen(('"%s" "%s" -backend "%s"'):format((root / 'bin' / 'w3x2lni.exe'):string(), (root / 'script' / 'main.lua'):string(), mappath:string()))
             srv.message = '正在初始化...'
             srv.progress = nil
             srv.report = {}

@@ -5,15 +5,15 @@
             "name": "处理地图",
             "type": "lua",
             "request": "launch",
-            "program": "${workspaceRoot}/script/map.lua",
+            "program": "${workspaceRoot}/script/main.lua",
             "stopOnEntry": true,
-            "cwd": "${workspaceRoot}/bin",
+            "cwd": "${workspaceRoot}/bin/",
             "path": "",
             "cpath": "${workspaceRoot}/bin/?.dll;",
-            "luadll": "${workspaceRoot}/bin/lua53.dll",
-            "arg0": "${workspaceRoot}/w3x2lni.exe",
+            "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
             "arg": [
-                "${workspaceRoot}/All_Star_Battle_3.1d_editor2.w3x"
+                "-backend",
+                "${workspaceRoot}/FinaldayDefendApocalypse.Ver3.3.w3x",
             ],
             "console": "utf8"
         },
@@ -68,9 +68,9 @@
             "type": "lua",
             "request": "launch",
             "stopOnEntry": true,
-            "cwd": "${workspaceRoot}",
-            "runtimeExecutable": "${workspaceRoot}/w3x2lni.exe",
-            "luadll": "${workspaceRoot}/bin/lua53.dll",
+            "cwd": "${workspaceRoot}/bin/",
+            "cpath": "${workspaceRoot}/bin/?.dll;",
+            "program": "${workspaceRoot}/script/main.lua",
             "console": "utf8"
         },
         {
