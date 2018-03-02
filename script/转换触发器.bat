@@ -1,3 +1,5 @@
 @echo off
 
-start %~dp0..\w3x2lni.exe -convert_wtg "%1" D:/Ä§ÊÞÕù°ÔIII/YDWE1.32.2_
+%~dp0..\bin\w3x2lni.exe %~dp0main.lua -convert_wtg "%1" D:/Ä§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½III/YDWE1.32.2_
+
+pause

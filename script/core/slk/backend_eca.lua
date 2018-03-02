@@ -1,5 +1,3 @@
-local lyaml = require 'lyaml.init'
-
 local arg_type_map = {
     [-1] = '禁用',
     [0]  = '预设',
@@ -119,15 +117,82 @@ local function parse_trg(ecas)
     end
     for k, v in pairs(trg) do
         if #v == 0 then
-            trg[k] = lyaml.null
+            trg[k] = nil
         end
     end
     
     return trg
 end
 
+local type = type
+local tonumber = tonumber
+local pairs = pairs
+local ipairs = ipairs
+local find = string.find
+local gsub = string.gsub
+local format = string.format
+local rep = string.rep
+local buf
+local yaml_table
+
+local sp_rep = setmetatable({}, {
+    __index = function (self, k)
+        self[k] = rep(' ', k)
+        return self[k]
+    end,
+})
+
+local function yaml_string(str)
+    if str == nil then
+        str = '~'
+    elseif type(str) == 'string' then
+        if tonumber(str) or find(str, "[%s%:%'%-%c]") then
+            str = format("'%s'", gsub(str, "'", "''"))
+        end
+    else
+        str = format("'%s'", str)
+    end
+    return str
+end
+
+local function yaml_array(v, level, sp)
+    for i, v in ipairs(v) do
+        if type(v) == 'table' then
+            buf[#buf+1] = format('%s- ', sp)
+            yaml_table(v, level, '')
+        else
+            buf[#buf+1] = format('%s- %s\n', sp, yaml_string(v))
+        end
+    end
+end
+
+local function yaml_hash(v, level, sp)
+    for k, v in pairs(v) do
+        if type(v) == 'table' then
+            buf[#buf+1] = format('%s%s:\n', sp, yaml_string(k))
+            yaml_table(v, level+4, sp_rep[level+4])
+        else
+            buf[#buf+1] = format('%s%s: %s\n', sp, yaml_string(k), yaml_string(v))
+        end
+    end
+end
+
+function yaml_table(v, level, sp)
+    if #v > 0 then
+        yaml_array(v, level, sp)
+    else
+        yaml_hash(v, level, sp)
+    end
+end
+
+local function convert_yaml(tbl)
+    buf = {}
+    yaml_table(tbl, 0, '')
+    return table.concat(buf)
+end
+
 return function (w2l, ecas)
     local trg = parse_trg(ecas)
-    local buf = lyaml.dump {trg}
+    local buf = convert_yaml(trg)
     return buf
 end

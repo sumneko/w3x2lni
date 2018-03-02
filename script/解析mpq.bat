@@ -1,3 +1,5 @@
 @echo off
 
-start %~dp0..\w3x2lni.exe -mpq "%1" "custom"
+%~dp0..\bin\w3x2lni.exe %~dp0main.lua "%1" "custom"
+
+pause

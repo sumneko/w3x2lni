@@ -2,7 +2,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "处理地图",
+            "name": "前端",
+            "type": "lua",
+            "request": "launch",
+            "stopOnEntry": true,
+            "cwd": "${workspaceRoot}/bin/",
+            "cpath": "${workspaceRoot}/bin/?.dll;",
+            "program": "${workspaceRoot}/script/main.lua",
+            "console": "utf8"
+        },
+        {
+            "name": "后端",
             "type": "lua",
             "request": "launch",
             "program": "${workspaceRoot}/script/main.lua",
@@ -21,14 +31,14 @@
             "name": "预生成",
             "type": "lua",
             "request": "launch",
-            "program": "${workspaceRoot}/script/prebuilt/init.lua",
+            "program": "${workspaceRoot}/script/main.lua",
             "stopOnEntry": false,
             "cwd": "${workspaceRoot}/bin",
             "path": "",
             "cpath": "${workspaceRoot}/bin/?.dll;",
-            "luadll": "${workspaceRoot}/bin/lua53.dll",
-            "arg0": "${workspaceRoot}/w3x2lni.exe",
+            "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
             "arg": [
+                "-prebuilt",
             ],
             "console": "ansi"
         },
@@ -36,55 +46,29 @@
             "name": "解析mpq",
             "type": "lua",
             "request": "launch",
-            "program": "${workspaceRoot}/script/custom_mpq.lua",
+            "program": "${workspaceRoot}/script/main.lua",
             "stopOnEntry": false,
             "cwd": "${workspaceRoot}/bin",
             "path": "",
             "cpath": "${workspaceRoot}/bin/?.dll;",
-            "luadll": "${workspaceRoot}/bin/lua53.dll",
-            "arg0": "${workspaceRoot}/w3x2lni.exe",
+            "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
             "arg": [
+                "-mpq",
             ],
             "console": "ansi"
-        },
-        {
-            "name": "测试",
-            "type": "lua",
-            "request": "launch",
-            "program": "${workspaceRoot}/script/test.lua",
-            "stopOnEntry": true,
-            "cwd": "${workspaceRoot}/bin",
-            "path": "",
-            "cpath": "${workspaceRoot}/bin/?.dll;",
-            "luadll": "${workspaceRoot}/bin/lua53.dll",
-            "arg0": "${workspaceRoot}/w3x2lni.exe",
-            "arg": [
-                "${workspaceRoot}/new_All_Star_Battle_3.1d_editor2/"
-            ],
-            "console": "utf8"
-        },
-        {
-            "name": "GUI",
-            "type": "lua",
-            "request": "launch",
-            "stopOnEntry": true,
-            "cwd": "${workspaceRoot}/bin/",
-            "cpath": "${workspaceRoot}/bin/?.dll;",
-            "program": "${workspaceRoot}/script/main.lua",
-            "console": "utf8"
         },
         {
             "name": "转换触发器",
             "type": "lua",
             "request": "launch",
-            "program": "${workspaceRoot}/script/convert_wtg.lua",
+            "program": "${workspaceRoot}/script/main.lua",
             "stopOnEntry": false,
             "cwd": "${workspaceRoot}/bin",
             "path": "",
             "cpath": "${workspaceRoot}/bin/?.dll;",
-            "luadll": "${workspaceRoot}/bin/lua53.dll",
-            "arg0": "${workspaceRoot}/w3x2lni.exe",
+            "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
             "arg": [
+                "-convert_wtg",
                 "${workspaceRoot}/命令ID.w3x",
                 "D:/魔兽争霸III/YDWE1.32.2_/"
             ],
@@ -94,14 +78,15 @@
             "name": "slk库测试",
             "type": "lua",
             "request": "launch",
-            "program": "${workspaceRoot}/script/slk_test.lua",
+            "program": "${workspaceRoot}/script/main.lua",
             "stopOnEntry": false,
             "cwd": "${workspaceRoot}/bin",
             "path": "",
             "cpath": "${workspaceRoot}/bin/?.dll;",
-            "luadll": "${workspaceRoot}/bin/lua53.dll",
-            "arg0": "${workspaceRoot}/w3x2lni.exe",
-            "arg": [],
+            "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
+            "arg": [
+                "-slk_test"
+            ],
             "console": "ansi"
         }
     ]
