@@ -13,6 +13,26 @@ local arg_type_map = {
     [3]  = '常量',
 }
 
+local multiple = {
+    YDWERegionMultiple = {'动作'},
+    YDWEEnumUnitsInRangeMultiple = {'动作'},
+    YDWEForLoopLocVarMultiple = {'动作'},
+    YDWETimerStartMultiple = {'动作', '动作'},
+    YDWERegisterTriggerMultiple = {'事件', '动作', '动作'},
+    YDWEExecuteTriggerMultiple = {'动作'},
+    IfThenElseMultiple = {'条件', '动作', '动作'},
+    ForLoopAMultiple = {'动作'},
+    ForLoopBMultiple = {'动作'},
+    ForLoopVarMultiple = {'动作'},
+    ForGroupMultiple = {'动作'},
+    EnumDestructablesInRectAllMultiple = {'动作'},
+    EnumDestructablesInCircleBJMultiple = {'动作'},
+    ForForceMultiple = {'动作'},
+    EnumItemsInRectBJMultiple = {'动作'},
+    AndMultiple = {'条件'},
+    OrMultiple = {'条件'},
+}
+
 local function get_ui_define(type, name)
     return state.ui[type][name]
 end
@@ -106,7 +126,7 @@ local function read_arg()
     end
 end
 
-local function read_ecas(parent, count, is_child)
+local function read_ecas(parent, count, is_child, multi_list)
     local ids = {}
     local max = 0
     local start = #parent+1
@@ -125,7 +145,11 @@ local function read_ecas(parent, count, is_child)
     end
     for id = 0, max-1 do
         if not parent[id+start] then
-            parent[id+start] = { '列表', false }
+            if multi_list then
+                parent[id+start] = { multi_list[id+1] or '列表', false }
+            else
+                parent[id+start] = { '列表', false }
+            end
         end
     end
 end
@@ -164,7 +188,7 @@ function read_eca(is_child, is_arg)
 
     local count = unpack 'l'
     if count > 0 then
-        read_ecas(eca, count, true)
+        read_ecas(eca, count, true, multiple[name])
     end
     return eca, type, child_id or type
 end
@@ -182,22 +206,7 @@ local function read_trigger()
 
     trigger.ecas = { '', false }
     local count = unpack 'l'
-    read_ecas(trigger.ecas, count)
-    if trigger.ecas[3] then
-        trigger.ecas[3][1] = '事件'
-    else
-        trigger.ecas[3] = {'事件', false}
-    end
-    if trigger.ecas[4] then
-        trigger.ecas[4][1] = '条件'
-    else
-        trigger.ecas[4] = {'条件', false}
-    end
-    if trigger.ecas[5] then
-        trigger.ecas[5][1] = '动作'
-    else
-        trigger.ecas[5] = {'动作', false}
-    end
+    read_ecas(trigger.ecas, count, false, {'事件', '条件', '动作'})
 
     return trigger
 end
