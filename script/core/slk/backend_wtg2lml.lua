@@ -121,32 +121,6 @@ local function write_lni(data)
     return table.concat(lines, '\n')
 end
 
-local function read_custom()
-    local data = sort_table()
-    if wct then
-        data.comment = wct.custom.comment
-        data.code = wct.custom.code
-    end
-    return write_lni(data)
-end
-
-local function read_vars()
-    local lines = {}
-    if wtg then
-        for _, var in ipairs(wtg.vars) do
-            local data = sort_table()
-            data.value = var.value
-            data.type = var.type
-            data.array = var.var
-            data.size = var.size
-            data.default = var.default
-            data.unknow = var.unknow
-            write_obj(lines, var.name, data)
-        end
-    end
-    return table.concat(lines, '\n')
-end
-
 local function compute_path()
     if not wtg then
         return
@@ -171,42 +145,26 @@ local function compute_path()
 end
 
 local function read_dirs(map)
-    local lines = {}
-    if wtg then
-        local dirs = {}
-        for _, dir in ipairs(wtg.categories) do
-            dirs[dir.id] = {}
-        end
-        for _, trg in ipairs(wtg.triggers) do
-            table.insert(dirs[trg.category], trg)
-        end
-        for _, dir in ipairs(wtg.categories) do
-            local data = sort_table()
-            data.name = dir.name
-            data.id = dir.id
-            data.comment = dir.comment
-            data.triggers = {}
-            for i, trg in ipairs(dirs[dir.id]) do
-                data.triggers[i] = map[dir.name][trg.name]
-            end
-            write_obj(lines, map[1][dir.name], data)
-        end
+    local dirs = {}
+    for _, dir in ipairs(wtg.categories) do
+        dirs[dir.id] = {}
     end
-    return table.concat(lines, '\n')
-end
-
-local function read_trigger(trg)
-    local data = sort_table()
-
-    data.name   = trg.name
-    data.des    = trg.des
-    data.type   = trg.type
-    data.enable = trg.enable
-    data.wct    = trg.wct
-    data.open   = trg.open
-    data.run    = trg.run
-
-    return write_lni(data)
+    for _, trg in ipairs(wtg.triggers) do
+        table.insert(dirs[trg.category], trg)
+    end
+    local lml = { '', false }
+    for i, dir in ipairs(wtg.categories) do
+        local data = {
+            map[1][dir.name], dir.comment == 1 and '注释' or false,
+            { '名称', dir.name },
+            { '编号', dir.id },
+        }
+        for i, trg in ipairs(dirs[dir.id]) do
+            data[#data+1] = { map[dir.name][trg.name] }
+        end
+        lml[i+2] = data
+    end
+    return w2l:backend_lml(lml)
 end
 
 local function read_triggers(files, map)
@@ -221,13 +179,15 @@ local function read_triggers(files, map)
     for i, trg in ipairs(wtg.triggers) do
         local dir = dirs[trg.category]
         local path = map[1][dir] .. '/' .. map[dir][trg.name]
-        files[path..'.ini'] = read_trigger(trg)
-        if trg.wct == 1 then
-            if wct then
-                files[path..'.txt'] = wct.triggers[i]
+        files[path..'.lml'] = w2l:backend_lml(trg.trg)
+        if #trg.des > 0 then
+            files[path..'-注释.txt'] = trg.des
+        end
+        if trg.wct == 1 and wct then
+            local buf = wct.triggers[i]
+            if #buf > 0 then
+                files[path..'-代码.txt'] = buf
             end
-        else
-            files[path..'.lml'] = w2l:backend_eca(trg.ecas)
         end
     end
 end
@@ -239,12 +199,15 @@ return function (w2l_, wtg_, wct_)
 
     local files = {}
 
-    files['.自定义代码.ini'] = read_custom()
-    files['.变量.ini'] = read_vars()
+    if wct then
+        files['自定义-注释.txt'] = wct.custom.comment
+        files['自定义-代码.txt'] = wct.custom.code
+    end
+    files['变量.lml'] = w2l:backend_lml(wtg.vars)
 
     local map = compute_path()
     
-    files['.目录.ini'] = read_dirs(map)
+    files['目录.lml'] = read_dirs(map)
     read_triggers(files, map)
 
     return files

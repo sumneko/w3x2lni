@@ -67,15 +67,22 @@ local function read_categories()
 end
 
 local function read_var()
-    local var = {}
-    var.name    = unpack 'z'
-    var.type    = unpack 'z'
+    local name    = unpack 'z'
+    local type    = unpack 'z'
     local unknow  = unpack 'l'
     assert(unknow == 1, '未知数据2不正确')
-    var.array   = unpack 'l'
-    var.size    = unpack 'l'
-    var.default = unpack 'l'
-    var.value   = unpack 'z'
+    local array   = unpack 'l'
+    local size    = unpack 'l'
+    local default = unpack 'l'
+    local value   = unpack 'z'
+
+    local var = { name, type }
+    if array == 1 then
+        var[#var+1] = { '数组', size }
+    end
+    if default == 1 then
+        var[#var+1] = { '默认', value }
+    end
 
     return var
 end
@@ -84,9 +91,9 @@ local function read_vars()
     local unknow = unpack 'l'
     assert(unknow == 2, '未知数据1不正确')
     local count = unpack 'l'
-    chunk.vars = {}
+    chunk.vars = { '', false }
     for i = 1, count do
-        table.insert(chunk.vars, read_var())
+        chunk.vars[i+2] = read_var()
     end
 end
 
@@ -195,18 +202,31 @@ end
 
 local function read_trigger()
     local trigger = {}
-    trigger.name     = unpack 'z'
-    trigger.des      = unpack 'z'
-    trigger.type     = unpack 'l'
-    trigger.enable   = unpack 'l'
-    trigger.wct      = unpack 'l'
-    trigger.open     = unpack 'l'
-    trigger.run      = unpack 'l'
-    trigger.category = unpack 'l'
+    local name     = unpack 'z'
+    local des      = unpack 'z'
+    local type     = unpack 'l'
+    local enable   = unpack 'l'
+    local wct      = unpack 'l'
+    local open     = unpack 'l'
+    local run      = unpack 'l'
+    local category = unpack 'l'
 
-    trigger.ecas = { '', false }
+    trigger.name = name
+    trigger.des = des
+    trigger.wct = wct
+    trigger.category = category
+
+    trigger.trg = {
+        '', false,
+        { '名称', name },
+        { '类型', type },
+        { '允许', enable },
+        { '代码', wct },
+        { '开启', open },
+        { '运行', run },
+    }
     local count = unpack 'l'
-    read_ecas(trigger.ecas, count, false, {'事件', '条件', '动作'})
+    read_ecas(trigger.trg, count, false, {'事件', '条件', '动作'})
 
     return trigger
 end

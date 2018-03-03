@@ -7,7 +7,7 @@ local gsub = string.gsub
 local format = string.format
 local rep = string.rep
 local buf
-local yaml_table
+local lml_table
 
 local sp_rep = setmetatable({}, {
     __index = function (self, k)
@@ -16,37 +16,35 @@ local sp_rep = setmetatable({}, {
     end,
 })
 
-local function yaml_string(str)
+local function lml_string(str)
     if type(str) == 'string' then
         if find(str, "[%s%:%'%c]") then
             str = format("'%s'", gsub(str, "'", "''"))
         end
-    else
-        str = format("'%s'", str)
     end
     return str
 end
 
-local function yaml_value(v, sp)
+local function lml_value(v, sp)
     if v[2] then
-        buf[#buf+1] = format('%s%s: %s\n', sp_rep[sp], yaml_string(v[1]), yaml_string(v[2]))
+        buf[#buf+1] = format('%s%s: %s\n', sp_rep[sp], lml_string(v[1]), lml_string(v[2]))
     else
-        buf[#buf+1] = format('%s%s\n', sp_rep[sp], yaml_string(v[1]))
+        buf[#buf+1] = format('%s%s\n', sp_rep[sp], lml_string(v[1]))
     end
     for i = 3, #v do
-        yaml_value(v[i], sp+4)
+        lml_value(v[i], sp+4)
     end
 end
 
-local function convert_yaml(tbl)
+local function convert_lml(tbl)
     buf = {}
     for i = 3, #tbl do
-        yaml_value(tbl[i], 0)
+        lml_value(tbl[i], 0)
     end
     return table.concat(buf)
 end
 
-return function (w2l, ecas)
-    local buf = convert_yaml(ecas)
+return function (w2l, tbl)
+    local buf = convert_lml(tbl)
     return buf
 end
