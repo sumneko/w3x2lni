@@ -50,15 +50,35 @@ local function read_dirs(map)
     end
     local lml = { '', false }
     for i, dir in ipairs(wtg.categories) do
-        local data = {
-            map[1][dir.name], dir.comment == 1 and '注释' or false,
-            { '名称', dir.name },
-            { '编号', dir.id },
-        }
-        for i, trg in ipairs(dirs[dir.id]) do
-            data[#data+1] = { map[dir.name][trg.name] }
+        local filename = map[1][dir.name]
+        local dir_data = { filename, dir.id }
+        if dir.name ~= filename then
+            dir_data[#dir_data+1] = { '名称', dir.name }
         end
-        lml[i+2] = data
+        if dir.comment == 1 then
+            dir_data[#dir_data+1] = { '注释', 1 }
+        end
+        for i, trg in ipairs(dirs[dir.id]) do
+            local filename = map[dir.name][trg.name]
+            local trg_data = { filename, false }
+            if trg.name ~= filename then
+                trg_data[#trg_data+1] = { '名称', trg.name }
+            end
+            if trg.type == 1 then
+                trg_data[#trg_data+1] = { '注释' }
+            end
+            if trg.enable == 0 then
+                trg_data[#trg_data+1] = { '禁用' }
+            end
+            if trg.close == 1 then
+                trg_data[#trg_data+1] = { '关闭' }
+            end
+            if trg.run == 1 then
+                trg_data[#trg_data+1] = { '运行' }
+            end
+            dir_data[#dir_data+1] = trg_data
+        end
+        lml[i+2] = dir_data
     end
     return w2l:backend_lml(lml)
 end
@@ -75,14 +95,16 @@ local function read_triggers(files, map)
     for i, trg in ipairs(wtg.triggers) do
         local dir = dirs[trg.category]
         local path = map[1][dir] .. '/' .. map[dir][trg.name]
-        files[path..'.lml'] = w2l:backend_lml(trg.trg)
-        if #trg.des > 0 then
-            files[path..'-注释.txt'] = trg.des
+        if trg.wct == 0 and trg.type == 0 then
+            files[path..'.lml'] = w2l:backend_lml(trg.trg)
         end
-        if trg.wct == 1 and wct then
+        if #trg.des > 0 then
+            files[path..'.txt'] = trg.des
+        end
+        if trg.wct == 1 then
             local buf = wct.triggers[i]
             if #buf > 0 then
-                files[path..'-代码.txt'] = buf
+                files[path..'.j'] = buf
             end
         end
     end
@@ -95,10 +117,8 @@ return function (w2l_, wtg_, wct_)
 
     local files = {}
 
-    if wct then
-        files['自定义-注释.txt'] = wct.custom.comment
-        files['自定义-代码.txt'] = wct.custom.code
-    end
+    files['代码.txt'] = wct.custom.comment
+    files['代码.j'] = wct.custom.code
     files['变量.lml'] = w2l:backend_lml(wtg.vars)
 
     local map = compute_path()

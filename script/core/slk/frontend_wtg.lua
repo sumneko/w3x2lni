@@ -202,29 +202,16 @@ end
 
 local function read_trigger()
     local trigger = {}
-    local name     = unpack 'z'
-    local des      = unpack 'z'
-    local type     = unpack 'l'
-    local enable   = unpack 'l'
-    local wct      = unpack 'l'
-    local open     = unpack 'l'
-    local run      = unpack 'l'
-    local category = unpack 'l'
+    trigger.name     = unpack 'z'
+    trigger.des      = unpack 'z'
+    trigger.type     = unpack 'l'
+    trigger.enable   = unpack 'l'
+    trigger.wct      = unpack 'l'
+    trigger.close    = unpack 'l'
+    trigger.run      = unpack 'l'
+    trigger.category = unpack 'l'
 
-    trigger.name = name
-    trigger.des = des
-    trigger.wct = wct
-    trigger.category = category
-
-    trigger.trg = {
-        '', false,
-        { '名称', name },
-        { '类型', type },
-        { '允许', enable },
-        { '代码', wct },
-        { '开启', open },
-        { '运行', run },
-    }
+    trigger.trg = { '', false }
     local count = unpack 'l'
     read_ecas(trigger.trg, count, false, {'事件', '条件', '动作'})
 
