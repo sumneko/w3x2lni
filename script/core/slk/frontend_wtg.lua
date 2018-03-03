@@ -91,8 +91,7 @@ local function read_arg()
 
     local insert_call = unpack 'l'
     if insert_call == 1 then
-        local eca, type = read_eca()
-        arg = { value, type_map[type], eca }
+        arg = (read_eca(false, true))
     end
 
     local insert_index = unpack 'l'
@@ -131,7 +130,7 @@ local function read_ecas(parent, count, is_child)
     end
 end
 
-function read_eca(is_child)
+function read_eca(is_child, is_arg)
     local type = unpack 'l'
     local child_id
     if is_child then
@@ -141,10 +140,12 @@ function read_eca(is_child)
     local enable = unpack 'l'
 
     local eca = { name }
-    if enable == 1 then
-        eca[2] = false
-    else
+    if enable == 0 then
         eca[2] = '禁用'
+    elseif is_arg then
+        eca[2] = type_map[type]
+    else
+        eca[2] = false
     end
     local args
     local ui = get_ui_define(type_index[type], name)
