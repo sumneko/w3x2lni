@@ -96,13 +96,13 @@ local function read_arg()
 
     local insert_index = unpack 'l'
     if insert_index == 1 then
-        arg = { value, '数组', read_arg() }
+        arg = { '数组', value, read_arg() }
     end
 
     if arg then
         return arg
     else
-        return { value, arg_type_map[type] }
+        return { arg_type_map[type], value }
     end
 end
 
@@ -139,13 +139,13 @@ function read_eca(is_child, is_arg)
     local name = unpack 'z'
     local enable = unpack 'l'
 
-    local eca = { name }
+    local eca
     if enable == 0 then
-        eca[2] = '禁用'
+        eca = { '禁用', name }
     elseif is_arg then
-        eca[2] = type_map[type]
+        eca = { type_map[type], name }
     else
-        eca[2] = false
+        eca = { name, false }
     end
     local args
     local ui = get_ui_define(type_index[type], name)
