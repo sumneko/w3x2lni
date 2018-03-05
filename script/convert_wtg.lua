@@ -138,9 +138,8 @@ local suc = w2l:wtg_checker(wtg, state)
 print('检查wtg结果：', suc, '用时：', os.clock() - clock)
 
 local clock = os.clock()
-local wtg_data, fix = w2l:frontend_wtg(wtg, state)
-print('读取wtg用时：', os.clock() - clock)
-
+local wtg_data, fix = w2l:wtg_reader(wtg, state)
+print('修复wtg用时：', os.clock() - clock)
 
 ui.merge(state, fix)
 local bufs = {ui.new_writer(fix)}
@@ -159,16 +158,20 @@ end
 print('成功，修复wtg总用时：', os.clock() - clock)
 
 local clock = os.clock()
+local wtg_data = w2l:frontend_wtg(wtg, state)
+print('读取wtg用时：', os.clock() - clock)
+
+local clock = os.clock()
 local wct_data = w2l:frontend_wct(wct)
 print('读取wct用时：', os.clock() - clock)
 
 local clock = os.clock()
-local files = w2l:backend_wtg2lni(wtg_data, wct_data)
+local files = w2l:backend_wtg2lml(wtg_data, wct_data)
 print('转换wtg用时：', os.clock() - clock)
 local dir = map_path:parent_path() / '触发器'
 
 local function test_wtg(wtg, wct)
-	local new_files = w2l:backend_wtg2lni(w2l:frontend_wtg(wtg, state), w2l:frontend_wct(wct))
+	local new_files = w2l:backend_wtg2lml(w2l:frontend_wtg(wtg, state), w2l:frontend_wct(wct))
 	for name, buf in pairs(files) do
 		if buf ~= new_files[name] then
 			print('测试-文件转换后出现差异：', name)
@@ -177,11 +180,11 @@ local function test_wtg(wtg, wct)
 end
 
 local clock = os.clock()
-test_wtg(w2l:backend_wtg(wtg_data), w2l:backend_wct(wct_data))
+--test_wtg(w2l:backend_wtg(wtg_data), w2l:backend_wct(wct_data))
 print('测试1用时：', os.clock() - clock)
 
 local clock = os.clock()
-local wtg_data, wct_data = w2l:frontend_lni2wtg(files)
+--local wtg_data, wct_data = w2l:frontend_lni2wtg(files)
 --test_wtg(w2l:backend_wtg(wtg_data), w2l:backend_wct(wct_data))
 print('测试2用时：', os.clock() - clock)
 
