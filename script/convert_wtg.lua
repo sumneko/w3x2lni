@@ -51,15 +51,6 @@ end
 
 local loader = {}
 
-local function is_enable_japi()
-	local ok, result = pcall(function ()
-		local tbl = w2l:parse_lni(io.load(ydwe_path / 'plugin' / 'warcraft3' / 'config.cfg'))
-		return tbl['Enable']['yd_jass_api.dll'] ~= '0'
-	end)
-	if not ok then return true end
-	return result
-end
-
 function loader:config()
 	self.list = {}
 	local f, err = io.open((mpq_path / 'config'):string(), 'r')
@@ -68,8 +59,8 @@ function loader:config()
 		return false
     end
     local global_config = w2l:parse_lni(io.load(ydwe_path / "bin" / "EverConfig.cfg"))
-	local enable_ydtrigger = global_config["ThirdPartyPlugin"]["EnableYDTrigger"] ~= "0"
-	local enable_japi = is_enable_japi()
+	local enable_ydtrigger = true
+	local enable_japi = true
 	for line in f:lines() do
 		if not enable_ydtrigger and (string_trim(line) == 'ydtrigger') then
 			-- do nothing
