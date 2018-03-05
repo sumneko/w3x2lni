@@ -129,7 +129,7 @@ function srv.popen(commandline, currentdir)
     local p = process()
     local stdout = p:std_output()
     local stderr = p:std_error()
-    p:hide_window()
+    p:set_console('disable')
     if not p:create(nil, commandline, currentdir) then
         return
     end
