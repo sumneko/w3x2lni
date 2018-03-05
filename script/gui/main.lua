@@ -373,7 +373,7 @@ local function window_convert(canvas)
     else
         if canvas:button('开始') then
             canvas:progress(0, 100)
-            backend = srv.popen(('"%s" "%s" -backend "%s"'):format((root / 'bin' / 'w3x2lni.exe'):string(), (root / 'script' / 'main.lua'):string(), mappath:string()), root / 'bin')
+            backend = srv.popen(('"%s" -E "%s" -backend "%s"'):format((root / 'bin' / 'w3x2lni.exe'):string(), (root / 'script' / 'main.lua'):string(), mappath:string()), root / 'bin')
             srv.message = '正在初始化...'
             srv.progress = nil
             srv.report = {}
