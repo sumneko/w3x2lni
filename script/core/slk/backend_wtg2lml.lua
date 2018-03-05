@@ -117,8 +117,12 @@ return function (w2l_, wtg_, wct_)
 
     local files = {}
 
-    files['代码.txt'] = wct.custom.comment
-    files['代码.j'] = wct.custom.code
+    if #wct.custom.comment > 0 then
+        files['代码.txt'] = wct.custom.comment
+    end
+    if #wct.custom.code > 0 then
+        files['代码.j'] = wct.custom.code
+    end
     files['变量.lml'] = w2l:backend_lml(wtg.vars)
 
     local map = compute_path()

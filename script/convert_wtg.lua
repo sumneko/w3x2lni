@@ -170,7 +170,7 @@ local function test_wtg(wtg, wct)
 end
 
 local clock = os.clock()
---test_wtg(w2l:backend_wtg(wtg_data), w2l:backend_wct(wct_data))
+test_wtg(w2l:backend_wtg(wtg_data, state), w2l:backend_wct(wct_data))
 print('测试1用时：', os.clock() - clock)
 
 local clock = os.clock()
