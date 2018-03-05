@@ -36,9 +36,8 @@ local function task(f, ...)
     f(...)
 end
 
-if arg[0]:find('..', 1, true) then
+if arg[3] == 'ansi' then
 	arg[1] = uni.a2u(arg[1])
-	arg[2] = uni.a2u(arg[2])
 end
 local map_path = fs.path(arg[1])
 local ydwe_path = fs.path(arg[2])
