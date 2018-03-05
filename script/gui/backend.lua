@@ -1,14 +1,11 @@
 local process = require 'process'
 local uni = require 'ffi.unicode'
-local nk = require 'nuklear'
-local debug = true
 
 local srv = {}
 srv.message = ''
 srv.progress = nil
 srv.report = {}
 srv.lastreport = nil
-srv.debug = debug
 
 local mt = {}
 mt.__index = mt
@@ -86,10 +83,6 @@ function mt:update_message(pos)
     end
     if #msg > 0 then
         srv.message = msg
-        if debug then
-            io.stdout:write(uni.u2a(msg) .. '\n')
-            io.stdout:flush()
-        end
     end
     self.output = self.output:sub(pos+1)
 end
@@ -105,9 +98,6 @@ function mt:update()
         end
     end
     if #self.error > 0 then
-        if not debug then
-            nk:console()
-        end
         while true do
             local pos = self.output:find('\n')
             if not pos then
@@ -119,9 +109,6 @@ function mt:update()
         self.output = ''
         self.out_rd:close()
         self.out_rd = nil
-        io.stdout:write(uni.u2a(self.error))
-        io.stdout:flush()
-        self.error = ''
         srv.message = '转换失败'
     end
     if self.closed then
@@ -138,27 +125,18 @@ function mt:update()
     return false
 end
 
-
-function srv.popen(commandline)
+function srv.popen(commandline, currentdir)
     local p = process()
     local stdout = p:std_output()
     local stderr = p:std_error()
     p:hide_window()
-    if not p:create(nil, commandline, nil) then
-        return nil
-    end    
-    return p, stdout, stderr
-end
-
-function srv.async_popen(commandline)
-    local process, out_rd, err_rd = srv.popen(commandline)
-    if not process then
+    if not p:create(nil, commandline, currentdir) then
         return
     end
     return setmetatable({
-        process = process,
-        out_rd = out_rd, 
-        err_rd = err_rd,
+        process = p,
+        out_rd = stdout, 
+        err_rd = stderr,
         output = '',
         error = '',
     }, mt)

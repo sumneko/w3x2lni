@@ -1,11 +1,11 @@
 require 'filesystem'
 require 'utility'
+local messagebox = require 'ffi.messagebox'
 local process = require 'process'
 local nk = require 'nuklear'
 local srv = require 'gui.backend'
 local show_version = require 'gui.show_version'
 local lni = require 'lni-c'
-local showconsole = srv.debug
 local currenttheme = {0, 173, 217}
 
 NK_WIDGET_STATE_MODIFIED = 1 << 1
@@ -254,14 +254,15 @@ end
 local backend
 
 local function update_backend()
-    if showconsole then
-        showconsole = false
-        --nk:console()
-    end
     if not backend then
         return
     end
-    if backend:update() then
+    local exit = backend:update()
+    if #backend.error > 0 then
+        messagebox('错误', backend.error)
+        backend.error = ''
+    end
+    if exit then
         backend = nil
     end
 end
@@ -372,7 +373,7 @@ local function window_convert(canvas)
     else
         if canvas:button('开始') then
             canvas:progress(0, 100)
-            backend = srv.async_popen(('"%s" "%s" -backend "%s"'):format((root / 'bin' / 'w3x2lni.exe'):string(), (root / 'script' / 'main.lua'):string(), mappath:string()))
+            backend = srv.popen(('"%s" "%s" -backend "%s"'):format((root / 'bin' / 'w3x2lni.exe'):string(), (root / 'script' / 'main.lua'):string(), mappath:string()), root / 'bin')
             srv.message = '正在初始化...'
             srv.progress = nil
             srv.report = {}
