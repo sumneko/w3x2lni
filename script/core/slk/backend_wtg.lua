@@ -107,11 +107,12 @@ local function pack_list(lists, root)
         end
     end
     pack('l', child_count)
+    local child_id = -1
     for i = 3, #lists do
         if not lists[i][2] and type_map[lists[i][1]] then
+            child_id = child_id + 1
             local list = lists[i]
             local type = list[1]
-            local child_id = i - 3
             for i = 3, #list do
                 if root then
                     pack_eca(list[i], nil, type)

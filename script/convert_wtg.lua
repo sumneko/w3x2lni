@@ -160,11 +160,14 @@ local files = w2l:backend_wtg2lml(wtg_data, wct_data)
 print('转换wtg用时：', os.clock() - clock)
 local dir = map_path:parent_path() / '触发器'
 
+local err_files = {}
+
 local function test_wtg(wtg, wct)
 	local new_files = w2l:backend_wtg2lml(w2l:frontend_wtg(wtg, state), w2l:frontend_wct(wct))
 	for name, buf in pairs(files) do
 		if buf ~= new_files[name] then
 			print('测试-文件转换后出现差异：', name)
+			err_files[name..'.diff'] = new_files[name]
 		end
 	end
 end
@@ -182,6 +185,10 @@ print('测试2用时：', os.clock() - clock)
 local clock = os.clock()
 task(fs.remove_all, dir)
 print('清空目录用时：', os.clock() - clock)
+
+for name, buf in pairs(err_files) do
+	files[name] = buf
+end
 
 local clock = os.clock()
 task(fs.create_directories, dir)
