@@ -177,8 +177,10 @@ test_wtg(w2l:backend_wtg(wtg_data, state), w2l:backend_wct(wct_data))
 print('测试1用时：', os.clock() - clock)
 
 local clock = os.clock()
---local wtg_data, wct_data = w2l:frontend_lni2wtg(files)
---test_wtg(w2l:backend_wtg(wtg_data), w2l:backend_wct(wct_data))
+local wtg_data, wct_data = w2l:frontend_lml(function (filename)
+	return files[filename]
+end)
+test_wtg(w2l:backend_wtg(wtg_data, state), w2l:backend_wct(wct_data))
 print('测试2用时：', os.clock() - clock)
 
 
