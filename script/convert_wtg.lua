@@ -161,22 +161,37 @@ local function eq(t1, t2)
 	local mark = {}
 	for k, v in pairs(t1) do
 		mark[k] = true
-		if type(v) ~= type(t2[k]) then
-			return false
-		end
-		if type(v) == 'table' then
-			if not eq(v, t2[k]) then
+		local ok
+		local d = t2[k]
+		if type(v) ~= type(d) then
+			local n = tonumber(v)
+			if n and n == tonumber(d) then
+				ok = true
+			elseif k == 2 and not (v or d) then
+				ok = true
+			else
+				print('#1', k, v, d, type(v), type(d))
 				return false
 			end
-		else
-			if v ~= t2[k] then
+		end
+		if type(v) == 'table' then
+			if not eq(v, d) then
+				return false
+			end
+		elseif not ok then
+			if v ~= d then
+				print('#2', k, v, d)
 				return false
 			end
 		end
 	end
 	for k, v in pairs(t2) do
 		if not mark[k] then
-			return false
+			if k == 2 and v == false then
+			else
+				print('#3', k, v)
+				return false
+			end
 		end
 	end
 	return true
