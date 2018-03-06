@@ -7,6 +7,7 @@
             "request": "launch",
             "stopOnEntry": true,
             "cwd": "${workspaceRoot}/script/",
+            "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}/bin/?.dll;",
             "program": "${workspaceRoot}/script/main.lua",
             "runtimeExecutable": "${workspaceRoot}/bin/w3x2lni.exe",
@@ -20,7 +21,7 @@
             "program": "${workspaceRoot}/script/main.lua",
             "stopOnEntry": true,
             "cwd": "${workspaceRoot}/script/",
-            "path": "",
+            "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}/bin/?.dll;",
             "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
             "arg": [
@@ -36,7 +37,7 @@
             "program": "${workspaceRoot}/script/main.lua",
             "stopOnEntry": false,
             "cwd": "${workspaceRoot}/script/",
-            "path": "",
+            "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}/bin/?.dll;",
             "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
             "arg": [
@@ -48,15 +49,13 @@
             "name": "解析mpq",
             "type": "lua",
             "request": "launch",
-            "program": "${workspaceRoot}/script/main.lua",
+            "program": "${workspaceRoot}/script/gui/mini.lua",
             "stopOnEntry": false,
             "cwd": "${workspaceRoot}/script/",
-            "path": "",
+            "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}/bin/?.dll;",
             "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
-            "arg": [
-                "-mpq",
-            ],
+            "luadll": "${workspaceRoot}/bin/lua53.dll",
             "console": "ansi"
         },
         {
@@ -66,7 +65,7 @@
             "program": "${workspaceRoot}/script/main.lua",
             "stopOnEntry": false,
             "cwd": "${workspaceRoot}/script/",
-            "path": "",
+            "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}/bin/?.dll;",
             "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
             "arg": [
@@ -83,7 +82,7 @@
             "program": "${workspaceRoot}/script/main.lua",
             "stopOnEntry": false,
             "cwd": "${workspaceRoot}/script/",
-            "path": "",
+            "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}/bin/?.dll;",
             "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
             "arg": [

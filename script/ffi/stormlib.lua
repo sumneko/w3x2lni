@@ -1,4 +1,6 @@
 local ffi = require 'ffi'
+local loaddll = require 'ffi.loaddll'
+
 ffi.cdef[[
     struct SFILE_CREATE_MPQ {
         unsigned long cbSize;         // Size of this structure, in bytes
@@ -59,17 +61,10 @@ ffi.cdef[[
 
 local SFileMpqNumberOfFiles = 36
 
-local function getfullpath(name)
-    local path, e = package.searchpath(name, package.cpath)
-    if not path then
-        return error(e)
-    end
-    return path
-end
-
+loaddll 'stormlib'
 require 'filesystem'
 local uni = require 'ffi.unicode'
-local stormlib = ffi.load(getfullpath('stormlib'))
+local stormlib = ffi.load('stormlib')
 
 local function current_filetime()
     local systemtime = ffi.new('struct SYSTEMTIME')
