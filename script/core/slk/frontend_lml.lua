@@ -62,7 +62,7 @@ local function load_category(dir)
         comment = 0,
     }
     local filename = dir[1]
-    local id = dir[2]
+    local id = tonumber(dir[2])
     category.name = filename
     category.id = id
 
