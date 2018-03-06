@@ -52,19 +52,8 @@ function loader:config()
 		error('Open ' .. (mpq_path / 'config'):string() .. ' failed.')
 		return false
     end
-    local global_config = w2l:parse_lni(io.load(ydwe_path / "bin" / "EverConfig.cfg"))
-	local enable_ydtrigger = true
-	local enable_japi = true
 	for line in f:lines() do
-		if not enable_ydtrigger and (string_trim(line) == 'ydtrigger') then
-			-- do nothing
-		elseif not enable_japi and (string_trim(line) == 'japi') then
-			-- do nothing
-		elseif string_trim(line) == map_name then
-			-- do nothing
-		else
-			table.insert(self.list, mpq_path / string_trim(line))
-		end
+		table.insert(self.list, mpq_path / string_trim(line))
 	end
 	f:close()
 	return true

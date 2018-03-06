@@ -1,5 +1,7 @@
 @echo off
 
-%~dp0..\bin\w3x2lni.exe %~dp0bat.lua -convert_wtg "%1" D:/魔兽争霸III/YDWE1.32.2_
+%~d0
+cd %~dp0
+.\..\bin\w3x2lni.exe -e "BAT=true" main.lua -convert_wtg "%1" C:\Users\actboy168\GitHub\YDWE\Development\Component\
 
 pause
