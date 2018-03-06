@@ -162,34 +162,51 @@ local dir = map_path:parent_path() / '触发器'
 
 local err_files = {}
 
+local function eq(t1, t2)
+	local mark = {}
+	for k, v in pairs(t1) do
+		mark[k] = true
+		if type(v) ~= type(t2[k]) then
+			return false
+		end
+		if type(v) == 'table' then
+			if not eq(v, t2[k]) then
+				return false
+			end
+		else
+			if v ~= t2[k] then
+				return false
+			end
+		end
+	end
+	for k, v in pairs(t2) do
+		if not mark[k] then
+			return false
+		end
+	end
+	return true
+end
+
+local function test_eq(new_wtg_data, new_wct_data)
+	if not eq(wtg_data, new_wtg_data) then
+		print('测试-文件转换后语法树出现差异：wtg')
+	end
+	if not eq(wct_data, new_wct_data) then
+		print('测试-文件转换后语法树出现差异：wct')
+	end
+end
+
 local function test_wtg(wtg, wct)
-	local new_files = w2l:backend_lml(w2l:frontend_wtg(wtg, state), w2l:frontend_wct(wct))
+	local new_wtg_data = w2l:frontend_wtg(wtg, state)
+	local new_wct_data = w2l:frontend_wct(wct)
+	test_eq(new_wtg_data, new_wct_data)
+	local new_files = w2l:backend_lml(new_wtg_data, new_wct_data)
 	for name, buf in pairs(files) do
 		if buf ~= new_files[name] then
 			print('测试-文件转换后出现差异：', name)
 			err_files[name..'.diff'] = new_files[name]
 		end
 	end
-end
-
-local function eq(t1, t2)
-	local mark = {}
-	for k, v in pairs(t1) do
-		mark[k] = true
-		if type(v) == 'table' then
-			if type(t2[k]) ~= 'table' or not eq(v, t2[k]) then
-				return false
-			end
-		elseif v ~= t2[k] then
-			return false
-		end
-	end
-	for k in pairs(t2) do
-		if not mark[k] then
-			return false
-		end
-	end
-	return true
 end
 
 local clock = os.clock()
@@ -200,13 +217,7 @@ local clock = os.clock()
 local new_wtg_data, new_wct_data = w2l:frontend_lml(function (filename)
 	return files[filename]
 end)
-if not eq(wtg_data, new_wtg_data) then
-	print('测试-文件转换后语法树出现差异：wtg')
-end
-if not eq(wct_data, new_wct_data) then
-	print('测试-文件转换后语法树出现差异：wct')
-end
-test_wtg(w2l:backend_wtg(new_wtg_data, state), w2l:backend_wct(new_wct_data))
+test_eq(new_wtg_data, new_wct_data)
 print('测试2用时：', os.clock() - clock)
 
 
