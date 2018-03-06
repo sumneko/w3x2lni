@@ -151,11 +151,15 @@ local function read_ecas(parent, count, is_child, multi_list)
         list[#list+1] = eca
     end
     for id = 0, max-1 do
-        if not parent[id+start] then
+        if parent[id+start] then
+            if #parent[id+start] == 2 then
+                parent[id+start][2] = nil
+            end
+        else
             if multi_list then
-                parent[id+start] = { multi_list[id+1] or '列表', false }
+                parent[id+start] = { multi_list[id+1] or '列表' }
             else
-                parent[id+start] = { '列表', false }
+                parent[id+start] = { '列表' }
             end
         end
     end
@@ -197,6 +201,9 @@ function read_eca(is_child, is_arg)
     if count > 0 then
         read_ecas(eca, count, true, multiple[name])
     end
+    if #eca == 2 and eca[2] == false then
+        eca[2] = nil
+    end
     return eca, type, child_id or type
 end
 
@@ -214,6 +221,9 @@ local function read_trigger()
     trigger.trg = { '', false }
     local count = unpack 'l'
     read_ecas(trigger.trg, count, false, {'事件', '条件', '动作'})
+    if #trigger.trg == 2 then
+        trigger.trg[2] = nil
+    end
 
     return trigger
 end

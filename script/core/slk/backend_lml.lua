@@ -169,11 +169,19 @@ return function (w2l_, wtg_, wct_)
     if #wct.custom.code > 0 then
         files['代码.j'] = wct.custom.code
     end
-    files['变量.lml'] = convert_lml(wtg.vars)
+
+    local vars = convert_lml(wtg.vars)
+    if #vars > 0 then
+        files['变量.lml'] = vars
+    end
 
     local map = compute_path()
     
-    files['目录.lml'] = read_dirs(map)
+    local listfile = read_dirs(map)
+    if #listfile > 0 then
+        files['目录.lml'] = listfile
+    end
+
     read_triggers(files, map)
 
     return files
