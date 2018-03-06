@@ -87,6 +87,9 @@ function mt:update_message(pos)
 end
 
 function mt:update()
+    if self.exited then
+        return
+    end
     if not self.closed then
         self.closed = self:update_pipe()
     end
@@ -119,6 +122,7 @@ function mt:update()
             self:update_message(pos)
         end
         self:update_message(-1)
+        self.exited = true
         return true
     end
     return false

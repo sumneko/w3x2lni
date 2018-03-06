@@ -253,19 +253,15 @@ local function window_select(canvas)
     button_about(canvas)
 end
 
-local backend
+local worker
 
-local function update_backend()
-    if not backend then
-        return
-    end
-    local exit = backend:update()
-    if #backend.error > 0 then
-        messagebox('错误', backend.error)
-        backend.error = ''
-    end
-    if exit then
-        backend = nil
+local function update_worker()
+    if worker then
+        worker:update()
+        if #worker.error > 0 then
+            messagebox('错误', worker.error)
+            worker.error = ''
+        end
     end
 end
 
@@ -357,7 +353,7 @@ local function window_convert(canvas)
     canvas:text(srv.message, NK_TEXT_LEFT)
     canvas:layout_row_dynamic(10, 1)
     canvas:layout_row_dynamic(30, 1)
-    if backend or not srv.lastreport then
+    if (worker and not worker.exited) or not srv.lastreport then
         if srv.progress then
             canvas:progress(math.floor(srv.progress), 100)
         else
@@ -370,12 +366,12 @@ local function window_convert(canvas)
     end
     canvas:layout_row_dynamic(10, 1)
     canvas:layout_row_dynamic(50, 1)
-    if backend then
+    if worker and not worker.exited then
         canvas:button('正在处理...')
     else
         if canvas:button('开始') then
             canvas:progress(0, 100)
-            backend = srv:popen(root / 'script' / 'main.lua', ('-backend "%s"'):format(mappath:string()))
+            worker = srv:popen(root / 'script' / 'main.lua', ('-backend "%s"'):format(mappath:string()))
             srv.message = '正在初始化...'
             srv.progress = nil
             srv.report = {}
@@ -441,7 +437,7 @@ end
 
 local dot = 0
 function window:draw(canvas)
-    update_backend()
+    update_worker()
     if uitype == 'none' then
         window_none(canvas)
         return
