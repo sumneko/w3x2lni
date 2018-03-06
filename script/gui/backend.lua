@@ -1,5 +1,4 @@
 local process = require 'process'
-local uni = require 'ffi.unicode'
 
 local srv = {}
 srv.message = ''
