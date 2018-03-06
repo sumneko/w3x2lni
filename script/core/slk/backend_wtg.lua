@@ -102,7 +102,7 @@ end
 local function pack_list(lists, root)
     local child_count = 0
     for i = 3, #lists do
-        if not lists[i][2] and type_map[lists[i][1]] then
+        if not lists[i][2] and type_map[lists[i][1]] and #lists[i] > 2 then
             child_count = child_count + #lists[i] - 2
         end
     end
