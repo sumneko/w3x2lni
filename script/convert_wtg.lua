@@ -172,15 +172,41 @@ local function test_wtg(wtg, wct)
 	end
 end
 
+local function eq(t1, t2)
+	local mark = {}
+	for k, v in pairs(t1) do
+		mark[k] = true
+		if type(v) == 'table' then
+			if type(t2[k]) ~= 'table' or not eq(v, t2[k]) then
+				return false
+			end
+		elseif v ~= t2[k] then
+			return false
+		end
+	end
+	for k in pairs(t2) do
+		if not mark[k] then
+			return false
+		end
+	end
+	return true
+end
+
 local clock = os.clock()
 test_wtg(w2l:backend_wtg(wtg_data, state), w2l:backend_wct(wct_data))
 print('测试1用时：', os.clock() - clock)
 
 local clock = os.clock()
-local wtg_data, wct_data = w2l:frontend_lml(function (filename)
+local new_wtg_data, new_wct_data = w2l:frontend_lml(function (filename)
 	return files[filename]
 end)
-test_wtg(w2l:backend_wtg(wtg_data, state), w2l:backend_wct(wct_data))
+if not eq(wtg_data, new_wtg_data) then
+	print('测试-文件转换后语法树出现差异：wtg')
+end
+if not eq(wct_data, new_wct_data) then
+	print('测试-文件转换后语法树出现差异：wct')
+end
+test_wtg(w2l:backend_wtg(new_wtg_data, state), w2l:backend_wct(new_wct_data))
 print('测试2用时：', os.clock() - clock)
 
 
