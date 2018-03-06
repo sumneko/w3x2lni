@@ -29,6 +29,8 @@ local root = fs.current_path():remove_filename()
 local config = lni(io.load(root / 'config.ini'))
 local fmt = nil
 
+srv:init(root / 'bin' / 'w3x2lni.exe', root / 'script')
+
 local config_content = [[
 -- 是否分析slk文件
 read_slk = $read_slk$
@@ -373,7 +375,7 @@ local function window_convert(canvas)
     else
         if canvas:button('开始') then
             canvas:progress(0, 100)
-            backend = srv.popen(('"%s" -E "%s" -backend "%s"'):format((root / 'bin' / 'w3x2lni.exe'):string(), (root / 'script' / 'main.lua'):string(), mappath:string()), root / 'script')
+            backend = srv:popen(root / 'script' / 'main.lua', ('-backend "%s"'):format(mappath:string()))
             srv.message = '正在初始化...'
             srv.progress = nil
             srv.report = {}

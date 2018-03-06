@@ -124,12 +124,17 @@ function mt:update()
     return false
 end
 
-function srv.popen(commandline, currentdir)
+function srv:init(application, currentdir)
+    self.application = application
+    self.currentdir = currentdir
+end
+
+function srv:popen(entry, commandline)
     local p = process()
     local stdout = p:std_output()
     local stderr = p:std_error()
     p:set_console('disable')
-    if not p:create(nil, commandline, currentdir) then
+    if not p:create(self.application, ('"%s" -E "%s" %s'):format(self.application:string(), entry:string(), commandline), self.currentdir) then
         return
     end
     return setmetatable({
