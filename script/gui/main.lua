@@ -3,7 +3,7 @@ require 'utility'
 local messagebox = require 'ffi.messagebox'
 local process = require 'process'
 local nk = require 'nuklear'
-local srv = require 'gui.backend'
+local backend = require 'gui.backend'
 local show_version = require 'gui.show_version'
 local lni = require 'lni-c'
 local currenttheme = {0, 173, 217}
@@ -28,6 +28,8 @@ NK_TEXT_RIGHT          = NK_TEXT_ALIGN_MIDDLE | NK_TEXT_ALIGN_RIGHT
 local root = fs.current_path():remove_filename()
 local config = lni(io.load(root / 'config.ini'))
 local fmt = nil
+
+backend:init(root / 'bin' / 'w3x2lni.exe', root / 'script')
 
 local config_content = [[
 -- 是否分析slk文件
@@ -182,9 +184,7 @@ local function window_none(canvas)
 end
 
 local function clean_convert_ui()
-    srv.message = ''
-    srv.progress = nil
-    srv.report = {}
+    backend:clean()
 end
 
 local function window_select(canvas)
@@ -251,19 +251,15 @@ local function window_select(canvas)
     button_about(canvas)
 end
 
-local backend
+local worker
 
-local function update_backend()
-    if not backend then
-        return
-    end
-    local exit = backend:update()
-    if #backend.error > 0 then
-        messagebox('错误', backend.error)
-        backend.error = ''
-    end
-    if exit then
-        backend = nil
+local function update_worker()
+    if worker then
+        worker:update()
+        if #worker.error > 0 then
+            messagebox('错误', worker.error)
+            worker.error = ''
+        end
     end
 end
 
@@ -352,12 +348,12 @@ local function window_convert(canvas)
 
     canvas:layout_row_dynamic(height, 1)
     canvas:layout_row_dynamic(30, 1)
-    canvas:text(srv.message, NK_TEXT_LEFT)
+    canvas:text(backend.message, NK_TEXT_LEFT)
     canvas:layout_row_dynamic(10, 1)
     canvas:layout_row_dynamic(30, 1)
-    if backend or not srv.lastreport then
-        if srv.progress then
-            canvas:progress(math.floor(srv.progress), 100)
+    if (worker and not worker.exited) or #backend.report == 0 then
+        if backend.progress then
+            canvas:progress(math.floor(backend.progress), 100)
         else
             canvas:text(current_tip or '', NK_TEXT_LEFT)
         end
@@ -368,16 +364,13 @@ local function window_convert(canvas)
     end
     canvas:layout_row_dynamic(10, 1)
     canvas:layout_row_dynamic(50, 1)
-    if backend then
+    if worker and not worker.exited then
         canvas:button('正在处理...')
     else
         if canvas:button('开始') then
             canvas:progress(0, 100)
-            backend = srv.popen(('"%s" -E "%s" -backend "%s"'):format((root / 'bin' / 'w3x2lni.exe'):string(), (root / 'script' / 'main.lua'):string(), mappath:string()), root / 'bin')
-            srv.message = '正在初始化...'
-            srv.progress = nil
-            srv.report = {}
-            srv.lastreport = nil
+            worker = backend:open(root / 'script' / 'main.lua', ('-backend "%s"'):format(mappath:string()))
+            backend.message = '正在初始化...'
         end
     end
 end
@@ -413,7 +406,7 @@ end
 local function window_report(canvas)
     canvas:layout_row_dynamic(500, 1)
     canvas:group('详情', function()
-        for type, report in sortpairs(srv.report) do
+        for type, report in sortpairs(backend.report) do
             if type ~= '' then
                 type = type:sub(2)
                 canvas:tree(type, get_tree(type), function()
@@ -423,7 +416,7 @@ local function window_report(canvas)
                 end)
             end
         end
-        local report = srv.report['']
+        local report = backend.report['']
         if report then
             for _, s in ipairs(report) do
                 canvas:text(s[1], NK_TEXT_LEFT, s[2])
@@ -439,7 +432,7 @@ end
 
 local dot = 0
 function window:draw(canvas)
-    update_backend()
+    update_worker()
     if uitype == 'none' then
         window_none(canvas)
         return

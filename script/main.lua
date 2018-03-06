@@ -1,8 +1,3 @@
-(function()
-    local exepath = package.cpath:sub(1, (package.cpath:find(';') or 0)-6)
-    package.path = exepath .. '..\\script\\?.lua;' .. exepath .. '..\\script\\?\\init.lua;'
-end)()
-
 local cmd = table.remove(arg, 1)
 if cmd == '-backend' then
     require 'map'
