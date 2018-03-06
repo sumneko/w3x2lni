@@ -1,3 +1,6 @@
+local loaddll = require 'ffi.loaddll'
+loaddll 'ydbase'
+
 local cmd = table.remove(arg, 1)
 if cmd == '-backend' then
     require 'map'
