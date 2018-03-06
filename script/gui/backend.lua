@@ -1,3 +1,5 @@
+local loaddll = require 'ffi.loaddll'
+loaddll 'ydbase'
 local process = require 'process'
 
 local backend = {}
