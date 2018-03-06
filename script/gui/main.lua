@@ -184,9 +184,7 @@ local function window_none(canvas)
 end
 
 local function clean_convert_ui()
-    backend.message = ''
-    backend.progress = nil
-    backend.report = {}
+    backend:clean()
 end
 
 local function window_select(canvas)
@@ -353,7 +351,7 @@ local function window_convert(canvas)
     canvas:text(backend.message, NK_TEXT_LEFT)
     canvas:layout_row_dynamic(10, 1)
     canvas:layout_row_dynamic(30, 1)
-    if (worker and not worker.exited) or not backend.lastreport then
+    if (worker and not worker.exited) or #backend.report == 0 then
         if backend.progress then
             canvas:progress(math.floor(backend.progress), 100)
         else
@@ -373,9 +371,6 @@ local function window_convert(canvas)
             canvas:progress(0, 100)
             worker = backend:open(root / 'script' / 'main.lua', ('-backend "%s"'):format(mappath:string()))
             backend.message = '正在初始化...'
-            backend.progress = nil
-            backend.report = {}
-            backend.lastreport = nil
         end
     end
 end

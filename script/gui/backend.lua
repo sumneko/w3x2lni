@@ -133,6 +133,13 @@ function backend:init(application, currentdir)
     self.currentdir = currentdir
 end
 
+function backend:clean()
+    self.message = ''
+    self.progress = nil
+    self.report = {}
+    self.lastreport = nil
+end
+
 function backend:open(entry, commandline)
     local p = process()
     local stdout = p:std_output()
@@ -141,6 +148,7 @@ function backend:open(entry, commandline)
     if not p:create(self.application, ('"%s" -E "%s" %s'):format(self.application:string(), entry:string(), commandline), self.currentdir) then
         return
     end
+    self:clean()
     return setmetatable({
         process = p,
         out_rd = stdout, 
