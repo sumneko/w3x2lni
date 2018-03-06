@@ -59,9 +59,17 @@ ffi.cdef[[
 
 local SFileMpqNumberOfFiles = 36
 
+local function getfullpath(name)
+    local path, e = package.searchpath(name, package.cpath)
+    if not path then
+        return error(e)
+    end
+    return path
+end
+
 require 'filesystem'
 local uni = require 'ffi.unicode'
-local stormlib = ffi.load('stormlib')
+local stormlib = ffi.load(getfullpath('stormlib'))
 
 local function current_filetime()
     local systemtime = ffi.new('struct SYSTEMTIME')
