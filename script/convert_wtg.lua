@@ -31,7 +31,7 @@ local function task(f, ...)
     f(...)
 end
 
-if arg[3] == 'ansi' then
+if BAT then
 	arg[1] = uni.a2u(arg[1])
 end
 local map_path = fs.path(arg[1])
