@@ -107,9 +107,7 @@ end
 --w2l:set_messager(print)
 loader:config()
 local state = loader:triggerdata()
-function w2l:trigger_data()
-	return state
-end
+w2l:set_triggerdata(state)
 
 local clock = os.clock()
 local map = archive(map_path)
