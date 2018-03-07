@@ -3,6 +3,7 @@ local uni = require 'ffi.unicode'
 
 ffi.cdef[[
     int LoadLibraryW(const wchar_t* libname);
+    int GetModuleHandleW(const wchar_t* libname);
 ]]
 
 local function getfullpath(name)
@@ -14,6 +15,11 @@ local function getfullpath(name)
 end
 
 return function(name)
-	local wpath = uni.u2w(getfullpath(name))
+	local wpath = uni.u2w(name)
+    local h = ffi.C.GetModuleHandleW(wpath)
+    if h ~= 0 then
+        return h
+    end
+    local wpath = uni.u2w(getfullpath(name))
 	return ffi.C.LoadLibraryW(wpath)
 end
