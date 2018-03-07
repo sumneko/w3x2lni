@@ -204,10 +204,13 @@ local function pack_triggers()
     end
 end
 
-return function (w2l_, wtg_, state_)
+return function (w2l_, wtg_)
     w2l = w2l_
     wtg = wtg_
-    state = state_
+    state = w2l:trigger_data()
+    if not state then
+        return nil
+    end
     hex = {}
 
     pack_head()

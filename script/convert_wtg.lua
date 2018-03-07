@@ -3,12 +3,11 @@ require 'registry'
 require 'utility'
 local uni = require 'ffi.unicode'
 local sleep = require 'ffi.sleep'
-local w3x2lni = require 'w3x2lni'
+local w2l = require 'sandbox_core'
 local archive = require 'archive'
 local save_map = require 'save_map'
 local stormlib = require 'ffi.stormlib'
 local ui = require 'ui-builder'
-local w2l = w3x2lni()
 
 local std_print = print
 function print(...)
@@ -108,13 +107,13 @@ end
 --w2l:set_messager(print)
 loader:config()
 local state = loader:triggerdata()
+function w2l:trigger_data()
+	return state
+end
 
 local clock = os.clock()
 local map = archive(map_path)
 local wtg = map:get 'war3map.wtg'
-if not wtg or not state then
-    return false
-end
 local wct = map:get 'war3map.wct'
 print('打开地图用时：', os.clock() - clock)
 
@@ -143,7 +142,7 @@ end
 print('成功，修复wtg总用时：', os.clock() - clock)
 
 local clock = os.clock()
-local wtg_data = w2l:frontend_wtg(wtg, state)
+local wtg_data = w2l:frontend_wtg(wtg)
 print('读取wtg用时：', os.clock() - clock)
 
 local clock = os.clock()
@@ -207,7 +206,7 @@ local function test_eq(new_wtg_data, new_wct_data)
 end
 
 local function test_wtg(wtg, wct)
-	local new_wtg_data = w2l:frontend_wtg(wtg, state)
+	local new_wtg_data = w2l:frontend_wtg(wtg)
 	local new_wct_data = w2l:frontend_wct(wct)
 	test_eq(new_wtg_data, new_wct_data)
 	local new_files = w2l:backend_lml(new_wtg_data, new_wct_data)
@@ -226,7 +225,7 @@ local function test_wtg(wtg, wct)
 end
 
 local clock = os.clock()
-test_wtg(w2l:backend_wtg(wtg_data, state), w2l:backend_wct(wct_data))
+test_wtg(w2l:backend_wtg(wtg_data), w2l:backend_wct(wct_data))
 print('测试1用时：', os.clock() - clock)
 
 local clock = os.clock()
@@ -234,7 +233,7 @@ local new_wtg_data, new_wct_data = w2l:frontend_lml(function (filename)
 	return files[filename]
 end)
 test_eq(new_wtg_data, new_wct_data)
-local new_wtg = w2l:backend_wtg(new_wtg_data, state)
+local new_wtg = w2l:backend_wtg(new_wtg_data)
 local new_wct = w2l:backend_wct(new_wct_data)
 test_wtg(new_wtg, new_wct)
 print('测试2用时：', os.clock() - clock)
