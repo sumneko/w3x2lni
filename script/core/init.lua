@@ -241,6 +241,10 @@ function mt:prebuilt_load(filename)
     return nil
 end
 
+function mt:trigger_data()
+    return nil
+end
+
 mt.config = {}
 function mt:set_config(config)
     self.config = config
@@ -257,10 +261,6 @@ end
 function mt:set_messager(messager)
     self.message = messager
     self.progress:set_messager(messager)
-end
-
-function mt:set_triggerdata(state)
-    self.triggerdata = state
 end
 
 return function ()

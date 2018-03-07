@@ -207,7 +207,7 @@ end
 return function (w2l_, wtg_)
     w2l = w2l_
     wtg = wtg_
-    state = w2l.triggerdata
+    state = w2l:trigger_data()
     if not state then
         return nil
     end
