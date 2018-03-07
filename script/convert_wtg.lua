@@ -5,6 +5,7 @@ local sleep = require 'ffi.sleep'
 local w3x2lni = require 'w3x2lni'
 local archive = require 'archive'
 local save_map = require 'save_map'
+local stormlib = require 'ffi.stormlib'
 local ui = require 'ui-builder'
 local w2l = w3x2lni()
 
@@ -219,6 +220,14 @@ end)
 test_eq(new_wtg_data, new_wct_data)
 print('测试2用时：', os.clock() - clock)
 
+local new_wtg = w2l:backend_wtg(new_wtg_data)
+local new_wct = w2l:backend_wct(new_wct_data)
+local new_path = map_path:parent_path() / (map_path:stem():string() .. '_copyed.w3x')
+fs.copy_file(map_path, new_path, true)
+local new_map = stormlib.open(new_path)
+new_map:save_file('war3map.wtg', new_wtg)
+new_map:save_file('war3map.wct', new_wct)
+new_map:close()
 
 local clock = os.clock()
 task(fs.remove_all, dir)
