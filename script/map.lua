@@ -3,6 +3,7 @@ require 'utility'
 local lni = require 'lni-c'
 local uni = require 'ffi.unicode'
 local w2l = require 'sandbox_core'
+local ui = require 'ui-builder'
 local archive = require 'archive'
 local save_map = require 'save_map'
 
@@ -35,6 +36,75 @@ function w2l:prebuilt_load(filename)
     return w2l.mpq_path:each_path(function(path)
         return io.load(root / 'data' / 'prebuilt' / path / filename)
     end)
+end
+
+local function string_trim (self) 
+	return self:gsub("^%s*(.-)%s*$", "%1")
+end
+
+local function ydwe_path()
+    require 'registry'
+	local command = (registry.current_user() / [[SOFTWARE\Classes\YDWEMap\shell\run_war3\command]])['']
+    local path = command:match '^"([^"]*)"'
+    local ydpath = fs.path(path):remove_filename()
+    if fs.exists(ydpath / 'YDWE.exe') then
+        return ydpath
+    else
+        return ydpath:remove_filename()
+    end
+end
+
+local loader = {}
+
+local function trigger_config(mpq_path)
+	local list = {}
+	local f, err = io.open((mpq_path / 'config'):string(), 'r')
+	if not f then
+		return nil
+    end
+	for line in f:lines() do
+		table.insert(list, mpq_path / string_trim(line))
+	end
+    f:close()
+    return list
+end
+
+local function load_triggerdata(list)
+    if not list or #list == 0 then
+        return nil
+    end
+	local t = nil
+	for _, path in ipairs(list) do
+		if fs.exists(path / 'ui') then
+			t = ui.merge(t, ui.old_reader(function(filename)
+				return io.load(path / 'ui' / filename)
+			end))
+		else
+			t = ui.merge(t, ui.new_reader(function(filename)
+				return io.load(path / filename)
+			end))
+		end
+	end
+	return t
+end
+
+local state
+function w2l:trigger_data()
+    if state == nil then
+        local path = ydwe_path()
+        if not path then
+            error('请设置YDWE关联地图')
+        end
+        local list = trigger_config(path / 'share' / 'ui') or trigger_config(path / 'share' / 'mpq')
+        if not list then
+            error('没有找到触发器数据的目录：'..path:string())
+        end
+        state = load_triggerdata(list)
+        if not state then
+            error('没有读取到触发器数据')
+        end
+    end
+    return state
 end
 
 local input = fs.path(uni.a2u(arg[1]))

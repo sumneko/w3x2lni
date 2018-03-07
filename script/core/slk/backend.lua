@@ -57,13 +57,18 @@ local function convert_wtg(w2l)
     w2l.progress:finish()
     w2l.progress:start(0.5)
     if wtg and wct then
-        if w2l.config.target_format == 'lni' and w2l.triggerdata then
+        if w2l.config.target_format == 'lni' then
             wtg_data = w2l:frontend_wtg(wtg)
             wct_data = w2l:frontend_wct(wct)
+            w2l:map_remove 'war3map.wtg'
+            w2l:map_remove 'war3map.wct'
         end
     else
         wtg_data, wct_data = w2l:frontend_lml(function (filename)
-            return w2l:map_load('war3map.wtg.lml/'..filename)
+            local path = 'war3map.wtg.lml\\' .. filename
+            local buf = w2l:map_load(path)
+            w2l:map_remove(path)
+            return buf
         end)
     end
     w2l.progress:finish()
@@ -72,11 +77,11 @@ local function convert_wtg(w2l)
         if w2l.config.target_format == 'lni' then
             local files = w2l:backend_lml(wtg_data, wct_data)
             for filename, buf in pairs(files) do
-                w2l:map_save('war3map.wtg.lml/'..filename, buf)
+                w2l:map_save('war3map.wtg.lml\\'..filename, buf)
             end
         else
-            w2l:map_load('war3map.wtg', w2l:backend_wtg(wtg_data))
-            w2l:map_load('war3map.wct', w2l:backend_wct(wct_data))
+            w2l:map_save('war3map.wtg', w2l:backend_wtg(wtg_data))
+            w2l:map_save('war3map.wct', w2l:backend_wct(wct_data))
         end
     end
     w2l.progress:finish()
