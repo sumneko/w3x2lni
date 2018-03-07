@@ -12,6 +12,13 @@ local type_map = {
     ['函数'] = 3,
 }
 
+local type_key = {
+    ['事件'] = 'event',
+    ['条件'] = 'condition',
+    ['动作'] = 'action',
+    ['函数'] = 'call',
+}
+
 local arg_type_map = {
     ['禁用'] = -1,
     ['预设'] = 0,
@@ -91,11 +98,34 @@ local function pack_arg(arg)
     end
 end
 
-local function pack_args(eca)
+local arg_count = {}
+local function get_ui_arg_count(ui)
+    local name = ui.name
+    if not arg_count[name] then
+        local count = 0
+        if ui.args then
+            for _, arg in ipairs(ui.args) do
+                if arg.type ~= 'nothing' then
+                    count = count + 1
+                end
+            end
+        end
+        arg_count[name] = count
+    end
+    return arg_count[name]
+end
+
+local function pack_args(ui, eca)
+    local eca_arg_count = 0
     for i = 3, #eca do
         if eca[i][2] then
+            eca_arg_count = eca_arg_count + 1
             pack_arg(eca[i])
         end
+    end
+
+    if eca_arg_count ~= get_ui_arg_count(ui) then
+        error(('[%s]的参数数量不正确：[%d] - [%d]'):format(ui.name, get_ui_arg_count(ui), eca_arg_count))
     end
 end
 
@@ -140,12 +170,16 @@ function pack_eca(eca, child_id, eca_type)
     else
         name = eca[1]
     end
+    local ui = state.ui[type_key[type]][name]
+    if not ui then
+        error('UI'..name..'不存在')
+    end
     if child_id then
         pack('llzl', type_map[type], child_id, name, enable)
     else
         pack('lzl', type_map[type], name, enable)
     end
-    pack_args(eca)
+    pack_args(ui, eca)
     pack_list(eca)
 end
 
