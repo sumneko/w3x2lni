@@ -39,7 +39,7 @@ struct path : public strbuilder<MAX_PATH> {
 	}
 	template <class T, size_t n>
 	path& operator /(T(&str)[n]) {
-		*this += L"/";
+		*this += L"\\";
 		*this += str;
 		return *this;
 	}
