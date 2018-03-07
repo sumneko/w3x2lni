@@ -71,7 +71,6 @@
             "arg": [
                 "-convert_wtg",
                 "${workspaceRoot}/命令ID.w3x",
-                "D:/魔兽争霸III/YDWE1.32.2_/"
             ],
             "console": "ansi"
         },

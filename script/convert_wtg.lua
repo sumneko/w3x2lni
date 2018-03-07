@@ -1,4 +1,5 @@
 require 'filesystem'
+require 'registry'
 require 'utility'
 local uni = require 'ffi.unicode'
 local sleep = require 'ffi.sleep'
@@ -32,11 +33,20 @@ local function task(f, ...)
     f(...)
 end
 
+local function ydwe_path()
+	local command = (registry.current_user() / [[SOFTWARE\Classes\YDWEMap\shell\run_war3\command]])['']
+	local path = command:match '^"([^"]*)"'
+	return fs.path(path):remove_filename()
+end
+
 if BAT then
 	arg[1] = uni.a2u(arg[1])
 end
 local map_path = fs.path(arg[1])
-local ydwe_path = fs.path(arg[2])
+local ydwe_path = ydwe_path()
+if not ydwe_path then
+	print('需要YDWE关联w3x文件')
+end
 local mpq_path = ydwe_path / 'share' / 'ui'
 local map_name = map_path:stem():string()
 
