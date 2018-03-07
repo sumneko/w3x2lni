@@ -29,7 +29,7 @@ local root = fs.current_path():remove_filename()
 local config = lni(io.load(root / 'config.ini'))
 local fmt = nil
 
-backend:init(root / 'bin' / 'w3x2lni.exe', root / 'script')
+backend:init(root / 'bin' / 'w2l-worker.exe', root / 'script')
 
 local config_content = [[
 -- 是否分析slk文件

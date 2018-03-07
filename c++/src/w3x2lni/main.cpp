@@ -54,7 +54,7 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 		flags |= CREATE_NO_WINDOW;
 	}
 
-	path app = path() / L"bin" / L"w3x2lni.exe";
+	path app = path() / L"bin" / L"w2l-worker.exe";
 	path cwd = path() / L"script";
 	strbuilder<32768> cmd;
 	cmd += L"\"";

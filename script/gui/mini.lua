@@ -59,7 +59,7 @@ mini:init()
 mini:event_close(gui.MessageLoop.quit)
 
 local root = fs.current_path():remove_filename()
-backend:init(root / 'bin' / 'w3x2lni.exe', root / 'script')
+backend:init(root / 'bin' / 'w2l-worker.exe', root / 'script')
 local worker = backend:open(root / 'script' / 'main.lua', ('-backend %s'):format(table.concat(arg, ' ')))
 backend.message = '正在初始化...'
 backend.progress = 0
