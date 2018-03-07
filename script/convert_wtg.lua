@@ -207,6 +207,12 @@ local function test_wtg(wtg, wct)
 			err_files[name..'.diff'] = new_files[name]
 		end
 	end
+	for name in pairs(new_files) do
+		if files[name] == nil then
+			print('测试-文件转换后出现差异：', name)
+			err_files[name..'.diff'] = new_files[name]
+		end
+	end
 end
 
 local clock = os.clock()
@@ -218,8 +224,10 @@ local new_wtg_data, new_wct_data = w2l:frontend_lml(function (filename)
 	return files[filename]
 end)
 test_eq(new_wtg_data, new_wct_data)
+test_wtg(w2l:backend_wtg(new_wtg_data, state), w2l:backend_wct(new_wct_data))
 print('测试2用时：', os.clock() - clock)
 
+local clock = os.clock()
 local new_wtg = w2l:backend_wtg(new_wtg_data)
 local new_wct = w2l:backend_wct(new_wct_data)
 local new_path = map_path:parent_path() / (map_path:stem():string() .. '_copyed.w3x')
@@ -228,6 +236,7 @@ local new_map = stormlib.open(new_path)
 new_map:save_file('war3map.wtg', new_wtg)
 new_map:save_file('war3map.wct', new_wct)
 new_map:close()
+print('生成新地图用时：', os.clock() - clock)
 
 local clock = os.clock()
 task(fs.remove_all, dir)
