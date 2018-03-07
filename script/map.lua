@@ -1,10 +1,10 @@
 require 'filesystem'
 require 'utility'
+local lni = require 'lni-c'
 local uni = require 'ffi.unicode'
-local w3x2lni = require 'w3x2lni'
+local w2l = require 'sandbox_core'
 local archive = require 'archive'
 local save_map = require 'save_map'
-local w2l = w3x2lni()
 
 local std_print = print
 function print(...)
@@ -16,6 +16,26 @@ function print(...)
     std_print(table.concat(tbl, ' '))
 end
 w2l:set_messager(print)
+
+local root = fs.current_path():remove_filename()
+local config = lni(assert(io.load(root / 'config.ini')), 'config')
+local fmt = config.target_format
+for k, v in pairs(config[fmt]) do
+    config[k] = v
+end
+w2l:set_config(config)
+
+function w2l:mpq_load(filename)
+    return w2l.mpq_path:each_path(function(path)
+        return io.load(root / 'data' / 'mpq' / path / filename)
+    end)
+end
+
+function w2l:prebuilt_load(filename)
+    return w2l.mpq_path:each_path(function(path)
+        return io.load(root / 'data' / 'prebuilt' / path / filename)
+    end)
+end
 
 local input = fs.path(uni.a2u(arg[1]))
 
