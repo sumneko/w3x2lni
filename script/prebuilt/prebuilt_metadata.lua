@@ -178,7 +178,7 @@ local function parse_id(w2l, metadata, id, meta, type, has_level)
         key = key .. characters[num]
     end
     if meta._has_index then
-        key = key .. ':' .. (meta.index + 1)
+        key = key .. '_' .. (meta.index + 1)
     end
     local data = {
         ['id'] = id,
@@ -238,8 +238,8 @@ end
 
 local function add_special(meta, type)
     if type == 'unit' then
-        meta['missilespeed:1'].default = '{1500,1500}'
-        meta['missilespeed:2'].default = '{1500,1500}'
+        meta['missilespeed_1'].default = '{1500,1500}'
+        meta['missilespeed_2'].default = '{1500,1500}'
     end
 end
 

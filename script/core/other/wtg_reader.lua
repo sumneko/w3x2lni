@@ -490,6 +490,12 @@ local function fill_fix()
     end)
 end
 
+local function remove_event_returns()
+    for _, ui in pairs(fix.ui.event) do
+        ui.returns = nil
+    end
+end
+
 local function build_empty_state()
     return
     {
@@ -549,6 +555,7 @@ return function (w2l_, wtg_, state_)
     read_triggers()
     
     fill_fix()
+    remove_event_returns()
     
     return chunk, fix
 end
