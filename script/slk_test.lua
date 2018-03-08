@@ -1,7 +1,7 @@
 require 'filesystem'
 require 'utility'
 local uni = require 'ffi.unicode'
-local w3x2lni = require 'w3x2lni'
+local core = require 'sandbox_core'
 
 local std_print = print
 function print(...)
@@ -27,9 +27,21 @@ local function get_config()
 end
 
 local function slk_lib(read_only, safe_mode)
-    local w2l = w3x2lni()
+    local w2l = core()
+    local mpq_path = fs.current_path():parent_path() / 'data' / 'mpq'
+    local prebuilt_path = fs.current_path():parent_path() / 'data' / 'prebuilt'
     w2l:set_messager(print)
     w2l:set_config(get_config())
+    function w2l:mpq_load(filename)
+        return self.mpq_path:each_path(function (path)
+            return io.load(mpq_path / path / filename)
+        end)
+    end
+    function w2l:prebuilt_load(filename)
+        return self.mpq_path:each_path(function (path)
+            return io.load(prebuilt_path / path / filename)
+        end)
+    end
     return w2l:slk_lib(read_only, safe_mode)
 end
 
