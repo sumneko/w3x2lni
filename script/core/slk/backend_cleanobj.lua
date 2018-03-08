@@ -50,6 +50,8 @@ local function remove_same_as_slk(key, data, default, obj, ttype)
     else
         if data == dest then
             obj[key] = nil
+        elseif data == nil then
+            obj[key] = ''
         end
     end
 end
@@ -81,6 +83,8 @@ local function remove_same_as_txt(key, data, default, obj, ttype)
     else
         if data == dest then
             obj[key] = nil
+        elseif data == nil then
+            obj[key] = ''
         end
     end
 end
@@ -91,23 +95,19 @@ local function clean_obj(name, obj, type, default)
     local default = default[parent]
     for key, meta in pairs(metadata[type]) do
         local data = obj[key]
-        if data then
-            if meta.profile then
-                remove_same_as_txt(key, data, default, obj, type)
-            else
-                remove_same_as_slk(key, data, default, obj, type)
-            end 
+        if meta.profile then
+            remove_same_as_txt(key, data, default, obj, type)
+        else
+            remove_same_as_slk(key, data, default, obj, type)
         end
     end
     if metadata[obj._code] then
         for key, meta in pairs(metadata[obj._code]) do
             local data = obj[key]
-            if data then
-                if meta.profile then
-                    remove_same_as_txt(key, data, default, obj, type)
-                else
-                    remove_same_as_slk(key, data, default, obj, type)
-                end 
+            if meta.profile then
+                remove_same_as_txt(key, data, default, obj, type)
+            else
+                remove_same_as_slk(key, data, default, obj, type)
             end
         end
     end
