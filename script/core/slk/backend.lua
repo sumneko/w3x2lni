@@ -58,10 +58,14 @@ local function convert_wtg(w2l)
     w2l.progress:start(0.5)
     if wtg and wct then
         if w2l.config.target_format == 'lni' then
-            wtg_data = w2l:frontend_wtg(wtg)
-            wct_data = w2l:frontend_wct(wct)
-            w2l:map_remove 'war3map.wtg'
-            w2l:map_remove 'war3map.wct'
+            xpcall(function ()
+                wtg_data = w2l:frontend_wtg(wtg)
+                wct_data = w2l:frontend_wct(wct)
+                w2l:map_remove 'war3map.wtg'
+                w2l:map_remove 'war3map.wct'
+            end, function (msg)
+                w2l.message('-report|2警告', '没有转换触发器', msg)
+            end)
         end
     else
         wtg_data, wct_data = w2l:frontend_lml(function (filename)

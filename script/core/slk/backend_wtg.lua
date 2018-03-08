@@ -208,6 +208,9 @@ return function (w2l_, wtg_)
     w2l = w2l_
     wtg = wtg_
     state = w2l:trigger_data()
+    if not state then
+        error('需要设置YDWE文件关联。')
+    end
     hex = {}
 
     pack_head()
