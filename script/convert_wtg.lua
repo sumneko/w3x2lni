@@ -3,12 +3,13 @@ require 'registry'
 require 'utility'
 local uni = require 'ffi.unicode'
 local sleep = require 'ffi.sleep'
-local w2l = require 'sandbox_core'
+local core = require 'sandbox_core'
 local archive = require 'archive'
 local save_map = require 'save_map'
 local stormlib = require 'ffi.stormlib'
 local ui = require 'ui-builder'
 
+local w2l = core()
 local std_print = print
 function print(...)
     if select(1, ...) == '-progress' then

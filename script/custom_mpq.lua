@@ -1,6 +1,6 @@
 require 'filesystem'
 require 'utility'
-local w3x2lni  = require 'w3x2lni'
+local core  = require 'sandbox_core'
 local uni      = require 'ffi.unicode'
 local stormlib = require 'ffi.stormlib'
 local sleep = require 'ffi.sleep'
@@ -108,10 +108,7 @@ local function main()
     if not mpqs then
         return
     end
-    local config = prebuilt:get_config()
-    config.mpq = arg[2]
-    local w2l = w3x2lni()
-    w2l:set_config(config)
+    local w2l = core()
 
     if fs.exists(w2l.mpq) then
         task(fs.remove_all, w2l.mpq)
@@ -121,8 +118,8 @@ local function main()
     extract_mpq(mpqs)
     report_fail()
 
-    prebuilt:dofile(arg[2], 'Melee')
-    prebuilt:dofile(arg[2], 'Custom')
+    prebuilt:dofile(arg[2], 'zh-CN', 'Melee')
+    prebuilt:dofile(arg[2], 'zh-CN', 'Custom')
 
     print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
 end

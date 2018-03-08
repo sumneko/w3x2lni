@@ -2,6 +2,7 @@ require 'utility'
 local uni = require 'ffi.unicode'
 local core = require 'sandbox_core'
 local lni = require 'lni-c'
+local w2l = core()
 
 local function get_exepath()
     return fs.path(uni.a2u(package.cpath:sub(1, (package.cpath:find(';') or 0)-6))):remove_filename():remove_filename()
@@ -14,11 +15,11 @@ function mt:__index(key)
     if value then
         return value
     end
-    local value = core[key]
+    local value = w2l[key]
     if type(value) == 'function' then
         return function (obj, ...)
             if obj == self then
-                obj = core
+                obj = w2l
             end
             return value(obj, ...)
         end
@@ -28,7 +29,7 @@ end
 
 function mt:__newindex(key, value)
     if key == 'mpq_load' or key == 'map_load' or key == 'map_save' or key == 'map_remove' or key == 'prebuilt_save' then
-        core[key] = value
+        w2l[key] = value
     else
         rawset(self, key, value)
     end
@@ -56,14 +57,14 @@ local function initialize(self, root)
     end
     self:set_config(config)
 
-    function core:mpq_load(filename)
-        return core.mpq_path:each_path(function(path)
+    function w2l:mpq_load(filename)
+        return w2l.mpq_path:each_path(function(path)
             return io.load(root / 'data' / 'mpq' / path / filename)
         end)
     end
 
-    function core:prebuilt_load(filename)
-        return core.mpq_path:each_path(function(path)
+    function w2l:prebuilt_load(filename)
+        return w2l.mpq_path:each_path(function(path)
             return io.load(root / 'data' / 'prebuilt' / path / filename)
         end)
     end

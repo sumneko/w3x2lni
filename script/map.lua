@@ -2,10 +2,11 @@ require 'filesystem'
 require 'utility'
 local lni = require 'lni-c'
 local uni = require 'ffi.unicode'
-local w2l = require 'sandbox_core'
+local core = require 'sandbox_core'
 local ui = require 'ui-builder'
 local archive = require 'archive'
 local save_map = require 'save_map'
+local w2l = core()
 
 local std_print = print
 function print(...)
