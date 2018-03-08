@@ -14,6 +14,7 @@
     <Image Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\utf8\unicode.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -25,7 +26,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\lua\lua.c" />
+    <ClCompile Include="..\src\utf8\unicode.c" />
+    <ClCompile Include="..\src\utf8\wmain.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A4422458-F0B3-40DE-9B8A-2AC0D753AFDE}</ProjectGuid>
