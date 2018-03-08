@@ -241,6 +241,10 @@ function mt:prebuilt_load(filename)
     return nil
 end
 
+function mt:trigger_data()
+    return nil
+end
+
 mt.config = {}
 function mt:set_config(config)
     self.config = config

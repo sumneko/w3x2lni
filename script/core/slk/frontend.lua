@@ -176,6 +176,7 @@ return function(w2l, slk)
     local slks = load_slk(w2l, force_slk1 or force_slk2)
     w2l.progress:finish()
     
+    -- 完整数据中的空字符串被省略为了空值以减小内存，后端进行数据转换时需要将空值还原为空字符串
     w2l.message('合并物编数据...')
     w2l.progress:start(1)
     update_then_merge(w2l, slks, objs, lnis, slk)

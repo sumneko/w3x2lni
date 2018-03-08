@@ -25,7 +25,17 @@ local function sortpairs(t)
     end
 end
 
-local function remove_same_as_slk(key, data, default, obj, ttype)
+local function default_value(tp)
+    if tp == 0 then
+        return 0
+    elseif tp == 1 or tp == 2 then
+        return 0.0
+    elseif tp == 3 then
+        return ''
+    end
+end
+
+local function remove_same_as_slk(meta, key, data, default, obj, ttype)
     local dest = default[key]
     if type(dest) == 'table' then
         local new_data = {}
@@ -50,11 +60,13 @@ local function remove_same_as_slk(key, data, default, obj, ttype)
     else
         if data == dest then
             obj[key] = nil
+        elseif data == nil then
+            obj[key] = default_value(meta.type)
         end
     end
 end
 
-local function remove_same_as_txt(key, data, default, obj, ttype)
+local function remove_same_as_txt(meta, key, data, default, obj, ttype)
     local dest = default[key]
     if type(dest) == 'table' then
         local new_data = {}
@@ -81,6 +93,8 @@ local function remove_same_as_txt(key, data, default, obj, ttype)
     else
         if data == dest then
             obj[key] = nil
+        elseif data == nil then
+            obj[key] = default_value(meta.type)
         end
     end
 end
@@ -91,23 +105,19 @@ local function clean_obj(name, obj, type, default)
     local default = default[parent]
     for key, meta in pairs(metadata[type]) do
         local data = obj[key]
-        if data then
-            if meta.profile then
-                remove_same_as_txt(key, data, default, obj, type)
-            else
-                remove_same_as_slk(key, data, default, obj, type)
-            end 
+        if meta.profile then
+            remove_same_as_txt(meta, key, data, default, obj, type)
+        else
+            remove_same_as_slk(meta, key, data, default, obj, type)
         end
     end
     if metadata[obj._code] then
         for key, meta in pairs(metadata[obj._code]) do
             local data = obj[key]
-            if data then
-                if meta.profile then
-                    remove_same_as_txt(key, data, default, obj, type)
-                else
-                    remove_same_as_slk(key, data, default, obj, type)
-                end 
+            if meta.profile then
+                remove_same_as_txt(meta, key, data, default, obj, type)
+            else
+                remove_same_as_slk(meta, key, data, default, obj, type)
             end
         end
     end

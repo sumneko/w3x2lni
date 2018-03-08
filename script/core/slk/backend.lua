@@ -49,6 +49,48 @@ local function to_obj(w2l, slk)
     end
 end
 
+local function convert_wtg(w2l)
+    local wtg_data, wct_data
+    w2l.progress:start(0.1)
+    local wtg = w2l:map_load 'war3map.wtg'
+    local wct = w2l:map_load 'war3map.wct'
+    w2l.progress:finish()
+    w2l.progress:start(0.5)
+    if wtg and wct then
+        if w2l.config.target_format == 'lni' then
+            xpcall(function ()
+                wtg_data = w2l:frontend_wtg(wtg)
+                wct_data = w2l:frontend_wct(wct)
+                w2l:map_remove 'war3map.wtg'
+                w2l:map_remove 'war3map.wct'
+            end, function (msg)
+                w2l.message('-report|2警告', '没有转换触发器', msg)
+            end)
+        end
+    else
+        wtg_data, wct_data = w2l:frontend_lml(function (filename)
+            local path = 'war3map.wtg.lml\\' .. filename
+            local buf = w2l:map_load(path)
+            w2l:map_remove(path)
+            return buf
+        end)
+    end
+    w2l.progress:finish()
+    w2l.progress:start(1)
+    if wtg_data and wct_data and not w2l.config.remove_we_only then
+        if w2l.config.target_format == 'lni' then
+            local files = w2l:backend_lml(wtg_data, wct_data)
+            for filename, buf in pairs(files) do
+                w2l:map_save('war3map.wtg.lml\\'..filename, buf)
+            end
+        else
+            w2l:map_save('war3map.wtg', w2l:backend_wtg(wtg_data))
+            w2l:map_save('war3map.wct', w2l:backend_wct(wct_data))
+        end
+    end
+    w2l.progress:finish()
+end
+
 local displaytype = {
     unit = '单位',
     ability = '技能',
@@ -304,11 +346,11 @@ return function (w2l, slk)
         w2l.progress:finish()
     end
 
-    w2l.progress:start(0.7)
+    w2l.progress:start(0.5)
     w2l:backend_cleanobj(slk)
     w2l.progress:finish()
     
-    w2l.progress:start(0.9)
+    w2l.progress:start(0.7)
     w2l.message('转换物编文件...')
     if w2l.config.target_format == 'lni' then
         to_lni(w2l, slk)
@@ -319,16 +361,21 @@ return function (w2l, slk)
     end
     w2l.progress:finish()
 
+    w2l.progress:start(0.8)
+    w2l.message('转换触发器...')
+    convert_wtg(w2l)
+    w2l.progress:finish()
+
     w2l.message('转换脚本...')
     w2l:backend_convertjass(slk.wts)
     if not w2l.config.remove_we_only then
         w2l:backend_convertwtg(slk.wts)
     end
-    w2l.progress(0.92)
+    w2l.progress(0.9)
 
     w2l.message('转换其他文件...')
     w2l:map_save('war3mapmisc.txt', w2l:backend_misc(slk.misc, slk.txt, slk.wts))
-    w2l.progress(0.93)
+    w2l.progress(0.92)
 
     local buf = w2l:map_load 'war3mapskin.txt'
     if buf then

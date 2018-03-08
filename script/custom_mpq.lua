@@ -1,10 +1,11 @@
 require 'filesystem'
 require 'utility'
-local w3x2lni  = require 'w3x2lni'
+local core  = require 'sandbox_core'
 local uni      = require 'ffi.unicode'
 local stormlib = require 'ffi.stormlib'
 local sleep = require 'ffi.sleep'
 local prebuilt = require 'prebuilt.prebuilt'
+local w2l = core()
 
 local function task(f, ...)
     for i = 1, 99 do
@@ -40,7 +41,7 @@ end
 local result = {} 
 
 local function extract_file(mpq, name)
-    local path = w2l.mpq / name
+    local path = fs.current_path():parent_path() / 'data' / 'mpq' / arg[2] / name
     if fs.exists(path) then
         return
     end
@@ -66,6 +67,7 @@ local function report_fail()
 end
 
 local function extract_mpq(mpqs)
+    local info = w2l:parse_lni(assert(io.load(fs.current_path() / 'core' / 'info.ini')))
     for i = 4, 1, -1 do
         local mpq = mpqs[i]
         for _, root in ipairs {'', 'Custom_V1\\'} do
@@ -78,13 +80,13 @@ local function extract_mpq(mpqs)
             extract_file(mpq, root .. 'units\\MiscGame.txt')
             extract_file(mpq, root .. 'units\\MiscData.txt')
 
-            for type, slks in pairs(w2l.info.slk) do
+            for type, slks in pairs(info.slk) do
                 for _, name in ipairs(slks) do
                     extract_file(mpq, root .. name)
                 end
             end
 
-            for _, name in ipairs(w2l.info.txt) do
+            for _, name in ipairs(info.txt) do
                 extract_file(mpq, root .. name)
             end
         end
@@ -108,21 +110,17 @@ local function main()
     if not mpqs then
         return
     end
-    local config = prebuilt:get_config()
-    config.mpq = arg[2]
-    local w2l = w3x2lni()
-    w2l:set_config(config)
-
-    if fs.exists(w2l.mpq) then
-        task(fs.remove_all, w2l.mpq)
+    local mpq_path = fs.current_path():parent_path() / 'data' / 'mpq' / arg[2]
+    if fs.exists(mpq_path) then
+        task(fs.remove_all, mpq_path)
     end
-    task(fs.create_directories, w2l.mpq)
+    task(fs.create_directories, mpq_path)
 
     extract_mpq(mpqs)
     report_fail()
 
-    prebuilt:dofile(arg[2], 'Melee')
-    prebuilt:dofile(arg[2], 'Custom')
+    prebuilt:dofile(arg[2], 'zh-CN', 'Melee')
+    prebuilt:dofile(arg[2], 'zh-CN', 'Custom')
 
     print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
 end

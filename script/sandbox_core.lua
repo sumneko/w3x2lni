@@ -35,4 +35,4 @@ return sandbox(root, io._open, {
     ['lni-c']     = require 'lni-c',
     ['lpeg']      = require 'lpeg',
     ['lml']       = require 'lml'
-})()
+})
