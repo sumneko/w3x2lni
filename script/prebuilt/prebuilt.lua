@@ -1,3 +1,5 @@
+local loaddll = require 'ffi.loaddll'
+loaddll 'ydbase'
 require 'filesystem'
 require 'utility'
 local core  = require 'sandbox_core'

@@ -369,7 +369,7 @@ local function window_convert(canvas)
     else
         if canvas:button('开始') then
             canvas:progress(0, 100)
-            worker = backend:open(root / 'script' / 'main.lua', ('-backend "%s"'):format(mappath:string()))
+            worker = backend:open(root / 'script' / 'map.lua', ('"%s"'):format(mappath:string()))
             backend.message = '正在初始化...'
         end
     end

@@ -1,3 +1,5 @@
+local loaddll = require 'ffi.loaddll'
+loaddll 'ydbase'
 require 'filesystem'
 require 'utility'
 local core  = require 'sandbox_core'
@@ -94,14 +96,10 @@ local function extract_mpq(mpqs)
 end
 
 local function main()
-    if #arg == 0 then
-        print('没有指定目录')
-        arg[1] = uni.u2a 'D:\\魔兽争霸III正版镜像-1.28.5'
-        arg[2] = uni.u2a 'custom'
-        --return
+    if BAT then
+        arg[1] = uni.a2u(arg[1])
     end
-
-    local dir = fs.path(uni.a2u(arg[1]))
+    local dir = fs.path(arg[1])
     if not fs.is_directory(dir) then
         dir:remove_filename()
     end

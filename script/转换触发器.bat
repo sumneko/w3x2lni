@@ -2,6 +2,6 @@
 
 %~d0
 cd %~dp0
-.\..\bin\w2l-worker.exe -e "BAT=true" main.lua -convert_wtg "%1"
+.\..\bin\w2l-worker.exe -e "BAT=true" convert_wtg.lua "%1"
 
 pause

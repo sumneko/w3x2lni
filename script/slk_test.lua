@@ -1,3 +1,5 @@
+local loaddll = require 'ffi.loaddll'
+loaddll 'ydbase'
 require 'filesystem'
 require 'utility'
 local uni = require 'ffi.unicode'

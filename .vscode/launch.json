@@ -18,14 +18,13 @@
             "name": "后端",
             "type": "lua",
             "request": "launch",
-            "program": "${workspaceRoot}/script/main.lua",
+            "program": "${workspaceRoot}/script/map.lua",
             "stopOnEntry": true,
             "cwd": "${workspaceRoot}/script/",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}/bin/?.dll;",
             "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
             "arg": [
-                "-backend",
                 "${workspaceRoot}/FinaldayDefendApocalypse.Ver3.3.w3x",
             ],
             "console": "utf8"
@@ -34,42 +33,42 @@
             "name": "预生成",
             "type": "lua",
             "request": "launch",
-            "program": "${workspaceRoot}/script/main.lua",
+            "program": "${workspaceRoot}/script/prebuilt/init.lua",
             "stopOnEntry": false,
             "cwd": "${workspaceRoot}/script/",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}/bin/?.dll;",
             "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
-            "arg": [
-                "-prebuilt",
-            ],
             "console": "ansi"
         },
         {
             "name": "解析mpq",
             "type": "lua",
             "request": "launch",
-            "program": "${workspaceRoot}/script/gui/mini.lua",
+            "program": "${workspaceRoot}/script/custom_mpq.lua",
             "stopOnEntry": false,
             "cwd": "${workspaceRoot}/script/",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}/bin/?.dll;",
             "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
             "luadll": "${workspaceRoot}/bin/lua53.dll",
-            "console": "ansi"
+            "console": "ansi",
+            "arg": [
+                "D:\\魔兽争霸III",
+                "custom"
+            ],
         },
         {
             "name": "转换触发器",
             "type": "lua",
             "request": "launch",
-            "program": "${workspaceRoot}/script/main.lua",
+            "program": "${workspaceRoot}/script/convert_wtg.lua",
             "stopOnEntry": false,
             "cwd": "${workspaceRoot}/script/",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}/bin/?.dll;",
             "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
             "arg": [
-                "-convert_wtg",
                 "${workspaceRoot}/命令ID.w3x",
             ],
             "console": "ansi"
@@ -78,15 +77,12 @@
             "name": "slk库测试",
             "type": "lua",
             "request": "launch",
-            "program": "${workspaceRoot}/script/main.lua",
+            "program": "${workspaceRoot}/script/slk_test.lua",
             "stopOnEntry": false,
             "cwd": "${workspaceRoot}/script/",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}/bin/?.dll;",
             "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
-            "arg": [
-                "-slk_test"
-            ],
             "console": "ansi"
         }
     ]
