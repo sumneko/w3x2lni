@@ -4,7 +4,7 @@ local slk = w3xparser.slk
 local codemapped
 local function get_codemapped(w2l, id)
     if not codemapped then
-        codemapped = w2l:parse_lni(io.load(w2l.defined / 'codemapped.ini'), 'codemapped.ini')
+        codemapped = w2l:parse_lni(io.load(fs.current_path() / 'core' / 'defined' / 'codemapped.ini'), 'codemapped.ini')
     end
     return codemapped[id] or id
 end
@@ -90,7 +90,7 @@ local cant_empty = {
 local typedefine
 local function get_typedefine(w2l, type)
     if not typedefine then
-        typedefine = w2l:parse_lni(io.load(w2l.defined / 'typedefine.ini'), 'typedefine.ini')
+        typedefine = w2l:parse_lni(io.load(fs.current_path() / 'core' / 'defined' / 'typedefine.ini'), 'typedefine.ini')
     end
     return typedefine[type:lower()] or 3
 end
@@ -246,7 +246,7 @@ end
 local function create_metadata(w2l, type, metadata)
     metadata[type] = {}
     local has_level = w2l.info.key.max_level[type]
-    local tbl = slk(io.load(w2l.meta / w2l.info.metadata[type]))
+    local tbl = slk(io.load(fs.current_path() / 'meta' / w2l.info.metadata[type]))
     tbl.Ytip = nil
     local has_index = {}
     for k, v in pairs(tbl) do
@@ -304,5 +304,5 @@ return function(w2l)
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         create_metadata(w2l, type, metadata)
     end
-    io.save(w2l.defined / 'metadata.ini', stringify_ex(metadata))
+    io.save(fs.current_path() / 'core' / 'defined' / 'metadata.ini', stringify_ex(metadata))
 end

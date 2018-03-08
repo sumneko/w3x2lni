@@ -25,7 +25,7 @@ local function fmtstring(s)
 end
 
 local function create_miscnames(w2l, keydata)
-    local metadata = w2l:parse_slk(io.load(w2l.meta / w2l.info.metadata['misc']))
+    local metadata = w2l:parse_slk(io.load(fs.current_path() / 'meta' / w2l.info.metadata['misc']))
     local names = {}
     keydata['misc_names'] = {}
     for id, meta in pairs(metadata) do
@@ -58,5 +58,5 @@ return function(w2l)
     for k, v in sortpairs(keydata) do
         stringify(f, k, v)
     end
-    io.save(w2l.defined / 'miscnames.ini', table.concat(f, '\r\n'))
+    io.save(fs.current_path() / 'core' / 'defined' / 'miscnames.ini', table.concat(f, '\r\n'))
 end
