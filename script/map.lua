@@ -44,14 +44,22 @@ end
 
 local function ydwe_path()
     require 'registry'
-	local command = (registry.current_user() / [[SOFTWARE\Classes\YDWEMap\shell\run_war3\command]])['']
+    local commands = registry.current_user() / [[SOFTWARE\Classes\YDWEMap\shell\run_war3\command]]
+    if not commands then
+        return nil
+    end
+    local command = commands['']
     local path = command:match '^"([^"]*)"'
     local ydpath = fs.path(path):remove_filename()
     if fs.exists(ydpath / 'YDWE.exe') then
         return ydpath
     else
-        return ydpath:remove_filename()
+        local ydpath = ydpath:remove_filename()
+        if fs.exists(ydpath / 'YDWE.exe') then
+            return ydpath
+        end
     end
+    return nil
 end
 
 local loader = {}
@@ -88,21 +96,18 @@ local function load_triggerdata(list)
 	return t
 end
 
-local state
 function w2l:trigger_data()
-    if state == nil then
-        local path = ydwe_path()
-        if not path then
-            error('请设置YDWE关联地图')
-        end
-        local list = trigger_config(path / 'share' / 'ui') or trigger_config(path / 'share' / 'mpq')
-        if not list then
-            error('没有找到触发器数据的目录：'..path:string())
-        end
-        state = load_triggerdata(list)
-        if not state then
-            error('没有读取到触发器数据')
-        end
+    local path = ydwe_path()
+    if not path then
+        return nil, '请设置YDWE关联地图'
+    end
+    local list = trigger_config(path / 'share' / 'ui') or trigger_config(path / 'share' / 'mpq')
+    if not list then
+        return nil, '没有找到触发器数据的目录：' .. path:string()
+    end
+    local state = load_triggerdata(list)
+    if not state then
+        return nil, '没有读取到触发器数据'
     end
     return state
 end

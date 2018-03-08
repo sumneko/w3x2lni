@@ -124,8 +124,10 @@ local function pack_args(ui, eca)
         end
     end
 
-    if eca_arg_count ~= get_ui_arg_count(ui) then
-        error(('[%s]的参数数量不正确：[%d] - [%d]'):format(ui.name, get_ui_arg_count(ui), eca_arg_count))
+    if ui then
+        if eca_arg_count ~= get_ui_arg_count(ui) then
+            error(('[%s]的参数数量不正确：[%d] - [%d]'):format(ui.name, get_ui_arg_count(ui), eca_arg_count))
+        end
     end
 end
 
@@ -170,9 +172,12 @@ function pack_eca(eca, child_id, eca_type)
     else
         name = eca[1]
     end
-    local ui = state.ui[type_key[type]][name]
-    if not ui then
-        error('UI'..name..'不存在')
+    local ui
+    if state then
+        ui = state.ui[type_key[type]][name]
+        if not ui then
+            error(('UI不存在：[%s]'):format(name))
+        end
     end
     if child_id then
         pack('llzl', type_map[type], child_id, name, enable)
@@ -207,10 +212,7 @@ end
 return function (w2l_, wtg_)
     w2l = w2l_
     wtg = wtg_
-    state = w2l:trigger_data()
-    if not state then
-        error('需要设置YDWE文件关联。')
-    end
+    state, err = w2l:trigger_data()
     hex = {}
 
     pack_head()
