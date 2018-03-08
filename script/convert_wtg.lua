@@ -41,9 +41,6 @@ local function ydwe_path()
 	return fs.path(path):remove_filename()
 end
 
-if BAT then
-	arg[1] = uni.a2u(arg[1])
-end
 local map_path = fs.path(arg[1])
 local ydwe_path = ydwe_path()
 if not ydwe_path then

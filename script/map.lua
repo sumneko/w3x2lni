@@ -115,7 +115,7 @@ function w2l:trigger_data()
     return state
 end
 
-local input = fs.path(uni.a2u(arg[1]))
+local input = fs.path(arg[1])
 
 print('正在打开地图...')
 local slk = {}
