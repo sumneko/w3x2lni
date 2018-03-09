@@ -457,12 +457,16 @@ function mt:create_proxy(ttype)
     function mt:__newindex()
     end
     function mt:__pairs()
-        return function (_, key)
-            local nkey = next(t, key)
-            if not nkey then
-                return
-            end
-            return nkey, self[nkey]
+        local keys = {}
+        for k in pairs(t) do
+            keys[#keys+1] = k
+        end
+        table.sort(keys)
+        local i = 0
+        return function ()
+            i = i + 1
+            local k = keys[i]
+            return k, t[k]
         end
     end
     return setmetatable({}, mt)
