@@ -1,6 +1,6 @@
 require 'filesystem'
 require 'utility'
-local lni = require 'lni-c'
+local lni = require 'lni'
 local uni = require 'ffi.unicode'
 local core = require 'sandbox_core'
 local ui = require 'ui-builder'
