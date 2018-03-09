@@ -49,7 +49,7 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 {
 	STARTUPINFOW            si = { sizeof STARTUPINFOW };
 	PROCESS_INFORMATION     pi = { 0 };
-	DWORD flags = NORMAL_PRIORITY_CLASS;
+	DWORD flags = NORMAL_PRIORITY_CLASS | CREATE_UNICODE_ENVIRONMENT;
 	if (!(__argc >= 2 && strcmp(__argv[1], "-console") == 0)) {
 		flags |= CREATE_NO_WINDOW;
 	}
@@ -63,10 +63,16 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 	cmd += path() / L"script" / L"main.lua";
 	cmd += L"\"";
 
+	strbuilder<1024> env;
+	env += L"PATH=";
+	env += path() / L"bin";
+	env += L"\0";
+
 	if (!::CreateProcessW(
 		app.string(),
 		cmd.string(),
-		NULL, NULL, FALSE, flags, NULL,
+		NULL, NULL, FALSE, flags,
+		env.string(),
 		cwd.string(),
 		&si, &pi))
 	{
