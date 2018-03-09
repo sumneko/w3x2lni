@@ -311,5 +311,6 @@ return function ()
     self.progress = progress()
     self.loaded = {}
     self:set_messager(function () end)
+    self:set_config()
     return self
 end
