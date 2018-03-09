@@ -1,5 +1,3 @@
-local loaddll = require 'ffi.loaddll'
-loaddll 'ydbase'
 require 'filesystem'
 require 'utility'
 local lni = require 'lni-c'

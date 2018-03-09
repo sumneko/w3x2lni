@@ -2,17 +2,6 @@ if io.load then
     return
 end
 
-io._open = io.open
-local real_io_open = io.open
-
-function io.open(path, mode)
-    if type(path) == 'string' then
-        return real_io_open(path, mode)
-    else
-        return real_io_open(path:string(), mode)
-    end
-end
-
 function io.load(file_path)
     local f, e = io.open(file_path:string(), "rb")
     if f then
@@ -29,7 +18,6 @@ end
 
 function io.save(file_path, content)
     local f, e = io.open(file_path:string(), "wb")
-
     if f then
         f:write(content)
         f:close()
