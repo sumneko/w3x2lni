@@ -248,9 +248,9 @@ end
 mt.config = {}
 
 local function toboolean(v)
-    if v == 'true' then
+    if v == 'true' or v == true then
         return true
-    elseif v == 'false' then
+    elseif v == 'false' or v == false then
         return false
     end
     return nil

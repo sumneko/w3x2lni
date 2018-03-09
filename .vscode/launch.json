@@ -23,7 +23,8 @@
             "cpath": "${workspaceRoot}/bin/?.dll;",
             "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
             "arg": [
-                "${workspaceRoot}/FinaldayDefendApocalypse.Ver3.3.w3x",
+                "${workspaceRoot}/命令ID.w3x",
+                "-target_format=slk",
             ],
             "console": "utf8"
         },
