@@ -4,8 +4,7 @@ require 'utility'
 local uni = require 'ffi.unicode'
 local sleep = require 'ffi.sleep'
 local core = require 'sandbox_core'
-local archive = require 'archive'
-local save_map = require 'save_map'
+local builder = require 'map-builder'
 local stormlib = require 'ffi.stormlib'
 local ui = require 'ui-builder'
 
@@ -110,7 +109,7 @@ function w2l:trigger_data()
 end
 
 local clock = os.clock()
-local map = archive(map_path)
+local map = builder.load(map_path)
 local wtg = map:get 'war3map.wtg'
 local wct = map:get 'war3map.wct'
 print('打开地图用时：', os.clock() - clock)

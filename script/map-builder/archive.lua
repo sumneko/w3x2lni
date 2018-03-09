@@ -1,5 +1,5 @@
-local mpq = require 'archive_mpq'
-local dir = require 'archive_dir'
+local mpq = require 'map-builder.archive_mpq'
+local dir = require 'map-builder.archive_dir'
 
 local os_clock = os.clock
 

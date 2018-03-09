@@ -4,8 +4,7 @@ local lni = require 'lni-c'
 local uni = require 'ffi.unicode'
 local core = require 'sandbox_core'
 local ui = require 'ui-builder'
-local archive = require 'archive'
-local save_map = require 'save_map'
+local builder = require 'map-builder'
 local w2l = core()
 
 local std_print = print
@@ -121,7 +120,7 @@ local input = fs.path(arg[1])
 
 print('正在打开地图...')
 local slk = {}
-local input_ar = archive(input)
+local input_ar = builder.load(input)
 if not input_ar then
     return
 end
@@ -141,7 +140,7 @@ elseif w2l.config.target_storage == 'mpq' then
         output = input:parent_path() / (input:stem():string() .. '_' .. w2l.config.mode .. '.w3x')
     end
 end
-local output_ar = archive(output, 'w')
+local output_ar = builder.load(output, 'w')
 if not output_ar then
     return
 end
@@ -170,7 +169,7 @@ w2l.progress:finish()
 
 print('正在生成文件...')
 w2l.progress:start(1)
-save_map(w2l, output_ar, slk.w3i, input_ar)
+builder.save(w2l, output_ar, slk.w3i, input_ar)
 w2l.progress:finish()
 output_ar:close()
 input_ar:close()
