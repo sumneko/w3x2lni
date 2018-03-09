@@ -131,7 +131,7 @@ w2l:set_config(unpack_config())
 local output
 if w2l.config.target_storage == 'dir' then
     if fs.is_directory(input) then
-        output = input:parent_path() / (input:filename():string() .. '_' .. w2l.config.target_format)
+        output = input:parent_path() / (input:filename():string() .. '_' .. w2l.config.mode)
     else
         output = input:parent_path() / input:stem():string()
     end
@@ -140,7 +140,7 @@ elseif w2l.config.target_storage == 'mpq' then
     if fs.is_directory(input) then
         output = input:parent_path() / (input:filename():string() .. '.w3x')
     else
-        output = input:parent_path() / (input:stem():string() .. '_' .. w2l.config.target_format .. '.w3x')
+        output = input:parent_path() / (input:stem():string() .. '_' .. w2l.config.mode .. '.w3x')
     end
 end
 local output_ar = archive(output, 'w')

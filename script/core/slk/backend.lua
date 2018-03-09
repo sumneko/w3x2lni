@@ -57,7 +57,7 @@ local function convert_wtg(w2l)
     w2l.progress:finish()
     w2l.progress:start(0.5)
     if wtg and wct then
-        if w2l.config.target_format == 'lni' then
+        if w2l.config.mode == 'lni' then
             xpcall(function ()
                 wtg_data = w2l:frontend_wtg(wtg)
                 wct_data = w2l:frontend_wct(wct)
@@ -78,7 +78,7 @@ local function convert_wtg(w2l)
     w2l.progress:finish()
     w2l.progress:start(1)
     if wtg_data and wct_data and not w2l.config.remove_we_only then
-        if w2l.config.target_format == 'lni' then
+        if w2l.config.mode == 'lni' then
             local files = w2l:backend_lml(wtg_data, wct_data)
             for filename, buf in pairs(files) do
                 w2l:map_save('war3map.wtg.lml\\'..filename, buf)
@@ -313,7 +313,7 @@ end
 return function (w2l, slk)
     clean_file(w2l, slk)
     if slk.w3i then
-        if w2l.config.target_format == 'lni' then
+        if w2l.config.mode == 'lni' then
             w2l:map_save('war3map.w3i.ini', w2l:backend_w3i2lni(slk.w3i), slk.wts)
             w2l:map_remove('war3map.w3i')
         else
@@ -333,7 +333,7 @@ return function (w2l, slk)
         w2l.progress(0.2)
     end
 
-    if w2l.config.target_format == 'slk' then
+    if w2l.config.mode == 'slk' then
         w2l.message('计算描述中的公式...')
         w2l:backend_computed(slk)
         w2l.progress(0.3)
@@ -352,11 +352,11 @@ return function (w2l, slk)
     
     w2l.progress:start(0.7)
     w2l.message('转换物编文件...')
-    if w2l.config.target_format == 'lni' then
+    if w2l.config.mode == 'lni' then
         to_lni(w2l, slk)
-    elseif w2l.config.target_format == 'obj' then
+    elseif w2l.config.mode == 'obj' then
         to_obj(w2l, slk)
-    elseif w2l.config.target_format == 'slk' then
+    elseif w2l.config.mode == 'slk' then
         to_slk(w2l, slk)
     end
     w2l.progress:finish()

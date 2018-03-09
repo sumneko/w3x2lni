@@ -24,7 +24,7 @@
             "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
             "arg": [
                 "${workspaceRoot}/命令ID.w3x",
-                "-target_format=slk",
+                "-mode=slk",
             ],
             "console": "utf8"
         },

@@ -147,7 +147,7 @@ return function (w2l_, slk)
     default = w2l:get_default()
     is_remove_same = w2l.config.remove_same
     metadata = w2l:metadata()
-    if w2l.config.target_format == 'slk' then
+    if w2l.config.mode == 'slk' then
         if not w2l.config.slk_doodad then
             local type = 'doodad'
             clean_objs(type, slk[type])

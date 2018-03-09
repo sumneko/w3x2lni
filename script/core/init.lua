@@ -273,10 +273,10 @@ function mt:set_config(config)
             config[k] = a
         end
     end
-    choose('target_format')
+    choose('mode')
     choose('mpq')
     choose('lang')
-    default = default[config.target_format]
+    default = default[config.mode]
     choose('read_slk', toboolean)
     choose('read_lni', toboolean)
     choose('find_id_times', math.tointeger)

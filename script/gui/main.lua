@@ -78,12 +78,12 @@ local function save_config()
     str[#str+1] = ([[
 [root]
 -- 转换后的目标格式(lni, obj, slk)
-target_format = %s
+mode = %s
 -- 使用谁的mpq(default, custom)
 mpq = default
 -- 使用的语言
 lang = zh-CN
-]]):format(config.target_format)
+]]):format(config.mode)
 
     for _, type in ipairs {'slk', 'lni', 'obj'} do
         str[#str+1] = ('[%s]'):format(type)
@@ -94,10 +94,10 @@ end
 
 local function pack_config()
     local strs = {}
-    strs[1] = ('-%s=%s'):format('target_format', config.target_format)
+    strs[1] = ('-%s=%s'):format('mode', config.mode)
     strs[2] = ('-%s=%s'):format('mpq', config.mpq)
     strs[3] = ('-%s=%s'):format('lang', config.lang)
-    for k, v in pairs(config[config.target_format]) do
+    for k, v in pairs(config[config.mode]) do
         strs[#strs+1] = ('-%s=%s'):format(k, v)
     end
     return table.concat(strs, ' ')
@@ -206,7 +206,7 @@ local function window_select(canvas)
         uitype = 'convert'
         fmt = 'lni'
         window:set_title('W3x2Lni')
-        config.target_format = 'lni'
+        config.mode = 'lni'
         config.lni.target_storage = 'dir'
         config.lni.read_slk = false
         config.lni.read_lni = true
@@ -227,7 +227,7 @@ local function window_select(canvas)
         uitype = 'convert'
         fmt = 'slk'
         window:set_title('W3x2Slk')
-        config.target_format = 'slk'
+        config.mode = 'slk'
         config.slk.target_storage = 'mpq'
         config.slk.read_slk = true
         config.lni.read_lni = true
@@ -242,7 +242,7 @@ local function window_select(canvas)
         uitype = 'convert'
         fmt = 'obj'
         window:set_title('W3x2Obj')
-        config.target_format = 'obj'
+        config.mode = 'obj'
         config.obj.target_storage = 'mpq'
         config.obj.read_slk = false
         config.lni.read_lni = true
