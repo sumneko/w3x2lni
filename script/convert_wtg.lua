@@ -1,5 +1,3 @@
-local loaddll = require 'ffi.loaddll'
-loaddll 'ydbase'
 require 'filesystem'
 require 'registry'
 require 'utility'

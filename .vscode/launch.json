@@ -6,38 +6,48 @@
             "type": "lua",
             "request": "launch",
             "stopOnEntry": true,
-            "cwd": "${workspaceRoot}/script/",
+            "cwd": "${workspaceRoot}\\script\\",
+            "env": {
+                "PATH" : "${workspaceRoot}\\bin\\"
+            },
+            "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
-            "cpath": "${workspaceRoot}/bin/?.dll;",
-            "program": "${workspaceRoot}/script/main.lua",
-            "console": "utf8"
+            "cpath": "${workspaceRoot}\\bin\\?.dll;",
+            //"runtimeExecutable": "${workspaceRoot}\\bin\\w2l-worker.exe",
+            //"runtimeArgs": "${workspaceRoot}\\script\\main.lua",
+            "console": "utf8",
+            "program": "${workspaceRoot}\\script\\main.lua"
         },
         {
             "name": "后端",
             "type": "lua",
             "request": "launch",
-            "program": "${workspaceRoot}/script/map.lua",
-            "stopOnEntry": true,
-            "cwd": "${workspaceRoot}/script/",
+            "cwd": "${workspaceRoot}\\script\\",
+            "env": {
+                "PATH" : "${workspaceRoot}\\bin\\"
+            },
+            "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
-            "cpath": "${workspaceRoot}/bin/?.dll;",
-            "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
+            "cpath": "${workspaceRoot}\\bin\\?.dll;",
+            "console": "utf8",
+            "program": "${workspaceRoot}\\script\\map.lua",
             "arg": [
-                "${workspaceRoot}/FinaldayDefendApocalypse.Ver3.3.w3x",
-            ],
-            "console": "utf8"
+                "${workspaceRoot}\\FinaldayDefendApocalypse.Ver3.3.w3x",
+            ]
         },
         {
             "name": "预生成",
             "type": "lua",
             "request": "launch",
-            "program": "${workspaceRoot}/script/prebuilt/init.lua",
-            "stopOnEntry": false,
-            "cwd": "${workspaceRoot}/script/",
+            "cwd": "${workspaceRoot}\\script\\",
+            "env": {
+                "PATH" : "${workspaceRoot}\\bin\\"
+            },
+            "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
-            "cpath": "${workspaceRoot}/bin/?.dll;",
-            "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
-            "console": "ansi"
+            "cpath": "${workspaceRoot}\\bin\\?.dll;",
+            "console": "utf8",
+            "program": "${workspaceRoot}\\script\\prebuilt\\init.lua",
         },
     ]
 }
