@@ -142,7 +142,7 @@ return function (w2l, output_ar, w3i, input_ar)
     output_ar:remove('(signature)')
     output_ar:remove('(attributes)')
 
-    if w2l.config.target_format ~= 'lni' then
+    if w2l.config.mode ~= 'lni' then
         local imp = input_ar:get 'war3map.imp.ini'
         output_ar:remove('war3map.imp.ini')
         if not w2l.config.remove_we_only then

@@ -24,11 +24,6 @@ function print(...)
     std_print(table.concat(tbl, ' '))
 end
 w2l:set_messager(print)
-w2l:set_config{
-    mpq     = 'default',
-    version = 'Custom',
-    lang    = 'ZH-CN',
-}
 
 function w2l:mpq_load(filename)
     local mpq_path = root:parent_path() / 'data' / 'mpq'

@@ -31,7 +31,6 @@ local function slk_lib(read_only, safe_mode)
     local mpq_path = fs.current_path():parent_path() / 'data' / 'mpq'
     local prebuilt_path = fs.current_path():parent_path() / 'data' / 'prebuilt'
     w2l:set_messager(print)
-    w2l:set_config(get_config())
     function w2l:mpq_load(filename)
         return self.mpq_path:each_path(function (path)
             return io.load(mpq_path / path / filename)

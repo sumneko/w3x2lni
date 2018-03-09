@@ -32,7 +32,8 @@
             "console": "utf8",
             "program": "${workspaceRoot}\\script\\map.lua",
             "arg": [
-                "${workspaceRoot}\\FinaldayDefendApocalypse.Ver3.3.w3x",
+                "${workspaceRoot}\\命令ID.w3x",
+                "-mode=slk",
             ]
         },
         {
@@ -48,6 +49,23 @@
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
             "console": "utf8",
             "program": "${workspaceRoot}\\script\\prebuilt\\init.lua",
+        },
+        {
+            "name": "mini",
+            "type": "lua",
+            "request": "launch",
+            "cwd": "${workspaceRoot}\\script\\",
+            "env": {
+                "PATH" : "${workspaceRoot}\\bin\\"
+            },
+            "luadll": "${workspaceRoot}\\bin\\lua53.dll",
+            "path": ".\\?.lua;.\\?\\init.lua",
+            "cpath": "${workspaceRoot}\\bin\\?.dll;",
+            "console": "utf8",
+            "program": "${workspaceRoot}\\script\\gui\\mini.lua",
+            "arg": [
+                "${workspaceRoot}\\命令ID.w3x",
+            ]
         },
     ]
 }

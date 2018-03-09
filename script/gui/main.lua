@@ -32,64 +32,63 @@ local fmt = nil
 backend:init(root / 'bin' / 'w2l-worker.exe', root / 'script')
 
 local config_content = [[
--- 是否分析slk文件
-read_slk = $read_slk$
--- 是否分析lni文件
-read_lni = $read_lni$
--- 分析slk时寻找id最优解的次数,0表示无限,寻找次数越多速度越慢
-find_id_times = $find_id_times$
--- 移除与模板完全相同的数据
-remove_same = $remove_same$
--- 移除只在WE使用的文件
-remove_we_only = $remove_we_only$
--- 移除没有引用的对象
-remove_unuse_object = $remove_unuse_object$
--- mdx压缩
-mdx_squf = $mdx_squf$
--- 优化装饰物
-slk_doodad = $slk_doodad$
--- 优化脚本
-optimize_jass = $optimize_jass$
--- 混淆脚本
-confusion = $confusion$
--- 转换为地图还是目录(mpq, dir)
-target_storage = $target_storage$
-]]
-
-local function build_config(cfg)
-    return config_content:gsub('%$(.-)%$', function(str)
-        local value = cfg
-        for key in str:gmatch '[^%.]*' do
-            value = value[key]
-        end
-        if type(value) == 'string' then
-            return ('[[%s]]'):format(value)
-        else
-            return tostring(value)
-        end
-    end)
-end
-
-local function save_config()
-    local newline = [[
-
-]]
-    local str = {}
-    str[#str+1] = ([[
 [root]
 -- 转换后的目标格式(lni, obj, slk)
-target_format = %s
+mode = $mode$
 -- 使用谁的mpq(default, custom)
 mpq = default
 -- 使用的语言
 lang = zh-CN
-]]):format(config.target_format)
 
-    for _, type in ipairs {'slk', 'lni', 'obj'} do
-        str[#str+1] = ('[%s]'):format(type)
-        str[#str+1] = build_config(config[type])
+[lni]
+-- 读取slk文件
+read_slk = $lni.read_slk$
+-- 限制搜索最优模板的次数,0表示无限
+find_id_times = $lni.find_id_times$
+
+[slk]
+-- 简化(移除没有引用的对象)
+remove_unuse_object = $slk.remove_unuse_object$
+-- 优化脚本
+optimize_jass = $slk.optimize_jass$
+-- 压缩模型
+mdx_squf = $slk.mdx_squf$
+-- 删除只在WE中使用的文件
+remove_we_only = $slk.remove_we_only$
+-- 优化装饰物
+slk_doodad = $slk.slk_doodad$
+-- 限制搜索最优模板的次数,0表示无限
+find_id_times = $slk.find_id_times$
+-- 混淆脚本
+confusion = $slk.confusion$
+
+[obj]
+-- 读取slk文件
+read_slk = $obj.read_slk$
+-- 限制搜索最优模板的次数,0表示无限
+find_id_times = $obj.find_id_times$
+]]
+
+local function save_config()
+    local buf = config_content:gsub('%$(.-)%$', function (str)
+        local v = config
+        for key in str:gmatch '[^%.]+' do
+            v = v[key]
+        end
+        return tostring(v)
+    end)
+    io.save(root / 'config.ini', buf:gsub('\n', '\r\n'))
+end
+
+local function pack_config()
+    local strs = {}
+    strs[1] = ('-%s=%s'):format('mode', config.mode)
+    strs[2] = ('-%s=%s'):format('mpq', config.mpq)
+    strs[3] = ('-%s=%s'):format('lang', config.lang)
+    for k, v in pairs(config[config.mode]) do
+        strs[#strs+1] = ('-%s=%s'):format(k, v)
     end
-    io.save(root / 'config.ini', table.concat(str, newline))
+    return table.concat(strs, ' ')
 end
 
 local window = nk.window('W3x2Lni', 400, 600)
@@ -195,17 +194,7 @@ local function window_select(canvas)
         uitype = 'convert'
         fmt = 'lni'
         window:set_title('W3x2Lni')
-        config.target_format = 'lni'
-        config.lni.target_storage = 'dir'
-        config.lni.read_slk = false
-        config.lni.read_lni = true
-        config.lni.remove_same = false
-        config.lni.remove_we_only = false
-        config.lni.remove_unuse_object = false
-        config.lni.mdx_squf = false
-        config.lni.slk_doodad = false
-        config.lni.optimize_jass = false
-        config.lni.confusion = nil
+        config.mode = 'lni'
         save_config()
         clean_convert_ui()
         set_current_theme {0, 173, 217}
@@ -216,11 +205,7 @@ local function window_select(canvas)
         uitype = 'convert'
         fmt = 'slk'
         window:set_title('W3x2Slk')
-        config.target_format = 'slk'
-        config.slk.target_storage = 'mpq'
-        config.slk.read_slk = true
-        config.lni.read_lni = true
-        config.slk.remove_same = false
+        config.mode = 'slk'
         save_config()
         clean_convert_ui()
         set_current_theme {0, 173, 60}
@@ -231,17 +216,7 @@ local function window_select(canvas)
         uitype = 'convert'
         fmt = 'obj'
         window:set_title('W3x2Obj')
-        config.target_format = 'obj'
-        config.obj.target_storage = 'mpq'
-        config.obj.read_slk = false
-        config.lni.read_lni = true
-        config.obj.remove_same = true
-        config.obj.remove_we_only = false
-        config.obj.remove_unuse_object = false
-        config.obj.mdx_squf = false
-        config.obj.slk_doodad = false
-        config.obj.optimize_jass = false
-        config.lni.confusion = nil
+        config.mode = 'obj'
         save_config()
         clean_convert_ui()
         set_current_theme {217, 163, 60}
@@ -369,7 +344,7 @@ local function window_convert(canvas)
     else
         if canvas:button('开始') then
             canvas:progress(0, 100)
-            worker = backend:open(root / 'script' / 'map.lua', ('"%s"'):format(mappath:string()))
+            worker = backend:open(root / 'script' / 'map.lua', ('"%s" %s'):format(mappath:string(), pack_config()))
             backend.message = '正在初始化...'
         end
     end
