@@ -35,9 +35,6 @@ end
 
 local function load_lni(w2l)
     local lnis = {}
-    if not w2l.config.read_lni then
-        return lnis
-    end
     local count = 0
     for type, name in pairs(w2l.info.lni) do
         count = count + 1
@@ -58,7 +55,7 @@ end
 
 local function load_w3i(w2l, slk)
     local buf = w2l:map_load 'war3map.w3i.ini'
-    if buf and w2l.config.read_lni then
+    if buf then
         return w2l:parse_lni(buf, 'war3map.w3i.ini')
     else
         buf = w2l:map_load 'war3map.w3i'

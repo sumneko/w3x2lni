@@ -278,7 +278,6 @@ function mt:set_config(config)
     choose('lang')
     default = default[config.mode]
     choose('read_slk', toboolean)
-    choose('read_lni', toboolean)
     choose('find_id_times', math.tointeger)
     choose('remove_same', toboolean)
     choose('remove_we_only', toboolean)

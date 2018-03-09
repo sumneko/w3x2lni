@@ -305,9 +305,7 @@ local function clean_file(w2l, slk)
         w2l:map_remove(filename)
     end
     w2l:map_remove('war3map.txt.ini')
-    if w2l.config.read_lni then
-        w2l:map_remove('war3map.w3i.ini')
-    end
+    w2l:map_remove('war3map.w3i.ini')
 end
 
 return function (w2l, slk)
