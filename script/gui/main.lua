@@ -5,7 +5,7 @@ local process = require 'process'
 local nk = require 'nuklear'
 local backend = require 'gui.backend'
 local show_version = require 'gui.show_version'
-local lni = require 'lni-c'
+local lni = require 'lni'
 local currenttheme = {0, 173, 217}
 
 NK_WIDGET_STATE_MODIFIED = 1 << 1
