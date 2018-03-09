@@ -92,6 +92,17 @@ lang = zh-CN
     io.save(root / 'config.ini', table.concat(str, newline))
 end
 
+local function pack_config()
+    local strs = {}
+    strs[1] = ('-%s=%s'):format('target_format', config.target_format)
+    strs[2] = ('-%s=%s'):format('mpq', config.mpq)
+    strs[3] = ('-%s=%s'):format('lang', config.lang)
+    for k, v in pairs(config[config.target_format]) do
+        strs[#strs+1] = ('-%s=%s'):format(k, v)
+    end
+    return table.concat(strs, ' ')
+end
+
 local window = nk.window('W3x2Lni', 400, 600)
 window:set_theme(0, 173, 217)
 
@@ -369,7 +380,7 @@ local function window_convert(canvas)
     else
         if canvas:button('开始') then
             canvas:progress(0, 100)
-            worker = backend:open(root / 'script' / 'map.lua', ('"%s"'):format(mappath:string()))
+            worker = backend:open(root / 'script' / 'map.lua', ('"%s" %s'):format(mappath:string(), pack_config()))
             backend.message = '正在初始化...'
         end
     end

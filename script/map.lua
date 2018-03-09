@@ -21,13 +21,8 @@ function print(...)
 end
 w2l:set_messager(print)
 
+
 local root = fs.current_path():remove_filename()
-local config = lni(assert(io.load(root / 'config.ini')), 'config')
-local fmt = config.target_format
-for k, v in pairs(config[fmt]) do
-    config[k] = v
-end
-w2l:set_config(config)
 
 function w2l:mpq_load(filename)
     return w2l.mpq_path:each_path(function(path)
@@ -64,8 +59,6 @@ local function ydwe_path()
     end
     return nil
 end
-
-local loader = {}
 
 local function trigger_config(mpq_path)
 	local list = {}
@@ -115,6 +108,17 @@ function w2l:trigger_data()
     return state
 end
 
+local function unpack_config()
+    local config = {}
+    for i = 2, #arg do
+        local k, v = arg[i]:match('^%-([^=]+)=(.+)$')
+        if k and v then
+            config[k] = v
+        end
+    end
+    return config
+end
+
 local input = fs.path(arg[1])
 
 print('正在打开地图...')
@@ -123,6 +127,7 @@ local input_ar = archive(input)
 if not input_ar then
     return
 end
+w2l:set_config(unpack_config())
 local output
 if w2l.config.target_storage == 'dir' then
     if fs.is_directory(input) then
