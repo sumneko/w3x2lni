@@ -257,12 +257,12 @@ local function toboolean(v)
 end
 
 function mt:set_config(config)
-    local default = load_file 'config.ini'
+    local default = self:parse_lni(load_file 'config.ini')
     local config = config or {}
 
     local function choose(k, f)
         local a = config[k]
-        local b = default[k]
+        local b = default and default[k]
         if f then
             a = f(a)
             b = f(b)
@@ -276,22 +276,19 @@ function mt:set_config(config)
     choose('target_format')
     choose('mpq')
     choose('lang')
-
     default = default[config.target_format]
-    if default then
-        choose('read_slk', toboolean)
-        choose('read_lni', toboolean)
-        choose('find_id_times', math.tointeger)
-        choose('remove_same', toboolean)
-        choose('remove_we_only', toboolean)
-        choose('remove_unuse_object', toboolean)
-        choose('mdx_squf', toboolean)
-        choose('slk_doodad', toboolean)
-        choose('optimize_jass', toboolean)
-        choose('confusion')
-        choose('target_storage')
-    end
-
+    choose('read_slk', toboolean)
+    choose('read_lni', toboolean)
+    choose('find_id_times', math.tointeger)
+    choose('remove_same', toboolean)
+    choose('remove_we_only', toboolean)
+    choose('remove_unuse_object', toboolean)
+    choose('mdx_squf', toboolean)
+    choose('slk_doodad', toboolean)
+    choose('optimize_jass', toboolean)
+    choose('confusion')
+    choose('target_storage')
+    
     self.config = config
     
     self.mpq_path = mpq_path()
@@ -314,6 +311,5 @@ return function ()
     self.progress = progress()
     self.loaded = {}
     self:set_messager(function () end)
-    self:set_config()
     return self
 end
