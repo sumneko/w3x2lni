@@ -77,7 +77,7 @@ local function save_config()
         end
         return tostring(v)
     end)
-    io.save(root / 'config.ini', buf)
+    io.save(root / 'config.ini', buf:gsub('\n', '\r\n'))
 end
 
 local function pack_config()
