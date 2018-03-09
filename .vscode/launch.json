@@ -40,5 +40,19 @@
             "arg0": "${workspaceRoot}/bin/w3x2lni.exe",
             "console": "ansi"
         },
+        {
+            "name": "mini",
+            "type": "lua",
+            "request": "launch",
+            "stopOnEntry": true,
+            "cwd": "${workspaceRoot}/script/",
+            "path": ".\\?.lua;.\\?\\init.lua",
+            "cpath": "${workspaceRoot}/bin/?.dll;",
+            "program": "${workspaceRoot}/script/gui/mini.lua",
+            "arg": [
+                "${workspaceRoot}/命令ID.w3x",
+            ],
+            "console": "utf8"
+        },
     ]
 }
