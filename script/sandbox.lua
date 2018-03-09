@@ -140,7 +140,7 @@ local function sandbox_env(loadlua, openfile, loaded)
 end
 
 local function loadinit(name, read)
-    local f = io._open(name, 'r')
+    local f = io.open(name, 'r')
     if not read then
         local ok = not not f
         f:close()
