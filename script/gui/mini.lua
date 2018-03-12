@@ -55,12 +55,24 @@ function mini:event_close(f)
     self._window.onclose = f
 end
 
+local function pack_arg()
+    local buf = {}
+    for i, command in ipairs(arg) do
+        if command:sub(1, 1) == '-' then
+            buf[i] = command
+        else
+            buf[i] = '"' .. command .. '"'
+        end
+    end
+    return table.concat(buf, ' ')
+end
+
 mini:init()
 mini:event_close(gui.MessageLoop.quit)
 
 local root = fs.current_path():remove_filename()
 backend:init(root / 'bin' / 'w2l-worker.exe', root / 'script')
-local worker = backend:open(root / 'script' / 'map.lua', ('"%s" -slk'):format(arg[1]))
+local worker = backend:open(root / 'script' / 'map.lua', pack_arg())
 backend.message = '正在初始化...'
 backend.progress = 0
 

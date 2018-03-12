@@ -64,7 +64,9 @@
             "console": "utf8",
             "program": "${workspaceRoot}\\script\\gui\\mini.lua",
             "arg": [
+                "-slk",
                 "${workspaceRoot}\\命令ID.w3x",
+                "${workspaceRoot}\\命令ID_output.w3x",
             ]
         },
     ]
