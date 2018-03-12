@@ -60,7 +60,7 @@ mini:event_close(gui.MessageLoop.quit)
 
 local root = fs.current_path():remove_filename()
 backend:init(root / 'bin' / 'w2l-worker.exe', root / 'script')
-local worker = backend:open(root / 'script' / 'map.lua', ('"%s" -mode=slk'):format(arg[1]))
+local worker = backend:open(root / 'script' / 'map.lua', ('"%s" -slk'):format(arg[1]))
 backend.message = '正在初始化...'
 backend.progress = 0
 
