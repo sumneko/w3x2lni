@@ -38,12 +38,10 @@ function w2l:trigger_data()
 end
 
 local function unpack_config()
-    local config = {}
-    for i = 2, #arg do
-        local k, v = arg[i]:match('^%-([^=]+)=(.+)$')
-        if k and v then
-            config[k] = v
-        end
+    local config = lni(io.load(root / 'config.ini'))
+    config.mode = arg[2]:sub(2)
+    for k, v in pairs(config[config.mode]) do
+        config[k] = v
     end
     return config
 end
