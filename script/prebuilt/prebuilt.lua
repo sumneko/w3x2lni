@@ -1,6 +1,6 @@
 require 'filesystem'
 require 'utility'
-local core  = require 'sandbox_core'
+local core  = require 'tool.sandbox_core'
 local uni      = require 'ffi.unicode'
 local order_prebuilt = require 'order.prebuilt'
 local prebuilt_metadata = require 'prebuilt.prebuilt_metadata'

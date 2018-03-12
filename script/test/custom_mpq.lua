@@ -1,6 +1,6 @@
 require 'filesystem'
 require 'utility'
-local core  = require 'sandbox_core'
+local core  = require 'tool.sandbox_core'
 local uni      = require 'ffi.unicode'
 local stormlib = require 'ffi.stormlib'
 local sleep = require 'ffi.sleep'
