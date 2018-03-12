@@ -18,57 +18,63 @@ function print(...)
 end
 w2l:set_messager(print)
 
-
 local root = fs.current_path():remove_filename()
-
-function w2l:mpq_load(filename)
-    return w2l.mpq_path:each_path(function(path)
-        return io.load(root / 'data' / 'mpq' / path / filename)
-    end)
-end
-
-function w2l:prebuilt_load(filename)
-    return w2l.mpq_path:each_path(function(path)
-        return io.load(root / 'data' / 'prebuilt' / path / filename)
-    end)
-end
-
-function w2l:trigger_data()
-    return triggerdata()
-end
 
 local function unpack_config()
     local config = lni(io.load(root / 'config.ini'))
-    config.mode = arg[2]:sub(2)
+    for _, command in ipairs(arg) do
+        if command:sub(1, 1) == '-' then
+            if command == '-slk' then
+                config.mode = 'slk'
+            elseif command == '-lni' then
+                config.mode = 'lni'
+            elseif command == '-obj' then
+                config.mode = 'obj'
+            end
+        else
+            if not config.input then
+                config.input = fs.path(command)
+            else
+                config.output = fs.path(command)
+            end
+        end
+    end
     for k, v in pairs(config[config.mode]) do
         config[k] = v
     end
     return config
 end
 
-local input = fs.path(arg[1])
+local function default_output(input)
+    if w2l.config.target_storage == 'dir' then
+        if fs.is_directory(input) then
+            return input:parent_path() / (input:filename():string() .. '_' .. w2l.config.mode)
+        else
+            return input:parent_path() / input:stem():string()
+        end
+    elseif w2l.config.target_storage == 'mpq' then
+        if fs.is_directory(input) then
+            return input:parent_path() / (input:filename():string() .. '.w3x')
+        else
+            return input:parent_path() / (input:stem():string() .. '_' .. w2l.config.mode .. '.w3x')
+        end
+    end
+end
 
+local config = unpack_config()
+w2l:set_config(config)
+
+local input = config.input
 print('正在打开地图...')
 local slk = {}
 local input_ar = builder.load(input)
 if not input_ar then
     return
 end
-w2l:set_config(unpack_config())
-local output
+
+local output = config.output or default_output(config.input)
 if w2l.config.target_storage == 'dir' then
-    if fs.is_directory(input) then
-        output = input:parent_path() / (input:filename():string() .. '_' .. w2l.config.mode)
-    else
-        output = input:parent_path() / input:stem():string()
-    end
-    fs.create_directory(output)
-elseif w2l.config.target_storage == 'mpq' then
-    if fs.is_directory(input) then
-        output = input:parent_path() / (input:filename():string() .. '.w3x')
-    else
-        output = input:parent_path() / (input:stem():string() .. '_' .. w2l.config.mode .. '.w3x')
-    end
+    fs.create_directories(output)
 end
 local output_ar = builder.load(output, 'w')
 if not output_ar then
@@ -85,6 +91,22 @@ end
 
 function w2l:map_remove(filename)
     return input_ar:remove(filename)
+end
+
+function w2l:mpq_load(filename)
+    return w2l.mpq_path:each_path(function(path)
+        return io.load(root / 'data' / 'mpq' / path / filename)
+    end)
+end
+
+function w2l:prebuilt_load(filename)
+    return w2l.mpq_path:each_path(function(path)
+        return io.load(root / 'data' / 'prebuilt' / path / filename)
+    end)
+end
+
+function w2l:trigger_data()
+    return triggerdata()
 end
 
 print('正在读取物编...')
