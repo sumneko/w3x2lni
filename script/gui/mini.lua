@@ -1,6 +1,3 @@
-local loaddll = require 'ffi.loaddll'
-loaddll 'base'
-loaddll 'nativeui'
 local gui = require 'yue.gui'
 local backend = require 'gui.backend'
 local messagebox = require 'ffi.messagebox'
