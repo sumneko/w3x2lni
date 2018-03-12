@@ -33,8 +33,6 @@ backend:init(root / 'bin' / 'w2l-worker.exe', root / 'script')
 
 local config_content = [[
 [root]
--- 转换后的目标格式(lni, obj, slk)
-mode = $mode$
 -- 使用谁的mpq(default, custom)
 mpq = default
 -- 使用的语言
@@ -78,17 +76,6 @@ local function save_config()
         return tostring(v)
     end)
     io.save(root / 'config.ini', buf:gsub('\n', '\r\n'))
-end
-
-local function pack_config()
-    local strs = {}
-    strs[1] = ('-%s=%s'):format('mode', config.mode)
-    strs[2] = ('-%s=%s'):format('mpq', config.mpq)
-    strs[3] = ('-%s=%s'):format('lang', config.lang)
-    for k, v in pairs(config[config.mode]) do
-        strs[#strs+1] = ('-%s=%s'):format(k, v)
-    end
-    return table.concat(strs, ' ')
 end
 
 local window = nk.window('W3x2Lni', 400, 600)
@@ -344,7 +331,7 @@ local function window_convert(canvas)
     else
         if canvas:button('开始') then
             canvas:progress(0, 100)
-            worker = backend:open(root / 'script' / 'map.lua', ('"%s" %s'):format(mappath:string(), pack_config()))
+            worker = backend:open(root / 'script' / 'map.lua', ('"%s" -%s'):format(mappath:string(), config.mode))
             backend.message = '正在初始化...'
         end
     end
