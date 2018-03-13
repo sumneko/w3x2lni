@@ -87,6 +87,16 @@ assert(ok)
 local obj = slk.item[('>I4'):unpack('modt')]
 assert(obj.goldcost == 1000)
 
+local obj = slk.ability.ANcl:new('AIad')
+assert(obj:get_id() == '')
+
+local obj = slk.ability.ANcl:new('SLK1')
+assert(obj:get_id() == 'SLK1')
+local obj = slk.ability.ANcl:new('SLK1')
+assert(obj:get_id() == '')
+local obj = slk.ability.ANcl:new('SLK2')
+assert(obj:get_id() == 'SLK2')
+
 local obj = slk.item.modt:new('测试')
 assert(obj:get_id() == 'I000')
 obj.goldcost = 10000
