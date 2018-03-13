@@ -33,7 +33,8 @@
             "program": "${workspaceRoot}\\script\\map.lua",
             "arg": [
                 "${workspaceRoot}\\命令ID.w3x",
-                "-mode=slk",
+                "-lni",
+                "-config=..\\config.ini",
             ]
         },
         {
