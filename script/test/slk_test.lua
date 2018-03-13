@@ -160,7 +160,8 @@ assert(slk.ability.A233.Tip10 == slk.ability.A233.Tip3)
 
 assert(slk.misc.Misc.BoneDecayTime == 88)
 
-slk:refresh(print)
+local report = slk:refresh()
+print(report)
 
 local slk = slk_lib(true, true)
 assert(slk.item.modt.new == '')
