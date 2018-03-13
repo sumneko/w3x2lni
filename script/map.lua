@@ -18,8 +18,6 @@ function print(...)
 end
 w2l:set_messager(print)
 
-local root = fs.current_path():remove_filename()
-
 local function unpack_config()
     local config = {}
     for _, command in ipairs(arg) do
@@ -104,13 +102,13 @@ end
 
 function w2l:mpq_load(filename)
     return w2l.mpq_path:each_path(function(path)
-        return io.load(root / 'data' / 'mpq' / path / filename)
+        return io.load(fs.current_path() / config.mpq_path / path / filename)
     end)
 end
 
 function w2l:prebuilt_load(filename)
     return w2l.mpq_path:each_path(function(path)
-        return io.load(root / 'data' / 'prebuilt' / path / filename)
+        return io.load(fs.current_path() / config.prebuilt_path / path / filename)
     end)
 end
 

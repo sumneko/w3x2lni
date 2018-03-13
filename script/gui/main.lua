@@ -37,6 +37,10 @@ local config_content = [[
 mpq = default
 -- 使用的语言
 lang = zh-CN
+-- mpq路径
+mpq_path = ../data/mpq
+-- 预处理路径
+prebuilt_path = ../data/mpq
 
 [lni]
 -- 读取slk文件
