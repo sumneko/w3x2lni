@@ -21,7 +21,7 @@ w2l:set_messager(print)
 local root = fs.current_path():remove_filename()
 
 local function unpack_config()
-    local config = lni(io.load(root / 'config.ini'))
+    local config = {}
     for _, command in ipairs(arg) do
         if command:sub(1, 1) == '-' then
             if command == '-slk' then
@@ -30,6 +30,8 @@ local function unpack_config()
                 config.mode = 'lni'
             elseif command == '-obj' then
                 config.mode = 'obj'
+            elseif command:match '^%-config=' then
+                config.config_path = command:sub(1 + #'-config=')
             end
         else
             if not config.input then
@@ -39,7 +41,14 @@ local function unpack_config()
             end
         end
     end
-    for k, v in pairs(config[config.mode]) do
+    if not config.config_path or not config.mode then
+        return config
+    end
+    local tbl = lni(io.load(fs.path(config.config_path)))
+    for k, v in pairs(tbl) do
+        config[k] = v
+    end
+    for k, v in pairs(tbl[config.mode]) do
         config[k] = v
     end
     return config
