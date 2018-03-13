@@ -136,6 +136,7 @@ if w2l.config.mode == 'lni' then
     ex_map:set('war3map.doo', input_ar:get 'war3map.doo')
     ex_map:set('war3map.w3e', input_ar:get 'war3map.w3e')
     ex_map:set('war3map.w3i', w2l:backend_w3i(slk.w3i, slk.wts))
+    ex_map:set('lni-mark', '')
     ex_map:save(slk.w3i, w2l.progress, false)
     ex_map:close()
 end
