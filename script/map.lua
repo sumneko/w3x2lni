@@ -134,7 +134,7 @@ if w2l.config.mode == 'lni' then
     local ex_map = builder.load(output / 'builder.w3x', 'w')
     ex_map:set('war3mapunits.doo', w2l:create_unitsdoo())
     ex_map:set('war3map.doo', input_ar:get 'war3map.doo')
-    ex_map:set('war3map.w3e', input_ar:get 'war3map.w3e')
+    ex_map:set('war3map.w3e', w2l:create_w3e())
     ex_map:set('war3map.w3i', w2l:backend_w3i(slk.w3i, slk.wts))
     ex_map:set('lni-mark', '')
     ex_map:save(slk.w3i, w2l.progress, false)
