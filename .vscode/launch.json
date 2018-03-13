@@ -64,8 +64,12 @@
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
             "console": "utf8",
             "program": "${workspaceRoot}\\script\\gui\\mini.lua",
+            "arg0":[
+                "..\\bin\\w2l-worker.exe",
+            ],
             "arg": [
                 "-slk",
+                "-config=..\\config.ini",
                 "${workspaceRoot}\\命令ID.w3x",
                 "${workspaceRoot}\\命令ID_output.w3x",
             ]
