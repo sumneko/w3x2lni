@@ -1,4 +1,5 @@
 local gui = require 'yue.gui'
+local ext = require 'yue-ext'
 local backend = require 'gui.backend'
 local messagebox = require 'ffi.messagebox'
 require 'filesystem'
@@ -7,6 +8,8 @@ local mini = {}
 
 function mini:init()
     local win = gui.Window.create  { frame = false }
+    win:settitle('w3x2lni-mini')
+    ext.register_window('w3x2lni-mini')
     
     local view = gui.Container.create()
     view:setstyle { FlexGrow = 1 }
@@ -28,6 +31,7 @@ function mini:init()
     win:setcontentsize { width = 400, height = 100 }
     win:center()
     win:activate()
+    ext.hide_in_taskbar()
 
     self._label = label
     self._progressbar = pb
