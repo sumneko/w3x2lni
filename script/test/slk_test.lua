@@ -11,7 +11,7 @@ function print(...)
     local tbl = {...}
     local count = select('#', ...)
     for i = 1, count do
-        tbl[i] = uni.u2a(tostring(tbl[i])):gsub('[\r\n]', ' ')
+        tbl[i] = uni.u2a(tostring(tbl[i]))
     end
     std_print(table.concat(tbl, ' '))
 end
@@ -30,7 +30,13 @@ local function slk_lib(read_only, safe_mode)
     local w2l = core()
     local mpq_path = fs.current_path():parent_path() / 'data' / 'mpq'
     local prebuilt_path = fs.current_path():parent_path() / 'data' / 'prebuilt'
+    local test_w3a = fs.current_path() / 'test' / 'war3map.w3a'
     w2l:set_messager(print)
+    function w2l:map_load(filename)
+        if filename == 'war3map.w3a' then
+            return io.load(test_w3a)
+        end
+    end
     function w2l:mpq_load(filename)
         return self.mpq_path:each_path(function (path)
             return io.load(mpq_path / path / filename)
@@ -43,6 +49,19 @@ local function slk_lib(read_only, safe_mode)
     end
     return w2l:slk_lib(read_only, safe_mode)
 end
+
+local slk = slk_lib(false, true)
+local obj = slk.ability.AHtb:new 'A234'
+{
+    Name = "超级风暴之锤",
+    Cool = 0,
+    Cost = 0,
+    Rng = 999999,
+    Dur = 10,
+    HeroDur = 10,
+}
+local report = slk:refresh()
+print(report)
 
 local slk = slk_lib(false, true)
 
