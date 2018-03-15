@@ -268,7 +268,7 @@ function mt:file_load(type, name)
             end
         end
     elseif type == 'trigger' then
-        return self:map_load('trigger/' .. name, buf)
+        return self:map_load('trigger/' .. name, buf) or self:map_load('war3map.wtg.lml/' .. name, buf)
     elseif type == 'map' then
         if self.input_mode == 'lni' then
             return self:map_load('map/' .. name, buf)
@@ -285,6 +285,7 @@ function mt:file_remove(type, name)
         end
     elseif type == 'trigger' then
         self:map_remove('trigger/' .. name, buf)
+        self:map_remove('war3map.wtg.lml/' .. name, buf)
     elseif type == 'map' then
         if self.input_mode == 'lni' then
             self:map_remove('map/' .. name, buf)
