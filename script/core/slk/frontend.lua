@@ -7,7 +7,7 @@ local function load_slk(w2l)
     end
     if w2l.force_slk or w2l.config.read_slk then
         return w2l:frontend_slk(function(name)
-            local buf = w2l:map_load(name)
+            local buf = w2l:file_load('map', name)
             if buf then
                 return buf
             end
@@ -22,7 +22,7 @@ local function load_obj(w2l, wts)
     local objs = {}
     local count = 0
     for type, name in pairs(w2l.info.obj) do
-        local buf = w2l:map_load(name)
+        local buf = w2l:file_load('map', name)
         local count = count + 1
         if buf then
             w2l.message('正在转换', name)
@@ -38,7 +38,7 @@ local function load_lni(w2l)
     local count = 0
     for type, name in pairs(w2l.info.lni) do
         count = count + 1
-        local buf = w2l:map_load(name)
+        local buf = w2l:file_load('lni', type)
         if buf then
             w2l.message('正在转换', name)
             lnis[type] = w2l:frontend_lni(type, buf, name)
@@ -46,19 +46,19 @@ local function load_lni(w2l)
         end
     end
 
-    local buf = w2l:map_load('war3map.txt.ini')
+    local buf = w2l:file_load('lni', 'txt')
     if buf then
-        lnis['txt'] = w2l:parse_lni(buf, 'war3map.txt.ini')
+        lnis['txt'] = w2l:parse_lni(buf, 'txt')
     end
     return lnis
 end
 
 local function load_w3i(w2l, slk)
-    local buf = w2l:map_load 'war3map.w3i.ini'
+    local buf = w2l:file_load('lni', 'w3i')
     if buf then
-        return w2l:parse_lni(buf, 'war3map.w3i.ini')
+        return w2l:parse_lni(buf, 'w3i')
     else
-        buf = w2l:map_load 'war3map.w3i'
+        buf = w2l:file_load('map', 'war3map.w3i')
         if buf then
             return w2l:frontend_w3i(buf, slk.wts)
         end
@@ -154,7 +154,7 @@ return function(w2l, slk)
     slk = slk or {}
     w2l.slk = slk
     --读取字符串
-    slk.wts = w2l:frontend_wts(w2l:map_load('war3map.wts'))
+    slk.wts = w2l:frontend_wts(w2l:file_load('map', 'war3map.wts'))
     w2l.progress(0.2)
 
     slk.w3i = load_w3i(w2l, slk)

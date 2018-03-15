@@ -88,16 +88,29 @@ if not output_ar then
     return
 end
 
+local function is_input_lni()
+    if fs.is_directory(input) then
+        local mark = builder.load(input / 'builder.w3x')
+        if mark then
+            return mark:get 'lni-mark'
+        end
+    end
+end
+
+if is_input_lni() then
+    w2l.input_mode = 'lni'
+end
+
 function w2l:map_load(filename)
     return input_ar:get(filename)
 end
 
 function w2l:map_save(filename, buf)
-    return input_ar:set(filename, buf)
+    output_ar:set(filename, buf)
 end
 
 function w2l:map_remove(filename)
-    return input_ar:remove(filename)
+    input_ar:remove(filename)
 end
 
 function w2l:mpq_load(filename)
@@ -127,17 +140,18 @@ w2l:backend(slk)
 w2l.progress:finish()
 
 print('正在生成文件...')
+local doo = input_ar:get 'war3map.doo'
+w2l.progress:start(1)
+builder.save(w2l, output_ar, slk.w3i, input_ar)
+w2l.progress:finish()
 if w2l.config.mode == 'lni' then
     local ex_map = builder.load(output / 'builder.w3x', 'w')
     ex_map:set('war3mapunits.doo', w2l:create_unitsdoo())
-    ex_map:set('war3map.doo', input_ar:get 'war3map.doo')
+    ex_map:set('war3map.doo', doo)
     ex_map:set('war3map.w3e', w2l:create_w3e())
     ex_map:set('war3map.w3i', w2l:backend_w3i(slk.w3i, slk.wts))
     ex_map:set('lni-mark', '')
     ex_map:save(slk.w3i, w2l.progress, false)
     ex_map:close()
 end
-w2l.progress:start(1)
-builder.save(w2l, output_ar, slk.w3i, input_ar)
-w2l.progress:finish()
 print('转换完毕,用时 ' .. os.clock() .. ' 秒') 

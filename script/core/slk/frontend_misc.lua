@@ -111,7 +111,7 @@ return function (w2l_, slk)
         local buf = w2l:mpq_load(name)
         w2l:parse_txt(buf, name, misc)
     end
-    local buf = w2l:map_load('war3mapmisc.txt')
+    local buf = w2l:file_load('map', 'war3mapmisc.txt')
     if buf then
         local map_misc = w2l:parse_txt(buf, 'war3mapmisc.txt')
         merge_misc(misc, slk.txt, map_misc, metadata, miscnames, slk)

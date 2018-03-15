@@ -61,7 +61,7 @@ function mt:save(w3i, progress, encrypt)
 end
 
 function mt:set(name, buf)
-    name = name:lower()
+    name = name:lower():gsub('\\', '/')
     if self.write_cache[name] then
         self.write_count = self.write_count - 1
     end
@@ -78,7 +78,7 @@ function mt:set(name, buf)
 end
 
 function mt:remove(name)
-    name = name:lower()
+    name = name:lower():gsub('\\', '/')
     if self.write_cache[name] then
         self.write_count = self.write_count - 1
     end
@@ -94,7 +94,7 @@ function mt:remove(name)
 end
 
 function mt:get(name)
-    name = name:lower()
+    name = name:lower():gsub('\\', '/')
     if self.read_cache[name] then
         return self.read_cache[name]
     end

@@ -298,19 +298,19 @@ local function mark_doo(w2l, slk)
 end
 
 local function mark_lua(w2l, slk)
-    local buf = w2l:map_load('reference.lua')
+    local buf = w2l:file_load('map', 'reference.lua')
     if not buf then
         return
     end
     local archive = {}
     function archive:get(filename)
-        return w2l:map_load(filename)
+        return w2l:file_load('map', filename)
     end
     function archive:set(filename, buf)
         if buf then
-            return w2l:map_save(filename, buf)
+            return w2l:file_save('map', filename, buf)
         else
-            return w2l:map_remove(filename)
+            return w2l:file_remove('map', filename)
         end
     end
     local env = {

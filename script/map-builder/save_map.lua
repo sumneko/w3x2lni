@@ -24,7 +24,7 @@ local function search_imp(map)
             _, name, index = ('c1z'):unpack(buf, index)
             if not map:get(name) then
                 map:get('war3mapimported\\' .. name)
-            end            
+            end
         end
     end
 end
@@ -131,16 +131,26 @@ return function (w2l, output_ar, w3i, input_ar)
         end
     end
     for name, buf in pairs(input_ar) do
-        if buf then
-            if w2l.config.mdx_squf and name:sub(-4) == '.mdx' then
-                buf = w3xparser.mdxopt(buf)
-            end
-            output_ar:set(name, buf)
+        if not buf then
+            goto CONTINUE
         end
+        if w2l.config.mdx_squf and name:sub(-4) == '.mdx' then
+            buf = w3xparser.mdxopt(buf)
+        end
+        if w2l.input_mode == 'lni' then
+            if name:match('^map/') then
+                name = name:sub(5)
+            end
+        end
+        if w2l.config.mode == 'lni' then
+            name = 'map/' .. name
+        end
+        output_ar:set(name, buf)
+        ::CONTINUE::
     end
-    output_ar:remove('(listfile)')
-    output_ar:remove('(signature)')
-    output_ar:remove('(attributes)')
+    for _, name in pairs(w2l.info.pack.packignore) do
+        output_ar:remove(name)
+    end
 
     if w2l.config.mode ~= 'lni' then
         local imp = input_ar:get 'war3map.imp.ini'
