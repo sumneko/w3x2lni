@@ -318,7 +318,7 @@ local function window_convert(canvas)
     canvas:text(backend.message, NK_TEXT_LEFT)
     canvas:layout_row_dynamic(10, 1)
     canvas:layout_row_dynamic(30, 1)
-    if (worker and not worker.exited) or #backend.report == 0 then
+    if (worker and not worker.exited) or not next(backend.report) then
         if backend.progress then
             canvas:progress(math.floor(backend.progress), 100)
         else
