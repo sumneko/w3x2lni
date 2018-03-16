@@ -64,7 +64,8 @@ local function convert_wtg(w2l)
                 w2l:file_remove('map', 'war3map.wtg')
                 w2l:file_remove('map', 'war3map.wct')
             end, function (msg)
-                w2l.message('-report|2警告', '没有转换触发器', msg)
+                w2l.message('-report|2警告', '没有转换触发器')
+                w2l.message('-tip', msg)
             end)
         end
     else

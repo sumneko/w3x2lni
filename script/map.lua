@@ -107,12 +107,62 @@ function w2l:map_load(filename)
 end
 
 function w2l:map_save(filename, buf)
-    output_ar:set(filename, buf)
+    input_ar:set(filename, buf)
 end
 
 function w2l:map_remove(filename)
     input_ar:remove(filename)
 end
+
+--function w2l:file_save(type, name, buf)
+--    if type == 'lni' then
+--        self:map_save(self.info.dir[name][1], buf)
+--    elseif type == 'trigger' then
+--        self:map_save('trigger/' .. name, buf)
+--    elseif type == 'map' then
+--        if self.config.mode == 'lni' then
+--            self:map_save('map/' .. name, buf)
+--        else
+--            self:map_save(name, buf)
+--        end
+--    end
+--end
+--
+--function w2l:file_load(type, name)
+--    if type == 'lni' then
+--        for _, filename in ipairs(self.info.dir[name]) do
+--            local buf = self:map_load(filename)
+--            if buf then
+--                return buf
+--            end
+--        end
+--    elseif type == 'trigger' then
+--        return self:map_load('trigger/' .. name, buf) or self:map_load('war3map.wtg.lml/' .. name, buf)
+--    elseif type == 'map' then
+--        if self.input_mode == 'lni' then
+--            return self:map_load('map/' .. name, buf)
+--        else
+--            return self:map_load(name, buf)
+--        end
+--    end
+--end
+--
+--function w2l:file_remove(type, name)
+--    if type == 'lni' then
+--        for _, filename in ipairs(self.info.dir[name]) do
+--            self:map_remove(filename)
+--        end
+--    elseif type == 'trigger' then
+--        self:map_remove('trigger/' .. name, buf)
+--        self:map_remove('war3map.wtg.lml/' .. name, buf)
+--    elseif type == 'map' then
+--        if self.input_mode == 'lni' then
+--            self:map_remove('map/' .. name, buf)
+--        else
+--            self:map_remove(name, buf)
+--        end
+--    end
+--end
 
 function w2l:mpq_load(filename)
     return w2l.mpq_path:each_path(function(path)
