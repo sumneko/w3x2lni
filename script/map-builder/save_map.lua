@@ -3,7 +3,7 @@ local w3xparser = require 'w3xparser'
 local function search_staticfile(map, files)
     local count = 0
     for _, name in ipairs {'(listfile)', '(signature)', '(attributes)'} do
-        if map:has(name) or map:get(name) then
+        if map:has(name) then
             count = count + 1
         end
         files[name] = map:get(name)
@@ -17,7 +17,7 @@ local function search_listfile(map, files)
     if buf then
         for name in buf:gmatch '[^\r\n]+' do
             files[name] = map:get(name)
-            if map:has(name) or map:get(name) then
+            if map:has(name) then
                 count = count + 1
             end
         end
@@ -34,13 +34,13 @@ local function search_imp(map, files)
         for i = 1, count do
             _, name, index = ('c1z'):unpack(buf, index)
             files[name] = map:get(name)
-            if map:has(name) or map:get(name) then
+            if map:has(name) then
                 count = count + 1
             end
             if not files[name] then
                 local name = 'war3mapimported\\' .. name
                 files[name] = map:get(name)
-                if map:has(name) or map:get(name) then
+                if map:has(name) then
                     count = count + 1
                 end
             end
@@ -184,7 +184,7 @@ return function (w2l, output_ar, w3i, input_ar)
         end
     end
 
-    for name, buf in pairs(input_ar) do
+    for name, buf in pairs(output_ar) do
         output_ar:set(name, buf)
     end
 
