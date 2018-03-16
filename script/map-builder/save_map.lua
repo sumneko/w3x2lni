@@ -1,32 +1,23 @@
 local w3xparser = require 'w3xparser'
 
-local function search_staticfile(map, files)
-    local count = 0
+local function search_staticfile(map, files, searched)
     for _, name in ipairs {'(listfile)', '(signature)', '(attributes)'} do
-        if map:has(name) then
-            count = count + 1
-        end
+        searched[name] = map:has(name)
         files[name] = map:get(name)
     end
-    return count
 end
 
-local function search_listfile(map, files)
-    local count = 0
+local function search_listfile(map, files, searched)
     local buf = map:get '(listfile)'
     if buf then
         for name in buf:gmatch '[^\r\n]+' do
             files[name] = map:get(name)
-            if map:has(name) then
-                count = count + 1
-            end
+            searched[name] = map:has(name)
         end
     end
-    return count
 end
 
-local function search_imp(map, files)
-    local count = 0
+local function search_imp(map, files, searched)
     local buf = map:get 'war3map.imp'
     if buf then
         local _, count, index = ('ll'):unpack(buf)
@@ -34,19 +25,14 @@ local function search_imp(map, files)
         for i = 1, count do
             _, name, index = ('c1z'):unpack(buf, index)
             files[name] = map:get(name)
-            if map:has(name) then
-                count = count + 1
-            end
-            if not files[name] then
+            searched[name] = map:has(name)
+            if not map:has(name) then
                 local name = 'war3mapimported\\' .. name
                 files[name] = map:get(name)
-                if map:has(name) then
-                    count = count + 1
-                end
+                searched[name] = map:has(name)
             end
         end
     end
-    return count
 end
 
 local searchers = {
@@ -58,11 +44,15 @@ local searchers = {
 local function search_mpq(map)
     local total = map:number_of_files()
     local files = {}
-    local count = 0
+    local searched = {}
     for i, searcher in ipairs(searchers) do
-        local suc, res = pcall(searcher, map, files)
-        if suc then
-            count = count + res
+        pcall(searcher, map, files, searched)
+    end
+
+    local count = 0
+    for _, res in pairs(searched) do
+        if res then
+            count = count + 1
         end
     end
 
