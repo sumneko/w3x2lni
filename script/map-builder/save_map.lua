@@ -175,12 +175,17 @@ return function (w2l, output_ar, w3i, input_ar)
     for _, name in pairs(w2l.info.pack.packignore) do
         w2l:file_remove('map', name)
     end
-    if w2l.config.mode ~= 'lni' then
-        local imp = w2l:file_load('lni', 'imp')
+
+    if w2l.config.mode == 'lni' then
+        if not w2l:file_load('lni', 'imp') and w2l:file_load('map', 'war3map.imp') then
+            w2l:file_save('lni', 'imp', w2l:backend_imp(w2l:file_load('map', 'war3map.imp')))
+        end
+        w2l:file_remove('map', 'war3map.imp')
+    else
         if w2l.config.remove_we_only then
             w2l:file_remove('map', 'war3map.imp')
-        else
-            w2l:file_save('map', 'war3map.imp', build_imp(w2l, output_ar, imp))
+        elseif w2l:file_load('lni', 'imp') then
+            w2l:file_save('map', 'war3map.imp', build_imp(w2l, output_ar, w2l:file_load('lni', 'imp')))
         end
     end
 

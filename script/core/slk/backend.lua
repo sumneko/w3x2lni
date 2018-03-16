@@ -387,12 +387,6 @@ return function (w2l, slk)
     end
     w2l.progress(0.94)
 
-    local buf = w2l:file_load('map', 'war3map.imp')
-    if buf then
-        w2l:file_remove('map', 'war3map.imp')
-        w2l:file_save('lni', 'imp', w2l:backend_imp(buf))
-    end
-
     w2l.message('重新生成字符串...')
     local content = w2l:refresh_wts(slk.wts)
     if #content > 0 then
