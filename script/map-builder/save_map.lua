@@ -43,7 +43,6 @@ local searchers = {
 
 local function search_mpq(map)
     local total = map:number_of_files()
-    local files = {}
     local count = 0
     local mark = {}
     local searched = setmetatable({}, {
@@ -57,6 +56,18 @@ local function search_mpq(map)
             end
             mark[name] = true
             count = count + 1
+        end
+    })
+    local files = setmetatable({}, {
+        __newindex = function (self, name, v)
+            if not v then
+                return
+            end
+            name = name:lower():gsub('/', '\\')
+            if mark[name] then
+                return
+            end
+            rawset(self, name, v)
         end
     })
     for i, searcher in ipairs(searchers) do
