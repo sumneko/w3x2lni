@@ -23,8 +23,8 @@ local function create_report(w2l, report, title, type, max)
 end
 
 return function (w2l)
-    local common   = w2l:file_load('map', 'common.j')   or w2l:file_load('map', 'scripts\\common.j')   or w2l:mpq_load('map', 'scripts\\common.j')
-    local blizzard = w2l:file_load('map', 'blizzard.j') or w2l:file_load('map', 'scripts\\blizzard.j') or w2l:mpq_load('map', 'scripts\\blizzard.j')
+    local common   = w2l:file_load('map', 'common.j')   or w2l:file_load('map', 'scripts\\common.j')   or w2l:mpq_load('scripts\\common.j')
+    local blizzard = w2l:file_load('map', 'blizzard.j') or w2l:file_load('map', 'scripts\\blizzard.j') or w2l:mpq_load('scripts\\blizzard.j')
     local war3map  = w2l:file_load('map', 'war3map.j')  or w2l:file_load('map', 'scripts\\war3map.j')
     local ast
     ast = parser(common,   'common.j',   ast)
