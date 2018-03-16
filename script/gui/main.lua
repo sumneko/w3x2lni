@@ -129,11 +129,12 @@ local function button_mapname(canvas, height)
     return height
 end
 
+local version = (require 'gui.changelog')[1].version
 local function button_about(canvas)
     canvas:layout_row_dynamic(20, 2)
     canvas:text('', NK_TEXT_RIGHT)
     window:set_style('button.color', 51, 55, 67)
-    if canvas:button('版本: 1.9.1') then
+    if canvas:button('版本: ' .. version) then
         uitype = 'about'
     end
     set_current_theme()
