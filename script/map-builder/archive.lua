@@ -60,6 +60,17 @@ function mt:save(w3i, progress, encrypt)
     return true
 end
 
+function mt:flush()
+    if self:is_readonly() then
+        return false
+    end
+    self._flushed = true
+    self.read_count = 0
+    self.write_count = 0
+    self.read_cache = {}
+    self.write_cache = {}
+end
+
 local function unify(name)
     return name:lower():gsub('/', '\\')
 end
@@ -106,6 +117,9 @@ function mt:get(name)
         return nil
     end
     if not self.handle then
+        return nil
+    end
+    if self._flushed then
         return nil
     end
     local buf = self.handle:load_file(name)

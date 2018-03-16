@@ -145,7 +145,9 @@ return function (w2l, output_ar, w3i, input_ar)
         if w2l.config.mode == 'lni' then
             name = 'map/' .. name
         end
-        output_ar:set(name, buf)
+        if not output_ar:get(name) then
+            output_ar:set(name, buf)
+        end
         ::CONTINUE::
     end
     for _, name in pairs(w2l.info.pack.packignore) do

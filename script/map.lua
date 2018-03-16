@@ -87,6 +87,7 @@ local output_ar = builder.load(output, 'w')
 if not output_ar then
     return
 end
+output_ar:flush()
 
 local function is_input_lni()
     if fs.is_directory(input) then
