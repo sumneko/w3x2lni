@@ -87,5 +87,5 @@ return function (w2l, t)
             f[#f+1] = ''
         end
     end
-    return table.concat(f, '\r\n')
+    return #f > 0 and table.concat(f, '\r\n')
 end
