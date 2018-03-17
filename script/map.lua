@@ -211,12 +211,13 @@ w2l.progress:start(1)
 builder.save(w2l, output_ar, slk.w3i, input_ar)
 w2l.progress:finish()
 if w2l.config.mode == 'lni' then
-    local ex_map = builder.load(output / 'builder.w3x', 'w')
+    local path = output / 'builder.w3x'
+    local ex_map = builder.load(path, 'w')
     ex_map:set('war3mapunits.doo', w2l:create_unitsdoo())
     ex_map:set('war3map.doo', doo)
     ex_map:set('war3map.w3e', w2l:create_w3e())
     ex_map:set('war3map.w3i', w2l:backend_w3i(slk.w3i, slk.wts))
-    ex_map:set('lni-mark', '')
+    slk.w3i['地图']['地图名称'] = ('%s%s'):format('W2L!', 1)
     ex_map:save(slk.w3i, w2l.progress, false)
     ex_map:close()
 end
