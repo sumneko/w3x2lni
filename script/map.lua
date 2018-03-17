@@ -91,11 +91,16 @@ output_ar:flush()
 
 local function is_input_lni()
     if fs.is_directory(input) then
-        local mark = builder.load(input / 'builder.w3x')
-        if mark then
-            return mark:get 'lni-mark'
+        local map = io.open((input / 'builder.w3x'):string(), 'rb')
+        if map then
+            map:seek('set', 8)
+            local mark = map:read(4)
+            if mark == 'W2L\x01' then
+                return true
+            end
         end
     end
+    return false
 end
 
 if is_input_lni() then
