@@ -44,6 +44,7 @@ local searchers = {
 local function search_mpq(map)
     local total = map:number_of_files()
     local count = 0
+    local clock = os.clock()
     local mark = {}
     local searched = setmetatable({}, {
         __newindex = function (self, name, v)
@@ -56,6 +57,10 @@ local function search_mpq(map)
             end
             mark[name] = true
             count = count + 1
+            if os.clock() - clock > 0.1 then
+                clock = os.clock()
+                print(('正在搜索文件... (%d/%d)'):format(count, total))
+            end
         end
     })
     local files = setmetatable({}, {
@@ -94,12 +99,25 @@ local function scan_dir(dir, callback)
 end
 
 local function search_dir(path)
-    local files = {}
+    local paths = {}
     local len = #path:string()
+    local total = 0
     scan_dir(path, function(path)
         local name = path:string():sub(len+2):lower()
-        files[name] = io.load(path)
+        paths[name] = path
+        total = total + 1
     end)
+    local clock = os.clock()
+    local count = 0
+    local files = {}
+    for name, path in pairs(paths) do
+        files[name] = io.load(path)
+        count = count + 1
+        if os.clock() - clock > 0.1 then
+            clock = os.clock()
+            print(('正在搜索文件... (%d/%d)'):format(count, total))
+        end
+    end
     return files
 end
 
