@@ -70,6 +70,7 @@ function mt:flush()
     end
     self._flushed = true
     self.cache = {}
+    self.has_cache = {}
 end
 
 local function unify(name)
@@ -80,6 +81,12 @@ function mt:has(name)
     name = unify(name)
     if not self.handle then
         return false
+    end
+    if self.has_cache[name] ~= nil then
+        return self.has_cache[name]
+    end
+    if self._flushed then
+        return
     end
     return self.handle:has_file(name)
 end
@@ -111,6 +118,9 @@ function mt:get(name)
     local buf = self.handle:load_file(name)
     if buf then
         self.cache[name] = buf
+        self.has_cache[name] = true
+    else
+        self.has_cache[name] = false
     end
     return buf
 end
@@ -123,6 +133,7 @@ return function (pathorhandle, tp)
     local read_only = tp ~= 'w'
     local ar = {
         cache = {},
+        has_cache = {},
         path = pathorhandle,
         _read = read_only,
     }
