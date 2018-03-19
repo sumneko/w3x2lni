@@ -58,30 +58,11 @@ return function (w2l, output_ar, w3i, input_ar)
             w2l:file_save('map', 'war3mapunits.doo', w2l:create_unitsdoo())
         end
     end
-    for name, buf in pairs(input_ar) do
-        if not buf then
-            goto CONTINUE
-        end
-        if w2l.config.mdx_squf and name:sub(-4) == '.mdx' then
-            buf = w3xparser.mdxopt(buf)
-        end
-        if name:sub(-4) == '.mdx' or name:sub(-4) == '.mdl' or name:sub(-4) == '.blp' then
-            w2l:file_save('resource', name, buf)
-        elseif name:sub(-2) == '.j' then
-            w2l:file_save('jass', name, buf)
-        elseif name:sub(-4) == '.lua' then
-            w2l:file_save('lua', name, buf)
-        elseif name:sub(-4) == '.mp3' or name:sub(-4) == '.wav' then
-            w2l:file_save('sound', name, buf)
-        else
-            w2l:file_save('map', name, buf)
-        end
-        ::CONTINUE::
-    end
+    
     for _, name in pairs(w2l.info.pack.packignore) do
         w2l:file_remove('map', name)
     end
-
+    w2l:map_remove('builder.w3x')
     if w2l.config.mode == 'lni' then
         if not w2l:file_load('lni', 'imp') and w2l:file_load('map', 'war3map.imp') then
             w2l:file_save('lni', 'imp', w2l:backend_imp(w2l:file_load('map', 'war3map.imp')))
@@ -93,6 +74,32 @@ return function (w2l, output_ar, w3i, input_ar)
         elseif w2l:file_load('lni', 'imp') then
             w2l:file_save('map', 'war3map.imp', build_imp(w2l, output_ar, w2l:file_load('lni', 'imp')))
         end
+    end
+
+    for name, buf in pairs(input_ar) do
+        if not buf then
+            goto CONTINUE
+        end
+        if w2l.config.mdx_squf and name:sub(-4) == '.mdx' then
+            buf = w3xparser.mdxopt(buf)
+        end
+        local type
+        if name:sub(-4) == '.mdx' or name:sub(-4) == '.mdl' or name:sub(-4) == '.blp' then
+            type = 'resource'
+        elseif name:sub(-2) == '.j' then
+            type = 'jass'
+        elseif name:sub(-4) == '.lua' then
+            type = 'lua'
+        elseif name:sub(-4) == '.mp3' or name:sub(-4) == '.wav' then
+            type = 'sound'
+        else
+            type = 'map'
+        end
+        if w2l.input_mode == 'lni' then
+            name = name:sub(#type + 2)
+        end
+        w2l:file_save(type, name, buf)
+        ::CONTINUE::
     end
 
     input_ar:close()
