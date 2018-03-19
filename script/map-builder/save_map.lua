@@ -41,7 +41,7 @@ local searchers = {
     search_imp,
 }
 
-local function search_mpq(files, map)
+local function search_mpq(files, map, progress)
     local total = map:number_of_files()
     local count = 0
     local clock = os.clock()
@@ -60,6 +60,7 @@ local function search_mpq(files, map)
             if os.clock() - clock > 0.1 then
                 clock = os.clock()
                 print(('正在搜索文件... (%d/%d)'):format(count, total))
+                progress(count / total)
             end
         end
     })
@@ -104,7 +105,7 @@ local function search_dir(paths, path)
     end)
 end
 
-local function load_files(files, paths)
+local function load_files(files, paths, progress)
     local total = 0
     for _ in pairs(paths) do
         total = total + 1
@@ -117,6 +118,7 @@ local function load_files(files, paths)
         if os.clock() - clock > 0.1 then
             clock = os.clock()
             print(('正在搜索文件... (%d/%d)'):format(count, total))
+            progress(count / total)
         end
     end
 end
@@ -166,8 +168,9 @@ end
 
 return function (w2l, output_ar, w3i, input_ar)
     local files = {}
+    w2l.progress:start(0.5)
     if input_ar:get_type() == 'mpq' then
-        search_mpq(files, input_ar)
+        search_mpq(files, input_ar, w2l.progress)
     else
         local paths = {}
         if w2l.input_mode == 'lni' then
@@ -179,8 +182,9 @@ return function (w2l, output_ar, w3i, input_ar)
         else
             search_dir(paths, input_ar.path)
         end
-        load_files(files, paths)
+        load_files(files, paths, w2l.progress)
     end
+    w2l.progress:finish()
     if w2l.config.remove_we_only then
         w2l:file_remove('map', 'war3map.wtg')
         w2l:file_remove('map', 'war3map.wct')
@@ -236,8 +240,10 @@ return function (w2l, output_ar, w3i, input_ar)
     end
 
     input_ar:close()
+    w2l.progress:start(1)
     if not output_ar:save(w3i, w2l.progress, w2l.config.remove_we_only) then
         print('创建新地图失败,可能文件被占用了')
     end
+    w2l.progress:finish()
     output_ar:close()
 end
