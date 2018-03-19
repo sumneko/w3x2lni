@@ -7,7 +7,7 @@ local function has_slk(w2l)
             return true
         end
     end
-    for _, slks in ipairs(w2l.info.slk) do
+    for _, slks in pairs(w2l.info.slk) do
         for _, name in ipairs(slks) do
             if w2l:map_load(name) then
                 return true
@@ -22,7 +22,7 @@ local function load_slk(w2l)
         w2l.message('-report|9其他', '物编信息不完整,强制读取slk文件')
     end
     if (w2l.force_slk or w2l.config.read_slk) and has_slk(w2l) then
-        return w2l:build_slk()
+        return w2l:build_slk(true)
     else
         return w2l:get_default(true)
     end

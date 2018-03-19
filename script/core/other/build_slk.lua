@@ -149,7 +149,7 @@ local function merge_txt(t, fix)
     end
 end
 
-return function (_w2l)
+return function (_w2l, load_map)
     w2l = _w2l
     
     local slk = w2l.parse_slk
@@ -171,10 +171,12 @@ return function (_w2l)
 			function hook(t)
                 merge_slk(t, abilitybuffdata)
 			end
-		end
-        local buf = w2l:file_load('map', name)
-        if buf then
-            return buf
+        end
+        if load_map then
+            local buf = w2l:file_load('map', name)
+            if buf then
+                return buf
+            end
         end
 		return w2l:mpq_load(name)
 	end)
