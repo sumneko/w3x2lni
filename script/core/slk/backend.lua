@@ -369,8 +369,8 @@ return function (w2l, slk)
         w2l.message('转换触发器...')
         w2l:backend_convertwtg(slk.wts)
         convert_wtg(w2l)
-        w2l.progress:finish()
     end
+    w2l.progress:finish()
 
     w2l.message('转换脚本...')
     w2l:backend_convertjass(slk.wts)

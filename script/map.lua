@@ -225,7 +225,6 @@ local output_rate = get_io_time(output_ar)
 local frontend_rate = (1 - input_rate - output_rate) * 0.4
 local backend_rate = (1 - input_rate - output_rate) * 0.6
 
-print('level:', w2l.progress.level)
 print('正在读取文件...')
 w2l.progress:start(input_rate)
 builder.search(input_ar, w2l.progress)
@@ -246,7 +245,6 @@ local doo = input_ar:get 'war3map.doo'
 w2l.progress:start(1)
 builder.save(w2l, output_ar, slk.w3i, input_ar)
 w2l.progress:finish()
-print('level:', w2l.progress.level)
 
 save_builder(doo)
 print('转换完毕,用时 ' .. os.clock() .. ' 秒') 
