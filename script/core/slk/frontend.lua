@@ -1,11 +1,27 @@
 local pairs = pairs
 local type = type
 
+local function has_slk(w2l)
+    for _, name in ipairs(w2l.info.txt) do
+        if w2l:map_load(name) then
+            return true
+        end
+    end
+    for _, slks in ipairs(w2l.info.slk) do
+        for _, name in ipairs(slks) do
+            if w2l:map_load(name) then
+                return true
+            end
+        end
+    end
+    return false
+end
+
 local function load_slk(w2l)
     if w2l.force_slk then
         w2l.message('-report|9其他', '物编信息不完整,强制读取slk文件')
     end
-    if w2l.force_slk or w2l.config.read_slk then
+    if (w2l.force_slk or w2l.config.read_slk) and has_slk(w2l) then
         return w2l:build_slk()
     else
         return w2l:get_default(true)
