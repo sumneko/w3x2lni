@@ -214,18 +214,30 @@ local function save_builder(doo)
     end
 end
 
+local file_count = input_ar:number_of_files()
+local function get_io_time(map)
+    local io_speed = map:get_type() == 'mpq' and 300000 or 10000
+    local io_rate = math.min(0.3, file_count / io_speed)
+    return io_rate
+end
+local input_rate = get_io_time(input_ar)
+local output_rate = get_io_time(output_ar)
+local frontend_rate = (1 - input_rate - output_rate) * 0.4
+local backend_rate = (1 - input_rate - output_rate) * 0.6
+
+print('level:', w2l.progress.level)
 print('正在读取文件...')
-w2l.progress:start(0.1)
+w2l.progress:start(input_rate)
 builder.search(input_ar, w2l.progress)
 w2l.progress:finish()
 
 print('正在读取物编...')
-w2l.progress:start(0.5)
+w2l.progress:start(input_rate + frontend_rate)
 w2l:frontend(slk)
 w2l.progress:finish()
 
 print('正在转换...')
-w2l.progress:start(0.9)
+w2l.progress:start(input_rate + frontend_rate + backend_rate)
 w2l:backend(slk)
 w2l.progress:finish()
 
@@ -234,6 +246,7 @@ local doo = input_ar:get 'war3map.doo'
 w2l.progress:start(1)
 builder.save(w2l, output_ar, slk.w3i, input_ar)
 w2l.progress:finish()
+print('level:', w2l.progress.level)
 
 save_builder(doo)
 print('转换完毕,用时 ' .. os.clock() .. ' 秒') 
