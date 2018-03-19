@@ -126,14 +126,14 @@ function w2l:file_save(type, name, buf)
     elseif type == 'trigger' then
         input_ar:set('trigger/' .. name, buf)
         output_ar:set('trigger/' .. name, buf)
-    elseif type == 'map' then
+    else
         if self.input_mode == 'lni' then
-            input_ar:set('map/' .. name, buf)
+            input_ar:set(type .. '/' .. name, buf)
         else
             input_ar:set(name, buf)
         end
         if self.config.mode == 'lni' then
-            output_ar:set('map/' .. name, buf)
+            output_ar:set(type .. '/' .. name, buf)
         else
             output_ar:set(name, buf)
         end
@@ -150,9 +150,9 @@ function w2l:file_load(type, name)
         end
     elseif type == 'trigger' then
         return input_ar:get('trigger/' .. name, buf) or input_ar:get('war3map.wtg.lml/' .. name, buf)
-    elseif type == 'map' then
+    else
         if self.input_mode == 'lni' then
-            return input_ar:get('map/' .. name, buf)
+            return input_ar:get(type .. '/' .. name, buf)
         else
             return input_ar:get(name, buf)
         end
@@ -170,14 +170,14 @@ function w2l:file_remove(type, name)
         input_ar:remove('war3map.wtg.lml/' .. name, buf)
         output_ar:remove('trigger/' .. name, buf)
         output_ar:remove('war3map.wtg.lml/' .. name, buf)
-    elseif type == 'map' then
+    else
         if self.input_mode == 'lni' then
-            input_ar:remove('map/' .. name, buf)
+            input_ar:remove(type .. '/' .. name, buf)
         else
             input_ar:remove(name, buf)
         end
         if self.config.mode == 'lni' then
-            output_ar:remove('map/' .. name, buf)
+            output_ar:remove(type .. '/' .. name, buf)
         else
             output_ar:remove(name, buf)
         end

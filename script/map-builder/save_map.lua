@@ -41,7 +41,7 @@ local searchers = {
     search_imp,
 }
 
-local function search_mpq(map)
+local function search_mpq(files, map)
     local total = map:number_of_files()
     local count = 0
     local clock = os.clock()
@@ -63,7 +63,7 @@ local function search_mpq(map)
             end
         end
     })
-    local files = setmetatable({}, {
+    setmetatable(files, {
         __newindex = function (self, name, v)
             if not v then
                 return
@@ -84,8 +84,6 @@ local function search_mpq(map)
         print('-tip', '这些文件被丢弃了,请包含完整(listfile)')
         print('-report|1严重错误', ('读取(%d/%d)个文件'):format(count, total))
     end
-
-    return files
 end
 
 local function scan_dir(dir, callback)
@@ -98,18 +96,21 @@ local function scan_dir(dir, callback)
     end
 end
 
-local function search_dir(path)
-    local paths = {}
+local function search_dir(paths, path)
     local len = #path:string()
-    local total = 0
     scan_dir(path, function(path)
         local name = path:string():sub(len+2):lower()
         paths[name] = path
-        total = total + 1
     end)
+end
+
+local function load_files(files, paths)
+    local total = 0
+    for _ in pairs(paths) do
+        total = total + 1
+    end
     local clock = os.clock()
     local count = 0
-    local files = {}
     for name, path in pairs(paths) do
         files[name] = io.load(path)
         count = count + 1
@@ -118,7 +119,6 @@ local function search_dir(path)
             print(('正在搜索文件... (%d/%d)'):format(count, total))
         end
     end
-    return files
 end
 
 local function build_imp(w2l, output_ar, imp_buf)
@@ -165,15 +165,21 @@ local function build_imp(w2l, output_ar, imp_buf)
 end
 
 return function (w2l, output_ar, w3i, input_ar)
-    local files
+    local files = {}
     if input_ar:get_type() == 'mpq' then
-        files = search_mpq(input_ar)
+        search_mpq(files, input_ar)
     else
+        local paths = {}
         if w2l.input_mode == 'lni' then
-            files = search_dir(input_ar.path / 'map')
+            search_dir(paths, input_ar.path / 'map')
+            search_dir(paths, input_ar.path / 'resource')
+            search_dir(paths, input_ar.path / 'jass')
+            search_dir(paths, input_ar.path / 'lua')
+            search_dir(paths, input_ar.path / 'sound')
         else
-            files = search_dir(input_ar.path)
+            search_dir(paths, input_ar.path)
         end
+        load_files(files, paths)
     end
     if w2l.config.remove_we_only then
         w2l:file_remove('map', 'war3map.wtg')
@@ -195,7 +201,17 @@ return function (w2l, output_ar, w3i, input_ar)
         if w2l.config.mdx_squf and name:sub(-4) == '.mdx' then
             buf = w3xparser.mdxopt(buf)
         end
-        w2l:file_save('map', name, buf)
+        if name:sub(-4) == '.mdx' or name:sub(-4) == '.mdl' or name:sub(-4) == '.blp' then
+            w2l:file_save('resource', name, buf)
+        elseif name:sub(-2) == '.j' then
+            w2l:file_save('jass', name, buf)
+        elseif name:sub(-4) == '.lua' then
+            w2l:file_save('lua', name, buf)
+        elseif name:sub(-4) == '.mp3' or name:sub(-4) == '.wav' then
+            w2l:file_save('sound', name, buf)
+        else
+            w2l:file_save('map', name, buf)
+        end
         ::CONTINUE::
     end
     for _, name in pairs(w2l.info.pack.packignore) do
