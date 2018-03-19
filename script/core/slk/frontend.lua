@@ -190,5 +190,4 @@ return function(w2l, slk)
     w2l.progress:start(1)
     update_then_merge(w2l, slks, objs, lnis, slk)
     w2l.progress:finish()
-    w2l:frontend_misc(slk)
 end
