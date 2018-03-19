@@ -10,6 +10,16 @@ local function task(f, ...)
     f(...)
 end
 
+local function scan_dir(dir, callback)
+    for path in dir:list_directory() do
+        if fs.is_directory(path) then
+            scan_dir(path, callback)
+        else
+            callback(path)
+        end
+    end
+end
+
 local mt = {}
 mt.__index = mt
 
@@ -22,6 +32,14 @@ function mt:save()
 end
 
 function mt:close()
+end
+
+function mt:count_files()
+    local count = 0
+    scan_dir(self.path, function ()
+        count = count + 1
+    end)
+    return count
 end
 
 function mt:extract(name, path)

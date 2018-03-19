@@ -10,8 +10,12 @@ function mt:number_of_files()
     if self:get_type() == 'mpq' then
         return self.handle:number_of_files()
     else
-        return -1
+        return self.handle:count_files()
     end
+end
+
+function mt:search_files()
+    return self.handle:search_files()
 end
 
 function mt:get_type()

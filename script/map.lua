@@ -214,13 +214,18 @@ local function save_builder(doo)
     end
 end
 
+print('正在读取文件...')
+w2l.progress:start(0.1)
+builder.search(input_ar, w2l.progress)
+w2l.progress:finish()
+
 print('正在读取物编...')
-w2l.progress:start(0.4)
+w2l.progress:start(0.5)
 w2l:frontend(slk)
 w2l.progress:finish()
 
 print('正在转换...')
-w2l.progress:start(0.8)
+w2l.progress:start(0.9)
 w2l:backend(slk)
 w2l.progress:finish()
 
@@ -228,7 +233,7 @@ print('正在生成文件...')
 local doo = input_ar:get 'war3map.doo'
 w2l.progress:start(1)
 builder.save(w2l, output_ar, slk.w3i, input_ar)
-w2l.progress:finish(doo)
+w2l.progress:finish()
 
-save_builder()
+save_builder(doo)
 print('转换完毕,用时 ' .. os.clock() .. ' 秒') 
