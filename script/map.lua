@@ -149,12 +149,12 @@ function w2l:file_load(type, name)
             end
         end
     elseif type == 'trigger' then
-        return input_ar:get('trigger/' .. name, buf) or input_ar:get('war3map.wtg.lml/' .. name, buf)
+        return input_ar:get('trigger/' .. name) or input_ar:get('war3map.wtg.lml/' .. name)
     else
         if self.input_mode == 'lni' then
-            return input_ar:get(type .. '/' .. name, buf)
+            return input_ar:get(type .. '/' .. name)
         else
-            return input_ar:get(name, buf)
+            return input_ar:get(name)
         end
     end
 end

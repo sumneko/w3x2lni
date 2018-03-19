@@ -235,10 +235,6 @@ return function (w2l, output_ar, w3i, input_ar)
         end
     end
 
-    for name, buf in pairs(output_ar) do
-        output_ar:set(name, buf)
-    end
-
     input_ar:close()
     w2l.progress:start(1)
     if not output_ar:save(w3i, w2l.progress, w2l.config.remove_we_only) then
