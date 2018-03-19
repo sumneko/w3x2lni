@@ -1,13 +1,13 @@
 
 local w2l
 
-local function search_staticfile(map, files, searched)
+local function search_staticfile(map, callback)
     for _, name in ipairs {'(listfile)', '(signature)', '(attributes)'} do
         callback(name)
     end
 end
 
-local function search_listfile(map, files, searched)
+local function search_listfile(map, callback)
     local buf = map:get '(listfile)'
     if buf then
         for name in buf:gmatch '[^\r\n]+' do
@@ -50,6 +50,9 @@ local function search_mpq(map, progress)
                 return
             end
             mark[name] = true
+            if not map:has(name) then
+                return
+            end
             map:get(name)
             count = count + 1
             if os.clock() - clock > 0.1 then
