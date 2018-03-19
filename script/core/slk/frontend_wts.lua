@@ -22,7 +22,8 @@ local function search_string(buf)
 
     local bom    = P'\xEF\xBB\xBF'
     local nl     = (P'\r\n' + S'\r\n') / newline
-    local char   = nl + P(1)
+    local esc    = P'\\\\' / '\\'
+    local char   = nl + esc + P(1)
     local com    = P'//' * (1-nl)^0 * nl^-1
     local int    = P'0' + R'19' * R'09'^0
     local define = P
