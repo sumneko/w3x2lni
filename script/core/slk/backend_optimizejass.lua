@@ -26,6 +26,10 @@ return function (w2l)
     local common   = w2l:file_load('jass', 'common.j')   or w2l:file_load('jass', 'scripts\\common.j')   or w2l:mpq_load('scripts\\common.j')
     local blizzard = w2l:file_load('jass', 'blizzard.j') or w2l:file_load('jass', 'scripts\\blizzard.j') or w2l:mpq_load('scripts\\blizzard.j')
     local war3map  = w2l:file_load('jass', 'war3map.j')  or w2l:file_load('jass', 'scripts\\war3map.j')
+    if not war3map then
+        w2l.message('-report|1严重错误', '没有找到脚本')
+        return
+    end
     local ast
     ast = parser(common,   'common.j',   ast)
     ast = parser(blizzard, 'blizzard.j', ast)

@@ -226,6 +226,9 @@ local function mark(slk, name)
 end
 
 local function mark_jass(slk, list, flag)
+    if not flag then
+        return
+    end
     if list then
         for name in pairs(list) do
             current_root = {name, "脚本里的'%s'[%s]引用了它"}
@@ -260,6 +263,9 @@ local function mark_jass(slk, list, flag)
 end
 
 local function mark_marketplace(slk, flag)
+    if not flag then
+        return
+    end
     if not flag.marketplace or flag.item then
         return
     end
