@@ -172,6 +172,10 @@ return function (_w2l)
                 merge_slk(t, abilitybuffdata)
 			end
 		end
+        local buf = w2l:file_load('map', name)
+        if buf then
+            return buf
+        end
 		return w2l:mpq_load(name)
 	end)
 

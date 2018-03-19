@@ -6,13 +6,7 @@ local function load_slk(w2l)
         w2l.message('-report|9其他', '物编信息不完整,强制读取slk文件')
     end
     if w2l.force_slk or w2l.config.read_slk then
-        return w2l:frontend_slk(function(name)
-            local buf = w2l:file_load('map', name)
-            if buf then
-                return buf
-            end
-            return w2l:mpq_load(name)
-        end)
+        return w2l:build_slk()
     else
         return w2l:get_default(true)
     end
