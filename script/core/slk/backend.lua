@@ -365,15 +365,15 @@ return function (w2l, slk)
     w2l.progress:finish()
 
     w2l.progress:start(0.8)
-    w2l.message('转换触发器...')
-    convert_wtg(w2l)
-    w2l.progress:finish()
+    if not w2l.config.remove_we_only then
+        w2l.message('转换触发器...')
+        w2l:backend_convertwtg(slk.wts)
+        convert_wtg(w2l)
+        w2l.progress:finish()
+    end
 
     w2l.message('转换脚本...')
     w2l:backend_convertjass(slk.wts)
-    if not w2l.config.remove_we_only then
-        w2l:backend_convertwtg(slk.wts)
-    end
     w2l.progress(0.9)
 
     w2l.message('转换其他文件...')
