@@ -216,7 +216,7 @@ end
 
 local file_count = input_ar:number_of_files()
 local function get_io_time(map)
-    local io_speed = map:get_type() == 'mpq' and 300000 or 10000
+    local io_speed = map:get_type() == 'mpq' and 30000 or 10000
     local io_rate = math.min(0.3, file_count / io_speed)
     return io_rate
 end
