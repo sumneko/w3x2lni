@@ -119,7 +119,7 @@ local function get_displayname(o)
 end
 
 local function update_then_merge(w2l, slks, objs, lnis, slk)
-    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'txt'} do
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc', 'txt'} do
         local report, report2
         local data = slks[type]
         local obj = objs[type]
