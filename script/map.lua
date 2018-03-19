@@ -87,14 +87,20 @@ local output_ar = builder.load(output, 'w')
 if not output_ar then
     return
 end
+output_ar:flush()
 
 local function is_input_lni()
     if fs.is_directory(input) then
-        local mark = builder.load(input / 'builder.w3x')
-        if mark then
-            return mark:get 'lni-mark'
+        local map = io.open((input / 'builder.w3x'):string(), 'rb')
+        if map then
+            map:seek('set', 8)
+            local mark = map:read(4)
+            if mark == 'W2L\x01' then
+                return true
+            end
         end
     end
+    return false
 end
 
 if is_input_lni() then
@@ -106,11 +112,76 @@ function w2l:map_load(filename)
 end
 
 function w2l:map_save(filename, buf)
-    output_ar:set(filename, buf)
+    input_ar:set(filename, buf)
 end
 
 function w2l:map_remove(filename)
     input_ar:remove(filename)
+end
+
+function w2l:file_save(type, name, buf)
+    if type == 'lni' then
+        input_ar:set(self.info.dir[name][1], buf)
+        output_ar:set(self.info.dir[name][1], buf)
+    elseif type == 'trigger' then
+        input_ar:set('trigger/' .. name, buf)
+        output_ar:set('trigger/' .. name, buf)
+    elseif type == 'map' then
+        if self.input_mode == 'lni' then
+            input_ar:set('map/' .. name, buf)
+        else
+            input_ar:set(name, buf)
+        end
+        if self.config.mode == 'lni' then
+            output_ar:set('map/' .. name, buf)
+        else
+            output_ar:set(name, buf)
+        end
+    end
+end
+
+function w2l:file_load(type, name)
+    if type == 'lni' then
+        for _, filename in ipairs(self.info.dir[name]) do
+            local buf = input_ar:get(filename)
+            if buf then
+                return buf
+            end
+        end
+    elseif type == 'trigger' then
+        return input_ar:get('trigger/' .. name, buf) or input_ar:get('war3map.wtg.lml/' .. name, buf)
+    elseif type == 'map' then
+        if self.input_mode == 'lni' then
+            return input_ar:get('map/' .. name, buf)
+        else
+            return input_ar:get(name, buf)
+        end
+    end
+end
+
+function w2l:file_remove(type, name)
+    if type == 'lni' then
+        for _, filename in ipairs(self.info.dir[name]) do
+            input_ar:remove(filename)
+            output_ar:remove(filename)
+        end
+    elseif type == 'trigger' then
+        input_ar:remove('trigger/' .. name, buf)
+        input_ar:remove('war3map.wtg.lml/' .. name, buf)
+        output_ar:remove('trigger/' .. name, buf)
+        output_ar:remove('war3map.wtg.lml/' .. name, buf)
+    elseif type == 'map' then
+        if self.input_mode == 'lni' then
+            input_ar:remove('map/' .. name, buf)
+        else
+            input_ar:remove(name, buf)
+        end
+        if self.config.mode == 'lni' then
+            output_ar:remove('map/' .. name, buf)
+        else
+            output_ar:remove(name, buf)
+        end
+    end
 end
 
 function w2l:mpq_load(filename)
@@ -145,12 +216,13 @@ w2l.progress:start(1)
 builder.save(w2l, output_ar, slk.w3i, input_ar)
 w2l.progress:finish()
 if w2l.config.mode == 'lni' then
-    local ex_map = builder.load(output / 'builder.w3x', 'w')
+    local path = output / 'builder.w3x'
+    local ex_map = builder.load(path, 'w')
     ex_map:set('war3mapunits.doo', w2l:create_unitsdoo())
     ex_map:set('war3map.doo', doo)
     ex_map:set('war3map.w3e', w2l:create_w3e())
     ex_map:set('war3map.w3i', w2l:backend_w3i(slk.w3i, slk.wts))
-    ex_map:set('lni-mark', '')
+    slk.w3i['地图']['地图名称'] = 'W2L\x01'
     ex_map:save(slk.w3i, w2l.progress, false)
     ex_map:close()
 end

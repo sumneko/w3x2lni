@@ -37,22 +37,26 @@ function mt:save(w3i, progress, encrypt)
     if self:is_readonly() then
         return false
     end
-    if not self.handle:save(self.path, w3i, self.write_count, encrypt) then
+    local max = 0
+    for _ in pairs(self) do
+        max = max + 1
+    end
+    if not self.handle:save(self.path, w3i, max, encrypt) then
         return false
     end
     local clock = os_clock()
     local count = 0
-    for name, buf in pairs(self.write_cache) do
+    for name, buf in pairs(self) do
         if buf then
             self.handle:save_file(name, buf)
             count = count + 1
             if os_clock() - clock > 0.1 then
                 clock = os_clock()
-                progress(count / self.write_count)
+                progress(count / max)
                 if self:get_type() == 'mpq' then
-                    print(('正在打包文件... (%d/%d)'):format(count, self.write_count))
+                    print(('正在打包文件... (%d/%d)'):format(count, max))
                 else
-                    print(('正在导出文件... (%d/%d)'):format(count, self.write_count))
+                    print(('正在导出文件... (%d/%d)'):format(count, max))
                 end
             end
         end
@@ -60,73 +64,76 @@ function mt:save(w3i, progress, encrypt)
     return true
 end
 
-function mt:set(name, buf)
-    name = name:lower():gsub('\\', '/')
-    if self.write_cache[name] then
-        self.write_count = self.write_count - 1
+function mt:flush()
+    if self:is_readonly() then
+        return false
     end
-    self.write_count = self.write_count + 1
-    self.write_cache[name] = buf
+    self._flushed = true
+    self.cache = {}
+    self.has_cache = {}
+end
 
-    if self.handle:has_file(name) then
-        if self.read_cache[name] ~= nil then
-            self.read_count = self.read_count - 1
-        end
-        self.read_count = self.read_count + 1
+local function unify(name)
+    return name:lower():gsub('/', '\\')
+end
+
+function mt:has(name)
+    name = unify(name)
+    if not self.handle then
+        return false
     end
-    self.read_cache[name] = buf
+    if self.has_cache[name] ~= nil then
+        return self.has_cache[name]
+    end
+    if self._flushed then
+        return
+    end
+    return self.handle:has_file(name)
+end
+
+function mt:set(name, buf)
+    name = unify(name)
+    self.cache[name] = buf
 end
 
 function mt:remove(name)
-    name = name:lower():gsub('\\', '/')
-    if self.write_cache[name] then
-        self.write_count = self.write_count - 1
-    end
-    self.write_cache[name] = false
-
-    if self.handle:has_file(name) then
-        if self.read_cache[name] ~= nil then
-            self.read_count = self.read_count - 1
-        end
-        self.read_count = self.read_count + 1
-    end
-    self.read_cache[name] = false
+    name = unify(name)
+    self.cache[name] = false
 end
 
 function mt:get(name)
-    name = name:lower():gsub('\\', '/')
-    if self.read_cache[name] then
-        return self.read_cache[name]
+    name = unify(name)
+    if self.cache[name] then
+        return self.cache[name]
     end
-    if self.read_cache[name] == false then
+    if self.cache[name] == false then
         return nil
     end
     if not self.handle then
         return nil
     end
+    if self._flushed then
+        return nil
+    end
     local buf = self.handle:load_file(name)
     if buf then
-        self.read_cache[name] = buf
-        self.read_count = self.read_count + 1
+        self.cache[name] = buf
+        self.has_cache[name] = true
+    else
+        self.has_cache[name] = false
     end
     return buf
 end
 
 function mt:__pairs()
-    if self:is_readonly() then
-        return next, self.read_cache
-    else
-        return next, self.write_cache
-    end
+    return next, self.cache
 end
 
 return function (pathorhandle, tp)
     local read_only = tp ~= 'w'
     local ar = {
-        read_cache = {},
-        write_cache = {},
-        read_count = 0,
-        write_count = 0,
+        cache = {},
+        has_cache = {},
         path = pathorhandle,
         _read = read_only,
     }

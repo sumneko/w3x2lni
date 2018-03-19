@@ -319,7 +319,7 @@ local function prebuild_merge(obj, a, b)
                 obj[k] = v
             end
         end
-::CONTINUE::
+        ::CONTINUE::
     end
 end
 

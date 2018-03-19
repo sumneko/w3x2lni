@@ -64,7 +64,8 @@ local function convert_wtg(w2l)
                 w2l:file_remove('map', 'war3map.wtg')
                 w2l:file_remove('map', 'war3map.wct')
             end, function (msg)
-                w2l.message('-report|2警告', '没有转换触发器', msg)
+                w2l.message('-report|2警告', '没有转换触发器')
+                w2l.message('-tip', msg:match('%.lua:%d+: (.*)'))
             end)
         end
     else
@@ -385,12 +386,6 @@ return function (w2l, slk)
         w2l:file_save('map', 'war3mapskin.txt', w2l:backend_skin(skin, slk.wts))
     end
     w2l.progress(0.94)
-
-    local buf = w2l:file_load('map', 'war3map.imp')
-    if buf then
-        w2l:file_remove('map', 'war3map.imp')
-        w2l:file_save('lni', 'imp', w2l:backend_imp(buf))
-    end
 
     w2l.message('重新生成字符串...')
     local content = w2l:refresh_wts(slk.wts)

@@ -247,51 +247,31 @@ end
 
 function mt:file_save(type, name, buf)
     if type == 'lni' then
-        self:map_save(self.info.dir[name][1], buf)
+        self:map_save(self.info.dir[name][2], buf)
     elseif type == 'trigger' then
-        self:map_save('trigger/' .. name, buf)
+        self:map_save('war3map.wtg.lml/' .. name, buf)
     elseif type == 'map' then
-        if self.config.mode == 'lni' then
-            self:map_save('map/' .. name, buf)
-        else
-            self:map_save(name, buf)
-        end
+        self:map_save(name, buf)
     end
 end
 
 function mt:file_load(type, name)
     if type == 'lni' then
-        for _, filename in ipairs(self.info.dir[name]) do
-            local buf = self:map_load(filename)
-            if buf then
-                return buf
-            end
-        end
+        self:map_load(self.info.dir[name][2], buf)
     elseif type == 'trigger' then
-        return self:map_load('trigger/' .. name, buf) or self:map_load('war3map.wtg.lml/' .. name, buf)
+        return self:map_load('war3map.wtg.lml/' .. name, buf)
     elseif type == 'map' then
-        if self.input_mode == 'lni' then
-            return self:map_load('map/' .. name, buf)
-        else
-            return self:map_load(name, buf)
-        end
+        return self:map_load(name, buf)
     end
 end
 
 function mt:file_remove(type, name)
     if type == 'lni' then
-        for _, filename in ipairs(self.info.dir[name]) do
-            self:map_remove(filename)
-        end
+        self:map_remove(self.info.dir[name][2], buf)
     elseif type == 'trigger' then
-        self:map_remove('trigger/' .. name, buf)
         self:map_remove('war3map.wtg.lml/' .. name, buf)
     elseif type == 'map' then
-        if self.input_mode == 'lni' then
-            self:map_remove('map/' .. name, buf)
-        else
-            self:map_remove(name, buf)
-        end
+        self:map_remove(name, buf)
     end
 end
 
