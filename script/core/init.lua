@@ -132,7 +132,7 @@ function mt:load_wts(wts, content, max, reason, fmter)
             text = fmter(text)
         end
         if max and #text > max then
-            return self:save_wts(wts, text, reason)
+            return self:save_wts(wts, str_data.text, reason)
         end
         return text
     end)
