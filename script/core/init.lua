@@ -258,11 +258,11 @@ end
 
 function mt:file_load(type, name)
     if type == 'lni' then
-        self:map_load(self.info.dir[name][2], buf)
+        self:map_load(self.info.dir[name][2])
     elseif type == 'trigger' then
-        return self:map_load('war3map.wtg.lml/' .. name, buf)
+        return self:map_load('war3map.wtg.lml/' .. name)
     elseif type == 'map' then
-        return self:map_load(name, buf)
+        return self:map_load(name)
     end
 end
 
