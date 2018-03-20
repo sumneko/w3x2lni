@@ -1,0 +1,12 @@
+[A000]
+Art=ReplaceableTextures\CommandButtons\BTNPolymorph.blp
+Buttonpos=2,2
+EffectArt=Abilities\Spells\Human\Polymorph\PolyMorphFallingSheepArt.mdl
+Hotkey=O
+Name=变形术
+Order=polymorph
+Requires=Rhst
+Requiresamount=2
+SpecialArt=Abilities\Spells\Human\Polymorph\PolyMorphTarget.mdl
+Tip=变形术(|cffffcc00O|r)
+Ubertip=使得敌人的一个单位变成一头小绵羊，保有原有的生命值和防御，但是会使其丧失攻击力。|n不能被用在英雄身上。|n持续60秒。
