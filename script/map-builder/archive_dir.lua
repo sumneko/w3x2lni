@@ -55,7 +55,13 @@ function mt:remove_file(name)
 end
 
 function mt:load_file(name)
-    return io.load(self.path / name)
+    local f = io.open((self.path / name):string(), 'rb')
+    if not f then
+        return nil
+    end
+    local buf = f:read 'a'
+    f:close()
+    return buf
 end
 
 function mt:save_file(name, buf, filetime)
