@@ -106,7 +106,7 @@ local function add_data(obj, meta, value, keyval)
                 if i > 1 then
                     key = key .. (i-1)
                 end
-                if value[i] then
+                if value[i] and value[i] ~= '' then
                     flag = true
                     if meta.concat then
                         keyval[#keyval+1] = {key, value[i]}

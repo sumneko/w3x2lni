@@ -313,8 +313,12 @@ local function do_test(path)
 end
 
 local test_dir = fs.current_path() / 'test' / 'unit_test'
-for path in test_dir:list_directory() do
-    do_test(path)
+if arg[1] then
+    do_test(test_dir / arg[1])
+else
+    for path in test_dir:list_directory() do
+        do_test(path)
+    end
 end
 
 print('单元测试完成')
