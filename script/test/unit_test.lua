@@ -75,7 +75,6 @@ local function load_lni(type, id, path)
     local target_name = w2l.info.lni[type]
     function w2l:map_load(filename)
         if filename == target_name then
-            print(path / (type .. '.ini'))
             return io.load(path / (type .. '.ini'))
         end
     end
@@ -154,14 +153,14 @@ local function do_test(path)
     local dump_lni = load_lni(type, id, path)
     local dump_slk = load_slk(type, id, path)
 
-    assert(dump_obj, ('\n<%s> 没有读取到%s - [%s][%s]'):format(name, 'obj', type, id))
-    assert(dump_lni, ('\n<%s> 没有读取到%s - [%s][%s]'):format(name, 'lni', type, id))
-    assert(dump_slk, ('\n<%s> 没有读取到%s - [%s][%s]'):format(name, 'slk', type, id))
+    assert(dump_obj, ('\n\n<%s>[%s.%s] 没有读取到%s'):format(name, type, id, 'obj'))
+    assert(dump_lni, ('\n\n<%s>[%s.%s] 没有读取到%s'):format(name, type, id, 'lni'))
+    assert(dump_slk, ('\n\n<%s>[%s.%s] 没有读取到%s'):format(name, type, id, 'slk'))
     eq_test(dump_obj, dump_lni, function (msg)
-        error(('\n<%s> %s 与 %s 不等 - [%s][%s]\n%s'):format(name, 'obj', 'lni', type, id, msg))
+        error(('\n\n<%s>[%s.%s]\n%s 与 %s 不等：%s'):format(name, type, id, 'obj', 'lni', msg))
     end)
     eq_test(dump_obj, dump_slk, function (msg)
-        error(('\n<%s> %s 与 %s 不等 - [%s][%s]\n%s'):format(name, 'obj', 'slk', type, id, msg))
+        error(('\n\n<%s>[%s.%s]\n%s 与 %s 不等：%s'):format(name, type, id, 'obj', 'slk', msg))
     end)
 end
 
