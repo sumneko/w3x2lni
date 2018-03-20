@@ -318,6 +318,7 @@ function mt:set_config(config)
     choose('optimize_jass', toboolean)
     choose('confusion')
     choose('target_storage')
+    choose('computed_text', toboolean)
     
     self.config = config
     

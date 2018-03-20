@@ -10,11 +10,11 @@ local w2l = core()
 local function task(f, ...)
     for i = 1, 99 do
         if pcall(f, ...) then
-            return
+            return true
         end
         sleep(10)
     end
-    f(...)
+    return false
 end
 
 local mpq_names = {
@@ -105,9 +105,13 @@ local function main()
     end
     local mpq_path = fs.current_path():parent_path() / 'data' / 'mpq' / arg[2]
     if fs.exists(mpq_path) then
-        task(fs.remove_all, mpq_path)
+        if not task(fs.remove_all, mpq_path) then
+            error(('无法清空目录[%s]，请检查目录是否被占用。'):format(mpq_path:string()))
+        end
     end
-    task(fs.create_directories, mpq_path)
+    if not task(fs.create_directories, mpq_path) then
+        error(('无法创建目录[%s]，请检查目录是否被占用。'):format(mpq_path:string()))
+    end
 
     extract_mpq(mpqs)
     report_fail()

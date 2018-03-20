@@ -25,11 +25,11 @@ end
 local function task(f, ...)
     for i = 1, 99 do
         if pcall(f, ...) then
-            return
+            return true
         end
         sleep(10)
     end
-    f(...)
+    return false
 end
 
 local function ydwe_path()
@@ -245,7 +245,9 @@ new_map:close()
 print('生成新地图用时：', os.clock() - clock)
 
 local clock = os.clock()
-task(fs.remove_all, dir)
+if not task(fs.remove_all, dir) then
+	error(('无法清空目录[%s]，请检查目录是否被占用。'):format(dir:string()))
+end
 print('清空目录用时：', os.clock() - clock)
 
 for name, buf in pairs(err_files) do
@@ -253,7 +255,9 @@ for name, buf in pairs(err_files) do
 end
 
 local clock = os.clock()
-task(fs.create_directories, dir)
+if not task(fs.create_directories, dir) then
+	error(('无法创建目录[%s]，请检查目录是否被占用。'):format(dir:string()))
+end
 for filename, buf in pairs(files) do
 	fs.create_directories((dir / filename):parent_path())
 	io.save(dir / filename, buf)

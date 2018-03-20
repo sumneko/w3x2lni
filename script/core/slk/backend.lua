@@ -336,7 +336,7 @@ return function (w2l, slk)
         w2l.progress(0.2)
     end
 
-    if w2l.config.mode == 'slk' then
+    if w2l.config.computed_text then
         w2l.message('计算描述中的公式...')
         w2l:backend_computed(slk)
         w2l.progress(0.3)

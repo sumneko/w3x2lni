@@ -3,11 +3,11 @@ local sleep = require 'ffi.sleep'
 local function task(f, ...)
     for i = 1, 99 do
         if pcall(f, ...) then
-            return
+            return true
         end
         sleep(10)
     end
-    f(...)
+    return false
 end
 
 local function scan_dir(dir, callback)
@@ -25,9 +25,13 @@ mt.__index = mt
 
 function mt:save()
     if fs.exists(self.path) then
-        task(fs.remove_all, self.path)
+        if not task(fs.remove_all, self.path) then
+            error(('无法清空目录[%s]，请检查目录是否被占用。'):format(self.path:string()))
+        end
     end
-    task(fs.create_directories, self.path)
+    if not task(fs.create_directories, self.path) then
+        error(('无法创建目录[%s]，请检查目录是否被占用。'):format(self.path:string()))
+    end
     return true
 end
 
