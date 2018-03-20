@@ -389,7 +389,7 @@ return function (w2l, slk)
 
     w2l.message('重新生成字符串...')
     local content = w2l:refresh_wts(slk.wts)
-    if #content > 0 then
+    if content and #content > 0 then
         w2l:file_save('map', 'war3map.wts', content)
     else
         w2l:file_remove('map', 'war3map.wts')

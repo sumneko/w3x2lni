@@ -152,6 +152,9 @@ function mt:save_wts(wts, text, reason)
 end
 
 function mt:refresh_wts(wts)
+    if not wts then
+        return
+    end
     local lines = {}
     for index, text in ipairs(wts.mark) do
         lines[#lines+1] = ('STRING %d\r\n{\r\n%s\r\n}'):format(index-1, text)

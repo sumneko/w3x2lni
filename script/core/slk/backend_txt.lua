@@ -354,7 +354,9 @@ return function(w2l_, slk, report_, obj)
         list[type] = {}
         object = obj[type]
         update_constant(type)
-        prebuild(type, slk[type], txt, list[type])
+        if slk[type] then
+            prebuild(type, slk[type], txt, list[type])
+        end
     end
     local r = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade'} do

@@ -68,6 +68,9 @@ local function concat(misc)
 end
 
 return function(w2l, misc, txt)
+    if not misc then
+        return
+    end
     metadata = w2l:metadata()
     local data = convert(misc)
     local buf = concat(data)
