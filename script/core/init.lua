@@ -98,6 +98,7 @@ local function create_default(w2l)
     end
     if need_build then
         default = w2l:build_slk()
+        w2l:message('-report|9其他', '没有找到预生成结果')
     end
     return default
 end
