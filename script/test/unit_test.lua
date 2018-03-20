@@ -61,7 +61,8 @@ local slk_keys = {
     },
 }
 
-local function add_loader(w2l)
+local function w3x2lni()
+    local w2l = core()
     local mpq_path = fs.current_path():parent_path() / 'data' / 'mpq'
     local prebuilt_path = fs.current_path():parent_path() / 'data' / 'prebuilt'
 
@@ -76,12 +77,21 @@ local function add_loader(w2l)
             return io.load(prebuilt_path / path / filename)
         end)
     end
+
+    return w2l
+end
+
+local function find_txt(buf, id)
+    local start = buf:find('%['..id..'%]')
+    if not start then
+        return nil
+    end
+    local stop = buf:find('%c+%[')
+    return buf:sub(start, stop)
 end
 
 local function load_obj(type, id, path)
-    local w2l = core()
-
-    add_loader(w2l)
+    local w2l = w3x2lni()
 
     local target_name = w2l.info.obj[type]
     function w2l:map_load(filename)
@@ -91,13 +101,11 @@ local function load_obj(type, id, path)
     end
 
     w2l:frontend()
-    return { w2l.slk[type][id], 'obj' }
+    return { obj = w2l.slk[type][id], type = 'obj' }
 end
 
 local function load_lni(type, id, path)
-    local w2l = core()
-
-    add_loader(w2l)
+    local w2l = w3x2lni()
 
     local target_name = w2l.info.lni[type]
     function w2l:map_load(filename)
@@ -107,13 +115,11 @@ local function load_lni(type, id, path)
     end
 
     w2l:frontend()
-    return { w2l.slk[type][id], 'lni' }
+    return { obj = w2l.slk[type][id], type = 'lni' }
 end
 
 local function load_slk(type, id, path)
-    local w2l = core()
-
-    add_loader(w2l)
+    local w2l = w3x2lni()
 
     w2l:set_config {
         read_slk = true,
@@ -145,7 +151,33 @@ local function load_slk(type, id, path)
     end
 
     w2l:frontend()
-    return { w2l.slk[type][id], 'slk', enable_keys }
+    return { obj = w2l.slk[type][id], type = 'slk', keys = enable_keys }
+end
+
+local function save_slk(w2l, type, id, path)
+    local txt_names = {}
+    for _, name in ipairs(w2l.info.txt) do
+        txt_names[name] = name:sub(7)
+    end
+    local slk_names = {}
+    for _, name in ipairs(w2l.info.slk[type]) do
+        slk_names[name] = name:sub(7)
+    end
+
+    local obj = { slk = nil, txt = nil, type = 'slk' }
+    function w2l:map_save(filename, buf)
+        if slk_names[filename] then
+        elseif txt_names[filename] then
+            local txt = find_txt(buf, id)
+            if txt then
+                obj.txt = txt
+            end
+        end
+    end
+    
+    w2l:backend()
+
+    return obj
 end
 
 local function eq(v1, v2, enable_keys)
@@ -186,6 +218,17 @@ local function eq_test(v1, v2, enable_keys, callback)
     callback(msg)
 end
 
+local function trim(str)
+    str = str:gsub('\r\n', '\n'):gsub('[\n]*', '\n')
+    if str:sub(-1) == '\n' then
+        str = str:sub(1, -2)
+    end
+    if str:sub(1, 1) == '\n' then
+        str = str:sub(2)
+    end
+    return str
+end
+
 local mt = {}
 mt.__index = mt
 
@@ -204,14 +247,42 @@ function mt:load(mode)
     elseif mode == 'slk' then
         dump = load_slk(self._type, self._id, self._path)
     end
-    assert(dump, ('\n\n<%s>[%s.%s] 没有读取到%s'):format(name, self._type, self._id, mode))
+    assert(dump.obj, ('\n\n<%s>[%s.%s] 没有读取到%s'):format(name, self._type, self._id, mode))
     return dump
+end
+
+function mt:save(mode, dump, config)
+    local w2l = w3x2lni()
+    local name = self._path:filename():string()
+    local slk
+    config = config or {}
+    config.mode = mode
+    
+    w2l:set_config(config)
+    w2l.slk = { [self._type] = { [self._id] = dump.obj} }
+
+    if mode == 'slk' then
+        slk = save_slk(w2l, self._type, self._id, self._path)
+    end
+    
+    assert(slk.slk or slk.txt, ('\n\n<%s>[%s.%s] 没有保存为%s'):format(name, self._type, self._id, mode))
+
+    return slk
+end
+
+function mt:read(filename)
+    return io.load(self._path / filename)
+end
+
+function mt:compare_string(str1, str2)
+    local name = self._path:filename():string()
+    assert(trim(str1) == trim(str2), ('\n\n<%s>[%s.%s] 文本不同'):format(name, self._type, self._id))
 end
 
 function mt:compare_dump(dump1, dump2)
     local name = self._path:filename():string()
-    eq_test(dump1[1], dump2[1], dump1[3] or dump2[3], function (msg)
-        error(('\n\n<%s>[%s.%s]\n%s 与 %s 不等：%s'):format(name, self._type, self._id, dump1[2], dump2[2], msg))
+    eq_test(dump1.obj, dump2.obj, dump1.keys or dump2.keys, function (msg)
+        error(('\n\n<%s>[%s.%s]\n%s 与 %s 不等：%s'):format(name, self._type, self._id, dump1.type, dump2.type, msg))
     end)
 end
 
@@ -235,7 +306,10 @@ local function do_test(path)
     if not buf then
         return
     end
-    assert(load(buf, '@'..uni.u2a((path / 'test.lua'):string()), 't', test_env(path)))()
+    local debuggerpath = '@'..uni.u2a((path / 'test.lua'):string())
+    local env = test_env(path)
+    local f = assert(load(buf, debuggerpath, 't', env))
+    f()
 end
 
 local test_dir = fs.current_path() / 'test' / 'unit_test'
