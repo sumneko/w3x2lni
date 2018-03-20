@@ -14,9 +14,9 @@ local function print(...)
     std_print(table.unpack(tbl))
 end
 
-local function assert(ok, msg)
+local function assert(ok, msg, ...)
     if ok then
-        return
+        return ok, msg, ...
     end
     std_error(uni.u2a(msg), 2)
 end
@@ -61,15 +61,6 @@ local slk_keys = {
     },
 }
 
-local function load_config(path)
-    local buf = io.load(path / '.config')
-    if not buf then
-        return
-    end
-    local type, id = buf:match '(%C+)%c*(%C+)'
-    return type, id
-end
-
 local function add_loader(w2l)
     local mpq_path = fs.current_path():parent_path() / 'data' / 'mpq'
     local prebuilt_path = fs.current_path():parent_path() / 'data' / 'prebuilt'
@@ -100,7 +91,7 @@ local function load_obj(type, id, path)
     end
 
     w2l:frontend()
-    return w2l.slk[type][id]
+    return { w2l.slk[type][id], 'obj' }
 end
 
 local function load_lni(type, id, path)
@@ -116,7 +107,7 @@ local function load_lni(type, id, path)
     end
 
     w2l:frontend()
-    return w2l.slk[type][id]
+    return { w2l.slk[type][id], 'lni' }
 end
 
 local function load_slk(type, id, path)
@@ -154,7 +145,7 @@ local function load_slk(type, id, path)
     end
 
     w2l:frontend()
-    return w2l.slk[type][id], enable_keys
+    return { w2l.slk[type][id], 'slk', enable_keys }
 end
 
 local function eq(v1, v2, enable_keys)
@@ -195,23 +186,56 @@ local function eq_test(v1, v2, enable_keys, callback)
     callback(msg)
 end
 
-local function do_test(path)
-    local name = path:filename():string()
-    local type, id = load_config(path)
-    
-    local dump_obj = load_obj(type, id, path)
-    local dump_lni = load_lni(type, id, path)
-    local dump_slk, enable_keys = load_slk(type, id, path)
+local mt = {}
+mt.__index = mt
 
-    assert(dump_obj, ('\n\n<%s>[%s.%s] 没有读取到%s'):format(name, type, id, 'obj'))
-    assert(dump_lni, ('\n\n<%s>[%s.%s] 没有读取到%s'):format(name, type, id, 'lni'))
-    assert(dump_slk, ('\n\n<%s>[%s.%s] 没有读取到%s'):format(name, type, id, 'slk'))
-    eq_test(dump_obj, dump_lni, nil, function (msg)
-        error(('\n\n<%s>[%s.%s]\n%s 与 %s 不等：%s'):format(name, type, id, 'obj', 'lni', msg))
+function mt:init(type, id)
+    self._type = type
+    self._id = id
+end
+
+function mt:load(mode)
+    local name = self._path:filename():string()
+    local dump
+    if mode == 'obj' then
+        dump = load_obj(self._type, self._id, self._path)
+    elseif mode == 'lni' then
+        dump = load_obj(self._type, self._id, self._path)
+    elseif mode == 'slk' then
+        dump = load_slk(self._type, self._id, self._path)
+    end
+    assert(dump, ('\n\n<%s>[%s.%s] 没有读取到%s'):format(name, self._type, self._id, mode))
+    return dump
+end
+
+function mt:compare_dump(dump1, dump2)
+    local name = self._path:filename():string()
+    eq_test(dump1[1], dump2[1], dump1[3] or dump2[3], function (msg)
+        error(('\n\n<%s>[%s.%s]\n%s 与 %s 不等：%s'):format(name, self._type, self._id, dump1[2], dump2[2], msg))
     end)
-    eq_test(dump_obj, dump_slk, enable_keys, function (msg)
-        error(('\n\n<%s>[%s.%s]\n%s 与 %s 不等：%s'):format(name, type, id, 'obj', 'slk', msg))
-    end)
+end
+
+local function test_env(path)
+    local o = setmetatable({ _path = path }, mt)
+    return setmetatable({}, {
+        __index = function (self, k)
+            local f = o[k]
+            if not f then
+                return nil
+            end
+            return function (...)
+                return f(o, ...)
+            end
+        end,
+    })
+end
+
+local function do_test(path)
+    local buf = io.load(path / 'test.lua')
+    if not buf then
+        return
+    end
+    assert(load(buf, '@'..uni.u2a((path / 'test.lua'):string()), 't', test_env(path)))()
 end
 
 local test_dir = fs.current_path() / 'test' / 'unit_test'
