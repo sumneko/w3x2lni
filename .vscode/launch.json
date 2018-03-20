@@ -48,11 +48,11 @@
             "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
-            "console": "utf8",
+            "console": "ansi",
             "program": "${workspaceRoot}\\script\\prebuilt\\init.lua",
         },
         {
-            "name": "mini",
+            "name": "单元测试",
             "type": "lua",
             "request": "launch",
             "cwd": "${workspaceRoot}\\script\\",
@@ -62,17 +62,12 @@
             "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
-            "console": "utf8",
-            "program": "${workspaceRoot}\\script\\gui\\mini.lua",
+            "console": "ansi",
+            "program": "${workspaceRoot}\\script\\test\\unit_test.lua",
             "arg0":[
                 "..\\bin\\w2l-worker.exe",
             ],
-            "arg": [
-                "-slk",
-                "-config=..\\config.ini",
-                "${workspaceRoot}\\命令ID.w3x",
-                "${workspaceRoot}\\命令ID_output.w3x",
-            ]
+            "arg": []
         },
     ]
 }
