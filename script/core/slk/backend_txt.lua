@@ -47,7 +47,7 @@ local function get_index_data(tp, l, n)
     local null
     for i = n, 1, -1 do
         local v = to_type(tp, l[i])
-        if v then
+        if v and v ~= '' then
             l[i] = v
             null = ''
         else
