@@ -182,7 +182,7 @@ return function(w2l, slk)
 
     w2l.message('读取slk...')
     w2l.progress:start(0.8)
-    local slks = load_slk(w2l, force_slk1 or force_slk2)
+    local slks = load_slk(w2l)
     w2l.progress:finish()
     
     w2l.message('合并物编数据...')
