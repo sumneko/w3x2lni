@@ -219,7 +219,7 @@ local function eq_test(v1, v2, enable_keys, callback)
 end
 
 local function trim(str)
-    str = str:gsub('\r\n', '\n'):gsub('[\n]*', '\n')
+    str = str:gsub('\r\n', '\n'):gsub('[\n]+', '\n')
     if str:sub(-1) == '\n' then
         str = str:sub(1, -2)
     end
@@ -243,7 +243,7 @@ function mt:load(mode)
     if mode == 'obj' then
         dump = load_obj(self._type, self._id, self._path)
     elseif mode == 'lni' then
-        dump = load_obj(self._type, self._id, self._path)
+        dump = load_lni(self._type, self._id, self._path)
     elseif mode == 'slk' then
         dump = load_slk(self._type, self._id, self._path)
     end
@@ -276,7 +276,7 @@ end
 
 function mt:compare_string(str1, str2)
     local name = self._path:filename():string()
-    assert(trim(str1) == trim(str2), ('\n\n<%s>[%s.%s] 文本不同'):format(name, self._type, self._id))
+    assert(trim(str1) == trim(str2), ('\n\n<%s>[%s.%s] 文本不同：\n\n%s\n'):format(name, self._type, self._id, trim(str1)))
 end
 
 function mt:compare_dump(dump1, dump2)
