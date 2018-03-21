@@ -7,6 +7,7 @@ local backend = require 'gui.backend'
 local show_version = require 'gui.show_version'
 local lni = require 'lni'
 local currenttheme = {0, 173, 217}
+local worker
 
 NK_WIDGET_STATE_MODIFIED = 1 << 1
 NK_WIDGET_STATE_INACTIVE = 1 << 2
@@ -92,6 +93,9 @@ local mapname = ''
 local mappath = fs.path()
 
 function window:dropfile(file)
+    if worker and not worker.exited then
+        return
+    end
     mappath = fs.path(file)
     mapname = mappath:filename():string()
     uitype = 'select'
@@ -217,8 +221,6 @@ local function window_select(canvas)
     canvas:layout_row_dynamic(212, 1)
     button_about(canvas)
 end
-
-local worker
 
 local function update_worker()
     if worker then
