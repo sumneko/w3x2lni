@@ -90,7 +90,7 @@ local function find_txt(buf, id)
     return buf:sub(start, stop)
 end
 
-local function load_obj(type, id, path)
+local function load_obj(w2l, type, id, path)
     local w2l = w3x2lni()
 
     local target_name = w2l.info.obj[type]
