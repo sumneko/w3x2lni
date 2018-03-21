@@ -3,16 +3,19 @@ local type = type
 
 local function has_slk(w2l)
     for _, name in ipairs(w2l.info.txt) do
-        if w2l:map_load(name) then
+        if w2l:file_load('map', name) then
             return true
         end
     end
     for _, slks in pairs(w2l.info.slk) do
         for _, name in ipairs(slks) do
-            if w2l:map_load(name) then
+            if w2l:file_load('map', name) then
                 return true
             end
         end
+    end
+    if w2l:file_load('map', 'war3mapmisc.txt') then
+        return true
     end
     return false
 end
