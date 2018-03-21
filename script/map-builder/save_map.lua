@@ -76,10 +76,7 @@ return function (w2l, output_ar, w3i, input_ar)
         end
     end
 
-    for name, buf in pairs(input_ar) do
-        if not buf then
-            goto CONTINUE
-        end
+    for name, buf in input_ar:search_files() do
         if w2l.config.mdx_squf and name:sub(-4) == '.mdx' then
             buf = w3xparser.mdxopt(buf)
         end
@@ -99,7 +96,6 @@ return function (w2l, output_ar, w3i, input_ar)
             name = name:sub(#type + 2)
         end
         w2l:file_save(type, name, buf)
-        ::CONTINUE::
     end
 
     input_ar:close()

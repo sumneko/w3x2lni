@@ -227,7 +227,7 @@ local backend_rate = (1 - input_rate - output_rate) * 0.6
 
 print('正在读取文件...')
 w2l.progress:start(input_rate)
-builder.search(input_ar, w2l.progress)
+input_ar:search_files(w2l.progress)
 w2l.progress:finish()
 
 print('正在读取物编...')
