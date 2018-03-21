@@ -104,9 +104,7 @@ local function load_obj(type, id, path)
     return { obj = w2l.slk[type][id], type = 'obj' }
 end
 
-local function load_lni(type, id, path)
-    local w2l = w3x2lni()
-
+local function load_lni(w2l, type, id, path)
     local target_name = w2l.info.lni[type]
     function w2l:map_load(filename)
         if filename == target_name then
@@ -118,13 +116,8 @@ local function load_lni(type, id, path)
     return { obj = w2l.slk[type][id], type = 'lni' }
 end
 
-local function load_slk(type, id, path)
-    local w2l = w3x2lni()
-
-    w2l:set_config {
-        read_slk = true,
-    }
-
+local function load_slk(w2l, type, id, path)
+    w2l.config.read_slk = true
     local enable_keys = {}
     local function pack_keys(filename)
         if not slk_keys[filename] then
@@ -152,6 +145,15 @@ local function load_slk(type, id, path)
 
     w2l:frontend()
     return { obj = w2l.slk[type][id], type = 'slk', keys = enable_keys }
+end
+
+local function load_all(w2l, type, id, path, config)
+    function w2l:map_load(filename)
+        return io.load(path / filename)
+    end
+    
+    w2l:frontend()
+    return { obj = w2l.slk[type][id], type = 'all' }
 end
 
 local function save_slk(w2l, type, id, path)
@@ -219,6 +221,9 @@ local function eq_test(v1, v2, enable_keys, callback)
 end
 
 local function trim(str)
+    if not str then
+        return nil
+    end
     str = str:gsub('\r\n', '\n'):gsub('[\n]+', '\n')
     if str:sub(-1) == '\n' then
         str = str:sub(1, -2)
@@ -237,15 +242,21 @@ function mt:init(type, id)
     self._id = id
 end
 
-function mt:load(mode)
+function mt:load(mode, config)
+    local w2l = w3x2lni()
     local name = self._path:filename():string()
     local dump
+    config = config or {}
+    w2l:set_config(config)
+
     if mode == 'obj' then
-        dump = load_obj(self._type, self._id, self._path)
+        dump = load_obj(w2l, self._type, self._id, self._path)
     elseif mode == 'lni' then
-        dump = load_lni(self._type, self._id, self._path)
+        dump = load_lni(w2l, self._type, self._id, self._path)
     elseif mode == 'slk' then
-        dump = load_slk(self._type, self._id, self._path)
+        dump = load_slk(w2l, self._type, self._id, self._path)
+    elseif mode == 'all' then
+        dump = load_all(w2l, self._type, self._id, self._path)
     end
     assert(dump.obj, ('\n\n<%s>[%s.%s] 没有读取到%s'):format(name, self._type, self._id, mode))
     return dump
