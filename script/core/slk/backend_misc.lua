@@ -1,3 +1,5 @@
+local w2l
+
 local table_concat = table.concat
 local table_sort = table.sort
 local next = next
@@ -14,7 +16,7 @@ local function add_data(name, lkey, meta, obj, data)
 end
 
 local function add_obj(name, obj, data)
-    if not obj._mark then
+    if w2l.config.remove_unuse_object and not obj._mark then
         return
     end
     local new_obj = {}
@@ -67,10 +69,11 @@ local function concat(misc)
     return table_concat(lines, '\r\n')
 end
 
-return function(w2l, misc, txt)
+return function(w2l_, misc, txt)
     if not misc then
         return
     end
+    w2l = w2l_
     metadata = w2l:metadata()
     local data = convert(misc)
     local buf = concat(data)
