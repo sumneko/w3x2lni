@@ -76,17 +76,14 @@ local function convert(misc, metadata, miscnames, slk)
     return chunk
 end
 
-local function merge_misc_data(misc, map_misc, meta, slk)
-    if not misc then
-        return
-    end
+local function merge_misc_data(obj, map_misc, meta, slk)
     for k, v in pairs(map_misc) do
         if meta[k].type == 3 then
             for i, str in ipairs(v) do
                 v[i] = w2l:load_wts(slk.wts, str)
             end
         end
-        misc[k] = v
+        obj[k] = v
     end
 end
 
@@ -96,7 +93,12 @@ local function merge_misc(misc, txt, map_misc, metadata, miscnames, slk)
         local v = map_misc[lname]
         if v then
             marks[lname] = true
-            merge_misc_data(misc[lname] or txt[lname], v, metadata[name], slk)
+            local obj = misc[lname] or txt[lname]
+            if not obj then
+                obj = { _max_level = 1 }
+                txt[lname] = obj
+            end
+            merge_misc_data(obj, v, metadata[name], slk)
         end
     end
 end
