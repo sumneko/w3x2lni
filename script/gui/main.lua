@@ -137,6 +137,7 @@ end
 local version = (require 'gui.changelog')[1].version
 local function button_about(canvas)
     window:set_style('button.color', 51, 55, 67)
+    canvas:text('', NK_TEXT_RIGHT)
     if canvas:button('版本: ' .. version) then
         uitype = 'about'
     end
@@ -146,6 +147,7 @@ local show_plugin
 
 local function button_plugin(canvas)
     show_plugin = plugin()
+    canvas:text('', NK_TEXT_RIGHT)
     if show_plugin then
         window:set_style('button.color', 51, 55, 67)
         if canvas:button('插件') then
@@ -210,7 +212,7 @@ local function window_none(canvas)
     canvas:layout_row_dynamic(2, 1)
     canvas:layout_row_dynamic(200, 1)
     canvas:button('把地图拖进来')
-    canvas:layout_row_dynamic(320, 1)
+    canvas:layout_row_dynamic(310, 1)
     canvas:layout_row_dynamic(20, 2)
     button_plugin(canvas)
     button_about(canvas)
