@@ -34,6 +34,7 @@ local function save_info(plugin)
     local buf = info_buf:gsub('%$(.-)%$', function (key)
         return tostring(plugin[key])
     end)
+    buf = buf:gsub('\n', '\r\n')
     io.save(plugin.path / 'info.ini', buf)
 end
 
