@@ -36,11 +36,12 @@ local function load_plugins()
 end
 
 local function call_plugin(w2l, plugin)
-    local ok, err = xpcall(sandbox, debug.traceback, plugin.path:string()..'\\', io.open, {
+    local ok, err = pcall(sandbox, plugin.path:string()..'\\', io.open, {
         ['w3x2lni'] = w2l,
     })
     if not ok then
-
+        w2l.message('-report|2警告', ('插件[%s]执行失败'):format(plugin.name))
+        w2l.message('-tip', err)
     end
 end
 
