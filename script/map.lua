@@ -5,6 +5,7 @@ local uni = require 'ffi.unicode'
 local core = require 'tool.sandbox_core'
 local builder = require 'map-builder'
 local triggerdata = require 'tool.triggerdata'
+local plugin = require 'tool.plugin'
 local w2l = core()
 
 local std_print = print
@@ -234,6 +235,9 @@ print('正在读取物编...')
 w2l.progress:start(input_rate + frontend_rate)
 w2l:frontend(slk)
 w2l.progress:finish()
+
+print('加载插件...')
+plugin(w2l)
 
 print('正在转换...')
 w2l.progress:start(input_rate + frontend_rate + backend_rate)
