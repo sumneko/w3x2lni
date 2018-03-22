@@ -5,6 +5,7 @@ local process = require 'process'
 local nk = require 'nuklear'
 local backend = require 'gui.backend'
 local show_version = require 'gui.show_version'
+local plugin = require 'gui.plugin'
 local lni = require 'lni'
 local currenttheme = {0, 173, 217}
 local worker
@@ -135,13 +136,48 @@ end
 
 local version = (require 'gui.changelog')[1].version
 local function button_about(canvas)
-    canvas:layout_row_dynamic(20, 2)
-    canvas:text('', NK_TEXT_RIGHT)
     window:set_style('button.color', 51, 55, 67)
     if canvas:button('版本: ' .. version) then
         uitype = 'about'
     end
-    set_current_theme()
+end
+
+local show_plugin
+
+local function button_plugin(canvas)
+    show_plugin = plugin()
+    if show_plugin then
+        window:set_style('button.color', 51, 55, 67)
+        if canvas:button('插件') then
+            uitype = 'plugin'
+        end
+    else
+        canvas:text('', NK_TEXT_RIGHT)
+    end
+end
+
+local function window_plugin(canvas)
+    canvas:layout_row_dynamic(20, 1)
+    canvas:layout_space(30, 1)
+    canvas:layout_space_push(-10, 0, 300, 30)
+    canvas:button('插件')
+    if show_plugin then
+        show_plugin(canvas)
+    else
+        if mapname == '' then
+            uitype = 'none'
+        else
+            uitype = 'select'
+        end
+    end
+    canvas:layout_row_dynamic(30, 1)
+    if canvas:button('返回') then
+        if mapname == '' then
+            uitype = 'none'
+        else
+            uitype = 'select'
+        end
+    end
 end
 
 local function window_about(canvas)
@@ -175,7 +211,10 @@ local function window_none(canvas)
     canvas:layout_row_dynamic(200, 1)
     canvas:button('把地图拖进来')
     canvas:layout_row_dynamic(320, 1)
+    canvas:layout_row_dynamic(20, 2)
+    button_plugin(canvas)
     button_about(canvas)
+    set_current_theme()
 end
 
 local function clean_convert_ui()
@@ -219,7 +258,10 @@ local function window_select(canvas)
         return
     end
     canvas:layout_row_dynamic(212, 1)
+    canvas:layout_row_dynamic(20, 2)
+    button_plugin(canvas)
     button_about(canvas)
+    set_current_theme()
 end
 
 local function update_worker()
@@ -416,6 +458,10 @@ function window:draw(canvas)
     end
     if uitype == 'report' then
         window_report(canvas)
+        return
+    end
+    if uitype == 'plugin' then
+        window_plugin(canvas)
         return
     end
     window_convert(canvas)
