@@ -83,7 +83,7 @@ return function (w2l, output_ar, w3i, input_ar)
             buf = w3xparser.mdxopt(buf)
         end
         local type
-        if name:sub(-4) == '.mdx' or name:sub(-4) == '.mdl' or name:sub(-4) == '.blp' then
+        if name:sub(-4) == '.mdx' or name:sub(-4) == '.mdl' or name:sub(-4) == '.blp' or name:sub(-4) == '.tga' then
             type = 'resource'
         elseif name:sub(-2) == '.j' then
             type = 'jass'
