@@ -237,7 +237,7 @@ w2l:frontend(slk)
 w2l.progress:finish()
 
 print('加载插件...')
-plugin(w2l)
+plugin(w2l, config)
 
 print('正在转换...')
 w2l.progress:start(input_rate + frontend_rate + backend_rate)

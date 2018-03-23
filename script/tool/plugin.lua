@@ -1,7 +1,8 @@
 local lni = require 'lni'
 local sandbox = require 'tool.sandbox'
-local root = fs.current_path():remove_filename()
-local plugin_path = root / 'plugin'
+
+local w2l
+local config
 
 local function load_one_plugin(path)
     local info = lni(io.load(path / 'info.ini'))
@@ -21,6 +22,7 @@ end
 
 local function load_plugins()
     local plugins = {}
+    local plugin_path = fs.current_path() / config.plugin_path
     for path in plugin_path:list_directory() do
         if fs.is_directory(path) then
             local ok, res = pcall(load_one_plugin, path)
@@ -35,7 +37,7 @@ local function load_plugins()
     return plugins
 end
 
-local function call_plugin(w2l, plugin)
+local function call_plugin(plugin)
     local ok, err = pcall(sandbox, plugin.path:string()..'\\', io.open, {
         ['w3x2lni'] = w2l,
     })
@@ -45,11 +47,16 @@ local function call_plugin(w2l, plugin)
     end
 end
 
-return function (w2l)
+return function (w2l_, config_)
+    w2l = w2l_
+    config = config_
+    if not config.plugin_path then
+        return
+    end
     local plugins = load_plugins()
     for _, plugin in ipairs(plugins) do
         if plugin.enable then
-            call_plugin(w2l, plugin)
+            call_plugin(plugin)
         end
     end
 end
