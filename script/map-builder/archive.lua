@@ -77,7 +77,7 @@ function mt:flush()
 end
 
 local function unify(name)
-    return name:lower():gsub('/', '\\')
+    return name:lower():gsub('/', '\\'):gsub('\\[\\]+', '\\')
 end
 
 function mt:has(name)
