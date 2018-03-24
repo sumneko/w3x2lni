@@ -185,6 +185,33 @@ function w2l:file_remove(type, name)
     end
 end
 
+function w2l:file_pairs()
+    local next, tbl, index = input_ar:search_files()
+    return function ()
+        local name, buf = next(tbl, index)
+        if not name then
+            return nil
+        end
+        index = name
+        local type
+        if name:sub(-4) == '.mdx' or name:sub(-4) == '.mdl' or name:sub(-4) == '.blp' or name:sub(-4) == '.tga' then
+            type = 'resource'
+        elseif name:sub(-2) == '.j' then
+            type = 'jass'
+        elseif name:sub(-4) == '.lua' or name:sub(-4) == '.ini' then
+            type = 'lua'
+        elseif name:sub(-4) == '.mp3' or name:sub(-4) == '.wav' then
+            type = 'sound'
+        else
+            type = 'map'
+        end
+        if w2l.input_mode == 'lni' then
+            name = name:sub(#type + 2)
+        end
+        return type, name, buf
+    end
+end
+
 function w2l:mpq_load(filename)
     return w2l.mpq_path:each_path(function(path)
         return io.load(fs.current_path() / config.mpq_path / path / filename)
