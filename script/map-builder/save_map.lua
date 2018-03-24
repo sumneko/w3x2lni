@@ -78,24 +78,9 @@ return function (w2l, output_ar, w3i, input_ar)
         end
     end
 
-    for name, buf in input_ar:search_files() do
-        if w2l.config.mdx_squf and name:sub(-4) == '.mdx' then
+    for type, name, buf in w2l:file_pairs() do
+        if type == 'resource' and w2l.config.mdx_squf and name:sub(-4) == '.mdx' then
             buf = w3xparser.mdxopt(buf)
-        end
-        local type
-        if name:sub(-4) == '.mdx' or name:sub(-4) == '.mdl' or name:sub(-4) == '.blp' or name:sub(-4) == '.tga' then
-            type = 'resource'
-        elseif name:sub(-2) == '.j' then
-            type = 'jass'
-        elseif name:sub(-4) == '.lua' then
-            type = 'lua'
-        elseif name:sub(-4) == '.mp3' or name:sub(-4) == '.wav' then
-            type = 'sound'
-        else
-            type = 'map'
-        end
-        if w2l.input_mode == 'lni' then
-            name = name:sub(#type + 2)
         end
         w2l:file_save(type, name, buf)
     end
