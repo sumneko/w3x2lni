@@ -261,7 +261,7 @@ local function window_select(canvas)
         set_current_theme {217, 163, 60}
         return
     end
-    canvas:layout_row_dynamic(212, 1)
+    canvas:layout_row_dynamic(182, 1)
     canvas:layout_row_dynamic(20, 2)
     button_plugin(canvas)
     button_about(canvas)
