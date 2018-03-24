@@ -87,7 +87,7 @@ return function (w2l, output_ar, w3i, input_ar)
             type = 'resource'
         elseif name:sub(-2) == '.j' then
             type = 'jass'
-        elseif name:sub(-4) == '.lua' then
+        elseif name:sub(-4) == '.lua' or name:sub(-4) == '.ini' then
             type = 'lua'
         elseif name:sub(-4) == '.mp3' or name:sub(-4) == '.wav' then
             type = 'sound'
