@@ -36,15 +36,15 @@ backend:init(root / 'bin' / 'w2l-worker.exe', root / 'script')
 local config_content = [[
 [root]
 -- 使用谁的mpq(default, custom)
-mpq = default
+mpq = $mpq$
 -- 使用的语言
-lang = zh-CN
+lang = $lang$
 -- mpq路径
-mpq_path = ../data/mpq
+mpq_path = $mpq_path$
 -- 预处理路径
-prebuilt_path = ../data/prebuilt
+prebuilt_path = $prebuilt_path$
 -- 插件路径
-plugin_path = ../plugin
+plugin_path = $plugin_path$
 
 [lni]
 -- 读取slk文件
