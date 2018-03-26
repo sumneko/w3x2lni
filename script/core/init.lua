@@ -250,7 +250,7 @@ function mt:trigger_data()
 end
 
 function mt:file_save(type, name, buf)
-    if type == 'lni' then
+    if type == 'table' then
         self:map_save(self.info.dir[name][2], buf)
     elseif type == 'trigger' then
         self:map_save('war3map.wtg.lml/' .. name, buf)
@@ -260,7 +260,7 @@ function mt:file_save(type, name, buf)
 end
 
 function mt:file_load(type, name)
-    if type == 'lni' then
+    if type == 'table' then
         return self:map_load(self.info.dir[name][2])
     elseif type == 'trigger' then
         return self:map_load('war3map.wtg.lml/' .. name)
@@ -270,7 +270,7 @@ function mt:file_load(type, name)
 end
 
 function mt:file_remove(type, name)
-    if type == 'lni' then
+    if type == 'table' then
         self:map_remove(self.info.dir[name][2], buf)
     elseif type == 'trigger' then
         self:map_remove('war3map.wtg.lml/' .. name, buf)

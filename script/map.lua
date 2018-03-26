@@ -121,7 +121,7 @@ function w2l:map_remove(filename)
 end
 
 function w2l:file_save(type, name, buf)
-    if type == 'lni' then
+    if type == 'table' then
         input_ar:set(self.info.dir[name][1], buf)
         output_ar:set(self.info.dir[name][1], buf)
     elseif type == 'trigger' then
@@ -142,7 +142,7 @@ function w2l:file_save(type, name, buf)
 end
 
 function w2l:file_load(type, name)
-    if type == 'lni' then
+    if type == 'table' then
         for _, filename in ipairs(self.info.dir[name]) do
             local buf = input_ar:get(filename)
             if buf then
@@ -161,7 +161,7 @@ function w2l:file_load(type, name)
 end
 
 function w2l:file_remove(type, name)
-    if type == 'lni' then
+    if type == 'table' then
         for _, filename in ipairs(self.info.dir[name]) do
             input_ar:remove(filename)
             output_ar:remove(filename)
@@ -196,10 +196,8 @@ function w2l:file_pairs()
         local type
         if name:sub(-4) == '.mdx' or name:sub(-4) == '.mdl' or name:sub(-4) == '.blp' or name:sub(-4) == '.tga' then
             type = 'resource'
-        elseif name:sub(-2) == '.j' then
-            type = 'jass'
         elseif name:sub(-4) == '.lua' or name:sub(-4) == '.ini' then
-            type = 'lua'
+            type = 'script'
         elseif name:sub(-4) == '.mp3' or name:sub(-4) == '.wav' then
             type = 'sound'
         else

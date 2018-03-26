@@ -19,13 +19,13 @@ local function to_lni(w2l, slk)
         local content = w2l:backend_lni(ttype, data)
         w2l.progress:finish()
         if content then
-            w2l:file_save('lni', ttype, content)
+            w2l:file_save('table', ttype, content)
         end
     end
 
     local content = w2l:backend_txtlni(slk['txt'])
     if content then
-        w2l:file_save('lni', 'txt', content)
+        w2l:file_save('table', 'txt', content)
     end
 end
 
@@ -45,7 +45,7 @@ local function to_obj(w2l, slk)
 
     local content = w2l:backend_txtlni(slk['txt'])
     if content then
-        w2l:file_save('lni', 'txt', content)
+        w2l:file_save('table', 'txt', content)
     end
 end
 
@@ -57,7 +57,7 @@ local function convert_wtg(w2l)
     w2l.progress:finish()
     w2l.progress:start(0.5)
     if wtg and wct then
-        if w2l.config.mode == 'lni' then
+        if w2l.config.mode == 'table' then
             xpcall(function ()
                 wtg_data = w2l:frontend_wtg(wtg)
                 wct_data = w2l:frontend_wct(wct)
@@ -80,7 +80,7 @@ local function convert_wtg(w2l)
     w2l.progress:finish()
     w2l.progress:start(1)
     if wtg_data and wct_data and not w2l.config.remove_we_only then
-        if w2l.config.mode == 'lni' then
+        if w2l.config.mode == 'table' then
             local files = w2l:backend_lml(wtg_data, wct_data)
             for filename, buf in pairs(files) do
                 w2l:file_save('trigger', filename, buf)
@@ -304,11 +304,11 @@ local function clean_file(w2l, slk)
         w2l:file_remove('map', filename)
     end
     for ttype, filename in pairs(w2l.info.lni) do
-        w2l:file_remove('lni', ttype)
+        w2l:file_remove('table', ttype)
     end
-    w2l:file_remove('lni', 'txt')
-    w2l:file_remove('lni', 'w3i')
-    w2l:file_remove('lni', 'doo')
+    w2l:file_remove('table', 'txt')
+    w2l:file_remove('table', 'w3i')
+    w2l:file_remove('table', 'doo')
 end
 
 return function (w2l, slk)
@@ -316,8 +316,8 @@ return function (w2l, slk)
     w2l.slk = slk
     clean_file(w2l, slk)
     if slk.w3i then
-        if w2l.config.mode == 'lni' then
-            w2l:file_save('lni', 'w3i', w2l:backend_w3i2lni(slk.w3i), slk.wts)
+        if w2l.config.mode == 'table' then
+            w2l:file_save('table', 'w3i', w2l:backend_w3i2lni(slk.w3i), slk.wts)
             w2l:file_remove('map', 'war3map.w3i')
         else
             w2l:file_save('map', 'war3map.w3i', w2l:backend_w3i(slk.w3i, slk.wts))

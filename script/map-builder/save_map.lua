@@ -65,16 +65,16 @@ return function (w2l, output_ar, w3i, input_ar)
     w2l:map_remove('builder.w3x')
     if w2l.config.mode == 'lni' then
         if w2l:file_load('map', 'war3map.imp') then
-            w2l:file_save('lni', 'imp', w2l:backend_imp(w2l:file_load('map', 'war3map.imp')))
+            w2l:file_save('table', 'imp', w2l:backend_imp(w2l:file_load('map', 'war3map.imp')))
             w2l:file_remove('map', 'war3map.imp')
         else
-            w2l:file_save('lni', 'imp', w2l:file_load('lni', 'imp'))
+            w2l:file_save('table', 'imp', w2l:file_load('table', 'imp'))
         end
     else
         if w2l.config.remove_we_only then
             w2l:file_remove('map', 'war3map.imp')
-        elseif w2l:file_load('lni', 'imp') then
-            w2l:file_save('map', 'war3map.imp', build_imp(w2l, output_ar, w2l:file_load('lni', 'imp')))
+        elseif w2l:file_load('table', 'imp') then
+            w2l:file_save('map', 'war3map.imp', build_imp(w2l, output_ar, w2l:file_load('table', 'imp')))
         end
     end
 

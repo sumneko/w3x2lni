@@ -53,7 +53,7 @@ local function load_lni(w2l)
     local count = 0
     for type, name in pairs(w2l.info.lni) do
         count = count + 1
-        local buf = w2l:file_load('lni', type)
+        local buf = w2l:file_load('table', type)
         if buf then
             w2l.message('正在转换', name)
             lnis[type] = w2l:frontend_lni(type, buf, name)
@@ -61,7 +61,7 @@ local function load_lni(w2l)
         end
     end
 
-    local buf = w2l:file_load('lni', 'txt')
+    local buf = w2l:file_load('table', 'txt')
     if buf then
         lnis['txt'] = w2l:parse_lni(buf, 'txt')
     end
@@ -69,7 +69,7 @@ local function load_lni(w2l)
 end
 
 local function load_w3i(w2l, slk)
-    local buf = w2l:file_load('lni', 'w3i')
+    local buf = w2l:file_load('table', 'w3i')
     if buf then
         return w2l:parse_lni(buf, 'w3i')
     else
