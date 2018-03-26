@@ -66,6 +66,8 @@ local function concat(misc)
         concat_obj(name, misc[name], lines)
     end
 
+    lines[#lines+1] = ''
+
     return table_concat(lines, '\r\n')
 end
 
