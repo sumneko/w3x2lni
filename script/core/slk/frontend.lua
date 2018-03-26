@@ -27,7 +27,9 @@ local function load_slk(w2l)
     if (w2l.force_slk or w2l.config.read_slk) and has_slk(w2l) then
         return w2l:build_slk(true)
     else
-        return w2l:get_default(true)
+        local slk = w2l:get_default(true)
+        w2l:frontend_misc(slk)
+        return slk
     end
 end
 

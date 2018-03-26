@@ -290,6 +290,11 @@ function mt:compare_string(str1, str2)
     assert(trim(str1) == trim(str2), ('\n\n<%s>[%s.%s] 文本不同：\n\n%s\n'):format(name, self._type, self._id, trim(str1)))
 end
 
+function mt:compare_value(v1, v2)
+    local name = self._path:filename():string()
+    assert(v1 == v2, ('\n\n<%s>[%s.%s] 值不同：\n\n%s\n'):format(name, self._type, self._id, v1))
+end
+
 function mt:compare_dump(dump1, dump2)
     local name = self._path:filename():string()
     eq_test(dump1.obj, dump2.obj, dump1.keys or dump2.keys, function (msg)
