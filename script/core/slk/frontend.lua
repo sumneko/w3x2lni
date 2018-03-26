@@ -55,8 +55,8 @@ local function load_lni(w2l)
         count = count + 1
         local buf = w2l:file_load('table', type)
         if buf then
-            w2l.message('正在转换', name)
-            lnis[type] = w2l:frontend_lni(type, buf, name)
+            w2l.message('正在转换', type)
+            lnis[type] = w2l:frontend_lni(type, buf, type)
             w2l.progress(count / 7)
         end
     end

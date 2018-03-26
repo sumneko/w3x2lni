@@ -122,8 +122,8 @@ end
 
 function w2l:file_save(type, name, buf)
     if type == 'table' then
-        input_ar:set(self.info.dir[name][1], buf)
-        output_ar:set(self.info.dir[name][1], buf)
+        input_ar:set(self.info.lni_dir[name][1], buf)
+        output_ar:set(self.info.lni_dir[name][1], buf)
     elseif type == 'trigger' then
         input_ar:set('trigger/' .. name, buf)
         output_ar:set('trigger/' .. name, buf)
@@ -143,7 +143,7 @@ end
 
 function w2l:file_load(type, name)
     if type == 'table' then
-        for _, filename in ipairs(self.info.dir[name]) do
+        for _, filename in ipairs(self.info.lni_dir[name]) do
             local buf = input_ar:get(filename)
             if buf then
                 return buf
@@ -162,7 +162,7 @@ end
 
 function w2l:file_remove(type, name)
     if type == 'table' then
-        for _, filename in ipairs(self.info.dir[name]) do
+        for _, filename in ipairs(self.info.lni_dir[name]) do
             input_ar:remove(filename)
             output_ar:remove(filename)
         end

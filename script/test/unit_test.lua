@@ -107,8 +107,8 @@ end
 local function load_lni(w2l, type, id, path)
     local target_name = w2l.info.lni[type]
     function w2l:map_load(filename)
-        if filename == target_name then
-            return io.load(path / (type .. '.ini'))
+        if filename == 'table/' .. target_name then
+            return io.load(path / target_name)
         end
     end
 
