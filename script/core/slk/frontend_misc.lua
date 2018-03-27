@@ -33,7 +33,7 @@ local function add_obj(name, obj, meta)
         _type = 'misc',
     }
     for key, value in pairs(meta) do
-        if value ~= 'misc' then
+        if value ~= 'misc' and obj[key] then
             if type(obj[key]) == 'table' then
                 misc[key] = txt_to_type(value.type, table.concat(obj[key], ','))
             else

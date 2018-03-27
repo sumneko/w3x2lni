@@ -156,6 +156,43 @@ local function load_all(w2l, type, id, path, config)
     return { obj = w2l.slk[type][id], type = 'all' }
 end
 
+local function save_obj(w2l, type, id, path)
+    local lni_name = w2l.info.obj[type]
+    local obj = { obj = nil, type = 'obj' }
+    function w2l:map_save(filename, buf)
+        if filename == lni_name then
+            if type == 'misc' then
+                local txt = find_txt(buf, id)
+                if txt then
+                    obj.obj = txt
+                end
+            else
+                obj.obj = buf
+            end
+        end
+    end
+
+    w2l:backend()
+
+    return obj
+end
+
+local function save_lni(w2l, type, id, path)
+    local obj = { lni = nil, type = 'lni' }
+    function w2l:file_save(tp, name, buf)
+        if tp == 'table' and name == type then
+            local txt = find_txt(buf, id)
+            if txt then
+                obj.lni = txt
+            end
+        end
+    end
+
+    w2l:backend()
+
+    return obj
+end
+
 local function save_slk(w2l, type, id, path)
     local txt_names = {}
     for _, name in ipairs(w2l.info.txt) do
@@ -272,12 +309,15 @@ function mt:save(mode, dump, config)
     w2l:set_config(config)
     w2l.slk = { [self._type] = { [self._id] = dump.obj} }
 
-    if mode == 'slk' then
+    if mode == 'obj' then
+        slk = save_obj(w2l, self._type, self._id, self._path)
+    elseif mode == 'lni' then
+        slk = save_lni(w2l, self._type, self._id, self._path)
+    elseif mode == 'slk' then
         slk = save_slk(w2l, self._type, self._id, self._path)
     end
+    assert(slk.slk or slk.txt or slk.obj or slk.lni, ('\n\n<%s>[%s.%s] 没有保存为%s'):format(name, self._type, self._id, mode))
     
-    assert(slk.slk or slk.txt, ('\n\n<%s>[%s.%s] 没有保存为%s'):format(name, self._type, self._id, mode))
-
     return slk
 end
 

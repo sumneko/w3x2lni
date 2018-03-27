@@ -101,7 +101,6 @@ end
 
 local function clean_obj(name, obj, type, default)
     local parent = obj._parent
-    local max_level = obj._max_level
     local default = default[parent]
     for key, meta in pairs(metadata[type]) do
         local data = obj[key]
@@ -168,15 +167,12 @@ return function (w2l_, slk)
             w2l.progress(0.5)
         end
     else
-        for i, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
+        for i, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
             clean_objs(type, slk[type])
-            w2l.progress(i / 9)
+            w2l.progress(i / 8)
         end
         local type = 'txt'
         clean_txt(type, slk[type])
-        w2l.progress(8 / 9)
     end
-    local type = 'misc'
-    clean_misc(type, slk[type])
     w2l.progress(1)
 end
