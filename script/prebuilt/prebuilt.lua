@@ -6,7 +6,6 @@ local order_prebuilt = require 'order.prebuilt'
 local prebuilt_metadata = require 'prebuilt.prebuilt_metadata'
 local prebuilt_keydata = require 'prebuilt.prebuilt_keydata'
 local prebuilt_search = require 'prebuilt.prebuilt_search'
-local prebuilt_miscnames = require 'prebuilt.prebuilt_miscnames'
 
 local root = fs.current_path()
 local w2l = core()
@@ -108,7 +107,6 @@ function mt:complete()
 
     prebuilt_codemapped(w2l)
     prebuilt_typedefine(w2l)
-    prebuilt_miscnames(w2l)
     prebuilt_metadata(w2l)
     prebuilt_keydata(w2l)
     prebuilt_search(w2l)

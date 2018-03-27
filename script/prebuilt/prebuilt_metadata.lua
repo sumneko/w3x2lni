@@ -123,9 +123,11 @@ end
 
 local function stringify2(inf, outf)
     for name, obj in sortpairs(inf) do
-        outf[#outf+1] = ('[.%s]'):format(fmtstring(name))
-        for k, v in sortpairs(obj) do
-            outf[#outf+1] = ('%s = %s'):format(fmtstring(k), v)
+        if type(obj) == 'table' then
+            outf[#outf+1] = ('[.%s]'):format(fmtstring(name))
+            for k, v in sortpairs(obj) do
+                outf[#outf+1] = ('%s = %s'):format(fmtstring(k), v)
+            end
         end
     end
 end
@@ -134,6 +136,9 @@ local function stringify(inf, outf)
     for name, obj in sortpairs(inf) do
         if next(obj) then
             outf[#outf+1] = ('[%s]'):format(fmtstring(name))
+            if obj.type then
+                outf[#outf+1] = ('type = %s'):format(obj.type)
+            end
             stringify2(obj, outf)
             outf[#outf+1] = ''
         end
@@ -214,7 +219,7 @@ local function parse_id(w2l, metadata, id, meta, type, has_level)
         for name in objs:gmatch '%w+' do
             local code = get_codemapped(w2l, name)
             if not metadata[code] then
-                metadata[code] = {}
+                metadata[code] = { type = type }
             end
             if metadata[code][lkey] and metadata[code][lkey].id ~= data.id then
                 print('ID不同:', 'skill', name, 'code', code)

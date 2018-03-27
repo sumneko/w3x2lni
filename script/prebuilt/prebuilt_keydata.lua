@@ -93,7 +93,7 @@ end
 return function(w2l)
     print('正在生成keydata')
     local keydata = {}
-    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         create_keydata(w2l, type, keydata)
     end
     local f = {}
