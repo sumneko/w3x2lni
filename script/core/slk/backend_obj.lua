@@ -233,6 +233,9 @@ end
 
 return function (w2l_, type, data, wts_)
     w2l = w2l_
+    if type == 'misc' then
+        return w2l:backend_misc(w2l, data)
+    end
     wts = wts_
     ttype = type
     has_level = w2l.info.key.max_level[type]

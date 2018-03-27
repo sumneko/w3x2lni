@@ -15,7 +15,7 @@ local function to_lni(w2l, slk)
     for ttype, filename in pairs(w2l.info.lni) do
         count = count + 1
         local data = slk[ttype]
-        w2l.progress:start(count / 7)
+        w2l.progress:start(count / 8)
         local content = w2l:backend_lni(ttype, data)
         w2l.progress:finish()
         if content then
@@ -32,10 +32,11 @@ end
 local function to_obj(w2l, slk)
     --转换物编
     local count = 0
-    for type, filename in pairs(w2l.info.obj) do
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
+        local filename = w2l.info.obj[type]
         count = count + 1
         local data = slk[type]
-        w2l.progress:start(count / 7)
+        w2l.progress:start(count / 8)
         local content = w2l:backend_obj(type, data, slk.wts)
         w2l.progress:finish()
         if content then
@@ -255,7 +256,7 @@ local function to_slk(w2l, slk)
         w2l:file_save('map', output[type], txt[type])
     end
 
-    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable', 'doodad'} do
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable', 'doodad', 'misc'} do
         local data = object[type] or slk[type]
         local content = w2l:backend_obj(type, data, slk.wts)
         if content then

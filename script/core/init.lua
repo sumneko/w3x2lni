@@ -13,7 +13,6 @@ local mt = {}
 
 local metadata
 local keydata
-local miscnames
 
 local function load_file(path)
     local f = io.open(path)
@@ -61,13 +60,6 @@ function mt:keydata()
         keydata = self:defined 'keydata'
     end
     return keydata
-end
-
-function mt:miscnames()
-    if not miscnames then
-        miscnames = self:defined 'miscnames'
-    end
-    return miscnames
 end
 
 function mt:get_editstring(str)
