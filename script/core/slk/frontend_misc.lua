@@ -107,7 +107,6 @@ return function (w2l_, slk)
     w2l = w2l_
     marks = {}
     local metadata = w2l:metadata()
-    local miscnames = w2l:miscnames()
     local misc = {}
     for _, name in ipairs {"UI\\MiscData.txt", "Units\\MiscData.txt", "Units\\MiscGame.txt"} do
         local buf = w2l:mpq_load(name)
