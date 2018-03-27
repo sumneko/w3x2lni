@@ -199,9 +199,10 @@ local function save_slk(w2l, type, id, path)
         txt_names[name] = name:sub(7)
     end
     local slk_names = {}
-    for _, name in ipairs(w2l.info.slk[type]) do
+    for _, name in ipairs(w2l.info.slk[type] or {}) do
         slk_names[name] = name:sub(7)
     end
+    local obj_name = w2l.info.obj[type]
 
     local obj = { slk = nil, txt = nil, type = 'slk' }
     function w2l:map_save(filename, buf)
@@ -211,6 +212,8 @@ local function save_slk(w2l, type, id, path)
             if txt then
                 obj.txt = txt
             end
+        elseif filename == obj_name then
+            obj.obj = buf
         end
     end
     
@@ -307,7 +310,11 @@ function mt:save(mode, dump, config)
     config.mode = mode
     
     w2l:set_config(config)
-    w2l.slk = { [self._type] = { [self._id] = dump.obj} }
+    w2l.slk = {}
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable', 'doodad', 'misc', 'txt'} do
+        w2l.slk[type] = {}
+    end
+    w2l.slk[self._type] = { [self._id] = dump.obj }
 
     if mode == 'obj' then
         slk = save_obj(w2l, self._type, self._id, self._path)

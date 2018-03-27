@@ -175,6 +175,7 @@ local function remove_unuse(w2l, slk)
         upgrade = {},
         doodad = {},
         destructable = {},
+        misc = {},
     }
     for type, list in pairs(slk.mustuse) do
         for _, id in ipairs(list) do

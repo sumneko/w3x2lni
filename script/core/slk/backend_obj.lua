@@ -237,7 +237,7 @@ return function (w2l_, type, data, wts_)
         return
     end
     if type == 'misc' then
-        return w2l:backend_misc(w2l, data)
+        return w2l:backend_misc(data)
     end
     wts = wts_
     ttype = type

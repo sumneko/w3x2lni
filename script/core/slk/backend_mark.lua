@@ -43,6 +43,15 @@ local mustuse =  {
         'Xfns','Xfnm','Xfnl',
         'Xfus','Xfum','Xful',
     },
+    misc = {
+        'FontHeights',
+        'HERO',
+        'InfoPanel',
+        'Misc',
+        'PingColor',
+        'QuestIndicatorTimeout',
+        'SelectionCircle',
+    }
 }
 
 -- 目前是技能专属
