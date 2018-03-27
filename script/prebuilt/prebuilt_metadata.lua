@@ -136,7 +136,7 @@ local function stringify(inf, outf)
     for name, obj in sortpairs(inf) do
         if next(obj) then
             outf[#outf+1] = ('[%s]'):format(fmtstring(name))
-            if obj.type then
+            if obj.type == 'misc' then
                 outf[#outf+1] = ('type = %s'):format(obj.type)
             end
             stringify2(obj, outf)

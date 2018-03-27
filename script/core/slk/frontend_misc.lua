@@ -8,63 +8,6 @@ local math_floor = math.floor
 local w2l
 local marks
 
-local miscdata = {
-    ['Misc'] = {
-        ['GoldTextHeight']             = {0.024},
-        ['GoldTextVelocity']           = {0, 0.03},
-        ['LumberTextHeight']           = {0.024},
-        ['LumberTextVelocity']         = {0, 0.03},
-        ['BountyTextHeight']           = {0.024},
-        ['BountyTextVelocity']         = {0, 0.03},
-        ['MissTextHeight']             = {0.024},
-        ['MissTextVelocity']           = {0, 0.03},
-        ['CriticalStrikeTextHeight']   = {0.024},
-        ['CriticalStrikeTextVelocity'] = {0, 0.04},
-        ['ShadowStrikeTextHeight']     = {0.024},
-        ['ShadowStrikeTextVelocity']   = {0, 0.04},
-        ['ManaBurnTextHeight']         = {0.024},
-        ['ManaBurnTextVelocity']       = {0, 0.04},
-        ['BashTextVelocity']           = {0, 0.04},
-    },
-    ['Terrain'] = {
-        ['MaxSlope']                   = {90},
-        ['MaxHeight']                  = {1920},
-        ['MinHeight']                  = {-1920},
-    },
-    ['FontHeights'] = {
-        ['ToolTipName']                = {0.011},
-        ['ToolTipDesc']                = {0.011},
-        ['ToolTipCost']                = {0.011},
-        ['ChatEditBar']                = {0.013},
-        ['CommandButtonNumber']        = {0.009},
-        ['WorldFrameMessage']          = {0.015},
-        ['WorldFrameTopMessage']       = {0.024},
-        ['WorldFrameUnitMessage']      = {0.015},
-        ['WorldFrameChatMessage']      = {0.013},
-        ['Inventory']                  = {0.011},
-        ['LeaderBoard']                = {0.007},
-        ['PortraitStats']              = {0.011},
-        ['UnitTipPlayerName']          = {0.011},
-        ['UnitTipDesc']                = {0.011},
-        ['ScoreScreenNormal']          = {0.011},
-        ['ScoreScreenLarge']           = {0.011},
-        ['ScoreScreenTeam']            = {0.009},
-    },
-}
-
-local function merge_txt(t, fix)
-    for name, data in pairs(fix) do
-        name = name:lower()
-        if not t[name] then
-            t[name] = {}
-        end
-        for k, v in pairs(data) do
-            k = k:lower()
-            t[name][k] = v
-        end
-    end
-end
-
 local function to_type(tp, value)
     if tp == 0 then
         if not value then
@@ -124,15 +67,6 @@ local function add_obj(name, meta, misc, chunk, slk)
     end
 end
 
-local function convert(misc, metadata, miscnames, slk)
-    local chunk = {}
-    for _, name in ipairs(miscnames.misc_names) do
-        local meta = metadata[name]
-        add_obj(name, meta, misc, chunk, slk)
-    end
-    return chunk
-end
-
 local function merge_misc_data(obj, map_misc, meta, slk)
     for k, v in pairs(map_misc) do
         if meta[k].type == 3 then
@@ -160,6 +94,15 @@ local function merge_misc(misc, txt, map_misc, metadata, miscnames, slk)
     end
 end
 
+local function convert(misc, metadata, miscnames, slk)
+    local chunk = {}
+    for _, name in ipairs(miscnames.misc_names) do
+        local meta = metadata[name]
+        add_obj(name, meta, misc, chunk, slk)
+    end
+    return chunk
+end
+
 return function (w2l_, slk)
     w2l = w2l_
     marks = {}
@@ -169,9 +112,6 @@ return function (w2l_, slk)
     for _, name in ipairs {"UI\\MiscData.txt", "Units\\MiscData.txt", "Units\\MiscGame.txt"} do
         local buf = w2l:mpq_load(name)
         local r = w2l:parse_txt(buf, name, misc)
-        if name == 'UI\\MiscData.txt' then
-            merge_txt(r, miscdata)
-        end
     end
     local buf = w2l:file_load('map', 'war3mapmisc.txt')
     if buf then
