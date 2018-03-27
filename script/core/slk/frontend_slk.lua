@@ -198,7 +198,7 @@ local function txt_read(table, txt, used, keys, meta)
     end
 end
 
-local function slk_misc(table, txt)
+local function slk_misc(table, misc, txt)
     for name, meta in pairs(metadata) do
         if meta.type == 'misc' then
             table[name] = {
@@ -209,7 +209,7 @@ local function slk_misc(table, txt)
             local obj = table[name]
             local lname = name:lower()
             for key, meta in pairs(meta) do
-                txt_read_data(name, obj, key, meta, txt[lname])
+                txt_read_data(name, obj, key, meta, misc[lname] or txt[lname])
             end
             txt[lname] = nil
         end
@@ -229,10 +229,14 @@ return function(w2l_, loader)
     local datas = {}
     local txt = {}
     local used = {}
+    local misc = {}
     local count = 0
     w2l.progress:start(0.3)
     for _, filename in pairs(w2l.info.txt) do
         w2l:parse_txt(loader(filename), filename, txt)
+    end
+    for _, filename in pairs(w2l.info.misc) do
+        w2l:parse_txt(loader(filename), filename, misc)
     end
     w2l.progress:finish()
     
@@ -277,7 +281,7 @@ return function(w2l_, loader)
     end
     -- 特殊处理misc
     datas.misc = {}
-    slk_misc(datas.misc, txt)
+    slk_misc(datas.misc, misc, txt)
     
     w2l.progress:finish()
 
