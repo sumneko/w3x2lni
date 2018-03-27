@@ -164,18 +164,17 @@ return function (w2l_, slk)
         if not w2l.config.slk_doodad then
             local type = 'doodad'
             clean_objs(type, slk[type])
-            w2l.progress(0.3)
+            w2l.progress(0.5)
         end
-        local type = 'misc'
-        clean_objs(type, slk[type])
-        w2l.progress(0.2)
     else
-        for i, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
+        for i, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
             clean_objs(type, slk[type])
             w2l.progress(i / 8)
         end
         local type = 'txt'
         clean_txt(type, slk[type])
     end
+    local type = 'misc'
+    clean_misc(type, slk[type])
     w2l.progress(1)
 end

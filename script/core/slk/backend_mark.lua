@@ -45,7 +45,6 @@ local mustuse =  {
     },
     misc = {
         'FontHeights',
-        'HERO',
         'InfoPanel',
         'Misc',
         'PingColor',
