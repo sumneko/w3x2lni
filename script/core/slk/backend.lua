@@ -318,7 +318,7 @@ return function (w2l, slk)
     w2l.slk = slk
     clean_file(w2l, slk)
     if slk.w3i then
-        if w2l.config.mode == 'table' then
+        if w2l.config.mode == 'lni' then
             w2l:file_save('table', 'w3i', w2l:backend_w3i2lni(slk.w3i), slk.wts)
             w2l:file_remove('map', 'war3map.w3i')
         else
