@@ -240,7 +240,7 @@ local function save_builder(doo)
         ex_map:set('war3map.w3e', w2l:create_w3e())
         ex_map:set('war3map.w3i', w2l:backend_w3i(slk.w3i, slk.wts))
         slk.w3i['地图']['地图名称'] = 'W2L\x01'
-        ex_map:save(slk.w3i, w2l.progress, false)
+        ex_map:save(slk.w3i, w2l)
         ex_map:close()
     end
 end
