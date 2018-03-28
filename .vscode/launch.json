@@ -69,5 +69,27 @@
             ],
             "arg": []
         },
+        {
+            "name": "MiniGui",
+            "type": "lua",
+            "request": "launch",
+            "cwd": "${workspaceRoot}\\script\\",
+            "env": {
+                "PATH" : "${workspaceRoot}\\bin\\"
+            },
+            "luadll": "${workspaceRoot}\\bin\\lua53.dll",
+            "path": ".\\?.lua;.\\?\\init.lua",
+            "cpath": "${workspaceRoot}\\bin\\?.dll;",
+            "console": "utf8",
+            "program": "${workspaceRoot}\\script\\gui\\mini.lua",
+            "arg0":[
+                "..\\bin\\w2l-worker.exe",
+            ],
+            "arg": [
+                "${workspaceRoot}\\命令ID.w3x",
+                "-lni",
+                "-config=..\\config.ini",
+            ]
+        },
     ]
 }
