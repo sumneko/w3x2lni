@@ -77,6 +77,7 @@ print('正在打开地图...')
 local slk = {}
 local input_ar = builder.load(input)
 if not input_ar then
+    os.exit(1, true)
     return
 end
 
@@ -86,6 +87,7 @@ if w2l.config.target_storage == 'dir' then
 end
 local output_ar = builder.load(output, 'w')
 if not output_ar then
+    os.exit(1, true)
     return
 end
 output_ar:flush()
