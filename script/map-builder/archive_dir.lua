@@ -55,6 +55,9 @@ function mt:count_files()
     scan_dir(self.path / 'sound', function ()
         count = count + 1
     end)
+    scan_dir(self.path / 'trigger', function ()
+        count = count + 1
+    end)
     return count
 end
 
