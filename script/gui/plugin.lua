@@ -8,9 +8,9 @@ local function load_one_plugin(path)
     local plugin = assert(load(io.load(path), '@'..path:string(), 't', _ENV))()
     return {
         name = path:stem():string(),
-        version = plugin.info.version,
-        author = plugin.info.author,
-        description = plugin.info.description,
+        version = plugin.info and plugin.info.version or '未知',
+        author = plugin.info and plugin.info.author or '未知',
+        description = plugin.info and plugin.info.description,
     }
 end
 
@@ -89,8 +89,8 @@ local function show_plugin(canvas)
     end)
     canvas:layout_row_dynamic(25, 1)
     if current_plugin then
-        canvas:text('作者：' .. (current_plugin.author or '未知'), NK_TEXT_LEFT)
-        canvas:text('版本：' .. (current_plugin.version or '未知'), NK_TEXT_LEFT)
+        canvas:text('作者：' .. current_plugin.author, NK_TEXT_LEFT)
+        canvas:text('版本：' .. current_plugin.version, NK_TEXT_LEFT)
     else
         canvas:text('', NK_TEXT_LEFT)
         canvas:text('', NK_TEXT_LEFT)
