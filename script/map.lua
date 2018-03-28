@@ -256,6 +256,9 @@ local output_rate = get_io_time(output_ar)
 local frontend_rate = (1 - input_rate - output_rate) * 0.4
 local backend_rate = (1 - input_rate - output_rate) * 0.6
 
+print('正在检查插件...')
+local call_plugin = plugin(w2l, config)
+
 print('正在读取文件...')
 w2l.progress:start(input_rate)
 input_ar:search_files(w2l.progress)
@@ -266,8 +269,8 @@ w2l.progress:start(input_rate + frontend_rate)
 w2l:frontend(slk)
 w2l.progress:finish()
 
-print('加载插件...')
-plugin(w2l, config)
+print('执行插件...')
+call_plugin('on_complete_data')
 
 print('正在转换...')
 w2l.progress:start(input_rate + frontend_rate + backend_rate)

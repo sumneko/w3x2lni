@@ -31,9 +31,10 @@
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
             "console": "utf8",
             "program": "${workspaceRoot}\\script\\map.lua",
+            "sourceCoding": "utf8",
             "arg": [
-                "${workspaceRoot}\\命令ID.w3x",
-                "-lni",
+                "${workspaceRoot}\\MoeHero.w3x",
+                "-slk",
                 "-config=..\\config.ini",
             ]
         },

@@ -11,7 +11,6 @@ local function load_one_plugin(path)
         version = plugin.info.version,
         author = plugin.info.author,
         description = plugin.info.description,
-        path = path,
     }
 end
 
