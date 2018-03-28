@@ -23,6 +23,10 @@ local function load_plugins(list)
         local ok, res = pcall(load_one_plugin, path)
         if ok then
             plugins[#plugins+1] = res
+            w2l.message('-report|9其他', ('使用的插件：[%s]'):format(res.name))
+            if res.description then
+                w2l.message('-tip', res.description)
+            end
         end
     end
     table.sort(plugins, function (a, b)
