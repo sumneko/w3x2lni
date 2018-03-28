@@ -58,7 +58,7 @@ local function convert_wtg(w2l)
     w2l.progress:finish()
     w2l.progress:start(0.5)
     if wtg and wct then
-        if w2l.config.mode == 'table' then
+        if w2l.config.mode == 'lni' then
             xpcall(function ()
                 wtg_data = w2l:frontend_wtg(wtg)
                 wct_data = w2l:frontend_wct(wct)
@@ -81,7 +81,7 @@ local function convert_wtg(w2l)
     w2l.progress:finish()
     w2l.progress:start(1)
     if wtg_data and wct_data and not w2l.config.remove_we_only then
-        if w2l.config.mode == 'table' then
+        if w2l.config.mode == 'lni' then
             local files = w2l:backend_lml(wtg_data, wct_data)
             for filename, buf in pairs(files) do
                 w2l:file_save('trigger', filename, buf)
