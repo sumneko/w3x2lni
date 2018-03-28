@@ -199,17 +199,21 @@ function w2l:file_pairs()
         end
         index = name
         local type
-        if name:sub(-4) == '.mdx' or name:sub(-4) == '.mdl' or name:sub(-4) == '.blp' or name:sub(-4) == '.tga' then
+        local ext = name:match '[^%.]+$'
+        if ext == 'mdx' or ext == 'mdl' or ext == 'blp' or ext == 'tga' then
             type = 'resource'
-        elseif name:sub(-4) == '.lua' or name:sub(-4) == '.ini' then
+        elseif ext == 'lua' or ext == 'ini' or ext == 'iniconfig' then
             type = 'script'
-        elseif name:sub(-4) == '.mp3' or name:sub(-4) == '.wav' then
+        elseif ext == 'mp3' or ext == 'wav' then
             type = 'sound'
         else
             type = 'map'
         end
         if w2l.input_mode == 'lni' then
-            name = name:sub(#type + 2)
+            local dir = name:match '^[^/\\]+'
+            if dir:lower() == type then
+                name = name:sub(#type + 2)
+            end
         end
         return type, name, buf
     end
