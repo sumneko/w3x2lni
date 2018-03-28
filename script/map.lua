@@ -130,6 +130,9 @@ function w2l:file_save(type, name, buf)
         input_ar:set('trigger/' .. name, buf)
         output_ar:set('trigger/' .. name, buf)
     else
+        if type == 'script' and not self.config.export_lua then
+            return
+        end
         if self.input_mode == 'lni' then
             input_ar:set(type .. '/' .. name, buf)
         else
