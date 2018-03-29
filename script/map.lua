@@ -129,10 +129,13 @@ function w2l:file_save(type, name, buf)
     elseif type == 'trigger' then
         input_ar:set('trigger/' .. name, buf)
         output_ar:set('trigger/' .. name, buf)
-    else
-        if type == 'script' and not self.config.export_lua then
+    elseif type == 'script' then
+        if not self.config.export_lua then
             return
         end
+        input_ar:set('script/' .. name, buf)
+        output_ar:set('script/' .. name, buf)
+    else
         if self.input_mode == 'lni' then
             input_ar:set(type .. '/' .. name, buf)
         else
@@ -156,6 +159,8 @@ function w2l:file_load(type, name)
         end
     elseif type == 'trigger' then
         return input_ar:get('trigger/' .. name) or input_ar:get('war3map.wtg.lml/' .. name)
+    elseif type == 'script' then
+        return input_ar:get('script/' .. name)
     else
         if self.input_mode == 'lni' then
             return input_ar:get(type .. '/' .. name)
@@ -176,6 +181,9 @@ function w2l:file_remove(type, name)
         input_ar:remove('war3map.wtg.lml/' .. name, buf)
         output_ar:remove('trigger/' .. name, buf)
         output_ar:remove('war3map.wtg.lml/' .. name, buf)
+    elseif type == 'script' then
+        input_ar:remove('script/' .. name, buf)
+        output_ar:remove('script/' .. name, buf)
     else
         if self.input_mode == 'lni' then
             input_ar:remove(type .. '/' .. name, buf)
@@ -199,19 +207,19 @@ function w2l:file_pairs()
         end
         index = name
         local type
+        local dir = name:match '^[^/\\]+' :lower()
         local ext = name:match '[^%.]+$'
         if ext == 'mdx' or ext == 'mdl' or ext == 'blp' or ext == 'tga' then
             type = 'resource'
-        elseif ext == 'lua' or ext == 'ini' or ext == 'iniconfig' then
-            type = 'script'
         elseif ext == 'mp3' or ext == 'wav' then
             type = 'sound'
+        elseif dir == 'script' then
+            type = 'script'
         else
             type = 'map'
         end
         if w2l.input_mode == 'lni' then
-            local dir = name:match '^[^/\\]+'
-            if dir:lower() == type then
+            if dir == type then
                 name = name:sub(#type + 2)
             end
         end
