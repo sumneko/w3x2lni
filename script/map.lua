@@ -218,7 +218,7 @@ function w2l:file_pairs()
         else
             type = 'map'
         end
-        if w2l.input_mode == 'lni' then
+        if w2l.input_mode == 'lni' or type == 'script' then
             if dir == type then
                 name = name:sub(#type + 2)
             end
