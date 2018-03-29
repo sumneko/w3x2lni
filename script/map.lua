@@ -76,7 +76,7 @@ if config.mode == 'slk' then
     print('-title Slk优化')
 end
 
-local input = config.input
+input = config.input
 print('正在打开地图...')
 local slk = {}
 local input_ar = builder.load(input)
@@ -85,7 +85,7 @@ if not input_ar then
     return
 end
 
-local output = config.output or default_output(config.input)
+output = config.output or default_output(config.input)
 if w2l.config.target_storage == 'dir' then
     if not fs.exists(output) then
         fs.create_directories(output)
