@@ -11,7 +11,6 @@ local function task(f, ...)
 end
 
 local ignore = {}
-
 for _, name in ipairs {'.git', '.svn', '.vscode', '.gitignore'} do
     ignore[name] = true
 end
