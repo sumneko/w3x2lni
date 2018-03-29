@@ -374,8 +374,10 @@ return function (w2l, slk)
     end
     w2l.progress:finish()
 
-    w2l.message('转换脚本...')
-    w2l:backend_convertjass(slk.wts)
+    if w2l.config.optimize_jass then
+        w2l.message('优化脚本...')
+        w2l:backend_optimizejass()
+    end
     w2l.progress(0.9)
 
     w2l.message('转换其他文件...')
@@ -389,18 +391,18 @@ return function (w2l, slk)
     end
     w2l.progress(0.94)
 
-    w2l.message('重新生成字符串...')
+    w2l.message('转换脚本...')
+    w2l:backend_convertjass(slk.wts)
+
+    w2l.progress(0.95)
+
+    w2l.message('重新生成长文本...')
     local content = w2l:refresh_wts(slk.wts)
     if content and #content > 0 then
         w2l:file_save('map', 'war3map.wts', content)
     else
         w2l:file_remove('map', 'war3map.wts')
     end
-    w2l.progress(0.95)
 
-    if w2l.config.optimize_jass then
-        w2l.message('优化脚本...')
-        w2l:backend_optimizejass()
-    end
     w2l.progress(1)
 end
