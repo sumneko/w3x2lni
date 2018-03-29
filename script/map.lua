@@ -72,6 +72,9 @@ end
 
 local config = unpack_config()
 w2l:set_config(config)
+if config.mode then
+    print('-title ' .. config.mode)
+end
 
 local input = config.input
 print('正在打开地图...')
