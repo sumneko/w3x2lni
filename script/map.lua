@@ -87,7 +87,9 @@ end
 
 local output = config.output or default_output(config.input)
 if w2l.config.target_storage == 'dir' then
-    fs.create_directories(output)
+    if not fs.exists(output) then
+        fs.create_directories(output)
+    end
 end
 local output_ar = builder.load(output, 'w')
 if not output_ar then

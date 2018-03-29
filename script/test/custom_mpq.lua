@@ -48,7 +48,9 @@ local function extract_file(mpq, name)
     if not mpq:has_file(name) then
         return
     end
-    fs.create_directories(path:parent_path())
+    if not fs.exists(path:parent_path()) then
+        fs.create_directories(path:parent_path())
+    end
     local res = mpq:extract(name, path)
     result[path:string()] = res
 end
@@ -109,8 +111,10 @@ local function main()
             error(('无法清空目录[%s]，请检查目录是否被占用。'):format(mpq_path:string()))
         end
     end
-    if not task(fs.create_directories, mpq_path) then
-        error(('无法创建目录[%s]，请检查目录是否被占用。'):format(mpq_path:string()))
+    if not fs.exists(mpq_path) then
+        if not task(fs.create_directories, mpq_path) then
+            error(('无法创建目录[%s]，请检查目录是否被占用。'):format(mpq_path:string()))
+        end
     end
 
     extract_mpq(mpqs)
