@@ -72,8 +72,8 @@ end
 
 local config = unpack_config()
 w2l:set_config(config)
-if config.mode then
-    print('-title ' .. config.mode)
+if config.mode == 'slk' then
+    print('-title Slk优化')
 end
 
 local input = config.input
