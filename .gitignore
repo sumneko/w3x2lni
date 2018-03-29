@@ -8,4 +8,4 @@
 !/plugin
 /plugin/*
 !/plugin/示例.lua
-*.w3x
+/*.w3x
