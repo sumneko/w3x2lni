@@ -287,8 +287,8 @@ w2l.progress:start(input_rate + frontend_rate + backend_rate)
 w2l:backend(slk)
 w2l.progress:finish()
 
+call_plugin('on_save')
 print('正在生成文件...')
-local doo = input_ar:get 'war3map.doo'
 w2l.progress:start(1)
 builder.save(w2l, output_ar, slk.w3i, input_ar)
 w2l.progress:finish()
