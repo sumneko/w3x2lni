@@ -100,7 +100,7 @@ output_ar:flush()
 
 local function is_input_lni()
     if fs.is_directory(input) then
-        local map = io.open((input / 'builder.w3x'):string(), 'rb')
+        local map = io.open((input / '.w3x'):string(), 'rb')
         if map then
             map:seek('set', 8)
             local mark = map:read(4)
