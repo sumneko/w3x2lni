@@ -77,6 +77,36 @@ if config.mode == 'slk' then
 end
 
 input = config.input
+local function check_lni_mark(path)
+    local map = io.open(path:string(), 'rb')
+    if map then
+        map:seek('set', 8)
+        local mark = map:read(4)
+        if mark == 'W2L\x01' then
+            return true
+        end
+    end
+end
+
+local function check_input_lni()
+    if fs.is_directory(input) then
+        if check_lni_mark(input / '.w3x') then
+            return true
+        end
+    else
+        if check_lni_mark(input) then
+            input = input:parent_path()
+            config.input = input
+            return true
+        end
+    end
+    return false
+end
+
+if check_input_lni() then
+    w2l.input_mode = 'lni'
+end
+
 print('正在打开地图...')
 local slk = {}
 local input_ar = builder.load(input)
@@ -97,24 +127,6 @@ if not output_ar then
     return
 end
 output_ar:flush()
-
-local function is_input_lni()
-    if fs.is_directory(input) then
-        local map = io.open((input / '.w3x'):string(), 'rb')
-        if map then
-            map:seek('set', 8)
-            local mark = map:read(4)
-            if mark == 'W2L\x01' then
-                return true
-            end
-        end
-    end
-    return false
-end
-
-if is_input_lni() then
-    w2l.input_mode = 'lni'
-end
 
 function w2l:map_load(filename)
     return input_ar:get(filename)
