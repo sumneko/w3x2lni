@@ -147,12 +147,12 @@ function w2l:file_save(type, name, buf)
     elseif type == 'trigger' then
         input_ar:set('trigger/' .. name, buf)
         output_ar:set('trigger/' .. name, buf)
-    elseif type == 'script' then
+    elseif type == 'scripts' then
         if not self.config.export_lua then
             return
         end
-        input_ar:set('script/' .. name, buf)
-        output_ar:set('script/' .. name, buf)
+        input_ar:set('scripts/' .. name, buf)
+        output_ar:set('scripts/' .. name, buf)
     elseif type == 'plugin' then
         input_ar:set('plugin/' .. name, buf)
         output_ar:set('plugin/' .. name, buf)
@@ -180,8 +180,8 @@ function w2l:file_load(type, name)
         end
     elseif type == 'trigger' then
         return input_ar:get('trigger/' .. name) or input_ar:get('war3map.wtg.lml/' .. name)
-    elseif type == 'script' then
-        return input_ar:get('script/' .. name)
+    elseif type == 'scripts' then
+        return input_ar:get('scripts/' .. name)
     elseif type == 'plugin' then
         return input_ar:get('plugin/' .. name)
     else
@@ -204,9 +204,9 @@ function w2l:file_remove(type, name)
         input_ar:remove('war3map.wtg.lml/' .. name, buf)
         output_ar:remove('trigger/' .. name, buf)
         output_ar:remove('war3map.wtg.lml/' .. name, buf)
-    elseif type == 'script' then
-        input_ar:remove('script/' .. name, buf)
-        output_ar:remove('script/' .. name, buf)
+    elseif type == 'scripts' then
+        input_ar:remove('scripts/' .. name, buf)
+        output_ar:remove('scripts/' .. name, buf)
     elseif type == 'plugin' then
         input_ar:remove('plugin/' .. name, buf)
         output_ar:remove('plugin/' .. name, buf)
@@ -239,14 +239,16 @@ function w2l:file_pairs()
             type = 'resource'
         elseif ext == 'mp3' or ext == 'wav' then
             type = 'sound'
-        elseif dir == 'script' then
-            type = 'script'
+        elseif name == 'scripts\\war3map.j' then
+            type = 'map'
+        elseif dir == 'scripts' then
+            type = 'scripts'
         elseif dir == 'plugin' then
             type = 'plugin'
         else
             type = 'map'
         end
-        if w2l.input_mode == 'lni' or type == 'script' or type == 'plugin' then
+        if w2l.input_mode == 'lni' or type == 'scripts' or type == 'plugin' then
             if dir == type then
                 name = name:sub(#type + 2)
             end
