@@ -7,7 +7,7 @@ local config
 local function load_one_plugin(path)
     local plugin = assert(load(io.load(path), '@'..path:string(), 't', _ENV))()
     return {
-        name = path:stem():string(),
+        name = plugin.info and plugin.info.name or path:stem():string(),
         version = plugin.info and plugin.info.version or '未知',
         author = plugin.info and plugin.info.author or '未知',
         description = plugin.info and plugin.info.description,
