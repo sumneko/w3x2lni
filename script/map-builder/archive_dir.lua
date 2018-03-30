@@ -70,16 +70,6 @@ function mt:load_file(name)
 end
 
 function mt:save_file(name, buf, filetime)
-    local dir = name:match '^([^/\\]+)[/\\]'
-    if dir then
-        dir = dir:lower()
-        if not self.cleaned[dir] then
-            self.cleaned[dir] = true
-            if not task(fs.remove_all, self.path / dir) then
-                error(('无法清空目录[%s]，请检查目录是否被占用。'):format((self.path / dir):string()))
-            end
-        end
-    end
     local dir = (self.path / name):remove_filename()
     if not fs.exists(dir) then
         fs.create_directories(dir)
@@ -89,5 +79,5 @@ function mt:save_file(name, buf, filetime)
 end
 
 return function (input)
-    return setmetatable({ path = input, cleaned = {} }, mt)
+    return setmetatable({ path = input }, mt)
 end
