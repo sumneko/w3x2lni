@@ -1,0 +1,19 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "0.1.0",
+    "command": "\"${workspaceRoot}/bin/w2l-worker.exe\"",
+    "isShellCommand": true,
+    "showOutput": "always",
+    "echoCommand": false,
+    "suppressTaskName": true,
+    "tasks": [
+        {
+            "taskName": "发布",
+            "args": [
+                ".\\script\\发布.lua",
+                "${workspaceRoot}"
+            ]
+        }
+    ]
+}
