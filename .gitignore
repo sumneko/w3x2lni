@@ -5,7 +5,5 @@
 !/template/
 !/data/
 !/c++/
-!/plugin
-/plugin/*
-!/plugin/示例.lua
+!/plugin/
 /*.w3x
