@@ -369,6 +369,7 @@ local function do_test(path)
     if not buf then
         return
     end
+    print(('正在测试[%s]'):format(path:filename():string()))
     local debuggerpath = '@'..uni.u2a((path / 'test.lua'):string())
     local env = test_env(path)
     local f = assert(load(buf, debuggerpath, 't', env))
