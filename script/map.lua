@@ -301,7 +301,7 @@ w2l.progress:start(input_rate + frontend_rate)
 w2l:frontend(slk)
 w2l.progress:finish()
 
-print('执行插件...')
+print('正在执行插件...')
 call_plugin('on_complete_data')
 
 print('正在转换...')
