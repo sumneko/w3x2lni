@@ -153,6 +153,9 @@ function w2l:file_save(type, name, buf)
         end
         input_ar:set('script/' .. name, buf)
         output_ar:set('script/' .. name, buf)
+    elseif type == 'plugin' then
+        input_ar:set('plugin/' .. name, buf)
+        output_ar:set('plugin/' .. name, buf)
     else
         if self.input_mode == 'lni' then
             input_ar:set(type .. '/' .. name, buf)
@@ -179,6 +182,8 @@ function w2l:file_load(type, name)
         return input_ar:get('trigger/' .. name) or input_ar:get('war3map.wtg.lml/' .. name)
     elseif type == 'script' then
         return input_ar:get('script/' .. name)
+    elseif type == 'plugin' then
+        return input_ar:get('plugin/' .. name)
     else
         if self.input_mode == 'lni' then
             return input_ar:get(type .. '/' .. name)
@@ -202,6 +207,9 @@ function w2l:file_remove(type, name)
     elseif type == 'script' then
         input_ar:remove('script/' .. name, buf)
         output_ar:remove('script/' .. name, buf)
+    elseif type == 'plugin' then
+        input_ar:remove('plugin/' .. name, buf)
+        output_ar:remove('plugin/' .. name, buf)
     else
         if self.input_mode == 'lni' then
             input_ar:remove(type .. '/' .. name, buf)
@@ -233,10 +241,12 @@ function w2l:file_pairs()
             type = 'sound'
         elseif dir == 'script' then
             type = 'script'
+        elseif dir == 'plugin' then
+            type = 'plugin'
         else
             type = 'map'
         end
-        if w2l.input_mode == 'lni' or type == 'script' then
+        if w2l.input_mode == 'lni' or type == 'script' or type == 'plugin' then
             if dir == type then
                 name = name:sub(#type + 2)
             end

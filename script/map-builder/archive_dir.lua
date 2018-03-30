@@ -39,7 +39,7 @@ end
 
 function mt:count_files()
     local count = 0
-    for _, name in ipairs {'map', 'resource', 'script', 'sound', 'trigger'} do
+    for _, name in ipairs {'map', 'resource', 'script', 'sound', 'trigger', 'plugin'} do
         scan_dir(self.path / name, function ()
             count = count + 1
         end)

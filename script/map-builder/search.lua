@@ -92,7 +92,7 @@ local function search_dir(map, progress)
     local clock = os.clock()
     local count = 0
     local len = #map.path:string()
-    for _, dir_name in ipairs {'map', 'resource', 'script', 'sound', 'trigger'} do
+    for _, dir_name in ipairs {'map', 'resource', 'script', 'sound', 'trigger', 'plugin'} do
         scan_dir(map.path / dir_name, function(path)
             local name = path:string():sub(len+2):lower()
             map:get(name)
