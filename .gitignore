@@ -7,6 +7,8 @@
 !/c++/
 !/plugin/
 !/test/
+!/build/
+/build/release/
 /plugin/*
 !/plugin/示例.lua
 /*.w3x
