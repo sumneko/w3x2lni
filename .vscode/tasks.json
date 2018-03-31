@@ -11,8 +11,9 @@
         {
             "taskName": "发布",
             "args": [
-                ".\\build\\发布.lua",
-                "${workspaceRoot}"
+                ".\\build\\execute.lua",
+                "${workspaceRoot}",
+                "${workspaceRoot}\\build\\make.lua"
             ]
         }
     ]
