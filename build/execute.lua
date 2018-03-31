@@ -16,5 +16,4 @@ local function setenv(name, value)
 end
 setenv('PATH', (root / 'bin'):string())
 
-print(arg[2])
 loadfile(arg[2])()
