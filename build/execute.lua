@@ -5,7 +5,6 @@ fs.current_path(root / 'script')
 local ffi = require 'ffi'
 local uni = require 'ffi.unicode'
 ffi.cdef[[
-    int SetEnvironmentVariableW(const wchar_t* name, const wchar_t* value);
     int _wputenv(const wchar_t* envstring);
 ]]
 
