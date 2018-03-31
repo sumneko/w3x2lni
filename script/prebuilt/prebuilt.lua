@@ -10,19 +10,12 @@ local prebuilt_search = require 'prebuilt.prebuilt_search'
 local root = fs.current_path()
 local w2l = core()
 
-local std_print = print
-function print(...)
+w2l:set_messager(function (...)
     if select(1, ...) == '-progress' then
         return
     end
-    local tbl = {...}
-    local count = select('#', ...)
-    for i = 1, count do
-        tbl[i] = uni.u2a(tostring(tbl[i])):gsub('[\r\n]', ' ')
-    end
-    std_print(table.concat(tbl, ' '))
-end
-w2l:set_messager(print)
+    print(...)
+end)
 
 function w2l:mpq_load(filename)
     local mpq_path = root:parent_path() / 'data' / 'mpq'

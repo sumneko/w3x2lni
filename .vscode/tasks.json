@@ -15,6 +15,12 @@
                 "${workspaceRoot}",
                 "${workspaceRoot}\\build\\make.lua"
             ]
+        },
+        {
+            "taskName": "预处理",
+            "args": [
+                ".\\script\\prebuilt\\init.lua"
+            ]
         }
     ]
 }
