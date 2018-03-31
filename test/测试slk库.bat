@@ -1,6 +1,6 @@
 @echo off
 
-cd ..
-..\bin\w2l-worker.exe test\slk_test.lua
+cd ..\script
+..\bin\w2l-worker.exe ..\test\slk_test.lua
 
 pause
