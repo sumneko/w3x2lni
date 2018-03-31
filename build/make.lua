@@ -121,7 +121,7 @@ local function zip(dir, zip, filter)
 	local z = minizip(zip:string(), 'w')
 	for_directory(dir, function(file)
 		if not filter or filter(file) then
-			z:archive(uni.u2a(file:string()), loadfile(dir / file))
+			z:archive(uni.u2a((dir:filename() / file):string()), loadfile(dir / file))
 		end
 	end)
 	z:close()
