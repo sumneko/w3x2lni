@@ -292,7 +292,7 @@ local frontend_rate = (1 - input_rate - output_rate) * 0.4
 local backend_rate = (1 - input_rate - output_rate) * 0.6
 
 print('正在检查插件...')
-local call_plugin = plugin(w2l, config)
+plugin(w2l, config)
 
 print('正在读取文件...')
 w2l.progress:start(input_rate)
@@ -305,7 +305,7 @@ w2l:frontend(slk)
 w2l.progress:finish()
 
 print('正在执行插件...')
-call_plugin('on_complete_data')
+w2l:call_plugin('on_complete_data')
 
 print('正在转换...')
 w2l.progress:start(input_rate + frontend_rate + backend_rate)
