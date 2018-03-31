@@ -64,7 +64,7 @@
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
             "console": "ansi",
-            "program": "${workspaceRoot}\\script\\test\\unit_test.lua",
+            "program": "${workspaceRoot}\\test\\unit_test.lua",
             "arg0":[
                 "..\\bin\\w2l-worker.exe",
             ],
