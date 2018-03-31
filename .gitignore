@@ -6,6 +6,7 @@
 !/data/
 !/c++/
 !/plugin/
+!/test/
 /plugin/*
 !/plugin/示例.lua
 /*.w3x
