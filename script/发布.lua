@@ -18,6 +18,11 @@ local function task(f, ...)
     return false
 end
 
+local ignore = {}
+for _, name in ipairs {'.vscode', '.git', '.svn', '.gitignore', '.gitmodules'} do
+    ignore[name] = true
+end
+
 local function read_version()
     local chg = require 'script.gui.changelog'
     return chg[1].version
@@ -36,6 +41,10 @@ end
 local function copy_files(input)
     print('正在复制文件：', input)
     local function f (name)
+        local filename = (root / name):filename():string()
+        if ignore[filename] then
+            return
+        end
         if fs.is_directory(root / name) then
             for new in (root / name):list_directory() do
                 f(name / new:filename())
@@ -62,7 +71,7 @@ end
 
 local function unit_test()
     local application = release_path / 'bin' / 'w2l-worker.exe'
-    local entry = release_path / 'script' / 'test' / 'unit_test.lua'
+    local entry = release_path / 'test' / 'unit_test.lua'
     local currentdir = release_path / 'script'
     local command_line = ('"%s" "%s"'):format(application:string(), entry:string())
     local p = process()
@@ -93,21 +102,13 @@ create_directory()
 copy_files('bin')
 copy_files('data')
 copy_files('plugin/示例.lua')
-copy_files('script/core')
-copy_files('script/ffi')
-copy_files('script/gui')
-copy_files('script/map-builder')
-copy_files('script/tool')
-copy_files('script/ui-builder')
-copy_files('script/main.lua')
-copy_files('script/map.lua')
-copy_files('script/utility.lua')
+copy_files('script')
 copy_files('template')
 copy_files('config.ini')
 copy_files('w3x2lni.exe')
 
-copy_files('script/test')
+copy_files('test')
 unit_test()
-remove_files('script/test')
+remove_files('test')
 
 print('完成')
