@@ -1,9 +1,10 @@
-package.path = package.path .. ';script\\?.lua;build\\?.lua'
+package.path = package.path .. ';.\\..\\build\\?.lua'
 
-require 'filesystem'
 local process = require 'process'
 local sleep = require 'ffi.sleep'
 local uni = require 'ffi.unicode'
+local loaddll = require 'ffi.loaddll'
+loaddll '..\\build\\minizip'
 local minizip = require 'minizip'
 
 local root = fs.path(arg[1])
@@ -25,7 +26,7 @@ for _, name in ipairs {'.vscode', '.git', '.svn', '.gitignore', '.gitmodules'} d
 end
 
 local function read_version()
-    local chg = require 'script.gui.changelog'
+    local chg = require 'gui.changelog'
     return chg[1].version
 end
 
