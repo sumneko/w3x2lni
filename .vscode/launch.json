@@ -42,14 +42,14 @@
             "name": "预生成",
             "type": "lua",
             "request": "launch",
-            "cwd": "${workspaceRoot}\\script\\",
+            "cwd": "${workspaceRoot}\\",
             "env": {
                 "PATH" : "${workspaceRoot}\\bin\\"
             },
             "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
-            "console": "ansi",
+            "console": "utf8",
             "program": "${workspaceRoot}\\script\\prebuilt\\init.lua",
         },
         {

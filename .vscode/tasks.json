@@ -14,6 +14,12 @@
                 ".\\build\\发布.lua",
                 "${workspaceRoot}"
             ]
+        },
+        {
+            "taskName": "预处理",
+            "args": [
+                ".\\script\\prebuilt\\init.lua"
+            ]
         }
     ]
 }
