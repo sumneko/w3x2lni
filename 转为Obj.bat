@@ -5,7 +5,7 @@ pause
 goto finish
 
 :convert
-CD script
+CD %~dp0script
 .\..\bin\w2l-worker.exe -e "package.cpath = [[.\\..\\bin\\?.dll]]" .\gui\mini.lua -obj "%1" > ./../log.txt
 CD ..
 
