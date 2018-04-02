@@ -12,3 +12,4 @@
 /plugin/*
 !/plugin/示例.lua
 /*.w3x
+/log.txt
