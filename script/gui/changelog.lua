@@ -2,6 +2,7 @@ return {
 {
     version = '2.0.1',
     { 'NEW', '可以使用建议UI转换地图' },
+    { 'FIX', '修正和Vista的兼容问题' },
 },
 {
     version = '2.0',
