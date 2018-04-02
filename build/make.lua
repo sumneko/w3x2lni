@@ -1,5 +1,6 @@
 package.path = package.path .. ';.\\..\\build\\?.lua'
 
+require 'filesystem'
 local process = require 'process'
 local sleep = require 'ffi.sleep'
 local uni = require 'ffi.unicode'
