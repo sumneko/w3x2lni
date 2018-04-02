@@ -77,6 +77,10 @@ local config = unpack_config()
 w2l:set_config(config)
 if config.mode == 'slk' then
     print('-title Slk优化')
+elseif config.mode == 'obj' then
+    print('-title 转为Obj')
+elseif config.mode == 'lni' then
+    print('-title 转为Lni')
 end
 
 input = config.input
