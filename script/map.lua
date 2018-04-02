@@ -41,8 +41,11 @@ local function unpack_config()
             end
         end
     end
-    if not config.config_path or not config.mode then
+    if not config.mode then
         return config
+    end
+    if not config.config_path then
+        config.config_path = '..\\config.ini'
     end
     local tbl = lni(io.load(fs.path(config.config_path)))
     for k, v in pairs(tbl) do
