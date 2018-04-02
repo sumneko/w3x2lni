@@ -355,7 +355,7 @@ local function test_env(path)
         __index = function (self, k)
             local f = o[k]
             if not f then
-                return nil
+                return _G[k]
             end
             return function (...)
                 return f(o, ...)
