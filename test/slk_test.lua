@@ -138,6 +138,14 @@ for id, obj in pairs(slk.item) do
 end
 assert(ok)
 
+local newobj
+for id, obj in pairs(slk.unit) do
+    if id == 'hfoo' then
+        newobj = obj:new('测试1')
+    end
+end
+assert(newobj:get_id() == 'h000')
+
 local obj = slk.item.modt:new('测试2')
 assert(obj:get_id() == 'I001')
 for k, v in pairs(slk.item.modt) do
