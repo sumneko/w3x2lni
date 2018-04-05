@@ -121,6 +121,9 @@ assert(obj:get_id() == 'I000')
 obj.goldcost = 10000
 assert(obj.goldcost == 10000)
 
+obj.scale = 0.4999999999
+assert(obj.scale == 0.5)
+
 obj["buttonpos:1"] = 3
 assert(obj["buttonpos:1"] == 3)
 obj.buttonpos_1 = 2
