@@ -4,6 +4,8 @@ local backend = require 'gui.backend'
 local messagebox = require 'ffi.messagebox'
 require 'filesystem'
 
+local worker
+
 local mini = {}
 
 function mini:init()
@@ -83,22 +85,6 @@ local function pack_arg()
     end
     return table.concat(buf, ' ')
 end
-
-mini:init()
-mini:event_close(gui.MessageLoop.quit)
-
-local function getexe()
-	local i = 0
-	while arg[i] ~= nil do
-		i = i - 1
-	end
-	return fs.path(arg[i + 1])
-end
-
-backend:init(getexe(), fs.current_path())
-local worker = backend:open('map.lua', pack_arg())
-backend.message = '正在初始化...'
-backend.progress = 0
 
 local function sortpairs(t)
     local sort = {}
@@ -190,5 +176,25 @@ local function delayedtask()
     end
     gui.MessageLoop.postdelayedtask(100, delayedtask)
 end
-gui.MessageLoop.postdelayedtask(100, delayedtask)
-gui.MessageLoop.run()
+
+local function getexe()
+	local i = 0
+	while arg[i] ~= nil do
+		i = i - 1
+	end
+	return fs.path(arg[i + 1])
+end
+
+function mini:backend()
+    mini:init()
+    backend:init(getexe(), fs.current_path())
+    worker = backend:open('map.lua', pack_arg())
+    backend.message = '正在初始化...'
+    backend.progress = 0
+    gui.MessageLoop.postdelayedtask(100, delayedtask)
+    gui.MessageLoop.run()
+end
+
+mini:backend()
+mini:event_close(gui.MessageLoop.quit)
+
