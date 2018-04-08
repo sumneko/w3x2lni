@@ -27,7 +27,7 @@ for i = 1, 3 do
     function btn:onclick()
         window:set_theme('W3x2'..data.type, data.color)
         window._mode = data.type:lower()
-        SwitchPage 'convert'
+        window:show_page 'convert'
     end
 end
 
