@@ -7,6 +7,8 @@ local worker
 local view
 local pb
 local label
+local lower
+local report
 
 local function getexe()
     local i = 0
@@ -21,56 +23,6 @@ local function pack_arg()
     buf[1] = '"' .. window._filename .. '"'
     buf[2] = '-' .. window._mode
     return table.concat(buf, ' ')
-end
-
-local function sortpairs(t)
-    local sort = {}
-    for k, v in pairs(t) do
-        sort[#sort+1] = {k, v}
-    end
-    table.sort(sort, function (a, b)
-        return a[1] < b[1]
-    end)
-    local n = 1
-    return function()
-        local v = sort[n]
-        if not v then
-            return
-        end
-        n = n + 1
-        return v[1], v[2]
-    end
-end
-
-local function create_report()
-    local lines = {}
-    for type, report in sortpairs(backend.report) do
-        if type ~= '' then
-            type = type:sub(2)
-            lines[#lines+1] = '================'
-            lines[#lines+1] = type
-            lines[#lines+1] = '================'
-            for _, s in ipairs(report) do
-                if s[2] then
-                    lines[#lines+1] = ('%s - %s'):format(s[1], s[2])
-                else
-                    lines[#lines+1] = s[1]
-                end
-            end
-            lines[#lines+1] = ''
-        end
-    end
-    local report = backend.report['']
-    if report then
-        for _, s in ipairs(report) do
-            if s[2] then
-                lines[#lines+1] = ('%s - %s'):format(s[1], s[2])
-            else
-                lines[#lines+1] = s[1]
-            end
-        end
-    end
-    return table.concat(lines, '\n')
 end
 
 local function update_progress(value)
@@ -88,7 +40,12 @@ local function update()
         return 0, 1
     end
     if worker.exited then
-        create_report()
+        if next(backend.report) then
+            pb:setvisible(false)
+            report:setvisible(true)
+        else
+            update_progress(100)
+        end
         if worker.exit_code == 0 then
             return 1000, 0
         else
@@ -131,11 +88,11 @@ local upper = gui.Container.create()
 upper:setstyle { FlexGrow = 1, AlignItems = 'center', JustifyContent = 'flex-start' }
 view:addchildview(upper)
 
-local lower = gui.Container.create()
+lower = gui.Container.create()
 lower:setstyle { FlexGrow = 1, AlignItems = 'center', JustifyContent = 'flex-end' }
 view:addchildview(lower)
 
-local filename = Button(window._filename:match '[^/\\]+$', window._color)
+local filename = Button(window._filename:match '[^/\\]+$')
 filename:setstyle { Width = 392, Height = 50, Margin = 2 }
 filename:setfont(Font('黑体', 20))
 upper:addchildview(filename)
@@ -149,21 +106,35 @@ lower:addchildview(message)
 pb = gui.ProgressBar.create()
 pb:setstyle { Width = 392, Height = 20, Margin = 10 }
 lower:addchildview(pb)
+pb:setvisible(false)
 
-local start = Button('开始', window._color)
+report = Button('详情')
+report:setstyle { Width = 392, Height = 30, Margin = 10 }
+report:setfont(Font('黑体', 24))
+lower:addchildview(report)
+report:setvisible(false)
+
+local start = Button('开始')
 start:setstyle { Width = 392, Height = 50, Margin = 2 }
-start:setfont(Font('黑体', 24, 'bold'))
+start:setfont(Font('黑体', 24))
 lower:addchildview(start)
 
 function start:onclick()
     if worker and not worker.exited then
         return
     end
+    pb:setvisible(true)
+    report:setvisible(false)
     backend:init(getexe(), fs.current_path())
     worker = backend:open('map.lua', pack_arg())
     backend.message = '正在初始化...'
     backend.progress = 0
     timer.loop(100, delayedtask)
+end
+
+function report:onclick()
+    window:show_page 'report'
+    window:show_report()
 end
 
 return view
