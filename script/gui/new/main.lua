@@ -6,6 +6,9 @@ window = {}
 
 ext.on_timer = timer.update
 function ext.on_dropfile(filename)
+    if window._worker and not window._worker.exited then
+        return
+    end
     window:show_page('select')
     window._filename = filename
 end
@@ -60,6 +63,30 @@ function Button(text, color1, color2)
         make_color()
     end
     return btn
+end
+
+function Progress(color)
+    local view = gui.Container.create()
+    view:setbackgroundcolor '#444'
+
+    local bar = gui.Label.create('')
+    bar:setstyle { FlexGrow = 0 }
+    view:addchildview(bar)
+    local function make_color()
+        if not color then
+            color = window._color
+        end
+        bar:setbackgroundcolor(color)
+    end
+    make_color()
+    function view:update_color(c)
+        color = c
+        make_color()
+    end
+    function view:set_progress(n)
+        bar:setstyle { FlexGrow = n / 100 }
+    end
+    return view
 end
 
 function window:close_theme()

@@ -26,23 +26,23 @@ local function pack_arg()
 end
 
 local function update_progress(value)
-    pb:setvalue(value)
-    view:schedulepaint()
+    pb:set_progress(value)
 end
 
 local function update_show()
-    if next(backend.report) then
-        report:setvisible(true)
+    if not worker then
+        report:setvisible(false)
         pb:setvisible(false)
-    elseif worker then
+    elseif not worker.exited then
         report:setvisible(false)
         pb:setvisible(true)
-        if worker.exited then
-            update_progress(100)
-        end
+    elseif next(backend.report) then
+        report:setvisible(true)
+        pb:setvisible(false)
     else
         report:setvisible(false)
-        pb:setvisible(false)
+        pb:setvisible(true)
+        update_progress(100)
     end
 end
 
@@ -115,8 +115,8 @@ message:setcolor('#CCC')
 message:setalign('start')
 lower:addchildview(message)
 
-pb = gui.ProgressBar.create()
-pb:setstyle { Height = 20, Margin = 10 }
+pb = Progress()
+pb:setstyle { Height = 30, Margin = 5, Padding = 3, FlexDirection = 'row' }
 lower:addchildview(pb)
 
 report = Button('详情')
@@ -141,6 +141,7 @@ function start:onclick()
     backend.progress = 0
     update_progress(backend.progress)
     timer.loop(100, delayedtask)
+    window._worker = worker
 end
 
 function report:onclick()
@@ -153,6 +154,7 @@ function view:on_show()
     filename:update_color()
     report:update_color()
     start:update_color()
+    pb:update_color()
 end
 
 return view
