@@ -1,7 +1,4 @@
 local setmetatable = setmetatable
-local ipairs = ipairs
-local pairs = pairs
-local table_insert = table.insert
 local math_max = math.max
 local math_floor = math.floor
 
