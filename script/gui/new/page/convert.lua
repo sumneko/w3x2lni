@@ -82,40 +82,41 @@ local function delayedtask(t)
 end
 
 view = gui.Container.create()
-view:setstyle { FlexGrow = 1, AlignItems = 'center', JustifyContent = 'center', Padding = 2 }
+view:setstyle { FlexGrow = 1, Padding = 2 }
 
 local upper = gui.Container.create()
-upper:setstyle { FlexGrow = 1, AlignItems = 'center', JustifyContent = 'flex-start' }
+upper:setstyle { FlexGrow = 1, JustifyContent = 'flex-start' }
 view:addchildview(upper)
 
 lower = gui.Container.create()
-lower:setstyle { FlexGrow = 1, AlignItems = 'center', JustifyContent = 'flex-end' }
+lower:setstyle { FlexGrow = 1, JustifyContent = 'flex-end' }
 view:addchildview(lower)
 
 local filename = Button(window._filename:match '[^/\\]+$')
-filename:setstyle { Width = 392, Height = 50, Margin = 2 }
+filename:setstyle { Height = 50, Margin = 2 }
 filename:setfont(Font('黑体', 20))
 upper:addchildview(filename)
 
 message = gui.Label.create('')
-message:setstyle { Width = 392, Height = 20, Margin = 2 }
+message:setstyle { Height = 20, Margin = 2 }
 message:setfont(Font('黑体', 20))
 message:setcolor('#CCC')
+message:setalign('start')
 lower:addchildview(message)
 
 pb = gui.ProgressBar.create()
-pb:setstyle { Width = 392, Height = 20, Margin = 10 }
+pb:setstyle { Height = 20, Margin = 10 }
 lower:addchildview(pb)
 pb:setvisible(false)
 
 report = Button('详情')
-report:setstyle { Width = 392, Height = 30, Margin = 10 }
+report:setstyle { Height = 30, Margin = 5 }
 report:setfont(Font('黑体', 24))
 lower:addchildview(report)
 report:setvisible(false)
 
 local start = Button('开始')
-start:setstyle { Width = 392, Height = 50, Margin = 2 }
+start:setstyle { Height = 50, Margin = 2 }
 start:setfont(Font('黑体', 24))
 lower:addchildview(start)
 

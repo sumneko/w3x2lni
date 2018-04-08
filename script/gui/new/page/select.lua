@@ -22,7 +22,7 @@ for i = 1, 3 do
     local data = info[i]
     local btn = Button('转为'..data.type, data.color)
     btn:setfont(Font('黑体', 20))
-    btn:setstyle { Margin = 1, FlexGrow = 1 }
+    btn:setstyle { Margin = 1, Height = 100 }
     view:addchildview(btn)
     function btn:onclick()
         window:set_theme('W3x2'..data.type, data.color)
