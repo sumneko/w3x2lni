@@ -111,7 +111,6 @@ end
 
 local m = {}
 
-local last = 0
 function m.update(delta)
 	if cur_index ~= 0 then
 		cur_frame = cur_frame - 1
@@ -145,7 +144,7 @@ function m.loop(timeout, on_timer)
 	return t
 end
 
-function m.timer(timeout, count, on_timer)
+function m.conut(timeout, count, on_timer)
 	if count == 0 then
 		return m.loop(timeout, on_timer)
 	end
