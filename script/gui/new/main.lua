@@ -4,6 +4,9 @@ require 'filesystem'
 
 local mini = {}
 
+function ext.on_dropfile(filename)
+end
+
 function mini:select()
     local win = gui.Window.create  { frame = false }
     win:settitle('w3x2lni-mini')

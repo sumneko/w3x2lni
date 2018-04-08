@@ -4,8 +4,8 @@ local messagebox = require 'ffi.messagebox'
 local process = require 'process'
 local nk = require 'nuklear'
 local backend = require 'gui.backend'
-local show_version = require 'gui.show_version'
-local plugin = require 'gui.plugin'
+local show_version = require 'gui.old.show_version'
+local plugin = require 'gui.old.plugin'
 local lni = require 'lni'
 local currenttheme = {0, 173, 217}
 local worker

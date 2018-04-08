@@ -7,9 +7,6 @@ require 'filesystem'
 
 ext.on_timer = timer.update
 
-function ext.on_dropfile(filename)
-end
-
 local worker
 local exitcode = 0
 
