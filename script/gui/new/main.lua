@@ -7,6 +7,7 @@ window = {}
 ext.on_timer = timer.update
 function ext.on_dropfile(filename)
     window:show_page('select')
+    window._filename = filename
 end
 
 local FontPool = {}
@@ -119,6 +120,7 @@ function window:create(t)
 
     local view = gui.Container.create()
     view:setbackgroundcolor('#222')
+    view:setstyle { Padding = 1 }
     local caption = self:addcaption(win)
     view:addchildview(caption)
     win:sethasshadow(true)
@@ -154,8 +156,6 @@ local view = window:create {
 }
 
 window:set_theme('W3x2Lni', '#00ADD9')
-window:set_theme('W3x2Slk', '#00AD3C')
---window:set_theme('W3x2Obj', '#D9A33C')
 window:show_page('index')
 
 gui.MessageLoop.run()
