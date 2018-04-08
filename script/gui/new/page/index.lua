@@ -24,7 +24,7 @@ function view:onmouseenter()
     timer.wait(1000, function()
         if hover then
             local n = 2
-            ani = timer.count(200, 6, function()
+            ani = timer.count(100, 6, function()
                 n = n + 1
                 label:setcolor('#' .. n .. n .. n)
             end)
