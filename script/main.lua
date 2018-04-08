@@ -1,1 +1,1 @@
-require 'gui.old.main'
+require 'gui.new.main'
