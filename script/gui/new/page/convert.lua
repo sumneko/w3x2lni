@@ -30,22 +30,33 @@ local function update_progress(value)
     view:schedulepaint()
 end
 
+local function update_show()
+    if next(backend.report) then
+        report:setvisible(true)
+        pb:setvisible(false)
+    elseif worker then
+        report:setvisible(false)
+        pb:setvisible(true)
+        if worker.exited then
+            update_progress(100)
+        end
+    else
+        report:setvisible(false)
+        pb:setvisible(false)
+    end
+end
+
 local function update()
     worker:update()
     message:settext(backend.message)
     update_progress(backend.progress)
+    update_show()
     if #worker.error > 0 then
         messagebox('错误', worker.error)
         worker.error = ''
         return 0, 1
     end
     if worker.exited then
-        if next(backend.report) then
-            pb:setvisible(false)
-            report:setvisible(true)
-        else
-            update_progress(100)
-        end
         if worker.exit_code == 0 then
             return 1000, 0
         else
@@ -107,13 +118,11 @@ lower:addchildview(message)
 pb = gui.ProgressBar.create()
 pb:setstyle { Height = 20, Margin = 10 }
 lower:addchildview(pb)
-pb:setvisible(false)
 
 report = Button('详情')
 report:setstyle { Height = 30, Margin = 5 }
 report:setfont(Font('黑体', 24))
 lower:addchildview(report)
-report:setvisible(false)
 
 local start = Button('开始')
 start:setstyle { Height = 50, Margin = 2 }
@@ -130,12 +139,20 @@ function start:onclick()
     worker = backend:open('map.lua', pack_arg())
     backend.message = '正在初始化...'
     backend.progress = 0
+    update_progress(backend.progress)
     timer.loop(100, delayedtask)
 end
 
 function report:onclick()
     window:show_page 'report'
     window:show_report()
+end
+
+function view:on_show()
+    update_show()
+    filename:update_color()
+    report:update_color()
+    start:update_color()
 end
 
 return view

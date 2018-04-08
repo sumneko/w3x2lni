@@ -35,21 +35,29 @@ function Label(text, color)
 end
 
 function Button(text, color1, color2)
-    if not color1 then
-        color1 = window._color
-    end
-    if not color2 then
-        color2 = ('#%06X'):format(tonumber('0x' .. color1:sub(2)) + 0x101010)
-    end
     local btn = gui.Button.create(text)
-    btn:setbackgroundcolor(color1)
-    btn._backgroundcolor1 = color1
-    btn._backgroundcolor2 = color2
+    local function make_color()
+        if not color1 then
+            color1 = window._color
+        end
+        if not color2 then
+            color2 = ('#%06X'):format(tonumber('0x' .. color1:sub(2)) + 0x101010)
+        end
+        btn:setbackgroundcolor(color1)
+        btn._backgroundcolor1 = color1
+        btn._backgroundcolor2 = color2
+    end
+    make_color()
     function btn:onmouseleave()
         self:setbackgroundcolor(self._backgroundcolor1)
     end
     function btn:onmouseenter()
         self:setbackgroundcolor(self._backgroundcolor2)
+    end
+    function btn:update_color(c1, c2)
+        color1 = c1
+        color2 = c2
+        make_color()
     end
     return btn
 end
@@ -145,6 +153,9 @@ function window:show_page(name)
     self._page = require('gui.new.page.' .. name)
     self._page:setvisible(true)
     view:addchildview(self._page)
+    if self._page.on_show then
+        self._page:on_show()
+    end
 end
 
 local view = window:create {
