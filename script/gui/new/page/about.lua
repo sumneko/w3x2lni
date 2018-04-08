@@ -85,7 +85,7 @@ local btn = Button('返回')
 btn:setstyle { Bottom = 0, Height = 28, Margin = 5 }
 btn:setfont(Font('黑体', 16))
 function btn:onclick()
-    SwitchPage('index')
+    window:show_page('index')
 end
 main:addchildview(btn)
 

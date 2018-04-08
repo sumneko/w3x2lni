@@ -53,10 +53,6 @@ function Button(text, color1, color2)
     return btn
 end
 
-function SwitchPage(name)
-    return window:show_page(name)
-end
-
 function window:close_theme()
     self._close._backgroundcolor1 = self._color
     self._close:setbackgroundcolor(self._close._backgroundcolor1)

@@ -12,7 +12,7 @@ view:addchildview(label)
 local about = Button('版本: ' .. (require 'gui.changelog')[1].version, '#333743') 
 about:setstyle { Position = 'absolute', Bottom = 20, Right = 0, Width = 140 }
 function about:onclick()
-    SwitchPage('about')
+    window:show_page('about')
 end
 view:addchildview(about)
 view:setstyle { FlexGrow = 1, FlexDirection = 'row', AlignItems = 'center', JustifyContent = 'center' } 
