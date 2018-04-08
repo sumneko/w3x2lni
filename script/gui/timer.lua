@@ -8,7 +8,7 @@ local cur_index = 0
 local free_queue = {}
 local timer = {}
 
-local function alloc_queue()
+local function m_allocqueue()
 	local n = #free_queue
 	if n > 0 then
 		local r = free_queue[n]
@@ -23,7 +23,7 @@ local function m_timeout(self, timeout)
 	local ti = cur_frame + timeout
 	local q = timer[ti]
 	if q == nil then
-		q = alloc_queue()
+		q = m_allocqueue()
 		timer[ti] = q
 	end
 	self.timeout_frame = ti
@@ -45,7 +45,7 @@ local function m_wakeup(self)
 	end
 end
 
-local function on_tick()
+local function m_tick()
 	local q = timer[cur_frame]
 	if q == nil then
 		cur_index = 0
@@ -64,9 +64,8 @@ local function on_tick()
 	free_queue[#free_queue + 1] = q
 end
 
-local mt = {}
 local api = {}
-mt.__index = api
+api.__index = api
 
 function api:remove()
 	self.removed = true
@@ -106,46 +105,45 @@ function api:resume()
 	end
 end
 
-local m = {}
-
-function m.update(delta)
+local function update(delta)
 	if cur_index ~= 0 then
 		cur_frame = cur_frame - 1
 	end
 	max_frame = max_frame + delta
 	while cur_frame < max_frame do
 		cur_frame = cur_frame + 1
-		on_tick()
+		m_tick()
 	end
 end
 
-function m.now()
+local function now()
 	return cur_frame
 end
 
-function m.wait(timeout, on_timer)
+local function wait(timeout, on_timer)
 	local timeout = math_max(math_floor(timeout) or 1, 1)
 	local t = setmetatable({
 		on_timer = on_timer,
-	}, mt)
+	}, api)
 	m_timeout(t, timeout)
 	return t
 end
 
-function m.loop(timeout, on_timer)
+local function loop(timeout, on_timer)
+    local timeout = math_max(math_floor(timeout) or 1, 1)
 	local t = setmetatable({
-		timeout = math_max(math_floor(timeout) or 1, 1),
+		timeout = timeout,
 		on_timer = on_timer,
-	}, mt)
+	}, api)
 	m_timeout(t, t.timeout)
 	return t
 end
 
-function m.conut(timeout, count, on_timer)
+local function count(timeout, count, on_timer)
 	if count == 0 then
-		return m.loop(timeout, on_timer)
+		return loop(timeout, on_timer)
 	end
-	local t = m.loop(timeout, function(t)
+	local t = loop(timeout, function(t)
 		on_timer(t)
 		count = count - 1
 		if count <= 0 then
@@ -155,4 +153,10 @@ function m.conut(timeout, count, on_timer)
 	return t
 end
 
-return m
+return {
+    update = update,
+    now = now,
+    wait = wait,
+    loop = loop,
+    count = count,
+}
