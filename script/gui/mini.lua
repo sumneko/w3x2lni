@@ -5,6 +5,7 @@ local messagebox = require 'ffi.messagebox'
 require 'filesystem'
 
 local worker
+local exitcode = 0
 
 local mini = {}
 
@@ -229,18 +230,22 @@ local function delayedtask()
     if not ok then
         messagebox('错误', r)
         mini:close()
-        os.exit(1, true)
+        exitcode = -1
         return
     end
     if r then
         if r > 0 then
             gui.MessageLoop.postdelayedtask(r, function()
+                if code ~= 0 then
+                    exitcode = code
+                end
                 mini:close()
-                os.exit(code, true)
             end)
         else
+            if code ~= 0 then
+                exitcode = code
+            end
             mini:close()
-            os.exit(code, true)
         end
         return
     end
@@ -278,3 +283,6 @@ else
     mini:backend()
 end
 
+if exitcode ~= 0 then
+    os.exit(exitcode, true)
+end
