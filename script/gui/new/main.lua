@@ -124,6 +124,7 @@ function window:create(t)
     win:sethasshadow(true)
     win:setresizable(false)
     win:setmaximizable(false)
+    win:setminimizable(false)
     win:setcontentview(view)
     win:setcontentsize { width = t.width, height = t.height }
     win:center()
