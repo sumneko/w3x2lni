@@ -54,10 +54,6 @@ function Button(text, color1, color2)
     return btn
 end
 
-function SwitchPage(name)
-    return window:show_page(name)
-end
-
 function window:close_theme()
     self._close._backgroundcolor1 = self._color
     self._close:setbackgroundcolor(self._close._backgroundcolor1)
@@ -126,6 +122,7 @@ function window:create(t)
     win:sethasshadow(true)
     win:setresizable(false)
     win:setmaximizable(false)
+    win:setminimizable(false)
     win:setcontentview(view)
     win:setcontentsize { width = t.width, height = t.height }
     win:center()

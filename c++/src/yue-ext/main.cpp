@@ -104,7 +104,7 @@ namespace winhook {
 		m_window = hwnd;
 		::DragAcceptFiles(m_window, TRUE);
 		m_hook = ::SetWindowsHookExW(WH_GETMESSAGE, ProcGetMessage, NULL, ::GetWindowThreadProcessId(m_window, NULL));
-		m_timer = ::SetTimer(m_window, 0, 100, ProcTimer);
+		m_timer = ::SetTimer(m_window, 0, 16, ProcTimer);
 		m_lasttick = ::GetTickCount();
 	}
 
