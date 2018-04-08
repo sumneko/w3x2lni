@@ -63,6 +63,7 @@ for _, v in ipairs(require 'gui.changelog') do
         local text = gui.Label.create(l[2])
         text:setcolor('#AAA')
         text:setstyle { Margin = 3, Width = 360, FlexGlow = 1 }
+        text:setalign('start')
         text:setfont(Font('黑体', 18))
         line:addchildview(text)
 
