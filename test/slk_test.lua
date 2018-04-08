@@ -121,6 +121,9 @@ assert(obj:get_id() == 'I000')
 obj.goldcost = 10000
 assert(obj.goldcost == 10000)
 
+obj.scale = 0.4999999999
+assert(obj.scale == 0.5)
+
 obj["buttonpos:1"] = 3
 assert(obj["buttonpos:1"] == 3)
 obj.buttonpos_1 = 2
@@ -137,6 +140,14 @@ for id, obj in pairs(slk.item) do
     end
 end
 assert(ok)
+
+local newobj
+for id, obj in pairs(slk.unit) do
+    if id == 'hfoo' then
+        newobj = obj:new('测试1')
+    end
+end
+assert(newobj:get_id() == 'h000')
 
 local obj = slk.item.modt:new('测试2')
 assert(obj:get_id() == 'I001')
