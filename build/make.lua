@@ -144,7 +144,6 @@ copy_files('script')
 copy_files('template')
 copy_files('config.ini')
 copy_files('w3x2lni.exe')
-copy_files('w3x2lni.bat')
 
 copy_files('test')
 unit_test()
