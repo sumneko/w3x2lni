@@ -92,9 +92,8 @@
                 "..\\bin\\w2l-worker.exe",
             ],
             "arg": [
-                "${workspaceRoot}\\命令ID.w3x",
+                "${workspaceRoot}\\1.w3x",
                 "-lni",
-                "-config=..\\config.ini",
             ]
         },
     ]

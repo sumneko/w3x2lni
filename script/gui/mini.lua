@@ -2,7 +2,13 @@ local gui = require 'yue.gui'
 local ext = require 'yue-ext'
 local backend = require 'gui.backend'
 local messagebox = require 'ffi.messagebox'
+local timer = require 'gui.timer'
 require 'filesystem'
+
+ext.on_timer = timer.update
+
+function ext.on_dropfile(filename)
+end
 
 local worker
 local exitcode = 0
@@ -164,17 +170,19 @@ local function update()
     end
 end
 
-local function delayedtask()
+local function delayedtask(t)
     local ok, r, code = xpcall(update, debug.traceback)
     if not ok then
+        t:remove()
         messagebox('错误', r)
         mini:close()
         exitcode = -1
         return
     end
     if r then
+        t:remove()
         if r > 0 then
-            gui.MessageLoop.postdelayedtask(r, function()
+            timer.wait(r, function()
                 if code ~= 0 then
                     exitcode = code
                 end
@@ -186,9 +194,7 @@ local function delayedtask()
             end
             mini:close()
         end
-        return
     end
-    gui.MessageLoop.postdelayedtask(100, delayedtask)
 end
 
 local function getexe()
@@ -206,7 +212,7 @@ function mini:backend()
     worker = backend:open('map.lua', pack_arg())
     backend.message = '正在初始化...'
     backend.progress = 0
-    gui.MessageLoop.postdelayedtask(100, delayedtask)
+    timer.loop(100, delayedtask)
     gui.MessageLoop.run()
 end
 
