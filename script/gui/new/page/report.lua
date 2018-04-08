@@ -66,14 +66,14 @@ local report = gui.Container.create()
 report:setstyle { FlexGrow = 1 }
 
 local label = gui.Label.create('')
-label:setstyle { FlexGrow = 1, }
+label:setstyle { FlexGrow = 1 }
 label:setfont(Font('黑体', 18))
 label:setcolor('#CCC')
 label:setalign('start')
 report:addchildview(label)
 
 local scroll = gui.Scroll.create()
-scroll:setstyle { FlexGrow = 1, Margin = 2, JustifyContent = 'flex-start' }
+scroll:setstyle { FlexGrow = 1, Margin = 2 }
 scroll:setcontentview(report)
 scroll:setscrollbarpolicy('never', 'never')
 view:addchildview(scroll)
