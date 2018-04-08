@@ -135,20 +135,27 @@ local function zippack()
     zip(release_path, zip_path)
 end
 
+local function pack()
+    create_directory()
+    copy_files('bin')
+    copy_files('data')
+    copy_files('script')
+    copy_files('template')
+    copy_files('config.ini')
+    copy_files('w3x2lni.exe')
+end
+
 local version = read_version()
 release_path = root / 'build' / 'release' / ('w3x2lni_v'..version)
-create_directory()
-copy_files('bin')
-copy_files('data')
-copy_files('script')
-copy_files('template')
-copy_files('config.ini')
-copy_files('w3x2lni.exe')
-
+pack()
 copy_files('test')
 unit_test()
 remove_files('test')
+zippack()
 
+release_path = root / 'build' / 'release' / ('w3x2lni_mini_v'..version)
+pack()
+fs.rename(release_path / 'script' / 'main.new.lua', release_path / 'script' / 'main.lua', true)
 zippack()
 
 print('完成')
