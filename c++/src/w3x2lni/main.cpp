@@ -3,6 +3,15 @@
 #include <shlwapi.h>
 #pragma comment(lib, "shlwapi.lib")
 
+struct strview {
+	const wchar_t* buf;
+	size_t len;
+	strview(const wchar_t* str)
+		: buf(str)
+		, len(wcslen(str))
+	{ }
+};
+
 template <size_t N>
 struct strbuilder {
 	wchar_t buf[N];
@@ -22,8 +31,8 @@ struct strbuilder {
 	void operator +=(const strbuilder<n>& str) {
 		append(str.buf, str.len);
 	}
-	void operator +=(const wchar_t* str) {
-		append(str, wcslen(str));
+	void operator +=(const strview& str) {
+		append(str.buf, str.len);
 	}
 	wchar_t* string() {
 		buf[len] = L'\0';
@@ -82,6 +91,19 @@ int __stdcall wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCm
 		cwd.string(),
 		&si, &pi))
 	{
+		wchar_t* msg = 0;
+		DWORD ok = ::FormatMessageW(
+			FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_IGNORE_INSERTS,
+			NULL,
+			::GetLastError(),
+			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+			reinterpret_cast<LPWSTR>(&msg),
+			0,
+			NULL);
+		if (ok && msg)
+		{
+			MessageBoxW(0, msg, L"Error!", 0);
+		}
 		return -1;
 	}
 
