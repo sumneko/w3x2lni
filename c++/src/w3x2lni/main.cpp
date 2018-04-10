@@ -22,6 +22,9 @@ struct strbuilder {
 	void operator +=(const strbuilder<n>& str) {
 		append(str.buf, str.len);
 	}
+	void operator +=(const wchar_t* str) {
+		append(str, wcslen(str));
+	}
 	wchar_t* string() {
 		buf[len] = L'\0';
 		return buf;
@@ -45,14 +48,11 @@ struct path : public strbuilder<MAX_PATH> {
 	}
 };
 
-int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+int __stdcall wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
 	STARTUPINFOW            si = { sizeof STARTUPINFOW };
 	PROCESS_INFORMATION     pi = { 0 };
-	DWORD flags = NORMAL_PRIORITY_CLASS | CREATE_UNICODE_ENVIRONMENT;
-	if (!(__argc >= 2 && strcmp(__argv[1], "-console") == 0)) {
-		flags |= CREATE_NO_WINDOW;
-	}
+	DWORD flags = NORMAL_PRIORITY_CLASS | CREATE_UNICODE_ENVIRONMENT | CREATE_NO_WINDOW;
 
 	path app = path() / L"bin" / L"w2l-worker.exe";
 	path cwd = path() / L"script";
@@ -62,6 +62,12 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 	cmd += L"\" -E \"";
 	cmd += path() / L"script" / L"main.lua";
 	cmd += L"\"";
+
+	for (int i = 1; i < __argc; ++i) {
+		cmd += L" \"";
+		cmd += __wargv[i];
+		cmd += L"\"";
+	}
 
 	strbuilder<1024> env;
 	env += L"PATH=";
