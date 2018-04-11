@@ -70,25 +70,10 @@ local function delayedtask(t)
     if not ok then
         t:remove()
         messagebox('错误', r)
-        mini:close()
-        exitcode = -1
         return
     end
     if r then
         t:remove()
-        if r > 0 then
-            timer.wait(r, function()
-                if code ~= 0 then
-                    exitcode = code
-                end
-                mini:close()
-            end)
-        else
-            if code ~= 0 then
-                exitcode = code
-            end
-            mini:close()
-        end
     end
 end
 
