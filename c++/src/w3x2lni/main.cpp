@@ -47,6 +47,13 @@ struct path : public strbuilder<MAX_PATH> {
 		::PathUnquoteSpacesW(buf);
 		::PathRemoveBackslashW(buf);
 		::PathRemoveFileSpecW(buf);
+#if _DEBUG
+		::PathRemoveFileSpecW(buf);
+		::PathRemoveFileSpecW(buf);
+		::PathRemoveFileSpecW(buf);
+		::PathRemoveFileSpecW(buf);
+		::PathRemoveFileSpecW(buf);
+#endif
 		len = wcslen(buf);
 	}
 	template <class T, size_t n>
