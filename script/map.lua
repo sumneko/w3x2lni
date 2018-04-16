@@ -10,15 +10,37 @@ local proto = require 'tool.protocol'
 local w2l = core()
 local root = fs.current_path()
 
-function print(...)
-    local t = {...}
-    local n = select('#', ...)
-    for i = 1, n do
-        t[i] = tostring(t[i]):gsub('[\r\n]', ' ')
+local function concat_string(start, ...)
+    local t = table.pack(...)
+    local v = {}
+    for i = start, t.n do
+        v[#v+1] = tostring(t[i])
     end
-    proto.send('text', string.format('%q', table.concat(t, ' ')))
+    return ('%q'):format(table.concat(v, ' '))
 end
-w2l:set_messager(print)
+
+local function messager(tp, ...)
+    if tp == 'text' then
+        proto.send('text', concat_string(1, ...))
+    elseif tp == 'progress' then
+        local value = ...
+        proto.send('progress', ('%.3f'):format(value))
+    elseif tp == 'report' then
+        local level, title = ...
+        proto.send('report', ('{level=%d,title=%q,content=%s}'):format(level, title, concat_string(3, ...)))
+    elseif tp == 'tip' then
+        proto.send('tip', concat_string(1, ...))
+    elseif tp == 'title' then
+        proto.send('title', concat_string(1, ...))
+    else
+        error('未知消息类型：' .. tp)
+    end
+end
+
+function print(...)
+    messager('text', ...)
+end
+w2l:set_messager(messager)
 
 local function unpack_config()
     local config = {}
@@ -88,11 +110,11 @@ end
 
 w2l:set_config(config)
 if config.mode == 'slk' then
-    print('-title Slk优化')
+    messager('title', 'Slk优化')
 elseif config.mode == 'obj' then
-    print('-title 转为Obj')
+    messager('title', '转为Obj')
 elseif config.mode == 'lni' then
-    print('-title 转为Lni')
+    messager('title', '转为Lni')
 end
 
 local function check_lni_mark(path)

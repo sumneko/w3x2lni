@@ -23,9 +23,9 @@ local function load_plugins(load_in_disk, list, source)
         local ok, res = pcall(load_one_plugin, load_in_disk, name)
         if ok then
             plugins[#plugins+1] = res
-            w2l.message('-report|9其他', ('使用的插件：[%s](%s)'):format(res.name, source))
+            w2l.message('report', 9, '其他', ('使用的插件：[%s](%s)'):format(res.name, source))
             if res.description then
-                w2l.message('-tip', res.description)
+                w2l.message('tip', res.description)
             end
         end
     end
@@ -55,8 +55,8 @@ local function call_plugin(plugin, event)
     if ok then
         return res
     else
-        w2l.message('-report|2警告', ('插件[%s]执行失败'):format(plugin.name))
-        w2l.message('-tip', res)
+        w2l.message('report', 2, '警告', ('插件[%s]执行失败'):format(plugin.name))
+        w2l.message('tip', res)
     end
 end
 

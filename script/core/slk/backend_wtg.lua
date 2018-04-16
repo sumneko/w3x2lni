@@ -173,7 +173,7 @@ function pack_eca(eca, child_id, eca_type)
         elseif type_map[eca[1]] then
             type = eca[1]
         else
-            w2l.message('未知的动作属性', eca[1], #hex)
+            w2l.message('text', '未知的动作属性', eca[1], #hex)
         end
     else
         name = eca[1]
