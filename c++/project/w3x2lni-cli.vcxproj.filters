@@ -2,8 +2,8 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\src\utf8\unicode.c" />
-    <ClCompile Include="..\src\w3x2lni\main_gui.cpp" />
     <ClCompile Include="..\src\w3x2lni\common.cpp" />
+    <ClCompile Include="..\src\w3x2lni\main_cli.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="rc">

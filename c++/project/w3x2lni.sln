@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yue-ext", "yue-ext.vcxproj"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "w3x2lni-lua", "w3x2lni-lua.vcxproj", "{A4422458-F0B3-40DE-9B8A-2AC0D753AFDE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "w3x2lni-cli", "w3x2lni-cli.vcxproj", "{EDE93A98-B9D8-4208-B346-AA98093CB04A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -33,6 +35,10 @@ Global
 		{A4422458-F0B3-40DE-9B8A-2AC0D753AFDE}.Debug|Win32.Build.0 = Debug|Win32
 		{A4422458-F0B3-40DE-9B8A-2AC0D753AFDE}.Release|Win32.ActiveCfg = Release|Win32
 		{A4422458-F0B3-40DE-9B8A-2AC0D753AFDE}.Release|Win32.Build.0 = Release|Win32
+		{EDE93A98-B9D8-4208-B346-AA98093CB04A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EDE93A98-B9D8-4208-B346-AA98093CB04A}.Debug|Win32.Build.0 = Debug|Win32
+		{EDE93A98-B9D8-4208-B346-AA98093CB04A}.Release|Win32.ActiveCfg = Release|Win32
+		{EDE93A98-B9D8-4208-B346-AA98093CB04A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
