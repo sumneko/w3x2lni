@@ -40,6 +40,7 @@ end
 function print(...)
     messager('text', ...)
 end
+io.stdout:setvbuf 'no'
 w2l:set_messager(messager)
 
 local function unpack_config()
