@@ -10,13 +10,15 @@ local proto = require 'tool.protocol'
 local w2l = core()
 local root = fs.current_path()
 
-function print(...)
-    local t = {...}
-    local n = select('#', ...)
-    for i = 1, n do
-        t[i] = tostring(t[i]):gsub('[\r\n]', ' ')
+function print(tp, ...)
+    if tp == 'text' then
+        local t = {...}
+        local n = select('#', ...)
+        for i = 1, n do
+            t[i] = ('%q'):format(t[i])
+        end
+        proto.send('text', string.format('%s', table.concat(t, ',')))
     end
-    proto.send('text', string.format('%q', table.concat(t, ' ')))
 end
 w2l:set_messager(print)
 

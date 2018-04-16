@@ -81,8 +81,8 @@ local function computed_value(slk, str, name, field)
            or slk.item[id]
            or slk.upgrade[id]
     if not o then
-        w2l.message('-report|5公式计算失败', get_displayname_by_id(slk, name))
-        w2l.message('-tip', ('%s: <%s>'):format(field, str))
+        w2l.message('report', 5, '公式计算失败', get_displayname_by_id(slk, name))
+        w2l.message('tip', ('%s: <%s>'):format(field, str))
         return
     end
     key = key:lower()
@@ -112,8 +112,8 @@ local function computed_value(slk, str, name, field)
         end
         return math.floor(res)
     end
-    w2l.message('-report|5公式计算失败', get_displayname_by_id(slk, id))
-    w2l.message('-tip', ('%s: <%s>'):format(field, str))
+    w2l.message('report', 5, '公式计算失败', get_displayname_by_id(slk, id))
+    w2l.message('tip', ('%s: <%s>'):format(field, str))
     return res
 end
 

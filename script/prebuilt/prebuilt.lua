@@ -10,8 +10,8 @@ local prebuilt_search = require 'prebuilt.prebuilt_search'
 local root = fs.current_path()
 local w2l = core()
 
-w2l:set_messager(function (...)
-    if select(1, ...) == '-progress' then
+w2l:set_messager(function (tp, ...)
+    if tp == 'progress' then
         return
     end
     print(...)

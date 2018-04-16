@@ -12,7 +12,7 @@ mt.message = function () end
 function mt:send_progress()
     local newprogress = self.current * (self.max_rate - self.min_rate) + self.min_rate
     if self.progress + 0.01 < newprogress then
-        self.message('-progress', newprogress)
+        self.message('progress', newprogress)
         self.progress = newprogress
     end
 end

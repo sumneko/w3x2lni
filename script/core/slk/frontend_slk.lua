@@ -78,8 +78,8 @@ local function slk_update_level(table, slk, update_level)
         if not obj._max_level or obj._max_level == 0 then
             obj._max_level = 1
         elseif obj._max_level and obj._max_level > 10000 then
-            w2l.message('-report|9其他', ('对象等级太高[%s][%d]'):format(name, obj._max_level))
-            w2l.message('-tip', '可能会影响此工具的性能')
+            w2l.message('report', 9, '其他', ('对象等级太高[%s][%d]'):format(name, obj._max_level))
+            w2l.message('tip', '可能会影响此工具的性能')
         end
     end
 end
