@@ -6,17 +6,17 @@ local core = require 'tool.sandbox_core'
 local builder = require 'map-builder'
 local triggerdata = require 'tool.triggerdata'
 local plugin = require 'tool.plugin'
+local proto = require 'tool.protocol'
 local w2l = core()
 local root = fs.current_path()
 
-local std_print = print
 function print(...)
-    local tbl = {...}
-    local count = select('#', ...)
-    for i = 1, count do
-        tbl[i] = tostring(tbl[i]):gsub('[\r\n]', ' ')
+    local t = {...}
+    local n = select('#', ...)
+    for i = 1, n do
+        t[i] = tostring(t[i]):gsub('[\r\n]', ' ')
     end
-    std_print(table.concat(tbl, ' '))
+    proto.send('text', string.format('%q', table.concat(t, ' ')))
 end
 w2l:set_messager(print)
 
