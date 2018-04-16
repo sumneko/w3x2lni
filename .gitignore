@@ -8,6 +8,7 @@
 !/plugin/
 !/test/
 !/build/
+!/docs/
 /build/release/
 /plugin/*
 !/plugin/示例.lua
