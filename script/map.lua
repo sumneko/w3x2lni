@@ -30,6 +30,8 @@ local function unpack_config()
                 config.mode = 'lni'
             elseif command == '-obj' then
                 config.mode = 'obj'
+            elseif command == '-mpq' then
+                config.mode = 'mpq'
             elseif command:match '^%-config=' then
                 config.config_path = command:sub(1 + #'-config=')
             end
@@ -51,8 +53,10 @@ local function unpack_config()
     for k, v in pairs(tbl) do
         config[k] = v
     end
-    for k, v in pairs(tbl[config.mode]) do
-        config[k] = v
+    if type(tbl[config.mode]) == 'table' then
+        for k, v in pairs(tbl[config.mode]) do
+            config[k] = v
+        end
     end
     return config
 end
@@ -74,6 +78,14 @@ local function default_output(input)
 end
 
 local config = unpack_config()
+input = config.input
+
+if config.mode == 'mpq' then
+    local custom_mpq = require 'tool.custom_mpq'
+    custom_mpq(input)
+    return
+end
+
 w2l:set_config(config)
 if config.mode == 'slk' then
     print('-title Slk优化')
@@ -83,7 +95,6 @@ elseif config.mode == 'lni' then
     print('-title 转为Lni')
 end
 
-input = config.input
 local function check_lni_mark(path)
     local map = io.open(path:string(), 'rb')
     if map then

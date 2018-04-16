@@ -1,6 +1,6 @@
 @echo off
-
+CHCP 65001
 cd %~dp0..\script
-..\bin\w2l-worker.exe ..\test\custom_mpq.lua "%1" "custom"
+..\bin\w2l-worker.exe ..\script\map.lua -mpq "%1"
 
 pause
