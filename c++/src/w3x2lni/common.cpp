@@ -85,8 +85,16 @@ bool execute_lua(pipe* out, pipe* err) {
 	STARTUPINFOW            si = { sizeof STARTUPINFOW };
 	si.dwFlags = STARTF_USESTDHANDLES;
 	si.hStdInput = INVALID_HANDLE_VALUE;
-	si.hStdOutput = out ? out->h : INVALID_HANDLE_VALUE;
-	si.hStdError = err ? err->h : INVALID_HANDLE_VALUE;
+	si.hStdOutput = INVALID_HANDLE_VALUE;
+	si.hStdError = INVALID_HANDLE_VALUE;
+	if (out) {
+		si.hStdOutput = out->h;
+		out->h = NULL;
+	}
+	if (err) {
+		si.hStdError = err->h;
+		err->h = NULL;
+	}
 
 	if (!::CreateProcessW(
 		app.string(),
