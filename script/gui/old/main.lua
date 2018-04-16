@@ -31,7 +31,15 @@ local root = fs.current_path():remove_filename()
 local config = lni(io.load(root / 'config.ini'))
 local fmt = nil
 
-backend:init(root / 'bin' / 'w2l-worker.exe', root / 'script')
+local function getexe()
+	local i = 0
+	while arg[i] ~= nil do
+		i = i - 1
+	end
+	return fs.path(arg[i + 1])
+end
+
+backend:init(getexe(), root / 'script')
 
 local config_content = [[
 [root]

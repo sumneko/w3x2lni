@@ -73,7 +73,7 @@ local function remove_files(input)
 end
 
 local function unit_test()
-    local application = release_path / 'bin' / 'w2l-worker.exe'
+    local application = release_path / 'bin' / 'lua.exe'
     local entry = release_path / 'test' / 'unit_test.lua'
     local currentdir = release_path / 'script'
     local command_line = ('"%s" "%s"'):format(application:string(), entry:string())

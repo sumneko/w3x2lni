@@ -33,7 +33,7 @@
     <ProjectGuid>{A4422458-F0B3-40DE-9B8A-2AC0D753AFDE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>lni</RootNamespace>
-    <ProjectName>w2l-worker</ProjectName>
+    <ProjectName>w3x2lni-lua</ProjectName>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
