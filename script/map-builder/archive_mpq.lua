@@ -111,7 +111,7 @@ return function (input, read)
             return nil
         end
         if not handle:has_file '(listfile)' then
-            print('不支持没有(listfile)的地图')
+            messager.text('不支持没有(listfile)的地图')
             return nil
         end
     else

@@ -1,5 +1,5 @@
 @echo OFF
 
 CD script
-..\bin\w2l-worker.exe main.new.lua
+..\bin\w3x2lni-lua.exe main.new.lua
 CD ..

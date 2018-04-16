@@ -59,9 +59,9 @@ function mt:save(w3i, w2l)
             clock = os_clock()
             progress(count / max)
             if self:get_type() == 'mpq' then
-                print(('正在打包文件... (%d/%d)'):format(count, max))
+                messager.text(('正在打包文件... (%d/%d)'):format(count, max))
             else
-                print(('正在导出文件... (%d/%d)'):format(count, max))
+                messager.text(('正在导出文件... (%d/%d)'):format(count, max))
             end
         end
     end
@@ -190,7 +190,7 @@ return function (pathorhandle, tp)
             ar._type = 'mpq'
         end
         if not ar.handle then
-            print('地图打开失败')
+            messager.text('地图打开失败')
             return nil
         end
     else

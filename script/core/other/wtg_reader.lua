@@ -38,7 +38,7 @@ local function fix_arg(n)
     if #step.args >= max then
         if n > 1 then
             step.args = {}
-            w2l.message('text', ('猜测[%s]的参数数量为[0]'):format(step.name))
+            w2l.messager.text(('猜测[%s]的参数数量为[0]'):format(step.name))
             return fix_arg(n-1)
         else
             max_guess_arg = max_guess_arg + 1
@@ -46,7 +46,7 @@ local function fix_arg(n)
     end
     table.insert(step.args, {})
     last_guess = step
-    w2l.message('text', ('猜测[%s]的参数数量为[%d]'):format(step.name, #step.args))
+    w2l.messager.text(('猜测[%s]的参数数量为[%d]'):format(step.name, #step.args))
     return step.save_point
 end
 
@@ -55,7 +55,7 @@ local function try_fix(tp, name)
         fix.ui[tp] = {}
     end
     if not fix.ui[tp][name] then
-        w2l.message('text', ('触发器UI[%s]不存在'):format(name))
+        w2l.messager.text(('触发器UI[%s]不存在'):format(name))
         fix.ui[tp][name] = {
             name = name,
             fix = true,
@@ -70,7 +70,7 @@ local function try_fix(tp, name)
             table.insert(fix.categories[tp], 'TC_UNKNOWUI')
         end
         table.insert(fix.categories[tp]['TC_UNKNOWUI'], fix.ui[tp][name])
-        w2l.message('text', ('猜测[%s]的参数数量为[0]'):format(name))
+        w2l.messager.text(('猜测[%s]的参数数量为[0]'):format(name))
         try_count = 0
     end
     return fix.ui[tp][name]
@@ -424,7 +424,7 @@ local function read_triggers()
             if try_count > 10000 then
                 error('在大量尝试后放弃修复。')
             end
-            w2l.message('text', errs[1])
+            w2l.messager.text(errs[1])
             if retry_point then
                 pos, unpack_index = retry_point[1], retry_point[2]
                 retry_point = false
