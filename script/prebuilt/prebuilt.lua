@@ -103,10 +103,10 @@ function mt:complete()
     prebuilt_keydata(w2l)
     prebuilt_search(w2l)
 
-    self:dofile('1.24-CN', 'Melee')
-    self:dofile('1.24-CN', 'Custom', 'template')
-    self:dofile('1.24-US', 'Melee')
-    self:dofile('1.24-US', 'Custom')
+    self:dofile('1.24-cn', 'Melee')
+    self:dofile('1.24-cn', 'Custom', 'template')
+    self:dofile('1.24-en', 'Melee')
+    self:dofile('1.24-en', 'Custom')
 
     -- 生成技能命令映射
     --local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'), 'ability.ini')
