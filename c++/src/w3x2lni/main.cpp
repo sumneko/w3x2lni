@@ -103,7 +103,7 @@ void Error()
 
 int __stdcall wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
-	path app = path() / L"bin" / L"w2l-worker.exe";
+	path app = path() / L"bin" / L"w3x2lni-lua.exe";
 	path cwd = path() / L"script";
 	strbuilder<32768> cmd;
 	cmd += L"\"";
