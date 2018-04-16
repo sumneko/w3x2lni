@@ -41,9 +41,11 @@ function print(...)
     messager('text', ...)
 end
 
-local ext = require 'process.ext'
-ext.set_filemode(io.stdout, 'b')
-io.stdout:setvbuf 'no'
+if io.type(io.stdout) == 'file' then
+    local ext = require 'process.ext'
+    ext.set_filemode(io.stdout, 'b')
+    io.stdout:setvbuf 'no'
+end
 w2l:set_messager(messager)
 
 local function unpack_config()
