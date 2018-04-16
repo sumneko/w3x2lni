@@ -35,8 +35,8 @@ backend:init(root / 'bin' / 'w2l-worker.exe', root / 'script')
 
 local config_content = [[
 [root]
--- 使用谁的mpq(default, custom)
-mpq = $mpq$
+-- 使用谁的mpq
+mpq = "$mpq$"
 -- 使用的语言
 lang = $lang$
 -- mpq路径
