@@ -308,7 +308,6 @@ function mt:set_config(config)
     end
     choose('mode')
     choose('mpq')
-    choose('lang')
     default = default[config.mode]
     choose('read_slk', toboolean)
     choose('find_id_times', math.tointeger)
@@ -327,7 +326,6 @@ function mt:set_config(config)
     
     self.mpq_path = mpq_path()
     self.mpq_path:open(config.mpq)
-    self.mpq_path:open(config.lang)
     if self.config.version == 'Melee' then
         self.mpq_path:open 'Melee_V1'
     else

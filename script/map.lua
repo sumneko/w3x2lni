@@ -267,13 +267,13 @@ end
 
 function w2l:mpq_load(filename)
     return w2l.mpq_path:each_path(function(path)
-        return io.load(root / config.mpq_path / path / filename)
+        return io.load(root:parent_path() / config.mpq_path / path / filename)
     end)
 end
 
 function w2l:prebuilt_load(filename)
     return w2l.mpq_path:each_path(function(path)
-        return io.load(root / config.prebuilt_path / path / filename)
+        return io.load(root:parent_path() / config.prebuilt_path / path / filename)
     end)
 end
 

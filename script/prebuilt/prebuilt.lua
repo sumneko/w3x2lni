@@ -64,20 +64,19 @@ end
 
 local mt = {}
 
-function mt:dofile(mpq, lang, version, template)
+function mt:dofile(mpq, version, template)
     print('==================')
-    print(('  %s  %s  '):format(lang, version))
+    print(('  %s  %s  '):format(mpq, version))
     print('==================')
 
     w2l:set_config{
         mpq     = mpq,
         version = version,
-        lang    = lang,
     }
     local prebuilt_path = root:parent_path() / 'data' / 'prebuilt' / w2l.mpq_path:first_path()
     fs.create_directories(prebuilt_path)
 
-    print('正在生成default')
+    print('正在生成data')
     function w2l:prebuilt_save(filename, buf)
         io.save(prebuilt_path / filename, buf)
     end
@@ -104,10 +103,10 @@ function mt:complete()
     prebuilt_keydata(w2l)
     prebuilt_search(w2l)
 
-    self:dofile('default', 'zh-CN', 'Melee')
-    self:dofile('default', 'zh-CN', 'Custom', 'template')
-    self:dofile('default', 'en-US', 'Melee')
-    self:dofile('default', 'en-US', 'Custom')
+    self:dofile('1.24-CN', 'Melee')
+    self:dofile('1.24-CN', 'Custom', 'template')
+    self:dofile('1.24-US', 'Melee')
+    self:dofile('1.24-US', 'Custom')
 
     -- 生成技能命令映射
     --local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'), 'ability.ini')
