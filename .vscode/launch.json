@@ -15,7 +15,6 @@
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
             //"runtimeExecutable": "${workspaceRoot}\\bin\\w2l-worker.exe",
             //"runtimeArgs": "${workspaceRoot}\\script\\main.lua",
-            "console": "utf8",
             "consoleCoding": "utf8",
             "program": "${workspaceRoot}\\script\\main.lua"
         },
@@ -30,7 +29,6 @@
             "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
-            "console": "utf8",
             "consoleCoding": "utf8",
             "program": "${workspaceRoot}\\script\\map.lua",
             "sourceCoding": "utf8",
@@ -51,7 +49,6 @@
             "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
-            "console": "utf8",
             "consoleCoding": "utf8",
             "program": "${workspaceRoot}\\script\\prebuilt\\init.lua",
         },
@@ -66,7 +63,6 @@
             "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
-            "console": "ansi",
             "consoleCoding": "ansi",
             "program": "${workspaceRoot}\\test\\unit_test.lua",
             "arg0":[
@@ -85,7 +81,6 @@
             "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
-            "console": "utf8",
             "consoleCoding": "utf8",
             "program": "${workspaceRoot}\\script\\gui\\mini.lua",
             "arg0":[

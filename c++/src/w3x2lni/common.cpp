@@ -60,9 +60,6 @@ size_t pipe::read(char* buf, size_t len) {
 	return (size_t)rlen;
 }
 
-
-
-
 bool execute_lua(pipe* out, pipe* err) {
 	path app = path() / L"bin" / L"w3x2lni-lua.exe";
 	path cwd = path() / L"script";
