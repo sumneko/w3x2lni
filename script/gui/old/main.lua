@@ -43,45 +43,28 @@ backend:init(getexe(), root / 'script')
 
 local config_content = [[
 [root]
--- 使用谁的mpq
 mpq = "$mpq$"
--- 使用的语言
 lang = $lang$
--- mpq路径
 mpq_path = $mpq_path$
--- 预处理路径
 prebuilt_path = $prebuilt_path$
--- 插件路径
 plugin_path = $plugin_path$
 
 [lni]
--- 读取slk文件
 read_slk = $lni.read_slk$
--- 限制搜索最优模板的次数,0表示无限
 find_id_times = $lni.find_id_times$
--- 导出lua脚本
 export_lua = $lni.export_lua$
 
 [slk]
--- 简化(移除没有引用的对象)
 remove_unuse_object = $slk.remove_unuse_object$
--- 优化脚本
 optimize_jass = $slk.optimize_jass$
--- 压缩模型
 mdx_squf = $slk.mdx_squf$
--- 删除只在WE中使用的文件
 remove_we_only = $slk.remove_we_only$
--- 优化装饰物
 slk_doodad = $slk.slk_doodad$
--- 限制搜索最优模板的次数,0表示无限
 find_id_times = $slk.find_id_times$
--- 混淆脚本
 confusion = $slk.confusion$
 
 [obj]
--- 读取slk文件
 read_slk = $obj.read_slk$
--- 限制搜索最优模板的次数,0表示无限
 find_id_times = $obj.find_id_times$
 ]]
 
