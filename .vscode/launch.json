@@ -16,7 +16,10 @@
             //"runtimeExecutable": "${workspaceRoot}\\bin\\w2l-worker.exe",
             //"runtimeArgs": "${workspaceRoot}\\script\\main.lua",
             "consoleCoding": "utf8",
-            "program": "${workspaceRoot}\\script\\main.lua"
+            "program": "${workspaceRoot}\\script\\main.lua",
+            "arg0":[
+                "..\\bin\\w3x2lni-lua.exe",
+            ]
         },
         {
             "name": "后端",
@@ -66,7 +69,7 @@
             "consoleCoding": "ansi",
             "program": "${workspaceRoot}\\test\\unit_test.lua",
             "arg0":[
-                "..\\bin\\w2l-worker.exe",
+                "..\\bin\\w3x2lni-lua.exe",
             ],
             "arg": []
         },
@@ -84,7 +87,7 @@
             "consoleCoding": "utf8",
             "program": "${workspaceRoot}\\script\\gui\\mini.lua",
             "arg0":[
-                "..\\bin\\w2l-worker.exe",
+                "..\\bin\\w3x2lni-lua.exe",
             ],
             "arg": [
                 "${workspaceRoot}\\1.w3x",

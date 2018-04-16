@@ -1,4 +1,5 @@
 local process = require 'process'
+local proto = require 'tool.protocol'
 
 local backend = {}
 backend.message = ''
@@ -10,6 +11,17 @@ backend.lastreport = nil
 local mt = {}
 mt.__index = mt
 
+function mt:unpack_out(bytes)
+    while true do
+        local res = proto.recv(self.proto_s, bytes)
+        if not res then
+            break
+        end
+        bytes = ''
+        self.output = self.output .. res.args .. '\r\n'
+    end
+end
+
 function mt:update_out()
     if not self.out_rd then
         return
@@ -20,7 +32,7 @@ function mt:update_out()
     end
     local r = self.out_rd:read(n)
     if r then
-        self.output = self.output .. r
+        self:unpack_out(r)
         return
     end
     self.out_rd:close()
@@ -48,7 +60,7 @@ function mt:update_pipe()
     self:update_out()
     self:update_err()
     if not self.process:is_running() then
-        self.output = self.output .. self.out_rd:read 'a'
+        self:unpack_out(self.out_rd:read 'a')
         self.error = self.error .. self.err_rd:read 'a'
         self.exit_code = self.process:wait()
         self.process:close()
@@ -159,6 +171,7 @@ function backend:open(entry, commandline)
         err_rd = stderr,
         output = '',
         error = '',
+        proto_s = {},
     }, mt)
 end
 
