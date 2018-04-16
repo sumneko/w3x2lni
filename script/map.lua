@@ -40,6 +40,9 @@ end
 function print(...)
     messager('text', ...)
 end
+
+local ext = require 'process.ext'
+ext.set_filemode(io.stdout, 'b')
 io.stdout:setvbuf 'no'
 w2l:set_messager(messager)
 
