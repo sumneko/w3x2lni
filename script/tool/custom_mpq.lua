@@ -6,6 +6,7 @@ local stormlib = require 'ffi.stormlib'
 local sleep = require 'ffi.sleep'
 local prebuilt = require 'prebuilt.prebuilt'
 local w2l = core()
+local mpq_name
 
 local function task(f, ...)
     for i = 1, 99 do
@@ -41,7 +42,7 @@ end
 local result = {} 
 
 local function extract_file(mpq, name)
-    local path = fs.current_path():parent_path() / 'data' / 'mpq' / arg[2] / name
+    local path = fs.current_path():parent_path() / 'data' / 'mpq' / mpq_name / name
     if fs.exists(path) then
         return
     end
@@ -95,17 +96,17 @@ local function extract_mpq(mpqs)
     end
 end
 
-local function main()
-    local dir = fs.path(arg[1])
-    if not fs.is_directory(dir) then
-        dir:remove_filename()
+return function (input)
+    if not fs.is_directory(input) then
+        input:remove_filename()
     end
 
-    local mpqs = open_mpq(dir)
+    local mpqs = open_mpq(input)
     if not mpqs then
         return
     end
-    local mpq_path = fs.current_path():parent_path() / 'data' / 'mpq' / arg[2]
+    mpq_name = input:filename()
+    local mpq_path = fs.current_path():parent_path() / 'data' / 'mpq' / mpq_name
     if fs.exists(mpq_path) then
         if not task(fs.remove_all, mpq_path) then
             error(('无法清空目录[%s]，请检查目录是否被占用。'):format(mpq_path:string()))
@@ -120,10 +121,8 @@ local function main()
     extract_mpq(mpqs)
     report_fail()
 
-    prebuilt:dofile(arg[2], 'zh-CN', 'Melee')
-    prebuilt:dofile(arg[2], 'zh-CN', 'Custom')
+    prebuilt:dofile(mpq_name:string(), 'Melee')
+    prebuilt:dofile(mpq_name:string(), 'Custom')
 
     print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
 end
-
-main()
