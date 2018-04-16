@@ -2,6 +2,7 @@ local lpeg = require 'lpeg'
 
 local tonumber = tonumber
 local table_concat = table.concat
+local messager
 
 lpeg.locale(lpeg)
 
@@ -43,9 +44,9 @@ end
 
 local function comment(str)
     if comments[line_count] then
-        print('注释行重复:' .. line_count)
-        print(comments[line_count])
-        print(str)
+        messager('注释行重复:' .. line_count)
+        messager(comments[line_count])
+        messager(str)
     end
     comments[line_count] = str
 end
@@ -307,9 +308,10 @@ mt.Line   = Line
 mt.Logic  = Logic
 mt.Function = Function
 
-function mt:__call(_jass, _file, mode)
+function mt:__call(_jass, _file, _messager, mode)
     jass = _jass
     file = _file
+    messager = _messager
     comments = {}
     line_count = 1
     line_pos = 1
