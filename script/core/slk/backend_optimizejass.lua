@@ -30,12 +30,15 @@ return function (w2l)
         w2l.message('-report|1严重错误', '没有找到脚本')
         return
     end
+    local function messager(...)
+        w2l.message('-report|8脚本优化', ...)
+    end
     local ast
-    ast = parser(common,   'common.j',   ast)
-    ast = parser(blizzard, 'blizzard.j', ast)
-    ast = parser(war3map,  'war3map.j',  ast)
+    ast = parser(common,   'common.j',   ast, messager)
+    ast = parser(blizzard, 'blizzard.j', ast, messager)
+    ast = parser(war3map,  'war3map.j',  ast, messager)
     
-    local buf, report = optimizer(ast, w2l.config)
+    local buf, report = optimizer(ast, w2l.config, messager)
 
     if w2l:file_load('map', 'war3map.j') then
         w2l:file_save('map', 'war3map.j', buf)
