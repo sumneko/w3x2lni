@@ -18,7 +18,7 @@ function mt:unpack_out(bytes)
             break
         end
         bytes = ''
-        self.output = self.output .. res.args .. '\r\n'
+        self.output[#self.output+1] = res
     end
 end
 
@@ -69,37 +69,34 @@ function mt:update_pipe()
     return false
 end
 
-local function push_report(type, value)
-    if not backend.report[type] then
-        backend.report[type] = {}
+local function push_report(type, level, value)
+    local name = level .. type
+    if not backend.report[name] then
+        backend.report[name] = {}
     end
     backend.lastreport = {value}
-    table.insert(backend.report[type], backend.lastreport)
+    table.insert(backend.report[name], backend.lastreport)
 end
 
-function mt:update_message(pos)
-    local msg = self.output:sub(1, pos):gsub("^%s*(.-)%s*$", "%1"):gsub('\t', ' ')
-    if msg:sub(1, 1) == '-' then
-        local key, value = msg:match('%-(%S+)%s(.+)')
-        if key then
-            if key == 'progress' then
-                backend.progress = tonumber(value) * 100
-            elseif key == 'report' then
-                push_report('', value)
-            elseif key:sub(1, 7) == 'report|' then
-                push_report(key:sub(8), value)
-            elseif key == 'tip' then
-                backend.lastreport[2] = value
-            elseif key == 'title' then
-                backend.title = value
-            end
-            msg = ''
+function mt:update_message()
+    while true do
+        local msg = table.remove(self.output, 1)
+        if not msg then
+            break
+        end
+        local key, value = msg.type, msg.args
+        if key == 'progress' then
+            backend.progress = value * 100
+        elseif key == 'report' then
+            push_report(value.type, value.level, value.content)
+        elseif key == 'tip' then
+            backend.lastreport[2] = value
+        elseif key == 'title' then
+            backend.title = value
+        elseif key == 'text' then
+            backend.message = value
         end
     end
-    if #msg > 0 then
-        backend.message = msg
-    end
-    self.output = self.output:sub(pos+1)
 end
 
 function mt:update()
@@ -110,34 +107,21 @@ function mt:update()
         self.closed = self:update_pipe()
     end
     if #self.output > 0 then
-        local pos = self.output:find('\n')
-        if pos then
-            self:update_message(pos)
-        end
+        self:update_message()
     end
     if #self.error > 0 then
-        while true do
-            local pos = self.output:find('\n')
-            if not pos then
-                break
-            end
+        while #self.output > 0 do
             self:update_message(pos)
         end
-        self:update_message(-1)
-        self.output = ''
+        self.output = {}
         self.out_rd:close()
         self.out_rd = nil
         backend.message = '转换失败'
     end
     if self.closed then
-        while true do
-            local pos = self.output:find('\n')
-            if not pos then
-                break
-            end
+        while #self.output > 0 do
             self:update_message(pos)
         end
-        self:update_message(-1)
         self.exited = true
         return true
     end
@@ -169,7 +153,7 @@ function backend:open(entry, commandline)
         process = p,
         out_rd = stdout, 
         err_rd = stderr,
-        output = '',
+        output = {},
         error = '',
         proto_s = {},
     }, mt)

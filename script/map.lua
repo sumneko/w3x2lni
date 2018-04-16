@@ -27,7 +27,7 @@ local function messager(tp, ...)
         proto.send('progress', ('%.3f'):format(value))
     elseif tp == 'report' then
         local level, title = ...
-        proto.send('report', ('{level=%d,title=%q,content=%s}'):format(level, title, concat_string(3, ...)))
+        proto.send('report', ('{level=%d,type=%q,content=%s}'):format(level, title, concat_string(3, ...)))
     elseif tp == 'tip' then
         proto.send('tip', concat_string(1, ...))
     elseif tp == 'title' then
