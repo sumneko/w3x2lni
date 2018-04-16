@@ -34,6 +34,8 @@ function messager.report(type, level, content, tip)
 end
 
 if io.type(io.stdout) == 'file' then
+    local ext = require 'process.ext'
+    ext.set_filemode(io.stdout, 'b')
     io.stdout:setvbuf 'no'
 end
 w2l:set_messager(messager)

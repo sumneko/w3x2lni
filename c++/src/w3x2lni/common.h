@@ -2,7 +2,6 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <Windows.h>
-#include <stdio.h>
 
 struct strview {
 	const wchar_t* buf;
@@ -55,7 +54,6 @@ struct pipe {
 
 	HANDLE f = NULL;
 	HANDLE h = NULL;
-	FILE* file = NULL;
 };
 
 bool execute_lua(pipe* out, pipe* err);
