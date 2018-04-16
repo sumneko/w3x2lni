@@ -159,7 +159,7 @@ local function write_table(slk)
         write_obj(list[i], obj)
         if os_clock() - clock >= 0.1 then
             clock = os_clock()
-            w2l.message('text', ('正在转换%s: [%s] (%d/%d)'):format(ttype, obj._id, i, #list))
+            w2l.messager.text(('正在转换%s: [%s] (%d/%d)'):format(ttype, obj._id, i, #list))
             w2l.progress(i / #list)
         end
     end

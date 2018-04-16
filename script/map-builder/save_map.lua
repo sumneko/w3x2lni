@@ -91,7 +91,7 @@ return function (w2l, output_ar, w3i, input_ar)
 
     input_ar:close()
     if not output_ar:save(w3i, w2l) then
-        print('创建新地图失败,可能文件被占用了')
+        messager.text('创建新地图失败,可能文件被占用了')
     end
     output_ar:close()
 end

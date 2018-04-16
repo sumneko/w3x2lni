@@ -57,16 +57,15 @@ local function search_mpq(map, progress)
             count = count + 1
             if os.clock() - clock > 0.1 then
                 clock = os.clock()
-                print(('正在读取文件... (%d/%d)'):format(count, total))
+                messager.text(('正在读取文件... (%d/%d)'):format(count, total))
                 progress(count / total)
             end
         end)
     end
 
     if count ~= total then
-        print('-report|1严重错误', ('还有%d个文件没有读取'):format(total - count))
-        print('-tip', '这些文件被丢弃了,请包含完整(listfile)')
-        print('-report|1严重错误', ('读取(%d/%d)个文件'):format(count, total))
+        messager.report('严重错误', 1, ('还有%d个文件没有读取'):format(total - count), '这些文件被丢弃了,请包含完整(listfile)')
+        messager.report('严重错误', 1, ('读取(%d/%d)个文件'):format(count, total))
     end
 end
 
@@ -99,7 +98,7 @@ local function search_dir(map, progress)
             count = count + 1
             if os.clock() - clock > 0.1 then
                 clock = os.clock()
-                print(('正在读取文件... (%d/%d)'):format(count, total))
+                messager.text(('正在读取文件... (%d/%d)'):format(count, total))
                 progress(count / total)
             end
         end)

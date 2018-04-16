@@ -19,26 +19,18 @@ local function concat_string(start, ...)
     return ('%q'):format(table.concat(v, ' '))
 end
 
-local function messager(tp, ...)
-    if tp == 'text' then
-        proto.send('text', concat_string(1, ...))
-    elseif tp == 'progress' then
-        local value = ...
-        proto.send('progress', ('%.3f'):format(value))
-    elseif tp == 'report' then
-        local level, title = ...
-        proto.send('report', ('{level=%d,type=%q,content=%s}'):format(level, title, concat_string(3, ...)))
-    elseif tp == 'tip' then
-        proto.send('tip', concat_string(1, ...))
-    elseif tp == 'title' then
-        proto.send('title', concat_string(1, ...))
-    else
-        error('未知消息类型：' .. tp)
-    end
+messager = {}
+function messager.text(text)
+    proto.send('text', ('%q'):format(text))
 end
-
-function print(...)
-    messager('text', ...)
+function messager.title(title)
+    proto.send('title', ('%q'):format(title))
+end
+function messager.progress(value)
+    proto.send('progress', ('%.3f'):format(value))
+end
+function messager.report(type, level, content, tip)
+    proto.send('report', ('{type=%q,level=%d,content=%q,tip=%q}'):format(type, level, content, tip))
 end
 
 if io.type(io.stdout) == 'file' then
@@ -116,11 +108,11 @@ end
 
 w2l:set_config(config)
 if config.mode == 'slk' then
-    messager('title', 'Slk优化')
+    messager.title 'Slk优化'
 elseif config.mode == 'obj' then
-    messager('title', '转为Obj')
+    messager.title '转为Obj'
 elseif config.mode == 'lni' then
-    messager('title', '转为Lni')
+    messager.title '转为Lni'
 end
 
 local function check_lni_mark(path)
@@ -154,7 +146,7 @@ if check_input_lni() then
     w2l.input_mode = 'lni'
 end
 
-print('正在打开地图...')
+messager.text('正在打开地图...')
 local slk = {}
 local input_ar = builder.load(input)
 if not input_ar then
@@ -337,32 +329,32 @@ local output_rate = get_io_time(output_ar)
 local frontend_rate = (1 - input_rate - output_rate) * 0.4
 local backend_rate = (1 - input_rate - output_rate) * 0.6
 
-print('正在检查插件...')
+messager.text('正在检查插件...')
 plugin(w2l, config)
 
-print('正在读取文件...')
+messager.text('正在读取文件...')
 w2l.progress:start(input_rate)
 input_ar:search_files(w2l.progress)
 w2l.progress:finish()
 
-print('正在读取物编...')
+messager.text('正在读取物编...')
 w2l.progress:start(input_rate + frontend_rate)
 w2l:frontend(slk)
 w2l.progress:finish()
 
-print('正在执行插件...')
+messager.text('正在执行插件...')
 w2l:call_plugin('on_complete_data')
 
-print('正在转换...')
+messager.text('正在转换...')
 w2l.progress:start(input_rate + frontend_rate + backend_rate)
 w2l:backend(slk)
 w2l.progress:finish()
 
-print('正在生成文件...')
+messager.text('正在生成文件...')
 local doo = input_ar:get 'war3map.doo'
 w2l.progress:start(1)
 builder.save(w2l, output_ar, slk.w3i, input_ar)
 w2l.progress:finish()
 
 save_builder()
-print('转换完毕,用时 ' .. os.clock() .. ' 秒') 
+messager.text('转换完毕,用时 ' .. os.clock() .. ' 秒') 

@@ -11,13 +11,12 @@ local function create_report(w2l, report, title, type, max)
         fix = math.random(0, #msgs - max)
     end
     if title then
-        w2l.message('report', 8, '脚本优化', ('%d.%s    总计：%d'):format(title, type, #msgs))
+        w2l.messager.report('脚本优化', 8, ('%d.%s    总计：%d'):format(title, type, #msgs))
     end
     for i = 1, max do
         local msg = msgs[i+fix]
         if msg then
-            w2l.message('report', 8, '脚本优化', msg[1])
-            w2l.message('tip', msg[2])
+            w2l.messager.report('脚本优化', 8, msg[1], msg[2])
         end
     end
 end
@@ -27,11 +26,15 @@ return function (w2l)
     local blizzard = w2l:file_load('map', 'blizzard.j') or w2l:file_load('map', 'scripts\\blizzard.j') or w2l:mpq_load('scripts\\blizzard.j')
     local war3map  = w2l:file_load('map', 'war3map.j')  or w2l:file_load('map', 'scripts\\war3map.j')
     if not war3map then
-        w2l.message('report', 1, '严重错误', '没有找到脚本')
+        w2l.messager.report('严重错误', 1, '没有找到脚本')
         return
     end
     local function messager(...)
-        w2l.message('report', '8', '脚本优化', ...)
+        local t = table.pack(...)
+        for i = 1, t.n do
+            t[i] = tostring(t[i])
+        end
+        w2l.messager.report('脚本优化', 8, table.concat(t, '\t'))
     end
     local ast
     ast = parser(common,   'common.j',   ast, messager)

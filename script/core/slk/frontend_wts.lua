@@ -60,8 +60,7 @@ return function (w2l, buf)
     for _, t in ipairs(result) do
         local index, text = t.index, t.text
         if text:find('}', 1, false) then
-            w2l.message('report', 2, '警告', '文本不能包含字符"}"')
-            w2l.message('tip', text:sub(1, 1000))
+            w2l.messager.report('警告', 2, '文本不能包含字符"}"', text:sub(1, 1000))
         end
         tbl[index] = t
     end

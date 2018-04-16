@@ -90,7 +90,7 @@ local function create_default(w2l)
     end
     if need_build then
         default = w2l:build_slk()
-        w2l:message('report', 9, '其他', '没有找到预生成结果')
+        w2l.messager.report('其他', 9, '没有找到预生成结果')
     end
     return default
 end
@@ -116,7 +116,7 @@ function mt:load_wts(wts, content, max, reason, fmter)
     return content:gsub('TRIGSTR_(%d+)', function(i)
         local str_data = wts[tonumber(i)]
         if not str_data then
-            self.message('report', 9, '其他', '没有找到字符串定义:', ('TRIGSTR_%03d'):format(i))
+            self.messager.report('其他', 9, ('没有找到字符串定义: TRIGSTR_%03d'):format(i))
             return
         end
         local text = str_data.text
@@ -131,11 +131,9 @@ function mt:load_wts(wts, content, max, reason, fmter)
 end
 
 function mt:save_wts(wts, text, reason)
-    self.message('report', 7, '保存到wts中的文本', reason)
-    self.message('tip', '文本保存在wts中会导致加载速度变慢: ', text:sub(1, 1000))
+    self.messager.report('保存到wts中的文本', 7, reason, '文本保存在wts中会导致加载速度变慢: '..text:sub(1, 1000))
     if text:find('}', 1, false) then
-        self.message('report', 2, '警告', '文本中的"}"被修改为了"|"')
-        self.message('tip', text:sub(1, 1000))
+        self.messager.report('警告', 2, '文本中的"}"被修改为了"|"', text:sub(1, 1000))
         text = text:gsub('}', '|')
     end
     local index = #wts.mark + 1
@@ -334,7 +332,7 @@ function mt:set_config(config)
 end
 
 function mt:set_messager(messager)
-    self.message = messager
+    self.messager = messager
     self.progress:set_messager(messager)
 end
 
