@@ -2,6 +2,8 @@
 #include <shlwapi.h>
 #include <algorithm>
 #include <utility>
+#include <io.h>
+#include <fcntl.h>
 #pragma comment(lib, "shlwapi.lib")
 
 strview::strview(const wchar_t* str)
@@ -28,9 +30,10 @@ path::path() {
 
 
 pipe::~pipe() {
-	if (f) CloseHandle(f);
 	if (h) CloseHandle(h);
+	if (file) fclose(file);
 }
+
 bool pipe::open(int type) {
 	SECURITY_ATTRIBUTES sa;
 	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
@@ -42,6 +45,12 @@ bool pipe::open(int type) {
 	}
 	f = type == 'r' ? rd : wr;
 	h = type == 'r' ? wr : rd;
+	if (type == 'r') {
+		file = _fdopen(_open_osfhandle((long)f, _O_RDONLY | _O_TEXT), "rt");
+	}
+	else {
+		file = _fdopen(_open_osfhandle((long)f, _O_WRONLY | _O_TEXT), "wt");
+	}
 	::SetHandleInformation(h, HANDLE_FLAG_INHERIT, HANDLE_FLAG_INHERIT);
 	return true;
 }
@@ -54,10 +63,7 @@ size_t pipe::read(char* buf, size_t len) {
 	if (rlen == 0) {
 		return 0;
 	}
-	if (!ReadFile(f, buf, (std::min)(rlen, (DWORD)len), &rlen, 0)) {
-		return -1;
-	}
-	return (size_t)rlen;
+	return fread(buf, 1, (std::min)(rlen, (DWORD)len), file);
 }
 
 bool execute_lua(pipe* out, pipe* err) {
