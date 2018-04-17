@@ -23,6 +23,9 @@ messager = {}
 function messager.text(text)
     proto.send('text', ('%q'):format(text))
 end
+function messager.raw(text)
+    proto.send('raw', ('%q'):format(text))
+end
 function messager.title(title)
     proto.send('title', ('%q'):format(title))
 end
@@ -117,6 +120,13 @@ local function default_output(input)
 end
 
 local config = unpack_config()
+if not config then
+    return
+end
+
+w2l.messager.text '正在初始化...'
+w2l.messager.progress(0)
+
 input = config.input
 
 if config.mode == 'mpq' then

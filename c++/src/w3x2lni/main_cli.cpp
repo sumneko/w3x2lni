@@ -59,6 +59,10 @@ public:
 		}
 		return screenBufferInfo.wAttributes;
 	}
+	void cleanline(int y) {
+		setxy({ 0, (SHORT)y });
+		text(L"                                                                                ");
+	}
 	void text(const std::wstring& buf) {
 		text(buf.data(), buf.size());
 	}
@@ -85,11 +89,6 @@ struct protocol {
 		: console()
 		, basepos(console.getxy())
 	{
-		console.setxy({ 0, basepos.Y });
-		console.text(L"");
-		console.setxy({ 0, basepos.Y + 1 });
-		printf("%3d%%", 0);
-		console.text(L"[>-------------------]");
 	}
 
 	~protocol()
@@ -151,6 +150,9 @@ struct protocol {
 			else if (type == "text") {
 				msg_text();
 			}
+			else if (type == "raw") {
+				msg_raw();
+			}
 		}
 		else {
 			lua_pop(L, 1);
@@ -182,8 +184,16 @@ struct protocol {
 
 	void msg_text() {
 		if (LUA_TSTRING == lua_getfield(L, -1, "args")) {
+			console.cleanline(basepos.Y);
 			console.setxy({ 0, basepos.Y });
-			console.text(L"                                        ");
+			console.text(lua_tostring(L, -1));
+		}
+		lua_pop(L, 1);
+	}
+	void msg_raw() {
+		if (LUA_TSTRING == lua_getfield(L, -1, "args")) {
+			console.cleanline(basepos.Y);
+			console.cleanline(basepos.Y + 1);
 			console.setxy({ 0, basepos.Y });
 			console.text(lua_tostring(L, -1));
 		}
