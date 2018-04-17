@@ -1,7 +1,7 @@
 local root = fs.current_path()
 
 return function (w2l, mpq, version, template)
-    w2l.messager.text(('正在转换：[%s] - %s'):format(mpq, version))
+    w2l.messager.text(('正在转换：%s'):format(version))
 
     w2l:set_config
     {
