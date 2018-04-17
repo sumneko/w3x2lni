@@ -99,7 +99,8 @@ end
 
 return function (input)
     if not fs.is_directory(input) then
-        input:remove_filename()
+        print('请使用魔兽目录')
+        return
     end
 
     local mpqs = open_mpq(input)
