@@ -75,9 +75,9 @@ local function unpack_config()
             end
         else
             if not config.input then
-                config.input = fs.path(command)
+                config.input = root_path(command)
             else
-                config.output = fs.path(command)
+                config.output = root_path(command)
             end
         end
     end
