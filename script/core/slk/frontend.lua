@@ -23,7 +23,7 @@ end
 
 local function load_slk(w2l)
     if w2l.force_slk then
-        w2l.messager.report('其他', 9, '物编信息不完整,强制读取slk文件')
+        w2l.messager.report(lang.report.OTHER, 9, lang.report.FORCE_READ_SLK)
     end
     if (w2l.force_slk or w2l.config.read_slk) and has_slk(w2l) then
         return w2l:build_slk(true)
@@ -102,13 +102,13 @@ local function update_version(w2l, w3i)
 end
 
 local displaytype = {
-    unit = '单位',
-    ability = '技能',
-    item = '物品',
-    buff = '魔法效果',
-    upgrade = '科技',
-    doodad = '装饰物',
-    destructable = '可破坏物',
+    unit = lang.script.UNIT,
+    ability = lang.script.ABILITY,
+    item = lang.script.ITEM,
+    buff = lang.script.BUFF,
+    upgrade = lang.script.UPGRADE,
+    doodad = lang.script.DOODAD,
+    destructable = lang.script.DESTRUCTABLE,
 }
 
 local function get_displayname(o)
@@ -149,7 +149,7 @@ local function update_then_merge(w2l, slks, objs, lnis, slk)
                     break
                 end
                 local displayname = get_displayname(slk[type][data[1]])
-                w2l.messager.report('无效的物编数据', 6, ('%s %s %s'):format(displaytype[type], data[1], displayname), ('[%s]: %s'):format(data[2], data[3]))
+                w2l.messager.report(lang.report.INVALID_OBJECT_DATA, 6, ('%s %s %s'):format(displaytype[type], data[1], displayname), ('[%s]: %s'):format(data[2], data[3]))
             end
         end
         if report2 then
@@ -157,7 +157,7 @@ local function update_then_merge(w2l, slks, objs, lnis, slk)
                 if not report2[i] then
                     break
                 end
-                w2l.messager.report('无效的物编数据', 6, report2[i][1], report2[i][2])
+                w2l.messager.report(lang.report.INVALID_OBJECT_DATA, 6, report2[i][1], report2[i][2])
             end
         end
     end

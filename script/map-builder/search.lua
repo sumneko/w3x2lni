@@ -64,8 +64,8 @@ local function search_mpq(map, progress)
     end
 
     if count ~= total then
-        messager.report('严重错误', 1, ('还有%d个文件没有读取'):format(total - count), '这些文件被丢弃了,请包含完整(listfile)')
-        messager.report('严重错误', 1, ('读取(%d/%d)个文件'):format(count, total))
+        messager.report(lang.report.ERROR, 1, lang.report.FILE_LOST:format(total - count), lang.report.FILE_LOST_HINT)
+        messager.report(lang.report.ERROR, 1, lang.report.FILE_READ:format(count, total))
     end
 end
 

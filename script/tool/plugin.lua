@@ -1,5 +1,6 @@
 local lni = require 'lni'
 local sandbox = require 'tool.sandbox'
+local lang = require 'tool.lang'
 
 local w2l
 local config
@@ -10,8 +11,8 @@ local function load_one_plugin(load_in_disk, name)
     return {
         path = name,
         name = plugin.info and plugin.info.name or name,
-        version = plugin.info and plugin.info.version or '未知',
-        author = plugin.info and plugin.info.author or '未知',
+        version = plugin.info and plugin.info.version or lang.script.UNKNOW,
+        author = plugin.info and plugin.info.author or lang.script.UNKNOW,
         description = plugin.info and plugin.info.description,
         plugin = plugin,
     }
@@ -23,7 +24,7 @@ local function load_plugins(load_in_disk, list, source)
         local ok, res = pcall(load_one_plugin, load_in_disk, name)
         if ok then
             plugins[#plugins+1] = res
-            w2l.messager.report('其他', 9, ('使用的插件：[%s](%s)'):format(res.name, source), res.description)
+            w2l.messager.report(lang.report.OTHER, 9, lang.report.USED_PLUGIN:format(res.name, source), res.description)
         end
     end
     table.sort(plugins, function (a, b)
@@ -52,7 +53,7 @@ local function call_plugin(plugin, event)
     if ok then
         return res
     else
-        w2l.messager.report('警告', 2, ('插件[%s]执行失败'):format(plugin.name), res)
+        w2l.messager.report(lang.report.OTHER, 2, lang.report.PLUGIN_FAILED:format(plugin.name), res)
     end
 end
 
@@ -68,13 +69,13 @@ return function (w2l_, config_)
         return io.load(path), path:string()
     end
     local enable_list = load_enable_list(load_in_disk)
-    local plugins = load_plugins(load_in_disk, enable_list, '本地')
+    local plugins = load_plugins(load_in_disk, enable_list, lang.report.NATIVE)
 
     local function load_in_map(name)
         return w2l:file_load('plugin', name)
     end
     local map_enable_list = load_enable_list(load_in_map)
-    local map_plugins = load_plugins(load_in_map, map_enable_list, '地图')
+    local map_plugins = load_plugins(load_in_map, map_enable_list, lang.report.MAP)
 
     function w2l:call_plugin(event)
         for _, plugin in ipairs(plugins) do

@@ -74,3 +74,21 @@
 创建新地图失败,可能文件被占用了
 [LOAD_MAP_FILE]
 正在读取文件... (%d/%d)
+[TEXT_TOO_LONG_IN_OBJ]
+物编里的文本长度超过1023字符
+[UNIT]
+单位
+[ABILITY]
+技能
+[ITEM]
+物品
+[BUFF]
+魔法效果
+[UPGRADE]
+科技
+[DOODAD]
+装饰物
+[DESTRUCTABLE]
+可破坏物
+[UNKNOW]
+未知

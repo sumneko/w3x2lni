@@ -67,7 +67,7 @@ local function convert_wtg(w2l)
                 w2l:file_remove('map', 'war3map.wtg')
                 w2l:file_remove('map', 'war3map.wct')
             end, function (msg)
-                w2l.messager.report('警告', 2, '没有转换触发器', msg:match('%.lua:%d+: (.*)'))
+                w2l.messager.report(lang.report.WARN, 2, lang.report.NO_CONVERT_WTG, msg:match('%.lua:%d+: (.*)'))
             end)
         end
     else
@@ -96,13 +96,13 @@ local function convert_wtg(w2l)
 end
 
 local displaytype = {
-    unit = '单位',
-    ability = '技能',
-    item = '物品',
-    buff = '魔法效果',
-    upgrade = '科技',
-    doodad = '装饰物',
-    destructable = '可破坏物',
+    unit = lang.script.UNIT,
+    ability = lang.script.ABILITY,
+    item = lang.script.ITEM,
+    buff = lang.script.BUFF,
+    upgrade = lang.script.UPGRADE,
+    doodad = lang.script.DOODAD,
+    destructable = lang.script.DESTRUCTABLE,
 }
 
 local function get_displayname(o)
@@ -136,7 +136,7 @@ local function format_marktip(slk, marktip)
 end
 
 local function report_object(slk, type, o)
-    w2l.messager.report('简化', 4, ('%s %s'):format(displaytype[type], get_displayname(o)), o._mark and format_marktip(slk, o._mark))
+    w2l.messager.report(lang.report.SIMPLIFY, 4, ('%s %s'):format(displaytype[type], get_displayname(o)), o._mark and format_marktip(slk, o._mark))
 end
 
 local function report_list(slk, list, type, n)
@@ -208,10 +208,10 @@ local function remove_unuse(w2l, slk)
     end
 
     if unuse_origin + unuse_custom > 0 then
-        w2l.messager.report('简化', 4, ('简化掉的对象数: %d/%d'):format(unuse_origin + unuse_custom, total_origin + total_custom))
+        w2l.messager.report(lang.report.SIMPLIFY, 4, lang.report.SIMPLIFIED_OBJECT:format(unuse_origin + unuse_custom, total_origin + total_custom))
     end
     if total_origin - unuse_origin > 0 then
-        w2l.messager.report('简化', 4, ('保留的默认对象数: %d/%d'):format(total_origin - unuse_origin, total_origin))
+        w2l.messager.report(lang.report.SIMPLIFY, 4, lang.report.RETAIN_DEFAULT_OBJECT:format(total_origin - unuse_origin, total_origin))
         report_list(slk, origin_list, 'unit', 10)
         report_list(slk, origin_list, 'ability', 10)
         report_list(slk, origin_list, 'item', 10)
@@ -221,7 +221,7 @@ local function remove_unuse(w2l, slk)
         report_list(slk, origin_list, 'doodad', 3)
     end
     if unuse_custom > 0 then
-        w2l.messager.report('简化', 4, ('简化掉的自定义对象数: %d/%d'):format(unuse_custom, total_custom))
+        w2l.messager.report(lang.report.SIMPLIFY, 4, lang.report.SIMPLIFIED_CUSTOM_OBJECT:format(unuse_custom, total_custom))
         report_list(slk, custom_list, 'unit', 10)
         report_list(slk, custom_list, 'ability', 10)
         report_list(slk, custom_list, 'item', 10)
@@ -270,14 +270,14 @@ local function to_slk(w2l, slk)
 
     if report.n > 0 then
         local index = 1
-        w2l.messager.report('没有SLK化的数据', 3, ('合计: %d'):format(report.n))
+        w2l.messager.report(lang.report.NO_SLK_DATA, 3, ('合计: %d'):format(report.n))
         for tip, list in pairs(report) do
             if #tip > 1 then
                 local n = 0
-                w2l.messager.report('没有SLK化的数据', 3, ('%d.%s'):format(index, tip))
+                w2l.messager.report(lang.report.NO_SLK_DATA, 3, ('%d.%s'):format(index, tip))
                 index = index + 1
                 for _, msg in pairs(list) do
-                    w2l.messager.report('没有SLK化的数据', 3, msg[1], msg[2])
+                    w2l.messager.report(lang.report.NO_SLK_DATA, 3, msg[1], msg[2])
                     n = n + 1
                     if n > 20 then
                         break

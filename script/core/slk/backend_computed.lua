@@ -1,3 +1,4 @@
+local lang = require 'lang'
 local w2l
 
 local displaytype = {
@@ -81,7 +82,7 @@ local function computed_value(slk, str, name, field)
            or slk.item[id]
            or slk.upgrade[id]
     if not o then
-        w2l.messager.report('公式计算失败', 5, get_displayname_by_id(slk, name), ('%s: <%s>'):format(field, str))
+        w2l.messager.report(lang.report.COMPUTED_TEXT_FAILED, 5, get_displayname_by_id(slk, name), ('%s: <%s>'):format(field, str))
         return
     end
     key = key:lower()
@@ -111,7 +112,7 @@ local function computed_value(slk, str, name, field)
         end
         return math.floor(res)
     end
-    w2l.messager.report('公式计算失败', 5, get_displayname_by_id(slk, id), ('%s: <%s>'):format(field, str))
+    w2l.messager.report(lang.report.COMPUTED_TEXT_FAILED, 5, get_displayname_by_id(slk, id), ('%s: <%s>'):format(field, str))
     return res
 end
 

@@ -21,13 +21,13 @@ local wts
 local ttype
 
 local displaytype = {
-    unit = '单位',
-    ability = '技能',
-    item = '物品',
-    buff = '魔法效果',
-    upgrade = '科技',
-    doodad = '装饰物',
-    destructable = '可破坏物',
+    unit = lang.script.UNIT,
+    ability = lang.script.ABILITY,
+    item = lang.script.ITEM,
+    buff = lang.script.BUFF,
+    upgrade = lang.script.UPGRADE,
+    doodad = lang.script.DOODAD,
+    destructable = lang.script.DESTRUCTABLE,
 }
 
 local function get_displayname(o)
@@ -84,7 +84,7 @@ local function write_value(meta, level, value)
         write('f', value)
     else
         if #value > 1023 then
-            value = w2l:save_wts(wts, value, '物编里的文本长度超过1023字符')
+            value = w2l:save_wts(wts, value, lang.script.TEXT_TOO_LONG_IN_OBJ)
         end
         write('z', value)
     end
@@ -164,7 +164,7 @@ local function write_object(chunk, name, obj)
             if metas[key] then
                 write_data(key, obj[key], metas[key])
             else
-                report('无效的物编数据', obj, key, obj[key])
+                report(lang.report.INVALID_OBJECT_DATA, obj, key, obj[key])
             end
         end
     end
@@ -216,7 +216,7 @@ local function sort_chunk(chunk, remove_unuse_object)
     local user = {}
     for name, obj in pairs(chunk) do
         if #name ~= 4 then
-            w2l.messager.report('无效的物编对象', ('[%s] %s'):format(name, '对象ID不合法'))
+            w2l.messager.report(lang.report.INVALID_OBJECT, ('[%s] %s'):format(name, lang.report.INVALID_OBJECT_ID))
         elseif is_enable_obj(obj, remove_unuse_object) then
             local parent = obj._slk_id or obj._parent
             if (name == parent or obj._slk) and not obj._slk_id then

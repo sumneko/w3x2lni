@@ -1,5 +1,6 @@
 local parser    = require 'parser.init'
 local optimizer = require 'optimizer.init'
+local lang = require 'lang'
 
 local function create_report(w2l, report, title, type, max)
     local msgs = report[type]
@@ -11,12 +12,12 @@ local function create_report(w2l, report, title, type, max)
         fix = math.random(0, #msgs - max)
     end
     if title then
-        w2l.messager.report('脚本优化', 8, ('%d.%s    总计：%d'):format(title, type, #msgs))
+        w2l.messager.report(lang.report.OPTIMIZE_JASS, 8, lang.report.OPTIMIZE_JASS_RESULT:format(title, type, #msgs))
     end
     for i = 1, max do
         local msg = msgs[i+fix]
         if msg then
-            w2l.messager.report('脚本优化', 8, msg[1], msg[2])
+            w2l.messager.report(lang.report.OPTIMIZE_JASS, 8, msg[1], msg[2])
         end
     end
 end
@@ -26,7 +27,7 @@ return function (w2l)
     local blizzard = w2l:file_load('map', 'blizzard.j') or w2l:file_load('map', 'scripts\\blizzard.j') or w2l:mpq_load('scripts\\blizzard.j')
     local war3map  = w2l:file_load('map', 'war3map.j')  or w2l:file_load('map', 'scripts\\war3map.j')
     if not war3map then
-        w2l.messager.report('严重错误', 1, '没有找到脚本')
+        w2l.messager.report(lang.report.ERROR, 1, lang.report.NO_JASS)
         return
     end
     local function messager(...)
@@ -34,7 +35,7 @@ return function (w2l)
         for i = 1, t.n do
             t[i] = tostring(t[i])
         end
-        w2l.messager.report('脚本优化', 8, table.concat(t, '\t'))
+        w2l.messager.report(lang.report.OPTIMIZE_JASS, 8, table.concat(t, '\t'))
     end
     local ast
     ast = parser(common,   'common.j',   ast, messager)
@@ -49,9 +50,9 @@ return function (w2l)
         w2l:file_save('map', 'scripts\\war3map.j', buf)
     end
 
-    create_report(w2l, report, 1,   '混淆脚本',        10)
-    create_report(w2l, report, 2,   '引用函数',        5)
-    create_report(w2l, report, 3,   '未引用的全局变量', 20)
-    create_report(w2l, report, 4,   '未引用的函数',     20)
-    create_report(w2l, report, 5,   '未引用的局部变量', 20)
+    create_report(w2l, report, 1, lang.report.CONFUSE_JASS,         10)
+    create_report(w2l, report, 2, lang.report.REFERENCE_FUNCTION,   5)
+    create_report(w2l, report, 3, lang.report.UNREFERENCE_GLOBAL,   20)
+    create_report(w2l, report, 4, lang.report.UNREFERENCE_FUNCTION, 20)
+    create_report(w2l, report, 5, lang.report.UNREFERENCE_LOCAL,    20)
 end

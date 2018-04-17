@@ -1,4 +1,5 @@
 local lpeg = require 'lpeg'
+local lang = require 'lang'
 
 local function search_string(buf)
     local line_count = 1
@@ -60,7 +61,7 @@ return function (w2l, buf)
     for _, t in ipairs(result) do
         local index, text = t.index, t.text
         if text:find('}', 1, false) then
-            w2l.messager.report('警告', 2, '文本不能包含字符"}"', text:sub(1, 1000))
+            w2l.messager.report(lang.report.WARN, 2, lang.report.WTS_ESCAPE_WARN, text:sub(1, 1000))
         end
         tbl[index] = t
     end
