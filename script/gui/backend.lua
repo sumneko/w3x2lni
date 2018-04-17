@@ -6,7 +6,6 @@ backend.message = ''
 backend.title = ''
 backend.progress = nil
 backend.report = {}
-backend.lastreport = nil
 
 local mt = {}
 mt.__index = mt
@@ -69,13 +68,12 @@ function mt:update_pipe()
     return false
 end
 
-local function push_report(type, level, value)
+local function push_report(type, level, value, tip)
     local name = level .. type
     if not backend.report[name] then
         backend.report[name] = {}
     end
-    backend.lastreport = {value}
-    table.insert(backend.report[name], backend.lastreport)
+    table.insert(backend.report[name], {value, tip})
 end
 
 function mt:update_message()
@@ -88,9 +86,7 @@ function mt:update_message()
         if key == 'progress' then
             backend.progress = value * 100
         elseif key == 'report' then
-            push_report(value.type, value.level, value.content)
-        elseif key == 'tip' then
-            backend.lastreport[2] = value
+            push_report(value.type, value.level, value.content, value.tip)
         elseif key == 'title' then
             backend.title = value
         elseif key == 'text' then
@@ -137,7 +133,6 @@ function backend:clean()
     self.message = ''
     self.progress = nil
     self.report = {}
-    self.lastreport = nil
 end
 
 function backend:open(entry, commandline)

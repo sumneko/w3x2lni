@@ -24,17 +24,9 @@ local builder = require 'map-builder'
 local triggerdata = require 'tool.triggerdata'
 local plugin = require 'tool.plugin'
 local messager = require 'tool.messager'
+local get_report = require 'tool.report'
 local w2l = core()
 local root = fs.current_path()
-
-local function concat_string(start, ...)
-    local t = table.pack(...)
-    local v = {}
-    for i = start, t.n do
-        v[#v+1] = tostring(t[i])
-    end
-    return ('%q'):format(table.concat(v, ' '))
-end
 
 if io.type(io.stdout) == 'file' then
     local ext = require 'process.ext'
@@ -361,4 +353,5 @@ builder.save(w2l, output_ar, slk.w3i, input_ar)
 w2l.progress:finish()
 
 save_builder()
+io.save(root:parent_path() / 'log.txt', get_report(report))
 messager.text('转换完毕,用时 ' .. os.clock() .. ' 秒') 
