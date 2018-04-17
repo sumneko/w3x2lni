@@ -56,4 +56,4 @@ struct pipe {
 	HANDLE h = NULL;
 };
 
-bool execute_lua(pipe* out, pipe* err);
+bool execute_lua(const wchar_t* who, pipe* out, pipe* err);

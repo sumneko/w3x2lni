@@ -188,7 +188,7 @@ int __cdecl wmain()
 		return -1;
 	}
 
-	if (!execute_lua(&out, nullptr)) {
+	if (!execute_lua(L"CLI", &out, nullptr)) {
 		return -1;
 	}
 

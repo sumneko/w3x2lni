@@ -60,13 +60,15 @@ size_t pipe::read(char* buf, size_t len) {
 	return (size_t)rlen;
 }
 
-bool execute_lua(pipe* out, pipe* err) {
+bool execute_lua(const wchar_t* who, pipe* out, pipe* err) {
 	path app = path() / L"bin" / L"w3x2lni-lua.exe";
 	path cwd = path() / L"script";
 	strbuilder<32768> cmd;
 	cmd += L"\"";
 	cmd += app;
-	cmd += L"\" -E \"";
+	cmd += L"\" -e \"_W3X2LNI='";
+	cmd += who;
+	cmd += L"'\" -E \"";
 	cmd += path() / L"script" / L"main.lua";
 	cmd += L"\"";
 

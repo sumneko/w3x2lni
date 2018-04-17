@@ -27,7 +27,7 @@ int __stdcall wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCm
 		return -1;
 	}
 
-	if (!execute_lua(nullptr, &err)) {
+	if (!execute_lua(L"GUI", nullptr, &err)) {
 		return -1;
 	}
 
