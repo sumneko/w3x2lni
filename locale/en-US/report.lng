@@ -92,3 +92,33 @@ Executed plugin [%s] failed
 Native
 [MAP]
 Map
+[TOTAL]
+Total
+[STRING_CAN_CONVERT_NUMBER]
+String can be converted to number
+[DATA_LEVEL_TOO_HIGHT]
+Data level is more than 4
+[OBJECT_ID_CAN_CONVERT_NUMBER]
+Object id can be converted to number
+[DIDNT_FIND_OBJECT_WHEN_SIMPLIFY]
+Did't find object when simplifying
+[USE_UNCLASSIFIED_OBJECT]
+Referenced unclassified object: 
+[EXPECTATION_CLASSIFICATION]
+'%s expectaion classification: %s'
+[REFERENCE_BY_MUST_RETAIN]
+Referenced by '%s'[%s] which must be retained
+[REFERENCE_BY_JASS_NAME]
+Referenced by '%s'[%s] in JASS
+[REFERENCE_BY_CREEP_BUILDING]
+Referenced by crepp building '%s'[%s]
+[REFERENCE_BY_CREEP_UNIT]
+Referenced by crepp unit '%s'[%s]
+[REFERENCE_BY_RANDOM_ITEM]
+Referenced by random item '%s'[%s]
+[REFERENCE_BY_MARKET_ITEM]
+Referenced by markect item '%s'[%s]
+[REFERENCE_BY_PLACING]
+Referenced by '%s'[%s] which replaced in map
+[REFERENCE_BY_PLUGIN]
+Referenced by '%s'[%s] which appointed by plugin
