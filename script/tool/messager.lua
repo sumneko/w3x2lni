@@ -26,4 +26,10 @@ function messager.report(type, level, content, tip)
     proto.send('report', ('{type=%q,level=%d,content=%q,tip=%q}'):format(type, level, content, tip))
 end
 
+if io.type(io.stdout) == 'file' then
+    local ext = require 'process.ext'
+    ext.set_filemode(io.stdout, 'b')
+    io.stdout:setvbuf 'no'
+end
+
 return messager
