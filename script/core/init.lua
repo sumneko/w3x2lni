@@ -332,8 +332,16 @@ function mt:set_config(config)
 end
 
 function mt:set_messager(messager)
-    self.messager = messager
-    self.progress:set_messager(messager)
+    if type(messager) == 'table' then
+        self.messager = setmetatable(messager, { __index = function () return function () end end })
+    else
+        self.messager = setmetatable({}, { __index = function (_, tp)
+            return function (...)
+                messager(tp, ...)
+            end
+        end })
+    end
+    self.progress:set_messager(self.messager)
 end
 
 return function ()
