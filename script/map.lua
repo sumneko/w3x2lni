@@ -127,11 +127,11 @@ end
 
 w2l:set_config(config)
 if config.mode == 'slk' then
-    messager.title 'Slk优化'
+    messager.title 'Slk'
 elseif config.mode == 'obj' then
-    messager.title '转为Obj'
+    messager.title 'Obj'
 elseif config.mode == 'lni' then
-    messager.title '转为Lni'
+    messager.title 'Lni'
 end
 
 local function check_lni_mark(path)
