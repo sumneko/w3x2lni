@@ -1,28 +1,16 @@
 require 'filesystem'
 require 'utility'
-local core  = require 'tool.sandbox_core'
-local uni      = require 'ffi.unicode'
 local stormlib = require 'ffi.stormlib'
 local sleep = require 'ffi.sleep'
 local makefile = require 'prebuilt.makefile'
 local config = require 'tool.config'
 local proto = require 'tool.protocol'
-local w2l = core()
+local w2l
 local mpq_name
 local root = fs.current_path()
 
-w2l:set_messager
-{
-    progress = function (value)
-        proto.send('progress', ('%.3f'):format(value))
-    end
-}
-
-function w2l:mpq_load(filename)
-    local mpq_path = root:parent_path() / 'data' / 'mpq'
-    return self.mpq_path:each_path(function(path)
-        return io.load(mpq_path / path / filename)
-    end)
+local function print(...)
+    w2l.messager.text(...)
 end
 
 local function task(f, ...)
@@ -113,7 +101,7 @@ local function extract_mpq(mpqs)
     end
 end
 
-return function (input)
+return function (_w2l, input)
     if not fs.is_directory(input) then
         print('请使用魔兽目录')
         return
@@ -123,24 +111,45 @@ return function (input)
     if not mpqs then
         return
     end
+    w2l = _w2l
     mpq_name = input:filename()
+    
+    function w2l:mpq_load(filename)
+        local mpq_path = root:parent_path() / 'data' / 'mpq'
+        return self.mpq_path:each_path(function(path)
+            return io.load(mpq_path / path / filename)
+        end)
+    end
+
+    w2l.progress:start(0.2)
+    print('清理目录...')
     local mpq_path = fs.current_path():parent_path() / 'data' / 'mpq' / mpq_name
     if fs.exists(mpq_path) then
         if not task(fs.remove_all, mpq_path) then
-            error(('无法清空目录[%s]，请检查目录是否被占用。'):format(mpq_path:string()))
+            print(('无法清空目录[%s]，请检查目录是否被占用。'):format(mpq_path:string()))
+            return
         end
     end
     if not fs.exists(mpq_path) then
         if not task(fs.create_directories, mpq_path) then
-            error(('无法创建目录[%s]，请检查目录是否被占用。'):format(mpq_path:string()))
+            print(('无法创建目录[%s]，请检查目录是否被占用。'):format(mpq_path:string()))
+            return
         end
     end
+    w2l.progress:finish()
 
+    w2l.progress:start(0.4)
+    print('导出mpq...')
     extract_mpq(mpqs)
     report_fail()
+    w2l.progress:finish()
 
+    w2l.progress:start(0.7)
     makefile(w2l, mpq_name:string(), 'Melee')
+    w2l.progress:finish()
+    w2l.progress:start(1.0)
     makefile(w2l, mpq_name:string(), 'Custom')
+    w2l.progress:finish()
 
     config.mpq = mpq_name:string()
 

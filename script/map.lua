@@ -121,7 +121,7 @@ input = config.input
 
 if config.mode == 'mpq' then
     local custom_mpq = require 'tool.custom_mpq'
-    custom_mpq(input)
+    custom_mpq(w2l, input)
     return
 end
 
