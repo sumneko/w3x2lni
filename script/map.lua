@@ -15,7 +15,7 @@ elseif not act or act == 'help' then
     require 'tool.showhelp'
     return
 else
-    messager.raw(('`%s` 不是一个合法的命令。请看`w3x2lni-cli help`。'):format(act))
+    messager.raw(('`%s` 不是一个合法的命令。请看`w2l help`。'):format(act))
     return
 end
 
