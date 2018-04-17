@@ -1,55 +1,6 @@
 local gui = require 'yue.gui'
 local backend = require 'gui.backend'
-
-local function sortpairs(t)
-    local sort = {}
-    for k, v in pairs(t) do
-        sort[#sort+1] = {k, v}
-    end
-    table.sort(sort, function (a, b)
-        return a[1] < b[1]
-    end)
-    local n = 1
-    return function()
-        local v = sort[n]
-        if not v then
-            return
-        end
-        n = n + 1
-        return v[1], v[2]
-    end
-end
-
-local function get_report()
-    local lines = {}
-    for type, report in sortpairs(backend.report) do
-        if type ~= '' then
-            type = type:sub(2)
-            lines[#lines+1] = '================'
-            lines[#lines+1] = type
-            lines[#lines+1] = '================'
-            for _, s in ipairs(report) do
-                if s[2] then
-                    lines[#lines+1] = ('%s - %s'):format(s[1], s[2])
-                else
-                    lines[#lines+1] = s[1]
-                end
-            end
-            lines[#lines+1] = ''
-        end
-    end
-    local report = backend.report['']
-    if report then
-        for _, s in ipairs(report) do
-            if s[2] then
-                lines[#lines+1] = ('%s - %s'):format(s[1], s[2])
-            else
-                lines[#lines+1] = s[1]
-            end
-        end
-    end
-    return table.concat(lines, '\n')
-end
+local get_report = require 'tool.report'
 
 local function count_report_height(text)
     local n = 1
@@ -87,7 +38,7 @@ end
 view:addchildview(btn)
 
 function window:show_report()
-    local text = get_report()
+    local text = get_report(backend.report)
     local height = count_report_height(text)
     scroll:setcontentsize { width = 0, height = height }
     label:settext(text)
