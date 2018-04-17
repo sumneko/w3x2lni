@@ -4,18 +4,26 @@ local core  = require 'tool.sandbox_core'
 local uni      = require 'ffi.unicode'
 local stormlib = require 'ffi.stormlib'
 local sleep = require 'ffi.sleep'
-local prebuilt = require 'prebuilt.prebuilt'
+local makefile = require 'prebuilt.makefile'
 local config = require 'tool.config'
 local proto = require 'tool.protocol'
 local w2l = core()
 local mpq_name
+local root = fs.current_path()
 
 w2l:set_messager
 {
-    progress = function (n)
+    progress = function (value)
         proto.send('progress', ('%.3f'):format(value))
     end
 }
+
+function w2l:mpq_load(filename)
+    local mpq_path = root:parent_path() / 'data' / 'mpq'
+    return self.mpq_path:each_path(function(path)
+        return io.load(mpq_path / path / filename)
+    end)
+end
 
 local function task(f, ...)
     for i = 1, 99 do
@@ -131,8 +139,8 @@ return function (input)
     extract_mpq(mpqs)
     report_fail()
 
-    prebuilt:dofile(mpq_name:string(), 'Melee')
-    prebuilt:dofile(mpq_name:string(), 'Custom')
+    makefile(w2l, mpq_name:string(), 'Melee')
+    makefile(w2l, mpq_name:string(), 'Custom')
 
     config.mpq = mpq_name:string()
 
