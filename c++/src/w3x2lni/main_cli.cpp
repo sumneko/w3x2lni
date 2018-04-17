@@ -179,31 +179,53 @@ struct protocol {
 		}
 		lua_pop(L, 1);
 	}
+	void msg_error(const char* buf) {
+		console.setxy({ 0, basepos.Y + 2 });
+		console.text(buf);
+		console.text(L"\r\n");
+		basepos = console.getxy();
+		basepos.Y -= 2;
+	}
 };
 
 int __cdecl wmain()
 {
-	pipe out;
+	pipe out, err;
 	if (!out.open('r')) {
 		return -1;
 	}
+	if (!err.open('r')) {
+		return -1;
+	}
 
-	if (!execute_lua(L"CLI", &out, nullptr)) {
+	if (!execute_lua(L"CLI", &out, &err)) {
 		return -1;
 	}
 
 	protocol proto;
-	char msg[2048];
+	char outbuf[2048];
+	char errbuf[2048];
+	size_t errpos = 0;
 	for (;;) {
-		size_t len = out.read(msg, sizeof msg);
-		if (len == -1) {
+		size_t outlen = out.read(outbuf, sizeof outbuf);
+		size_t errlen = err.read(errbuf + errpos, sizeof errbuf - errpos - 1);
+		if (outlen == -1 && errlen == -1) {
 			break;
 		}
-		if (len == 0) {
+		if (outlen == 0 && errlen == 0) {
 			Sleep(200);
 			continue;
 		}
-		proto.unpack(msg, len);
+		if (outlen != 0 && outlen != -1) {
+			proto.unpack(outbuf, outlen);
+		}
+		if (errlen != 0 && errlen != -1) {
+			errpos += errlen;
+		}
+	}
+	if (errpos) {
+		errbuf[errpos] = 0;
+		proto.msg_error(errbuf);
 	}
 	return 0;
 }
