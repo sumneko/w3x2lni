@@ -1,12 +1,4 @@
 local proto = require 'tool.protocol'
-local report = {}
-local function push_report(type, level, value, tip)
-    local name = level .. type
-    if not report[name] then
-        report[name] = {}
-    end
-    table.insert(report[name], {value, tip})
-end
 
 messager = {}
 function messager.text(text)
@@ -22,7 +14,6 @@ function messager.progress(value)
     proto.send('progress', ('%.3f'):format(value))
 end
 function messager.report(type, level, content, tip)
-    push_report(type, level, content, tip)
     proto.send('report', ('{type=%q,level=%d,content=%q,tip=%q}'):format(type, level, content, tip))
 end
 

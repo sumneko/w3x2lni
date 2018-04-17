@@ -34,6 +34,17 @@ local root = fs.current_path()
 
 w2l:set_messager(messager)
 
+local report = {}
+local messager_report = messager.report
+function messager.report(type, level, content, tip)
+    messager_report(type, level, content, tip)
+    local name = level .. type
+    if not report[name] then
+        report[name] = {}
+    end
+    table.insert(report[name], {content, tip})
+end
+
 local function root_path(path)
     local path = fs.path(path)
     if not path:is_absolute() then
@@ -352,5 +363,5 @@ builder.save(w2l, output_ar, slk.w3i, input_ar)
 w2l.progress:finish()
 
 save_builder()
---io.save(root:parent_path() / 'log.txt', get_report(report))
+io.save(root:parent_path() / 'log.txt', get_report(report))
 messager.text((lang.script.FINISH):format(os.clock()))
