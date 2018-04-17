@@ -1,4 +1,5 @@
 local stormlib = require 'ffi.stormlib'
+local lang = require 'tool.lang'
 
 local function get_map_flag(w3i)
     if not w3i then
@@ -111,7 +112,7 @@ return function (input, read)
             return nil
         end
         if not handle:has_file '(listfile)' then
-            messager.text('不支持没有(listfile)的地图')
+            messager.text(lang.script.UNSUPPORTED_MAP)
             return nil
         end
     else

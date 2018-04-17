@@ -343,7 +343,7 @@ w2l.progress:start(input_rate)
 input_ar:search_files(w2l.progress)
 w2l.progress:finish()
 
-messager.text(lang.script.LOAD_OBJ)
+messager.text(lang.script.LOAD_OBJECT)
 w2l.progress:start(input_rate + frontend_rate)
 w2l:frontend(slk)
 w2l.progress:finish()

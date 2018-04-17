@@ -1,6 +1,7 @@
 local mpq = require 'map-builder.archive_mpq'
 local dir = require 'map-builder.archive_dir'
 local search = require 'map-builder.search'
+local lang = require 'tool.lang'
 
 local os_clock = os.clock
 
@@ -59,9 +60,9 @@ function mt:save(w3i, w2l)
             clock = os_clock()
             progress(count / max)
             if self:get_type() == 'mpq' then
-                messager.text(('正在打包文件... (%d/%d)'):format(count, max))
+                messager.text(lang.script.PACK_MAP:format(count, max))
             else
-                messager.text(('正在导出文件... (%d/%d)'):format(count, max))
+                messager.text(lang.script.EXPORT_FILE:format(count, max))
             end
         end
     end
@@ -190,7 +191,7 @@ return function (pathorhandle, tp)
             ar._type = 'mpq'
         end
         if not ar.handle then
-            messager.text('地图打开失败')
+            messager.text(lang.script.OPEN_FAILED)
             return nil
         end
     else

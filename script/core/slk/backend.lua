@@ -1,3 +1,4 @@
+local lang = require 'lang'
 local os_clock = os.clock
 
 local output = {
@@ -324,24 +325,24 @@ return function (w2l, slk)
     w2l.progress(0.1)
 
     w2l.progress:start(0.1)
-    w2l.messager.text('清理数据...')
+    w2l.messager.text(lang.script.CLEAN_SAME_OBJECT)
     w2l:backend_searchparent(slk)
     w2l.progress:finish()
 
     if w2l.config.remove_unuse_object then
-        w2l.messager.text('标记简化对象...')
+        w2l.messager.text(lang.script.MARK_UNUSED_OBJECT)
         w2l:backend_mark(slk)
         w2l.progress(0.2)
     end
 
     if w2l.config.computed_text then
-        w2l.messager.text('计算描述中的公式...')
+        w2l.messager.text(lang.script.COMPUTED_TEXT)
         w2l:backend_computed(slk)
         w2l.progress(0.3)
     end
 
     if w2l.config.remove_unuse_object then
-        w2l.messager.text('移除简化对象...')
+        w2l.messager.text(lang.script.REMOVE_UNUSED_OBJECT)
         w2l.progress:start(0.5)
         remove_unuse(w2l, slk)
         w2l.progress:finish()
@@ -352,7 +353,7 @@ return function (w2l, slk)
     w2l.progress:finish()
     
     w2l.progress:start(0.7)
-    w2l.messager.text('转换物编文件...')
+    w2l.messager.text(lang.script.CONVERT_OBJ)
     if w2l.config.mode == 'lni' then
         to_lni(w2l, slk)
     elseif w2l.config.mode == 'obj' then
@@ -364,18 +365,18 @@ return function (w2l, slk)
 
     w2l.progress:start(0.8)
     if not w2l.config.remove_we_only then
-        w2l.messager.text('转换触发器...')
+        w2l.messager.text(lang.script.CONVERT_WTG)
         convert_wtg(w2l)
     end
     w2l.progress:finish()
 
     if w2l.config.optimize_jass then
-        w2l.messager.text('优化脚本...')
+        w2l.messager.text(lang.script.OPTIMIZE_JASS)
         w2l:backend_optimizejass()
     end
     w2l.progress(0.9)
 
-    w2l.messager.text('转换其他文件...')
+    w2l.messager.text(lang.script.CONVERT_OTHER)
     local buf = w2l:file_load('map', 'war3mapskin.txt')
     if buf then
         local skin = w2l:parse_ini(buf)
@@ -383,12 +384,12 @@ return function (w2l, slk)
     end
     w2l.progress(0.92)
 
-    w2l.messager.text('转换脚本...')
+    w2l.messager.text(lang.script.CONVERT_JASS)
     w2l:backend_convertjass(slk.wts)
 
     w2l.progress(0.95)
 
-    w2l.messager.text('重新生成长文本...')
+    w2l.messager.text(lang.script.REBUILD_WTS)
     local content = w2l:refresh_wts(slk.wts)
     if content and #content > 0 then
         w2l:file_save('map', 'war3map.wts', content)

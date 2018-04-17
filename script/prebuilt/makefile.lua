@@ -1,7 +1,8 @@
+local lang = require 'tool.lang'
 local root = fs.current_path()
 
 return function (w2l, mpq, version, template)
-    w2l.messager.text(('正在转换：%s'):format(version))
+    w2l.messager.text(lang.script.CONVERT_ONE .. version)
 
     w2l:set_config
     {

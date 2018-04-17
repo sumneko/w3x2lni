@@ -1,4 +1,4 @@
-
+local lang = require 'tool.lang'
 local w2l
 
 local function search_staticfile(map, callback)
@@ -57,7 +57,7 @@ local function search_mpq(map, progress)
             count = count + 1
             if os.clock() - clock > 0.1 then
                 clock = os.clock()
-                messager.text(('正在读取文件... (%d/%d)'):format(count, total))
+                messager.text(lang.script.LOAD_MAP_FILE:format(count, total))
                 progress(count / total)
             end
         end)
@@ -98,7 +98,7 @@ local function search_dir(map, progress)
             count = count + 1
             if os.clock() - clock > 0.1 then
                 clock = os.clock()
-                messager.text(('正在读取文件... (%d/%d)'):format(count, total))
+                messager.text(lang.script.LOAD_MAP_FILE:format(count, total))
                 progress(count / total)
             end
         end)

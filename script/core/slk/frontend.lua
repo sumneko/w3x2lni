@@ -1,3 +1,4 @@
+local lang = require 'lang'
 local pairs = pairs
 local type = type
 
@@ -39,7 +40,7 @@ local function load_obj(w2l, wts)
         local buf = w2l:file_load('map', name)
         local count = count + 1
         if buf then
-            w2l.messager.text('正在转换', name)
+            w2l.messager.text(lang.script.CONVERT_ONE .. name)
             objs[type] = w2l:frontend_obj(type, buf, wts)
             w2l.progress(count / 8)
         end
@@ -54,7 +55,7 @@ local function load_lni(w2l)
         count = count + 1
         local buf = w2l:file_load('table', type)
         if buf then
-            w2l.messager.text('正在转换', type)
+            w2l.messager.text(lang.script.CONVERT_ONE .. type)
             lnis[type] = w2l:frontend_lni(type, buf, type)
             w2l.progress(count / 8)
         end
@@ -172,22 +173,22 @@ return function(w2l, slk)
     slk.w3i = load_w3i(w2l, slk)
     update_version(w2l, slk.w3i)
 
-    w2l.messager.text('读取obj...')
+    w2l.messager.text(lang.script.LOAD_OBJ)
     w2l.progress:start(0.4)
     local objs = load_obj(w2l, slk.wts)
     w2l.progress:finish()
 
-    w2l.messager.text('读取lni...')
+    w2l.messager.text(lang.script.LOAD_LNI)
     w2l.progress:start(0.6)
     local lnis = load_lni(w2l)
     w2l.progress:finish()
 
-    w2l.messager.text('读取slk...')
+    w2l.messager.text(lang.script.LOAD_SLK)
     w2l.progress:start(0.8)
     local slks = load_slk(w2l)
     w2l.progress:finish()
     
-    w2l.messager.text('合并物编数据...')
+    w2l.messager.text(lang.script.MERGE_OBJECT)
     w2l.progress:start(1)
     update_then_merge(w2l, slks, objs, lnis, slk)
     w2l.progress:finish()

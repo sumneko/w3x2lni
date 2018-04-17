@@ -1,3 +1,4 @@
+local lang = require 'lang'
 local w2l
 local wtg
 local wts
@@ -132,7 +133,7 @@ local function pack_args(ui, eca)
 
     if ui then
         if eca_arg_count ~= get_ui_arg_count(ui) then
-            error(('[%s]的参数数量不正确：[%d] - [%d]'):format(ui.name, get_ui_arg_count(ui), eca_arg_count))
+            error(lang.script.WTG_ERROR_ARG:format(ui.name, get_ui_arg_count(ui), eca_arg_count))
         end
     end
 end
@@ -173,7 +174,7 @@ function pack_eca(eca, child_id, eca_type)
         elseif type_map[eca[1]] then
             type = eca[1]
         else
-            w2l.messager.text(('未知的动作属性[%s][%d]'):format(eca[1], #hex))
+            w2l.messager.text(lang.script.WTG_UNKNOWN_ACTION_STATE:format(eca[1], #hex))
         end
     else
         name = eca[1]
@@ -182,7 +183,7 @@ function pack_eca(eca, child_id, eca_type)
     if state then
         ui = state.ui[type_key[type]][name]
         if not ui then
-            error(('UI不存在：[%s]'):format(name))
+            error(lang.script.WTG_UI_NOT_FOUND:format(name))
         end
     end
     if child_id then

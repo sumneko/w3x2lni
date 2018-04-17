@@ -4,6 +4,7 @@ setmetatable(mt, mt)
 
 local function proxy(t)
     return setmetatable(t, { __index = function (_, k)
+        error(2)
         t[k] = k
         return k
     end })
@@ -13,11 +14,12 @@ function mt:load_lng(filename)
     local t = {}
     local buf = io.load(root:parent_path() / 'locale' / self._lang / (filename .. '.lng'))
     if not buf then
+        error(1)
         return proxy(t)
     end
     local key
     for line in buf:gmatch '[^\r\n]+' do
-        local str = line:match '%[(.+)%]'
+        local str = line:match '^%[(.+)%]$'
         if str then
             key = str
         elseif key then

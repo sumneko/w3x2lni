@@ -1,4 +1,5 @@
 local w3xparser = require 'w3xparser'
+local lang = require 'lang'
 
 local table_insert = table.insert
 local table_sort   = table.sort
@@ -177,7 +178,7 @@ local function write_chunk(names, data, n, max)
         if os_clock() - clock > 0.1 then
             clock = os_clock()
             w2l.progress((i+n) / max)
-            w2l.messager.text(('正在转换%s: [%s] (%d/%d)'):format(ttype, data[name]._id, i+n, max))
+            w2l.messager.text(lang.script.CONVERT_FILE:format(ttype, data[name]._id, i+n, max))
         end
     end
 end

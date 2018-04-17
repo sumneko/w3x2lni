@@ -1,4 +1,5 @@
 local w3xparser = require 'w3xparser'
+local lang = require 'lang'
 
 local table_concat = table.concat
 local ipairs = ipairs
@@ -189,7 +190,7 @@ local function add_values(names, skeys, slk_name)
         if os_clock() - clock > 0.1 then
             clock = os_clock()
             w2l.progress(y / #names)
-            w2l.messager.text(('正在转换: [%s] (%d/%d)'):format(name, y, #names))
+            w2l.messager.text(lang.script.CONVERT_FILE:format(name, y, #names))
         end
     end
 end

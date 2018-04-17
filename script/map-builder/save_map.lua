@@ -1,4 +1,5 @@
 local w3xparser = require 'w3xparser'
+local lang = require 'tool.lang'
 
 local function build_imp(w2l, output_ar, imp_buf)
     local impignore = {}
@@ -91,7 +92,7 @@ return function (w2l, output_ar, w3i, input_ar)
 
     input_ar:close()
     if not output_ar:save(w3i, w2l) then
-        messager.text('创建新地图失败,可能文件被占用了')
+        messager.text(lang.script.CREATE_FAILED)
     end
     output_ar:close()
 end

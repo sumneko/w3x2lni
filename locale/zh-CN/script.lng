@@ -6,7 +6,7 @@
 正在检查插件...
 [LOAD_FILE]
 正在读取文件...
-[LOAD_OBJ]
+[LOAD_OBJECT]
 正在读取物编...
 [DO_PLUGIN]
 正在执行插件...
@@ -16,3 +16,61 @@
 正在生成文件...
 [FINISH]
 转换完毕，用时 %.3f 秒
+[WTG_ERROR]
+触发器文件错误。
+[WTG_GUESS_ARG]
+猜测[%s]的参数数量为[%d]
+[WTG_UI_NOT_FOUND]
+触发器UI[%s]不存在
+[WTG_ABORT_FIX]
+在大量尝试后放弃修复。
+[CONVERT_FILE]
+正在转换%s: [%s] (%d/%d)
+[SEARCH_TEMPLATE]
+搜索最优模板[%s] (%d/%d)
+[WTG_UNKNOWN_ACTION_STATE]
+未知的动作属性[%s][%d]
+[WTG_ERROR_ARG]
+[%s]的参数数量不正确：[%d] - [%d]
+[CLEAN_SAME_OBJECT]
+清理数据...
+[MARK_UNUSED_OBJECT]
+标记简化对象...
+[COMPUTED_TEXT]
+计算描述中的公式...
+[REMOVE_UNUSED_OBJECT]
+移除简化对象...
+[CONVERT_OBJ]
+转换物编文件...
+[CONVERT_WTG]
+转换触发器...
+[OPTIMIZE_JASS]
+优化脚本...
+[CONVERT_OTHER]
+转换其他文件...
+[CONVERT_JASS]
+转换脚本...
+[REBUILD_WTS]
+重新生成长文本...
+[CONVERT_ONE]
+正在转换：
+[LOAD_OBJ]
+读取obj...
+[LOAD_LNI]
+读取lni...
+[LOAD_SLK]
+读取slk...
+[MERGE_OBJECT]
+合并物编数据...
+[UNSUPPORTED_MAP]
+不支持没有(listfile)的地图
+[PACK_MAP]
+正在打包文件... (%d/%d)
+[EXPORT_FILE]
+正在导出文件... (%d/%d)
+[OPEN_FAILED]
+地图打开失败
+[CREATE_FAILED]
+创建新地图失败,可能文件被占用了
+[LOAD_MAP_FILE]
+正在读取文件... (%d/%d)
