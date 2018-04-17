@@ -49,8 +49,15 @@ public:
 	void setxy(int x, int y) {
 		setxy({ (SHORT)x, (SHORT)y });
 	}
-	void color(int x) {
+	void setcolor(int x) {
 		SetConsoleTextAttribute(handle, x);
+	}
+	int getcolor() {
+		CONSOLE_SCREEN_BUFFER_INFO screenBufferInfo;
+		if (GetConsoleScreenBufferInfo(handle, &screenBufferInfo) == 0) {
+			return 0;
+		}
+		return screenBufferInfo.wAttributes;
 	}
 	void text(const std::wstring& buf) {
 		text(buf.data(), buf.size());
@@ -181,10 +188,13 @@ struct protocol {
 	}
 	void msg_error(const char* buf) {
 		console.setxy({ 0, basepos.Y + 2 });
+		int old = console.getcolor();
+		console.setcolor(FOREGROUND_RED);
 		console.text(buf);
 		console.text(L"\r\n");
 		basepos = console.getxy();
 		basepos.Y -= 2;
+		console.setcolor(old);
 	}
 };
 
