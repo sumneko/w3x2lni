@@ -1,3 +1,20 @@
+local command = require 'tool.command'
+local act = command[1]
+
+local config = {}
+if act == 'slk' then
+    config.mode = 'slk'
+elseif act == 'lni' then
+    config.mode = 'lni'
+elseif act == 'obj' then
+    config.mode = 'obj'
+elseif act == 'mpq' then
+    config.mode = 'mpq'
+else
+    require 'tool.showhelp'
+    return
+end
+
 require 'filesystem'
 require 'utility'
 local lni = require 'lni'
@@ -6,7 +23,7 @@ local core = require 'tool.sandbox_core'
 local builder = require 'map-builder'
 local triggerdata = require 'tool.triggerdata'
 local plugin = require 'tool.plugin'
-local proto = require 'tool.protocol'
+local messager = require 'tool.messager'
 local w2l = core()
 local root = fs.current_path()
 
@@ -17,23 +34,6 @@ local function concat_string(start, ...)
         v[#v+1] = tostring(t[i])
     end
     return ('%q'):format(table.concat(v, ' '))
-end
-
-messager = {}
-function messager.text(text)
-    proto.send('text', ('%q'):format(text))
-end
-function messager.raw(text)
-    proto.send('raw', ('%q'):format(text))
-end
-function messager.title(title)
-    proto.send('title', ('%q'):format(title))
-end
-function messager.progress(value)
-    proto.send('progress', ('%.3f'):format(value))
-end
-function messager.report(type, level, content, tip)
-    proto.send('report', ('{type=%q,level=%d,content=%q,tip=%q}'):format(type, level, content, tip))
 end
 
 if io.type(io.stdout) == 'file' then
@@ -52,38 +52,16 @@ local function root_path(path)
 end
 
 local function unpack_config()
-    if #arg <= 0  then
-        return
+    if command.config then
+        config.config_path = command.config
     end
-    local action = arg[1]
-    local config = {}
-    if action == 'slk' then
-        config.mode = 'slk'
-    elseif action == 'lni' then
-        config.mode = 'lni'
-    elseif action == 'obj' then
-        config.mode = 'obj'
-    elseif action == 'mpq' then
-        config.mode = 'mpq'
-    else
-        error('错误的指令：' .. action)
-        return
+    if command[2] then
+        config.input = root_path(command[2])
+    end
+    if command[3] then
+        config.output = root_path(command[3])
     end
 
-    for i = 2, #arg do
-        local command = arg[i]
-        if command:sub(1, 1) == '-' then
-            if command:match '^%-config=' then
-                config.config_path = command:sub(1 + #'-config=')
-            end
-        else
-            if not config.input then
-                config.input = root_path(command)
-            else
-                config.output = root_path(command)
-            end
-        end
-    end
     if not config.mode then
         return config
     end
@@ -119,10 +97,7 @@ local function default_output(input)
     end
 end
 
-local config = unpack_config()
-if not config then
-    return
-end
+unpack_config()
 
 w2l.messager.text '正在初始化...'
 w2l.messager.progress(0)
