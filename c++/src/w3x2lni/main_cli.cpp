@@ -196,6 +196,8 @@ struct protocol {
 			console.cleanline(basepos.Y + 1);
 			console.setxy({ 0, basepos.Y });
 			console.text(lua_tostring(L, -1));
+			basepos = console.getxy();
+			basepos.Y -= 2;
 		}
 		lua_pop(L, 1);
 	}
