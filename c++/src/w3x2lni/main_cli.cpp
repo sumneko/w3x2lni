@@ -62,6 +62,9 @@ public:
 	void text(const std::wstring& buf) {
 		text(buf.data(), buf.size());
 	}
+	void text(const std::string& buf) {
+		text(buf.data(), buf.size());
+	}
 	void text(const wchar_t* buf, size_t len = 0) {
 		DWORD wlen = 0;
 		WriteConsoleW(handle, buf, len ? len : wcslen(buf), &wlen, 0);
@@ -186,7 +189,7 @@ struct protocol {
 		}
 		lua_pop(L, 1);
 	}
-	void msg_error(const char* buf) {
+	void msg_error(const std::string& buf) {
 		console.setxy({ 0, basepos.Y + 2 });
 		int old = console.getcolor();
 		console.setcolor(FOREGROUND_RED);
@@ -213,12 +216,12 @@ int __cdecl wmain()
 	}
 
 	protocol proto;
+	std::string error;
 	char outbuf[2048];
 	char errbuf[2048];
-	size_t errpos = 0;
 	for (;;) {
 		size_t outlen = out.read(outbuf, sizeof outbuf);
-		size_t errlen = err.read(errbuf + errpos, sizeof errbuf - errpos - 1);
+		size_t errlen = err.read(errbuf, sizeof errbuf);
 		if (outlen == -1 && errlen == -1) {
 			break;
 		}
@@ -230,12 +233,11 @@ int __cdecl wmain()
 			proto.unpack(outbuf, outlen);
 		}
 		if (errlen != 0 && errlen != -1) {
-			errpos += errlen;
+			error += std::string(errbuf, errlen);
 		}
 	}
-	if (errpos) {
-		errbuf[errpos] = 0;
-		proto.msg_error(errbuf);
+	if (!error.empty()) {
+		proto.msg_error(error);
 	}
 	return 0;
 }
