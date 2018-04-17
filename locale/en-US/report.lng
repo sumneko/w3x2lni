@@ -1,0 +1,94 @@
+[OTHER]
+Other
+[NO_PREBUILT]
+Didn't find Prebuilt
+[NO_TRIGSTR]
+Didn't find: TRIGSTR_%03d
+[TEXT_IN_WTS]
+Save text into WTS
+[TEXT_IN_WTS_HINT]
+The text saved in WTS will cause the loading to slow down: 
+[WARN]
+Warn
+[WTS_NEED_ESCAPE]
+`}` is modified to `|`
+[COMPUTED_TEXT_FAILED]
+Compute text failed
+[SIMPLIFY]
+Simplify
+[RETAIN_MARKET]
+Retained items in market
+[RETAIN_MARKET_HINT]
+Used market '%s'[%s]
+[INVALID_OBJECT]
+Invalid object
+[INVALID_OBJECT_ID]
+Invalid object id
+[INVALID_OBJECT_DATA]
+Invalid object data
+[OPTIMIZE_JASS]
+Optimize JASS
+[OPTIMIZE_JASS_RESULT]
+%d.%s    Total: %d
+[ERROR]
+Error
+[NO_JASS]
+Didn't find JASS
+[CONFUSE_JASS]
+Confuse JASS
+[REFERENCE_FUNCTION]
+Referenced functions
+[UNREFERENCE_GLOBAL]
+Unreferenced global variables
+[UNREFERENCE_FUNCTION]
+Unreferenced functions
+[UNREFERENCE_LOCAL]
+Unreferenced local variables
+[REFERENCE_BY_JASS]
+Referenced by '%s' in JASS
+[RETAIN_CREEP_UNIT]
+Retained creep units
+[RETAIN_CREEP_BUILDING]
+Retained creep buildings
+[RETAIN_RANDOM_ITEM]
+Retained random items
+[SYNTAX_ERROR]
+Syntax error
+[TEXT_CANT_ESCAPE_IN_TXT]
+The text contains both commas and double quotes
+[OBJECT_ID_CONFLICT]
+Id [%s] is conflicted between different objects
+[TXT_CONFLICT]
+Txt is conflicted between different objects
+[NO_CONVERT_WTG]
+Didn't convert WTG
+[SIMPLIFIED_OBJECT]
+Simplified objects: %d/%d
+[RETAIN_DEFAULT_OBJECT]
+Retained default objects: %d/%d
+[SIMPLIFIED_CUSTOM_OBJECT]
+Simplified custom objects: %d/%d
+[NO_SLK_DATA]
+No SLK data
+[OBJECT_LEVEL_TOO_HIGHT]
+The object level is too high: [%s][%d]
+[OBJECT_LEVEL_TOO_HIGHT_HINT]
+It may affect the performance of W2l
+[WTS_ESCAPE_WARN]
+Text cannot contain `}`
+[FORCE_READ_SLK]
+Incomplete information, forced reading SLK files
+[FILE_LOST]
+There are %d files that are not read
+[FILE_LOST_HINT]
+These files are discarded, Please include the complete `(listfile)`
+[FILE_READ]
+Read (%d/%d) files
+[USED_PLUGIN]
+Used plugin [%s](%s)
+[PLUGIN_FAILED]
+Executed plugin [%s] failed
+[NATIVE]
+Native
+[MAP]
+Map

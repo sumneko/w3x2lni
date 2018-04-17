@@ -1,0 +1,76 @@
+[FAILED]
+Convert failed
+[ERROR]
+Error
+[INIT]
+Initialization...
+[VERSION]
+Version: 
+[PLUGIN]
+Plugin
+[BACK]
+Back
+[AUTHOR]
+Author
+[FRONTEND]
+Frontend: 
+[BACKEND]
+Backend: 
+[SUMNEKO]
+sumneko
+[INTRUCT]
+Intruction
+[DRAG_MAP]
+Drag the map in
+[TO_LNI]
+To Lni
+[TO_SLK]
+To Slk
+[TO_OBJ]
+To Obj
+[READ_SLK]
+Read SLK
+[READ_SLK_HINT]
+Read the imported SLK files
+[SIMPLIFY]
+Simplify
+[SIMPLIFY_HINT]
+Remove objects that are not used
+[OPTIMIZE_JASS]
+Optimize JASS
+[OPTIMIZE_JASS_HINT]
+Reduce size and more fluency
+[MDX_SQUF]
+Compress models
+[MDX_SQUF_HINT]
+Lossy compression
+[REMOVE_WE_ONLY]
+Remove files used only in WE
+[REMOVE_WE_ONLY_HINT]
+WE and W2l won't be able to open the map
+[SLK_DOODAD]
+Optimize doodad
+[SLK_DOODAD_HINT]
+Terrain deform will not drop frames
+[EXPORT_LUA]
+Export lua
+[EXPORT_LUA_HINT]
+
+[FIND_ID_TIMES]
+Limit searching times
+[FIND_ID_TIMES_HINT]
+Sometimes the search is slow
+[CONFUSION]
+Confuse scripts
+[CONFUSION_HINT]
+Use these characters
+[REPORT]
+Report
+[PROCESSING]
+Processing...
+[START]
+Start
+[UPDATE_LOG]
+Update logs
+[CONVERT_TO]
+To 
