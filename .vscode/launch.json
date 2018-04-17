@@ -38,7 +38,7 @@
             "arg": [
                 "${workspaceRoot}\\MoeHero.w3x",
                 "-slk",
-                "-config=..\\config.ini",
+                "-config=config.ini",
             ]
         },
         {
