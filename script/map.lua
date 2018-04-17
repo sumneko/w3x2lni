@@ -40,6 +40,14 @@ if io.type(io.stdout) == 'file' then
 end
 w2l:set_messager(messager)
 
+local function root_path(path)
+    local path = fs.path(path)
+    if not path:is_absolute() then
+        path = root:parent_path() / path
+    end
+    return path
+end
+
 local function unpack_config()
     local config = {}
     for _, command in ipairs(arg) do
@@ -67,9 +75,10 @@ local function unpack_config()
         return config
     end
     if not config.config_path then
-        config.config_path = '..\\config.ini'
+        config.config_path = 'config.ini'
     end
-    local tbl = lni(io.load(fs.path(config.config_path)))
+    local config_path = root_path(config.config_path)
+    local tbl = lni(io.load(config_path))
     for k, v in pairs(tbl) do
         config[k] = v
     end
@@ -298,13 +307,13 @@ end
 
 function w2l:mpq_load(filename)
     return w2l.mpq_path:each_path(function(path)
-        return io.load(root:parent_path() / config.mpq_path / path / filename)
+        return io.load(root_path(config.mpq_path) / path / filename)
     end)
 end
 
 function w2l:prebuilt_load(filename)
     return w2l.mpq_path:each_path(function(path)
-        return io.load(root:parent_path() / config.prebuilt_path / path / filename)
+        return io.load(root_path(config.prebuilt_path) / path / filename)
     end)
 end
 
