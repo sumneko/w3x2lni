@@ -49,10 +49,24 @@ public:
 	void setxy(int x, int y) {
 		setxy({ (SHORT)x, (SHORT)y });
 	}
-	void color(int x) {
+	void setcolor(int x) {
 		SetConsoleTextAttribute(handle, x);
 	}
+	int getcolor() {
+		CONSOLE_SCREEN_BUFFER_INFO screenBufferInfo;
+		if (GetConsoleScreenBufferInfo(handle, &screenBufferInfo) == 0) {
+			return 0;
+		}
+		return screenBufferInfo.wAttributes;
+	}
+	void cleanline(int y) {
+		setxy({ 0, (SHORT)y });
+		text(L"                                                                                ");
+	}
 	void text(const std::wstring& buf) {
+		text(buf.data(), buf.size());
+	}
+	void text(const std::string& buf) {
 		text(buf.data(), buf.size());
 	}
 	void text(const wchar_t* buf, size_t len = 0) {
@@ -75,11 +89,6 @@ struct protocol {
 		: console()
 		, basepos(console.getxy())
 	{
-		console.setxy({ 0, basepos.Y });
-		console.text(L"");
-		console.setxy({ 0, basepos.Y + 1 });
-		printf("%3d%%", 0);
-		console.text(L"[>-------------------]");
 	}
 
 	~protocol()
@@ -141,6 +150,9 @@ struct protocol {
 			else if (type == "text") {
 				msg_text();
 			}
+			else if (type == "raw") {
+				msg_raw();
+			}
 		}
 		else {
 			lua_pop(L, 1);
@@ -172,19 +184,30 @@ struct protocol {
 
 	void msg_text() {
 		if (LUA_TSTRING == lua_getfield(L, -1, "args")) {
-			console.setxy({ 0, basepos.Y });
-			console.text(L"                                        ");
+			console.cleanline(basepos.Y);
 			console.setxy({ 0, basepos.Y });
 			console.text(lua_tostring(L, -1));
 		}
 		lua_pop(L, 1);
 	}
-	void msg_error(const char* buf) {
+	void msg_raw() {
+		if (LUA_TSTRING == lua_getfield(L, -1, "args")) {
+			console.cleanline(basepos.Y);
+			console.cleanline(basepos.Y + 1);
+			console.setxy({ 0, basepos.Y });
+			console.text(lua_tostring(L, -1));
+		}
+		lua_pop(L, 1);
+	}
+	void msg_error(const std::string& buf) {
 		console.setxy({ 0, basepos.Y + 2 });
+		int old = console.getcolor();
+		console.setcolor(FOREGROUND_RED);
 		console.text(buf);
 		console.text(L"\r\n");
 		basepos = console.getxy();
 		basepos.Y -= 2;
+		console.setcolor(old);
 	}
 };
 
@@ -203,12 +226,12 @@ int __cdecl wmain()
 	}
 
 	protocol proto;
+	std::string error;
 	char outbuf[2048];
 	char errbuf[2048];
-	size_t errpos = 0;
 	for (;;) {
 		size_t outlen = out.read(outbuf, sizeof outbuf);
-		size_t errlen = err.read(errbuf + errpos, sizeof errbuf - errpos - 1);
+		size_t errlen = err.read(errbuf, sizeof errbuf);
 		if (outlen == -1 && errlen == -1) {
 			break;
 		}
@@ -220,12 +243,11 @@ int __cdecl wmain()
 			proto.unpack(outbuf, outlen);
 		}
 		if (errlen != 0 && errlen != -1) {
-			errpos += errlen;
+			error += std::string(errbuf, errlen);
 		}
 	}
-	if (errpos) {
-		errbuf[errpos] = 0;
-		proto.msg_error(errbuf);
+	if (!error.empty()) {
+		proto.msg_error(error);
 	}
 	return 0;
 }
