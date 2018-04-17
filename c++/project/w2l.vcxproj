@@ -79,7 +79,7 @@
     <ProjectGuid>{EDE93A98-B9D8-4208-B346-AA98093CB04A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>lni</RootNamespace>
-    <ProjectName>w3x2lni-cli</ProjectName>
+    <ProjectName>w2l</ProjectName>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

@@ -1,4 +1,5 @@
 local command = require 'tool.command'
+local messager = require 'tool.messager'
 local act = command[1]
 
 local config = {}
@@ -10,8 +11,11 @@ elseif act == 'obj' then
     config.mode = 'obj'
 elseif act == 'mpq' then
     config.mode = 'mpq'
-else
+elseif not act or act == 'help' then
     require 'tool.showhelp'
+    return
+else
+    messager.raw(('`%s` 不是一个合法的命令。请看`w2l help`。'):format(act))
     return
 end
 
@@ -23,17 +27,11 @@ local core = require 'tool.sandbox_core'
 local builder = require 'map-builder'
 local triggerdata = require 'tool.triggerdata'
 local plugin = require 'tool.plugin'
-local messager = require 'tool.messager'
 local get_report = require 'tool.report'
 local lang = require 'tool.lang'
 local w2l = core()
 local root = fs.current_path()
 
-if io.type(io.stdout) == 'file' then
-    local ext = require 'process.ext'
-    ext.set_filemode(io.stdout, 'b')
-    io.stdout:setvbuf 'no'
-end
 w2l:set_messager(messager)
 
 local function root_path(path)
