@@ -25,6 +25,7 @@ local triggerdata = require 'tool.triggerdata'
 local plugin = require 'tool.plugin'
 local messager = require 'tool.messager'
 local get_report = require 'tool.report'
+local lang = require 'tool.lang'
 local w2l = core()
 local root = fs.current_path()
 
@@ -90,8 +91,8 @@ local function default_output(input)
 end
 
 unpack_config()
-
-w2l.messager.text '正在初始化...'
+lang:set_lang(config.lang)
+w2l.messager.text(lang.script.INIT)
 w2l.messager.progress(0)
 
 input = config.input
@@ -142,7 +143,7 @@ if check_input_lni() then
     w2l.input_mode = 'lni'
 end
 
-messager.text('正在打开地图...')
+messager.text(lang.script.OPEN_MAP)
 local slk = {}
 local input_ar = builder.load(input)
 if not input_ar then
@@ -325,33 +326,33 @@ local output_rate = get_io_time(output_ar)
 local frontend_rate = (1 - input_rate - output_rate) * 0.4
 local backend_rate = (1 - input_rate - output_rate) * 0.6
 
-messager.text('正在检查插件...')
+messager.text(lang.script.CHECK_PLUGIN)
 plugin(w2l, config)
 
-messager.text('正在读取文件...')
+messager.text(lang.script.LOAD_FILE)
 w2l.progress:start(input_rate)
 input_ar:search_files(w2l.progress)
 w2l.progress:finish()
 
-messager.text('正在读取物编...')
+messager.text(lang.script.LOAD_OBJ)
 w2l.progress:start(input_rate + frontend_rate)
 w2l:frontend(slk)
 w2l.progress:finish()
 
-messager.text('正在执行插件...')
+messager.text(lang.script.DO_PLUGIN)
 w2l:call_plugin('on_complete_data')
 
-messager.text('正在转换...')
+messager.text(lang.script.DO_CONVERT)
 w2l.progress:start(input_rate + frontend_rate + backend_rate)
 w2l:backend(slk)
 w2l.progress:finish()
 
-messager.text('正在生成文件...')
+messager.text(lang.script.SAVE_FILE)
 local doo = input_ar:get 'war3map.doo'
 w2l.progress:start(1)
 builder.save(w2l, output_ar, slk.w3i, input_ar)
 w2l.progress:finish()
 
 save_builder()
-io.save(root:parent_path() / 'log.txt', get_report(report))
-messager.text('转换完毕,用时 ' .. os.clock() .. ' 秒') 
+--io.save(root:parent_path() / 'log.txt', get_report(report))
+messager.text((lang.script.FINISH):format(os.clock()))
