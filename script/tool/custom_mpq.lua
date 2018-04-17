@@ -6,8 +6,16 @@ local stormlib = require 'ffi.stormlib'
 local sleep = require 'ffi.sleep'
 local prebuilt = require 'prebuilt.prebuilt'
 local config = require 'tool.config'
+local proto = require 'tool.protocol'
 local w2l = core()
 local mpq_name
+
+w2l:set_messager
+{
+    progress = function (n)
+        proto.send('progress', ('%.3f'):format(value))
+    end
+}
 
 local function task(f, ...)
     for i = 1, 99 do
