@@ -4,7 +4,7 @@ local config = lni(io.load(root / 'config.ini'))
 
 local config_content = [[
 [root]
-mpq = "$mpq$"
+mpq = $mpq$
 lang = $lang$
 mpq_path = $mpq_path$
 prebuilt_path = $prebuilt_path$
@@ -29,13 +29,24 @@ read_slk = $obj.read_slk$
 find_id_times = $obj.find_id_times$
 ]]
 
+local function format_value(v)
+    if type(v) == 'string' then
+        if v:find '%c' or v:find '^[%d"]' then
+            v = '"' .. v:gsub('"', '\\"'):gsub('\r', '\\r'):gsub('\n', '\\n') .. '"'
+        end
+    else
+        v = tostring(v)
+    end
+    return v
+end
+
 local function save_config()
     local buf = config_content:gsub('%$(.-)%$', function (str)
         local v = config
         for key in str:gmatch '[^%.]+' do
             v = v[key]
         end
-        return tostring(v)
+        return format_value(v)
     end)
     io.save(root / 'config.ini', buf:gsub('\n', '\r\n'))
 end

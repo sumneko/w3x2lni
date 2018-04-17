@@ -5,6 +5,7 @@ local uni      = require 'ffi.unicode'
 local stormlib = require 'ffi.stormlib'
 local sleep = require 'ffi.sleep'
 local prebuilt = require 'prebuilt.prebuilt'
+local config = require 'tool.config'
 local w2l = core()
 local mpq_name
 
@@ -123,6 +124,8 @@ return function (input)
 
     prebuilt:dofile(mpq_name:string(), 'Melee')
     prebuilt:dofile(mpq_name:string(), 'Custom')
+
+    config.mpq = mpq_name:string()
 
     print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
 end
