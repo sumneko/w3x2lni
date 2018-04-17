@@ -49,18 +49,27 @@ local function root_path(path)
 end
 
 local function unpack_config()
+    if #arg <= 0  then
+        return
+    end
+    local action = arg[1]
     local config = {}
-    for _, command in ipairs(arg) do
+    if action == 'slk' then
+        config.mode = 'slk'
+    elseif action == 'lni' then
+        config.mode = 'lni'
+    elseif action == 'obj' then
+        config.mode = 'obj'
+    elseif action == 'mpq' then
+        config.mode = 'mpq'
+    else
+        return
+    end
+
+    for i = 2, #arg do
+        local command = arg[i]
         if command:sub(1, 1) == '-' then
-            if command == '-slk' then
-                config.mode = 'slk'
-            elseif command == '-lni' then
-                config.mode = 'lni'
-            elseif command == '-obj' then
-                config.mode = 'obj'
-            elseif command == '-mpq' then
-                config.mode = 'mpq'
-            elseif command:match '^%-config=' then
+            if command:match '^%-config=' then
                 config.config_path = command:sub(1 + #'-config=')
             end
         else

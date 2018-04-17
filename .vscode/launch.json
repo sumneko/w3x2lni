@@ -36,8 +36,8 @@
             "program": "${workspaceRoot}\\script\\map.lua",
             "sourceCoding": "utf8",
             "arg": [
+                "lni",
                 "${workspaceRoot}\\MoeHero.w3x",
-                "-slk",
                 "-config=config.ini",
             ]
         },
