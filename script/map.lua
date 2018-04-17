@@ -63,6 +63,7 @@ local function unpack_config()
     elseif action == 'mpq' then
         config.mode = 'mpq'
     else
+        error('错误的指令：' .. action)
         return
     end
 

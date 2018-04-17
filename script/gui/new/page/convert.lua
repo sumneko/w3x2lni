@@ -1,6 +1,7 @@
 local gui = require 'yue.gui'
 local backend = require 'gui.backend'
 local timer = require 'gui.timer'
+local messagebox = require 'ffi.messagebox'
 require 'filesystem'
 
 local worker
@@ -20,8 +21,8 @@ end
 
 local function pack_arg()
     local buf = {}
-    buf[1] = '"' .. window._filename .. '"'
-    buf[2] = '-' .. window._mode
+    buf[1] = window._mode
+    buf[2] = '"' .. window._filename .. '"'
     return table.concat(buf, ' ')
 end
 
