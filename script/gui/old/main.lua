@@ -6,7 +6,7 @@ local nk = require 'nuklear'
 local backend = require 'gui.backend'
 local show_version = require 'gui.old.show_version'
 local plugin = require 'gui.old.plugin'
-local lni = require 'lni'
+local config = require 'tool.config'
 local currenttheme = {0, 173, 217}
 local worker
 
@@ -28,7 +28,6 @@ NK_TEXT_CENTERED       = NK_TEXT_ALIGN_MIDDLE | NK_TEXT_ALIGN_CENTERED
 NK_TEXT_RIGHT          = NK_TEXT_ALIGN_MIDDLE | NK_TEXT_ALIGN_RIGHT
 
 local root = fs.current_path():remove_filename()
-local config = lni(io.load(root / 'config.ini'))
 local fmt = nil
 
 local function getexe()
@@ -40,44 +39,6 @@ local function getexe()
 end
 
 backend:init(getexe(), root / 'script')
-
-local config_content = [[
-[root]
-mpq = "$mpq$"
-lang = $lang$
-mpq_path = $mpq_path$
-prebuilt_path = $prebuilt_path$
-plugin_path = $plugin_path$
-
-[lni]
-read_slk = $lni.read_slk$
-find_id_times = $lni.find_id_times$
-export_lua = $lni.export_lua$
-
-[slk]
-remove_unuse_object = $slk.remove_unuse_object$
-optimize_jass = $slk.optimize_jass$
-mdx_squf = $slk.mdx_squf$
-remove_we_only = $slk.remove_we_only$
-slk_doodad = $slk.slk_doodad$
-find_id_times = $slk.find_id_times$
-confusion = $slk.confusion$
-
-[obj]
-read_slk = $obj.read_slk$
-find_id_times = $obj.find_id_times$
-]]
-
-local function save_config()
-    local buf = config_content:gsub('%$(.-)%$', function (str)
-        local v = config
-        for key in str:gmatch '[^%.]+' do
-            v = v[key]
-        end
-        return tostring(v)
-    end)
-    io.save(root / 'config.ini', buf:gsub('\n', '\r\n'))
-end
 
 local window = nk.window('W3x2Lni', 400, 600)
 window:set_theme(0, 173, 217)
@@ -227,7 +188,6 @@ local function window_select(canvas)
         fmt = 'lni'
         window:set_title('W3x2Lni')
         config.mode = 'lni'
-        save_config()
         clean_convert_ui()
         set_current_theme {0, 173, 217}
         return
@@ -238,7 +198,6 @@ local function window_select(canvas)
         fmt = 'slk'
         window:set_title('W3x2Slk')
         config.mode = 'slk'
-        save_config()
         clean_convert_ui()
         set_current_theme {0, 173, 60}
         return
@@ -249,7 +208,6 @@ local function window_select(canvas)
         fmt = 'obj'
         window:set_title('W3x2Obj')
         config.mode = 'obj'
-        save_config()
         clean_convert_ui()
         set_current_theme {217, 163, 60}
         return
@@ -284,7 +242,6 @@ end
 local function checkbox_simple(canvas, text, tip, data)
     if checkbox_tip(canvas, text, tip, config[fmt][data]) then
         config[fmt][data] = not config[fmt][data]
-        save_config()
     end
 end
 
@@ -321,7 +278,6 @@ local function window_convert(canvas)
             else
                 config[fmt].find_id_times = 0
             end
-            save_config()
         end
         height = height - 34
         if config[fmt].find_id_times ~= 0 then
@@ -331,7 +287,6 @@ local function window_convert(canvas)
             local n = tonumber(r) or 1
             if config[fmt].find_id_times ~= n then
                 config[fmt].find_id_times = n
-                save_config()
             end
             height = height - 34
         end
@@ -342,7 +297,6 @@ local function window_convert(canvas)
                 else
                     config[fmt].confusion = nil
                 end
-                save_config()
             end
             height = height - 34
             if config[fmt].confusion ~= nil then
@@ -351,7 +305,6 @@ local function window_convert(canvas)
                 end)
                 if config[fmt].confusion ~= r then
                     config[fmt].confusion = r
-                    save_config()
                 end
                 height = height - 34
             end
