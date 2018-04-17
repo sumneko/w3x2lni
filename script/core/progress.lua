@@ -11,7 +11,7 @@ mt.messager = nil
 
 function mt:send_progress()
     local newprogress = self.current * (self.max_rate - self.min_rate) + self.min_rate
-    if self.progress + 0.01 < newprogress then
+    if self.progress + 0.01 < newprogress or (newprogress == 1) then
         if self.messager then
             self.messager.progress(newprogress)
         end
