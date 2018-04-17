@@ -1,6 +1,7 @@
 local gui = require 'yue.gui'
 local backend = require 'gui.backend'
 local get_report = require 'tool.report'
+local lang = require 'tool.lang'
 
 local function count_report_height(text)
     local n = 1
@@ -29,7 +30,7 @@ scroll:setcontentview(report)
 scroll:setscrollbarpolicy('never', 'never')
 view:addchildview(scroll)
 
-local btn = Button('返回')
+local btn = Button(lang.ui.BACK)
 btn:setstyle { Bottom = 0, Height = 28, Margin = 5 }
 btn:setfont(Font('黑体', 16))
 function btn:onclick()

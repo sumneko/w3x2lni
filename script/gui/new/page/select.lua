@@ -1,5 +1,6 @@
 local gui = require 'yue.gui'
 local timer = require 'gui.timer'
+local lang = require 'tool.lang'
 
 local view = gui.Container.create()
 view:setstyle { FlexGrow = 1, Padding = 1 }
@@ -20,7 +21,7 @@ local info = {
 }
 for i = 1, 3 do
     local data = info[i]
-    local btn = Button('转为'..data.type, data.color)
+    local btn = Button(lang.ui.CONVERT_TO..data.type, data.color)
     btn:setfont(Font('黑体', 20))
     btn:setstyle { Margin = 1, Height = 100 }
     view:addchildview(btn)

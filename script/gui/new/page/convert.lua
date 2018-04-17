@@ -2,6 +2,7 @@ local gui = require 'yue.gui'
 local backend = require 'gui.backend'
 local timer = require 'gui.timer'
 local messagebox = require 'ffi.messagebox'
+local lang = require 'tool.lang'
 require 'filesystem'
 
 local worker
@@ -53,7 +54,7 @@ local function update()
     update_progress(backend.progress)
     update_show()
     if #worker.error > 0 then
-        messagebox('错误', worker.error)
+        messagebox(lang.ui.ERROR, worker.error)
         worker.error = ''
         return 0, 1
     end
@@ -70,7 +71,7 @@ local function delayedtask(t)
     local ok, r, code = xpcall(update, debug.traceback)
     if not ok then
         t:remove()
-        messagebox('错误', r)
+        messagebox(lang.ui.ERROR, r)
         return
     end
     if r then
@@ -105,7 +106,7 @@ pb = Progress()
 pb:setstyle { Height = 30, Margin = 5, Padding = 3, FlexDirection = 'row' }
 lower:addchildview(pb)
 
-report = Button('详情')
+report = Button(lang.ui.REPORT)
 report:setstyle { Height = 30, Margin = 5 }
 report:setfont(Font('黑体', 24))
 lower:addchildview(report)
@@ -123,7 +124,7 @@ function start:onclick()
     report:setvisible(false)
     backend:init(getexe(), fs.current_path())
     worker = backend:open('map.lua', pack_arg())
-    backend.message = '正在初始化...'
+    backend.message = lang.ui.INIT
     backend.progress = 0
     update_progress(backend.progress)
     timer.loop(100, delayedtask)

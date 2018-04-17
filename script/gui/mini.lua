@@ -3,6 +3,7 @@ local ext = require 'yue-ext'
 local backend = require 'gui.backend'
 local messagebox = require 'ffi.messagebox'
 local timer = require 'gui.timer'
+local lang = require 'tool.lang'
 require 'filesystem'
 
 ext.on_timer = timer.update
@@ -153,7 +154,7 @@ local function update()
     mini:settitle(backend.title)
     mini:setvalue(backend.progress)
     if #worker.error > 0 then
-        messagebox('错误', worker.error)
+        messagebox(lang.ui.ERROR, worker.error)
         worker.error = ''
         return 0, 1
     end
@@ -171,7 +172,7 @@ local function delayedtask(t)
     local ok, r, code = xpcall(update, debug.traceback)
     if not ok then
         t:remove()
-        messagebox('错误', r)
+        messagebox(lang.ui.ERROR, r)
         mini:close()
         exitcode = -1
         return
@@ -207,7 +208,7 @@ function mini:backend()
     mini:event_close(gui.MessageLoop.quit)
     backend:init(getexe(), fs.current_path())
     worker = backend:open('map.lua', pack_arg())
-    backend.message = '正在初始化...'
+    backend.message = lang.ui.INIT
     backend.progress = 0
     timer.loop(100, delayedtask)
     gui.MessageLoop.run()

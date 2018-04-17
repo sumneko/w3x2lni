@@ -7,6 +7,7 @@ local backend = require 'gui.backend'
 local show_version = require 'gui.old.show_version'
 local plugin = require 'gui.old.plugin'
 local config = require 'tool.config'
+local lang = require 'tool.lang'
 local currenttheme = {0, 173, 217}
 local worker
 
@@ -94,7 +95,7 @@ local version = (require 'gui.changelog')[1].version
 local function button_about(canvas)
     window:set_style('button.color', 51, 55, 67)
     canvas:text('', NK_TEXT_RIGHT)
-    if canvas:button('版本: ' .. version) then
+    if canvas:button(lang.ui.VERSION .. version) then
         uitype = 'about'
     end
 end
@@ -106,7 +107,7 @@ local function button_plugin(canvas)
     canvas:text('', NK_TEXT_RIGHT)
     if show_plugin then
         window:set_style('button.color', 51, 55, 67)
-        if canvas:button('插件') then
+        if canvas:button(lang.ui.PLUGIN) then
             uitype = 'plugin'
         end
     else
@@ -118,7 +119,7 @@ local function window_plugin(canvas)
     canvas:layout_row_dynamic(20, 1)
     canvas:layout_space(30, 1)
     canvas:layout_space_push(-10, 0, 300, 30)
-    canvas:button('插件')
+    canvas:button(lang.ui.PLUGIN)
     if show_plugin then
         show_plugin(canvas)
     else
@@ -129,7 +130,7 @@ local function window_plugin(canvas)
         end
     end
     canvas:layout_row_dynamic(30, 1)
-    if canvas:button('返回') then
+    if canvas:button(lang.ui.BACK) then
         if mapname == '' then
             uitype = 'none'
         else
@@ -142,20 +143,20 @@ local function window_about(canvas)
     canvas:layout_row_dynamic(20, 1)
     canvas:layout_space(30, 1)
     canvas:layout_space_push(-10, 0, 300, 30)
-    canvas:button('作者')
+    canvas:button(lang.ui.AUTHOR)
     canvas:layout_row_dynamic(5, 1)
     canvas:layout_row_dynamic(20, 4)
-    canvas:text('前端: ', NK_TEXT_RIGHT) canvas:text('actboy168', NK_TEXT_CENTERED) 
+    canvas:text(lang.ui.FRONTEND, NK_TEXT_RIGHT) canvas:text('actboy168', NK_TEXT_CENTERED) 
     canvas:layout_row_dynamic(20, 4)
-    canvas:text('后端: ', NK_TEXT_RIGHT) canvas:text('最萌小汐', NK_TEXT_CENTERED)
+    canvas:text(lang.ui.BACKEND, NK_TEXT_RIGHT) canvas:text(lang.ui.SUMNEKO, NK_TEXT_CENTERED)
     canvas:layout_row_dynamic(5, 1)
     canvas:layout_space(30, 1)
     canvas:layout_space_push(-10, 0, 300, 30)
-    canvas:button('说明')
+    canvas:button(lang.ui.INTRUCT)
     show_version(window, canvas)
     reset_button_color()
     canvas:layout_row_dynamic(30, 1)
-    if canvas:button('返回') then
+    if canvas:button(lang.ui.BACK) then
         if mapname == '' then
             uitype = 'none'
         else
@@ -167,7 +168,7 @@ end
 local function window_none(canvas)
     canvas:layout_row_dynamic(2, 1)
     canvas:layout_row_dynamic(200, 1)
-    canvas:button('把地图拖进来')
+    canvas:button(lang.ui.DRAG_MAP)
     canvas:layout_row_dynamic(290, 1)
     canvas:layout_row_dynamic(20, 2)
     button_plugin(canvas)
@@ -183,7 +184,7 @@ local function window_select(canvas)
     canvas:layout_row_dynamic(2, 1)
     canvas:layout_row_dynamic(100, 1)
     window:set_theme(0, 173, 217)
-    if canvas:button('转为Lni') then
+    if canvas:button(lang.ui.TO_LNI) then
         uitype = 'convert'
         fmt = 'lni'
         window:set_title('W3x2Lni')
@@ -193,7 +194,7 @@ local function window_select(canvas)
         return
     end
     window:set_theme(0, 173, 60)
-    if canvas:button('转为Slk') then
+    if canvas:button(lang.ui.TO_SLK) then
         uitype = 'convert'
         fmt = 'slk'
         window:set_title('W3x2Slk')
@@ -203,7 +204,7 @@ local function window_select(canvas)
         return
     end
     window:set_theme(217, 163, 60)
-    if canvas:button('转为Obj') then
+    if canvas:button(lang.ui.TO_OBJ) then
         uitype = 'convert'
         fmt = 'obj'
         window:set_title('W3x2Obj')
@@ -223,7 +224,7 @@ local function update_worker()
     if worker then
         worker:update()
         if #worker.error > 0 then
-            messagebox('错误', worker.error)
+            messagebox(lang.ui.ERROR, worker.error)
             worker.error = ''
         end
     end
@@ -252,27 +253,27 @@ local function window_convert(canvas)
     if fmt == 'lni' or fmt == 'obj' then
         height = height - 24
         canvas:layout_row_dynamic(30, 1)
-        checkbox_simple(canvas, '读取slk文件', '外部导入的slk文件，如万能属性', 'read_slk')
+        checkbox_simple(canvas, lang.ui.READ_SLK, lang.ui.READ_SLK_HINT, 'read_slk')
     else
         height = height - 129
         canvas:layout_row_dynamic(30, 1)
-        checkbox_simple(canvas, '简化', '删除没有使用的对象', 'remove_unuse_object')
-        checkbox_simple(canvas, '优化脚本', '减小地图大小，加快运行时效率', 'optimize_jass')
-        checkbox_simple(canvas, '压缩模型', '有损压缩', 'mdx_squf')
-        checkbox_simple(canvas, '删除只在WE中使用的文件', '编辑器和本工具都将无法打开此地图', 'remove_we_only')
+        checkbox_simple(canvas, lang.ui.SIMPLIFY, lang.ui.SIMPLIFY_HINT, 'remove_unuse_object')
+        checkbox_simple(canvas, lang.ui.OPTIMIZE_JASS, lang.ui.OPTIMIZE_JASS_HINT, 'optimize_jass')
+        checkbox_simple(canvas, lang.ui.MDX_SQUF, lang.ui.MDX_SQUF_HINT, 'mdx_squf')
+        checkbox_simple(canvas, lang.ui.REMOVE_WE_ONLY, lang.ui.REMOVE_WE_ONLY_HINT, 'remove_we_only')
     end
     canvas:layout_row_dynamic(10, 1)
     canvas:tree('高级', 1, function()
         canvas:layout_row_dynamic(30, 1)
         if fmt == 'slk' then
-            checkbox_simple(canvas, '优化装饰物', '地形变化不会卡顿，但之后需要重启魔兽', 'slk_doodad')
+            checkbox_simple(canvas, lang.ui.SLK_DOODAD, lang.ui.SLK_DOODAD_HINT, 'slk_doodad')
             height = height - 34
         end
         if fmt == 'lni' then
-            checkbox_simple(canvas, '导出lua脚本', '', 'export_lua')
+            checkbox_simple(canvas, lang.ui.EXPORT_LUA, lang.ui.EXPORT_LUA_HINT, 'export_lua')
             height = height - 34
         end
-        if checkbox_tip(canvas, '限制搜索最优模板的次数', '次数越多质量越好，但某些地图搜索会很慢', config[fmt].find_id_times ~= 0) then
+        if checkbox_tip(canvas, lang.ui.FIND_ID_TIMES, lang.ui.FIND_ID_TIMES_HINT, config[fmt].find_id_times ~= 0) then
             if config[fmt].find_id_times == 0 then
                 config[fmt].find_id_times = 10
             else
@@ -291,7 +292,7 @@ local function window_convert(canvas)
             height = height - 34
         end
         if fmt == 'slk' and config[fmt].optimize_jass then
-            if checkbox_tip(canvas, '混淆脚本', '将变量名与函数名混淆为以下字符的组合', config[fmt].confusion ~= nil) then
+            if checkbox_tip(canvas, lang.ui.CONFUSION, lang.ui.CONFUSION_HINT, config[fmt].confusion ~= nil) then
                 if config[fmt].confusion == nil then
                     config[fmt].confusion = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_'
                 else
@@ -323,19 +324,19 @@ local function window_convert(canvas)
             canvas:text(current_tip or '', NK_TEXT_LEFT)
         end
     else
-        if canvas:button('详情') then
+        if canvas:button(lang.ui.REPORT) then
             uitype = 'report'
         end
     end
     canvas:layout_row_dynamic(10, 1)
     canvas:layout_row_dynamic(50, 1)
     if worker and not worker.exited then
-        canvas:button('正在处理...')
+        canvas:button(lang.ui.PROCESSING)
     else
-        if canvas:button('开始') then
+        if canvas:button(lang.ui.START) then
             canvas:progress(0, 100)
             worker = backend:open(root / 'script' / 'map.lua', ('%s "%s"'):format(config.mode, mappath:string()))
-            backend.message = '正在初始化...'
+            backend.message = lang.ui.INIT
         end
     end
 end
@@ -370,7 +371,7 @@ end
 
 local function window_report(canvas)
     canvas:layout_row_dynamic(500, 1)
-    canvas:group('详情', function()
+    canvas:group(lang.ui.REPORT, function()
         for type, report in sortpairs(backend.report) do
             if type ~= '' then
                 type = type:sub(2)
@@ -390,7 +391,7 @@ local function window_report(canvas)
     end)
     canvas:layout_row_dynamic(20, 1)
     canvas:layout_row_dynamic(30, 1)
-    if canvas:button('返回') then
+    if canvas:button(lang.ui.BACK) then
         uitype = 'convert'
     end
 end
