@@ -228,18 +228,42 @@ struct protocol {
 		lua_pop(L, 1);
 	}
 	void msg_exit() {
-		if (LUA_TSTRING == lua_getfield(L, -1, "args")) {
-			msg_error(lua_tostring(L, -1));
+		if (LUA_TTABLE == lua_getfield(L, -1, "args")) {
+			bool haserror = true;
+			std::string content;
+			if (LUA_TSTRING == lua_getfield(L, -1, "type")) {
+				std::string type = lua_tostring(L, -1);
+				haserror = (type == "failed") || (type == "error");
+			}
+			lua_pop(L, 1);
+			if (LUA_TSTRING == lua_getfield(L, -1, "content")) {
+				content = lua_tostring(L, -1);
+			}
+			lua_pop(L, 1);
+			if (!content.empty()) {
+				if (haserror) {
+					message_error(content);
+				}
+				else {
+					message_info(content);
+				}
+			}
 		}
 		lua_pop(L, 1);
 	}
-	void msg_error(const std::string& buf) {
+	void message_error(const std::string& buf) {
 		console.setxy({ 0, basepos.Y });
 		int old = console.getcolor();
 		console.setcolor(FOREGROUND_RED);
 		console.text(buf);
 		console.text(L"\r\n");
 		console.setcolor(old);
+		basepos = console.getxy();
+	}
+	void message_info(const std::string& buf) {
+		console.setxy({ 0, basepos.Y });
+		console.text(buf);
+		console.text(L"\r\n");
 		basepos = console.getxy();
 	}
 };
@@ -280,7 +304,7 @@ int __cdecl wmain()
 		}
 	}
 	if (!error.empty()) {
-		proto.msg_error(error);
+		proto.message_error(error);
 	}
 	return 0;
 }
