@@ -4,7 +4,7 @@ local root = fs.current_path()
 local mt = {}
 setmetatable(mt, mt)
 
-local lang = 'zh-CN'
+local lang
 
 local function proxy(t)
     return setmetatable(t, { __index = function (_, k)
@@ -64,7 +64,18 @@ function mt:__index(filename)
 end
 
 function mt:set_lang(lang_)
-    lang = lang_
+    if lang_ == 'auto' then
+        local language = require 'ffi.language' ()
+        if language:sub(1, 3) == 'zh-' then
+            lang = 'zh-CN'
+        elseif language:sub(1, 3) == 'en-' then
+            lang = 'en-US'
+        else
+            lang = 'en-US'
+        end
+    else
+        lang = lang_
+    end
 end
 
 return mt
