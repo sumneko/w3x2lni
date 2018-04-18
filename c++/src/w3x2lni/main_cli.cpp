@@ -153,6 +153,9 @@ struct protocol {
 			else if (type == "raw") {
 				msg_raw();
 			}
+			else if (type == "exit") {
+				msg_exit();
+			}
 		}
 		else {
 			lua_pop(L, 1);
@@ -200,6 +203,12 @@ struct protocol {
 			console.text(lua_tostring(L, -1));
 			basepos = console.getxy();
 			basepos.Y -= 2;
+		}
+		lua_pop(L, 1);
+	}
+	void msg_exit() {
+		if (LUA_TSTRING == lua_getfield(L, -1, "args")) {
+			msg_error(lua_tostring(L, -1));
 		}
 		lua_pop(L, 1);
 	}
