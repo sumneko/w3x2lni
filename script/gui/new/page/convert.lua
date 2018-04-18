@@ -38,6 +38,9 @@ local function update_show()
     elseif not worker.exited then
         report:setvisible(false)
         pb:setvisible(true)
+    elseif backend.lastword then
+        report:setvisible(false)
+        pb:setvisible(false)
     elseif next(backend.report) then
         report:setvisible(true)
         pb:setvisible(false)
@@ -50,7 +53,11 @@ end
 
 local function update()
     worker:update()
-    message:settext(backend.message)
+    if backend.lastword then
+        message:settext(backend.message .. ': ' .. backend.lastword)
+    else
+        message:settext(backend.message)
+    end
     update_progress(backend.progress)
     update_show()
     if #worker.error > 0 then
