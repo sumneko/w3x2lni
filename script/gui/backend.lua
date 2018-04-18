@@ -1,5 +1,6 @@
 local process = require 'process'
 local proto = require 'tool.protocol'
+local lang = require 'tool.lang'
 
 local backend = {}
 backend.message = ''
@@ -112,7 +113,7 @@ function mt:update()
         self.output = {}
         self.out_rd:close()
         self.out_rd = nil
-        backend.message = '转换失败'
+        backend.message = lang.ui.FAILED
     end
     if self.closed then
         while #self.output > 0 do

@@ -1,0 +1,28 @@
+[INVALID]
+`%s` is not a w2l command. See `w2l help`.
+[MPQ]
+usage: w2l mpq <War3 Path>
+
+example:
+   w2l mpq "C:\Warcraft III"
+
+[LNI]
+usage: w2l lni <Map Path> [-config=<Config Path>]
+
+    map can be a w3x file or a folder.
+
+example:
+    w2l lni "E:\Warcraft III\Maps\Test.w3x"
+    w2l lni Test.w3x
+
+[HELP]
+usage: w2l <command> <path>
+
+available commands:
+    help   Get help information
+    mpq    Extracting MPQ data from Warcraft III
+    lni    Convert the map into `Lni` format
+    obj    Convert the map into `Obj` format
+    slk    Convert the map into `Slk` format
+
+use `w2l help <command>` to get help information for specific commands.

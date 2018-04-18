@@ -270,7 +270,7 @@ local function to_slk(w2l, slk)
 
     if report.n > 0 then
         local index = 1
-        w2l.messager.report(lang.report.NO_SLK_DATA, 3, ('合计: %d'):format(report.n))
+        w2l.messager.report(lang.report.NO_SLK_DATA, 3, (lang.report.TOTAL .. ': %d'):format(report.n))
         for tip, list in pairs(report) do
             if #tip > 1 then
                 local n = 0

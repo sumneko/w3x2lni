@@ -1,4 +1,5 @@
 local gui = require 'yue.gui'
+local lang = require 'tool.lang'
 
 local main = gui.Container.create()
 main:setstyle { FlexGrow = 1 }
@@ -7,21 +8,21 @@ local view = gui.Container.create()
 view:setstyle { FlexGrow = 1 }
 main:addchildview(view)
 
-local label = Label('作者')
+local label = Label(lang.ui.AUTHOR)
 label:setstyle { MarginTop = 20, Height = 28, Width = 240 }
 view:addchildview(label)
 
-local label = Label('前端: actboy168', '#222')
+local label = Label(lang.ui.FRONTEND .. 'actboy168', '#222')
 label:setcolor('#AAA')
 label:setstyle { MarginTop = 5, Height = 28, Width = 240 }
 view:addchildview(label)
 
-local label = Label('后端: 最萌小汐', '#222')
+local label = Label(lang.ui.BACKEND .. lang.ui.SUMNEKO, '#222')
 label:setcolor('#AAA')
 label:setstyle { Height = 28, Width = 240 }
 view:addchildview(label)
 
-local label = Label('更新日志')
+local label = Label(lang.ui.UPDATE_LOG)
 label:setstyle { Height = 28, Width = 240 }
 view:addchildview(label)
 
@@ -82,7 +83,7 @@ end
 changelog:setcontentview(log)
 changelog:setcontentsize { width = 0, height = height }
 
-local btn = Button('返回')
+local btn = Button(lang.ui.BACK)
 btn:setstyle { Bottom = 0, Height = 28, Margin = 5 }
 btn:setfont(Font('黑体', 16))
 function btn:onclick()

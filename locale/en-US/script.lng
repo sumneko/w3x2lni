@@ -1,0 +1,94 @@
+[INIT]
+Initializing...
+[OPEN_MAP]
+Opening map...
+[CHECK_PLUGIN]
+Cheking plugin...
+[LOAD_FILE]
+Loading files...
+[LOAD_OBJECT]
+Loading objects...
+[DO_PLUGIN]
+Executing plugins...
+[DO_CONVERT]
+Converting...
+[SAVE_FILE]
+Saving files...
+[FINISH]
+Finish, take %.3f sec
+[WTG_ERROR]
+WTG error.
+[WTG_GUESS_ARG]
+Guess args number of [%s] is [%d]
+[WTG_UI_NOT_FOUND]
+Trigger UI [%s] is not exist
+[WTG_ABORT_FIX]
+Give up fix after a lot of attempts.
+[CONVERT_FILE]
+Converting %s: [%s] (%d/%d)
+[SEARCH_TEMPLATE]
+Searching template [%s] (%d/%d)
+[WTG_UNKNOWN_ACTION_STATE]
+Unknown action state [%s][%d]
+[WTG_ERROR_ARG]
+Args number of [%s] is not correctly：[%d] - [%d]
+[CLEAN_SAME_OBJECT]
+Cleaning data...
+[MARK_UNUSED_OBJECT]
+Marking unused objects...
+[COMPUTED_TEXT]
+Compute formulas in ubertip...
+[REMOVE_UNUSED_OBJECT]
+Removing unsed objects...
+[CONVERT_OBJ]
+Converting object files...
+[CONVERT_WTG]
+Converting WTG file...
+[OPTIMIZE_JASS]
+Optimizing JASS...
+[CONVERT_OTHER]
+Optimizing other files...
+[CONVERT_JASS]
+Converting JASS...
+[REBUILD_WTS]
+Rebuilding WTS...
+[CONVERT_ONE]
+Converting: 
+[LOAD_OBJ]
+Loading Obj...
+[LOAD_LNI]
+Loading Lni...
+[LOAD_SLK]
+Loading Slk...
+[MERGE_OBJECT]
+Merging data...
+[UNSUPPORTED_MAP]
+Didn't find `(listfile)`
+[PACK_MAP]
+Packing map... (%d/%d)
+[EXPORT_FILE]
+Exporting files... (%d/%d)
+[OPEN_FAILED]
+Open map failed
+[CREATE_FAILED]
+Create map failed, maybe occupied
+[LOAD_MAP_FILE]
+Loading map files... (%d/%d)
+[TEXT_TOO_LONG_IN_OBJ]
+Text is longer than 1023 characters in object
+[UNIT]
+Unit
+[ABILITY]
+Ability
+[ITEM]
+Item
+[BUFF]
+Buff
+[UPGRADE]
+Upgrade
+[DOODAD]
+Doodad
+[DESTRUCTABLE]
+Destructable
+[UNKNOW]
+Unknown

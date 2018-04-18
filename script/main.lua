@@ -1,8 +1,6 @@
 if _W3X2LNI == 'CLI' then
-    if arg[1] then
-        require 'map'
-        return
-    end
+    require 'map'
+    return
 elseif _W3X2LNI == 'GUI' then
     if arg[1] then
         require 'gui.mini'

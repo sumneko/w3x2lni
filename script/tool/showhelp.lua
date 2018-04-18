@@ -11,4 +11,24 @@ if arg[2] == 'lni' then
     return
 end
 
+if arg[2] == 'slk' then
+    messager.raw(lang.raw.SLK)
+    return
+end
+
+if arg[2] == 'obj' then
+    messager.raw(lang.raw.OBJ)
+    return
+end
+
+if arg[2] == 'ver' then
+    messager.raw(lang.raw.VER)
+    return
+end
+
+if arg[2] == 'log' then
+    messager.raw(lang.raw.LOG)
+    return
+end
+
 messager.raw(lang.raw.HELP)
