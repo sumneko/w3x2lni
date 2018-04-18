@@ -1,12 +1,51 @@
 local command = require 'tool.command'
 local messager = require 'tool.messager'
 local lang = require 'tool.lang'
+local lni = require 'lni'
 require 'filesystem'
 require 'utility'
 local root = fs.current_path()
 local act = command[1]
-
 local config = {}
+
+local function root_path(path)
+    local path = fs.path(path)
+    if not path:is_absolute() then
+        path = root:parent_path() / path
+    end
+    return path
+end
+
+local function unpack_config()
+    if command.config then
+        config.config_path = command.config
+    end
+    if command[2] then
+        config.input = root_path(command[2])
+    end
+    if command[3] then
+        config.output = root_path(command[3])
+    end
+
+    if not config.config_path then
+        config.config_path = 'config.ini'
+    end
+    local config_path = root_path(config.config_path)
+    local tbl = lni(io.load(config_path))
+    for k, v in pairs(tbl) do
+        config[k] = v
+    end
+    if type(tbl[config.mode]) == 'table' then
+        for k, v in pairs(tbl[config.mode]) do
+            config[k] = v
+        end
+    end
+    return config
+end
+
+unpack_config()
+lang:set_lang(config.lang)
+
 if act == 'slk' then
     config.mode = 'slk'
 elseif act == 'lni' then
@@ -30,7 +69,6 @@ else
     return
 end
 
-local lni = require 'lni'
 local uni = require 'ffi.unicode'
 local core = require 'tool.sandbox_core'
 local builder = require 'map-builder'
@@ -52,44 +90,6 @@ function messager.report(type, level, content, tip)
     table.insert(report[name], {content, tip})
 end
 
-local function root_path(path)
-    local path = fs.path(path)
-    if not path:is_absolute() then
-        path = root:parent_path() / path
-    end
-    return path
-end
-
-local function unpack_config()
-    if command.config then
-        config.config_path = command.config
-    end
-    if command[2] then
-        config.input = root_path(command[2])
-    end
-    if command[3] then
-        config.output = root_path(command[3])
-    end
-
-    if not config.mode then
-        return config
-    end
-    if not config.config_path then
-        config.config_path = 'config.ini'
-    end
-    local config_path = root_path(config.config_path)
-    local tbl = lni(io.load(config_path))
-    for k, v in pairs(tbl) do
-        config[k] = v
-    end
-    if type(tbl[config.mode]) == 'table' then
-        for k, v in pairs(tbl[config.mode]) do
-            config[k] = v
-        end
-    end
-    return config
-end
-
 local function default_output(input)
     if w2l.config.target_storage == 'dir' then
         if fs.is_directory(input) then
@@ -106,8 +106,6 @@ local function default_output(input)
     end
 end
 
-unpack_config()
-lang:set_lang(config.lang)
 w2l.messager.text(lang.script.INIT)
 w2l.messager.progress(0)
 

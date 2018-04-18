@@ -4,7 +4,7 @@ local root = fs.current_path()
 local mt = {}
 setmetatable(mt, mt)
 
-mt._lang = 'zh-CN'
+local lang = 'zh-CN'
 
 local function proxy(t)
     return setmetatable(t, { __index = function (_, k)
@@ -35,7 +35,7 @@ end
 
 function mt:load_lng(filename)
     local t = {}
-    local buf = io.load(root:parent_path() / 'locale' / self._lang / (filename .. '.lng'))
+    local buf = lang and io.load(root:parent_path() / 'locale' / lang / (filename .. '.lng'))
     if not buf then
         error(1)
         return proxy(t)
@@ -63,8 +63,8 @@ function mt:__index(filename)
     return t
 end
 
-function mt:set_lang(lang)
-    self._lang = lang
+function mt:set_lang(lang_)
+    lang = lang_
 end
 
 return mt
