@@ -94,3 +94,7 @@
 未知
 [FAILED]
 失败
+[CREATE_MAP_FAILED]
+保存地图失败，可能文件被占用了
+[UNKNOWN_REASON]
+未知原因

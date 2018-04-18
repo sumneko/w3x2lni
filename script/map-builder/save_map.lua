@@ -91,8 +91,9 @@ return function (w2l, output_ar, w3i, input_ar)
     end
 
     input_ar:close()
-    if not output_ar:save(w3i, w2l) then
-        messager.text(lang.script.CREATE_FAILED)
+    local suc, res = output_ar:save(w3i, w2l)
+    if not suc then
+        w2l:failed(res or lang.script.CREATE_FAILED)
     end
     output_ar:close()
 end

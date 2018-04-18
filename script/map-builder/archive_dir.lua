@@ -1,15 +1,5 @@
 local sleep = require 'ffi.sleep'
 
-local function task(f, ...)
-    for i = 1, 99 do
-        if pcall(f, ...) then
-            return true
-        end
-        sleep(10)
-    end
-    return false
-end
-
 local ignore = {}
 for _, name in ipairs {'.git', '.svn', '.vscode', '.gitignore'} do
     ignore[name] = true

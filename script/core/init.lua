@@ -279,7 +279,7 @@ end
 
 function mt:failed(msg)
     self.messager.text(lang.script.FAILED)
-    self.messager.exit(msg)
+    self.messager.exit(msg or lang.script.UNKNOWN_REASON)
     os.exit(1, true)
 end
 

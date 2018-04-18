@@ -94,3 +94,7 @@ Destructable
 Unknown
 [FAILED]
 Failed
+[CREATE_MAP_FAILED]
+Create map failed, maybe occupied
+[UNKNOWN_REASON]
+Unknown reason
