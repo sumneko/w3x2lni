@@ -121,7 +121,7 @@ return function (_w2l, input)
         end)
     end
 
-    w2l.progress:start(0.2)
+    w2l.progress:start(0.1)
     print('清理目录...')
     local mpq_path = fs.current_path():parent_path() / 'data' / 'mpq' / mpq_name
     if fs.exists(mpq_path) then
@@ -138,17 +138,17 @@ return function (_w2l, input)
     end
     w2l.progress:finish()
 
-    w2l.progress:start(0.4)
+    w2l.progress:start(0.2)
     print('导出mpq...')
     extract_mpq(mpqs)
     report_fail()
     w2l.progress:finish()
 
-    w2l.progress:start(0.7)
-    makefile(w2l, mpq_name:string(), 'Melee')
+    w2l.progress:start(0.6)
+    makefile(w2l, mpq_name:string(), 'Melee', 'Melee')
     w2l.progress:finish()
     w2l.progress:start(1.0)
-    makefile(w2l, mpq_name:string(), 'Custom')
+    makefile(w2l, mpq_name:string(), 'Custom', 'Custom')
     w2l.progress:finish()
 
     config.mpq = mpq_name:string()
