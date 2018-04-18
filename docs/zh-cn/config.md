@@ -6,7 +6,7 @@
 
 > root.mpq
 
-使用哪个数据文件。默认是`1.24-cn`。
+使用哪个数据文件。默认是`1.24.4-CN`。
 
 > root.prebuilt_path
 
