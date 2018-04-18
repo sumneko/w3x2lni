@@ -110,3 +110,5 @@
 导出mpq...
 [CREATE_DIR_FAILED]
 无法创建目录[%s]，请检查目录是否被占用。
+[ERROR_COUNT]
+%d 个错误，%d 条警告

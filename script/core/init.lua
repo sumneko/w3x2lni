@@ -278,7 +278,7 @@ function mt:file_remove(type, name)
 end
 
 function mt:failed(msg)
-    self.messager.exit(msg or lang.script.UNKNOWN_REASON)
+    self.messager.exit('failed', msg or lang.script.UNKNOWN_REASON)
     os.exit(1, true)
 end
 

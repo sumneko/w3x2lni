@@ -153,7 +153,7 @@ local function check_input_lni()
     return false
 end
 
-local function count_error(report)
+local function exit(report)
     local err = 0
     local warn = 0
     for k, t in pairs(report) do
@@ -163,7 +163,14 @@ local function count_error(report)
             warn = #t
         end
     end
-    messager.error(err, warn)
+    if err > 0 then
+        messager.exit('error', lang.script.ERROR_COUNT:format(err, warn))
+    elseif warn > 0 then
+        messager.exit('warning', lang.script.ERROR_COUNT:format(err, warn))
+    else
+        messager.exit('success', lang.script.ERROR_COUNT:format(err, warn))
+    end
+    os.exit(0, true)
 end
 
 if check_input_lni() then
@@ -381,4 +388,4 @@ w2l.progress:finish()
 save_builder()
 io.save(root:parent_path() / 'log.txt', get_report(report))
 messager.text((lang.script.FINISH):format(os.clock()))
-count_error(report)
+exit(report)

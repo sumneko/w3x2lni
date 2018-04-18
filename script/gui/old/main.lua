@@ -318,18 +318,22 @@ local function window_convert(canvas)
     canvas:layout_row_dynamic(10, 1)
     canvas:layout_row_dynamic(30, 1)
     if backend.lastword then
-        window:set_theme(222, 55, 55)
-        canvas:button(backend.lastword)
+        if backend.lastword.type == 'failed' or backend.lastword.type == 'error' then
+            window:set_theme(222, 55, 55)
+        elseif backend.lastword.type == 'warning' then
+            window:set_theme(255, 200, 55)
+        end
+        if canvas:button(backend.lastword.content) then
+            if next(backend.report) then
+                uitype = 'report'
+            end
+        end
         set_current_theme()
-    elseif (worker and not worker.exited) or not next(backend.report) then
+    else
         if backend.progress then
             canvas:progress(math.floor(backend.progress), 100)
         else
             canvas:text(current_tip or '', NK_TEXT_LEFT)
-        end
-    else
-        if canvas:button(lang.ui.REPORT) then
-            uitype = 'report'
         end
     end
     canvas:layout_row_dynamic(10, 1)

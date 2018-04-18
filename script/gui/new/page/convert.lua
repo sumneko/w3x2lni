@@ -11,7 +11,6 @@ local pb
 local label
 local lower
 local report
-local lastword
 
 local function getexe()
     local i = 0
@@ -34,16 +33,11 @@ end
 
 local function update_show()
     if backend.lastword then
-        lastword:setvisible(true)
-    else
-        lastword:setvisible(false)
-    end
-    if worker and worker.exited and next(backend.report) then
         report:setvisible(true)
     else
         report:setvisible(false)
     end
-    if worker and not report:isvisible() and not lastword:isvisible() then
+    if worker and not report:isvisible() then
         pb:setvisible(true)
     else
         pb:setvisible(false)
@@ -54,7 +48,14 @@ local function update()
     worker:update()
     message:settext(backend.message)
     if backend.lastword then
-        lastword:settext(backend.lastword)
+        report:settitle(backend.lastword.content)
+        if backend.lastword.type == 'failed' or backend.lastword.type == 'error' then
+            report:update_color('#C33')
+        elseif backend.lastword.type == 'warning' then
+            report:update_color('#FC3')
+        else
+            report:update_color()
+        end
     end
     update_progress(backend.progress)
     update_show()
@@ -107,18 +108,11 @@ message:setcolor('#CCC')
 message:setalign('start')
 lower:addchildview(message)
 
-lastword = gui.Label.create('')
-lastword:setstyle { Height = 30, Margin = 5 }
-lastword:setfont(Font('黑体', 20))
-lastword:setcolor('#C22')
-lastword:setalign('start')
-lower:addchildview(lastword)
-
 pb = Progress()
 pb:setstyle { Height = 30, Margin = 5, Padding = 3, FlexDirection = 'row' }
 lower:addchildview(pb)
 
-report = Button(lang.ui.REPORT)
+report = Button('')
 report:setstyle { Height = 30, Margin = 5 }
 report:setfont(Font('黑体', 24))
 lower:addchildview(report)
@@ -144,14 +138,15 @@ function start:onclick()
 end
 
 function report:onclick()
-    window:show_page 'report'
-    window:show_report()
+    if next(backend.report) then
+        window:show_page 'report'
+        window:show_report()
+    end
 end
 
 function view:on_show()
     update_show()
     filename:update_color()
-    report:update_color()
     start:update_color()
     pb:update_color()
 end

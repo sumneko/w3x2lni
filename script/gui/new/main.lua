@@ -44,7 +44,19 @@ function Button(text, color1, color2)
             color1 = window._color
         end
         if not color2 then
-            color2 = ('#%06X'):format(tonumber('0x' .. color1:sub(2)) + 0x101010)
+            if #color1 == 4 then
+                color2 = ('#%01X%01X%01X'):format(
+                    math.min(tonumber(color1:sub(2, 2), 16) + 0x1, 0xF),
+                    math.min(tonumber(color1:sub(3, 3), 16) + 0x1, 0xF),
+                    math.min(tonumber(color1:sub(4, 4), 16) + 0x1, 0xF)
+                )
+            elseif #color1 == 7 then
+                color2 = ('#%02X%02X%02X'):format(
+                    math.min(tonumber(color1:sub(2, 3), 16) + 0x10, 0xFF),
+                    math.min(tonumber(color1:sub(4, 5), 16) + 0x10, 0xFF),
+                    math.min(tonumber(color1:sub(6, 7), 16) + 0x10, 0xFF)
+                )
+            end
         end
         btn:setbackgroundcolor(color1)
         btn._backgroundcolor1 = color1
