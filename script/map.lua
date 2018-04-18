@@ -153,6 +153,19 @@ local function check_input_lni()
     return false
 end
 
+local function count_error(report)
+    local err = 0
+    local warn = 0
+    for k, t in pairs(report) do
+        if k:sub(1, 1) == '1' then
+            err = #t
+        elseif k:sub(1, 1) == '2' then
+            warn = #t
+        end
+    end
+    messager.error(err, warn)
+end
+
 if check_input_lni() then
     w2l.input_mode = 'lni'
 end
@@ -368,3 +381,4 @@ w2l.progress:finish()
 save_builder()
 io.save(root:parent_path() / 'log.txt', get_report(report))
 messager.text((lang.script.FINISH):format(os.clock()))
+count_error(report)

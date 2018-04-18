@@ -19,6 +19,9 @@ end
 function messager.exit(text)
     proto.send('exit', ('%q'):format(text))
 end
+function messager.error(err, warn)
+    proto.send('error', ('{error=%d,warning=%d}'):format(err, warn))
+end
 
 if io.type(io.stdout) == 'file' then
     local ext = require 'process.ext'
