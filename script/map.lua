@@ -54,7 +54,7 @@ elseif act == 'obj' then
     config.mode = 'obj'
 elseif act == 'mpq' then
     config.mode = 'mpq'
-elseif act == 'version' then
+elseif act == 'ver' then
     local cl = require 'tool.changelog'
     messager.raw('w3x2lni_v'..cl[1].version)
     return
