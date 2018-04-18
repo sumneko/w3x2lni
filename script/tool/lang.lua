@@ -38,7 +38,7 @@ function mt:load_lng(filename)
         self:set_lang 'auto'
     end
     local t = {}
-    local buf = io.load(root:parent_path() / 'locale' / lang / (filename .. '.lng'))
+    local buf = io.load(root / 'locale' / lang / (filename .. '.lng'))
     if not buf then
         error(1)
         return proxy(t)
