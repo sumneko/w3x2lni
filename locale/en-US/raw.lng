@@ -7,14 +7,39 @@ example:
    w2l mpq "C:\Warcraft III"
 
 [LNI]
-usage: w2l lni <Map Path> [-config=<Config Path>]
+usage: w2l lni <Map Path> [<Output Path>] [-config=<Config Path>]
 
     map can be a w3x file or a folder.
+    `Lni` is a convenient format for text editing and code management.
 
 example:
     w2l lni "E:\Warcraft III\Maps\Test.w3x"
-    w2l lni Test.w3x
+    w2l lni "E:\Warcraft III\Maps\Test.w3x" "E:\Warcraft III\Maps\Test_lni"
 
+[SLK]
+usage: w2l slk <Map Path> [<Output Path>] [-config=<Config Path>]
+
+    map can be a w3x file or a folder.
+    `Slk` is a format for playing. WE can't open the map of this format.
+
+例如：
+    w2l slk "E:\Warcraft III\Maps\Test.w3x"
+    w2l slk "E:\Warcraft III\Maps\Test.w3x" "E:\Warcraft III\Maps\Test_slk.w3x"
+
+[OBJ]
+usage: w2l obj <Map Path> [<Output Path>] [-config=<Config Path>]
+
+    map can be a w3x file or a folder.
+    `Slk` is a format for editing by WE.
+
+例如：
+    w2l obj "E:\Warcraft III\Maps\Test.w3x"
+    w2l obj "E:\Warcraft III\Maps\Test.w3x" "E:\Warcraft III\Maps\Test_obj.w3x"
+
+[VER]
+Show version.
+[LOG]
+Show last report.
 [HELP]
 usage: w2l <command> <path>
 
@@ -24,5 +49,7 @@ available commands:
     lni    Convert the map into `Lni` format
     obj    Convert the map into `Obj` format
     slk    Convert the map into `Slk` format
+    ver    Show version
+    log    Show last report
 
 use `w2l help <command>` to get help information for specific commands.

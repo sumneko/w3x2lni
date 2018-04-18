@@ -22,7 +22,7 @@ label:setcolor('#AAA')
 label:setstyle { Height = 28, Width = 240 }
 view:addchildview(label)
 
-local label = Label(lang.ui.UPDATE_LOG)
+local label = Label(lang.ui.CHANGE_LOG)
 label:setstyle { Height = 28, Width = 240 }
 view:addchildview(label)
 
