@@ -4,7 +4,7 @@ local timer = require 'gui.timer'
 local lang = require 'tool.lang'
 local config = require 'tool.config'
 
-lang:set_lang(config.lang)
+lang:set_lang(config.global.lang)
 window = {}
 
 ext.on_timer = timer.update

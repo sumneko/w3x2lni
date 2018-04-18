@@ -207,7 +207,7 @@ return function (_w2l, input)
     makefile(w2l, mpq_name, 'Custom', 'Custom')
     w2l.progress:finish()
 
-    config.mpq = mpq_name
+    config.global.mpq = mpq_name
 
     w2l.messager.text((lang.script.FINISH):format(os.clock())) 
 end

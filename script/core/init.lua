@@ -296,10 +296,11 @@ end
 function mt:set_config(config)
     local default = self:parse_lni(load_file 'config.ini')
     local config = config or {}
+    local dir
 
     local function choose(k, f)
         local a = config[k]
-        local b = default and default[k]
+        local b = dir and dir[k]
         if f then
             a = f(a)
             b = f(b)
@@ -310,9 +311,9 @@ function mt:set_config(config)
             config[k] = a
         end
     end
-    choose('mode')
+    dir = default.global
     choose('mpq')
-    default = default[config.mode]
+    dir = default[config.mode]
     choose('read_slk', toboolean)
     choose('find_id_times', math.tointeger)
     choose('remove_same', toboolean)

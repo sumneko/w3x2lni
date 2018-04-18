@@ -32,7 +32,7 @@ local function unpack_config()
     end
     local config_path = root_path(config.config_path)
     local tbl = lni(io.load(config_path))
-    for k, v in pairs(tbl) do
+    for k, v in pairs(tbl.global) do
         config[k] = v
     end
     if type(tbl[config.mode]) == 'table' then

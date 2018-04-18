@@ -3,12 +3,12 @@ local lni = require 'lni'
 local config = lni(io.load(root / 'config.ini'))
 
 local config_content = [[
-[root]
-mpq = $mpq$
-lang = $lang$
-mpq_path = $mpq_path$
-prebuilt_path = $prebuilt_path$
-plugin_path = $plugin_path$
+[global]
+mpq = $global.mpq$
+lang = $global.lang$
+mpq_path = $global.mpq_path$
+prebuilt_path = $global.prebuilt_path$
+plugin_path = $global.plugin_path$
 
 [lni]
 read_slk = $lni.read_slk$
