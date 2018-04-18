@@ -170,7 +170,7 @@ struct protocol {
 			for (int i = 0; i < value / 5; ++i) {
 				progress += L"=";
 			}
-			if (value < 95) {
+			if (value < 100) {
 				progress += L">";
 			}
 			for (int i = 0; i < 19 - value / 5; ++i) {
@@ -178,6 +178,7 @@ struct protocol {
 			}
 			progress += L"]";
 			console.text(progress);
+			console.setxy({ 0, basepos.Y + 2 });
 		}
 		lua_pop(L, 1);
 	}
@@ -187,6 +188,7 @@ struct protocol {
 			console.cleanline(basepos.Y);
 			console.setxy({ 0, basepos.Y });
 			console.text(lua_tostring(L, -1));
+			console.setxy({ 0, basepos.Y + 2 });
 		}
 		lua_pop(L, 1);
 	}
