@@ -83,8 +83,12 @@ struct protocol {
 	size_t need = 0;
 	std::string buf;
 	luaparse L;
+
 	console  console;
 	COORD    basepos;
+	SHORT    progress_pos = 0;
+	bool     has_progress = false;
+
 	protocol()
 		: console()
 		, basepos(console.getxy())
@@ -93,7 +97,7 @@ struct protocol {
 
 	~protocol()
 	{
-		console.setxy({ 0, basepos.Y + 2 });
+		console.setxy({ 0, basepos.Y + 1 });
 	}
 
 	bool unpack(const char* str, size_t len) {
@@ -166,8 +170,18 @@ struct protocol {
 
 	void msg_progress() {
 		if (LUA_TNUMBER == lua_getfield(L, -1, "args")) {
+			if (!has_progress) {
+				console.setxy({ 0, basepos.Y });
+				console.text(L"\r\n\r\n");
+				basepos = console.getxy();
+
+				has_progress = true;
+				progress_pos = basepos.Y - 2;
+				console.cleanline(basepos.Y);
+				console.cleanline(basepos.Y + 1);
+			}
 			int value = (int)(100 * lua_tonumber(L, -1));
-			console.setxy({ 0, basepos.Y + 1 });
+			console.setxy({ 0, progress_pos + 1 });
 			printf("%3d%%", value);
 			std::wstring progress = L"[";
 			for (int i = 0; i < value / 5; ++i) {
@@ -181,28 +195,35 @@ struct protocol {
 			}
 			progress += L"]";
 			console.text(progress);
-			console.setxy({ 0, basepos.Y + 2 });
+			console.setxy({ 0, basepos.Y });
 		}
 		lua_pop(L, 1);
 	}
 
 	void msg_text() {
 		if (LUA_TSTRING == lua_getfield(L, -1, "args")) {
-			console.cleanline(basepos.Y);
-			console.setxy({ 0, basepos.Y });
+			if (!has_progress) {
+				console.setxy({ 0, basepos.Y });
+				console.text(L"\r\n\r\n");
+				basepos = console.getxy();
+
+				has_progress = true;
+				progress_pos = basepos.Y - 2;
+				console.cleanline(basepos.Y);
+				console.cleanline(basepos.Y + 1);
+			}
+			console.cleanline(progress_pos);
+			console.setxy({ 0, progress_pos });
 			console.text(lua_tostring(L, -1));
-			console.setxy({ 0, basepos.Y + 2 });
+			console.setxy({ 0, basepos.Y });
 		}
 		lua_pop(L, 1);
 	}
 	void msg_raw() {
 		if (LUA_TSTRING == lua_getfield(L, -1, "args")) {
-			console.cleanline(basepos.Y);
-			console.cleanline(basepos.Y + 1);
 			console.setxy({ 0, basepos.Y });
 			console.text(lua_tostring(L, -1));
 			basepos = console.getxy();
-			basepos.Y -= 2;
 		}
 		lua_pop(L, 1);
 	}
@@ -213,14 +234,13 @@ struct protocol {
 		lua_pop(L, 1);
 	}
 	void msg_error(const std::string& buf) {
-		console.setxy({ 0, basepos.Y + 2 });
+		console.setxy({ 0, basepos.Y });
 		int old = console.getcolor();
 		console.setcolor(FOREGROUND_RED);
 		console.text(buf);
 		console.text(L"\r\n");
-		basepos = console.getxy();
-		basepos.Y -= 2;
 		console.setcolor(old);
+		basepos = console.getxy();
 	}
 };
 

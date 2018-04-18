@@ -61,14 +61,19 @@ size_t pipe::read(char* buf, size_t len) {
 }
 
 bool execute_lua(const wchar_t* who, pipe* out, pipe* err) {
+	strbuilder<1024> workdir;
+	GetCurrentDirectoryW(workdir.len, workdir.buf);
+
 	path app = path() / L"bin" / L"w3x2lni-lua.exe";
 	path cwd = path() / L"script";
 	strbuilder<32768> cmd;
 	cmd += L"\"";
 	cmd += app;
-	cmd += L"\" -e \"_W3X2LNI='";
+	cmd += L"\" -e \"_W2L_MODE='";
 	cmd += who;
-	cmd += L"'\" -E \"";
+	cmd += L"'\" -e \"_W2L_DIR=[[";
+	cmd += workdir;
+	cmd += L"]]\" -E \"";
 	cmd += path() / L"script" / L"main.lua";
 	cmd += L"\"";
 
