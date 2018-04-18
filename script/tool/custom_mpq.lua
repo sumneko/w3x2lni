@@ -165,7 +165,7 @@ return function (_w2l, input)
     end
     local lg = mpq_language(mpqs['War3.mpq'])
     if lg then
-        mpq_name = ver .. '-' .. lg
+        mpq_name = lg .. '-' .. ver
     else
         mpq_name = input:filename():string()
     end

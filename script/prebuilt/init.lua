@@ -76,10 +76,10 @@ local function main()
     prebuilt_keydata(w2l)
     prebuilt_search(w2l)
 
-    makefile(w2l, '1.24.4-zhCN', 'Melee', 'Melee')
-    makefile(w2l, '1.24.4-zhCN', 'Custom', 'Custom')
-    makefile(w2l, '1.24.4-enUS', 'Melee')
-    makefile(w2l, '1.24.4-enUS', 'Custom')
+    makefile(w2l, 'zhCN-1.24.4', 'Melee', 'Melee')
+    makefile(w2l, 'zhCN-1.24.4', 'Custom', 'Custom')
+    makefile(w2l, 'enUS-1.24.4', 'Melee')
+    makefile(w2l, 'enUS-1.24.4', 'Custom')
 
     -- 生成技能命令映射
     --local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'), 'ability.ini')
