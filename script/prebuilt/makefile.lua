@@ -18,7 +18,8 @@ return function (w2l, mpq, version, template)
 	local slk = w2l:build_slk()
     
     if template then
-        local template_path = root:parent_path() / 'template'
+        local template_path = root:parent_path() / 'template' / template
+        fs.create_directories(template_path)
         for _, ttype in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
             local data = w2l:frontend_merge(ttype, slk[ttype], {})
             io.save(template_path / (ttype .. '.ini'), w2l:backend_lni(ttype, data))
