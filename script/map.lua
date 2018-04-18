@@ -56,7 +56,7 @@ elseif act == 'mpq' then
     config.mode = 'mpq'
 elseif act == 'version' then
     local cl = require 'tool.changelog'
-    messager.raw('w3x2lni_v'..cl[1].version)
+    messager.raw('w3x2lni version '..cl[1].version)
     return
 elseif act == 'log' then
     messager.raw(io.load(root:parent_path() / 'log.txt'))
