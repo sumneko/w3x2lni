@@ -1,7 +1,10 @@
 local gui = require 'yue.gui'
 local ext = require 'yue-ext'
 local timer = require 'gui.timer'
+local lang = require 'tool.lang'
+local config = require 'tool.config'
 
+lang:set_lang(config.lang)
 window = {}
 
 ext.on_timer = timer.update

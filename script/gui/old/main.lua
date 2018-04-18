@@ -40,7 +40,7 @@ local function getexe()
 end
 
 backend:init(getexe(), root / 'script')
-
+lang:set_lang(config.lang)
 local window = nk.window('W3x2Lni', 400, 600)
 window:set_theme(0, 173, 217)
 
