@@ -11,6 +11,7 @@ local pb
 local label
 local lower
 local report
+local lastword
 
 local function getexe()
     local i = 0
@@ -32,31 +33,28 @@ local function update_progress(value)
 end
 
 local function update_show()
-    if not worker then
-        report:setvisible(false)
-        pb:setvisible(false)
-    elseif not worker.exited then
-        report:setvisible(false)
-        pb:setvisible(true)
-    elseif backend.lastword then
-        report:setvisible(false)
-        pb:setvisible(false)
-    elseif next(backend.report) then
+    if backend.lastword then
+        lastword:setvisible(true)
+    else
+        lastword:setvisible(false)
+    end
+    if worker and worker.exited and next(backend.report) then
         report:setvisible(true)
-        pb:setvisible(false)
     else
         report:setvisible(false)
+    end
+    if worker and not report:isvisible() and not lastword:isvisible() then
         pb:setvisible(true)
-        update_progress(100)
+    else
+        pb:setvisible(false)
     end
 end
 
 local function update()
     worker:update()
+    message:settext(backend.message)
     if backend.lastword then
-        message:settext(backend.message .. ': ' .. backend.lastword)
-    else
-        message:settext(backend.message)
+        lastword:settext(backend.lastword)
     end
     update_progress(backend.progress)
     update_show()
@@ -108,6 +106,13 @@ message:setfont(Font('黑体', 20))
 message:setcolor('#CCC')
 message:setalign('start')
 lower:addchildview(message)
+
+lastword = gui.Label.create('')
+lastword:setstyle { Height = 30, Margin = 5 }
+lastword:setfont(Font('黑体', 20))
+lastword:setcolor('#C22')
+lastword:setalign('start')
+lower:addchildview(lastword)
 
 pb = Progress()
 pb:setstyle { Height = 30, Margin = 5, Padding = 3, FlexDirection = 'row' }

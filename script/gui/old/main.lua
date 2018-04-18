@@ -317,11 +317,15 @@ local function window_convert(canvas)
     canvas:text(backend.message, NK_TEXT_LEFT)
     canvas:layout_row_dynamic(10, 1)
     canvas:layout_row_dynamic(30, 1)
-    if (worker and not worker.exited) or not next(backend.report) or backend.lastword then
-        if backend.progress and not backend.lastword then
+    if backend.lastword then
+        window:set_theme(222, 55, 55)
+        canvas:button(backend.lastword)
+        set_current_theme()
+    elseif (worker and not worker.exited) or not next(backend.report) then
+        if backend.progress then
             canvas:progress(math.floor(backend.progress), 100)
         else
-            canvas:text(backend.lastword or current_tip or '', NK_TEXT_LEFT)
+            canvas:text(current_tip or '', NK_TEXT_LEFT)
         end
     else
         if canvas:button(lang.ui.REPORT) then
