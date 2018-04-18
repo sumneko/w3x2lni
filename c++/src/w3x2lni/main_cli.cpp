@@ -171,9 +171,14 @@ struct protocol {
 	void msg_progress() {
 		if (LUA_TNUMBER == lua_getfield(L, -1, "args")) {
 			if (!has_progress) {
+				console.setxy({ 0, basepos.Y });
+				console.text(L"\r\n\r\n");
+				basepos = console.getxy();
+
 				has_progress = true;
-				progress_pos = basepos.Y;
-				basepos.Y += 2;
+				progress_pos = basepos.Y - 2;
+				console.cleanline(basepos.Y);
+				console.cleanline(basepos.Y + 1);
 			}
 			int value = (int)(100 * lua_tonumber(L, -1));
 			console.setxy({ 0, progress_pos + 1 });
@@ -198,9 +203,14 @@ struct protocol {
 	void msg_text() {
 		if (LUA_TSTRING == lua_getfield(L, -1, "args")) {
 			if (!has_progress) {
+				console.setxy({ 0, basepos.Y });
+				console.text(L"\r\n\r\n");
+				basepos = console.getxy();
+
 				has_progress = true;
-				progress_pos = basepos.Y;
-				basepos.Y += 2;
+				progress_pos = basepos.Y - 2;
+				console.cleanline(basepos.Y);
+				console.cleanline(basepos.Y + 1);
 			}
 			console.cleanline(progress_pos);
 			console.setxy({ 0, progress_pos });
