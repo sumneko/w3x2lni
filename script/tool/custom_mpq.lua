@@ -10,8 +10,36 @@ local w2l
 local mpq_name
 local root = fs.current_path()
 
-local function print(...)
-    w2l.messager.text(...)
+local language_map = {
+    ['0x00000409'] = 'enUS',
+    ['0x00000809'] = 'enGB',
+    ['0x0000040c'] = 'frFR',
+    ['0x00000407'] = 'deDE',
+    ['0x0000040a'] = 'esES',
+    ['0x00000410'] = 'itIT',
+    ['0x00000405'] = 'csCZ',
+    ['0x00000419'] = 'ruRU',
+    ['0x00000415'] = 'plPL',
+    ['0x00000416'] = 'ptBR',
+    ['0x00000816'] = 'ptPT',
+    ['0x0000041f'] = 'tkTK',
+    ['0x00000411'] = 'jaJA',
+    ['0x00000412'] = 'koKR',
+    ['0x00000404'] = 'zhTW',
+    ['0x00000804'] = 'zhCN',
+    ['0x0000041e'] = 'thTH',
+}
+
+local function mpq_language(mpq)
+    local config = mpq:load_file 'config.txt'
+    if not config then
+        return nil
+    end
+    local id = config:match 'LANGID=(0x[%x]+)'
+    if not id then
+        return nil
+    end
+    return language_map[id]
 end
 
 local function task(f, ...)
@@ -36,8 +64,9 @@ local function open_mpq(dir)
 
     for i, name in ipairs(mpq_names) do
         mpqs[i] = stormlib.open(dir / name, true)
+        mpqs[name] = mpqs[i]
         if mpqs[i] == nil then
-            print(lang.script.OPEN_FILE_FAILED .. (dir / name):string())
+            w2l.messager.text(lang.script.OPEN_FILE_FAILED .. (dir / name):string())
             return nil
         end
     end
@@ -113,7 +142,8 @@ return function (_w2l, input)
     if not mpqs then
         return
     end
-    mpq_name = input:filename()
+    local lg = mpq_language(mpqs['War3.mpq'])
+    mpq_name = lg or input:filename():string()
     
     function w2l:mpq_load(filename)
         local mpq_path = root:parent_path() / 'data' / 'mpq'
@@ -146,13 +176,13 @@ return function (_w2l, input)
     w2l.progress:finish()
 
     w2l.progress:start(0.6)
-    makefile(w2l, mpq_name:string(), 'Melee', 'Melee')
+    makefile(w2l, mpq_name, 'Melee', 'Melee')
     w2l.progress:finish()
     w2l.progress:start(1.0)
-    makefile(w2l, mpq_name:string(), 'Custom', 'Custom')
+    makefile(w2l, mpq_name, 'Custom', 'Custom')
     w2l.progress:finish()
 
-    config.mpq = mpq_name:string()
+    config.mpq = mpq_name
 
     w2l.messager.text((lang.script.FINISH):format(os.clock())) 
 end
