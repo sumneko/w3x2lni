@@ -8,7 +8,6 @@ local lang
 
 local function proxy(t)
     return setmetatable(t, { __index = function (_, k)
-        error(2)
         t[k] = k
         return k
     end })
@@ -40,7 +39,6 @@ function mt:load_lng(filename)
     local t = {}
     local buf = io.load(root / 'locale' / lang / (filename .. '.lng'))
     if not buf then
-        error(1)
         return proxy(t)
     end
     local key
