@@ -36,7 +36,7 @@
     w2l obj "E:\Warcraft III\Maps\Test.w3x"
     w2l obj "E:\Warcraft III\Maps\Test.w3x" "E:\Warcraft III\Maps\Test_obj.w3x"
 
-[VER]
+[VERSION]
 显示版本号
 [LOG]
 显示上一次的转换报告
@@ -44,12 +44,12 @@
 用法: w2l <命令> <路径>
 
 可用命令：
-    help   获取帮助信息
-    mpq    提取《魔兽争霸III》的数据文件
-    lni    将地图转换为`Lni`格式
-    obj    将地图转换为`Obj`格式
-    slk    将地图转换为`Slk`格式
-    ver    显示版本号
-    log    显示上一次的转换报告
+    help      获取帮助信息
+    mpq       提取《魔兽争霸III》的数据文件
+    lni       将地图转换为`Lni`格式
+    obj       将地图转换为`Obj`格式
+    slk       将地图转换为`Slk`格式
+    version   显示版本号
+    log       显示上一次的转换报告
 
 使用`w2l help <命令>`，获取具体命令的帮助信息。

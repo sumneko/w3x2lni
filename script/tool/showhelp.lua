@@ -1,33 +1,18 @@
 local messager = require 'tool.messager'
 local lang = require 'tool.lang'
 
-if arg[2] == 'mpq' then
-    messager.raw(lang.raw.MPQ)
-    return
-end
+local list = {
+    mpq = lang.raw.MPQ,
+    lni = lang.raw.LNI,
+    slk = lang.raw.SLK,
+    obj = lang.raw.OBJ,
+    version = lang.raw.VERSION,
+    log = lang.raw.LOG,
+}
 
-if arg[2] == 'lni' then
-    messager.raw(lang.raw.LNI)
-    return
-end
 
-if arg[2] == 'slk' then
-    messager.raw(lang.raw.SLK)
-    return
-end
-
-if arg[2] == 'obj' then
-    messager.raw(lang.raw.OBJ)
-    return
-end
-
-if arg[2] == 'ver' then
-    messager.raw(lang.raw.VER)
-    return
-end
-
-if arg[2] == 'log' then
-    messager.raw(lang.raw.LOG)
+if arg[2] and list[arg[2]] then
+    messager.raw(list[arg[2]])
     return
 end
 
