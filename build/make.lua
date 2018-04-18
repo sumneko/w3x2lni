@@ -27,7 +27,7 @@ for _, name in ipairs {'.vscode', '.git', '.svn', '.gitignore', '.gitmodules'} d
 end
 
 local function read_version()
-    local chg = require 'gui.changelog'
+    local chg = require 'tool.changelog'
     return chg[1].version
 end
 
@@ -138,10 +138,10 @@ end
 local function pack()
     create_directory()
     copy_files('bin')
-    copy_files('data/mpq/1.24-cn')
-    copy_files('data/mpq/1.24-en')
-    copy_files('data/prebuilt/1.24-cn')
-    copy_files('data/prebuilt/1.24-en')
+    copy_files('data/mpq/1.24.4-cn')
+    copy_files('data/mpq/1.24.4-en')
+    copy_files('data/prebuilt/1.24.4-cn')
+    copy_files('data/prebuilt/1.24.4-en')
     copy_files('script')
     copy_files('template')
     copy_files('config.ini')
