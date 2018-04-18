@@ -91,7 +91,7 @@ local function button_mapname(canvas, height)
     return height
 end
 
-local version = (require 'gui.changelog')[1].version
+local version = (require 'tool.changelog')[1].version
 local function button_about(canvas)
     window:set_style('button.color', 51, 55, 67)
     canvas:text('', NK_TEXT_RIGHT)

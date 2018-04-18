@@ -1,6 +1,9 @@
 local command = require 'tool.command'
 local messager = require 'tool.messager'
 local lang = require 'tool.lang'
+require 'filesystem'
+require 'utility'
+local root = fs.current_path()
 local act = command[1]
 
 local config = {}
@@ -12,6 +15,13 @@ elseif act == 'obj' then
     config.mode = 'obj'
 elseif act == 'mpq' then
     config.mode = 'mpq'
+elseif act == 'version' then
+    local cl = require 'tool.changelog'
+    messager.raw('w3x2lni_v'..cl[1].version)
+    return
+elseif act == 'log' then
+    messager.raw(io.load(root:parent_path() / 'log.txt'))
+    return
 elseif not act or act == 'help' then
     require 'tool.showhelp'
     return
@@ -20,8 +30,6 @@ else
     return
 end
 
-require 'filesystem'
-require 'utility'
 local lni = require 'lni'
 local uni = require 'ffi.unicode'
 local core = require 'tool.sandbox_core'
@@ -30,7 +38,6 @@ local triggerdata = require 'tool.triggerdata'
 local plugin = require 'tool.plugin'
 local get_report = require 'tool.report'
 local w2l = core()
-local root = fs.current_path()
 
 w2l:set_messager(messager)
 
