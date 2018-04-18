@@ -1,3 +1,4 @@
+local lang = require 'lang'
 local w2l
 local wtg
 local state
@@ -181,7 +182,7 @@ function read_eca(is_child, is_arg)
     local args
     local ui = get_ui_define(type_index[type], name)
     if not ui then
-        error(('UI不存在：[%s]'):format(name))
+        error(lang.script.WTG_UI_NOT_FOUND:format(name))
     end
     if ui.args then
         for _, arg in ipairs(ui.args) do

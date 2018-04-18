@@ -43,7 +43,7 @@ local function search_string(buf)
 
     local function err(str)
         return ((1-nl)^1 + P(1)) / function(c)
-            error(('line[%d]: %s:\n===========================\n%s\n==========================='):format(line_count, str, c))
+            error(('\nline[%d]: %s:\n===========================\n%s\n==========================='):format(line_count, str, c))
         end
     end
 
@@ -57,7 +57,11 @@ return function (w2l, buf)
     if not buf then
         return tbl
     end
-    local result = search_string(buf)
+    local suc, result = pcall(search_string, buf)
+    if not suc then
+        w2l.messager.report(lang.report.ERROR, 1, lang.report.WTS_SYNTAX_ERROR, result:match '[\r\n]+(.+)$')
+        return tbl
+    end
     for _, t in ipairs(result) do
         local index, text = t.index, t.text
         if text:find('}', 1, false) then

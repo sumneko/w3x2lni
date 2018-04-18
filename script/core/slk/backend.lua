@@ -88,8 +88,17 @@ local function convert_wtg(w2l)
                 w2l:file_save('trigger', filename, buf)
             end
         else
-            w2l:file_save('map', 'war3map.wtg', w2l:backend_wtg(wtg_data, w2l.slk.wts))
-            w2l:file_save('map', 'war3map.wct', w2l:backend_wct(wct_data))
+            local wtg_buf, wct_buf
+            local suc, err = pcall(function ()
+                wtg_buf = w2l:backend_wtg(wtg_data, w2l.slk.wts)
+                wct_buf = w2l:backend_wct(wct_data)
+            end)
+            if suc then
+                w2l:file_save('map', 'war3map.wtg', wtg_buf)
+                w2l:file_save('map', 'war3map.wct', wct_buf)
+            else
+                w2l.messager.report(lang.report.ERROR, 1, lang.report.SAVE_WTG_FAILED, err:match('%.lua:%d+: (.*)'))
+            end
         end
     end
     w2l.progress:finish()

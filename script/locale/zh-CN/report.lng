@@ -53,7 +53,7 @@
 [RETAIN_RANDOM_ITEM]
 保留可随机物品
 [SYNTAX_ERROR]
-语法错误，可能是地图保存失败了。
+脚本语法错误，可能是地图保存失败了。
 [TEXT_CANT_ESCAPE_IN_TXT]
 文本内容同时包含了逗号和双引号
 [OBJECT_ID_CONFLICT]
@@ -122,3 +122,13 @@
 地图上放置的'%s'[%s]引用了它
 [REFERENCE_BY_PLUGIN]
 插件指定保留的'%s'[%s]引用了它
+[SAVE_WTG_FAILED]
+保存触发器失败
+[UNSUPPORT_FILE_TYPE]
+不支持的文件类型:
+[UNSUPPORT_VERSION]
+不支持的版本:
+[UNSUPPORT_UNKNOWN_VALUE]
+未知值不正确:
+[WTS_SYNTAX_ERROR]
+字符串文件语法错误

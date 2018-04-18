@@ -53,7 +53,7 @@ Retained creep buildings
 [RETAIN_RANDOM_ITEM]
 Retained random items
 [SYNTAX_ERROR]
-Syntax error
+JASS syntax error
 [TEXT_CANT_ESCAPE_IN_TXT]
 The text contains both commas and double quotes
 [OBJECT_ID_CONFLICT]
@@ -122,3 +122,13 @@ Referenced by markect item '%s'[%s]
 Referenced by '%s'[%s] which replaced in map
 [REFERENCE_BY_PLUGIN]
 Referenced by '%s'[%s] which appointed by plugin
+[SAVE_WTG_FAILED]
+Save WTG failed
+[UNSUPPORT_FILE_TYPE]
+Unsupported file type:
+[UNSUPPORT_VERSION]
+Unsupported version:
+[UNSUPPORT_UNKNOWN_VALUE]
+Unsupported unknown value:
+[WTS_SYNTAX_ERROR]
+WTS syntax error
