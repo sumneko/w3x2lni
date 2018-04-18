@@ -190,7 +190,7 @@ local function add_values(names, skeys, slk_name)
         if os_clock() - clock > 0.1 then
             clock = os_clock()
             w2l.progress(y / #names)
-            w2l.messager.text(lang.script.CONVERT_FILE:format(name, y, #names))
+            w2l.messager.text(lang.script.CONVERT_FILE:format(slk_type, name, y, #names))
         end
     end
 end
