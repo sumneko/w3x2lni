@@ -34,8 +34,11 @@ local function split(buf)
 end
 
 function mt:load_lng(filename)
+    if not lang then
+        self:set_lang 'auto'
+    end
     local t = {}
-    local buf = lang and io.load(root:parent_path() / 'locale' / lang / (filename .. '.lng'))
+    local buf = io.load(root:parent_path() / 'locale' / lang / (filename .. '.lng'))
     if not buf then
         error(1)
         return proxy(t)
