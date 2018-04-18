@@ -159,10 +159,9 @@ end
 
 messager.text(lang.script.OPEN_MAP)
 local slk = {}
-local input_ar = builder.load(input)
+local input_ar, err = builder.load(input)
 if not input_ar then
-    os.exit(1, true)
-    return
+    w2l:failed(err)
 end
 
 output = config.output or default_output(config.input)
@@ -171,10 +170,9 @@ if w2l.config.target_storage == 'dir' then
         fs.create_directories(output)
     end
 end
-local output_ar = builder.load(output, 'w')
+local output_ar, err = builder.load(output, 'w')
 if not output_ar then
-    os.exit(1, true)
-    return
+    w2l:failed(err)
 end
 output_ar:flush()
 

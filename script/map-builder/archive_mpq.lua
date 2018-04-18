@@ -112,8 +112,7 @@ return function (input, read)
             return nil
         end
         if not handle:has_file '(listfile)' then
-            messager.text(lang.script.UNSUPPORTED_MAP)
-            return nil
+            return nil, lang.script.UNSUPPORTED_MAP
         end
     else
         handle = stormlib.open(input)

@@ -16,6 +16,9 @@ end
 function messager.report(type, level, content, tip)
     proto.send('report', ('{type=%q,level=%d,content=%q,tip=%q}'):format(type, level, content, tip))
 end
+function messager.exit(text)
+    proto.send('exit', ('%q'):format(text))
+end
 
 if io.type(io.stdout) == 'file' then
     local ext = require 'process.ext'

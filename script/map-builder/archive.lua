@@ -171,6 +171,7 @@ end
 
 return function (pathorhandle, tp)
     local read_only = tp ~= 'w'
+    local err
     local ar = {
         write_cache = {},
         read_cache = {},
@@ -178,21 +179,20 @@ return function (pathorhandle, tp)
         _read = read_only,
     }
     if type(pathorhandle) == 'number' then
-        ar.handle = mpq(pathorhandle)
+        ar.handle, err = mpq(pathorhandle)
         ar._type = 'mpq'
         ar._attach = true
         ar._read = false
     elseif read_only then
         if fs.is_directory(pathorhandle) then
-            ar.handle = dir(pathorhandle)
+            ar.handle, err = dir(pathorhandle)
             ar._type = 'dir'
         else
-            ar.handle = mpq(pathorhandle, true)
+            ar.handle, err = mpq(pathorhandle, true)
             ar._type = 'mpq'
         end
         if not ar.handle then
-            messager.text(lang.script.OPEN_FAILED)
-            return nil
+            return nil, err or lang.script.OPEN_FAILED
         end
     else
         if fs.is_directory(pathorhandle) then

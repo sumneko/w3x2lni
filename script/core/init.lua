@@ -277,6 +277,12 @@ function mt:file_remove(type, name)
     end
 end
 
+function mt:failed(msg)
+    self.messager.text(lang.script.FAILED)
+    self.messager.exit(msg)
+    os.exit(1, true)
+end
+
 mt.config = {}
 
 local function toboolean(v)

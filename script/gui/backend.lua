@@ -92,6 +92,8 @@ function mt:update_message()
             backend.title = value
         elseif key == 'text' then
             backend.message = value
+        elseif key == 'exit' then
+            backend.lastword = value
         end
     end
 end
@@ -134,6 +136,7 @@ function backend:clean()
     self.message = ''
     self.progress = nil
     self.report = {}
+    self.lastword = nil
 end
 
 function backend:open(entry, commandline)
