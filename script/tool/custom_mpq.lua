@@ -5,6 +5,7 @@ local sleep = require 'ffi.sleep'
 local makefile = require 'prebuilt.makefile'
 local config = require 'tool.config'
 local proto = require 'tool.protocol'
+local lang = require 'tool.lang'
 local w2l
 local mpq_name
 local root = fs.current_path()
@@ -36,7 +37,7 @@ local function open_mpq(dir)
     for i, name in ipairs(mpq_names) do
         mpqs[i] = stormlib.open(dir / name, true)
         if mpqs[i] == nil then
-            print('文件打开失败：', (dir / name):string())
+            print(lang.script.OPEN_FILE_FAILED .. (dir / name):string())
             return nil
         end
     end
@@ -70,7 +71,7 @@ local function report_fail()
     end
     table.sort(tbl)
     for _, name in ipairs(tbl) do
-        print('文件导出失败：', name)
+        w2l.messager.text(lang.script.EXPORT_FILE_FAILED .. name)
     end
 end
 
@@ -102,8 +103,9 @@ local function extract_mpq(mpqs)
 end
 
 return function (_w2l, input)
+    w2l = _w2l
     if not fs.is_directory(input) then
-        print('请使用魔兽目录')
+        w2l.messager.text(lang.script.NEED_WAR3_DIR)
         return
     end
 
@@ -111,7 +113,6 @@ return function (_w2l, input)
     if not mpqs then
         return
     end
-    w2l = _w2l
     mpq_name = input:filename()
     
     function w2l:mpq_load(filename)
@@ -122,24 +123,24 @@ return function (_w2l, input)
     end
 
     w2l.progress:start(0.1)
-    print('清理目录...')
+    w2l.messager.text(lang.script.CLEAN_DIR)
     local mpq_path = fs.current_path():parent_path() / 'data' / 'mpq' / mpq_name
     if fs.exists(mpq_path) then
         if not task(fs.remove_all, mpq_path) then
-            print(('无法清空目录[%s]，请检查目录是否被占用。'):format(mpq_path:string()))
+            w2l.messager.text(lang.script.CREATE_DIR_FAILED:format(mpq_path:string()))
             return
         end
     end
     if not fs.exists(mpq_path) then
         if not task(fs.create_directories, mpq_path) then
-            print(('无法创建目录[%s]，请检查目录是否被占用。'):format(mpq_path:string()))
+            w2l.messager.text(lang.script.CREATE_DIR_FAILED:format(mpq_path:string()))
             return
         end
     end
     w2l.progress:finish()
 
     w2l.progress:start(0.2)
-    print('导出mpq...')
+    w2l.messager.text(lang.script.EXPORT_MPQ)
     extract_mpq(mpqs)
     report_fail()
     w2l.progress:finish()
@@ -153,5 +154,5 @@ return function (_w2l, input)
 
     config.mpq = mpq_name:string()
 
-    print('[完毕]: 用时 ' .. os.clock() .. ' 秒') 
+    w2l.messager.text((lang.script.FINISH):format(os.clock())) 
 end

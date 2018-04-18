@@ -15,7 +15,7 @@
 [SAVE_FILE]
 正在生成文件...
 [FINISH]
-转换完毕，用时 %.3f 秒
+完毕，用时 %.3f 秒
 [WTG_ERROR]
 触发器文件错误。
 [WTG_GUESS_ARG]
@@ -98,3 +98,15 @@
 保存地图失败，可能文件被占用了
 [UNKNOWN_REASON]
 未知原因
+[NEED_WAR3_DIR]
+请使用魔兽目录
+[EXPORT_FILE_FAILED]
+文件导出失败：
+[OPEN_FILE_FAILED]
+文件打开失败：
+[CLEAN_DIR]
+清理目录...
+[EXPORT_MPQ]
+导出mpq...
+[CREATE_DIR_FAILED]
+无法创建目录[%s]，请检查目录是否被占用。

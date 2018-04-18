@@ -98,3 +98,15 @@ Failed
 Create map failed, maybe occupied
 [UNKNOWN_REASON]
 Unknown reason
+[NEED_WAR3_DIR]
+Need WarIII directory
+[EXPORT_FILE_FAILED]
+Export file failed: 
+[OPEN_FILE_FAILED]
+Open file failed: 
+[CLEAN_DIR]
+Cleaning directory...
+[EXPORT_MPQ]
+Exporting mpq...
+[CREATE_DIR_FAILED]
+Create [%s] failed, maybe occupied
