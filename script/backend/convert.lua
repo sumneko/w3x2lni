@@ -249,6 +249,9 @@ return function (config_, mode)
     config.mode = mode
 
     w2l:set_messager(messager)
+    if not input then
+        w2l:failed(lang.script.NO_INPUT)
+    end
 
     w2l.messager.text(lang.script.INIT)
     w2l.messager.progress(0)

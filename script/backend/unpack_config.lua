@@ -2,6 +2,7 @@ local command = require 'backend.command'
 local lni = require 'lni'
 local root_path = require 'backend.root_path'
 require 'utility'
+require 'filesystem'
 
 return function ()
     local config = {}
@@ -10,6 +11,8 @@ return function ()
     end
     if command[2] then
         config.input = root_path(command[2])
+    elseif _W2L_DIR then
+        config.input = fs.path(_W2L_DIR)
     end
     if command[3] then
         config.output = root_path(command[3])

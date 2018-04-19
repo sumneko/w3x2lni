@@ -112,3 +112,5 @@ Exporting mpq...
 Create [%s] failed, maybe occupied
 [ERROR_COUNT]
 %d errors, %d warnings
+[NO_INPUT]
+Need input path
