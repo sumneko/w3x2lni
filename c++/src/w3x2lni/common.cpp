@@ -62,7 +62,7 @@ size_t pipe::read(char* buf, size_t len) {
 
 bool execute_lua(const wchar_t* who, pipe* out, pipe* err) {
 	strbuilder<1024> workdir;
-	GetCurrentDirectoryW(workdir.len, workdir.buf);
+	workdir.len = GetCurrentDirectoryW(1024, workdir.buf);
 
 	path app = path() / L"bin" / L"w3x2lni-lua.exe";
 	path cwd = path() / L"script";
