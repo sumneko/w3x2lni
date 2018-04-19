@@ -93,9 +93,9 @@ function w2l:file_save(type, name, buf)
         end
         input_ar:set('scripts/' .. name, buf)
         output_ar:set('scripts/' .. name, buf)
-    elseif type == 'plugin' then
-        input_ar:set('plugin/' .. name, buf)
-        output_ar:set('plugin/' .. name, buf)
+    elseif type == 'w3x2lni' then
+        input_ar:set('w3x2lni/' .. name, buf)
+        output_ar:set('w3x2lni/' .. name, buf)
     else
         if self.input_mode == 'lni' then
             input_ar:set(type .. '/' .. name, buf)
@@ -122,8 +122,8 @@ function w2l:file_load(type, name)
         return input_ar:get('trigger/' .. name) or input_ar:get('war3map.wtg.lml/' .. name)
     elseif type == 'scripts' then
         return input_ar:get('scripts/' .. name)
-    elseif type == 'plugin' then
-        return input_ar:get('plugin/' .. name)
+    elseif type == 'w3x2lni' then
+        return input_ar:get('w3x2lni/' .. name)
     else
         if self.input_mode == 'lni' then
             return input_ar:get(type .. '/' .. name)
@@ -147,9 +147,9 @@ function w2l:file_remove(type, name)
     elseif type == 'scripts' then
         input_ar:remove('scripts/' .. name, buf)
         output_ar:remove('scripts/' .. name, buf)
-    elseif type == 'plugin' then
-        input_ar:remove('plugin/' .. name, buf)
-        output_ar:remove('plugin/' .. name, buf)
+    elseif type == 'w3x2lni' then
+        input_ar:remove('w3x2lni/' .. name, buf)
+        output_ar:remove('w3x2lni/' .. name, buf)
     else
         if self.input_mode == 'lni' then
             input_ar:remove(type .. '/' .. name, buf)
@@ -183,12 +183,12 @@ function w2l:file_pairs()
             type = 'map'
         elseif dir == 'scripts' then
             type = 'scripts'
-        elseif dir == 'plugin' then
-            type = 'plugin'
+        elseif dir == 'w3x2lni' then
+            type = 'w3x2lni'
         else
             type = 'map'
         end
-        if w2l.input_mode == 'lni' or type == 'scripts' or type == 'plugin' then
+        if w2l.input_mode == 'lni' or type == 'scripts' or type == 'w3x2lni' then
             if dir == type then
                 name = name:sub(#type + 2)
             end

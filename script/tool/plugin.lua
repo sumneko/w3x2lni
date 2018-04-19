@@ -72,7 +72,7 @@ return function (w2l_, config_)
     local plugins = load_plugins(load_in_disk, enable_list, lang.report.NATIVE)
 
     local function load_in_map(name)
-        return w2l:file_load('plugin', name)
+        return w2l:file_load('w3x2lni', 'plugin\\' .. name)
     end
     local map_enable_list = load_enable_list(load_in_map)
     local map_plugins = load_plugins(load_in_map, map_enable_list, lang.report.MAP)
