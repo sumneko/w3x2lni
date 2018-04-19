@@ -1,7 +1,7 @@
 # W3x2Lni
 
 * [文档](https://sumneko.github.io/w3x2lni/#/zh-cn/)
-* [Englis Documents](https://sumneko.github.io/w3x2lni/#/en-us/)
+* [English Documents](https://sumneko.github.io/w3x2lni/#/en-us/)
 
 ## TODO
 
