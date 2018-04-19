@@ -1,22 +1,61 @@
 local command = require 'backend.command'
 local lni = require 'lni'
 local root_path = require 'backend.root_path'
+local check_lni_mark = require 'tool.check_lni_mark'
 require 'utility'
 require 'filesystem'
+
+local root = fs.current_path()
+
+local function input_path(path)
+    if path then
+        path = fs.path(path)
+        if not path:is_absolute() then
+            if _W2L_DIR then
+                path = fs.path(_W2L_DIR) / path
+            else
+                path = root:parent_path() / path
+            end
+        end
+    elseif _W2L_DIR then
+        path = fs.path(_W2L_DIR)
+    else
+        return nil
+    end
+    path = fs.canonical(path)
+    local cur = path
+    while fs.is_directory(cur) do
+        if check_lni_mark(cur / '.w3x') then
+            path = cur
+            break
+        end
+        cur = cur:parent_path()
+    end
+    return path
+end
+
+local function output_path(path)
+    if not path then
+        return nil
+    end
+    path = fs.path(path)
+    if not path:is_absolute() then
+        if _W2L_DIR then
+            path = fs.path(_W2L_DIR) / path
+        else
+            path = root:parent_path() / path
+        end
+    end
+    return fs.canonical(path)
+end
 
 return function ()
     local config = {}
     if command.config then
         config.config_path = command.config
     end
-    if command[2] then
-        config.input = root_path(command[2])
-    elseif _W2L_DIR then
-        config.input = fs.path(_W2L_DIR)
-    end
-    if command[3] then
-        config.output = root_path(command[3])
-    end
+    config.input = input_path(command[2])
+    config.output = output_path(command[3])
 
     if not config.config_path then
         config.config_path = 'config.ini'
