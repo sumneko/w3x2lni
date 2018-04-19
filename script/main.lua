@@ -1,5 +1,5 @@
 if _W2L_MODE == 'CLI' then
-    require 'map'
+    require 'backend'
     return
 elseif _W2L_MODE == 'GUI' then
     if arg[1] then
