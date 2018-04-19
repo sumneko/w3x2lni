@@ -21,7 +21,8 @@ mdx_squf = $slk.mdx_squf:boolean$
 remove_we_only = $slk.remove_we_only:boolean$
 slk_doodad = $slk.slk_doodad:boolean$
 find_id_times = $slk.find_id_times:integer$
-confusion = $slk.confusion:string|nil$
+confused = $slk.confused:boolean$
+confusion = $slk.confusion:string$
 
 [obj]
 read_slk = $obj.read_slk:boolean$
@@ -29,42 +30,31 @@ find_id_times = $obj.find_id_times:integer$
 ]]
 
 local function err(name, tp, v)
-    error(('%s 的期待类型为[%s]，但输入为[%s](%s)'):format(name, tp, v, type(v)))
+    error(('\n%s 的类型为(%s)，但输入为[%s]'):format(name, tp, v))
 end
 
 local function format_value(name, v, tp)
-    local tps = {}
-    for t in tp:gmatch '[^|]+' do
-        tps[t] = true
-    end
     local r
-    if tps.string then
+    if tp == 'string' then
         r = tostring(v)
-        if r:find '%c' or r:find '^[%d"]' or r == 'nil' or r == 'true' or r == 'false' or r == '' then
+        if r:find '%c' or r:find '^[^%a_]' or r == 'nil' or r == 'true' or r == 'false' or r == '' then
             r = '"' .. r:gsub('"', '\\"'):gsub('\r', '\\r'):gsub('\n', '\\n') .. '"'
         end
     end
-    if tps.boolean then
+    if tp == 'boolean' then
         if type(v) == 'boolean' then
             r = v
         elseif v == 'true' then
-            v = true
+            r = true
         elseif v == 'false' then
-            v = false
+            r = false
         else
             err(name, tp, v)
         end
     end
-    if tps.integer then
+    if tp == 'integer' then
         r = math.tointeger(v)
         if not r then
-            err(name, tp, v)
-        end
-    end
-    if tps['nil'] then
-        if v == nil then
-            r = nil
-        elseif r == nil then
             err(name, tp, v)
         end
     end
