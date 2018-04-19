@@ -1,6 +1,7 @@
 local root = fs.current_path():remove_filename()
 local lni = require 'lni'
 local lang = require 'tool.lang'
+local input_path = require 'tool.input_path'
 
 local state = [[
 [global]
@@ -62,12 +63,9 @@ local function format_value(name, v, tp)
     return tostring(r)
 end
 
-return function (buf)
+local function load_config(buf)
     local mode
     local config = {}
-    if not buf then
-        buf = io.load(root / 'config.ini')
-    end
 
     local function save_config()
         local buf = state:gsub('%$(.-)%$', function (str)
@@ -117,4 +115,20 @@ return function (buf)
     lni(buf, 'config.ini', { proxy(config) })
     mode = 'w'
     return config
+end
+
+return function (buf)
+    if not buf then
+        buf = io.load(root / 'config.ini')
+    end
+    local config = load_config(buf)
+    local config_in_lni
+    local lni_path = input_path(_W2L_DIR)
+    if lni_path then
+        local buf = io.load(lni_path / 'w3x2lni' / 'config.ini')
+        if buf then
+            config_in_lni = load_config(buf)
+        end
+    end
+    return config, config_in_lni
 end

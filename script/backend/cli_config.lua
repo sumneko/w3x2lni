@@ -9,10 +9,16 @@ return function (command)
     if not command[2] then
         messager.raw('当前生效的配置:\r\n\r\n')
         local map = true
-        local config = configFactory()
+        local config, config_in_map = configFactory()
         for section, table in pairs(config) do
+            local table_in_map = config_in_map and config_in_map[section]
             for k, v in pairs(table) do
-                show_config(map, section, k, v)
+                local v_in_map = table_in_map and table_in_map[k]
+                if v_in_map == nil then
+                    show_config(false, section, k, v)
+                else
+                    show_config(true, section, k, v_in_map)
+                end
             end
         end
         return
