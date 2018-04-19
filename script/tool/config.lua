@@ -113,6 +113,11 @@ local function load_config(buf)
 
     mode = 'r'
     lni(buf, 'config.ini', { proxy(config) })
+    for name in state:gmatch '%[(.-)%]' do
+        if not config[name] then
+            config[name] = {}
+        end
+    end
     mode = 'w'
     return config
 end
@@ -130,5 +135,5 @@ return function (buf)
             config_in_lni = load_config(buf)
         end
     end
-    return config, config_in_lni
+    return config, config_in_lni or load_config ''
 end
