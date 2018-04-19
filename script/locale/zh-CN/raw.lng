@@ -1,12 +1,16 @@
 [INVALID]
 `%s` 不是一个合法的命令。请看`w2l help`。
-[MPQ]
+[HELP_MPQ]
+提取《魔兽争霸III》的数据文件
+[HELP_MPQ_DESC]
 用法: w2l mpq <War3路径>
 
 例如：
    w2l mpq "C:\Warcraft III"
 
-[LNI]
+[HELP_LNI]
+将地图转换为`Lni`格式
+[HELP_LNI_DESC]
 用法: w2l lni <地图路径> [<输出路径>] [-config=<配置文件路径>]
 
     地图可以是一个w3x文件也可以是一个文件夹。
@@ -16,7 +20,9 @@
     w2l lni "E:\Warcraft III\Maps\Test.w3x"
     w2l lni "E:\Warcraft III\Maps\Test.w3x" "E:\Warcraft III\Maps\Test_lni"
 
-[SLK]
+[HELP_SLK]
+将地图转换为`Slk`格式
+[HELP_SLK_DESC]
 用法: w2l slk <地图路径> [<输出路径>] [-config=<配置文件路径>]
 
     地图可以是一个w3x文件也可以是一个文件夹。
@@ -26,7 +32,9 @@
     w2l slk "E:\Warcraft III\Maps\Test.w3x"
     w2l slk "E:\Warcraft III\Maps\Test.w3x" "E:\Warcraft III\Maps\Test_slk.w3x"
 
-[OBJ]
+[HELP_OBJ]
+将地图转换为`Obj`格式
+[HELP_OBJ_DESC]
 用法: w2l obj <地图路径> [<输出路径>] [-config=<配置文件路径>]
 
     地图可以是一个w3x文件也可以是一个文件夹。
@@ -36,21 +44,16 @@
     w2l obj "E:\Warcraft III\Maps\Test.w3x"
     w2l obj "E:\Warcraft III\Maps\Test.w3x" "E:\Warcraft III\Maps\Test_obj.w3x"
 
-[VERSION]
-显示版本号
-[LOG]
+[HELP_VERSION]
+显示`w2l`的版本
+[HELP_LOG]
 显示上一次的转换报告
+[HELP_HELP]
+显示帮助信息
 [HELP]
 用法: w2l <命令> <路径>
 
 可用命令：
-    mpq       提取《魔兽争霸III》的数据文件
-    lni       将地图转换为`Lni`格式
-    obj       将地图转换为`Obj`格式
-    slk       将地图转换为`Slk`格式
-    log       显示上一次的转换报告
-    
-    help      显示帮助信息
-    version   显示版本号
+%s
 
 使用`w2l help <命令>`，获取具体命令的帮助信息。

@@ -1,56 +1,59 @@
 [INVALID]
 `%s` is not a w2l command. See `w2l help`.
-[MPQ]
+[HELP_MPQ]
+Extracting MPQ data from Warcraft III
+[HELP_MPQ_DESC]
 usage: w2l mpq <War3 Path>
 
 E.g:
    w2l mpq "C:\Warcraft III"
 
-[LNI]
+[HELP_LNI]
+Convert the map into `Lni` format
+[HELP_LNI_DESC]
 usage: w2l lni <Map Path> [<Output Path>] [-config=<Config Path>]
 
-    map can be a w3x file or a folder.
+    Map can be a w3x file or a folder.
     `Lni` is a convenient format for text editing and code management.
 
 E.g:
     w2l lni "E:\Warcraft III\Maps\Test.w3x"
     w2l lni "E:\Warcraft III\Maps\Test.w3x" "E:\Warcraft III\Maps\Test_lni"
 
-[SLK]
+[HELP_SLK]
+Convert the map into `SLk` format
+[HELP_SLK_DESC]
 usage: w2l slk <Map Path> [<Output Path>] [-config=<Config Path>]
 
-    map can be a w3x file or a folder.
+    Map can be a w3x file or a folder.
     `Slk` is a format for playing. WE can't open the map of this format.
 
 E.g：
     w2l slk "E:\Warcraft III\Maps\Test.w3x"
     w2l slk "E:\Warcraft III\Maps\Test.w3x" "E:\Warcraft III\Maps\Test_slk.w3x"
 
-[OBJ]
+[HELP_OBJ]
+Convert the map into `Obj` format
+[HELP_OBJ_DESC]
 usage: w2l obj <Map Path> [<Output Path>] [-config=<Config Path>]
 
-    map can be a w3x file or a folder.
+    Map can be a w3x file or a folder.
     `Slk` is a format for editing by WE.
 
 E.g：
     w2l obj "E:\Warcraft III\Maps\Test.w3x"
     w2l obj "E:\Warcraft III\Maps\Test.w3x" "E:\Warcraft III\Maps\Test_obj.w3x"
 
-[VERSION]
-Display version.
-[LOG]
-Display last log.
+[HELP_VERSION]
+Display `w2l` version
+[HELP_LOG]
+Display last log
+[HELP_HELP]
+Display help information
 [HELP]
 usage: w2l <command> <path>
 
 available commands:
-    mpq       Extracting MPQ data from Warcraft III
-    lni       Convert the map into `Lni` format
-    obj       Convert the map into `Obj` format
-    slk       Convert the map into `Slk` format
-    log       Display last log
-
-    help      Display help information
-    version   Display version
+%s
 
 use `w2l help <command>` to get help information for specific commands.
