@@ -1,6 +1,7 @@
 local root = fs.current_path():remove_filename()
 local lni = require 'lni'
-local config = lni(io.load(root / 'config.ini'))
+local mode
+local config
 
 local config_content = [[
 [global]
@@ -52,18 +53,44 @@ local function save_config()
 end
 
 local function proxy(t)
+    local keys = {}
+    local mark = {}
     return setmetatable({}, {
         __index = function (_, k)
-            if type(t[k]) == 'table' then
-                return proxy(t[k])
-            end
             return t[k]
         end,
         __newindex = function (_, k, v)
-            t[k] = v
-            save_config()
+            if type(v) == 'table' and not next(v) then
+                t[k] = proxy(v)
+            else
+                t[k] = v
+            end
+            if not mark[k] then
+                mark[k] = true
+                keys[#keys+1] = k
+            end
+            if mode == 'w' then
+                save_config()
+            end
+        end,
+        __pairs = function ()
+            local i = 0
+            return function ()
+                i = i + 1
+                local k = keys[i]
+                return k, t[k]
+            end
         end,
     })
 end
 
-return proxy(config)
+local function create()
+    local buf = io.load(root / 'config.ini')
+    config = proxy {}
+    mode = 'r'
+    lni(buf, 'config.ini', {config})
+    mode = 'w'
+    return config
+end
+
+return create()
