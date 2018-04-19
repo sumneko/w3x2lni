@@ -59,7 +59,7 @@ elseif act == 'version' then
     messager.raw('w3x2lni version '..cl[1].version)
     return
 elseif act == 'log' then
-    messager.raw(io.load(root:parent_path() / 'log.txt'))
+    messager.raw(io.load(root:parent_path() / 'report.log'))
     return
 elseif not act or act == 'help' then
     require 'tool.showhelp'
@@ -386,6 +386,6 @@ builder.save(w2l, output_ar, slk.w3i, input_ar)
 w2l.progress:finish()
 
 save_builder()
-io.save(root:parent_path() / 'log.txt', get_report(report))
+io.save(root:parent_path() / 'report.log', get_report(report))
 messager.text((lang.script.FINISH):format(os.clock()))
 exit(report)
