@@ -75,6 +75,10 @@ local mustmark = {
     Asta = { 'Bstt', 'buff' },
     -- 运输船保持原位
     Achd = { 'Bchd', 'buff' },
+    -- 生命恢复光环
+    Aoar = { 'Boar', 'buff' },
+    -- 魔法恢复光环
+    Aarm = { 'Barm', 'buff' },
 }
 
 local slk

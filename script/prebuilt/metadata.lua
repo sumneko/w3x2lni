@@ -85,6 +85,7 @@ local cant_empty = {
     gnam = true,
     aart = true,
     atp1 = true,
+    fart = true,
 }
 
 local typedefine
