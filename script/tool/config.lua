@@ -1,42 +1,74 @@
 local root = fs.current_path():remove_filename()
 local lni = require 'lni'
 
-local config_content = [[
+local state = [[
 [global]
-mpq = $global.mpq$
-lang = $global.lang$
-mpq_path = $global.mpq_path$
-prebuilt_path = $global.prebuilt_path$
-plugin_path = $global.plugin_path$
+mpq = $global.mpq:string$
+lang = $global.lang:string$
+mpq_path = $global.mpq_path:string$
+prebuilt_path = $global.prebuilt_path:string$
+plugin_path = $global.plugin_path:string$
 
 [lni]
-read_slk = $lni.read_slk$
-find_id_times = $lni.find_id_times$
-export_lua = $lni.export_lua$
+read_slk = $lni.read_slk:boolean$
+find_id_times = $lni.find_id_times:integer$
+export_lua = $lni.export_lua:boolean$
 
 [slk]
-remove_unuse_object = $slk.remove_unuse_object$
-optimize_jass = $slk.optimize_jass$
-mdx_squf = $slk.mdx_squf$
-remove_we_only = $slk.remove_we_only$
-slk_doodad = $slk.slk_doodad$
-find_id_times = $slk.find_id_times$
-confusion = $slk.confusion$
+remove_unuse_object = $slk.remove_unuse_object:boolean$
+optimize_jass = $slk.optimize_jass:boolean$
+mdx_squf = $slk.mdx_squf:boolean$
+remove_we_only = $slk.remove_we_only:boolean$
+slk_doodad = $slk.slk_doodad:boolean$
+find_id_times = $slk.find_id_times:integer$
+confusion = $slk.confusion:string|nil$
 
 [obj]
-read_slk = $obj.read_slk$
-find_id_times = $obj.find_id_times$
+read_slk = $obj.read_slk:boolean$
+find_id_times = $obj.find_id_times:integer$
 ]]
 
-local function format_value(v)
-    if type(v) == 'string' then
-        if v:find '%c' or v:find '^[%d"]' then
-            v = '"' .. v:gsub('"', '\\"'):gsub('\r', '\\r'):gsub('\n', '\\n') .. '"'
-        end
-    else
-        v = tostring(v)
+local function err(name, tp, v)
+    error(('%s 的期待类型为[%s]，但输入为[%s](%s)'):format(name, tp, v, type(v)))
+end
+
+local function format_value(name, v, tp)
+    local tps = {}
+    for t in tp:gmatch '[^|]+' do
+        tps[t] = true
     end
-    return v
+    local r
+    if tps.string then
+        r = tostring(v)
+        if r:find '%c' or r:find '^[%d"]' or r == 'nil' or r == 'true' or r == 'false' or r == '' then
+            r = '"' .. r:gsub('"', '\\"'):gsub('\r', '\\r'):gsub('\n', '\\n') .. '"'
+        end
+    end
+    if tps.boolean then
+        if type(v) == 'boolean' then
+            r = v
+        elseif v == 'true' then
+            v = true
+        elseif v == 'false' then
+            v = false
+        else
+            err(name, tp, v)
+        end
+    end
+    if tps.integer then
+        r = math.tointeger(v)
+        if not r then
+            err(name, tp, v)
+        end
+    end
+    if tps['nil'] then
+        if v == nil then
+            r = nil
+        elseif r == nil then
+            err(name, tp, v)
+        end
+    end
+    return tostring(r)
 end
 
 return function (buf)
@@ -47,12 +79,13 @@ return function (buf)
     end
 
     local function save_config()
-        local buf = config_content:gsub('%$(.-)%$', function (str)
+        local buf = state:gsub('%$(.-)%$', function (str)
             local v = config
-            for key in str:gmatch '[^%.]+' do
+            local name, tp = str:match '([^:]+):(.+)'
+            for key in name:gmatch '[^%.]+' do
                 v = v[key]
             end
-            return format_value(v)
+            return format_value(name, v, tp)
         end)
         io.save(root / 'config.ini', buf:gsub('\n', '\r\n'))
     end
