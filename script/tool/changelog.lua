@@ -3,6 +3,7 @@ return {
     version = '2.0.2',
     { 'NEW', '添加了简易UI的版本' },
     { 'FIX', '修正部分buff在简化后丢失的问题', 'Boar、Barm' },
+    { 'FIX', '修正slk后无图标buff的显示问题' }
 },
 {
     version = '2.0.1',
