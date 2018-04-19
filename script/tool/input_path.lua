@@ -26,5 +26,8 @@ return function (path)
         end
         cur = cur:parent_path()
     end
+    if check_lni_mark(cur) then
+        path = path:parent_path()
+    end
     return path
 end
