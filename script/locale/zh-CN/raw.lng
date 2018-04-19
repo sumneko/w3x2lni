@@ -57,3 +57,10 @@
 %s
 
 使用`w2l help <命令>`，获取具体命令的帮助信息。
+
+[CONFIG_DISPLAY]
+当前生效的配置:
+[CONFIG_ERROR]
+不合法的参数，请看`w2l help config`。
+[CONFIG_UPDATE]
+已经应用配置:
