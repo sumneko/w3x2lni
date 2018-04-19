@@ -1,6 +1,7 @@
 require 'filesystem'
 require 'utility'
 local root = fs.current_path()
+local cache = {}
 local mt = {}
 setmetatable(mt, mt)
 
@@ -61,6 +62,7 @@ end
 function mt:__index(filename)
     local t = self:load_lng(filename)
     self[filename] = t
+    cache[filename] = true
     return t
 end
 
@@ -76,6 +78,10 @@ function mt:set_lang(lang_)
         end
     else
         lang = lang_
+    end
+    for filename in pairs(cache) do
+        self[filename] = nil
+        cache[filename] = nil
     end
 end
 
