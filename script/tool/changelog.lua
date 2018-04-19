@@ -2,6 +2,7 @@ return {
 {
     version = '2.0.2',
     { 'NEW', '添加了简易UI的版本' },
+    { 'FIX', '修正部分buff在简化后丢失的问题', 'Boar、Barm' },
 },
 {
     version = '2.0.1',
