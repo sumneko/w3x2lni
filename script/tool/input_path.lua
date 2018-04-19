@@ -1,6 +1,7 @@
 
 require 'filesystem'
 local check_lni_mark = require 'tool.check_lni_mark'
+local root = fs.current_path()
 
 return function (path)
     if path then
