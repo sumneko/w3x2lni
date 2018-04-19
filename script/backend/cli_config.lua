@@ -24,7 +24,11 @@ return function (command)
         return
     end
     local config = configFactory()
-    config[section][k] = v
+    local suc, err = pcall(function () config[section][k] = v end)
+    if not suc then
+        messager.exit('error', err:match '[\r\n]+(.+)')
+        os.exit(1)
+    end
     messager.raw('已经应用配置:\r\n')
     show_config(false, section, k, v)
 end
