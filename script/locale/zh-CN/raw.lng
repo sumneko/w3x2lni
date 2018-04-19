@@ -63,4 +63,4 @@
 [CONFIG_ERROR]
 不合法的参数，请看`w2l help config`。
 [CONFIG_UPDATE]
-已经应用配置:
+已经应用全局配置:
