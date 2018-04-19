@@ -1,7 +1,7 @@
 local messager = require 'tool.messager'
-local core = require 'tool.sandbox_core'
+local core = require 'backend.sandbox_core'
 local builder = require 'map-builder'
-local triggerdata = require 'tool.triggerdata'
+local triggerdata = require 'backend.triggerdata'
 local plugin = require 'tool.plugin'
 local lang = require 'tool.lang'
 local get_report = require 'tool.report'
@@ -243,9 +243,10 @@ local function get_io_time(map, file_count)
     return io_rate
 end
 
-return function (config_)
+return function (config_, mode)
     config = config_
     input = config.input
+    config.mode = mode
 
     w2l:set_messager(messager)
 

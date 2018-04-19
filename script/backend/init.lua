@@ -11,27 +11,24 @@ local config = unpack_config()
 lang:set_lang(config.lang)
 
 if act == 'slk' then
-    local convert_map = require 'backend.convert_map'
-    config.mode = 'slk'
-    convert_map(config)
+    local convert = require 'backend.convert'
+    convert(config, 'slk')
 elseif act == 'lni' then
-    local convert_map = require 'backend.convert_map'
-    config.mode = 'lni'
-    convert_map(config)
+    local convert = require 'backend.convert'
+    convert(config, 'lni')
 elseif act == 'obj' then
-    local convert_map = require 'backend.convert_map'
-    config.mode = 'obj'
-    convert_map(config)
+    local convert = require 'backend.convert'
+    convert(config, 'obj')
 elseif act == 'mpq' then
-    local custom_mpq = require 'backend.custom_mpq'
-    custom_mpq(config.input)
+    local mpq = require 'backend.mpq'
+    mpq(config.input)
 elseif act == 'version' then
     local cl = require 'tool.changelog'
     messager.raw('w3x2lni version '..cl[1].version)
 elseif act == 'log' then
     messager.raw(io.load(root:parent_path() / 'report.log'))
 elseif not act or act == 'help' then
-    require 'tool.showhelp'
+    require 'backend.help'
 else
     messager.raw(lang.raw.INVALID:format(act))
 end

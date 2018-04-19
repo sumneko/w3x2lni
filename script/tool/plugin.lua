@@ -1,5 +1,5 @@
 local lni = require 'lni'
-local sandbox = require 'tool.sandbox'
+local sandbox = require 'backend.sandbox'
 local lang = require 'tool.lang'
 
 local w2l

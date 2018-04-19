@@ -1,7 +1,7 @@
 require 'filesystem'
 require 'utility'
 local uni = require 'ffi.unicode'
-local core = require 'tool.sandbox_core'
+local core = require 'backend.sandbox_core'
 
 local std_print = print
 function print(...)

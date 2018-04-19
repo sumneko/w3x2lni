@@ -7,7 +7,7 @@ local config = require 'tool.config'
 local proto = require 'tool.protocol'
 local lang = require 'tool.lang'
 local file_version = require 'ffi.file_version'
-local core = require 'tool.sandbox_core'
+local core = require 'backend.sandbox_core'
 local w2l = core()
 local mpq_name
 local root = fs.current_path()
