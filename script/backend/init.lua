@@ -21,6 +21,9 @@ elseif act == 'mpq' then
 elseif act == 'version' then
     local cl = require 'tool.changelog'
     messager.raw('w3x2lni version '..cl[1].version)
+elseif act == 'config' then
+    local cli_config = require 'backend.cli_config'
+    cli_config(command)
 elseif act == 'log' then
     require 'filesystem'
     require 'utility'
