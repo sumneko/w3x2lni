@@ -7,7 +7,8 @@ local config = require 'tool.config'
 local proto = require 'tool.protocol'
 local lang = require 'tool.lang'
 local file_version = require 'ffi.file_version'
-local w2l
+local core = require 'tool.sandbox_core'
+local w2l = core()
 local mpq_name
 local root = fs.current_path()
 
@@ -148,8 +149,8 @@ local function extract_mpq(mpqs)
     end
 end
 
-return function (_w2l, input)
-    w2l = _w2l
+return function (input)
+    w2l:set_messager(messager)
     if not fs.is_directory(input) then
         w2l.messager.text(lang.script.NEED_WAR3_DIR)
         return

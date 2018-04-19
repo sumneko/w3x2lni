@@ -256,12 +256,6 @@ return function (config_)
         w2l.input_mode = 'lni'
     end
 
-    if config.mode == 'mpq' then
-        local custom_mpq = require 'tool.custom_mpq'
-        custom_mpq(w2l, input)
-        return
-    end
-
     w2l:set_config(config)
     if config.mode == 'slk' then
         messager.title 'Slk'

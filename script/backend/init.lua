@@ -23,9 +23,8 @@ elseif act == 'obj' then
     config.mode = 'obj'
     convert_map(config)
 elseif act == 'mpq' then
-    local convert_map = require 'backend.convert_map'
-    config.mode = 'mpq'
-    convert_map(config)
+    local custom_mpq = require 'backend.custom_mpq'
+    custom_mpq(config.input)
 elseif act == 'version' then
     local cl = require 'tool.changelog'
     messager.raw('w3x2lni version '..cl[1].version)
