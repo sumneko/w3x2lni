@@ -6,7 +6,7 @@ Path to data files. Defaults to: `data/mpq`
 
 > global.mpq
 
-Which data file will be used. Defaults to: `1.24.4-CN`
+Which data file will be used. Defaults to: `zhCN-1.24.4`
 
 > global.prebuilt_path
 

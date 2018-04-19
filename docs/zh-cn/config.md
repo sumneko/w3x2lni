@@ -6,7 +6,7 @@
 
 > global.mpq
 
-使用哪个数据文件。默认是`1.24.4-CN`。
+使用哪个数据文件。默认是`zhCN-1.24.4`。
 
 > global.prebuilt_path
 
