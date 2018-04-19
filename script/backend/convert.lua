@@ -6,6 +6,7 @@ local plugin = require 'tool.plugin'
 local lang = require 'tool.lang'
 local get_report = require 'tool.report'
 local root_path = require 'backend.root_path'
+local check_lni_mark = require 'tool.check_lni_mark'
 local w2l = core()
 local root = fs.current_path()
 local config
@@ -39,29 +40,9 @@ local function default_output(input)
     end
 end
 
-local function check_lni_mark(path)
-    local map = io.open(path:string(), 'rb')
-    if map then
-        map:seek('set', 8)
-        local mark = map:read(4)
-        map:close()
-        if mark == 'W2L\x01' then
-            return true
-        end
-    end
-end
-
 local function check_input_lni()
-    if fs.is_directory(input) then
-        if check_lni_mark(input / '.w3x') then
-            return true
-        end
-    else
-        if check_lni_mark(input) then
-            input = input:parent_path()
-            config.input = input
-            return true
-        end
+    if fs.is_directory(input) and check_lni_mark(input / '.w3x') then
+        return true
     end
     return false
 end

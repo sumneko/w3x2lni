@@ -8,6 +8,7 @@ local show_version = require 'gui.old.show_version'
 local plugin = require 'gui.old.plugin'
 local config = require 'tool.config'
 local lang = require 'tool.lang'
+local input_path = require 'tool.input_path'
 local currenttheme = {0, 173, 217}
 local worker
 
@@ -54,7 +55,7 @@ function window:dropfile(file)
     if worker and not worker.exited then
         return
     end
-    mappath = fs.path(file)
+    mappath = input_path(file)
     mapname = mappath:filename():string()
     uitype = 'select'
 end
