@@ -9,21 +9,21 @@ end
 return function (command)
     if not command[2] then
         messager.raw(lang.raw.CONFIG_DISPLAY .. '\r\n\r\n')
-        local map = true
-        local config, config_in_map = configFactory()
-        for section, table in pairs(config) do
-            local table_in_map = config_in_map and config_in_map[section]
-            for k, v in pairs(table) do
-                local v_in_map = table_in_map and table_in_map[k]
-                if v_in_map == nil then
-                    show_config(false, section, k, v)
+        local global_config, map_config = configFactory()
+        for section, global_table in pairs(global_config) do
+            local map_table = map_config and map_config[section]
+            for k, global_v in pairs(global_table) do
+                local map_v = map_table and map_table[k]
+                if map_v == nil then
+                    show_config(false, section, k, global_v)
                 else
-                    show_config(true, section, k, v_in_map)
+                    show_config(true, section, k, map_v)
                 end
             end
         end
         return
     end
+
     local setconfig = command[2]
     local section, k, v = setconfig:match '(%a+)%.([%a_]+)%=(.*)'
     if not section then
