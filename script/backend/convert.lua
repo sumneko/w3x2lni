@@ -7,6 +7,7 @@ local lang = require 'tool.lang'
 local get_report = require 'tool.report'
 local root_path = require 'backend.root_path'
 local check_lni_mark = require 'tool.check_lni_mark'
+local unpack_config = require 'backend.unpack_config'
 local w2l = core()
 local root = fs.current_path()
 local config
@@ -224,8 +225,8 @@ local function get_io_time(map, file_count)
     return io_rate
 end
 
-return function (config_, mode)
-    config = config_
+return function (mode)
+    config = unpack_config()
     input = config.input
     config.mode = mode
 
