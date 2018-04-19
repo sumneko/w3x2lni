@@ -1,18 +1,18 @@
 # Config
 
-> root.mpq_path
+> global.mpq_path
 
 Path to data files. Defaults to: `data/mpq`
 
-> root.mpq
+> global.mpq
 
 Which data file will be used. Defaults to: `1.24.4-CN`
 
-> root.prebuilt_path
+> global.prebuilt_path
 
 Path to the cache files, Defaults to: `data/prebuilt`. To speed up, we will write some results to the path at the first time using data files.
 
-> root.plugin_path
+> global.plugin_path
 
 Path to the plugins. Defaults to: `plugin`
 

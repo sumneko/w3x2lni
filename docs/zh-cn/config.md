@@ -1,18 +1,18 @@
 # 配置文件
 
-> root.mpq_path
+> global.mpq_path
 
 数据文件的目录。默认是`data/mpq`。
 
-> root.mpq
+> global.mpq
 
 使用哪个数据文件。默认是`1.24.4-CN`。
 
-> root.prebuilt_path
+> global.prebuilt_path
 
 缓存文件的目录，默认是`data/prebuilt`。为了加快运行速度，我们会在第一次使用数据文件时，缓存一些结果。
 
-> root.plugin_path
+> global.plugin_path
 
 插件的目录。默认是`plugin`。
 
