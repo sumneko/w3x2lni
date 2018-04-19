@@ -71,7 +71,7 @@ return function (w2l, output_ar, w3i, input_ar)
         if type == 'resource' and w2l.config.mdx_squf and name:sub(-4) == '.mdx' then
             buf = w3xparser.mdxopt(buf)
         end
-        if type == 'plugin' and w2l.config.remove_we_only then
+        if type == 'w3x2lni' and w2l.config.remove_we_only then
         else
             w2l:file_save(type, name, buf)
         end
