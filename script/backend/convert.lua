@@ -226,9 +226,8 @@ local function get_io_time(map, file_count)
 end
 
 return function (mode)
-    config = unpack_config()
+    config = unpack_config(mode)
     input = config.input
-    config.mode = mode
 
     w2l:set_messager(messager)
     if not input then

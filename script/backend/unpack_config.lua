@@ -22,8 +22,8 @@ local function output_path(path)
     return fs.canonical(path)
 end
 
-return function ()
-    local config = {}
+return function (mode)
+    local config = { mode = mode }
     if command.config then
         config.config_path = command.config
     end
