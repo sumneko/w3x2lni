@@ -293,15 +293,11 @@ local function window_convert(canvas)
             height = height - 34
         end
         if fmt == 'slk' and config[fmt].optimize_jass then
-            if checkbox_tip(canvas, lang.ui.CONFUSION, lang.ui.CONFUSION_HINT, config[fmt].confusion ~= nil) then
-                if config[fmt].confusion == nil then
-                    config[fmt].confusion = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_'
-                else
-                    config[fmt].confusion = nil
-                end
+            if checkbox_tip(canvas, lang.ui.CONFUSION, lang.ui.CONFUSION_HINT, config[fmt].confused) then
+                config[fmt].confused = not config[fmt].confused
             end
             height = height - 34
-            if config[fmt].confusion ~= nil then
+            if config[fmt].confused then
                 local r = canvas:edit(config[fmt].confusion, 100, function (c)
                     return (48 <= c and c <= 57) or (65 <= c and c <= 90) or (c == 95) or (97 <= c and c <= 122)
                 end)

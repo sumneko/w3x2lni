@@ -356,8 +356,8 @@ local function can_use(name)
     return true
 end
 
-local function init_confuser(confusion)
-    if not confusion then
+local function init_confuser(confused, confusion)
+    if not confused then
         return
     end
 
@@ -408,7 +408,7 @@ return function (ast, config, _report)
     jass = ast
     report = _report
 
-    init_confuser(config.confusion)
+    init_confuser(config.confused, config.confusion)
     mark_globals()
     mark_function(get_function 'config')
     mark_function(get_function 'main')
