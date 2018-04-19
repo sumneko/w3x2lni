@@ -36,6 +36,7 @@ return function (command)
         messager.exit('error', err:match '[\r\n]+(.+)')
         os.exit(1)
     end
+    lang:set_lang(config.global.lang)
     messager.raw(lang.raw.CONFIG_UPDATE .. '\r\n')
     show_config(false, section, k, v)
 end
