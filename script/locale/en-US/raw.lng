@@ -57,3 +57,10 @@ available commands:
 %s
 
 use `w2l help <command>` to get help information for specific commands.
+
+[CONFIG_DISPLAY]
+Current config:
+[CONFIG_ERROR]
+Invalid parameters, see `w2l help config`.
+[CONFIG_UPDATE]
+Config updated:
