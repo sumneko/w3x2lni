@@ -2,7 +2,7 @@ local gui = require 'yue.gui'
 local ext = require 'yue-ext'
 local timer = require 'gui.timer'
 local lang = require 'tool.lang'
-local config = require 'tool.config'
+local config = require 'tool.config' ()
 local input_path = require 'tool.input_path'
 
 lang:set_lang(config.global.lang)

@@ -1,7 +1,5 @@
 local root = fs.current_path():remove_filename()
 local lni = require 'lni'
-local mode
-local config
 
 local config_content = [[
 [global]
@@ -41,56 +39,58 @@ local function format_value(v)
     return v
 end
 
-local function save_config()
-    local buf = config_content:gsub('%$(.-)%$', function (str)
-        local v = config
-        for key in str:gmatch '[^%.]+' do
-            v = v[key]
-        end
-        return format_value(v)
-    end)
-    io.save(root / 'config.ini', buf:gsub('\n', '\r\n'))
-end
+return function (buf)
+    local mode
+    local config = {}
+    if not buf then
+        buf = io.load(root / 'config.ini')
+    end
 
-local function proxy(t)
-    local keys = {}
-    local mark = {}
-    return setmetatable({}, {
-        __index = function (_, k)
-            return t[k]
-        end,
-        __newindex = function (_, k, v)
-            if type(v) == 'table' and not next(v) then
-                t[k] = proxy(v)
-            else
-                t[k] = v
+    local function save_config()
+        local buf = config_content:gsub('%$(.-)%$', function (str)
+            local v = config
+            for key in str:gmatch '[^%.]+' do
+                v = v[key]
             end
-            if not mark[k] then
-                mark[k] = true
-                keys[#keys+1] = k
-            end
-            if mode == 'w' then
-                save_config()
-            end
-        end,
-        __pairs = function ()
-            local i = 0
-            return function ()
-                i = i + 1
-                local k = keys[i]
-                return k, t[k]
-            end
-        end,
-    })
-end
+            return format_value(v)
+        end)
+        io.save(root / 'config.ini', buf:gsub('\n', '\r\n'))
+    end
 
-local function create()
-    local buf = io.load(root / 'config.ini')
-    config = proxy {}
+    local function proxy(t)
+        local keys = {}
+        local mark = {}
+        local value = {}
+        return setmetatable(t, {
+            __index = function (_, k)
+                return value[k]
+            end,
+            __newindex = function (_, k, v)
+                if type(v) == 'table' then
+                    proxy(v)
+                end
+                value[k] = v
+                if not mark[k] then
+                    mark[k] = true
+                    keys[#keys+1] = k
+                end
+                if mode == 'w' then
+                    save_config()
+                end
+            end,
+            __pairs = function ()
+                local i = 0
+                return function ()
+                    i = i + 1
+                    local k = keys[i]
+                    return k, value[k]
+                end
+            end,
+        })
+    end
+
     mode = 'r'
-    lni(buf, 'config.ini', {config})
+    lni(buf, 'config.ini', { proxy(config) })
     mode = 'w'
     return config
 end
-
-return create()
