@@ -3,7 +3,6 @@ require 'utility'
 local stormlib = require 'ffi.stormlib'
 local sleep = require 'ffi.sleep'
 local makefile = require 'prebuilt.makefile'
-local config = require 'tool.config' ()
 local proto = require 'tool.protocol'
 local lang = require 'tool.lang'
 local file_version = require 'ffi.file_version'
@@ -211,7 +210,8 @@ return function ()
     makefile(w2l, mpq_name, 'Custom', 'Custom')
     w2l.progress:finish()
 
-    config.global.mpq = mpq_name
+    local load_config = require 'tool.config'
+    load_config().global.mpq = mpq_name
 
     w2l.messager.text((lang.script.FINISH):format(os.clock())) 
 end
