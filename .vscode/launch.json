@@ -8,7 +8,7 @@
             "stopOnEntry": true,
             "cwd": "${workspaceRoot}\\script\\",
             "env": {
-                "PATH" : "${workspaceRoot}\\bin\\"
+                "PATH": "${workspaceRoot}\\bin\\"
             },
             "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
@@ -24,18 +24,21 @@
             "request": "launch",
             "cwd": "${workspaceRoot}\\script\\",
             "env": {
-                "PATH" : "${workspaceRoot}\\bin\\"
+                "PATH": "${workspaceRoot}\\bin\\"
             },
+            "luaexe": "${workspaceRoot}\\bin\\w3x2lni-lua.exe",
             "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
             "consoleCoding": "utf8",
             "program": "${workspaceRoot}\\script\\backend\\init.lua",
             "sourceCoding": "utf8",
+            "arg0": [
+                "-e",
+                "_W2L_MODE='CLI';_W2L_DIR=[[${workspaceRoot}]]"
+            ],
             "arg": [
-                "lni",
-                "${workspaceRoot}\\MoeHero.w3x",
-                "-config=config.ini",
+                "slk"
             ]
         },
         {
@@ -44,7 +47,7 @@
             "request": "launch",
             "cwd": "${workspaceRoot}\\",
             "env": {
-                "PATH" : "${workspaceRoot}\\bin\\"
+                "PATH": "${workspaceRoot}\\bin\\"
             },
             "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
@@ -58,14 +61,14 @@
             "request": "launch",
             "cwd": "${workspaceRoot}\\script\\",
             "env": {
-                "PATH" : "${workspaceRoot}\\bin\\"
+                "PATH": "${workspaceRoot}\\bin\\"
             },
             "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
             "consoleCoding": "ansi",
             "program": "${workspaceRoot}\\test\\unit_test.lua",
-            "arg0":[
+            "arg0": [
                 "..\\bin\\w3x2lni-lua.exe",
             ],
             "arg": []
@@ -76,16 +79,13 @@
             "request": "launch",
             "cwd": "${workspaceRoot}\\script\\",
             "env": {
-                "PATH" : "${workspaceRoot}\\bin\\"
+                "PATH": "${workspaceRoot}\\bin\\"
             },
             "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
             "consoleCoding": "utf8",
             "program": "${workspaceRoot}\\script\\gui\\mini.lua",
-            "arg0":[
-                "..\\bin\\w3x2lni-lua.exe",
-            ],
             "arg": [
                 "${workspaceRoot}\\1.w3x",
                 "-lni",
