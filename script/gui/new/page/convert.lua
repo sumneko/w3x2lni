@@ -23,7 +23,7 @@ end
 local function pack_arg()
     local buf = {}
     buf[1] = window._mode
-    buf[2] = '"' .. window._filename .. '"'
+    buf[2] = '"' .. window._filename:string() .. '"'
     return table.concat(buf, ' ')
 end
 
@@ -96,7 +96,7 @@ lower = gui.Container.create()
 lower:setstyle { FlexGrow = 1, JustifyContent = 'flex-end' }
 view:addchildview(lower)
 
-local filename = Button(window._filename:match '[^/\\]+$')
+local filename = Button('')
 filename:setstyle { Height = 50, Margin = 2 }
 filename:setfont(Font('黑体', 20))
 upper:addchildview(filename)
@@ -146,6 +146,7 @@ end
 
 function view:on_show()
     update_show()
+    filename:settitle(window._filename:filename():string())
     filename:update_color()
     start:update_color()
     pb:update_color()

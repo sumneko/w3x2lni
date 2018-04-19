@@ -3,6 +3,7 @@ local ext = require 'yue-ext'
 local timer = require 'gui.timer'
 local lang = require 'tool.lang'
 local config = require 'tool.config'
+local input_path = require 'tool.input_path'
 
 lang:set_lang(config.global.lang)
 window = {}
@@ -13,7 +14,7 @@ function ext.on_dropfile(filename)
         return
     end
     window:show_page('select')
-    window._filename = filename
+    window._filename = input_path(filename)
 end
 
 local FontPool = {}
