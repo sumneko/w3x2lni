@@ -37,19 +37,20 @@ E.g：
     w2l obj "E:\Warcraft III\Maps\Test.w3x" "E:\Warcraft III\Maps\Test_obj.w3x"
 
 [VERSION]
-Show version.
+Display version.
 [LOG]
-Show last report.
+Display last log.
 [HELP]
 usage: w2l <command> <path>
 
 available commands:
-    help      Get help information
     mpq       Extracting MPQ data from Warcraft III
     lni       Convert the map into `Lni` format
     obj       Convert the map into `Obj` format
     slk       Convert the map into `Slk` format
-    version   Show version
-    log       Show last report
+    log       Display last log
+
+    help      Display help information
+    version   Display version
 
 use `w2l help <command>` to get help information for specific commands.
