@@ -343,7 +343,7 @@ local function window_convert(canvas)
     else
         if canvas:button(lang.ui.START) then
             canvas:progress(0, 100)
-            worker = backend:open(root / 'script' / 'map.lua', ('%s "%s"'):format(config.mode, mappath:string()))
+            worker = backend:open(root / 'script' / 'backend' / 'init.lua', ('%s "%s"'):format(config.mode, mappath:string()))
             backend.message = lang.ui.INIT
         end
     end

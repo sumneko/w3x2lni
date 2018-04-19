@@ -207,7 +207,7 @@ function mini:backend()
     mini:init()
     mini:event_close(gui.MessageLoop.quit)
     backend:init(getexe(), fs.current_path())
-    worker = backend:open('map.lua', pack_arg())
+    worker = backend:open('backend\\init.lua', pack_arg())
     backend.message = lang.ui.INIT
     backend.progress = 0
     timer.loop(100, delayedtask)

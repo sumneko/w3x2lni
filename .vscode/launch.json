@@ -33,7 +33,7 @@
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
             "consoleCoding": "utf8",
-            "program": "${workspaceRoot}\\script\\map.lua",
+            "program": "${workspaceRoot}\\script\\backend\\init.lua",
             "sourceCoding": "utf8",
             "arg": [
                 "lni",
