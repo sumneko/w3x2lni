@@ -114,3 +114,5 @@ Create [%s] failed, maybe occupied
 %d errors, %d warnings
 [NO_INPUT]
 Need input path
+[CONFIG_INPUT_ERROR]
+`%s` expect (%s), but input was [%s]

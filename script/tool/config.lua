@@ -1,5 +1,6 @@
 local root = fs.current_path():remove_filename()
 local lni = require 'lni'
+local lang = require 'tool.lang'
 
 local state = [[
 [global]
@@ -30,7 +31,7 @@ find_id_times = $obj.find_id_times:integer$
 ]]
 
 local function err(name, tp, v)
-    error(('\n%s 的类型为(%s)，但输入为[%s]'):format(name, tp, v))
+    error(('\n'..lang.script.CONFIG_INPUT_ERROR):format(name, tp, v))
 end
 
 local function format_value(name, v, tp)

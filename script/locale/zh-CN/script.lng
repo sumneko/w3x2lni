@@ -114,3 +114,5 @@
 %d 个错误，%d 条警告
 [NO_INPUT]
 没有输入文件
+[CONFIG_INPUT_ERROR]
+%s 的类型为(%s)，但输入为[%s]
