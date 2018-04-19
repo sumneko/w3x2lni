@@ -8,6 +8,7 @@ local get_report = require 'tool.report'
 local root_path = require 'backend.root_path'
 local check_lni_mark = require 'tool.check_lni_mark'
 local unpack_config = require 'backend.unpack_config'
+local parse_config = require 'tool.config'
 local w2l = core()
 local root = fs.current_path()
 local config
@@ -225,6 +226,22 @@ local function get_io_time(map, file_count)
     return io_rate
 end
 
+local function merge_config(config, mode, buf)
+    if not buf then
+        return config
+    end
+    local new = parse_config(buf)
+    for k, v in pairs(new.global) do
+        config[k] = v
+    end
+    if new[mode] then
+        for k, v in pairs(new[mode]) do
+            config[k] = v
+        end
+    end
+    return config
+end
+
 return function (mode)
     config = unpack_config(mode)
     input = config.input
@@ -241,7 +258,6 @@ return function (mode)
         w2l.input_mode = 'lni'
     end
 
-    w2l:set_config(config)
     if config.mode == 'slk' then
         messager.title 'Slk'
     elseif config.mode == 'obj' then
@@ -256,6 +272,9 @@ return function (mode)
     if not input_ar then
         w2l:failed(err)
     end
+
+    local config = merge_config(config, mode, input_ar:get 'w3x2lni\\config.ini')
+    w2l:set_config(config)
     
     output = config.output or default_output(config.input)
     if w2l.config.target_storage == 'dir' then

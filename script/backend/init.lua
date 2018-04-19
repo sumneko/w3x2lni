@@ -1,7 +1,7 @@
 local command = require 'backend.command'
 local messager = require 'tool.messager'
 local lang = require 'tool.lang'
-local config = require 'tool.config'
+local config = require 'tool.config' ()
 local act = command[1]
 
 lang:set_lang(config.global.lang)
