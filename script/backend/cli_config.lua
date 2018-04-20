@@ -40,11 +40,12 @@ return function (command)
     end
     local section, k, v = request:match '(%a+)%.([%a_]+)%=(.*)$'
     if section then
-        local suc, err = pcall(function () config1[section][k] = v end)
+        local suc, msg = config2[section][k][4](v)
         if not suc then
-            messager.exit('error', err:match '[\r\n]+(.+)')
+            messager.exit('error', msg)
             os.exit(1)
         end
+        config1[section][k] = v
         lang:set_lang(config1.global.lang)
         messager.raw(lang.raw.CONFIG_UPDATE .. '\r\n\r\n')
         show_config(false, section, k, v)
