@@ -86,12 +86,13 @@ local mpq_names = {
 
 local function open_mpq(dir)
     local mpqs = {}
-
     for i, name in ipairs(mpq_names) do
-        mpqs[#mpqs+1] = stormlib.open(dir / name, true)
-        mpqs[name] = mpqs[#mpqs]
+        local mpq = stormlib.open(dir / name, true)
+        if mpq then
+            mpqs[#mpqs+1] = mpq
+            mpqs[name] = mpq
+        end
     end
-
     return mpqs
 end
 
