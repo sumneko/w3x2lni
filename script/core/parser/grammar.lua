@@ -27,7 +27,7 @@ local line_pos
 local function errorpos(pos, str)
     local endpos = jass:find('[\r\n]', pos) or (#jass+1)
     local sp = (' '):rep(pos-line_pos)
-    local line = ('%s|\r\n%s\r\n%s|'):format(sp, jass:sub(line_pos, endpos-1), sp)
+    local line = ('%s\r\n%s^'):format(jass:sub(line_pos, endpos-1), sp)
     error(('\n\n%s\n\n[%s] 第 %d 行：\n===========================\n%s\n===========================\n'):format(str, file, line_count, line))
 end
 
@@ -282,8 +282,8 @@ local Function = P{
     'Def',
     Def      = Ct(keyvalue('type', 'function') * currentline() * (V'Common' + V'Native')),
     Native   = sp * (Whole'constant' * keyvalue('constant', true) + P(true)) * sp * Whole'native' * keyvalue('native', true) * V'Head',
-    Common   = sp * (Whole'constant' * keyvalue('constant', true) + P(true)) * sp * Whole'function' * V'Head' * V'Content' * V'End',
-    Head     = sps * Cg(Id, 'name') * sps * Whole'takes' * sps * V'Takes' * sps * Whole'returns' * sps * V'Returns' * spl,
+    Common   = sp * (Whole'constant' * keyvalue('constant', true) + P(true)) * sp * Whole'function' * V'Head' * spl * V'Content' * V'End',
+    Head     = sps * Cg(Id, 'name') * sps * Whole'takes' * sps * V'Takes' * sps * Whole'returns' * sps * V'Returns',
     Takes    = (Whole'nothing' + Cg(V'Args', 'args')),
     Args     = Ct(sp * V'Arg' * (sp * ',' * sp * V'Arg')^0),
     Arg      = Ct(Cg(Id, 'type') * sps * Cg(Id, 'name')),

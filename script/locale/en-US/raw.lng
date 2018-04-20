@@ -11,7 +11,7 @@ E.g:
 [HELP_LNI]
 Convert the map into `Lni` format
 [HELP_LNI_DESC]
-usage: w2l lni <Map Path> [<Output Path>] [-config=<Config Path>]
+usage: w2l lni <Map Path> [<Output Path>]
 
     Map can be a w3x file or a folder.
     `Lni` is a convenient format for text editing and code management.
@@ -23,7 +23,7 @@ E.g:
 [HELP_SLK]
 Convert the map into `SLk` format
 [HELP_SLK_DESC]
-usage: w2l slk <Map Path> [<Output Path>] [-config=<Config Path>]
+usage: w2l slk <Map Path> [<Output Path>]
 
     Map can be a w3x file or a folder.
     `Slk` is a format for playing. WE can't open the map of this format.
@@ -35,7 +35,7 @@ E.g：
 [HELP_OBJ]
 Convert the map into `Obj` format
 [HELP_OBJ_DESC]
-usage: w2l obj <Map Path> [<Output Path>] [-config=<Config Path>]
+usage: w2l obj <Map Path> [<Output Path>]
 
     Map can be a w3x file or a folder.
     `Slk` is a format for editing by WE.

@@ -10,6 +10,7 @@ local order_prebuilt = require 'order.prebuilt'
 local prebuilt_metadata = require 'prebuilt.metadata'
 local prebuilt_keydata = require 'prebuilt.keydata'
 local prebuilt_search = require 'prebuilt.search'
+local maketemplate = require 'prebuilt.maketemplate'
 
 local root = fs.current_path()
 local w2l = core()
@@ -76,10 +77,12 @@ local function main()
     prebuilt_keydata(w2l)
     prebuilt_search(w2l)
 
-    makefile(w2l, 'zhCN-1.24.4', 'Melee', 'Melee')
-    makefile(w2l, 'zhCN-1.24.4', 'Custom', 'Custom')
+    makefile(w2l, 'zhCN-1.24.4', 'Melee')
+    makefile(w2l, 'zhCN-1.24.4', 'Custom')
     makefile(w2l, 'enUS-1.24.4', 'Melee')
     makefile(w2l, 'enUS-1.24.4', 'Custom')
+    maketemplate(w2l, 'zhCN-1.24.4', 'Melee')
+    maketemplate(w2l, 'zhCN-1.24.4', 'Custom')
 
     -- 生成技能命令映射
     --local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'), 'ability.ini')
