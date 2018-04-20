@@ -225,11 +225,8 @@ local function get_io_time(map, file_count)
     return io_rate
 end
 
-local function merge_config(config, mode, buf)
-    if not buf then
-        return config
-    end
-    local new = parse_config(buf)
+local function merge_config(config, mode)
+    local _, new = parse_config()
     for k, v in pairs(new.global) do
         config[k] = v
     end
@@ -272,7 +269,7 @@ return function (mode)
         w2l:failed(err)
     end
 
-    local config = merge_config(config, mode, input_ar:get 'w3x2lni\\config.ini')
+    local config = merge_config(config, mode)
     w2l:set_config(config)
     
     output = config.output or default_output(config.input)

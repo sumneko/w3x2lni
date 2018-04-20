@@ -2,6 +2,8 @@ local root = fs.current_path():remove_filename()
 local lni = require 'lni'
 local lang = require 'tool.lang'
 local input_path = require 'tool.input_path'
+local command = require 'tool.command'
+local builder = require 'map-builder'
 
 local state = [[
 [global]
@@ -112,7 +114,7 @@ local function load_config(buf)
     end
 
     mode = 'r'
-    lni(buf, 'config.ini', { proxy(config) })
+    lni(buf or '', 'config.ini', { proxy(config) })
     for name in state:gmatch '%[(.-)%]' do
         if not config[name] then
             config[name] = {}
@@ -122,18 +124,13 @@ local function load_config(buf)
     return config
 end
 
-return function (buf)
-    if not buf then
-        buf = io.load(root / 'config.ini')
+return function (path)
+    local global_config = load_config(io.load(root / 'config.ini'))
+    local map_config
+    local map = builder.load(input_path(path))
+    if map then
+        map_config = load_config(map:get 'w3x2lni\\config.ini')
+        map:close()
     end
-    local config = load_config(buf)
-    local config_in_lni
-    local lni_path = input_path(_W2L_DIR)
-    if lni_path then
-        local buf = io.load(lni_path / 'w3x2lni' / 'config.ini')
-        if buf then
-            config_in_lni = load_config(buf)
-        end
-    end
-    return config, config_in_lni or load_config ''
+    return global_config, map_config or load_config()
 end

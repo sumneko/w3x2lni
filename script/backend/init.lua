@@ -1,4 +1,4 @@
-local command = require 'backend.command'
+local command = require 'tool.command'
 local messager = require 'tool.messager'
 local lang = require 'tool.lang'
 local config = require 'tool.config' ()

@@ -171,6 +171,9 @@ function mt:search_files(progress)
 end
 
 return function (pathorhandle, tp)
+    if not pathorhandle then
+        return nil
+    end
     local read_only = tp ~= 'w'
     local err
     local ar = {
