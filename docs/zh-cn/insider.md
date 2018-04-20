@@ -47,7 +47,7 @@ W3x2Lni支持任意一种储存形式的地图作为输入，但对于输出，W
 
 > Obj/Lni -> Full
 
-Obj数据可以简单地理解为一个补丁。Obj的每一个对象都有一个`parent`，这个`parent`一定是某一个Slk里的对象，而Obj里这个对象的其它值都是针对`parent`的差异。所以`Obj`/`Lni` -> `Full`的过程则是，复制一份`parent`并应用所有的补丁。
+Obj数据可以简单地理解为一个补丁。Obj的每一个对象都有一个`parent`，这个`parent`一定是某一个`Slk`里的对象，而Obj里这个对象的其它值都是针对`parent`的差异。所以`Obj`/`Lni` -> `Full`的过程则是，从`Slk`复制一份`parent`并应用所有的补丁。
 
 > Obj/Lni和Slk合并
 
