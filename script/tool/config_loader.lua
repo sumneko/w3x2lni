@@ -4,7 +4,7 @@ local function proxy(t)
     local func = {}
     local value = {}
     local fmt = {}
-    local types = {}
+    local msg = {}
     return setmetatable(t, {
         __index = function (_, k)
             return value[k]
@@ -13,9 +13,9 @@ local function proxy(t)
             if type(v) == 'function' then
                 func[k] = v
                 local _, _, tp = v()
-                types[k] = tp
+                msg[k] = tp
             elseif func[k] then
-                value[k], fmt[k], types[k] = func[k](v)
+                value[k], fmt[k], msg[k] = func[k](v)
             elseif type(v) == 'table' then
                 value[k] = proxy(v)
             end
@@ -29,7 +29,7 @@ local function proxy(t)
             return function ()
                 i = i + 1
                 local k = keys[i]
-                return k, value[k], fmt[k], types[k]
+                return k, value[k], fmt[k], msg[k]
             end
         end,
     })
@@ -40,28 +40,35 @@ local function string(v)
     if r:find '%c' or r:find '^[^%a_]' or r == 'nil' or r == 'true' or r == 'false' or r == '' then
         r = '"' .. r:gsub('"', '\\"'):gsub('\r', '\\r'):gsub('\n', '\\n') .. '"'
     end
-    return tostring(v), r, 'string'
+    return tostring(v), r, '必须是string'
 end
 
 local function boolean(v)
+    local r
     if type(v) == 'boolean' then
-        return v, tostring(v), 'boolean'
+        r = tostring(v)
     elseif v == 'true' then
-        return true, v, 'boolean'
+        v = true
+        r = 'false'
     elseif v == 'false' then
-        return false, v, 'boolean'
+        v = false
+        r = 'false'
     else
-        return false, 'false', 'boolean'
+        v = false
+        r = 'false'
     end
+    return v, r, '必须是boolean'
 end
 
 local function integer(v)
-    local r = math.tointeger(v)
-    if r then
-        return r, tostring(r), 'integer'
+    local v = math.tointeger(v)
+    if v then
+        r = tostring(v)
     else
-        return 0, '0', 'integer'
+        v = 0
+        r = '0'
     end
+    return v, r, '必须是integer'
 end
 
 local function confusion(v)
