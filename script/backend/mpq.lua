@@ -32,8 +32,7 @@ local language_map = {
     [0x0000041e] = 'thTH',
 }
 
-local function mpq_language(mpq)
-    local config = mpq:load_file 'config.txt'
+local function mpq_language(config)
     if not config then
         return nil
     end
@@ -84,32 +83,38 @@ local mpq_names = {
     'War3Patch.mpq',
 }
 
+local result = {} 
 local function open_mpq(dir)
     local mpqs = {}
 
     for i, name in ipairs(mpq_names) do
         mpqs[#mpqs+1] = stormlib.open(dir / name, true)
-        mpqs[name] = mpqs[#mpqs]
     end
 
-    return mpqs
-end
+    local obj = {}
 
-local result = {} 
+    function obj:extract_file(name)
+        local path = root:parent_path() / 'data' / 'mpq' / mpq_name / name
+        for i = #mpqs, 1, -1 do
+            local mpq = mpqs[i]
+            if mpq:has_file(name) then
+                result[name] = mpq:extract(name, path)
+            end
+        end
+        result[name] = false
+    end
 
-local function extract_file(mpq, name)
-    local path = fs.current_path():parent_path() / 'data' / 'mpq' / mpq_name / name
-    if fs.exists(path) then
-        return
+    function obj:load_file(name)
+        for i = #mpqs, 1, -1 do
+            local mpq = mpqs[i]
+            if mpq:has_file(name) then
+                return mpq:load_file(name)
+            end
+        end
+        return nil
     end
-    if not mpq:has_file(name) then
-        return
-    end
-    if not fs.exists(path:parent_path()) then
-        fs.create_directories(path:parent_path())
-    end
-    local res = mpq:extract(name, path)
-    result[path:string()] = res
+
+    return obj
 end
 
 local function report_fail()
@@ -127,27 +132,24 @@ end
 
 local function extract_mpq(mpqs)
     local info = w2l:parse_lni(assert(io.load(fs.current_path() / 'core' / 'info.ini')))
-    for i = 4, 1, -1 do
-        local mpq = mpqs[i]
-        for _, root in ipairs {'', 'Custom_V1\\'} do
-            extract_file(mpq, root .. 'Scripts\\Common.j')
-            extract_file(mpq, root .. 'Scripts\\Blizzard.j')
-            
-            extract_file(mpq, root .. 'UI\\MiscData.txt')
-            extract_file(mpq, root .. 'UI\\WorldEditStrings.txt')
+    for _, root in ipairs {'', 'Custom_V1\\'} do
+        mpqs:extract_file(root .. 'Scripts\\Common.j')
+        mpqs:extract_file(root .. 'Scripts\\Blizzard.j')
+        
+        mpqs:extract_file(root .. 'UI\\MiscData.txt')
+        mpqs:extract_file(root .. 'UI\\WorldEditStrings.txt')
 
-            extract_file(mpq, root .. 'units\\MiscGame.txt')
-            extract_file(mpq, root .. 'units\\MiscData.txt')
+        mpqs:extract_file(root .. 'units\\MiscGame.txt')
+        mpqs:extract_file(root .. 'units\\MiscData.txt')
 
-            for type, slks in pairs(info.slk) do
-                for _, name in ipairs(slks) do
-                    extract_file(mpq, root .. name)
-                end
+        for type, slks in pairs(info.slk) do
+            for _, name in ipairs(slks) do
+                mpqs:extract_file(root .. name)
             end
+        end
 
-            for _, name in ipairs(info.txt) do
-                extract_file(mpq, root .. name)
-            end
+        for _, name in ipairs(info.txt) do
+            mpqs:extract_file(root .. name)
         end
     end
 end
@@ -169,7 +171,7 @@ return function ()
     if not mpqs then
         return
     end
-    local lg = mpq_language(mpqs['War3.mpq'])
+    local lg = mpq_language(mpqs:load_file 'config.txt')
     if lg then
         mpq_name = lg .. '-' .. ver
     else
