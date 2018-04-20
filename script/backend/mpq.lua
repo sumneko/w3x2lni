@@ -3,6 +3,7 @@ require 'utility'
 local stormlib = require 'ffi.stormlib'
 local sleep = require 'ffi.sleep'
 local makefile = require 'prebuilt.makefile'
+local maketemplate = require 'prebuilt.maketemplate'
 local proto = require 'tool.protocol'
 local lang = require 'tool.lang'
 local file_version = require 'ffi.file_version'
@@ -208,11 +209,17 @@ return function ()
     report_fail()
     w2l.progress:finish()
 
+    w2l.progress:start(0.3)
+    makefile(w2l, mpq_name, 'Melee')
+    w2l.progress:finish()
     w2l.progress:start(0.6)
-    makefile(w2l, mpq_name, 'Melee', 'Melee')
+    maketemplate(w2l, mpq_name, 'Melee')
+    w2l.progress:finish()
+    w2l.progress:start(0.7)
+    makefile(w2l, mpq_name, 'Custom')
     w2l.progress:finish()
     w2l.progress:start(1.0)
-    makefile(w2l, mpq_name, 'Custom', 'Custom')
+    maketemplate(w2l, mpq_name, 'Custom')
     w2l.progress:finish()
 
     local config = require 'tool.config' ()

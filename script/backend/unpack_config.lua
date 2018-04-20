@@ -25,9 +25,6 @@ end
 
 return function (mode)
     local config = { mode = mode }
-    if command.config then
-        config.config_path = command.config
-    end
     local input = input_path(command[2])
     local output = output_path(command[3])
 
@@ -35,8 +32,10 @@ return function (mode)
     for k, v in pairs(tbl.global) do
         config[k] = v
     end
-    for k, v in pairs(tbl[config.mode]) do
-        config[k] = v
+    if tbl[config.mode] then
+        for k, v in pairs(tbl[config.mode]) do
+            config[k] = v
+        end
     end
     config.input = input
     config.output = output
