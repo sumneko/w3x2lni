@@ -132,3 +132,5 @@ Unsupported version:
 Unsupported unknown value:
 [WTS_SYNTAX_ERROR]
 WTS syntax error
+[NO_WES_STRING]
+Didn't find WES string

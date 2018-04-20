@@ -9,7 +9,8 @@ local lang = require 'tool.lang'
 local file_version = require 'ffi.file_version'
 local core = require 'backend.sandbox_core'
 local unpack_config = require 'backend.unpack_config'
-local w2l = core()
+local w3xparser = require 'w3xparser'
+local w2l
 local mpq_name
 local root = fs.current_path()
 
@@ -155,10 +156,57 @@ local function extract_mpq(mpqs)
     end
 end
 
+local lost_wes = {}
+local function get_w2l()
+    w2l = core()
+    w2l:set_messager(messager)
+
+    function w2l:mpq_load(filename)
+        local mpq_path = root:parent_path() / 'data' / 'mpq'
+        return self.mpq_path:each_path(function(path)
+            return io.load(mpq_path / path / filename)
+        end)
+    end
+
+    function messager.report(_, _, str, tip)
+        if str == lang.report.NO_WES_STRING then
+            lost_wes[tip] = true
+        end
+    end
+end
+
+local function sortpairs(t)
+    local keys = {}
+    for k in pairs(t) do
+        keys[#keys+1] = k
+    end
+    table.sort(keys)
+    local i = 0
+    return function ()
+        i = i + 1
+        local k = keys[i]
+        return k, t[k]
+    end
+end
+
+local function make_log()
+    local lines = {}
+    if next(lost_wes) then
+        lines[#lines+1] = '提取的MPQ没有找到以下编辑器字符串'
+        for v in sortpairs(lost_wes) do
+            lines[#lines+1] = ('[%s]'):format(v)
+        end
+        lines[#lines+1] = ''
+    end
+    local buf = table.concat(lines, '\r\n')
+    io.save(root:parent_path() / 'log' / 'mpq.log', buf)
+end
+
 return function ()
     local config = unpack_config()
     local input = config.input
-    w2l:set_messager(messager)
+    get_w2l()
+
     if not fs.is_directory(input) then
         w2l.messager.text(lang.script.NEED_WAR3_DIR)
         return
@@ -177,13 +225,6 @@ return function ()
         mpq_name = lg .. '-' .. ver
     else
         mpq_name = input:filename():string()
-    end
-    
-    function w2l:mpq_load(filename)
-        local mpq_path = root:parent_path() / 'data' / 'mpq'
-        return self.mpq_path:each_path(function(path)
-            return io.load(mpq_path / path / filename)
-        end)
     end
 
     w2l.progress:start(0.1)
@@ -224,7 +265,8 @@ return function ()
 
     local config = require 'tool.config' ()
     config.global.mpq = mpq_name
-
     w2l.messager.text((lang.script.FINISH):format(os.clock()))
     w2l.messager.exit('success', lang.script.MPQ_EXTRACT_DIR:format(mpq_name))
+
+    make_log()
 end

@@ -132,3 +132,5 @@
 未知值不正确:
 [WTS_SYNTAX_ERROR]
 字符串文件语法错误
+[NO_WES_STRING]
+没有找到编辑器文本
