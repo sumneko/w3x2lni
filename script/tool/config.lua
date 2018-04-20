@@ -37,23 +37,24 @@ local function load_config(buf, fill)
 end
 
 local function proxy(global, map, merge)
-    local value = {}
+    local table = {}
+    local msgs = {}
     for k, v, _, msg in pairs(global) do
         if type(v) == 'table' then
-            value[k] = proxy(v, map and map[k], merge)
-        elseif merge then
-            if map and map[k] ~= nil then
-                value[k] = map[k]
-            else
-                value[k] = global[k]
-            end
+            table[k] = proxy(v, map and map[k], merge)
         else
-            value[k] = {v, map and map[k], msg}
+            msgs[k] = msg
         end
     end
-    local t = setmetatable({}, {
+    setmetatable(table, {
         __index = function (_, k)
-            return value[k]
+            if merge then
+                if map and map[k] ~= nil then
+                    return map[k]
+                end
+            else
+                return { global[k], map and map[k], msgs[k] }
+            end
         end,
         __newindex = function (_, k, v)
             global[k] = v
@@ -63,11 +64,11 @@ local function proxy(global, map, merge)
             local next = pairs(global)
             return function ()
                 local k = next()
-                return k, value[k]
+                return k, table[k]
             end
         end,
     })
-    return t
+    return table
 end
 
 global_config = load_config(io.load(root / 'config.ini'), true)
