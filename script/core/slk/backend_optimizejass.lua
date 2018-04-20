@@ -37,17 +37,18 @@ return function (w2l)
         end
         w2l.messager.report(lang.report.OPTIMIZE_JASS, 8, table.concat(t, '\t'))
     end
-    local ast
+    local buf, report
     local suc, err = pcall(function ()
+        local ast
         ast = parser(common,   'common.j',   ast, messager)
         ast = parser(blizzard, 'blizzard.j', ast, messager)
         ast = parser(war3map,  'war3map.j',  ast, messager)
+        buf, report = optimizer(ast, w2l.config, messager)
     end)
     if not suc then
         w2l.messager.report(lang.report.ERROR, 1, lang.report.SYNTAX_ERROR, err:match '[\r\n]+(.+)$')
+        return
     end
-    
-    local buf, report = optimizer(ast, w2l.config, messager)
 
     if w2l:file_load('map', 'war3map.j') then
         w2l:file_save('map', 'war3map.j', buf)
