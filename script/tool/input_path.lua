@@ -14,14 +14,16 @@ return function (path)
             end
         end
     elseif _W2L_DIR then
-        path = fs.path(_W2L_DIR)
-        local cur = path
+        local cur = fs.path(_W2L_DIR)
         while fs.is_directory(cur) do
             if check_lni_mark(cur / '.w3x') then
                 path = cur
                 break
             end
             cur = cur:parent_path()
+        end
+        if not path then
+            return nil
         end
     else
         return nil
