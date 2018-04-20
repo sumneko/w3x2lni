@@ -6,6 +6,7 @@ local list = {
     lni = lang.raw.HELP_LNI .. '\r\n\r\n' .. lang.raw.HELP_LNI_DESC,
     slk = lang.raw.HELP_SLK .. '\r\n\r\n' .. lang.raw.HELP_SLK_DESC,
     obj = lang.raw.HELP_OBJ .. '\r\n\r\n' .. lang.raw.HELP_OBJ_DESC,
+    config = lang.raw.HELP_CONFIG .. '\r\n\r\n' .. lang.raw.HELP_CONFIG_DESC,
     version = lang.raw.HELP_VERSION,
     log = lang.raw.HELP_LOG,
 }
@@ -20,8 +21,10 @@ local cmd = [[
     lni       {HELP_LNI}
     obj       {HELP_OBJ}
     slk       {HELP_SLK}
+
     log       {HELP_LOG}
-    
+    config    {HELP_CONFIG}
+
     help      {HELP_HELP}
     version   {HELP_VERSION}
 ]]
