@@ -65,7 +65,6 @@ local function exit(report)
     else
         messager.exit('success', lang.script.ERROR_COUNT:format(err, warn))
     end
-    os.exit(0, true)
 end
 
 function w2l:map_load(filename)
