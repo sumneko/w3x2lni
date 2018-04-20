@@ -12,9 +12,9 @@ return function (command)
         for section, tbl in pairs(config2) do
             for k, data in pairs(tbl) do
                 if data[3] == nil then
-                    show_config(false, section, k, data[1])
+                    show_config(false, section, k, data[2])
                 else
-                    show_config(true, section, k, data[2])
+                    show_config(true, section, k, data[3])
                 end
             end
         end
@@ -30,7 +30,7 @@ return function (command)
             if v[3] == nil then
                 show_config(true, section, k, v[2])
             else
-                show_config(false, section, k, v[1])
+                show_config(false, section, k, v[3])
             end
         else
             messager.raw(lang.raw.CONFIG_ERROR)
@@ -52,7 +52,7 @@ return function (command)
         if config2[section][k][3] ~= nil then
             messager.raw('\r\n')
             messager.raw('但实际生效的是地图配置:\r\n\r\n')
-            show_config(true, section, k, config2[section][k][2])
+            show_config(true, section, k, config2[section][k][3])
         end
         return
     end
