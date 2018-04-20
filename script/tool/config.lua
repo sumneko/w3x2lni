@@ -73,19 +73,20 @@ local function proxy(global, map, merge)
     return table
 end
 
-global_config = load_config(io.load(root / 'config.ini'), true)
-local map_config
-local map = builder.load(input_path(path))
-if map then
-    map_config = load_config(map:get 'w3x2lni\\config.ini', false)
-    map:close()
-end
-if not map_config then
-    map_config = load_config()
-end
-local t1 = proxy(global_config, map_config, true)
-local t2 = proxy(global_config, map_config, false)
-
-return function ()
+return function (path)
+    if not global_config then
+        global_config = load_config(io.load(root / 'config.ini'), true)
+    end
+    local map_config
+    local map = builder.load(input_path(path))
+    if map then
+        map_config = load_config(map:get 'w3x2lni\\config.ini', false)
+        map:close()
+    end
+    if not map_config then
+        map_config = load_config()
+    end
+    local t1 = proxy(global_config, map_config, true)
+    local t2 = proxy(global_config, map_config, false)
     return t1, t2
 end

@@ -6,7 +6,7 @@ local nk = require 'nuklear'
 local backend = require 'gui.backend'
 local show_version = require 'gui.old.show_version'
 local plugin = require 'gui.old.plugin'
-local config = require 'tool.config' ()
+local create_config = require 'tool.config'
 local lang = require 'tool.lang'
 local input_path = require 'tool.input_path'
 local currenttheme = {0, 173, 217}
@@ -31,6 +31,7 @@ NK_TEXT_RIGHT          = NK_TEXT_ALIGN_MIDDLE | NK_TEXT_ALIGN_RIGHT
 
 local root = fs.current_path():remove_filename()
 local fmt = nil
+local config = create_config()
 
 local function getexe()
 	local i = 0
@@ -57,6 +58,7 @@ function window:dropfile(file)
     end
     mappath = input_path(file)
     mapname = mappath:filename():string()
+    config = create_config(mappath)
     uitype = 'select'
 end
 
