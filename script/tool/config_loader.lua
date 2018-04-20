@@ -68,8 +68,36 @@ local function integer(v)
     end
 end
 
-local function confusion(v)
-    return string(v)
+local function confusion(confusion)
+    if not string(confusion) then
+        return string(confusion)
+    end
+
+    if confusion:find '[^%w_]' then
+        return false, '只能使用字母数字下划线'
+    end
+    
+    local chars = {}
+    for char in confusion:gmatch '[%w_]' do
+        if not chars[char] then
+            chars[#chars+1] = char
+        end
+    end
+    if #chars < 3 then
+        return false, '至少要有3个合法字符'
+    end
+    
+    confusion = table.concat(chars)
+
+    local count = 0
+    for _ in confusion:gmatch '%a' do
+        count = count + 1
+    end
+    if count < 2 then
+        return false, '至少要有2个字母'
+    end
+
+    return string(confusion)
 end
 
 return function ()

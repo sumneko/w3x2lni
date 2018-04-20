@@ -374,15 +374,16 @@ local function init_confuser(confused, confusion)
     
     confusion = table.concat(chars)
 
-    for char in confusion:gmatch '%a' do
-        chars[#chars+1] = char
+    local count = 0
+    for _ in confusion:gmatch '%a' do
+        count = count + 1
     end
-    if #chars < 2 then
+    if count < 2 then
         report('混淆脚本', '脚本混淆失败', '至少要有2个字母')
         return
     end
 
-    local confuse_head = chars[1]
+    local confuse_head = confusion:match '%a'
     confuse1 = confuser(confusion:gsub(confuse_head, ''))
     function confuse1:on_find(name)
         if can_use(name) then
