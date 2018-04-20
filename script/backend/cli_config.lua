@@ -23,24 +23,43 @@ return function (command)
         return
     end
 
-    local setconfig = command[2]
-    local section, k, v = setconfig:match '(%a+)%.([%a_]+)%=(.*)'
-    if not section then
-        messager.raw(lang.raw.CONFIG_ERROR)
+    local request = command[2]
+    local section, k = request:match '(%a+)%.([%a_]+)$'
+    if section then
+        messager.raw(lang.raw.CONFIG_DISPLAY .. '\r\n\r\n')
+        local global_config, map_config = configFactory()
+        local global_v = global_config[section][k]
+        local map_v = map_config[section][k]
+        if global_v then
+            if map_v then
+                show_config(true, section, k, map_v)
+            else
+                show_config(false, section, k, global_v)
+            end
+        else
+            messager.raw(lang.raw.CONFIG_ERROR)
+            messager.raw('\r\n')
+        end
         return
     end
-    local global_config, map_config = configFactory()
-    local suc, err = pcall(function () global_config[section][k] = v end)
-    if not suc then
-        messager.exit('error', err:match '[\r\n]+(.+)')
-        os.exit(1)
+    local section, k, v = request:match '(%a+)%.([%a_]+)%=(.*)$'
+    if section then
+        local global_config, map_config = configFactory()
+        local suc, err = pcall(function () global_config[section][k] = v end)
+        if not suc then
+            messager.exit('error', err:match '[\r\n]+(.+)')
+            os.exit(1)
+        end
+        lang:set_lang(map_config.global.lang or global_config.global.lang)
+        messager.raw(lang.raw.CONFIG_UPDATE .. '\r\n\r\n')
+        show_config(false, section, k, v)
+        if map_config[section][k] then
+            messager.raw('\r\n')
+            messager.raw('但实际生效的是地图配置:\r\n\r\n')
+            show_config(true, section, k, map_config[section][k])
+        end
+        return
     end
-    lang:set_lang(map_config.global.lang or global_config.global.lang)
-    messager.raw(lang.raw.CONFIG_UPDATE .. '\r\n\r\n')
-    show_config(false, section, k, v)
-    if map_config[section][k] then
-        messager.raw('\r\n')
-        messager.raw('但实际生效的是地图配置:\r\n\r\n')
-        show_config(true, section, k, map_config[section][k])
-    end
+    messager.raw(lang.raw.CONFIG_ERROR)
+    messager.raw('\r\n')
 end
