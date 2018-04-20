@@ -52,6 +52,13 @@ local function war3_ver(input)
             return ('%d.%d.%d'):format(ver.major, ver.minor, ver.revision)
         end
     end
+    local exe_path = input / 'Warcraft III.exe'
+    if fs.exists(exe_path) then
+        local ver = file_version(exe_path:string())
+        if ver.major > 1 or ver.minor >= 29 then
+            return ('%d.%d.%d'):format(ver.major, ver.minor, ver.revision)
+        end
+    end
     local dll_path = input / 'Game.dll'
     if fs.exists(dll_path) then
         local ver = file_version(dll_path:string())
@@ -81,12 +88,8 @@ local function open_mpq(dir)
     local mpqs = {}
 
     for i, name in ipairs(mpq_names) do
-        mpqs[i] = stormlib.open(dir / name, true)
-        mpqs[name] = mpqs[i]
-        if mpqs[i] == nil then
-            w2l.messager.text(lang.script.OPEN_FILE_FAILED .. (dir / name):string())
-            return nil
-        end
+        mpqs[#mpqs+1] = stormlib.open(dir / name, true)
+        mpqs[name] = mpqs[#mpqs]
     end
 
     return mpqs
