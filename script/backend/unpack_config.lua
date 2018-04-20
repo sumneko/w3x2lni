@@ -1,4 +1,4 @@
-local command = require 'backend.command'
+local command = require 'tool.command'
 local lni = require 'lni'
 local root_path = require 'backend.root_path'
 local input_path = require 'tool.input_path'
