@@ -17,9 +17,10 @@ end
 
 return function ()
     local mpq = command[2]
-    local version = command[3]
 
-    w2l.messager.text(('正在生成template[%s][%s]'):format(mpq, version))
-    
-    maketemplate(w2l, mpq, version)
+    w2l.messager.text(('正在生成template[%s][%s]'):format(mpq, 'Melee'))
+    maketemplate(w2l, mpq, 'Melee')
+
+    w2l.messager.text(('正在生成template[%s][%s]'):format(mpq, 'Custom'))
+    maketemplate(w2l, mpq, 'Custom')
 end
