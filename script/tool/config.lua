@@ -51,6 +51,8 @@ local function proxy(global, map, merge)
             if merge then
                 if map and map[k] ~= nil then
                     return map[k]
+                else
+                    return global[k]
                 end
             else
                 return { global[k], map and map[k], msgs[k] }
