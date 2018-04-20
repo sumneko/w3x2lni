@@ -29,6 +29,9 @@ elseif act == 'log' then
     require 'utility'
     local root = fs.current_path()
     messager.raw(io.load(root:parent_path() / 'log' / 'report.log'))
+elseif act == 'template' then
+    local template = require 'backend.template'
+    template()
 elseif not act or act == 'help' then
     require 'backend.help'
 else
