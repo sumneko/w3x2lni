@@ -116,3 +116,5 @@
 没有输入文件
 [CONFIG_INPUT_ERROR]
 %s 的类型为(%s)，但输入为[%s]
+[MPQ_EXTRACT_DIR]
+导出目录为[%s]

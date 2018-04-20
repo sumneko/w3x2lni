@@ -28,7 +28,7 @@ elseif act == 'log' then
     require 'filesystem'
     require 'utility'
     local root = fs.current_path()
-    messager.raw(io.load(root:parent_path() / 'report.log'))
+    messager.raw(io.load(root:parent_path() / 'log' / 'report.log'))
 elseif not act or act == 'help' then
     require 'backend.help'
 else

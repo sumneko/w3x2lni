@@ -323,7 +323,8 @@ return function (mode)
     w2l.progress:finish()
     
     save_builder()
-    io.save(root:parent_path() / 'report.log', get_report(report))
+    fs.create_directories(root:parent_path() / 'log')
+    io.save(root:parent_path() / 'log' / 'report.log', get_report(report))
     messager.text((lang.script.FINISH):format(os.clock()))
     exit(report)
 end

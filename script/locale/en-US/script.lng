@@ -116,3 +116,5 @@ Create [%s] failed, maybe occupied
 Need input path
 [CONFIG_INPUT_ERROR]
 `%s` expect (%s), but input was [%s]
+[MPQ_EXTRACT_DIR]
+Extracted dir is [%s]

@@ -217,5 +217,6 @@ return function ()
     local load_config = require 'tool.config'
     load_config().global.mpq = mpq_name
 
-    w2l.messager.text((lang.script.FINISH):format(os.clock())) 
+    w2l.messager.text((lang.script.FINISH):format(os.clock()))
+    w2l.messager.exit('success', lang.script.MPQ_EXTRACT_DIR:format(mpq_name))
 end
