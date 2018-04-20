@@ -14,7 +14,7 @@
 /plugin/*
 !/plugin/示例.lua
 /*.w3x
-/report.log
+/log/
 /data/mpq/
 !/data/mpq/zhCN-1.24.4
 !/data/mpq/enUS-1.24.4
