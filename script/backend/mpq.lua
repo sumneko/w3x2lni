@@ -98,6 +98,7 @@ local function open_mpq(dir)
             local mpq = mpqs[i]
             if mpq:has_file(name) then
                 result[name] = mpq:extract(name, path)
+                return
             end
         end
         result[name] = false
