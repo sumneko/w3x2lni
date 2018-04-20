@@ -11,7 +11,7 @@ return function (command)
         messager.raw(lang.raw.CONFIG_DISPLAY .. '\r\n\r\n')
         for section, tbl in pairs(config2) do
             for k, data in pairs(tbl) do
-                if data[2] == nil then
+                if data[3] == nil then
                     show_config(false, section, k, data[1])
                 else
                     show_config(true, section, k, data[2])
@@ -27,7 +27,7 @@ return function (command)
         messager.raw(lang.raw.CONFIG_DISPLAY .. '\r\n\r\n')
         local v = config2[section][k]
         if v then
-            if v[2] then
+            if v[3] == nil then
                 show_config(true, section, k, v[2])
             else
                 show_config(false, section, k, v[1])
@@ -48,7 +48,7 @@ return function (command)
         lang:set_lang(config1.global.lang)
         messager.raw(lang.raw.CONFIG_UPDATE .. '\r\n\r\n')
         show_config(false, section, k, v)
-        if config2[section][k][2] then
+        if config2[section][k][3] ~= nil then
             messager.raw('\r\n')
             messager.raw('但实际生效的是地图配置:\r\n\r\n')
             show_config(true, section, k, config2[section][k][2])

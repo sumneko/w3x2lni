@@ -6,6 +6,7 @@ local command = require 'tool.command'
 local builder = require 'map-builder'
 local config_loader = require 'tool.config_loader'
 local root = fs.current_path():remove_filename()
+local default_config
 local global_config
 
 local function save()
@@ -36,12 +37,12 @@ local function load_config(buf, fill)
     return config
 end
 
-local function proxy(global, map, merge)
+local function proxy(default, global, map, merge)
     local table = {}
     local funcs = {}
-    for k, v, _, func in pairs(global) do
+    for k, v, _, func in pairs(default) do
         if type(v) == 'table' then
-            table[k] = proxy(v, map and map[k], merge)
+            table[k] = proxy(v, global[k] or {}, map[k] or {}, merge)
         else
             funcs[k] = func
         end
@@ -49,13 +50,15 @@ local function proxy(global, map, merge)
     setmetatable(table, {
         __index = function (_, k)
             if merge then
-                if map and map[k] ~= nil then
+                if map[k] ~= nil then
                     return map[k]
-                else
+                elseif global[k] ~= nil then
                     return global[k]
+                else
+                    return default[k]
                 end
             else
-                return { global[k], map and map[k], funcs[k] }
+                return { default[k], global[k], map[k], funcs[k] }
             end
         end,
         __newindex = function (_, k, v)
@@ -63,7 +66,7 @@ local function proxy(global, map, merge)
             save()
         end,
         __pairs = function ()
-            local next = pairs(global)
+            local next = pairs(default)
             return function ()
                 local k = next()
                 return k, table[k]
@@ -74,8 +77,11 @@ local function proxy(global, map, merge)
 end
 
 return function (path)
+    if not default_config then
+        default_config = load_config(io.load(root / 'script' / 'tool' / 'config.ini'), true)
+    end
     if not global_config then
-        global_config = load_config(io.load(root / 'config.ini'), true)
+        global_config = load_config(io.load(root / 'config.ini'), false)
     end
     local map_config
     local map = builder.load(input_path(path))
@@ -86,7 +92,7 @@ return function (path)
     if not map_config then
         map_config = load_config()
     end
-    local t1 = proxy(global_config, map_config, true)
-    local t2 = proxy(global_config, map_config, false)
+    local t1 = proxy(default_config, global_config, map_config, true)
+    local t2 = proxy(default_config, global_config, map_config, false)
     return t1, t2
 end
