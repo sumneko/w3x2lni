@@ -10,4 +10,5 @@ W3x2Lni provides a GUI tool and a CLI tool.
 
 > CLI
 
-Add the directory path of `w2l.exe` to your environment variables and go.
+- Run `w2l.exe help` to get help, it should be straight forward
+- Add `w2l.exe` to your environment path to make your life easier
