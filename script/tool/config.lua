@@ -1,136 +1,98 @@
-local root = fs.current_path():remove_filename()
+require 'filesystem'
 local lni = require 'lni'
 local lang = require 'tool.lang'
 local input_path = require 'tool.input_path'
 local command = require 'tool.command'
 local builder = require 'map-builder'
+local config_loader = require 'tool.config_loader'
+local root = fs.current_path():remove_filename()
+local default_config
+local global_config
 
-local state = [[
-[global]
-mpq = $global.mpq:string$
-lang = $global.lang:string$
-mpq_path = $global.mpq_path:string$
-prebuilt_path = $global.prebuilt_path:string$
-plugin_path = $global.plugin_path:string$
-
-[lni]
-read_slk = $lni.read_slk:boolean$
-find_id_times = $lni.find_id_times:integer$
-export_lua = $lni.export_lua:boolean$
-
-[slk]
-remove_unuse_object = $slk.remove_unuse_object:boolean$
-optimize_jass = $slk.optimize_jass:boolean$
-mdx_squf = $slk.mdx_squf:boolean$
-remove_we_only = $slk.remove_we_only:boolean$
-slk_doodad = $slk.slk_doodad:boolean$
-find_id_times = $slk.find_id_times:integer$
-confused = $slk.confused:boolean$
-confusion = $slk.confusion:string$
-
-[obj]
-read_slk = $obj.read_slk:boolean$
-find_id_times = $obj.find_id_times:integer$
-]]
-
-local function err(name, tp, v)
-    error(('\n'..lang.script.CONFIG_INPUT_ERROR):format(name, tp, v))
+local function save()
+    local lines = {}
+    for name, t in pairs(global_config) do
+        lines[#lines+1] = ('[%s]'):format(name)
+        for k, _, v in pairs(t) do
+            lines[#lines+1] = ('%s = %s'):format(k, v)
+        end
+        lines[#lines+1] = ''
+    end
+    local buf = table.concat(lines, '\r\n')
+    io.save(root / 'config.ini', buf)
 end
 
-local function format_value(name, v, tp)
-    local r
-    if tp == 'string' then
-        r = tostring(v)
-        if r:find '%c' or r:find '^[^%a_]' or r == 'nil' or r == 'true' or r == 'false' or r == '' then
-            r = '"' .. r:gsub('"', '\\"'):gsub('\r', '\\r'):gsub('\n', '\\n') .. '"'
-        end
-    end
-    if tp == 'boolean' then
-        if type(v) == 'boolean' then
-            r = v
-        elseif v == 'true' then
-            r = true
-        elseif v == 'false' then
-            r = false
-        else
-            err(name, tp, v)
-        end
-    end
-    if tp == 'integer' then
-        r = math.tointeger(v)
-        if not r then
-            err(name, tp, v)
-        end
-    end
-    return tostring(r)
-end
-
-local function load_config(buf)
-    local mode
-    local config = {}
-
-    local function save_config()
-        local buf = state:gsub('%$(.-)%$', function (str)
-            local v = config
-            local name, tp = str:match '([^:]+):(.+)'
-            for key in name:gmatch '[^%.]+' do
-                v = v[key]
+local function load_config(buf, fill)
+    local config = config_loader()
+    local lni = lni(buf or '', 'config.ini')
+    for name, t in pairs(config) do
+        if type(lni[name]) == 'table' then
+            for k in pairs(t) do
+                if fill or lni[name][k] ~= nil then
+                    t[k] = lni[name][k]
+                end
             end
-            return format_value(name, v, tp)
-        end)
-        io.save(root / 'config.ini', buf:gsub('\n', '\r\n'))
-    end
-
-    local function proxy(t)
-        local keys = {}
-        local mark = {}
-        local value = {}
-        return setmetatable(t, {
-            __index = function (_, k)
-                return value[k]
-            end,
-            __newindex = function (_, k, v)
-                if type(v) == 'table' then
-                    proxy(v)
-                end
-                value[k] = v
-                if not mark[k] then
-                    mark[k] = true
-                    keys[#keys+1] = k
-                end
-                if mode == 'w' then
-                    save_config()
-                end
-            end,
-            __pairs = function ()
-                local i = 0
-                return function ()
-                    i = i + 1
-                    local k = keys[i]
-                    return k, value[k]
-                end
-            end,
-        })
-    end
-
-    mode = 'r'
-    lni(buf or '', 'config.ini', { proxy(config) })
-    for name in state:gmatch '%[(.-)%]' do
-        if not config[name] then
-            config[name] = {}
         end
     end
-    mode = 'w'
     return config
 end
 
+local function proxy(default, global, map, merge)
+    local table = {}
+    local funcs = {}
+    for k, v, _, func in pairs(default) do
+        if type(v) == 'table' then
+            table[k] = proxy(v, global[k] or {}, map[k] or {}, merge)
+        else
+            funcs[k] = func
+        end
+    end
+    setmetatable(table, {
+        __index = function (_, k)
+            if merge then
+                if map[k] ~= nil then
+                    return map[k]
+                elseif global[k] ~= nil then
+                    return global[k]
+                else
+                    return default[k]
+                end
+            else
+                return { default[k], global[k], map[k], funcs[k] }
+            end
+        end,
+        __newindex = function (_, k, v)
+            global[k] = v
+            save()
+        end,
+        __pairs = function ()
+            local next = pairs(default)
+            return function ()
+                local k = next()
+                return k, table[k]
+            end
+        end,
+    })
+    return table
+end
+
 return function (path)
-    local global_config = load_config(io.load(root / 'config.ini'))
+    if not default_config then
+        default_config = load_config(io.load(root / 'script' / 'tool' / 'config.ini'), true)
+    end
+    if not global_config then
+        global_config = load_config(io.load(root / 'config.ini'), false)
+    end
     local map_config
     local map = builder.load(input_path(path))
     if map then
-        map_config = load_config(map:get 'w3x2lni\\config.ini')
+        map_config = load_config(map:get 'w3x2lni\\config.ini', false)
         map:close()
     end
-    return global_config, map_config or load_config()
+    if not map_config then
+        map_config = load_config()
+    end
+    local t1 = proxy(default_config, global_config, map_config, true)
+    local t2 = proxy(default_config, global_config, map_config, false)
+    return t1, t2
 end
