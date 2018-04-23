@@ -81,9 +81,9 @@ function mt:get_editstring(str)
     if not self.editstring_reported then
         self.editstring_reported = {}
     end
-    if #self.editstring_reported < 10 and str:sub(1, 9) == 'WESTRING_' then
+    if not self.editstring_reported[str] and #self.editstring_reported < 10 and str:sub(1, 9) == 'WESTRING_' then
         self.editstring_reported[str] = true
-        self.editstring_reported[#self.editstring_reported+1] = str
+        --self.editstring_reported[#self.editstring_reported+1] = str
         self.messager.report(lang.report.OTHER, 9, lang.report.NO_WES_STRING, str)
     end
     return str
