@@ -60,9 +60,6 @@ local function write_data(meta, data, lines)
     end
     if meta.displayname then
         local comment = w2l:get_editstring(meta.displayname)
-        if comment == meta.displayname then
-            w2l.messager.report(lang.report.OTHER, 9, lang.report.NO_WES_STRING, comment)
-        end
         lines[#lines+1] = {'-- %s', comment:gsub('^%s*(.-)%s*$', '%1')}
     end
     if not len then

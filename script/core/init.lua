@@ -68,13 +68,25 @@ function mt:get_editstring(str)
     if not self.editstring then
         self.editstring = ini(self:mpq_load('UI\\WorldEditStrings.txt'))['WorldEditStrings']
     end
-    if not self.editstring[str] then
-        return str
+    if self.editstring[str] then
+        repeat
+            str = self.editstring[str]
+        until not self.editstring[str]
+        return str:gsub('%c+', '')
     end
-    repeat
-        str = self.editstring[str]
-    until not self.editstring[str]
-    return str:gsub('%c+', '')
+    local text = lang.wes[str]
+    if text ~= str then
+        return text
+    end
+    if not self.editstring_reported then
+        self.editstring_reported = {}
+    end
+    if #self.editstring_reported < 10 then
+        self.editstring_reported[str] = true
+        self.editstring_reported[#self.editstring_reported+1] = str
+        self.messager.report(lang.report.OTHER, 9, lang.report.NO_WES_STRING, str)
+    end
+    return str
 end
 
 local function create_default(w2l)
