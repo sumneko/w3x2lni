@@ -32,6 +32,8 @@ return function (command)
         local v = config2[section][k]
         if v then
             show_config(section, k, v)
+            messager.raw('\r\n')
+            messager.raw(v[5])
         else
             messager.raw(lang.raw.CONFIG_ERROR)
             messager.raw('\r\n')

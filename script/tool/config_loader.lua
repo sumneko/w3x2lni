@@ -3,6 +3,7 @@ local function proxy(t)
     local mark = {}
     local func = {}
     local value = {}
+    local comment = {}
     local fmt = {}
     return setmetatable(t, {
         __index = function (_, k)
@@ -17,7 +18,12 @@ local function proxy(t)
                     value[k], fmt[k] = res1, res2
                 end
             elseif type(v) == 'table' then
-                value[k] = proxy(v)
+                if next(v) then
+                    func[k] = v[1]
+                    comment[k] = v[2]
+                else
+                    value[k] = proxy(v)
+                end
             end
             if not mark[k] then
                 mark[k] = true
@@ -29,7 +35,7 @@ local function proxy(t)
             return function ()
                 i = i + 1
                 local k = keys[i]
-                return k, value[k], fmt[k], func[k]
+                return k, value[k], fmt[k], func[k], comment[k]
             end
         end,
     })
@@ -101,29 +107,29 @@ return function ()
     local config = proxy {}
     
     config.global                  = {}
-    config.global.lang             = string
-    config.global.mpq              = string
-    config.global.ui               = string
-    config.global.plugin_path      = string
+    config.global.lang             = {string, '使用的语言，可以是以下值：\n\n*auto 自动选择\nzh-CN 简体中文\nen-US English'}
+    config.global.mpq              = {string, '使用魔兽数据文件的目录。'}
+    config.global.ui               = {string, '使用触发器数据的目录，`*YDWE`表示搜索本地YDWE使用的触发器数据。'}
+    config.global.plugin_path      = {string, '插件的目录。默认是plugin。'}
 
     config.lni                     = {}
-    config.lni.read_slk            = boolean
-    config.lni.find_id_times       = integer
-    config.lni.export_lua          = boolean
+    config.lni.read_slk            = {boolean, '输出目标是Lni时，转换地图内的slk文件。必须是布尔。'}
+    config.lni.find_id_times       = {integer, '输出目标是Lni时，限制搜索最优模板的次数，0表示无限。必须是整数。'}
+    config.lni.export_lua          = {boolean, '输出目标是Lni时，导出地图内的lua文件。必须是布尔。'}
 
     config.slk                     = {}
-    config.slk.remove_unuse_object = boolean
-    config.slk.optimize_jass       = boolean
-    config.slk.mdx_squf            = boolean
-    config.slk.remove_we_only      = boolean
-    config.slk.slk_doodad          = boolean
-    config.slk.find_id_times       = integer
-    config.slk.confused            = boolean
-    config.slk.confusion           = confusion
+    config.slk.remove_unuse_object = {boolean, '输出目标是Slk时，移除没有引用的物体对象。必须是布尔。'}
+    config.slk.optimize_jass       = {boolean, '输出目标是Slk时，压缩mdx文件（有损压缩）。必须是布尔。'}
+    config.slk.mdx_squf            = {boolean, '输出目标是Slk时，删除只在WE中使用的文件。必须是布尔。'}
+    config.slk.remove_we_only      = {boolean, '输出目标是Slk时，对装饰物进行Slk优化。必须是布尔。'}
+    config.slk.slk_doodad          = {boolean, '输出目标是Slk时，优化jass文件。必须是布尔。'}
+    config.slk.find_id_times       = {integer, '输出目标是Slk时，限制搜索最优模板的次数，0表示无限。必须是整数。'}
+    config.slk.confused            = {boolean, '输出目标是Slk时，混淆jass文件。必须是布尔。'}
+    config.slk.confusion           = {confusion, '输出目标是Slk时，混淆jass文件使用的字符集。需要满足以下条件：\n\n1.只能是字母数字下划线\n2.至少要有3个不同的字符\n3.至少要有2个字母'}
 
     config.obj                     = {}
-    config.obj.read_slk            = boolean
-    config.obj.find_id_times       = integer
+    config.obj.read_slk            = {boolean, '输出目标是Obj时，转换地图内的slk文件。必须是布尔。'}
+    config.obj.find_id_times       = {integer, '输出目标是Obj时，限制搜索最优模板的次数，0表示无限。必须是整数。'}
 
     return config
 end

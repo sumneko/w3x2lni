@@ -40,11 +40,13 @@ end
 local function proxy(default, global, map, merge)
     local table = {}
     local funcs = {}
-    for k, v, _, func in pairs(default) do
+    local comments = {}
+    for k, v, _, func, comment in pairs(default) do
         if type(v) == 'table' then
             table[k] = proxy(v, global[k] or {}, map[k] or {}, merge)
         else
             funcs[k] = func
+            comments[k] = comment
         end
     end
     setmetatable(table, {
@@ -58,7 +60,7 @@ local function proxy(default, global, map, merge)
                     return default[k]
                 end
             else
-                return { default[k], global[k], map[k], funcs[k] }
+                return { default[k], global[k], map[k], funcs[k], comments[k] }
             end
         end,
         __newindex = function (_, k, v)
