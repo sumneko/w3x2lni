@@ -192,7 +192,6 @@ end
 local function make_log()
     local lines = {}
     if next(lost_wes) then
-        local wes = w3xparser.ini(w2l:mpq_load 'UI\\WorldEditStrings.txt')['WorldEditStrings']
         lines[#lines+1] = '提取的MPQ没有找到以下编辑器字符串'
         for v in sortpairs(lost_wes) do
             lines[#lines+1] = v
