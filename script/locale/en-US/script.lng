@@ -140,3 +140,5 @@ No trigger data was read
 Need to set the map to the associated YDWE
 [NO_TRIGGER_DATA_DIR]
 No trigger data directory was found
+[TRIGGER_DATA_ERROR]
+Trigger data error

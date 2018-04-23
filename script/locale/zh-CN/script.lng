@@ -140,3 +140,5 @@ w3i里的文本长度超过1023字符
 请设置YDWE关联地图
 [NO_TRIGGER_DATA_DIR]
 没有找到触发器数据的目录：
+[TRIGGER_DATA_ERROR]
+触发器文件解析错误

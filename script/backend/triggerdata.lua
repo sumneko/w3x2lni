@@ -84,7 +84,10 @@ local function load_ydew()
     if not list then
         return nil, lang.script.NO_TRIGGER_DATA_DIR .. path:string()
     end
-    local state = load_triggerdata(list)
+    local suc, state = pcall(load_triggerdata, list)
+    if not suc then
+        return nil, lang.script.TRIGGER_DATA_ERROR
+    end
     if not state then
         return nil, lang.script.NO_TRIGGER_DATA
     end
@@ -93,7 +96,10 @@ end
 
 local function load_ui(ui)
     list = { root:parent_path() / 'data' / ui / 'we' / 'ui' }
-    local state = load_triggerdata(list)
+    local suc, state = pcall(load_triggerdata, list)
+    if not suc then
+        return nil, lang.script.TRIGGER_DATA_ERROR
+    end
     if not state then
         return nil, lang.script.NO_TRIGGER_DATA
     end
