@@ -112,7 +112,6 @@ return function ()
     config.global.lang             = {string, lang.raw.CONFIG_GLOBAL_LANG}
     config.global.war3             = {string, lang.raw.CONFIG_GLOBAL_WAR3}
     config.global.ui               = {string, lang.raw.CONFIG_GLOBAL_UI}
-    config.global.plugin_path      = {string, lang.raw.CONFIG_GLOBAL_PLUGIN}
 
     config.lni                     = {}
     config.lni.read_slk            = {boolean, lang.raw.CONFIG_LNI_READ_SLK}

@@ -60,12 +60,9 @@ end
 return function (w2l_, config_)
     w2l = w2l_
     config = config_
-    if not config.plugin_path then
-        return
-    end
 
     local function load_in_disk(name)
-        local path = fs.current_path():parent_path() / config.plugin_path / name
+        local path = fs.current_path():parent_path() / 'plugin' / name
         return io.load(path), path:string()
     end
     local enable_list = load_enable_list(load_in_disk)
