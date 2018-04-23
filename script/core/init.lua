@@ -64,9 +64,16 @@ function mt:keydata()
 end
 
 function mt:get_editstring(str)
-    -- TODO: WESTRING不区分大小写，不过我们把WorldEditStrings.txt改了，暂时不会出现问题
+    str = str:upper()
+    if str:sub(1, 9) ~= 'WESTRING_' then
+        return str
+    end
     if not self.editstring then
-        self.editstring = ini(self:mpq_load('UI\\WorldEditStrings.txt'))['WorldEditStrings']
+        self.editstring = {}
+        local t = ini(self:mpq_load('UI\\WorldEditStrings.txt'))['WorldEditStrings']
+        for k, v in pairs(t) do
+            self.editstring[k:upper()] = v
+        end
     end
     if self.editstring[str] then
         repeat
@@ -81,7 +88,7 @@ function mt:get_editstring(str)
     if not self.editstring_reported then
         self.editstring_reported = {}
     end
-    if not self.editstring_reported[str] and #self.editstring_reported < 10 and str:sub(1, 9) == 'WESTRING_' then
+    if not self.editstring_reported[str] and #self.editstring_reported < 10 then
         self.editstring_reported[str] = true
         --self.editstring_reported[#self.editstring_reported+1] = str
         self.messager.report(lang.report.OTHER, 9, lang.report.NO_WES_STRING, str)
