@@ -333,7 +333,7 @@ function mt:set_config(config)
         end
     end
     dir = default.global
-    choose('mpq')
+    choose('war3')
     dir = default[config.mode]
     choose('read_slk', toboolean)
     choose('find_id_times', math.tointeger)

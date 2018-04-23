@@ -108,7 +108,7 @@ return function ()
     
     config.global                  = {}
     config.global.lang             = {string, '使用的语言，可以是以下值：\n\n*auto 自动选择\nzh-CN 简体中文\nen-US English'}
-    config.global.mpq              = {string, '使用魔兽数据文件的目录。'}
+    config.global.war3             = {string, '使用魔兽数据文件的目录。'}
     config.global.ui               = {string, '使用触发器数据的目录，`*YDWE`表示搜索本地YDWE使用的触发器数据。'}
     config.global.plugin_path      = {string, '插件的目录。默认是plugin。'}
 

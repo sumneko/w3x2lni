@@ -267,7 +267,7 @@ return function ()
     w2l.progress:finish()
 
     local config = require 'tool.config' ()
-    config.global.mpq = mpq_name
+    config.global.war3 = mpq_name
     if config.global.ui ~= '*YDWE' then
         config.global.ui = mpq_name
     end
