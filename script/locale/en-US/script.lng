@@ -76,6 +76,12 @@ Create map failed, maybe occupied
 Loading map files... (%d/%d)
 [TEXT_TOO_LONG_IN_OBJ]
 Text is longer than 1023 characters in object
+[TEXT_TOO_LONG_IN_WTG]
+Text is longer than 299 characters in WTG
+[TEXT_TOO_LONG_IN_JASS]
+Text is longer than 1023 characters in jass
+[TEXT_TOO_LONG_IN_W3I]
+Text is longer than 1023 characters in w3i
 [UNIT]
 Unit
 [ABILITY]
@@ -118,3 +124,13 @@ Need input path
 `%s` expect (%s), but input was [%s]
 [MPQ_EXTRACT_DIR]
 Extracted dir is [%s]
+[UNSUPPORTED_WCT]
+Unsupported WCT
+[WTG_VERSION_ERROR]
+WTG version error
+[UNKNOWN2_ERROR]
+Unknown2 error
+[UNKNOWN1_ERROR]
+Unknown1 error
+[UNEXIST_WES_IN_MPQ]
+The extracted MPQ does not find the following WorldEditStrings

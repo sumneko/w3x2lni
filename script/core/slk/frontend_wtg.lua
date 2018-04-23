@@ -46,9 +46,9 @@ end
 
 local function read_head()
     local id  = unpack 'c4'
-    assert(id == 'WTG!', '触发器文件错误')
+    assert(id == 'WTG!', lang.script.WTG_ERROR)
     local ver = unpack 'l'
-    assert(ver == 7, '触发器文件版本不正确')
+    assert(ver == 7, lang.script.WTG_VERSION_ERROR)
 end
 
 local function read_category()
@@ -71,7 +71,7 @@ local function read_var()
     local name    = unpack 'z'
     local type    = unpack 'z'
     local unknow  = unpack 'l'
-    assert(unknow == 1, '未知数据2不正确')
+    assert(unknow == 1, lang.script.UNKNOWN2_ERROR)
     local array   = unpack 'l'
     local size    = unpack 'l'
     local default = unpack 'l'
@@ -90,7 +90,7 @@ end
 
 local function read_vars()
     local unknow = unpack 'l'
-    assert(unknow == 2, '未知数据1不正确')
+    assert(unknow == 2, lang.script.UNKNOWN1_ERROR)
     local count = unpack 'l'
     chunk.vars = { '', false }
     for i = 1, count do

@@ -134,3 +134,15 @@ Unsupported unknown value:
 WTS syntax error
 [NO_WES_STRING]
 Didn't find WES string
+[CREATE_TEMPLATE]
+Creating template [%s][%s]
+[ABILITY_CODE_ERROR]
+Ability code is incompatible with default: %s:%s
+[DEFAULT_IS]
+Default is %s
+[TEMPLATE_NOT_EXISTED]
+Template not existed: %s [%s:%s]
+[ABILITY_REMOVED]
+Ability removed: %s
+[ABILITY_REMOVED_HINT]
+Custom ability will be removed by WC3 without modifying any attributes

@@ -1,3 +1,4 @@
+local lang = require 'lang'
 local table_insert = table.insert
 local table_sort   = table.sort
 local table_concat = table.concat
@@ -28,7 +29,7 @@ end
 function mt:get(key)
     local value = self.data[self._current][key]
     if type(value) == 'string' and #value > 1023 then
-        value = self.self:save_wts(self.wts, value, 'w3i里的文本长度超过1023字符')
+        value = self.self:save_wts(self.wts, value, lang.script.TEXT_TOO_LONG_IN_W3I)
     end
     return value
 end

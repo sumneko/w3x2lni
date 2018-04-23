@@ -134,3 +134,15 @@
 字符串文件语法错误
 [NO_WES_STRING]
 没有找到编辑器文本
+[CREATE_TEMPLATE]
+正在生成template[%s][%s]
+[ABILITY_CODE_ERROR]
+技能code与默认不一致： %s:%s
+[DEFAULT_IS]
+默认为： %s
+[TEMPLATE_NOT_EXISTED]
+底板不存在: %s [%s:%s]
+[ABILITY_REMOVED]
+技能被移除: %s
+[ABILITY_REMOVED_HINT]
+自定义技能没有修改任何属性的话会被魔兽移除

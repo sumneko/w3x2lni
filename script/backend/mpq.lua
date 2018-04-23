@@ -192,7 +192,7 @@ end
 local function make_log()
     local lines = {}
     if next(lost_wes) then
-        lines[#lines+1] = '提取的MPQ没有找到以下编辑器字符串'
+        lines[#lines+1] = lang.script.UNEXIST_WES_IN_MPQ
         for v in sortpairs(lost_wes) do
             lines[#lines+1] = v
         end
