@@ -172,6 +172,10 @@ function mt:refresh_wts(wts)
     return table.concat(lines, '\r\n\r\n')
 end
 
+local function hasFile(name)
+    return nil ~= package.searchpath(name, package.path)
+end
+
 function mt:__index(name)
     local value = mt[name]
     if value then
@@ -184,15 +188,13 @@ function mt:__index(name)
         self.info = lni(assert(load_file('info.ini')), 'info')
         return self.info
     end
-    local suc, res = pcall(require, 'slk.'..name)
-    if suc then
-        self[name] = res
-        return res
+    if hasFile('slk.'..name) then
+        self[name] = require('slk.'..name)
+        return self[name]
     end
-    local suc, res = pcall(require, 'other.'..name)
-    if suc then
-        self[name] = res
-        return res
+    if hasFile('other.'..name) then
+        self[name] = require('other.'..name)
+        return self[name]
     end
     self.loaded[name] = true
     return nil
