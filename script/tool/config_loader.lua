@@ -164,8 +164,8 @@ return function ()
     
     config.global                  = {}
     config.global.lang             = {langf,  (lang.raw.CONFIG_GLOBAL_LANG .. '\r\n\r\n%s'):format(lang_hint(get_langs()))}
-    config.global.war3             = {string, lang.raw.CONFIG_GLOBAL_WAR3}
-    config.global.ui               = {string, lang.raw.CONFIG_GLOBAL_UI}
+    config.global.data_war3        = {string, lang.raw.CONFIG_GLOBAL_WAR3}
+    config.global.data_ui          = {string, lang.raw.CONFIG_GLOBAL_UI}
 
     config.lni                     = {}
     config.lni.read_slk            = {boolean, lang.raw.CONFIG_LNI_READ_SLK}

@@ -267,9 +267,9 @@ return function ()
     w2l.progress:finish()
 
     local config = require 'tool.config' ()
-    config.global.war3 = mpq_name
-    if config.global.ui ~= '${YDWE}' then
-        config.global.ui = mpq_name
+    config.global.data_war3 = mpq_name
+    if config.global.data_ui ~= '${YDWE}' then
+        config.global.data_ui = mpq_name
     end
     w2l.messager.text((lang.script.FINISH):format(os.clock()))
     w2l.messager.exit('success', lang.script.MPQ_EXTRACT_DIR:format(mpq_name))
