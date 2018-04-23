@@ -106,8 +106,6 @@ return function ()
     config.global                  = {}
     config.global.mpq              = string
     config.global.lang             = string
-    config.global.mpq_path         = string
-    config.global.prebuilt_path    = string
     config.global.plugin_path      = string
 
     config.lni                     = {}

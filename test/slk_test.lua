@@ -18,18 +18,16 @@ end
 
 local function get_config()
     local config = {}
-    -- 使用的语言
-    config.lang = 'zh-CN'
     -- mpq目录
-    config.mpq = 'default'
+    config.mpq = 'zhCN-1.24.4'
 
     return config
 end
 
 local function slk_lib(read_only, safe_mode)
     local w2l = core()
-    local mpq_path = fs.current_path():parent_path() / 'data' / 'mpq'
-    local prebuilt_path = fs.current_path():parent_path() / 'data' / 'prebuilt'
+    local mpq_path = fs.current_path():parent_path() / 'data' / w2l.config.mpq / 'mpq'
+    local prebuilt_path = fs.current_path():parent_path() / 'data' / w2l.config.mpq / 'prebuilt'
     local test_w3a = fs.current_path() / 'test' / 'war3map.w3a'
     w2l:set_messager(print)
     function w2l:map_load(filename)

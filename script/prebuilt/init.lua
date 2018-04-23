@@ -23,7 +23,7 @@ w2l:set_messager(function (tp, ...)
 end)
 
 function w2l:mpq_load(filename)
-    local mpq_path = root:parent_path() / 'data' / 'mpq'
+    local mpq_path = root:parent_path() / 'data' / w2l.config.mpq / 'mpq'
     return self.mpq_path:each_path(function(path)
         return io.load(mpq_path / path / filename)
     end)

@@ -68,9 +68,7 @@
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
             "consoleCoding": "ansi",
             "program": "${workspaceRoot}\\test\\unit_test.lua",
-            "arg0": [
-                "..\\bin\\w3x2lni-lua.exe",
-            ],
+            "arg0": [],
             "arg": []
         },
         {

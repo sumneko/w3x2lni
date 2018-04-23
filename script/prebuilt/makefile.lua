@@ -9,7 +9,7 @@ return function (w2l, mpq, version)
         mpq     = mpq,
         version = version,
     }
-    local prebuilt_path = root:parent_path() / 'data' / 'prebuilt' / w2l.mpq_path:first_path()
+    local prebuilt_path = root:parent_path() / 'data' / mpq / 'prebuilt' / w2l.mpq_path:first_path()
     fs.create_directories(prebuilt_path)
 
     function w2l:prebuilt_save(filename, buf)

@@ -63,10 +63,10 @@ function mt:keydata()
     return keydata
 end
 
-function mt:get_editstring(str)
-    str = str:upper()
+function mt:get_editstring(source)
+    local str = source:upper()
     if str:sub(1, 9) ~= 'WESTRING_' then
-        return str
+        return source
     end
     if not self.editstring then
         self.editstring = {}
@@ -91,9 +91,9 @@ function mt:get_editstring(str)
     if not self.editstring_reported[str] and #self.editstring_reported < 10 then
         self.editstring_reported[str] = true
         --self.editstring_reported[#self.editstring_reported+1] = str
-        self.messager.report(lang.report.OTHER, 9, lang.report.NO_WES_STRING, str)
+        self.messager.report(lang.report.OTHER, 9, lang.report.NO_WES_STRING, source)
     end
-    return str
+    return source
 end
 
 local function create_default(w2l)
@@ -350,7 +350,6 @@ function mt:set_config(config)
     self.config = config
     
     self.mpq_path = mpq_path()
-    self.mpq_path:open(config.mpq)
     if self.config.version == 'Melee' then
         self.mpq_path:open 'Melee_V1'
     else
