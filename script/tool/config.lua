@@ -60,7 +60,11 @@ local function proxy(default, global, map, merge)
                     return default[k]
                 end
             else
-                return { default[k], global[k], map[k], funcs[k], comments[k] }
+                if default[k] then
+                    return { default[k], global[k], map[k], funcs[k], comments[k] }
+                else
+                    return nil
+                end
             end
         end,
         __newindex = function (_, k, v)

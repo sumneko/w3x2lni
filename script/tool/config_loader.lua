@@ -1,3 +1,5 @@
+local lang = require 'tool.lang'
+
 local function proxy(t)
     local keys = {}
     local mark = {}
@@ -58,7 +60,7 @@ local function boolean(v)
     elseif v == 'false' then
         return true, false, 'false'
     else
-        return false, '必须是boolean'
+        return false, lang.raw.CONFIG_MUST_BOOLEAN
     end
 end
 
@@ -67,7 +69,7 @@ local function integer(v)
     if v then
         return true, v, tostring(v)
     else
-        return false, '必须是integer'
+        return false, lang.raw.CONFIG_MUST_INTEGER
     end
 end
 
@@ -77,7 +79,7 @@ local function confusion(confusion)
     end
 
     if confusion:find '[^%w_]' then
-        return false, '只能使用字母数字下划线'
+        return false, lang.raw.CONFIG_CONFUSION_1
     end
     
     local chars = {}
@@ -87,7 +89,7 @@ local function confusion(confusion)
         end
     end
     if #chars < 3 then
-        return false, '至少要有3个合法字符'
+        return false, lang.raw.CONFIG_CONFUSION_2
     end
     
     confusion = table.concat(chars)
@@ -97,7 +99,7 @@ local function confusion(confusion)
         count = count + 1
     end
     if count < 2 then
-        return false, '至少要有2个字母'
+        return false, lang.raw.CONFIG_CONFUSION_3
     end
 
     return string(confusion)
@@ -107,29 +109,29 @@ return function ()
     local config = proxy {}
     
     config.global                  = {}
-    config.global.lang             = {string, '使用的语言，可以是以下值：\n\n*auto 自动选择\nzh-CN 简体中文\nen-US English'}
-    config.global.war3             = {string, '使用魔兽数据文件的目录。'}
-    config.global.ui               = {string, '使用触发器数据的目录，`*YDWE`表示搜索本地YDWE使用的触发器数据。'}
-    config.global.plugin_path      = {string, '插件的目录。默认是plugin。'}
+    config.global.lang             = {string, lang.raw.CONFIG_GLOBAL_LANG}
+    config.global.war3             = {string, lang.raw.CONFIG_GLOBAL_WAR3}
+    config.global.ui               = {string, lang.raw.CONFIG_GLOBAL_UI}
+    config.global.plugin_path      = {string, lang.raw.CONFIG_GLOBAL_PLUGIN}
 
     config.lni                     = {}
-    config.lni.read_slk            = {boolean, '输出目标是Lni时，转换地图内的slk文件。必须是布尔。'}
-    config.lni.find_id_times       = {integer, '输出目标是Lni时，限制搜索最优模板的次数，0表示无限。必须是整数。'}
-    config.lni.export_lua          = {boolean, '输出目标是Lni时，导出地图内的lua文件。必须是布尔。'}
+    config.lni.read_slk            = {boolean, lang.raw.CONFIG_LNI_READ_SLK}
+    config.lni.find_id_times       = {integer, lang.raw.CONFIG_LNI_FIND_ID_TIMES}
+    config.lni.export_lua          = {boolean, lang.raw.CONFIG_LNI_EXPORT_LUA}
 
     config.slk                     = {}
-    config.slk.remove_unuse_object = {boolean, '输出目标是Slk时，移除没有引用的物体对象。必须是布尔。'}
-    config.slk.optimize_jass       = {boolean, '输出目标是Slk时，压缩mdx文件（有损压缩）。必须是布尔。'}
-    config.slk.mdx_squf            = {boolean, '输出目标是Slk时，删除只在WE中使用的文件。必须是布尔。'}
-    config.slk.remove_we_only      = {boolean, '输出目标是Slk时，对装饰物进行Slk优化。必须是布尔。'}
-    config.slk.slk_doodad          = {boolean, '输出目标是Slk时，优化jass文件。必须是布尔。'}
-    config.slk.find_id_times       = {integer, '输出目标是Slk时，限制搜索最优模板的次数，0表示无限。必须是整数。'}
-    config.slk.confused            = {boolean, '输出目标是Slk时，混淆jass文件。必须是布尔。'}
-    config.slk.confusion           = {confusion, '输出目标是Slk时，混淆jass文件使用的字符集。需要满足以下条件：\n\n1.只能是字母数字下划线\n2.至少要有3个不同的字符\n3.至少要有2个字母'}
+    config.slk.remove_unuse_object = {boolean, lang.raw.CONFIG_LNI_REMOVE_UNUSE_OBJECT}
+    config.slk.optimize_jass       = {boolean, lang.raw.CONFIG_SLK_OPTIMIZE_JASS}
+    config.slk.mdx_squf            = {boolean, lang.raw.CONFIG_SLK_MDX_SQUF}
+    config.slk.remove_we_only      = {boolean, lang.raw.CONFIG_SLK_REMOVE_WE_ONLY}
+    config.slk.slk_doodad          = {boolean, lang.raw.CONFIG_SLK_SLK_DOODAD}
+    config.slk.find_id_times       = {integer, lang.raw.CONFIG_SLK_FIND_ID_TIMES}
+    config.slk.confused            = {boolean, lang.raw.CONFIG_SLK_CONFUSED}
+    config.slk.confusion           = {confusion, lang.raw.CONFIG_SLK_CONFUSION}
 
     config.obj                     = {}
-    config.obj.read_slk            = {boolean, '输出目标是Obj时，转换地图内的slk文件。必须是布尔。'}
-    config.obj.find_id_times       = {integer, '输出目标是Obj时，限制搜索最优模板的次数，0表示无限。必须是整数。'}
+    config.obj.read_slk            = {boolean, lang.raw.CONFIG_OBJ_READ_SLK}
+    config.obj.find_id_times       = {integer, lang.raw.CONFIG_OBJ_FIND_ID_TIMES}
 
     return config
 end

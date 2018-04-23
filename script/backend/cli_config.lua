@@ -4,14 +4,14 @@ local lang = require 'tool.lang'
 
 local function show_config(section, k, v)
     if v[3] ~= nil then
-        messager.raw(('%s %s.%s = %s\r\n'):format('[地图]  ', section, k, tostring(v[3])))
+        messager.raw(('%s %s.%s = %s\r\n'):format(lang.raw.USED_MAP, section, k, tostring(v[3])))
         return
     end
     if v[2] ~= nil then
-        messager.raw(('%s %s.%s = %s\r\n'):format('        ', section, k, tostring(v[2])))
+        messager.raw(('%s %s.%s = %s\r\n'):format(lang.raw.USED_GLOBAL, section, k, tostring(v[2])))
         return
     end
-    messager.raw(('%s %s.%s = %s\r\n'):format('[默认]  ', section, k, tostring(v[1])))
+    messager.raw(('%s %s.%s = %s\r\n'):format(lang.raw.USED_DEFAULT, section, k, tostring(v[1])))
 end
 
 return function (command)
@@ -28,9 +28,9 @@ return function (command)
     local request = command[2]
     local section, k = request:match '(%a+)%.([%a_]+)$'
     if section then
-        messager.raw(lang.raw.CONFIG_DISPLAY .. '\r\n\r\n')
         local v = config2[section][k]
         if v then
+            messager.raw(lang.raw.CONFIG_DISPLAY .. '\r\n\r\n')
             show_config(section, k, v)
             messager.raw('\r\n')
             messager.raw(v[5])
@@ -55,7 +55,7 @@ return function (command)
 
         if config2[section][k][3] ~= nil then
             messager.raw('\r\n')
-            messager.raw('但实际生效的是地图配置:\r\n\r\n')
+            messager.raw(lang.raw.CONFIG_USED_MAP .. '\r\n\r\n')
             show_config(section, k, config2[section][k])
         end
         return
