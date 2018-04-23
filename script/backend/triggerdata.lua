@@ -44,7 +44,7 @@ local function trigger_config(mpq_path)
     return list
 end
 
-local function load_triggerdata(list)
+local function load_triggerdata(list, type)
     if not list or #list == 0 then
         return nil
     end
@@ -84,7 +84,7 @@ local function load_ydew()
     if not list then
         return nil, lang.script.NO_TRIGGER_DATA_DIR .. path:string()
     end
-    local suc, state = pcall(load_triggerdata, list)
+    local suc, state = pcall(load_triggerdata, list, 'ydwe')
     if not suc then
         return nil, lang.script.TRIGGER_DATA_ERROR
     end
@@ -95,8 +95,9 @@ local function load_ydew()
 end
 
 local function load_ui(ui)
-    list = { root:parent_path() / 'data' / ui / 'we' / 'ui' }
-    local suc, state = pcall(load_triggerdata, list)
+    local ui_path = root:parent_path() / 'data' / ui / 'we' / 'ui'
+    local list = trigger_config(ui_path) or { ui_path:parent_path() }
+    local suc, state = pcall(load_triggerdata, list, 'ui')
     if not suc then
         return nil, lang.script.TRIGGER_DATA_ERROR
     end
