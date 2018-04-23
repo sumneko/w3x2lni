@@ -315,7 +315,7 @@ local function mark_doo(w2l, slk)
 end
 
 local function mark_lua(w2l, slk)
-    local list = w2l:call_plugin('on_mark_object')
+    local list = w2l:call_plugin('on_mark')
     if type(list) ~= 'table' then
         return
     end

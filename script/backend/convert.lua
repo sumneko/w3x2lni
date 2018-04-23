@@ -289,7 +289,7 @@ return function (mode)
     w2l.progress:finish()
     
     messager.text(lang.script.DO_PLUGIN)
-    w2l:call_plugin('on_complete_data')
+    w2l:call_plugin('on_full')
     
     messager.text(lang.script.DO_CONVERT)
     w2l.progress:start(input_rate + frontend_rate + backend_rate)
