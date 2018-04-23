@@ -285,7 +285,7 @@ local function mark_marketplace(slk, flag)
         -- 是否使用了市场
         if obj._mark and obj._name == 'marketplace' then
             search_marketplace = true
-            w2l.messager.report(4, lang.report.SIMPLIFY, lang.report.RETAIN_MARKET, lang.report.RETAIN_MARKET_HINT:format(obj.name, obj._id))
+            w2l.messager.report(lang.report.SIMPLIFY, 4, lang.report.RETAIN_MARKET, lang.report.RETAIN_MARKET_HINT:format(obj.name, obj._id))
             for _, obj in pairs(slk.item) do
                 if obj.pickrandom == 1 and obj.sellable == 1 then
                     current_root = {obj._id, lang.report.REFERENCE_BY_MARKET_ITEM}

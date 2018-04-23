@@ -216,7 +216,7 @@ local function sort_chunk(chunk, remove_unuse_object)
     local user = {}
     for name, obj in pairs(chunk) do
         if #name ~= 4 then
-            w2l.messager.report(lang.report.INVALID_OBJECT, ('[%s] %s'):format(name, lang.report.INVALID_OBJECT_ID))
+            w2l.messager.report(lang.report.INVALID_OBJECT, 6, ('[%s] %s'):format(name, lang.report.INVALID_OBJECT_ID))
         elseif is_enable_obj(obj, remove_unuse_object) then
             local parent = obj._slk_id or obj._parent
             if (name == parent or obj._slk) and not obj._slk_id then
