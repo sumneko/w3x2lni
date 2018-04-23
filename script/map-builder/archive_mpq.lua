@@ -112,6 +112,7 @@ return function (input, read)
             return nil
         end
         if not handle:has_file '(listfile)' then
+            handle:close()
             return nil, lang.script.UNSUPPORTED_MAP
         end
     else
