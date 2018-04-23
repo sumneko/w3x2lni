@@ -134,3 +134,9 @@ Unknown2 error
 Unknown1 error
 [UNEXIST_WES_IN_MPQ]
 The extracted MPQ does not find the following WorldEditStrings
+[NO_TRIGGER_DATA]
+No trigger data was read
+[NEED_YDWE_ASSOCIATE]
+Need to set the map to the associated YDWE
+[NO_TRIGGER_DATA_DIR]
+No trigger data directory was found

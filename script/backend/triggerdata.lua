@@ -1,5 +1,6 @@
 require 'filesystem'
 local ui = require 'ui-builder'
+local lang = require 'tool.lang'
 
 local root = fs.current_path()
 
@@ -47,33 +48,45 @@ local function load_triggerdata(list)
     if not list or #list == 0 then
         return nil
     end
-	local t = nil
+    local t = nil
+    local ok
 	for _, path in ipairs(list) do
 		if fs.exists(path / 'ui') then
-			t = ui.merge(t, ui.old_reader(function(filename)
-				return io.load(path / 'ui' / filename)
+            t = ui.merge(t, ui.old_reader(function(filename)
+                local buf = io.load(path / 'ui' / filename)
+                if buf then
+                    ok = true
+                end
+				return buf
 			end))
 		else
 			t = ui.merge(t, ui.new_reader(function(filename)
-				return io.load(path / filename)
+                local buf = io.load(path / filename)
+                if buf then
+                    ok = true
+                end
+                return buf
 			end))
 		end
-	end
+    end
+    if not ok then
+        return nil
+    end
 	return t
 end
 
 local function load_ydew()
     local path = ydwe_path()
     if not path then
-        return nil, '请设置YDWE关联地图'
+        return nil, lang.script.NEED_YDWE_ASSOCIATE
     end
     local list = trigger_config(path / 'ui') or trigger_config(path / 'share' / 'ui') or trigger_config(path / 'share' / 'mpq')
     if not list then
-        return nil, '没有找到触发器数据的目录：' .. path:string()
+        return nil, lang.script.NO_TRIGGER_DATA_DIR .. path:string()
     end
     local state = load_triggerdata(list)
     if not state then
-        return nil, '没有读取到触发器数据'
+        return nil, lang.script.NO_TRIGGER_DATA
     end
     return state
 end
@@ -82,7 +95,7 @@ local function load_ui(ui)
     list = { root:parent_path() / 'data' / ui / 'we' / 'ui' }
     local state = load_triggerdata(list)
     if not state then
-        return nil, '没有读取到触发器数据'
+        return nil, lang.script.NO_TRIGGER_DATA
     end
     return state
 end

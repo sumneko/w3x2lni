@@ -134,3 +134,9 @@ w3i里的文本长度超过1023字符
 未知数据1不正确
 [UNEXIST_WES_IN_MPQ]
 提取的MPQ没有找到以下编辑器字符串
+[NO_TRIGGER_DATA]
+没有读取到触发器数据
+[NEED_YDWE_ASSOCIATE]
+请设置YDWE关联地图
+[NO_TRIGGER_DATA_DIR]
+没有找到触发器数据的目录：
