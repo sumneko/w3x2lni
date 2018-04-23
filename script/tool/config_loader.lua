@@ -122,7 +122,7 @@ local function insert_lang(chars, max, lng)
     chars[#chars+1] = '        '
     chars[#chars+1] = lng
     chars[#chars+1] = (' '):rep(max + 1 - #lng)
-    if lng == '${auto}' then
+    if lng == '${AUTO}' then
         chars[#chars+1] = lang.raw.AUTO_SELECT
     else
         chars[#chars+1] = io.load(root / 'locale' / lng / 'name')
@@ -131,7 +131,7 @@ local function insert_lang(chars, max, lng)
 end
 
 local function lang_hint(list)
-    local max = #'${auto}'
+    local max = #'${AUTO}'
     for _, lang in ipairs(list) do
         if #lang > max then
             max = #lang
@@ -139,7 +139,7 @@ local function lang_hint(list)
     end
 
     local chars = {}
-    insert_lang(chars, max, '${auto}')
+    insert_lang(chars, max, '${AUTO}')
     for _, lang in ipairs(list) do
         insert_lang(chars, max, lang)
     end
@@ -147,7 +147,7 @@ local function lang_hint(list)
 end
 
 local function langf(v)
-    if v == '${auto}' then
+    if v == '${AUTO}' then
         return true, v, v
     end
     local list = get_langs()
