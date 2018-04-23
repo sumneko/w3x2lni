@@ -68,16 +68,18 @@ end
 
 function mt:set_lang(lang_)
     if lang_ == '${auto}' then
-        local language = require 'ffi.language' ()
-        if language:sub(1, 3) == 'zh-' then
+        lang = require 'ffi.language' ()
+    else
+        lang = lang_
+    end
+    if not fs.exists(root / 'locale' / lang) then
+        if lang:sub(1, 3) == 'zh-' then
             lang = 'zh-CN'
-        elseif language:sub(1, 3) == 'en-' then
+        elseif lang:sub(1, 3) == 'en-' then
             lang = 'en-US'
         else
             lang = 'en-US'
         end
-    else
-        lang = lang_
     end
     for filename in pairs(cache) do
         self[filename] = nil

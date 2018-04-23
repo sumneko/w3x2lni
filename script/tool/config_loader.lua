@@ -1,4 +1,6 @@
+require 'filesystem'
 local lang = require 'tool.lang'
+local root = fs.current_path()
 
 local function proxy(t)
     local keys = {}
@@ -105,11 +107,67 @@ local function confusion(confusion)
     return string(confusion)
 end
 
+local function get_langs()
+    local locale = root / 'locale'
+    local list = {}
+    for dir in locale:list_directory() do
+        if fs.is_directory(dir) then
+            list[#list+1] = dir:filename():string()
+        end
+    end
+    return list
+end
+
+local lang_des = {
+    ['${auto}'] = '自动选择',
+    ['zh-CN']   = '简体中文',
+    ['en-US']   = '美式英语',
+}
+
+local function insert_lang(chars, max, lang)
+    chars[#chars+1] = '        '
+    chars[#chars+1] = lang
+    if lang_des[lang] then
+        chars[#chars+1] = (' '):rep(max + 1 - #lang)
+        chars[#chars+1] = lang_des[lang]
+    end
+    chars[#chars+1] = '\r\n'
+end
+
+local function lang_hint(list)
+    local max = #'${auto}'
+    for _, lang in ipairs(list) do
+        if #lang > max then
+            max = #lang
+        end
+    end
+
+    local chars = {}
+    insert_lang(chars, max, '${auto}')
+    for _, lang in ipairs(list) do
+        insert_lang(chars, max, lang)
+    end
+    return table.concat(chars)
+end
+
+local function langf(v)
+    if v == '${auto}' then
+        return true, v, v
+    end
+    local list = get_langs()
+    for _, lang in ipairs(list) do
+        if lang == v then
+            return true, v, v
+        end
+    end
+    return false, (lang.raw.CONFIG_GLOBAL_LANG_ERROR .. '\r\n\r\n%s'):format(lang_hint(list))
+end
+
 return function ()
     local config = proxy {}
     
     config.global                  = {}
-    config.global.lang             = {string, lang.raw.CONFIG_GLOBAL_LANG}
+    config.global.lang             = {langf,  (lang.raw.CONFIG_GLOBAL_LANG .. '\r\n\r\n%s'):format(lang_hint(get_langs()))}
     config.global.war3             = {string, lang.raw.CONFIG_GLOBAL_WAR3}
     config.global.ui               = {string, lang.raw.CONFIG_GLOBAL_UI}
 
