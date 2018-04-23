@@ -104,8 +104,9 @@ return function ()
     local config = proxy {}
     
     config.global                  = {}
-    config.global.mpq              = string
     config.global.lang             = string
+    config.global.mpq              = string
+    config.global.ui               = string
     config.global.plugin_path      = string
 
     config.lni                     = {}
