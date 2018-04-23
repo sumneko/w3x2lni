@@ -198,18 +198,18 @@ end
 
 function w2l:mpq_load(filename)
     return w2l.mpq_path:each_path(function(path)
-        return io.load(root:parent_path() / 'data' / config.mpq / 'mpq')
+        return io.load(root:parent_path() / 'data' / self.config.mpq / 'mpq' / path / filename)
     end)
 end
 
 function w2l:prebuilt_load(filename)
     return w2l.mpq_path:each_path(function(path)
-        return io.load(root:parent_path() / 'data' / config.mpq / 'prebuilt' / path / filename)
+        return io.load(root:parent_path() / 'data' / self.config.mpq / 'prebuilt' / path / filename)
     end)
 end
 
 function w2l:trigger_data()
-    return triggerdata()
+    return triggerdata(self.config.ui)
 end
 
 local function save_builder()

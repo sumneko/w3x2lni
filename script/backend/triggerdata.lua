@@ -1,4 +1,7 @@
+require 'filesystem'
 local ui = require 'ui-builder'
+
+local root = fs.current_path()
 
 local function string_trim (self) 
 	return self:gsub("^%s*(.-)%s*$", "%1")
@@ -59,7 +62,7 @@ local function load_triggerdata(list)
 	return t
 end
 
-return function ()
+local function load_ydew()
     local path = ydwe_path()
     if not path then
         return nil, '请设置YDWE关联地图'
@@ -73,4 +76,21 @@ return function ()
         return nil, '没有读取到触发器数据'
     end
     return state
+end
+
+local function load_ui(ui)
+    list = { root:parent_path() / 'data' / ui / 'we' / 'ui' }
+    local state = load_triggerdata(list)
+    if not state then
+        return nil, '没有读取到触发器数据'
+    end
+    return state
+end
+
+return function (ui)
+    if ui == '*YDWE' then
+        return load_ydew()
+    else
+        return load_ui(ui)
+    end
 end
