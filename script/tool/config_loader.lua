@@ -38,7 +38,7 @@ end
 local function string(v)
     if type(v) == 'string' then
         local r = tostring(v)
-        if r:find '%c' or r:find '^[^%a_]' or r == 'nil' or r == 'true' or r == 'false' or r == '' then
+        if r:find '%c' or r:find '^[%-%d%.]' or r == 'nil' or r == 'true' or r == 'false' or r == '' then
             r = '"' .. r:gsub('"', '\\"'):gsub('\r', '\\r'):gsub('\n', '\\n') .. '"'
         end
         return true, v, r
