@@ -32,6 +32,9 @@ local function ydwe_path()
 end
 
 local function trigger_config(mpq_path)
+    if not fs.exists(mpq_path) then
+        return nil
+    end
 	local list = {}
 	local f, err = io.open((mpq_path / 'config'):string(), 'r')
 	if not f then
@@ -96,8 +99,11 @@ local function load_ydew()
 end
 
 local function load_ui(ui)
-    local ui_path = root:parent_path() / 'data' / ui / 'ui_data'
-    local list = trigger_config(ui_path)
+    local path = root:parent_path() / 'data' / ui / 'ui_data'
+    local list = trigger_config(path)
+    if not list then
+        return nil, lang.script.NO_TRIGGER_DATA_DIR .. path:string()
+    end
     local suc, state = pcall(load_triggerdata, list)
     if not suc then
         return nil, lang.script.TRIGGER_DATA_ERROR
