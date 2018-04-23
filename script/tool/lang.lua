@@ -35,7 +35,7 @@ end
 
 function mt:load_lng(filename)
     if not lang then
-        self:set_lang '*auto'
+        self:set_lang '${auto}'
     end
     local t = {}
     local buf = io.load(root / 'locale' / lang / (filename .. '.lng'))
@@ -67,7 +67,7 @@ function mt:__index(filename)
 end
 
 function mt:set_lang(lang_)
-    if lang_ == '*auto' then
+    if lang_ == '${auto}' then
         local language = require 'ffi.language' ()
         if language:sub(1, 3) == 'zh-' then
             lang = 'zh-CN'

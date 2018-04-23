@@ -87,13 +87,13 @@ Config updated:
 [CONFIG_GLOBAL_LANG]
 使用的语言，可以是以下值：
 
-    *auto 自动选择
-    zh-CN 简体中文
-    en-US English
+    ${auto} 自动选择
+    zh-CN   简体中文
+    en-US   English
 [CONFIG_GLOBAL_WAR3]
 使用魔兽数据文件的目录。
 [CONFIG_GLOBAL_UI]
-使用触发器数据的目录，`*YDWE`表示搜索本地YDWE使用的触发器数据。
+使用触发器数据的目录，`${YDWE}`表示搜索本地YDWE使用的触发器数据。
 [CONFIG_GLOBAL_PLUGIN]
 插件的目录。默认是`plugin`。
 [CONFIG_LNI_READ_SLK]

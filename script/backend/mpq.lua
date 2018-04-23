@@ -268,7 +268,7 @@ return function ()
 
     local config = require 'tool.config' ()
     config.global.war3 = mpq_name
-    if config.global.ui ~= '*YDWE' then
+    if config.global.ui ~= '${YDWE}' then
         config.global.ui = mpq_name
     end
     w2l.messager.text((lang.script.FINISH):format(os.clock()))

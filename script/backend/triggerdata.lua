@@ -115,7 +115,7 @@ local function load_ui(ui)
 end
 
 return function (ui)
-    if ui == '*YDWE' then
+    if ui == '${YDWE}' then
         return load_ydew()
     else
         return load_ui(ui)
