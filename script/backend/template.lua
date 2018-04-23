@@ -3,6 +3,7 @@ local command = require 'tool.command'
 local messager = require 'tool.messager'
 local maketemplate = require 'prebuilt.maketemplate'
 local core = require 'backend.sandbox_core'
+local lang = require 'tool.lang'
 local w2l = core()
 local root = fs.current_path()
 
@@ -18,9 +19,9 @@ end
 return function ()
     local mpq = command[2]
 
-    w2l.messager.text(('正在生成template[%s][%s]'):format(mpq, 'Melee'))
+    w2l.messager.text(lang.report.CREATE_TEMPLATE:format(mpq, 'Melee'))
     maketemplate(w2l, mpq, 'Melee')
 
-    w2l.messager.text(('正在生成template[%s][%s]'):format(mpq, 'Custom'))
+    w2l.messager.text(lang.report.CREATE_TEMPLATE:format(mpq, 'Custom'))
     maketemplate(w2l, mpq, 'Custom')
 end

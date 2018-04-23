@@ -76,6 +76,12 @@
 正在读取文件... (%d/%d)
 [TEXT_TOO_LONG_IN_OBJ]
 物编里的文本长度超过1023字符
+[TEXT_TOO_LONG_IN_WTG]
+触发器里的文本长度超过299字符
+[TEXT_TOO_LONG_IN_JASS]
+脚本里的文本长度超过1023字符
+[TEXT_TOO_LONG_IN_W3I]
+w3i里的文本长度超过1023字符
 [UNIT]
 单位
 [ABILITY]
@@ -118,3 +124,13 @@
 %s 的类型为(%s)，但输入为[%s]
 [MPQ_EXTRACT_DIR]
 导出目录为[%s]
+[UNSUPPORTED_WCT]
+不支持的wct格式
+[WTG_VERSION_ERROR]
+触发器文件版本不正确
+[UNKNOWN2_ERROR]
+未知数据2不正确
+[UNKNOWN1_ERROR]
+未知数据1不正确
+[UNEXIST_WES_IN_MPQ]
+提取的MPQ没有找到以下编辑器字符串

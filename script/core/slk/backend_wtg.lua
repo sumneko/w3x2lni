@@ -86,7 +86,7 @@ local function pack_arg(arg)
         type = '变量'
     end
     if type == '常量' then
-        value = w2l:load_wts(wts, value, 299, '触发器里的文本长度超过299字符', function(str)
+        value = w2l:load_wts(wts, value, 299, lang.script.TEXT_TOO_LONG_IN_WTG, function(str)
             return str:gsub('\\', '\\\\'):gsub('"', '\\"')
         end)
     end
