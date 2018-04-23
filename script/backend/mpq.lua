@@ -135,26 +135,26 @@ end
 local function extract_mpq(mpqs)
     local info = w2l:parse_lni(assert(io.load(fs.current_path() / 'core' / 'info.ini')))
     for _, root in ipairs {'', 'Custom_V1\\'} do
-        mpqs:extract_file('mpq', root .. 'Scripts\\Common.j')
-        mpqs:extract_file('mpq', root .. 'Scripts\\Blizzard.j')
+        mpqs:extract_file('war3', root .. 'Scripts\\Common.j')
+        mpqs:extract_file('war3', root .. 'Scripts\\Blizzard.j')
         
-        mpqs:extract_file('mpq', root .. 'UI\\MiscData.txt')
-        mpqs:extract_file('mpq', root .. 'UI\\WorldEditStrings.txt')
+        mpqs:extract_file('war3', root .. 'UI\\MiscData.txt')
+        mpqs:extract_file('war3', root .. 'UI\\WorldEditStrings.txt')
 
-        mpqs:extract_file('mpq', root .. 'units\\MiscGame.txt')
-        mpqs:extract_file('mpq', root .. 'units\\MiscData.txt')
+        mpqs:extract_file('war3', root .. 'units\\MiscGame.txt')
+        mpqs:extract_file('war3', root .. 'units\\MiscData.txt')
 
         mpqs:extract_file('we\\ui', root .. 'UI\\TriggerData.txt')
         mpqs:extract_file('we\\ui', root .. 'UI\\TriggerStrings.txt')
 
         for type, slks in pairs(info.slk) do
             for _, name in ipairs(slks) do
-                mpqs:extract_file('mpq', root .. name)
+                mpqs:extract_file('war3', root .. name)
             end
         end
 
         for _, name in ipairs(info.txt) do
-            mpqs:extract_file('mpq', root .. name)
+            mpqs:extract_file('war3', root .. name)
         end
     end
 end
@@ -165,7 +165,7 @@ local function get_w2l()
     w2l:set_messager(messager)
 
     function w2l:mpq_load(filename)
-        local mpq_path = root:parent_path() / 'data' / mpq_name / 'mpq'
+        local mpq_path = root:parent_path() / 'data' / mpq_name / 'war3'
         return self.mpq_path:each_path(function(path)
             return io.load(mpq_path / path / filename)
         end)
@@ -232,7 +232,7 @@ return function ()
 
     w2l.progress:start(0.1)
     w2l.messager.text(lang.script.CLEAN_DIR)
-    local mpq_path = fs.current_path():parent_path() / 'data' / mpq_name / 'mpq'
+    local mpq_path = fs.current_path():parent_path() / 'data' / mpq_name / 'war3'
     if fs.exists(mpq_path) then
         if not task(fs.remove_all, mpq_path) then
             w2l.messager.text(lang.script.CREATE_DIR_FAILED:format(mpq_path:string()))

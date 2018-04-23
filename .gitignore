@@ -3,7 +3,6 @@
 !/bin/
 !/.vscode/
 !/template/
-!/data/
 !/c++/
 !/plugin/
 !/test/
@@ -15,6 +14,7 @@
 !/plugin/示例.lua
 /*.w3x
 /log/
-/data/
-!/data/zhCN-1.24.4
-!/data/enUS-1.27.1
+!/data/
+/data/*/
+!/data/zhCN-1.24.4/
+!/data/enUS-1.27.1/
