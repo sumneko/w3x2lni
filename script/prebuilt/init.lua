@@ -79,8 +79,8 @@ local function main()
 
     makefile(w2l, 'zhCN-1.24.4', 'Melee')
     makefile(w2l, 'zhCN-1.24.4', 'Custom')
-    makefile(w2l, 'enUS-1.24.4', 'Melee')
-    makefile(w2l, 'enUS-1.24.4', 'Custom')
+    makefile(w2l, 'enUS-1.27.1', 'Melee')
+    makefile(w2l, 'enUS-1.27.1', 'Custom')
     maketemplate(w2l, 'zhCN-1.24.4', 'Melee')
     maketemplate(w2l, 'zhCN-1.24.4', 'Custom')
 
