@@ -36,15 +36,12 @@ local function proxy(t)
 end
 
 local function string(v)
-    if type(v) == 'string' then
-        local r = tostring(v)
-        if r:find '%c' or r:find '^[%-%d%.]' or r == 'nil' or r == 'true' or r == 'false' or r == '' then
-            r = '"' .. r:gsub('"', '\\"'):gsub('\r', '\\r'):gsub('\n', '\\n') .. '"'
-        end
-        return true, v, r
-    else
-        return false, '必须是string'
+    v = tostring(v)
+    local r = v
+    if r:find '%c' or r:find '^[%-%d%.]' or r == 'nil' or r == 'true' or r == 'false' or r == '' then
+        r = '"' .. r:gsub('"', '\\"'):gsub('\r', '\\r'):gsub('\n', '\\n') .. '"'
     end
+    return true, v, r
 end
 
 local function boolean(v)
