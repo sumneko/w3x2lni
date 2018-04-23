@@ -134,3 +134,5 @@
 至少要有3个合法字符
 [CONFIG_CONFUSION_3]
 至少要有2个字母
+[AUTO_SELECT]
+自动选择

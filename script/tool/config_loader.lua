@@ -118,18 +118,14 @@ local function get_langs()
     return list
 end
 
-local lang_des = {
-    ['${auto}'] = '自动选择',
-    ['zh-CN']   = '简体中文',
-    ['en-US']   = '美式英语',
-}
-
-local function insert_lang(chars, max, lang)
+local function insert_lang(chars, max, lng)
     chars[#chars+1] = '        '
-    chars[#chars+1] = lang
-    if lang_des[lang] then
-        chars[#chars+1] = (' '):rep(max + 1 - #lang)
-        chars[#chars+1] = lang_des[lang]
+    chars[#chars+1] = lng
+    chars[#chars+1] = (' '):rep(max + 1 - #lng)
+    if lng == '${auto}' then
+        chars[#chars+1] = lang.raw.AUTO_SELECT
+    else
+        chars[#chars+1] = io.load(root / 'locale' / lng / 'name')
     end
     chars[#chars+1] = '\r\n'
 end
