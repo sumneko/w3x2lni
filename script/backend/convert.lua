@@ -198,7 +198,7 @@ end
 
 function w2l:mpq_load(filename)
     return w2l.mpq_path:each_path(function(path)
-        return io.load(root:parent_path() / 'data' / self.config.mpq / 'war3' / path / filename)
+        return io.load(root:parent_path() / 'data' / self.config.mpq / 'war3_data' / path / filename)
     end)
 end
 

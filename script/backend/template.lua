@@ -10,7 +10,7 @@ local root = fs.current_path()
 w2l:set_messager(messager)
 
 function w2l:mpq_load(filename)
-    local mpq_path = root:parent_path() / 'data' / 'war3'
+    local mpq_path = root:parent_path() / 'data' / 'war3_data'
     return self.mpq_path:each_path(function(path)
         return io.load(mpq_path / path / filename)
     end)

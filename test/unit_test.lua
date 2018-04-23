@@ -63,7 +63,7 @@ local slk_keys = {
 
 local function w3x2lni()
     local w2l = core()
-    local mpq_path = fs.current_path():parent_path() / 'data' / w2l.config.mpq / 'war3'
+    local mpq_path = fs.current_path():parent_path() / 'data' / w2l.config.mpq / 'war3_data'
     local prebuilt_path = fs.current_path():parent_path() / 'data' / w2l.config.mpq / 'prebuilt'
 
     function w2l:mpq_load(filename)
