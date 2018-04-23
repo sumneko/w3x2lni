@@ -99,7 +99,7 @@ local function load_ydew()
 end
 
 local function load_ui(ui)
-    local path = root:parent_path() / 'data' / ui / 'ui_data'
+    local path = root:parent_path() / 'data' / ui / 'ui'
     local list = trigger_config(path)
     if not list then
         return nil, lang.script.NO_TRIGGER_DATA_DIR .. path:string()
