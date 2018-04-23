@@ -60,7 +60,7 @@ local function proxy(default, global, map, merge)
                     return default[k]
                 end
             else
-                if default[k] then
+                if default[k] ~= nil then
                     return { default[k], global[k], map[k], funcs[k], comments[k] }
                 else
                     return nil

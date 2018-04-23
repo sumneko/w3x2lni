@@ -85,47 +85,47 @@
 [USED_DEFAULT]
 [默认]  
 [CONFIG_GLOBAL_LANG]
-    使用的语言，可以是以下值：
+使用的语言，可以是以下值：
 
-        *auto 自动选择
-        zh-CN 简体中文
-        en-US English
+    *auto 自动选择
+    zh-CN 简体中文
+    en-US English
 [CONFIG_GLOBAL_WAR3]
-    使用魔兽数据文件的目录。
+使用魔兽数据文件的目录。
 [CONFIG_GLOBAL_UI]
-    使用触发器数据的目录，`*YDWE`表示搜索本地YDWE使用的触发器数据。
+使用触发器数据的目录，`*YDWE`表示搜索本地YDWE使用的触发器数据。
 [CONFIG_GLOBAL_PLUGIN]
-    插件的目录。默认是`plugin`。
+插件的目录。默认是`plugin`。
 [CONFIG_LNI_READ_SLK]
-    输出目标是Lni时，转换地图内的slk文件。必须是布尔。
+输出目标是Lni时，转换地图内的slk文件。必须是布尔。
 [CONFIG_LNI_FIND_ID_TIMES]
-    输出目标是Lni时，限制搜索最优模板的次数，0表示无限。必须是整数。
+输出目标是Lni时，限制搜索最优模板的次数，0表示无限。必须是整数。
 [CONFIG_LNI_EXPORT_LUA]
-    输出目标是Lni时，导出地图内的lua文件。必须是布尔。
+输出目标是Lni时，导出地图内的lua文件。必须是布尔。
 [CONFIG_SLK_REMOVE_UNUSE_OBJECT]
-    输出目标是Slk时，移除没有引用的物体对象。必须是布尔。
+输出目标是Slk时，移除没有引用的物体对象。必须是布尔。
 [CONFIG_SLK_OPTIMIZE_JASS]
-    输出目标是Slk时，优化jass文件。必须是布尔。
+输出目标是Slk时，优化jass文件。必须是布尔。
 [CONFIG_SLK_MDX_SQUF]
-    输出目标是Slk时，压缩mdx文件（有损压缩）。必须是布尔。
+输出目标是Slk时，压缩mdx文件（有损压缩）。必须是布尔。
 [CONFIG_SLK_REMOVE_WE_ONLY]
-    输出目标是Slk时，删除只在WE中使用的文件。必须是布尔。
+输出目标是Slk时，删除只在WE中使用的文件。必须是布尔。
 [CONFIG_SLK_SLK_DOODAD]
-    输出目标是Slk时，对装饰物进行Slk优化。必须是布尔。
+输出目标是Slk时，对装饰物进行Slk优化。必须是布尔。
 [CONFIG_SLK_FIND_ID_TIMES]
-    输出目标是Slk时，限制搜索最优模板的次数，0表示无限。必须是整数。
+输出目标是Slk时，限制搜索最优模板的次数，0表示无限。必须是整数。
 [CONFIG_SLK_CONFUSED]
-    输出目标是Slk时，混淆jass文件。必须是布尔。
+输出目标是Slk时，混淆jass文件。必须是布尔。
 [CONFIG_SLK_CONFUSION]
-    输出目标是Slk时，混淆jass文件使用的字符集。需要满足以下条件：
+输出目标是Slk时，混淆jass文件使用的字符集。需要满足以下条件：
 
-        1.只能是字母数字下划线
-        2.至少要有3个不同的字符
-        3.至少要有2个字母
+    1.只能是字母数字下划线
+    2.至少要有3个不同的字符
+    3.至少要有2个字母
 [CONFIG_OBJ_READ_SLK]
-    输出目标是Obj时，转换地图内的slk文件。必须是布尔。
+输出目标是Obj时，转换地图内的slk文件。必须是布尔。
 [CONFIG_OBJ_FIND_ID_TIMES]
-    输出目标是Obj时，限制搜索最优模板的次数，0表示无限。必须是整数。
+输出目标是Obj时，限制搜索最优模板的次数，0表示无限。必须是整数。
 [CONFIG_MUST_BOOLEAN]
 必须是布尔
 [CONFIG_MUST_INTEGER]
