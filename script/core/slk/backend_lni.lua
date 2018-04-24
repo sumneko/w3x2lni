@@ -28,7 +28,7 @@ local function format_value(tp, value)
         return 'nil'
     end
     if tp == 0 then
-        return ('%d'):format(value)
+        return ('%d'):format(math.floor(value))
     elseif tp == 1 or tp == 2 then
         return ('%.4f'):format(value)
     elseif tp == 3 then

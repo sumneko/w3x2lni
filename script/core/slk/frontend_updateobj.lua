@@ -1,3 +1,4 @@
+local lang = require 'lang'
 local w2l
 local has_level
 local metadata

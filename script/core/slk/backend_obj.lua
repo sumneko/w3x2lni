@@ -57,7 +57,7 @@ local function format_value(value)
 end
 
 local function report(reason, obj, key, tip)
-    w2l.messager.report('%s', 6, ('%s %s %s'):format(reason, displaytype[ttype], get_displayname(obj)), ('[%s]: %s'):format(key, format_value(tip)))
+    w2l.messager.report(reason, 6, ('%s %s %s'):format(displaytype[ttype], get_displayname(obj)), ('[%s]: %s'):format(key, format_value(tip)))
 end
 
 local function write(format, ...)

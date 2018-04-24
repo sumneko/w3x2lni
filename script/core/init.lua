@@ -51,7 +51,7 @@ end
 
 function mt:metadata()
     if not metadata then
-        if self.config.mode ~= 'obj' and self.config.data_meta == '${SELF}' then
+        if self.config.mode ~= 'obj' or self.config.data_meta == '${SELF}' then
             metadata = self:defined 'metadata'
         else
             metadata = lni(self:meta_load 'metadata.ini')

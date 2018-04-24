@@ -113,8 +113,10 @@ function mt:update()
             self:update_message(pos)
         end
         self.output = {}
-        self.out_rd:close()
-        self.out_rd = nil
+        if self.out_rd then
+            self.out_rd:close()
+            self.out_rd = nil
+        end
         backend.message = lang.ui.FAILED
     end
     if self.closed then
