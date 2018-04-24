@@ -299,6 +299,13 @@ return function (mode)
     w2l.progress:start(input_rate + frontend_rate + backend_rate)
     w2l:backend(slk)
     w2l.progress:finish()
+
+    if w2l.config.mode == 'lni' then
+        local path = root / 'locale' / lang:get_lang() / 'w3i.lng'
+        w2l:file_save('w3x2lni', 'locale/w3i.lng', io.load(path))
+    else
+        w2l:file_remove('w3x2lni', 'locale/w3i/lng')
+    end
     
     messager.text(lang.script.SAVE_FILE)
     local doo = input_ar:get 'war3map.doo'
