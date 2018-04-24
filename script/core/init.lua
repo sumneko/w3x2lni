@@ -74,7 +74,12 @@ function mt:get_editstring(source)
     end
     if not self.editstring then
         self.editstring = {}
-        local t = ini(self:mpq_load('UI\\WorldEditStrings.txt'))['WorldEditStrings']
+        local t
+        if self.config.data_wes == '${DEFAULT}' then
+            t = ini(io.load('WorldEditStrings.txt'))['WorldEditStrings']
+        else
+            t = ini(self:wes_load('UI\\WorldEditStrings.txt'))['WorldEditStrings']
+        end
         for k, v in pairs(t) do
             self.editstring[k:upper()] = v
         end
@@ -339,6 +344,7 @@ function mt:set_config(config)
     dir = default.global
     choose('data_war3')
     choose('data_meta')
+    choose('data_wes')
     dir = default[config.mode]
     choose('read_slk', toboolean)
     choose('find_id_times', math.tointeger)

@@ -220,6 +220,19 @@ local function meta(v)
     return false, lang.raw.CONFIG_GLOBAL_META_ERROR .. data_hint()
 end
 
+local function wes(v)
+    if v == '${DEFAULT}' then
+        return true, v, v
+    end
+    local list = get_datas()
+    for _, name in ipairs(list) do
+        if name == v then
+            return true, v, v
+        end
+    end
+    return false, lang.raw.CONFIG_GLOBAL_WES_ERROR .. data_hint()
+end
+
 return function ()
     local config = proxy {}
     
@@ -228,6 +241,7 @@ return function ()
     config.global.data_war3        = {war3,   lang.raw.CONFIG_GLOBAL_WAR3 .. data_hint()}
     config.global.data_ui          = {ui,     lang.raw.CONFIG_GLOBAL_UI   .. data_hint()}
     config.global.data_meta        = {meta,   lang.raw.CONFIG_GLOBAL_META .. data_hint()}
+    config.global.data_wes         = {wes,    lang.raw.CONFIG_GLOBAL_WES  .. data_hint()}
 
     config.lni                     = {}
     config.lni.read_slk            = {boolean, lang.raw.CONFIG_LNI_READ_SLK}
