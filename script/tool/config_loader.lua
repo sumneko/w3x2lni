@@ -208,7 +208,7 @@ local function ui(v)
 end
 
 local function meta(v)
-    if v == '${SELF}' then
+    if v == '${DEFAULT}' then
         return true, v, v
     end
     local list = get_datas()

@@ -113,12 +113,12 @@ Config updated:
 [CONFIG_GLOBAL_META]
 使用编辑器数据的目录，可以使以下值：
 
-        ${SELF}        使用内置的编辑器数据
+        ${DEFAULT}        使用内置的编辑器数据
 
 [CONFIG_GLOBAL_META_ERROR]
 无效的目录，必须是以下值：
 
-        ${SELF}        使用内置的编辑器数据
+        ${DEFAULT}        使用内置的编辑器数据
 
 [CONFIG_GLOBAL_PLUGIN]
 插件的目录。默认是`plugin`。

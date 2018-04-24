@@ -300,7 +300,7 @@ return function ()
     if config.global.data_ui ~= '${YDWE}' then
         config.global.data_ui = mpq_name
     end
-    if config.global.data_meta ~= '${SELF}' then
+    if config.global.data_meta ~= '${DEFAULT}' then
         config.global.data_meta = mpq_name
     end
     w2l.messager.text((lang.script.FINISH):format(os.clock()))
