@@ -76,7 +76,7 @@ function mt:get_editstring(source)
         self.editstring = {}
         local t
         if self.config.data_wes == '${DEFAULT}' then
-            t = ini(io.load('WorldEditStrings.txt'))['WorldEditStrings']
+            t = ini(load_file('WorldEditStrings.txt'))['WorldEditStrings']
         else
             t = ini(self:wes_load('UI\\WorldEditStrings.txt'))['WorldEditStrings']
         end

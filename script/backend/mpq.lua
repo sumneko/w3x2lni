@@ -142,13 +142,12 @@ local function extract_mpq(mpqs)
         mpqs:extract_file('war3', root .. 'Scripts\\Blizzard.j')
         
         mpqs:extract_file('war3', root .. 'UI\\MiscData.txt')
-        mpqs:extract_file('war3', root .. 'UI\\WorldEditStrings.txt')
 
         mpqs:extract_file('war3', root .. 'Units\\MiscGame.txt')
         mpqs:extract_file('war3', root .. 'Units\\MiscData.txt')
 
-        mpqs:extract_file('', root .. 'ui\\TriggerData.txt')
-        mpqs:extract_file('', root .. 'ui\\TriggerStrings.txt')
+        mpqs:extract_file('we', root .. 'ui\\TriggerData.txt')
+        mpqs:extract_file('we', root .. 'ui\\TriggerStrings.txt')
 
         for type, slks in pairs(info.slk) do
             for _, name in ipairs(slks) do
@@ -170,9 +169,16 @@ local function create_metadata(w2l, mpqs)
             return mpqs:load_file('Units\\' .. filename)
         end
     end)
-    local meta_path = root:parent_path() / 'data' / mpq_name / 'meta'
+    local meta_path = root:parent_path() / 'data' / mpq_name / 'we'
     fs.create_directories(meta_path)
     io.save(meta_path / 'metadata.ini', meta)
+end
+
+local function create_wes(w2l, mpqs)
+    local wes = mpqs:load_file 'ui\\WorldEditStrings.txt'
+    local wes_path = root:parent_path() / 'data' / mpq_name / 'we'
+    fs.create_directories(wes_path)
+    io.save(wes_path / 'WorldEditStrings.txt', wes)
 end
 
 local lost_wes = {}
@@ -280,6 +286,7 @@ return function ()
 
     w2l.progress:start(0.3)
     create_metadata(w2l, mpqs)
+    create_wes(w2l, mpqs)
     w2l.progress:finish()
 
     w2l.progress:start(0.4)
@@ -302,6 +309,9 @@ return function ()
     end
     if config.global.data_meta ~= '${DEFAULT}' then
         config.global.data_meta = mpq_name
+    end
+    if config.global.data_wes ~= '${DEFAULT}' then
+        config.global.data_wes = mpq_name
     end
     w2l.messager.text((lang.script.FINISH):format(os.clock()))
     w2l.messager.exit('success', lang.script.MPQ_EXTRACT_DIR:format(mpq_name))

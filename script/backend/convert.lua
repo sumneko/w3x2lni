@@ -209,11 +209,11 @@ function w2l:prebuilt_load(filename)
 end
 
 function w2l:meta_load(filename)
-    return io.load(root:parent_path() / 'data' / self.config.data_meta / 'meta' / filename)
+    return io.load(root:parent_path() / 'data' / self.config.data_meta / 'we' / filename)
 end
 
 function w2l:wes_load(filename)
-    return io.load(root:parent_path() / 'data' / self.config.data_wes / 'wes' / filename)
+    return io.load(root:parent_path() / 'data' / self.config.data_wes / 'we' / filename)
 end
 
 function w2l:trigger_data()
