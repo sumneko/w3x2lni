@@ -78,7 +78,7 @@ function mt:get_editstring(source)
         if self.config.data_wes == '${DEFAULT}' then
             t = ini(load_file('WorldEditStrings.txt'))['WorldEditStrings']
         else
-            t = ini(self:wes_load('UI\\WorldEditStrings.txt'))['WorldEditStrings']
+            t = ini(self:wes_load('WorldEditStrings.txt'))['WorldEditStrings']
         end
         for k, v in pairs(t) do
             self.editstring[k:upper()] = v
