@@ -92,7 +92,7 @@ function mt:set_lang(lang_)
     end
 end
 
-function mt:get_lang(type)
+function mt:current_lang(type)
     if not lang then
         self:set_lang '${AUTO}'
     end

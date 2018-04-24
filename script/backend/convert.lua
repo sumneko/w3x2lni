@@ -305,8 +305,8 @@ return function (mode)
     w2l.progress:finish()
 
     if w2l.config.mode == 'lni' then
-        local path = root / 'locale' / lang:get_lang() / 'w3i.lng'
-        w2l:file_save('w3x2lni', 'locale/w3i.lng', io.load(path))
+        local path = root / 'locale' / lang:current_lang() / 'w3i.lng'
+        w2l:file_save('w3x2lni', 'locale/w3i.lng', io.load(path) or '')
     else
         w2l:file_remove('w3x2lni', 'locale/w3i.lng')
     end
