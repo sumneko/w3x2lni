@@ -249,10 +249,10 @@ local function add_special(meta, type)
     end
 end
 
-local function create_metadata(w2l, type, metadata)
+local function create_metadata(w2l, type, metadata, loader)
     metadata[type] = {}
     local has_level = w2l.info.key.max_level[type]
-    local tbl = slk(io.load(fs.current_path() / 'meta' / w2l.info.metadata[type]))
+    local tbl = slk(loader(w2l.info.metadata[type]))
     tbl.Ytip = nil
     local has_index = {}
     for k, v in pairs(tbl) do
@@ -305,10 +305,10 @@ local function copy_code(t, template)
     end
 end
 
-return function(w2l)
+return function(w2l, loader)
     local metadata = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
-        create_metadata(w2l, type, metadata)
+        create_metadata(w2l, type, metadata, loader)
     end
-    io.save(fs.current_path() / 'core' / 'defined' / 'metadata.ini', stringify_ex(metadata))
+    return stringify_ex(metadata)
 end

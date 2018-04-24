@@ -4,6 +4,7 @@ local stormlib = require 'ffi.stormlib'
 local sleep = require 'ffi.sleep'
 local makefile = require 'prebuilt.makefile'
 local maketemplate = require 'prebuilt.maketemplate'
+local prebuilt_metadata = require 'prebuilt.metadata'
 local proto = require 'tool.protocol'
 local lang = require 'tool.lang'
 local file_version = require 'ffi.file_version'
@@ -141,11 +142,11 @@ local function extract_mpq(mpqs)
         mpqs:extract_file('war3', root .. 'UI\\MiscData.txt')
         mpqs:extract_file('war3', root .. 'UI\\WorldEditStrings.txt')
 
-        mpqs:extract_file('war3', root .. 'units\\MiscGame.txt')
-        mpqs:extract_file('war3', root .. 'units\\MiscData.txt')
+        mpqs:extract_file('war3', root .. 'Units\\MiscGame.txt')
+        mpqs:extract_file('war3', root .. 'Units\\MiscData.txt')
 
-        mpqs:extract_file('ui', root .. 'UI\\TriggerData.txt')
-        mpqs:extract_file('ui', root .. 'UI\\TriggerStrings.txt')
+        mpqs:extract_file('', root .. 'ui\\TriggerData.txt')
+        mpqs:extract_file('', root .. 'ui\\TriggerStrings.txt')
 
         for type, slks in pairs(info.slk) do
             for _, name in ipairs(slks) do
@@ -157,6 +158,19 @@ local function extract_mpq(mpqs)
             mpqs:extract_file('war3', root .. name)
         end
     end
+end
+
+local function create_metadata(w2l, mpqs)
+    local meta = prebuilt_metadata(w2l, function (filename)
+        if filename == 'doodadmetadata.slk' then
+            return mpqs:load_file('Doodads\\' .. filename)
+        else
+            return mpqs:load_file('Units\\' .. filename)
+        end
+    end)
+    local meta_path = root:parent_path() / 'data' / mpq_name / 'meta'
+    fs.create_directories(meta_path)
+    io.save(meta_path / 'metadata.ini', meta)
 end
 
 local lost_wes = {}
@@ -254,12 +268,16 @@ return function ()
     w2l.progress:finish()
 
     w2l.progress:start(0.3)
+    create_metadata(w2l, mpqs)
+    w2l.progress:finish()
+
+    w2l.progress:start(0.4)
     makefile(w2l, mpq_name, 'Melee')
     w2l.progress:finish()
-    w2l.progress:start(0.6)
+    w2l.progress:start(0.65)
     maketemplate(w2l, mpq_name, 'Melee')
     w2l.progress:finish()
-    w2l.progress:start(0.7)
+    w2l.progress:start(0.75)
     makefile(w2l, mpq_name, 'Custom')
     w2l.progress:finish()
     w2l.progress:start(1.0)
