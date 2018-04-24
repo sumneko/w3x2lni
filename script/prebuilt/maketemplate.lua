@@ -8,7 +8,7 @@ return function (w2l, mpq, version)
         version = version,
     }
     w2l.progress:start(0.3)
-    local slk = w2l:get_default(true)
+    local slk = w2l.builded_slk or w2l:get_default(true)
     w2l.progress:finish()
     fs.create_directories(template_path)
     w2l.progress:start(1.0)

@@ -1,4 +1,5 @@
 local w3xparser = require 'w3xparser'
+local lang = require 'tool.lang'
 local w2l = w2l
 local slk = w3xparser.slk
 
@@ -224,7 +225,7 @@ local function parse_id(w2l, metadata, id, meta, type, has_level)
                 metadata[code] = { type = type }
             end
             if metadata[code][lkey] and metadata[code][lkey].id ~= data.id then
-                w2l.messager.txt(('生成的ID不同：skill [%s] code [%s]'):format(name, code))
+                w2l.messager.report(lang.report.OTHER, 9, ('生成的ID不同：skill [%s] code [%s]'):format(name, code))
             end
             metadata[code][lkey] = data
         end
@@ -290,7 +291,7 @@ local function copy_code(t, template)
                     local dest = t[code][k]
                     if dest then
                         if v.id ~= dest.id then
-                            w2l.messager.txt(('复制的ID[%s]不同：skill [%s][%s] code [%s][%s]'):format(k, name, v.id, code, dest.id))
+                            w2l.messager.report(lang.report.OTHER, 9, ('复制的ID[%s]不同：skill [%s][%s] code [%s][%s]'):format(k, name, v.id, code, dest.id))
                         end
                     else
                         t[code][k] = v

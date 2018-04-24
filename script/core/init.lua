@@ -51,7 +51,11 @@ end
 
 function mt:metadata()
     if not metadata then
-        metadata = self:defined 'metadata'
+        if self.config.data_meta == '${SELF}' then
+            metadata = self:defined 'metadata'
+        else
+            metadata = lni(self:meta_load 'metadata')
+        end
     end
     return metadata
 end
@@ -334,6 +338,7 @@ function mt:set_config(config)
     end
     dir = default.global
     choose('data_war3')
+    choose('data_meta')
     dir = default[config.mode]
     choose('read_slk', toboolean)
     choose('find_id_times', math.tointeger)

@@ -129,7 +129,7 @@ local function report_fail()
     end
     table.sort(tbl)
     for _, name in ipairs(tbl) do
-        w2l.messager.text(lang.script.EXPORT_FILE_FAILED .. name)
+        w2l.messager.report(lang.report.OTHER, 9, lang.script.EXPORT_FILE_FAILED .. name)
     end
 end
 
@@ -174,6 +174,7 @@ local function create_metadata(w2l, mpqs)
 end
 
 local lost_wes = {}
+local reports = {}
 local function get_w2l()
     w2l = core()
     w2l:set_messager(messager)
@@ -188,6 +189,8 @@ local function get_w2l()
     function messager.report(_, _, str, tip)
         if str == lang.report.NO_WES_STRING then
             lost_wes[tip] = true
+        else
+            reports[#reports+1] = str
         end
     end
 end
@@ -208,6 +211,12 @@ end
 
 local function make_log()
     local lines = {}
+    if #reports > 0 then
+        for _, rep in ipairs(reports) do
+            lines[#lines+1] = rep
+        end
+        lines[#lines+1] = ''
+    end
     if next(lost_wes) then
         lines[#lines+1] = lang.script.UNEXIST_WES_IN_MPQ
         for v in sortpairs(lost_wes) do
@@ -288,6 +297,9 @@ return function ()
     config.global.data_war3 = mpq_name
     if config.global.data_ui ~= '${YDWE}' then
         config.global.data_ui = mpq_name
+    end
+    if config.global.meta_ui ~= '${SELF}' then
+        config.global.meta_ui = mpq_name
     end
     w2l.messager.text((lang.script.FINISH):format(os.clock()))
     w2l.messager.exit('success', lang.script.MPQ_EXTRACT_DIR:format(mpq_name))

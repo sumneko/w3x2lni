@@ -16,7 +16,7 @@ return function (w2l, mpq, version)
         io.save(prebuilt_path / filename, buf)
     end
 
-    w2l:build_slk()
+    w2l.builded_slk = w2l:build_slk()
 
     function w2l:prebuilt_save()
     end

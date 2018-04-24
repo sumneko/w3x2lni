@@ -26,7 +26,7 @@ end
 
 local function slk_lib(read_only, safe_mode)
     local w2l = core()
-    local mpq_path = fs.current_path():parent_path() / 'data' / w2l.config.data_war3 / 'war3'
+    local mpq_path = fs.current_path():parent_path() / 'data' / w2l.config.data_war3
     local prebuilt_path = fs.current_path():parent_path() / 'data' / w2l.config.data_war3 / 'prebuilt'
     local test_w3a = fs.current_path() / 'test' / 'war3map.w3a'
     w2l:set_messager(print)
