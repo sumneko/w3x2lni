@@ -104,7 +104,9 @@ local function open_mpq(dir)
                 return
             end
         end
-        result[name] = false
+        if not name:match '^Custom_V1' then
+            result[name] = false
+        end
     end
 
     function obj:load_file(name)
