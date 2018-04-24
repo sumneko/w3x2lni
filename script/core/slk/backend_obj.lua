@@ -139,12 +139,16 @@ local function write_object(chunk, name, obj)
     for _, key in ipairs(keys) do
         local data = obj[key]
         if data then
-            if type(data) == 'table' then
-                for _ in pairs(data) do
+            if metas[key] then
+                if type(data) == 'table' then
+                    for _ in pairs(data) do
+                        count = count + 1
+                    end
+                else
                     count = count + 1
                 end
             else
-                count = count + 1
+                report(lang.report.INVALID_OBJECT_DATA, obj, key, obj[key])
             end
         end
     end
@@ -163,8 +167,6 @@ local function write_object(chunk, name, obj)
         if data then
             if metas[key] then
                 write_data(key, obj[key], metas[key])
-            else
-                report(lang.report.INVALID_OBJECT_DATA, obj, key, obj[key])
             end
         end
     end
