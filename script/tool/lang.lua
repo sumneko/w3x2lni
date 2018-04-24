@@ -37,8 +37,14 @@ function mt:load_lng(filename)
     if not lang then
         self:set_lang '${AUTO}'
     end
-    local t = {}
     local buf = io.load(root / 'locale' / lang / (filename .. '.lng'))
+    return buf
+end
+
+function mt:set_lng_file(filename, buf)
+    local t = {}
+    self[filename] = t
+    cache[filename] = true
     if not buf then
         return proxy(t)
     end
@@ -60,9 +66,8 @@ function mt:load_lng(filename)
 end
 
 function mt:__index(filename)
-    local t = self:load_lng(filename)
-    self[filename] = t
-    cache[filename] = true
+    local buf = self:load_lng(filename)
+    local t = self:set_lng_file(filename, buf)
     return t
 end
 

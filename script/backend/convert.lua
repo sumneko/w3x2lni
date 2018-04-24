@@ -286,6 +286,10 @@ return function (mode)
     w2l.progress:start(input_rate)
     input_ar:search_files(w2l.progress)
     w2l.progress:finish()
+
+    if w2l:file_load('w3x2lni', 'locale/w3i.lng') then
+        lang:set_lng_file('w3i', w2l:file_load('w3x2lni', 'locale/w3i.lng'))
+    end
     
     messager.text(lang.script.LOAD_OBJECT)
     w2l.progress:start(input_rate + frontend_rate)
@@ -304,7 +308,7 @@ return function (mode)
         local path = root / 'locale' / lang:get_lang() / 'w3i.lng'
         w2l:file_save('w3x2lni', 'locale/w3i.lng', io.load(path))
     else
-        w2l:file_remove('w3x2lni', 'locale/w3i/lng')
+        w2l:file_remove('w3x2lni', 'locale/w3i.lng')
     end
     
     messager.text(lang.script.SAVE_FILE)
