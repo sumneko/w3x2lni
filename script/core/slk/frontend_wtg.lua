@@ -7,21 +7,21 @@ local unpack_index
 local read_eca
 
 local arg_type_map = {
-    [-1] =(lang.lml.DISABLE),
-    [0]  =(lang.lml.PRESET),
-    [1]  =(lang.lml.VARIABLE),
-    [2]  =(lang.lml.CALL),
-    [3]  =(lang.lml.CONSTANT),
+    [-1] = lang.lml.DISABLE,
+    [0]  = lang.lml.PRESET,
+    [1]  = lang.lml.VARIABLE,
+    [2]  = lang.lml.CALL,
+    [3]  = lang.lml.CONSTANT,
 }
 
 local multiple = {
     YDWERegionMultiple = {lang.lml.ACTION},
     YDWEEnumUnitsInRangeMultiple = {lang.lml.ACTION},
     YDWEForLoopLocVarMultiple = {lang.lml.ACTION},
-    YDWETimerStartMultiple = {lang.lml.ACTION,(lang.lml.ACTION)},
-    YDWERegisterTriggerMultiple = {lang.lml.EVENT,(lang.lml.ACTION),(lang.lml.ACTION)},
+    YDWETimerStartMultiple = {lang.lml.ACTION, lang.lml.ACTION},
+    YDWERegisterTriggerMultiple = {lang.lml.EVENT, lang.lml.ACTION, lang.lml.ACTION},
     YDWEExecuteTriggerMultiple = {lang.lml.ACTION},
-    IfThenElseMultiple = {lang.lml.CONDITION,(lang.lml.ACTION),(lang.lml.ACTION)},
+    IfThenElseMultiple = {lang.lml.CONDITION, lang.lml.ACTION, lang.lml.ACTION},
     ForLoopAMultiple = {lang.lml.ACTION},
     ForLoopBMultiple = {lang.lml.ACTION},
     ForLoopVarMultiple = {lang.lml.ACTION},
@@ -79,10 +79,10 @@ local function read_var()
 
     local var = { name, type }
     if array == 1 then
-        var[#var+1] = {(lang.lml.ARRAY), size }
+        var[#var+1] = { lang.lml.ARRAY, size }
     end
     if default == 1 then
-        var[#var+1] = {(lang.lml.DEFAULT), value }
+        var[#var+1] = { lang.lml.DEFAULT, value }
     end
 
     return var
@@ -99,10 +99,10 @@ local function read_vars()
 end
 
 local type_map = {
-    [0] =(lang.lml.EVENT),
-    [1] =(lang.lml.CONDITION),
-    [2] =(lang.lml.ACTION),
-    [3] =(lang.lml.CALL),
+    [0] = lang.lml.EVENT,
+    [1] = lang.lml.CONDITION,
+    [2] = lang.lml.ACTION,
+    [3] = lang.lml.CALL,
 }
 
 local type_index = {
@@ -124,7 +124,7 @@ local function read_arg()
 
     local insert_index = unpack 'l'
     if insert_index == 1 then
-        arg = {(lang.lml.ARRAY), value, read_arg() }
+        arg = { lang.lml.ARRAY, value, read_arg() }
     end
 
     if arg then
@@ -154,9 +154,9 @@ local function read_ecas(parent, count, is_child, multi_list)
     for id = 0, max-1 do
         if not parent[id+start] then
             if multi_list then
-                parent[id+start] = { multi_list[id+1] or(lang.lml.LIST) }
+                parent[id+start] = { multi_list[id+1] or lang.lml.LIST }
             else
-                parent[id+start] = {(lang.lml.LIST) }
+                parent[id+start] = { lang.lml.LIST }
             end
         end
     end
@@ -173,7 +173,7 @@ function read_eca(is_child, is_arg)
 
     local eca
     if enable == 0 then
-        eca = {(lang.lml.DISABLE), name }
+        eca = { lang.lml.DISABLE, name }
     elseif is_arg then
         eca = { type_map[type], name }
     else
@@ -217,7 +217,7 @@ local function read_trigger()
 
     trigger.trg = { '', false }
     local count = unpack 'l'
-    read_ecas(trigger.trg, count, false, {lang.lml.EVENT,(lang.lml.CONDITION),(lang.lml.ACTION)})
+    read_ecas(trigger.trg, count, false, {lang.lml.EVENT, lang.lml.CONDITION, lang.lml.ACTION})
 
     return trigger
 end
