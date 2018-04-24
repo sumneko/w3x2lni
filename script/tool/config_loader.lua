@@ -115,6 +115,7 @@ local function get_langs()
             list[#list+1] = dir:filename():string()
         end
     end
+    table.sort(list)
     return list
 end
 
@@ -130,7 +131,8 @@ local function insert_lang(chars, max, lng)
     chars[#chars+1] = '\r\n'
 end
 
-local function lang_hint(list)
+local function lang_hint()
+    local list = get_langs()
     local max = #'${AUTO}'
     for _, lang in ipairs(list) do
         if #lang > max then
@@ -156,17 +158,76 @@ local function langf(v)
             return true, v, v
         end
     end
-    return false, (lang.raw.CONFIG_GLOBAL_LANG_ERROR .. '\r\n\r\n%s'):format(lang_hint(list))
+    return false, lang.raw.CONFIG_GLOBAL_LANG_ERROR .. lang_hint()
+end
+
+local function get_datas()
+    local locale = root:parent_path() / 'data'
+    local list = {}
+    for dir in locale:list_directory() do
+        if fs.is_directory(dir) then
+            list[#list+1] = dir:filename():string()
+        end
+    end
+    table.sort(list)
+    return list
+end
+
+local function data_hint()
+    local list = get_datas()
+    local chars = {}
+    for _, data in ipairs(list) do
+        chars[#chars+1] = '        '
+        chars[#chars+1] = data
+        chars[#chars+1] = '\r\n'
+    end
+    return table.concat(chars)
+end
+
+local function war3(v)
+    local list = get_datas()
+    for _, name in ipairs(list) do
+        if name == v then
+            return true, v, v
+        end
+    end
+    return false, lang.raw.CONFIG_GLOBAL_WAR3_ERROR .. data_hint()
+end
+
+local function ui(v)
+    if v == '${YDWE}' then
+        return true, v, v
+    end
+    local list = get_datas()
+    for _, name in ipairs(list) do
+        if name == v then
+            return true, v, v
+        end
+    end
+    return false, lang.raw.CONFIG_GLOBAL_UI_ERROR .. data_hint()
+end
+
+local function meta(v)
+    if v == '${SELF}' then
+        return true, v, v
+    end
+    local list = get_datas()
+    for _, name in ipairs(list) do
+        if name == v then
+            return true, v, v
+        end
+    end
+    return false, lang.raw.CONFIG_GLOBAL_META_ERROR .. data_hint()
 end
 
 return function ()
     local config = proxy {}
     
     config.global                  = {}
-    config.global.lang             = {langf,  (lang.raw.CONFIG_GLOBAL_LANG .. '\r\n\r\n%s'):format(lang_hint(get_langs()))}
-    config.global.data_war3        = {string, lang.raw.CONFIG_GLOBAL_WAR3}
-    config.global.data_ui          = {string, lang.raw.CONFIG_GLOBAL_UI}
-    config.global.data_meta        = {string, lang.raw.CONFIG_GLOBAL_META}
+    config.global.lang             = {langf,  lang.raw.CONFIG_GLOBAL_LANG .. lang_hint()}
+    config.global.data_war3        = {war3,   lang.raw.CONFIG_GLOBAL_WAR3 .. data_hint()}
+    config.global.data_ui          = {ui,     lang.raw.CONFIG_GLOBAL_UI   .. data_hint()}
+    config.global.data_meta        = {meta,   lang.raw.CONFIG_GLOBAL_META .. data_hint()}
 
     config.lni                     = {}
     config.lni.read_slk            = {boolean, lang.raw.CONFIG_LNI_READ_SLK}
@@ -174,13 +235,13 @@ return function ()
     config.lni.export_lua          = {boolean, lang.raw.CONFIG_LNI_EXPORT_LUA}
 
     config.slk                     = {}
-    config.slk.remove_unuse_object = {boolean, lang.raw.CONFIG_LNI_REMOVE_UNUSE_OBJECT}
-    config.slk.optimize_jass       = {boolean, lang.raw.CONFIG_SLK_OPTIMIZE_JASS}
-    config.slk.mdx_squf            = {boolean, lang.raw.CONFIG_SLK_MDX_SQUF}
-    config.slk.remove_we_only      = {boolean, lang.raw.CONFIG_SLK_REMOVE_WE_ONLY}
-    config.slk.slk_doodad          = {boolean, lang.raw.CONFIG_SLK_SLK_DOODAD}
-    config.slk.find_id_times       = {integer, lang.raw.CONFIG_SLK_FIND_ID_TIMES}
-    config.slk.confused            = {boolean, lang.raw.CONFIG_SLK_CONFUSED}
+    config.slk.remove_unuse_object = {boolean,   lang.raw.CONFIG_LNI_REMOVE_UNUSE_OBJECT}
+    config.slk.optimize_jass       = {boolean,   lang.raw.CONFIG_SLK_OPTIMIZE_JASS}
+    config.slk.mdx_squf            = {boolean,   lang.raw.CONFIG_SLK_MDX_SQUF}
+    config.slk.remove_we_only      = {boolean,   lang.raw.CONFIG_SLK_REMOVE_WE_ONLY}
+    config.slk.slk_doodad          = {boolean,   lang.raw.CONFIG_SLK_SLK_DOODAD}
+    config.slk.find_id_times       = {integer,   lang.raw.CONFIG_SLK_FIND_ID_TIMES}
+    config.slk.confused            = {boolean,   lang.raw.CONFIG_SLK_CONFUSED}
     config.slk.confusion           = {confusion, lang.raw.CONFIG_SLK_CONFUSION}
 
     config.obj                     = {}

@@ -26,7 +26,7 @@ return function (command)
     end
 
     local request = command[2]
-    local section, k = request:match '(%a+)%.([%a_]+)$'
+    local section, k = request:match '(%a+)%.([%w_]+)$'
     if section then
         local v = config2[section][k]
         if v then
@@ -40,7 +40,7 @@ return function (command)
         end
         return
     end
-    local section, k, v = request:match '(%a+)%.([%a_]+)%=(.*)$'
+    local section, k, v = request:match '(%a+)%.([%w_]+)%=(.*)$'
     if section then
         local suc, msg = config2[section][k][4](v)
         if not suc then

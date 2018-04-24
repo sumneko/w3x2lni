@@ -86,12 +86,40 @@ Config updated:
 [默认]  
 [CONFIG_GLOBAL_LANG]
 使用的语言，可以是以下值：
+
+
 [CONFIG_GLOBAL_LANG_ERROR]
 无效的语言，必须是以下值：
+
+
 [CONFIG_GLOBAL_WAR3]
-使用魔兽数据文件的目录。
+使用魔兽数据文件的目录，可以是以下值：
+
+
+[CONFIG_GLOBAL_WAR3_ERROR]
+无效的目录，必须是以下值：
+
+
 [CONFIG_GLOBAL_UI]
-使用触发器数据的目录，`${YDWE}`表示搜索本地YDWE使用的触发器数据。
+使用触发器数据的目录，可以是以下值：
+
+        ${YDWE}        搜索本地YDWE使用的触发器文件
+
+[CONFIG_GLOBAL_UI_ERROR]
+无效的目录，必须是以下值：
+
+        ${YDWE}        搜索本地YDWE使用的触发器文件
+
+[CONFIG_GLOBAL_META]
+使用编辑器数据的目录，可以使以下值：
+
+        ${SELF}        使用内置的编辑器数据
+
+[CONFIG_GLOBAL_META_ERROR]
+无效的目录，必须是以下值：
+
+        ${SELF}        使用内置的编辑器数据
+
 [CONFIG_GLOBAL_PLUGIN]
 插件的目录。默认是`plugin`。
 [CONFIG_LNI_READ_SLK]
