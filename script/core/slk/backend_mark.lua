@@ -248,7 +248,7 @@ local function mark_jass(slk, list, flag)
         end
     end
     if flag.building or flag.creeps then
-        local maptile = slk.w3i and slk.w3i['地形']['地形类型'] or '*'
+        local maptile = slk.w3i and slk.w3i[lang.w3i.MAP_INFO][lang.w3i.MAP_MAIN_GROUND] or '*'
         for _, obj in pairs(slk.unit) do
             if obj.race == 'creeps' and obj.tilesets and (obj.tilesets == '*' or obj.tilesets:find(maptile)) then
                 -- 随机建筑
