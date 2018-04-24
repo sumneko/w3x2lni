@@ -290,6 +290,9 @@ return function (mode)
     if w2l:file_load('w3x2lni', 'locale/w3i.lng') then
         lang:set_lng_file('w3i', w2l:file_load('w3x2lni', 'locale/w3i.lng'))
     end
+    if w2l:file_load('w3x2lni', 'locale/lml.lng') then
+        lang:set_lng_file('lml', w2l:file_load('w3x2lni', 'locale/lml.lng'))
+    end
     
     messager.text(lang.script.LOAD_OBJECT)
     w2l.progress:start(input_rate + frontend_rate)
@@ -307,8 +310,11 @@ return function (mode)
     if w2l.config.mode == 'lni' then
         local path = root / 'locale' / lang:current_lang() / 'w3i.lng'
         w2l:file_save('w3x2lni', 'locale/w3i.lng', io.load(path) or '')
+        local path = root / 'locale' / lang:current_lang() / 'lml.lng'
+        w2l:file_save('w3x2lni', 'locale/lml.lng', io.load(path) or '')
     else
         w2l:file_remove('w3x2lni', 'locale/w3i.lng')
+        w2l:file_remove('w3x2lni', 'locale/lml.lng')
     end
     
     messager.text(lang.script.SAVE_FILE)
