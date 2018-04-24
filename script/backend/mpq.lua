@@ -298,8 +298,8 @@ return function ()
     if config.global.data_ui ~= '${YDWE}' then
         config.global.data_ui = mpq_name
     end
-    if config.global.meta_ui ~= '${SELF}' then
-        config.global.meta_ui = mpq_name
+    if config.global.data_meta ~= '${SELF}' then
+        config.global.data_meta = mpq_name
     end
     w2l.messager.text((lang.script.FINISH):format(os.clock()))
     w2l.messager.exit('success', lang.script.MPQ_EXTRACT_DIR:format(mpq_name))
