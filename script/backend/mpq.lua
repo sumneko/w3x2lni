@@ -175,10 +175,12 @@ local function create_metadata(w2l, mpqs)
 end
 
 local function create_wes(w2l, mpqs)
-    local wes = mpqs:load_file 'ui\\WorldEditStrings.txt'
     local wes_path = root:parent_path() / 'data' / mpq_name / 'we'
     fs.create_directories(wes_path)
+    local wes = mpqs:load_file 'ui\\WorldEditStrings.txt'
+    local wegs = mpqs:load_file 'ui\\WorldEditGameStrings.txt'
     io.save(wes_path / 'WorldEditStrings.txt', wes)
+    io.save(wes_path / 'WorldEditGameStrings.txt', wegs)
 end
 
 local lost_wes = {}
