@@ -2,6 +2,7 @@ local w3xparser = require 'w3xparser'
 local lang = require 'tool.lang'
 local w2l = w2l
 local slk = w3xparser.slk
+local fixer
 
 local codemapped
 local function get_codemapped(w2l, id)
@@ -225,9 +226,16 @@ local function parse_id(w2l, metadata, id, meta, type, has_level)
                 metadata[code] = { type = type }
             end
             if metadata[code][lkey] and metadata[code][lkey].id ~= data.id then
-                w2l.messager.report(lang.report.OTHER, 9, ('生成的ID不同：skill [%s] code [%s]'):format(name, code))
+                if fixer[code][lkey] then
+                    if fixer[code][lkey].id == data.id then
+                        metadata[code][lkey] = data
+                    end
+                else
+                    w2l.messager.report(lang.report.OTHER, 9, ('生成的ID不同：skill [%s] code [%s]'):format(name, code))
+                end
+            else
+                metadata[code][lkey] = data
             end
-            metadata[code][lkey] = data
         end
     else
         metadata[type][lkey] = data
@@ -307,8 +315,9 @@ local function copy_code(t, template)
     end
 end
 
-return function(w2l_, loader)
+return function(w2l_, fixer_, loader)
     w2l = w2l_
+    fixer = fixer_
     local metadata = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         create_metadata(w2l, type, metadata, loader)

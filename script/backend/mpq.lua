@@ -163,7 +163,8 @@ local function extract_mpq(mpqs)
 end
 
 local function create_metadata(w2l, mpqs)
-    local meta = prebuilt_metadata(w2l, function (filename)
+    local defined_meta = w2l:parse_lni(io.load(root / 'core' / 'defined' / 'metadata.ini'))
+    local meta = prebuilt_metadata(w2l, defined_meta, function (filename)
         if filename == 'doodadmetadata.slk' then
             return mpqs:load_file('Doodads\\' .. filename)
         else

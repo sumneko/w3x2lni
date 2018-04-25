@@ -78,7 +78,7 @@ local function main()
 
     prebuilt_codemapped(w2l)
     prebuilt_typedefine(w2l)
-    local meta = prebuilt_metadata(w2l, function (filename)
+    local meta = prebuilt_metadata(w2l, nil, function (filename)
         return io.load(root / 'meta' / filename)
     end)
     io.save(fs.current_path() / 'core' / 'defined' / 'metadata.ini', meta)
