@@ -1,15 +1,18 @@
+local config = require 'tool.config' ()
 local root = fs.current_path()
 
-return function (w2l, mpq, version)
+return function (w2l, version, slk)
     local template_path = root:parent_path() / 'template' / version
     w2l:set_config
     {
-        data_war3 = mpq,
-        data_wes  = mpq,
+        data_war3 = config.global.data_war3,
+        data_ui   = config.global.data_ui,
+        data_meta = config.global.data_meta,
+        data_wes  = config.global.data_wes,
         version   = version,
     }
     w2l.progress:start(0.3)
-    local slk = w2l.builded_slk or w2l:get_default(true)
+    slk = slk or w2l:get_default(true)
     w2l.progress:finish()
     fs.create_directories(template_path)
     w2l.progress:start(1.0)

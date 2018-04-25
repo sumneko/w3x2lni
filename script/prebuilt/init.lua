@@ -11,6 +11,7 @@ local prebuilt_metadata = require 'prebuilt.metadata'
 local prebuilt_keydata = require 'prebuilt.keydata'
 local prebuilt_search = require 'prebuilt.search'
 local maketemplate = require 'prebuilt.maketemplate'
+local config = require 'tool.config' ()
 
 local root = fs.current_path()
 local w2l = core()
@@ -85,12 +86,22 @@ local function main()
     prebuilt_keydata(w2l)
     prebuilt_search(w2l)
 
-    makefile(w2l, 'zhCN-1.24.4', 'Melee')
-    maketemplate(w2l, 'zhCN-1.24.4', 'Melee')
-    makefile(w2l, 'zhCN-1.24.4', 'Custom')
-    maketemplate(w2l, 'zhCN-1.24.4', 'Custom')
-    makefile(w2l, 'enUS-1.27.1', 'Melee')
-    makefile(w2l, 'enUS-1.27.1', 'Custom')
+    config.global.lang = "${AUTO}"
+    config.global.data_ui = "${YDWE}"
+    config.global.data_meta = "${DEFAULT}"
+    config.global.data_wes = "${DEFAULT}"
+
+    config.global.data_war3 = "zhCN-1.24.4"
+    local slk_melee  = makefile(w2l, 'Melee')
+    local slk_custom = makefile(w2l, 'Custom')
+    
+    config.global.data_war3 = "enUS-1.27.1"
+    makefile(w2l, 'Melee')
+    makefile(w2l, 'Custom')
+
+    config.global.data_war3 = "zhCN-1.24.4"
+    maketemplate(w2l, 'Melee',  slk_melee)
+    maketemplate(w2l, 'Custom', slk_custom)
 
     -- 生成技能命令映射
     --local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'), 'ability.ini')
