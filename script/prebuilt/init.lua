@@ -29,6 +29,11 @@ function w2l:mpq_load(filename)
     end)
 end
 
+function w2l:wes_load(filename)
+    local wes_path = root:parent_path() / 'data' / w2l.config.data_wes / 'we'
+    return io.load(wes_path / filename)
+end
+
 local function prebuilt_codemapped(w2l)
     local info     = w2l:parse_lni(assert(io.load(root / 'core'/ 'info.ini')), 'info')
     local template = w2l:parse_slk(w2l:mpq_load(info.slk.ability[1]))
@@ -81,11 +86,11 @@ local function main()
     prebuilt_search(w2l)
 
     makefile(w2l, 'zhCN-1.24.4', 'Melee')
+    maketemplate(w2l, 'zhCN-1.24.4', 'Melee')
     makefile(w2l, 'zhCN-1.24.4', 'Custom')
+    maketemplate(w2l, 'zhCN-1.24.4', 'Custom')
     makefile(w2l, 'enUS-1.27.1', 'Melee')
     makefile(w2l, 'enUS-1.27.1', 'Custom')
-    maketemplate(w2l, 'zhCN-1.24.4', 'Melee')
-    maketemplate(w2l, 'zhCN-1.24.4', 'Custom')
 
     -- 生成技能命令映射
     --local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'), 'ability.ini')
