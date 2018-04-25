@@ -11,6 +11,7 @@ local file_version = require 'ffi.file_version'
 local core = require 'backend.sandbox_core'
 local unpack_config = require 'backend.unpack_config'
 local w3xparser = require 'w3xparser'
+local messager = require 'tool.messager'
 local w2l
 local mpq_name
 local root = fs.current_path()
@@ -194,6 +195,10 @@ local function get_w2l()
         return self.mpq_path:each_path(function(path)
             return io.load(mpq_path / path / filename)
         end)
+    end
+
+    function w2l:wes_load(filename)
+        return io.load(root:parent_path() / 'data' / mpq_name / 'we' / filename)
     end
 
     function messager.report(_, _, str, tip)

@@ -4,8 +4,9 @@ return function (w2l, mpq, version)
     local template_path = root:parent_path() / 'template' / version
     w2l:set_config
     {
-        data_war3    = mpq,
-        version = version,
+        data_war3 = mpq,
+        data_wes  = mpq,
+        version   = version,
     }
     w2l.progress:start(0.3)
     local slk = w2l.builded_slk or w2l:get_default(true)

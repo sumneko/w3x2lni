@@ -1,6 +1,6 @@
 local proto = require 'tool.protocol'
 
-messager = {}
+local messager = {}
 function messager.text(text)
     proto.send('text', ('%q'):format(text))
 end
