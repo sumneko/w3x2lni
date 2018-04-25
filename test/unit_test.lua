@@ -3,28 +3,6 @@ require 'utility'
 local uni = require 'ffi.unicode'
 local core = require 'backend.sandbox_core'
 
-local std_print = print
-local std_error = error
-local function print(...)
-    local tbl = {...}
-    local count = select('#', ...)
-    for i = 1, count do
-        tbl[i] = uni.u2a(tostring(tbl[i]))
-    end
-    std_print(table.unpack(tbl))
-end
-
-local function assert(ok, msg, ...)
-    if ok then
-        return ok, msg, ...
-    end
-    std_error(uni.u2a(msg), 2)
-end
-
-local function error(msg)
-    std_error(uni.u2a(msg), 2)
-end
-
 local slk_keys = {
     ['units\\abilitydata.slk']      = {
         'alias','code','Area1','Area2','Area3','Area4','BuffID1','BuffID2','BuffID3','BuffID4','Cast1','Cast2','Cast3','Cast4','checkDep','Cool1','Cool2','Cool3','Cool4','Cost1','Cost2','Cost3','Cost4','DataA1','DataA2','DataA3','DataA4','DataB1','DataB2','DataB3','DataB4','DataC1','DataC2','DataC3','DataC4','DataD1','DataD2','DataD3','DataD4','DataE1','DataE2','DataE3','DataE4','DataF1','DataF2','DataF3','DataF4','DataG1','DataG2','DataG3','DataG4','DataH1','DataH2','DataH3','DataH4','DataI1','DataI2','DataI3','DataI4','Dur1','Dur2','Dur3','Dur4','EfctID1','EfctID2','EfctID3','EfctID4','HeroDur1','HeroDur2','HeroDur3','HeroDur4','levels','levelSkip','priority','reqLevel','Rng1','Rng2','Rng3','Rng4','targs1','targs2','targs3','targs4','UnitID1','UnitID2','UnitID3','UnitID4',

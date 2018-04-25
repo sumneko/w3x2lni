@@ -63,11 +63,13 @@
             "env": {
                 "PATH": "${workspaceRoot}\\bin\\"
             },
+            "luaexe": "${workspaceRoot}\\bin\\w3x2lni-lua.exe",
             "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
             "consoleCoding": "ansi",
             "program": "${workspaceRoot}\\test\\unit_test.lua",
+            "sourceCoding": "utf8",
             "arg0": [],
             "arg": []
         },
