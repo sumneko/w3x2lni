@@ -269,6 +269,7 @@ return function ()
         mpq_name = input:filename():string()
     end
 
+    local config = require 'tool.config' ()
     config.global.data_war3 = mpq_name
     if config.global.data_ui ~= '${YDWE}' then
         config.global.data_ui = mpq_name
@@ -309,19 +310,18 @@ return function ()
     w2l.progress:finish()
 
     w2l.progress:start(0.4)
-    local slk = makefile(w2l, mpq_name, 'Melee')
+    local slk = makefile(w2l, 'Melee')
     w2l.progress:finish()
     w2l.progress:start(0.65)
-    maketemplate(w2l, mpq_name, 'Melee', slk)
+    maketemplate(w2l, 'Melee', slk)
     w2l.progress:finish()
     w2l.progress:start(0.75)
-    local slk = makefile(w2l, mpq_name, 'Custom')
+    local slk = makefile(w2l, 'Custom')
     w2l.progress:finish()
     w2l.progress:start(1.0)
-    maketemplate(w2l, mpq_name, 'Custom', slk)
+    maketemplate(w2l, 'Custom', slk)
     w2l.progress:finish()
 
-    local config = require 'tool.config' ()
     w2l.messager.text((lang.script.FINISH):format(os.clock()))
     w2l.messager.exit('success', lang.script.MPQ_EXTRACT_DIR:format(mpq_name))
 
