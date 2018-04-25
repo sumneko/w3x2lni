@@ -67,7 +67,7 @@
             "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
-            "consoleCoding": "ansi",
+            "consoleCoding": "utf8",
             "program": "${workspaceRoot}\\test\\unit_test.lua",
             "sourceCoding": "utf8",
             "arg0": [],
