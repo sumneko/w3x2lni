@@ -269,6 +269,18 @@ return function ()
         mpq_name = input:filename():string()
     end
 
+    local config = require 'tool.config' ()
+    config.global.data_war3 = mpq_name
+    if config.global.data_ui ~= '${YDWE}' then
+        config.global.data_ui = mpq_name
+    end
+    if config.global.data_meta ~= '${DEFAULT}' then
+        config.global.data_meta = mpq_name
+    end
+    if config.global.data_wes ~= '${DEFAULT}' then
+        config.global.data_wes = mpq_name
+    end
+
     w2l.progress:start(0.1)
     w2l.messager.text(lang.script.CLEAN_DIR)
     local mpq_path = fs.current_path():parent_path() / 'data' / mpq_name / 'war3'
@@ -298,29 +310,18 @@ return function ()
     w2l.progress:finish()
 
     w2l.progress:start(0.4)
-    makefile(w2l, mpq_name, 'Melee')
+    local slk = makefile(w2l, 'Melee')
     w2l.progress:finish()
     w2l.progress:start(0.65)
-    maketemplate(w2l, mpq_name, 'Melee')
+    maketemplate(w2l, 'Melee', slk)
     w2l.progress:finish()
     w2l.progress:start(0.75)
-    makefile(w2l, mpq_name, 'Custom')
+    local slk = makefile(w2l, 'Custom')
     w2l.progress:finish()
     w2l.progress:start(1.0)
-    maketemplate(w2l, mpq_name, 'Custom')
+    maketemplate(w2l, 'Custom', slk)
     w2l.progress:finish()
 
-    local config = require 'tool.config' ()
-    config.global.data_war3 = mpq_name
-    if config.global.data_ui ~= '${YDWE}' then
-        config.global.data_ui = mpq_name
-    end
-    if config.global.data_meta ~= '${DEFAULT}' then
-        config.global.data_meta = mpq_name
-    end
-    if config.global.data_wes ~= '${DEFAULT}' then
-        config.global.data_wes = mpq_name
-    end
     w2l.messager.text((lang.script.FINISH):format(os.clock()))
     w2l.messager.exit('success', lang.script.MPQ_EXTRACT_DIR:format(mpq_name))
 
