@@ -174,14 +174,14 @@ return function (w2l_, wtg_, wct_)
 
     local vars = convert_lml(wtg.vars)
     if #vars > 0 then
-        files[lang.lml.VARIABLE .. '.lml'] = vars
+        files[lang.lml.LML_VARIABLE .. '.lml'] = vars
     end
 
     local map = compute_path()
     
     local listfile = read_dirs(map)
     if #listfile > 0 then
-        files[lang.lml.CATALOG .. '.lml'] = listfile
+        files[lang.lml.LML_CATALOG .. '.lml'] = listfile
     end
 
     read_triggers(files, map)

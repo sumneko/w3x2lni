@@ -13,7 +13,7 @@ local function load_custom()
 end
 
 local function load_vars()
-    wtg.vars = w2l:parse_lml(loader(lang.lml.VARIABLE .. '.lml') or '')
+    wtg.vars = w2l:parse_lml(loader(lang.lml.LML_VARIABLE .. '.lml') or '')
 end
 
 local function load_trigger(trg, id, filename)
@@ -89,7 +89,7 @@ local function load_triggers()
     wtg.categories = {}
     wtg.triggers = {}
     wct.triggers = {}
-    local buf = loader(lang.lml.CATALOG .. '.lml')
+    local buf = loader(lang.lml.LML_CATALOG .. '.lml')
     if not buf then
         return
     end

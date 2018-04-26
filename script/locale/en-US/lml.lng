@@ -10,9 +10,9 @@
 运行
 [CODE]
 代码
-[VARIABLE]
+[LML_VARIABLE]
 变量
-[CATALOG]
+[LML_CATALOG]
 目录
 [LIST]
 列表
@@ -28,6 +28,8 @@
 预设
 [CONSTANT]
 常量
+[VARIABLE]
+变量
 [ARRAY]
 数组
 [DEFAULT]
