@@ -221,7 +221,7 @@ local function meta(v)
 end
 
 local function wes(v)
-    if v == '${DEFAULT}' then
+    if v == '${YDWE}' then
         return true, v, v
     end
     local list = get_datas()
