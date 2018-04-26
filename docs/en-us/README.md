@@ -2,7 +2,7 @@
 
 > What is this?
 
-W3x2Lni is a wc3 map management tool, we hope it resolves issues you confronted when you are making your map.
+W3x2Lni is a wc3 map management tool. It helps you to manage your maps when developing or publishing.
 
 > What can it do?
 
