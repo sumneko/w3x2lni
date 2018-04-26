@@ -103,9 +103,9 @@
 [DIDNT_FIND_OBJECT_WHEN_SIMPLIFY]
 简化时没有找到对象
 [USE_UNCLASSIFIED_OBJECT]
-引用未分类对象: 
+引用未分类对象: '%s'
 [EXPECTATION_CLASSIFICATION]
-'%s 期望分类：%s'
+期望分类：%s
 [REFERENCE_BY_MUST_RETAIN]
 必须保留的'%s'[%s]引用了它
 [REFERENCE_BY_JASS_NAME]

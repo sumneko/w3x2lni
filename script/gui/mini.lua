@@ -122,12 +122,14 @@ end
 local function create_report()
     for type, report in sortpairs(backend.report) do
         if type ~= '' then
-            type = type:sub(2)
+            local total = report[1][1]:match(lang.report.TOTAL .. ': (%d+)')
+            local title = ('%s (%d)'):format(type:sub(2), total or #report)
             print('================')
-            print(type)
+            print(title)
             print('================')
-            for _, s in ipairs(report) do
-                if s[2] then
+            for i, s in ipairs(report) do
+                if total and i == 1 then
+                elseif s[2] then
                     print(('%s - %s'):format(s[1], s[2]))
                 else
                     print(s[1])

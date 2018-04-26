@@ -103,9 +103,9 @@ Object id can be converted to number
 [DIDNT_FIND_OBJECT_WHEN_SIMPLIFY]
 Missing object
 [USE_UNCLASSIFIED_OBJECT]
-Referenced unclassified object: 
+Unclassified object: '%s'
 [EXPECTATION_CLASSIFICATION]
-'%s expectaion classification: %s'
+Expectation classification: %s
 [REFERENCE_BY_MUST_RETAIN]
 Referenced by '%s'[%s] which must be retained
 [REFERENCE_BY_JASS_NAME]
