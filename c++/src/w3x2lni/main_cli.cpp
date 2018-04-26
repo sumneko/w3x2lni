@@ -160,6 +160,9 @@ struct protocol {
 			else if (type == "exit") {
 				msg_exit();
 			}
+			else if (type == "wait") {
+				msg_wait();
+			}
 		}
 		else {
 			lua_pop(L, 1);
@@ -250,6 +253,14 @@ struct protocol {
 			}
 		}
 		lua_pop(L, 1);
+	}
+	void msg_wait() {
+		auto pos = console.getxy();
+		system("pause");
+		pos.Y = pos.Y - 1;
+		console.cleanline(pos.Y);
+		console.cleanline(pos.Y+1);
+		basepos = pos;
 	}
 	void message_error(const std::string& buf) {
 		console.setxy({ 0, basepos.Y });
