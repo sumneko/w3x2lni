@@ -166,22 +166,22 @@ return function (w2l_, wtg_, wct_)
     local files = {}
 
     if #wct.custom.comment > 0 then
-        files[lang.lml.CODE .. '.txt'] = wct.custom.comment
+        files['code.txt'] = wct.custom.comment
     end
     if #wct.custom.code > 0 then
-        files[lang.lml.CODE .. '.j'] = wct.custom.code
+        files['code.j'] = wct.custom.code
     end
 
     local vars = convert_lml(wtg.vars)
     if #vars > 0 then
-        files[lang.lml.LML_VARIABLE .. '.lml'] = vars
+        files['variable.lml'] = vars
     end
 
     local map = compute_path()
     
     local listfile = read_dirs(map)
     if #listfile > 0 then
-        files[lang.lml.LML_CATALOG .. '.lml'] = listfile
+        files['catalog.lml'] = listfile
     end
 
     read_triggers(files, map)
