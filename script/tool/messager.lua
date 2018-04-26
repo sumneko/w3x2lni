@@ -19,10 +19,9 @@ end
 function messager.exit(type, text)
     proto.send('exit', ('{type=%q,content=%q}'):format(type, text))
 end
-if io.type(io.stdout) == 'file' then
-    local ext = require 'process.ext'
-    ext.set_filemode(io.stdout, 'b')
-    io.stdout:setvbuf 'no'
-end
+
+local ext = require 'process.ext'
+ext.set_filemode(io.stdout, 'b')
+io.stdout:setvbuf 'no'
 
 return messager
