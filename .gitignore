@@ -12,7 +12,8 @@
 !/build/
 !/docs/
 !/locale
-/build/release/
+/build/zh-CN/
+/build/en-US/
 /plugin/*
 !/plugin/示例.lua
 /*.w3x
