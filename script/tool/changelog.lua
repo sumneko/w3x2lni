@@ -1,7 +1,8 @@
 return {
 {
-    version = '2.0.2',
-    { 'NEW', '添加了简易UI的版本' },
+    version = '2.1',
+    { 'NEW', '支持多语言' },
+    { 'NEW', '支持命令行' },
     { 'FIX', '修正部分buff在简化后丢失的问题', 'Boar、Barm' },
     { 'FIX', '修正slk后无图标buff的显示问题' }
 },
