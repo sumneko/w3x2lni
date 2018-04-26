@@ -33,7 +33,7 @@ end
 
 local function lml_value(v, sp)
     if v[2] then
-        buf[#buf+1] = format('%s%s: %s\n', sp_rep[sp], lml_string(v[1]), lml_string(v[2]))
+        buf[#buf+1] = format('%s%s: %s\n', sp_rep[sp], v[1], lml_string(v[2]))
     else
         buf[#buf+1] = format('%s%s\n', sp_rep[sp], lml_string(v[1]))
     end
