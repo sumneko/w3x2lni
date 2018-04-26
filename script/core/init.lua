@@ -166,7 +166,7 @@ function mt:load_wts(wts, content, max, reason, fmter)
 end
 
 function mt:save_wts(wts, text, reason)
-    self.messager.report(lang.report.TEXT_IN_WTS, 7, reason, lang.report.TEXT_IN_WTS_HINT..text:sub(1, 1000))
+    self.messager.report(lang.report.TEXT_IN_WTS, 7, reason, ('%s\r\n%s...\r\n-------------------------'):format(lang.report.TEXT_IN_WTS_HINT, text:sub(1, 1000)))
     if text:find('}', 1, false) then
         self.messager.report(lang.report.WARN, 2, lang.report.WTS_NEED_ESCAPE, text:sub(1, 1000))
         text = text:gsub('}', '|')
