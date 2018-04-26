@@ -8,7 +8,7 @@ local pack_eca
 
 local CALL     = lang.lml.CALL:match '^(.-)%s*$'
 local DISABLE  = lang.lml.DISABLE:match '^(.-)%s*$'
-local ENUM     = lang.lml.ENUM:match '^(.-)%s*$'
+local PRESET   = lang.lml.PRESET:match '^(.-)%s*$'
 local VARIABLE = lang.lml.VARIABLE:match '^(.-)%s*$'
 local CONSTANT = lang.lml.CONSTANT:match '^(.-)%s*$'
 local ARRAY    = lang.lml.ARRAY:match '^(.-)%s*$'
@@ -31,7 +31,7 @@ local type_key = {
 
 local arg_type_map = {
     [DISABLE] = -1,
-    [ENUM] = 0,
+    [PRESET] = 0,
     [VARIABLE] = 1,
     [CALL] = 2,
     [CONSTANT] = 3,

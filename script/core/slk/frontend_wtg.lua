@@ -8,7 +8,7 @@ local read_eca
 
 local arg_type_map = {
     [-1] = lang.lml.DISABLE,
-    [0]  = lang.lml.ENUM,
+    [0]  = lang.lml.PRESET,
     [1]  = lang.lml.VARIABLE,
     [2]  = lang.lml.CALL,
     [3]  = lang.lml.CONSTANT,
