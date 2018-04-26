@@ -224,7 +224,7 @@ local function update_worker()
     if worker then
         worker:update()
         if #worker.error > 0 then
-            messagebox(lang.ui.ERROR, worker.error)
+            messagebox(lang.ui.ERROR, '%s', worker.error)
             worker.error = ''
         end
     end

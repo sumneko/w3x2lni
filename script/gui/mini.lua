@@ -154,7 +154,7 @@ local function update()
     mini:settitle(backend.title)
     mini:setvalue(backend.progress)
     if #worker.error > 0 then
-        messagebox(lang.ui.ERROR, worker.error)
+        messagebox(lang.ui.ERROR, '%s', worker.error)
         worker.error = ''
         return 0, 1
     end
@@ -172,7 +172,7 @@ local function delayedtask(t)
     local ok, r, code = xpcall(update, debug.traceback)
     if not ok then
         t:remove()
-        messagebox(lang.ui.ERROR, r)
+        messagebox(lang.ui.ERROR, '%s', r)
         mini:close()
         exitcode = -1
         return
