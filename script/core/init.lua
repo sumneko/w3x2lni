@@ -75,7 +75,7 @@ function mt:get_editstring(source)
     if not self.editstring then
         self.editstring = {}
         local t
-        if self.config.data_wes == '${DEFAULT}' then
+        if self.config.data_wes == '${YDWE}' then
             t = ini(load_file('WorldEditStrings.txt'))['WorldEditStrings']
         else
             t = ini(self:wes_load('WorldEditStrings.txt'))['WorldEditStrings']
@@ -83,7 +83,7 @@ function mt:get_editstring(source)
         for k, v in pairs(t) do
             self.editstring[k:upper()] = v
         end
-        if self.config.data_wes ~= '${DEFAULT}' then
+        if self.config.data_wes ~= '${YDWE}' then
             t = ini(self:wes_load('WorldEditGameStrings.txt'))['WorldEditStrings']
         end
         for k, v in pairs(t) do
