@@ -1,152 +1,152 @@
 [WESTRING_MISCVAL_AKVS]
-信息面板 - 攻击速度 - 非常慢
+Info Panel - Attack Speed - Very Slow
 [WESTRING_MISCVAL_ATKF]
-信息面板 - 攻击速度 - 快
+Info Panel - Attack Speed - Fast
 [WESTRING_MISCVAL_ATKN]
-信息面板 - 攻击速度 - 中等
+Info Panel - Attack Speed - Medium
 [WESTRING_MISCVAL_ATKS]
-信息面板 - 攻击速度 - 慢
+Info Panel - Attack Speed - Slow
 [WESTRING_MISCVAL_BOTC]
-漂浮文字 - 奖励 - 文字颜色
+Floating Text - Bonus - Text Color
 [WESTRING_MISCVAL_BOTF]
-漂浮文字 - 奖励 -消逝时间点
+Floating Text - Bonus - Fade Point
 [WESTRING_MISCVAL_BOTH]
-漂浮文字 - 奖励 - 字体大小
+Floating Text - Bonus - Font Size
 [WESTRING_MISCVAL_BOTL]
-漂浮文字 - 奖励 -持续时间
+Floating Text - Bonus - Life Span
 [WESTRING_MISCVAL_BOTV]
-漂浮文字 - 奖励 - 移动速度
+Floating Text - Bonus - Move Speed
 [WESTRING_MISCVAL_CAOA]
-炎魔分裂三代后的默认颜色
+Color of Lava Spawn
 [WESTRING_MISCVAL_CBNB]
-字体大小 - 图标右下角数字
+Font Size - Icon Corner Number
 [WESTRING_MISCVAL_CEDB]
-字体大小 - 聊天输入栏文字大小
+Font Size - Chat Input Font Size
 [WESTRING_MISCVAL_CREM]
-点命令指示器颜色(攻击)
+Point Order Indicator Color(Attack)
 [WESTRING_MISCVAL_CRFD]
-点命令指示器颜色(一般)
+Point Order Indicator Color(Common)
 [WESTRING_MISCVAL_CSTC]
-漂浮文字 - 致命一击 - 文字颜色
+Floating Text - Critical Strike - Text Color
 [WESTRING_MISCVAL_CSTF]
-漂浮文字 - 致命一击 -消逝时间点
+Floating Text - Critical Strike - Fade Point
 [WESTRING_MISCVAL_CSTH]
-漂浮文字 - 致命一击 - 字体大小
+Floating Text - Critical Strike - Font Size
 [WESTRING_MISCVAL_CSTL]
-漂浮文字 - 致命一击 -持续时间
+Floating Text - Critical Strike - Life Span
 [WESTRING_MISCVAL_CSTV]
-漂浮文字 - 致命一击 - 移动速度
+Floating Text - Critical Strike - Move Speed
 [WESTRING_MISCVAL_FBDR]
-信息面板 - Buff图标消褪时间
+Info Panel - Buff Icon Fade Point
 [WESTRING_MISCVAL_FBNA]
-信息面板 - Buff图标消褪最小Alpha值
+Info Panel - Buff Icon Fade Alpha Minimum
 [WESTRING_MISCVAL_FBXA]
-信息面板 - Buff图标消褪最大Alpha值
+Info Panel - Buff Icon Fade Alpha Maximum
 [WESTRING_MISCVAL_GDTC]
-漂浮文字 - 黄金 - 文字颜色
+Floating Text - Gold - Text Color
 [WESTRING_MISCVAL_GDTF]
-漂浮文字 - 黄金 -消逝时间点
+Floating Text - Gold - Fade Point
 [WESTRING_MISCVAL_GDTH]
-漂浮文字 - 黄金 - 字体大小
+Floating Text - Gold - Font Size
 [WESTRING_MISCVAL_GDTL]
-漂浮文字 - 黄金 -持续时间
+Floating Text - Gold - Life Span
 [WESTRING_MISCVAL_GDTV]
-漂浮文字 - 黄金 - 移动速度
+Floating Text - Gold - Velocity
 [WESTRING_MISCVAL_INVY]
-字体大小 - 物品栏标题
+Font Size - Inventory Title
 [WESTRING_MISCVAL_ITSF]
-物品 -物品阴影
+Item - Item Shadow
 [WESTRING_MISCVAL_ITSO]
-物品- 物品阴影位移
+Item - Item Shadow Offset
 [WESTRING_MISCVAL_ITSS]
-物品 -物品阴影大小
+Item - Item Shadow Size
 [WESTRING_MISCVAL_IWZO]
-通过可破坏物时选择圈Z偏移
+Selection Circle Z Offset When Passing Destructable
 [WESTRING_MISCVAL_LDBD]
-字体大小 - 排行榜和多面板
+Font Size - Leaderboard And Multiboard
 [WESTRING_MISCVAL_LMTC]
-漂浮文字 - 木材 - 文字颜色
+Floating Text - Lumber - Text Color
 [WESTRING_MISCVAL_LMTF]
-漂浮文字 - 木材 -消逝时间点
+Floating Text - Lumber - Fade Point
 [WESTRING_MISCVAL_LMTH]
-漂浮文字 - 木材 - 字体大小
+Floating Text - Lumber - Font Size
 [WESTRING_MISCVAL_LMTL]
-漂浮文字 - 木材 -持续时间
+Floating Text - Lumber - Life Span
 [WESTRING_MISCVAL_LMTV]
-漂浮文字 - 木材 - 移动速度
+Floating Text - Lumber - Velocity
 [WESTRING_MISCVAL_MBTC]
-漂浮文字 - 法力燃烧 - 文字颜色
+Floating Text - Mana Burn - Text Color
 [WESTRING_MISCVAL_MBTF]
-漂浮文字 - 法力燃烧 -消逝时间点
+Floating Text - Mana Burn - Fade Point
 [WESTRING_MISCVAL_MBTH]
-漂浮文字 - 法力燃烧 - 字体大小
+Floating Text - Mana Burn - Font Size
 [WESTRING_MISCVAL_MBTL]
-漂浮文字 - 法力燃烧 -持续时间
+Floating Text - Mana Burn - Life Span
 [WESTRING_MISCVAL_MBTV]
-漂浮文字 - 法力燃烧 - 移动速度
+Floating Text - Mana Burn - Velocity
 [WESTRING_MISCVAL_MRGX]
-信息面板 - 近战最大攻击距离
+Info Panel - Max Melee Attack Range
 [WESTRING_MISCVAL_MSTC]
-漂浮文字 - 攻击丢失 - 文字颜色
+Floating Text - Attack Miss - Text Color
 [WESTRING_MISCVAL_MSTF]
-漂浮文字 - 攻击丢失 -消逝时间点
+Floating Text - Attack Miss - Fade Point
 [WESTRING_MISCVAL_MSTH]
-漂浮文字 - 攻击丢失 - 字体大小
+Floating Text - Attack Miss - Font Size
 [WESTRING_MISCVAL_MSTL]
-漂浮文字 - 攻击丢失 -持续时间
+Floating Text - Attack Miss - Life Span
 [WESTRING_MISCVAL_MSTV]
-漂浮文字 - 攻击丢失 - 移动速度
+Floating Text - Attack Miss - Velocity
 [WESTRING_MISCVAL_PACR]
-小地图信号 - 攻击信号颜色
+Minimap Signal - Attacked Signal Color
 [WESTRING_MISCVAL_PICR]
-小地图信号 - 完成信号颜色
+Minimap Signal - Completed Signal Color
 [WESTRING_MISCVAL_PPCR]
-小地图信号 - 路径点信号颜色
+Minimap Signal - Waypoint Signal Color
 [WESTRING_MISCVAL_PTST]
-字体大小 - 生命魔法值
+Font Size - Life And Mana
 [WESTRING_MISCVAL_PVCR]
-小地图信号 - 建议信号颜色
+Minimap Signal - Suggested Signal Color
 [WESTRING_MISCVAL_QITO]
-信息面板 - 任务指示器持续时间
+Info Panel - Quest Indicator Duration
 [WESTRING_MISCVAL_SPDF]
-信息面板 - 移动速度 - 快
+Info Panel - Move Speed - Fast
 [WESTRING_MISCVAL_SPDN]
-信息面板 - 移动速度 - 中等
+Info Panel - Move Speed - Medium
 [WESTRING_MISCVAL_SPDS]
-信息面板 - 移动速度 - 慢
+Info Panel - Move Speed - Slow
 [WESTRING_MISCVAL_SPVS]
-信息面板 - 移动速度 - 非常慢
+Info Panel - Move Speed - Very Slow
 [WESTRING_MISCVAL_SSNL]
-字体大小 - 计分屏 - 大字体
+Font Size - Score Screen - Large Font
 [WESTRING_MISCVAL_SSNN]
-字体大小 - 计分屏 - 普通字体
+Font Size - Score Screen - Normal Font
 [WESTRING_MISCVAL_SSNT]
-字体大小 - 计分屏 - 玩家名字
+Font Size - Score Screen - Player Name
 [WESTRING_MISCVAL_SSTC]
-漂浮文字 - 暗影突袭 - 文字颜色
+Floating Text - Shadow Strike - Text Color
 [WESTRING_MISCVAL_SSTF]
-漂浮文字 - 暗影突袭 -消逝时间点
+Floating Text - Shadow Strike - Fade Point
 [WESTRING_MISCVAL_SSTH]
-漂浮文字 - 暗影突袭 - 字体大小
+Floating Text - Shadow Strike - Font Size
 [WESTRING_MISCVAL_SSTL]
-漂浮文字 - 暗影突袭 -持续时间
+Floating Text - Shadow Strike - Life Span
 [WESTRING_MISCVAL_SSTV]
-漂浮文字 - 暗影突袭 - 移动速度
+Floating Text - Shadow Strike - Velocity
 [WESTRING_MISCVAL_TTCS]
-字体大小 - 工具栏 - 消费数值
+Font Size - Toolbar - Cost
 [WESTRING_MISCVAL_TTDS]
-字体大小 - 工具栏 - 说明
+Font Size - Toolbar - Description
 [WESTRING_MISCVAL_TTNA]
-字体大小 - 工具栏 - 标题
+Font Size - Toolbar - Name
 [WESTRING_MISCVAL_UTDS]
-字体大小 - 物体悬浮窗 - 说明
+Font Size - Floating Window - Description
 [WESTRING_MISCVAL_UTPN]
-字体大小 - 物体悬浮窗 - 名字
+Font Size - Floating Window - Name
 [WESTRING_MISCVAL_WFCM]
-字体大小 - 聊天文本显示
+Font Size - Chat Message
 [WESTRING_MISCVAL_WFMG]
-字体大小 - 游戏信息提示
+Font Size - Game Message
 [WESTRING_MISCVAL_WFTM]
-字体大小 - 维修费提示
+Font Size - Upkeep Message
 [WESTRING_MISCVAL_WFUM]
-字体大小 - 触发文本显示
+Font Size - Trigger Message
