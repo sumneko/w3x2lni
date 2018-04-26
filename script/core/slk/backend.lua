@@ -278,13 +278,13 @@ local function to_slk(w2l, slk)
     end
 
     if report.n > 0 then
-        local index = 1
         w2l.messager.report(lang.report.NO_SLK_DATA, 3, (lang.report.TOTAL .. ': %d'):format(report.n))
         for tip, list in pairs(report) do
             if #tip > 1 then
                 local n = 0
-                w2l.messager.report(lang.report.NO_SLK_DATA, 3, ('%d.%s'):format(index, tip))
-                index = index + 1
+                w2l.messager.report(lang.report.NO_SLK_DATA, 3, '--------------------------------------------')
+                w2l.messager.report(lang.report.NO_SLK_DATA, 3, tip)
+                w2l.messager.report(lang.report.NO_SLK_DATA, 3, '--------------------------------------------')
                 for _, msg in pairs(list) do
                     w2l.messager.report(lang.report.NO_SLK_DATA, 3, msg[1], msg[2])
                     n = n + 1

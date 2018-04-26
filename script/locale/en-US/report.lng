@@ -101,7 +101,7 @@ Data level is more than 4
 [OBJECT_ID_CAN_CONVERT_NUMBER]
 Object id can be converted to number
 [DIDNT_FIND_OBJECT_WHEN_SIMPLIFY]
-Did't find object when simplifying
+Missing object
 [USE_UNCLASSIFIED_OBJECT]
 Referenced unclassified object: 
 [EXPECTATION_CLASSIFICATION]

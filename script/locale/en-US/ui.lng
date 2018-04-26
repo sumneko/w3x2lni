@@ -35,7 +35,7 @@ Read the imported SLK files
 [SIMPLIFY]
 Simplify
 [SIMPLIFY_HINT]
-Remove objects that are not used
+Remove unused objects
 [OPTIMIZE_JASS]
 Optimize JASS
 [OPTIMIZE_JASS_HINT]
@@ -45,7 +45,7 @@ Compress models
 [MDX_SQUF_HINT]
 Lossy compression
 [REMOVE_WE_ONLY]
-Remove files used only in WE
+Remove WE-only
 [REMOVE_WE_ONLY_HINT]
 WE and W2l won't be able to open the map
 [SLK_DOODAD]
