@@ -78,25 +78,33 @@ local function unit_test()
     local currentdir = release_path / 'script'
     local command_line = ('"%s" "%s"'):format(application:string(), entry:string())
     local p = process()
-	p:hide_window()
+    p:hide_window()
+    copy_files('test')
 	local stdout, stderr = p:std_output(), p:std_error()
 	if not p:create(application, command_line, currentdir) then
 		error('运行失败：\n'..command_line)
     end
-    while true do
-        local out = stdout:read 'l'
-        if out then
-            print(uni.a2u(out))
-        else
-            break
-        end
-    end
+    print('正在单元测试...')
     local err = stderr:read 'a'
     local exit_code = p:wait()
     p:close()
     if err ~= '' then
         print(err)
+    else
+        print('单位测试完成')
     end
+    remove_files('test')
+end
+
+local function command(...)
+    local commands = {...}
+    table.insert(commands, 1, (release_path / 'w2l'):string())
+    for i, c in ipairs(commands) do
+        commands[i] = ('%s'):format(c)
+    end
+    local command = table.concat(commands, ' ')
+    print('正在执行命令:', command)
+    io.popen(command):close()
 end
 
 local function for_directory(path, func, leaf)
@@ -135,30 +143,43 @@ local function zippack()
     zip(release_path, zip_path)
 end
 
-local function pack()
+local version = read_version()
+
+do
+    release_path = root / 'build' / 'zh-CN' / ('w3x2lni_v'..version)
+    print('生成中文版，目录为：', release_path:string())
     create_directory()
     copy_files('bin')
-    copy_files('data/war3/zhCN-1.24.4')
-    copy_files('data/war3/enUS-1.27.1')
-    copy_files('data/prebuilt/zhCN-1.24.4')
-    copy_files('data/prebuilt/enUS-1.27.1')
+    copy_files('data/zhCN-1.24.4')
     copy_files('script')
-    copy_files('template')
     copy_files('config.ini')
     copy_files('w3x2lni.exe')
+    copy_files('w2l.exe')
+    command('config', 'global.data_war3=zhCN-1.24.4')
+    command('config', 'global.data_ui=${YDWE}')
+    command('config', 'global.data_meta=${DEFAULT}')
+    command('config', 'global.data_wes=${YDWE}')
+    command('template')
+    unit_test()
+    zippack()
 end
 
-local version = read_version()
-release_path = root / 'build' / 'release' / ('w3x2lni_v'..version)
-pack()
-copy_files('test')
-unit_test()
-remove_files('test')
-zippack()
-
-release_path = root / 'build' / 'release' / ('w3x2lni_mini_v'..version)
-pack()
-fs.rename(release_path / 'script' / 'main.new.lua', release_path / 'script' / 'main.lua', true)
-zippack()
+do
+    release_path = root / 'build' / 'en-US' / ('w3x2lni_v'..version)
+    print('生成英文版，目录为：', release_path:string())
+    create_directory()
+    copy_files('bin')
+    copy_files('data/enUS-1.27.1')
+    copy_files('script')
+    copy_files('config.ini')
+    copy_files('w3x2lni.exe')
+    copy_files('w2l.exe')
+    command('config', 'global.data_war3=enUS-1.27.1')
+    command('config', 'global.data_ui=enUS-1.27.1')
+    command('config', 'global.data_meta=enUS-1.27.1')
+    command('config', 'global.data_wes=enUS-1.27.1')
+    command('template')
+    zippack()
+end
 
 print('完成')
