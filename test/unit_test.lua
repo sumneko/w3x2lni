@@ -39,25 +39,8 @@ local slk_keys = {
     },
 }
 
-local function w3x2lni()
-    local w2l = core()
-    local mpq_path = fs.current_path():parent_path() / 'data' / w2l.config.data_war3 / 'war3'
-    local prebuilt_path = fs.current_path():parent_path() / 'data' / w2l.config.data_war3 / 'prebuilt'
-
-    function w2l:mpq_load(filename)
-        return w2l.mpq_path:each_path(function(path)
-            return io.load(mpq_path / path / filename)
-        end)
-    end
-    
-    function w2l:prebuilt_load(filename)
-        return w2l.mpq_path:each_path(function(path)
-            return io.load(prebuilt_path / path / filename)
-        end)
-    end
-
-    return w2l
-end
+local mt = {}
+mt.__index = mt
 
 local function find_txt(buf, id)
     local start = buf:find('%['..id..'%]')
@@ -68,8 +51,8 @@ local function find_txt(buf, id)
     return buf:sub(start, stop)
 end
 
-local function load_obj(w2l, type, id, path)
-    local w2l = w3x2lni()
+function mt:load_obj(w2l, type, id, path)
+    local w2l = self:w3x2lni()
 
     local target_name = w2l.info.obj[type]
     function w2l:map_load(filename)
@@ -82,7 +65,7 @@ local function load_obj(w2l, type, id, path)
     return { obj = w2l.slk[type][id], type = 'obj' }
 end
 
-local function load_lni(w2l, type, id, path)
+function mt:load_lni(w2l, type, id, path)
     local target_name = w2l.info.lni[type]
     function w2l:map_load(filename)
         if filename == 'table/' .. target_name then
@@ -94,7 +77,7 @@ local function load_lni(w2l, type, id, path)
     return { obj = w2l.slk[type][id], type = 'lni' }
 end
 
-local function load_slk(w2l, type, id, path)
+function mt:load_slk(w2l, type, id, path)
     w2l.config.read_slk = true
     local enable_keys = {}
     local function pack_keys(filename)
@@ -125,7 +108,7 @@ local function load_slk(w2l, type, id, path)
     return { obj = w2l.slk[type][id], type = 'slk', keys = enable_keys }
 end
 
-local function load_all(w2l, type, id, path, config)
+function mt:load_all(w2l, type, id, path, config)
     function w2l:map_load(filename)
         return io.load(path / filename)
     end
@@ -252,8 +235,25 @@ local function trim(str)
     return str
 end
 
-local mt = {}
-mt.__index = mt
+function mt:w3x2lni()
+    local w2l = core()
+    local mpq_path = fs.current_path():parent_path() / 'data' / w2l.config.data_war3 / 'war3'
+    local prebuilt_path = fs.current_path():parent_path() / 'data' / w2l.config.data_war3 / 'prebuilt'
+
+    function w2l:mpq_load(filename)
+        return w2l.mpq_path:each_path(function(path)
+            return io.load(mpq_path / path / filename)
+        end)
+    end
+    
+    function w2l:prebuilt_load(filename)
+        return w2l.mpq_path:each_path(function(path)
+            return io.load(prebuilt_path / path / filename)
+        end)
+    end
+
+    return w2l
+end
 
 function mt:init(type, id)
     self._type = type
@@ -261,27 +261,27 @@ function mt:init(type, id)
 end
 
 function mt:load(mode, config)
-    local w2l = w3x2lni()
+    local w2l = self:w3x2lni()
     local name = self._path:filename():string()
     local dump
     config = config or {}
     w2l:set_config(config)
 
     if mode == 'obj' then
-        dump = load_obj(w2l, self._type, self._id, self._path)
+        dump = self:load_obj(w2l, self._type, self._id, self._path)
     elseif mode == 'lni' then
-        dump = load_lni(w2l, self._type, self._id, self._path)
+        dump = self:load_lni(w2l, self._type, self._id, self._path)
     elseif mode == 'slk' then
-        dump = load_slk(w2l, self._type, self._id, self._path)
+        dump = self:load_slk(w2l, self._type, self._id, self._path)
     elseif mode == 'all' then
-        dump = load_all(w2l, self._type, self._id, self._path)
+        dump = self:load_all(w2l, self._type, self._id, self._path)
     end
     assert(dump.obj, ('\n\n<%s>[%s.%s] 没有读取到%s'):format(name, self._type, self._id, mode))
     return dump
 end
 
 function mt:save(mode, dump, config)
-    local w2l = w3x2lni()
+    local w2l = self:w3x2lni()
     local name = self._path:filename():string()
     local slk
     config = config or {}
@@ -348,7 +348,7 @@ local function do_test(path)
         return
     end
     print(('正在测试[%s]'):format(path:filename():string()))
-    local debuggerpath = '@'..uni.u2a((path / 'test.lua'):string())
+    local debuggerpath = '@'..(path / 'test.lua'):string()
     local env = test_env(path)
     local f = assert(load(buf, debuggerpath, 't', env))
     f()
