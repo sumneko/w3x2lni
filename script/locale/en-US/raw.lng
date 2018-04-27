@@ -45,13 +45,14 @@ E.g：
     w2l obj "E:\Warcraft III\Maps\Test.w3x" "E:\Warcraft III\Maps\Test_obj.w3x"
 
 [HELP_CONFIG]
-查看和修过配置
+View and modify the config
 [HELP_CONFIG_DESC]
-用法: w2l config              查看所有配置
-      w2l config <配置>       查看指定配置
-      w2l config <配置>=<值>  修过指定配置
+usage:
+    w2l config                view all configurations
+    w2l config <key>          view this configuration 
+    w2l config <key>=<value>  modify this configuration
 
-例如：
+E.g:
     w2l config
     w2l config lni.read_slk
     w2l config lni.read_slk=false
@@ -77,100 +78,100 @@ Invalid parameters, see `w2l help config`.
 [CONFIG_UPDATE]
 Config updated:
 [CONFIG_USED_MAP]
-但实际生效的是地图配置:
+But the actual effect is the map configuration:
 [USED_MAP]
-[地图]  
+[Map]   
 [USED_GLOBAL]
         
 [USED_DEFAULT]
-[默认]  
+[Def]   
 [CONFIG_GLOBAL_LANG]
-使用的语言，可以是以下值：
+Language used, can be the following:
 
 
 [CONFIG_GLOBAL_LANG_ERROR]
-无效的语言，必须是以下值：
+Invalid language, must be the following:
 
 
 [CONFIG_GLOBAL_WAR3]
-使用魔兽数据文件的目录，可以是以下值：
+War3 data used, can be the following:
 
 
 [CONFIG_GLOBAL_WAR3_ERROR]
-无效的目录，必须是以下值：
+Invalid directory, must be the following:
 
 
 [CONFIG_GLOBAL_UI]
-使用触发器数据的目录，可以是以下值：
+Trigger data used, can be the following:
 
-        ${YDWE}        搜索本地YDWE使用的触发器文件
+        ${YDWE}        Search for trigger data used by local YDWE
 
 [CONFIG_GLOBAL_UI_ERROR]
-无效的目录，必须是以下值：
+Invalid directory, must be the following:
 
-        ${YDWE}        搜索本地YDWE使用的触发器文件
+        ${YDWE}        Search for trigger data used by local YDWE
 
 [CONFIG_GLOBAL_META]
-使用编辑器数据的目录，可以使以下值：
+WE data used, can be the following:
 
-        ${DEFAULT}        使用正确的编辑器数据
+        ${DEFAULT}        Correct WE data
 
 [CONFIG_GLOBAL_META_ERROR]
-无效的目录，必须是以下值：
+Invalid directory, must be the following:
 
-        ${DEFAULT}        使用正确的编辑器数据
+        ${DEFAULT}        Correct WE data
 
 [CONFIG_GLOBAL_WES]
-使用编辑器文本的目录，可以使以下值：
+WE strings used, can be the following:
 
-        ${YDWE}        使用YDWE的编辑器字符串
+        ${YDWE}        YDWE strings
 
 [CONFIG_GLOBAL_WES_ERROR]
-无效的目录，必须是以下值：
+Invalid directory, must be the following:
 
-        ${YDWE}        使用YDWE的编辑器字符串
+        ${YDWE}        YDWE strings
 
 [CONFIG_GLOBAL_PLUGIN]
-插件的目录。默认是`plugin`。
+Path to the plugins. Defaults to: `plugin`.
 [CONFIG_LNI_READ_SLK]
-输出目标是Lni时，转换地图内的slk文件。必须是布尔。
+When converting to Lni, convert imported slk files. Should be boolean.
 [CONFIG_LNI_FIND_ID_TIMES]
-输出目标是Lni时，限制搜索最优模板的次数，0表示无限。必须是整数。
+When converting to Lni, limit times to search the optimal template, 0 means unlimited. Should be integer.
 [CONFIG_LNI_EXPORT_LUA]
-输出目标是Lni时，导出地图内的lua文件。必须是布尔。
+When converting to Lni, export lua files. Should be boolean.
 [CONFIG_SLK_REMOVE_UNUSE_OBJECT]
-输出目标是Slk时，移除没有引用的物体对象。必须是布尔。
+When converting to slk, remove unreferenced objects. Should be boolean.
 [CONFIG_SLK_OPTIMIZE_JASS]
-输出目标是Slk时，优化jass文件。必须是布尔。
+When converting to slk, optimize jass. Should be boolean.
 [CONFIG_SLK_MDX_SQUF]
-输出目标是Slk时，压缩mdx文件（有损压缩）。必须是布尔。
+When converting to slk, compress mdx files (lossy). Should be boolean.
 [CONFIG_SLK_REMOVE_WE_ONLY]
-输出目标是Slk时，删除只在WE中使用的文件。必须是布尔。
+When converting to slk, remove WE-only files. Should be boolean.
 [CONFIG_SLK_SLK_DOODAD]
-输出目标是Slk时，对装饰物进行Slk优化。必须是布尔。
+When converting to slk, optimize doodads. Should be boolean.
 [CONFIG_SLK_FIND_ID_TIMES]
-输出目标是Slk时，限制搜索最优模板的次数，0表示无限。必须是整数。
+When converting to slk, limit times to search the optimal template, 0 means unlimited. Should be integer.
 [CONFIG_SLK_CONFUSED]
-输出目标是Slk时，混淆jass文件。必须是布尔。
+When converting to slk, confuse jass. Should be boolean.
 [CONFIG_SLK_CONFUSION]
-输出目标是Slk时，混淆jass文件使用的字符集。需要满足以下条件：
+When converting to slk, used characters by confusing jass. The following need to be met:
 
-    1.只能是字母数字下划线
-    2.至少要有3个不同的字符
-    3.至少要有2个字母
+    1. Only alphanumeric underline
+    2. At least 3 different characters
+    3. At least 2 letters
 [CONFIG_OBJ_READ_SLK]
-输出目标是Obj时，转换地图内的slk文件。必须是布尔。
+When converting to obj, convert imported slk files. Should be boolean.
 [CONFIG_OBJ_FIND_ID_TIMES]
-输出目标是Obj时，限制搜索最优模板的次数，0表示无限。必须是整数。
+When converting to obj, limit times to search the optimal template, 0 means unlimited. Should be integer.
 [CONFIG_MUST_BOOLEAN]
-必须是布尔
+Must be boolean
 [CONFIG_MUST_INTEGER]
-必须是整数
+Must be integer
 [CONFIG_CONFUSION_1]
-只能使用字母数字下划线
+Only alphanumeric underline
 [CONFIG_CONFUSION_2]
-至少要有3个合法字符
+At least 3 different characters
 [CONFIG_CONFUSION_3]
-至少要有2个字母
+At least 2 letters
 [AUTO_SELECT]
 Auto select
