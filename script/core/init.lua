@@ -148,7 +148,7 @@ function mt:load_wts(wts, content, max, reason, fmter)
     if not wts then
         return content
     end
-    return content:gsub('TRIGSTR_(%d+)', function(i)
+    local str, count = content:gsub('TRIGSTR_(%d+)', function(i)
         local str_data = wts[tonumber(i)]
         if not str_data then
             self.messager.report(lang.report.OTHER, 9, lang.report.NO_TRIGSTR:format(i))
@@ -163,6 +163,10 @@ function mt:load_wts(wts, content, max, reason, fmter)
         end
         return text
     end)
+    if count == 0 and max and #str > max then
+        str = self:save_wts(wts, str, reason)
+    end
+    return str
 end
 
 function mt:save_wts(wts, text, reason)

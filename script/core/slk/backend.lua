@@ -53,7 +53,6 @@ local function to_obj(w2l, slk)
 end
 
 local function convert_wtg(w2l)
-    w2l:backend_convertwtg(w2l.slk.wts)
     local wtg_data, wct_data
     w2l.progress:start(0.1)
     local wtg = w2l:file_load('map', 'war3map.wtg')
@@ -82,9 +81,10 @@ local function convert_wtg(w2l)
     end
     w2l.progress:finish()
     w2l.progress:start(1)
+    local need_convert_wtg = true
     if wtg_data and wct_data and not w2l.config.remove_we_only then
         if w2l.config.mode == 'lni' then
-            local files = w2l:backend_lml(wtg_data, wct_data)
+            local files = w2l:backend_lml(wtg_data, wct_data, w2l.slk.wts)
             for filename, buf in pairs(files) do
                 w2l:file_save('trigger', filename, buf)
             end
@@ -97,12 +97,16 @@ local function convert_wtg(w2l)
             if suc then
                 w2l:file_save('map', 'war3map.wtg', wtg_buf)
                 w2l:file_save('map', 'war3map.wct', wct_buf)
+                need_convert_wtg = false
             else
                 w2l.messager.report(lang.report.ERROR, 1, lang.report.SAVE_WTG_FAILED, err:match('%.lua:%d+: (.*)'))
             end
         end
     end
     w2l.progress:finish()
+    if need_convert_wtg then
+        w2l:backend_convertwtg(w2l.slk.wts)
+    end
 end
 
 local displaytype = {

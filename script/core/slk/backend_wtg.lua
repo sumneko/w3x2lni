@@ -95,9 +95,7 @@ local function pack_arg(arg)
         type = CONSTANT
     end
     if type == CONSTANT then
-        value = w2l:load_wts(wts, value, 299, lang.script.TEXT_TOO_LONG_IN_WTG, function(str)
-            return str:gsub('\\', '\\\\'):gsub('"', '\\"')
-        end)
+        value = w2l:load_wts(wts, value, 299, lang.script.TEXT_TOO_LONG_IN_WTG)
     end
     pack('lz', arg_type_map[type], value)
     if type == CALL then

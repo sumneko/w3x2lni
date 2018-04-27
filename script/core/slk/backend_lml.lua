@@ -3,6 +3,7 @@ local lang = require 'lang'
 local w2l
 local wtg
 local wct
+local wts
 
 local type = type
 local tonumber = tonumber
@@ -26,6 +27,8 @@ local function lml_string(str)
     if type(str) == 'string' then
         if find(str, "[%s%:%'%c]") then
             str = format("'%s'", gsub(str, "'", "''"))
+        elseif find(str, '^TRIGSTR_%d+$') then
+            str = w2l:load_wts(wts, str)
         end
     end
     return str
@@ -158,10 +161,11 @@ local function read_triggers(files, map)
     end
 end
 
-return function (w2l_, wtg_, wct_)
+return function (w2l_, wtg_, wct_, wts_)
     w2l = w2l_
     wtg = wtg_
     wct = wct_
+    wts = wts_
 
     local files = {}
 
