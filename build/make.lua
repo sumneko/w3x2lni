@@ -145,7 +145,7 @@ end
 
 local version = read_version()
 
-do
+if arg[3] == 'zh-CN' then
     release_path = root / 'build' / 'zh-CN' / ('w3x2lni_v'..version)
     print('生成中文版，目录为：', release_path:string())
     create_directory()
@@ -164,7 +164,7 @@ do
     zippack()
 end
 
-do
+if arg[3] == 'en-US' then
     release_path = root / 'build' / 'en-US' / ('w3x2lni_v'..version)
     print('生成英文版，目录为：', release_path:string())
     create_directory()

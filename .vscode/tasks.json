@@ -9,11 +9,21 @@
     "suppressTaskName": true,
     "tasks": [
         {
-            "taskName": "发布",
+            "taskName": "发布中文版",
             "args": [
                 ".\\build\\execute.lua",
                 "${workspaceRoot}",
-                "${workspaceRoot}\\build\\make.lua"
+                "${workspaceRoot}\\build\\make.lua",
+                "zh-CN"
+            ]
+        },
+        {
+            "taskName": "发布英文版",
+            "args": [
+                ".\\build\\execute.lua",
+                "${workspaceRoot}",
+                "${workspaceRoot}\\build\\make.lua",
+                "en-US"
             ]
         },
         {
