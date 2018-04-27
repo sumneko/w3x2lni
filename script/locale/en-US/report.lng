@@ -79,7 +79,7 @@ Text cannot contain `}`
 [FORCE_READ_SLK]
 Incomplete information, forced reading SLK files
 [FILE_LOST]
-There are %d files that are not read
+Lost %d files
 [FILE_LOST_HINT]
 These files are discarded, Please include the complete `(listfile)`
 [FILE_READ]
