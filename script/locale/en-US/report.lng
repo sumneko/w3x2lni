@@ -29,7 +29,7 @@ Invalid object data
 [OPTIMIZE_JASS]
 Optimize JASS
 [OPTIMIZE_JASS_RESULT]
-%d.%s    Total: %d
+%s (%d)
 [ERROR]
 Error
 [NO_JASS]
@@ -92,8 +92,6 @@ Executed plugin [%s] failed
 Native
 [MAP]
 Map
-[TOTAL]
-Total
 [STRING_CAN_CONVERT_NUMBER]
 String can be converted to number
 [DATA_LEVEL_TOO_HIGHT]

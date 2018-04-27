@@ -278,7 +278,7 @@ local function to_slk(w2l, slk)
     end
 
     if report.n > 0 then
-        w2l.messager.report(lang.report.NO_SLK_DATA, 3, (lang.report.TOTAL .. ': %d'):format(report.n))
+        w2l.messager.report(lang.report.NO_SLK_DATA, 3, 'TOTAL:' .. report.n)
         for tip, list in pairs(report) do
             if #tip > 1 then
                 local n = 0

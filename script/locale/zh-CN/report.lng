@@ -29,7 +29,7 @@
 [OPTIMIZE_JASS]
 脚本优化
 [OPTIMIZE_JASS_RESULT]
-%d.%s    总计：%d
+%s (%d)
 [ERROR]
 严重错误
 [NO_JASS]
@@ -92,8 +92,6 @@
 本地
 [MAP]
 地图
-[TOTAL]
-合计
 [STRING_CAN_CONVERT_NUMBER]
 字符串可以被转换为数字
 [DATA_LEVEL_TOO_HIGHT]

@@ -24,7 +24,7 @@ return function (report)
     for type, report in sortpairs(report) do
         if type ~= '' then
             
-            local total = report[1][1]:match(lang.report.TOTAL .. ': (%d+)')
+            local total = report[1][1]:match('TOTAL:(%d+)')
             local title = ('%s (%d)'):format(type:sub(2), total or #report)
             lines[#lines+1] = '=========================='
             lines[#lines+1] = title

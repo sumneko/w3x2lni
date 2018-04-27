@@ -350,7 +350,7 @@ return function(w2l_, slk_)
     mark_lua(w2l, slk)
     mark_marketplace(slk, jassflag)
     if #report_cache > 0 then
-        w2l.messager.report(lang.report.SIMPLIFY, 4, (lang.report.TOTAL .. ': %d'):format(#report_cache))
+        w2l.messager.report(lang.report.SIMPLIFY, 4, 'TOTAL:' .. #report_cache)
         for _, rep in ipairs(report_cache) do
             w2l.messager.report(lang.report.SIMPLIFY, 4, rep[1], rep[2])
         end
