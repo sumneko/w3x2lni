@@ -274,7 +274,7 @@ local function to_slk(w2l, slk)
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable', 'doodad', 'misc'} do
         local data = object[type] or slk[type]
         local content = w2l:backend_obj(type, data, slk.wts)
-        if content then
+        if content and #content > 0 then
             w2l:file_save('map', w2l.info.obj[type], content)
         end
     end

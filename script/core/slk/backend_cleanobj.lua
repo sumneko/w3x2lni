@@ -150,7 +150,7 @@ local function clean_misc(type, t)
         return
     end
     for name in pairs(default[type]) do
-        if t[name] then
+        if t[name] and (t[name]._source ~= 'slk' or w2l.config.mode ~= 'slk') then
             clean_obj(id, t[name], type, default[type])
         end
     end
