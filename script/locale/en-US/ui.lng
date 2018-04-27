@@ -31,29 +31,29 @@ To Obj
 [READ_SLK]
 Read SLK
 [READ_SLK_HINT]
-Read the imported SLK files
+Read imported SLK files
 [SIMPLIFY]
 Simplify
 [SIMPLIFY_HINT]
-Remove unused objects
+Remove unreferenced objects
 [OPTIMIZE_JASS]
 Optimize JASS
 [OPTIMIZE_JASS_HINT]
-Reduce size and more fluency
+Reduce size and lifting performance
 [MDX_SQUF]
 Compress models
 [MDX_SQUF_HINT]
 Lossy compression
 [REMOVE_WE_ONLY]
-Remove WE-only
+Remove WE-only files
 [REMOVE_WE_ONLY_HINT]
 WE and W2l won't be able to open the map
 [SLK_DOODAD]
-Optimize doodad
+Optimize doodads
 [SLK_DOODAD_HINT]
 Terrain deform will not drop frames
 [EXPORT_LUA]
-Export lua
+Export lua files
 [EXPORT_LUA_HINT]
 
 [FIND_ID_TIMES]
