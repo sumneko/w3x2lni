@@ -33,15 +33,15 @@ Read SLK
 [READ_SLK_HINT]
 Read imported SLK files
 [SIMPLIFY]
-Simplify
-[SIMPLIFY_HINT]
 Remove unreferenced objects
+[SIMPLIFY_HINT]
+
 [OPTIMIZE_JASS]
 Optimize JASS
 [OPTIMIZE_JASS_HINT]
 Reduce size and lifting performance
 [MDX_SQUF]
-Compress models
+Compress mdx
 [MDX_SQUF_HINT]
 Lossy compression
 [REMOVE_WE_ONLY]
