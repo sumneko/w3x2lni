@@ -144,3 +144,29 @@ Template not existed: %s [%s:%s]
 Ability removed: %s
 [ABILITY_REMOVED_HINT]
 Custom ability will be removed by WC3 without modifying any attributes
+[JASS_LINE]
+Line [%d] : 
+[JASS_LINES]
+Line [%d]-[%d] :
+[FORCE_REFERENCE_ALL]
+Force referenced all functions
+[FULLY_DYNAMIC]
+Fully dynamic
+[NO_CONFUSING_FUNCTION_NAME]
+Didn't confuse function names
+[NO_CONFUSING_GLOBAL_REAL]
+Didn't confuse global reals
+[DEFINED_VARIABLE_EVENT]
+Defined variable event
+[CONFUSED_FAILED]
+Confused failed
+[NEED_3_CHARS]
+At least 3 legitimate characters
+[NEED_2_LETTERS]
+At least 2 letters
+[UNEXPECT_EXP]
+Unexpect expression type
+[UNEXPECT_LOGIC]
+Unexpect judgment type
+[UNEXPECT_CHUNK]
+Unexpect chunk type
