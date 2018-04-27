@@ -41,7 +41,7 @@ local function to_obj(w2l, slk)
         w2l.progress:start(count / 8)
         local content = w2l:backend_obj(type, data, slk.wts)
         w2l.progress:finish()
-        if content then
+        if content and #content > 0 then
             w2l:file_save('map', filename, content)
         end
     end
