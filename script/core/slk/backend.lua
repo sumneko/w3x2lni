@@ -1,5 +1,6 @@
 local lang = require 'lang'
 local os_clock = os.clock
+local w2l
 
 local output = {
     unit    = 'units\\campaignunitstrings.txt',
@@ -120,6 +121,8 @@ local function get_displayname(o)
         name = o.bufftip or o.editorname or ''
     elseif o._type == 'upgrade' then
         name = o.name[1] or ''
+    elseif o._type == 'doodad' or o._type == 'destructable' then
+        name = w2l:get_editstring(o.name or '')
     else
         name = o.name or ''
     end
@@ -319,7 +322,8 @@ local function clean_file(w2l, slk)
     w2l:file_remove('table', 'doo')
 end
 
-return function (w2l, slk)
+return function (w2l_, slk)
+    w2l = w2l_
     slk = slk or w2l.slk or {}
     w2l.slk = slk
     clean_file(w2l, slk)
