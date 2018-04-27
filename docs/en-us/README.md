@@ -21,7 +21,7 @@ We defined 3 formats for a wc3 map, and w3x2Lni allows you to convert your maps 
 `Slk` is only readable by wc3 and should be used for final distribution. W3x2Lni enables multiple optimization for this format, including:
 
 * Objects converted to slk
-* Removed unreferenced objects data
+* Removed unreferenced objects
 * Removed WE-only files
 * Inlined WTS strings
 * Compressed mdx
