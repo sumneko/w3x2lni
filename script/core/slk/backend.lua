@@ -145,7 +145,7 @@ local function format_marktip(slk, marktip)
 end
 
 local function report_object(slk, type, o)
-    w2l.messager.report(lang.report.SIMPLIFY, 4, ('%s \'%s\''):format(displaytype[type], get_displayname(o)), o._mark and format_marktip(slk, o._mark))
+    w2l.messager.report(lang.report.SIMPLIFY, 4, ('%s \'%s\' %s'):format(displaytype[type], get_displayname(o)), o._mark and format_marktip(slk, o._mark)) 
 end
 
 local function report_list(slk, list, type, n)
