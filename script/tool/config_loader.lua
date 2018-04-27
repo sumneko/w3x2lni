@@ -237,7 +237,7 @@ local function string_proxy(key, concat)
     return setmetatable({}, {
         __tostring = function ()
             if concat then
-                return lang.raw[key] .. concat
+                return lang.raw[key] .. concat()
             else
                 return lang.raw[key]
             end
@@ -258,11 +258,11 @@ return function ()
     local config = proxy {}
     
     config.global                  = {}
-    config.global.lang             = {langf,  raw.CONFIG_GLOBAL_LANG .. lang_hint()}
-    config.global.data_war3        = {war3,   raw.CONFIG_GLOBAL_WAR3 .. data_hint()}
-    config.global.data_ui          = {ui,     raw.CONFIG_GLOBAL_UI   .. data_hint()}
-    config.global.data_meta        = {meta,   raw.CONFIG_GLOBAL_META .. data_hint()}
-    config.global.data_wes         = {wes,    raw.CONFIG_GLOBAL_WES  .. data_hint()}
+    config.global.lang             = {langf,  raw.CONFIG_GLOBAL_LANG .. lang_hint}
+    config.global.data_war3        = {war3,   raw.CONFIG_GLOBAL_WAR3 .. data_hint}
+    config.global.data_ui          = {ui,     raw.CONFIG_GLOBAL_UI   .. data_hint}
+    config.global.data_meta        = {meta,   raw.CONFIG_GLOBAL_META .. data_hint}
+    config.global.data_wes         = {wes,    raw.CONFIG_GLOBAL_WES  .. data_hint}
 
     config.lni                     = {}
     config.lni.read_slk            = {boolean, raw.CONFIG_LNI_READ_SLK}
