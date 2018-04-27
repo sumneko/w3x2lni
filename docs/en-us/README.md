@@ -26,7 +26,7 @@ We defined 3 formats for a wc3 map, and w3x2Lni allows you to convert your maps 
 * Inlined WTS strings
 * Compressed mdx
 * Removed comments and unncessary white spaces in the script
-* obfuscated variable and function name
+* Obfuscated variable and function name
 
 > Conversion amongst the 3 formats
 
