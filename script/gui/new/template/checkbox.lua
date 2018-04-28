@@ -20,25 +20,27 @@ end
 
 local function btn_checkbox(t)
     local btn = gui.Button.create('')
+    local lbl = gui.Label.create('')
     btn:setstyle { Width = 20, Height = 20 }
+    lbl:setstyle { Width = 16, Height = 16 }
     btn.select = t.select or false
     btn.hover = t.hover or false
-    local yes_color1 = window._color
-    local yes_color2 = getActiveColor(yes_color1)
-    local no_color1 = '#333743'
-    local no_color2 = getActiveColor(no_color1)
+    btn._backgroundcolor1 = '#333743'
+    btn._backgroundcolor2 = getActiveColor(btn._backgroundcolor1)
+    lbl._backgroundcolor1 = window._color
+    lbl._backgroundcolor2 = getActiveColor(lbl._backgroundcolor1)
     local function update_color()
         if btn.select then
-            btn._backgroundcolor1 = yes_color1
-            btn._backgroundcolor2 = yes_color2
+            lbl:setvisible(true)
         else
-            btn._backgroundcolor1 = no_color1
-            btn._backgroundcolor2 = no_color2
+            lbl:setvisible(false)
         end
         if btn.hover then
             btn:setbackgroundcolor(btn._backgroundcolor1)
+            lbl:setbackgroundcolor(lbl._backgroundcolor1)
         else
             btn:setbackgroundcolor(btn._backgroundcolor2)
+            lbl:setbackgroundcolor(lbl._backgroundcolor2)
         end
     end
     update_color()
@@ -48,28 +50,36 @@ local function btn_checkbox(t)
     end
     function btn:onmouseleave()
         self.hover = false
-        self:setbackgroundcolor(self._backgroundcolor1)
+        btn:setbackgroundcolor(btn._backgroundcolor1)
+        lbl:setbackgroundcolor(lbl._backgroundcolor1)
     end
     function btn:onmouseenter()
         self.hover = true
-        self:setbackgroundcolor(self._backgroundcolor2)
+        btn:setbackgroundcolor(btn._backgroundcolor2)
+        lbl:setbackgroundcolor(lbl._backgroundcolor2)
     end
     function btn:update_theme(c)
         yes_color1 = c
         update_color()
     end
-    return btn
+    return btn, lbl
 end
 
 return function (t)
     local o = gui.Container.create()
-    local checkbox = btn_checkbox(t)
-    o:addchildview(checkbox)
+    local btn, lbl = btn_checkbox(t)
+    o:addchildview(btn)
+    o:addchildview(lbl)
+    lbl:setstyle { Position = 'absolute', Left = 2, Top = 2 }
     local label = gui.Label.create(t.text)
     label:setcolor('#AAA')
     label:setfont(Font('黑体', 16))
+    label:setalign 'start'
     label:setstyle { FlexGrow = 1, MarginTop = 3 }
     o:addchildview(label)
     o:setstyle { FlexDirection = 'row' }
+    if t.style then
+        o:setstyle(t.style)
+    end
     return o
 end
