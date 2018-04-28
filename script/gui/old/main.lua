@@ -10,6 +10,7 @@ local create_config = require 'tool.config'
 local lang = require 'tool.lang'
 local input_path = require 'tool.input_path'
 local builder = require 'map-builder'
+local war3_name = require 'tool.war3_name'
 local currenttheme = {0, 173, 217}
 local worker
 
@@ -58,6 +59,10 @@ function window:dropfile(file)
         return
     end
     mappath = input_path(file)
+    local war3 = war3_name(mappath)
+    if war3 then
+        return
+    end
     local map = builder.load(mappath)
     if not map then
         return

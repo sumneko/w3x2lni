@@ -5,6 +5,7 @@ local lang = require 'tool.lang'
 local config = require 'tool.config' ()
 local input_path = require 'tool.input_path'
 local builder = require 'map-builder'
+local war3_name = require 'tool.war3_name'
 
 lang:set_lang(config.global.lang)
 window = {}
@@ -15,6 +16,10 @@ function ext.on_dropfile(filename)
         return
     end
     local mappath = input_path(filename)
+    local war3 = war3_name(mappath)
+    if war3 then
+        return
+    end
     local map = builder.load(mappath)
     if not map then
         return
