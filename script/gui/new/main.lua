@@ -13,8 +13,8 @@ function ext.on_dropfile(filename)
     if window._worker and not window._worker.exited then
         return
     end
-    window:show_page('select')
     window._filename = input_path(filename)
+    window:show_page('select')
 end
 
 local FontPool = {}
