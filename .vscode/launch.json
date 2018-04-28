@@ -16,7 +16,7 @@
             //"runtimeExecutable": "${workspaceRoot}\\bin\\w2l-worker.exe",
             //"runtimeArgs": "${workspaceRoot}\\script\\main.lua",
             "consoleCoding": "utf8",
-            "program": "${workspaceRoot}\\script\\gui\\old\\main.lua"
+            "program": "${workspaceRoot}\\script\\gui\\new\\main.lua"
         },
         {
             "name": "后端",
