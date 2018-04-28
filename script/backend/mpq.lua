@@ -11,41 +11,10 @@ local core = require 'backend.sandbox_core'
 local unpack_config = require 'backend.unpack_config'
 local w3xparser = require 'w3xparser'
 local messager = require 'tool.messager'
-local war3_ver = require 'tool.war3_ver'
+local war3_name = require 'tool.war3_name'
 local w2l
 local mpq_name
 local root = fs.current_path()
-
-local language_map = {
-    [0x00000409] = 'enUS',
-    [0x00000809] = 'enGB',
-    [0x0000040c] = 'frFR',
-    [0x00000407] = 'deDE',
-    [0x0000040a] = 'esES',
-    [0x00000410] = 'itIT',
-    [0x00000405] = 'csCZ',
-    [0x00000419] = 'ruRU',
-    [0x00000415] = 'plPL',
-    [0x00000416] = 'ptBR',
-    [0x00000816] = 'ptPT',
-    [0x0000041f] = 'tkTK',
-    [0x00000411] = 'jaJA',
-    [0x00000412] = 'koKR',
-    [0x00000404] = 'zhTW',
-    [0x00000804] = 'zhCN',
-    [0x0000041e] = 'thTH',
-}
-
-local function mpq_language(config)
-    if not config then
-        return nil
-    end
-    local id = config:match 'LANGID=(0x[%x]+)'
-    if not id then
-        return nil
-    end
-    return language_map[tonumber(id)]
-end
 
 local function task(f, ...)
     for i = 1, 99 do
@@ -226,8 +195,8 @@ return function ()
     local input = config.input
     get_w2l()
 
-    local ver = war3_ver(input)
-    if not ver then
+    mpq_name = war3_name(input)
+    if not mpq_name then
         w2l.messager.text(lang.script.NEED_WAR3_DIR)
         return
     end
@@ -235,13 +204,6 @@ return function ()
     if not mpqs then
         return
     end
-    local lg = mpq_language(mpqs:load_file 'config.txt')
-    if lg then
-        mpq_name = lg .. '-' .. ver
-    else
-        mpq_name = input:filename():string()
-    end
-
     local config = require 'tool.config' ()
     config.global.data_war3 = mpq_name
     if config.global.data_ui ~= '${YDWE}' then
