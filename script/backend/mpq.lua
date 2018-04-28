@@ -7,11 +7,11 @@ local maketemplate = require 'prebuilt.maketemplate'
 local prebuilt_metadata = require 'prebuilt.metadata'
 local proto = require 'tool.protocol'
 local lang = require 'tool.lang'
-local file_version = require 'ffi.file_version'
 local core = require 'backend.sandbox_core'
 local unpack_config = require 'backend.unpack_config'
 local w3xparser = require 'w3xparser'
 local messager = require 'tool.messager'
+local war3_ver = require 'tool.war3_ver'
 local w2l
 local mpq_name
 local root = fs.current_path()
@@ -45,29 +45,6 @@ local function mpq_language(config)
         return nil
     end
     return language_map[tonumber(id)]
-end
-
-local function war3_ver(input)
-    local exe_path = input / 'War3.exe'
-    if fs.exists(exe_path) then
-        local ver = file_version(exe_path:string())
-        if ver.major > 1 or ver.minor >= 29 then
-            return ('%d.%d.%d'):format(ver.major, ver.minor, ver.revision)
-        end
-    end
-    local exe_path = input / 'Warcraft III.exe'
-    if fs.exists(exe_path) then
-        local ver = file_version(exe_path:string())
-        if ver.major > 1 or ver.minor >= 29 then
-            return ('%d.%d.%d'):format(ver.major, ver.minor, ver.revision)
-        end
-    end
-    local dll_path = input / 'Game.dll'
-    if fs.exists(dll_path) then
-        local ver = file_version(dll_path:string())
-        return ('%d.%d.%d'):format(ver.major, ver.minor, ver.revision)
-    end
-    return nil
 end
 
 local function task(f, ...)
@@ -249,10 +226,6 @@ return function ()
     local input = config.input
     get_w2l()
 
-    if not fs.is_directory(input) then
-        w2l.messager.text(lang.script.NEED_WAR3_DIR)
-        return
-    end
     local ver = war3_ver(input)
     if not ver then
         w2l.messager.text(lang.script.NEED_WAR3_DIR)
