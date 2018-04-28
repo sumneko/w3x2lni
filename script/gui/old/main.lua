@@ -58,16 +58,17 @@ function window:dropfile(file)
     if worker and not worker.exited then
         return
     end
-    mappath = input_path(file)
-    local war3 = war3_name(mappath)
+    local war3 = war3_name(fs.path(file))
     if war3 then
         return
     end
-    local map = builder.load(mappath)
+    local inputpath = input_path(file)
+    local map = builder.load(inputpath)
     if not map then
         return
     end
     map:close()
+    mappath = inputpath
     mapname = mappath:filename():string()
     config = create_config(mappath)
     uitype = 'select'

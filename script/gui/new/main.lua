@@ -15,11 +15,11 @@ function ext.on_dropfile(filename)
     if window._worker and not window._worker.exited then
         return
     end
-    local mappath = input_path(filename)
-    local war3 = war3_name(mappath)
+    local war3 = war3_name(fs.path(filename))
     if war3 then
         return
     end
+    local mappath = input_path(filename)
     local map = builder.load(mappath)
     if not map then
         return
