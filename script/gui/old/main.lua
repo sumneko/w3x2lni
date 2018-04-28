@@ -9,6 +9,7 @@ local plugin = require 'gui.old.plugin'
 local create_config = require 'tool.config'
 local lang = require 'tool.lang'
 local input_path = require 'tool.input_path'
+local builder = require 'map-builder'
 local currenttheme = {0, 173, 217}
 local worker
 
@@ -57,6 +58,11 @@ function window:dropfile(file)
         return
     end
     mappath = input_path(file)
+    local map = builder.load(mappath)
+    if not map then
+        return
+    end
+    map:close()
     mapname = mappath:filename():string()
     config = create_config(mappath)
     uitype = 'select'

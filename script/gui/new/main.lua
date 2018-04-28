@@ -4,6 +4,7 @@ local timer = require 'gui.timer'
 local lang = require 'tool.lang'
 local config = require 'tool.config' ()
 local input_path = require 'tool.input_path'
+local builder = require 'map-builder'
 
 lang:set_lang(config.global.lang)
 window = {}
@@ -13,7 +14,13 @@ function ext.on_dropfile(filename)
     if window._worker and not window._worker.exited then
         return
     end
-    window._filename = input_path(filename)
+    local mappath = input_path(filename)
+    local map = builder.load(mappath)
+    if not map then
+        return
+    end
+    map:close()
+    window._filename = mappath
     window:show_page('select')
 end
 
