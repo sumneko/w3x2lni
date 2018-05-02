@@ -18,5 +18,5 @@ end
 
 return function (t, data)
     local data = databinding(data)
-    return create_template(t, data), data.e
+    return create_template(t, data), data.set
 end

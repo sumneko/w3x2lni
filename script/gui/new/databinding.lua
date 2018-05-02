@@ -1,7 +1,3 @@
-local function execute(self, str)
-    return assert(load(str, '=(databinding)', 't', self.e))()
-end
-
 local function getpath(root, k)
     if root then
         return root .. '.' .. k
@@ -23,8 +19,8 @@ local function create_table(data, root)
         end
     end
     local event = {}
-    local mt = {}
-    function mt:__index(k)
+    local get_mt = {}
+    function get_mt:__index(k)
         if data[k] == nil then
             error(('Get `%s` is a invalid value.'):format(getpath(root, k)))
         end
@@ -37,7 +33,19 @@ local function create_table(data, root)
         end
         return data[k]
     end
-    function mt:__newindex(k, v)
+    function get_mt:__newindex(k, v)
+        if data[k] == nil then
+            error(('Set `%s` is a invalid value.'):format(getpath(root, k)))
+        end
+        if type(data[k]) == 'table' then
+            error(('Set `%s` is a table.'):format(getpath(root, k)))
+        end
+        error(('Set `%s` is read-only in getter.'):format(getpath(root, k)))
+    end
+    
+    local set_mt = {}
+    set_mt.__index = get_mt.__index
+    function set_mt:__newindex(k, v)
         if data[k] == nil then
             error(('Set `%s` is a invalid value.'):format(getpath(root, k)))
         end
@@ -55,7 +63,7 @@ local function create_table(data, root)
             end
         end
     end
-    return setmetatable({}, mt)
+    return setmetatable({}, get_mt), setmetatable({}, set_mt)
 end
 
 local mt = {}
@@ -63,11 +71,11 @@ mt.__index = mt
 
 function mt:get(str, e)
     if not e then
-        return execute(self, 'return ' .. str)
+        return assert(load('return ' .. str, '=(databinding)', 't', self.__get))()
     end
     has_e = true
     cur_e = e
-    local r = execute(self, 'return ' .. str)
+    local r = assert(load('return ' .. str, '=(databinding)', 't', self.__get))()
     has_e = false
     return r
 end
@@ -78,7 +86,7 @@ function mt:set(str, value, e)
     end
     has_v = true
     cur_v = value
-    execute(self, str .. '=false')
+    assert(load(str .. '=false', '=(databinding)', 't', self.__set))()
     has_v = false
     if e then
         disable_e[e] = disable_e[e] - 1
@@ -127,6 +135,6 @@ end
 
 return function (data)
     local self = setmetatable({}, mt)
-    self.e = create_table(data)
+    self.__get, self.__set = create_table(data)
     return self
 end
