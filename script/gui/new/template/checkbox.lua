@@ -19,12 +19,11 @@ local function getActiveColor(color)
     end
 end
 
-local function checkbox_button(t)
+local function checkbox_button(t, data)
     local btn = gui.Button.create('')
     local lbl = gui.Label.create('')
     btn:setstyle { Width = 20, Height = 20 }
     lbl:setstyle { Width = 16, Height = 16, Position = 'absolute', Left = 2, Top = 2 }
-    btn.select = t.select or false
     btn.hover = t.hover or false
     btn._backgroundcolor1 = '#333743'
     lbl._backgroundcolor1 = window._color
@@ -44,10 +43,27 @@ local function checkbox_button(t)
             lbl:setbackgroundcolor(lbl._backgroundcolor2)
         end
     end
+    
+    local d_select
+    d_select = data:binding(t.select, function()
+        btn.select = d_select:get()
+        update_color()
+    end)
+    if d_select then
+        btn.select = d_select:get()
+    elseif type(t.select) == 'boolean' then
+        btn.select = t.select
+    else
+        btn.select = false
+    end
     update_color()
+
     function btn:onmousedown()
         self.select = not self.select
         update_color()
+        if d_select then
+            d_select:set(self.select)
+        end
     end
     function btn:onmouseleave()
         self.hover = false
@@ -77,13 +93,13 @@ local function checkbox_label(t)
     return label
 end
 
-return function (t)
+return function (t, data)
     local o = gui.Container.create()
     o:setstyle { FlexDirection = 'row' }
     if t.style then
         o:setstyle(t.style)
     end
-    local btn, lbl = checkbox_button(t)
+    local btn, lbl = checkbox_button(t, data)
     o:addchildview(btn)
     o:addchildview(lbl)
     o:addchildview(checkbox_label(t))
