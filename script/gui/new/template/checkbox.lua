@@ -22,7 +22,7 @@ local function btn_checkbox(t)
     local btn = gui.Button.create('')
     local lbl = gui.Label.create('')
     btn:setstyle { Width = 20, Height = 20 }
-    lbl:setstyle { Width = 16, Height = 16 }
+    lbl:setstyle { Width = 16, Height = 16, Position = 'absolute', Left = 2, Top = 2 }
     btn.select = t.select or false
     btn.hover = t.hover or false
     btn._backgroundcolor1 = '#333743'
@@ -67,19 +67,20 @@ end
 
 return function (t)
     local o = gui.Container.create()
-    local btn, lbl = btn_checkbox(t)
-    o:addchildview(btn)
-    o:addchildview(lbl)
-    lbl:setstyle { Position = 'absolute', Left = 2, Top = 2 }
-    local label = gui.Label.create(t.text)
-    label:setcolor('#AAA')
-    label:setfont(Font('黑体', 16))
-    label:setalign 'start'
-    label:setstyle { FlexGrow = 1, MarginTop = 3 }
-    o:addchildview(label)
     o:setstyle { FlexDirection = 'row' }
     if t.style then
         o:setstyle(t.style)
     end
+    local btn, lbl = btn_checkbox(t)
+    o:addchildview(btn)
+    o:addchildview(lbl)
+    local label = gui.Label.create(t.text)
+    label:setcolor('#AAA')
+    if t.font then
+        label:setfont(Font(t.font.name, t.font.size, t.font.weight, t.font.style))
+    end
+    label:setalign 'start'
+    label:setstyle { FlexGrow = 1, MarginTop = 3 }
+    o:addchildview(label)
     return o
 end
