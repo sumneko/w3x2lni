@@ -52,16 +52,18 @@ local function getpath(root, k)
     return k
 end
 
-local function create_mt(data, path)
-    local ob = {
-        path = path,
-        event = {},
-        data = data,
-    }
+local function split(str)
+    local r = {}
+    str:gsub('[^%.]+', function (w) r[#r+1] = w end)
+    return r
+end
+
+local function create_proxy(data, path)
+    local event = {}
     local node = {}
     for k, v in pairs(data) do
         if type(v) == 'table' then
-            node[k] = setmetatable({}, create_mt(v, getpath(path, k))) 
+            node[k], event[k] = create_proxy(v, getpath(path, k))
         end
     end
     local mt = {}
@@ -72,7 +74,11 @@ local function create_mt(data, path)
         if type(data[k]) == 'table' then
             return node[k]
         end
-        return self.__get(ob, k)
+        if f and not event[f] then
+            event[f] = true
+            event[#event+1] = f
+        end
+        return data[k]
     end
     function mt:__newindex(k, v)
         if data[k] == nil then
@@ -81,44 +87,53 @@ local function create_mt(data, path)
         if type(data[k]) == 'table' then
             error(('Set `%s` is a table.'):format(getpath(path, k)))
         end
-        self.__set(ob, k, v)
+        data[k] = v
+        event_init()
+        for _, e in ipairs(event) do
+            event_push(e)
+        end
+        event_close()
     end
-    return mt
+    return setmetatable({}, mt), event
 end
 
 local mt = {}
 mt.__index = mt
 
 function mt:bind(str, f)
-    event_init()
-    function self.env:__get(k)
-        if f and not self.event[f] then
-            self.event[f] = true
-            self.event[#self.event+1] = f
-        end
-        return {
-            get = function()
-                return self.data[k]
-            end,
-            set = function(_, v)
-                event_init()
-                self.data[k] = v
-                for _, e in ipairs(self.event) do
-                    event_push(e)
-                end
-                event_close()
-            end,
-        }
+    local event = self.event
+    local data = self.data
+    local path = split(str)
+    local k = path[#path]
+    path[#path] = nil
+    for _, k in ipairs(path) do
+        event = event[k]
+        data = data[k]
     end
-    function self.env:__set(k, v, root)
-        error(('Set `%s` is read-only in `bind`.'):format(getpath(self.path, k)))
+    if f and not event[f] then
+        event[f] = true
+        event[#event+1] = f
     end
-    local r = assert(load('return ' .. str, '=(databinding)', 't', self.env))()
-    event_close()
-    return r
+    return {
+        get = function()
+            return data[k]
+        end,
+        set = function(_, v)
+            event_init()
+            data[k] = v
+            for _, e in ipairs(event) do
+                event_push(e)
+            end
+            event_close()
+        end,
+    }
 end
 
 return function (data)
-    local env = setmetatable({__get = false, __set = false}, create_mt(data))
-    return setmetatable({ env = env }, mt)
+    local proxy, event = create_proxy(data)
+    return setmetatable({ 
+        proxy = proxy,
+        event = event,
+        data = data
+     }, mt)
 end
