@@ -19,7 +19,7 @@ local function getActiveColor(color)
     end
 end
 
-local function btn_checkbox(t)
+local function checkbox_button(t)
     local btn = gui.Button.create('')
     local lbl = gui.Label.create('')
     btn:setstyle { Width = 20, Height = 20 }
@@ -66,15 +66,7 @@ local function btn_checkbox(t)
     return btn, lbl
 end
 
-return function (t)
-    local o = gui.Container.create()
-    o:setstyle { FlexDirection = 'row' }
-    if t.style then
-        o:setstyle(t.style)
-    end
-    local btn, lbl = btn_checkbox(t)
-    o:addchildview(btn)
-    o:addchildview(lbl)
+local function checkbox_label(t)
     local label = gui.Label.create(t.text)
     label:setcolor('#AAA')
     if t.font then
@@ -82,6 +74,18 @@ return function (t)
     end
     label:setalign 'start'
     label:setstyle { FlexGrow = 1, MarginTop = 3 }
-    o:addchildview(label)
+    return label
+end
+
+return function (t)
+    local o = gui.Container.create()
+    o:setstyle { FlexDirection = 'row' }
+    if t.style then
+        o:setstyle(t.style)
+    end
+    local btn, lbl = checkbox_button(t)
+    o:addchildview(btn)
+    o:addchildview(lbl)
+    o:addchildview(checkbox_label(t))
     return o
 end
