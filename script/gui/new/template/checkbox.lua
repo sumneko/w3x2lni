@@ -45,11 +45,11 @@ local function checkbox_button(t, data)
     end
     
     local d_select
-    d_select = data:binding(t.select, function()
-        btn.select = d_select:get()
-        update_color()
-    end)
-    if d_select then
+    if type(t.select) == 'string' then
+        d_select = data:bind(t.select, function()
+            btn.select = d_select:get()
+            update_color()
+        end)
         btn.select = d_select:get()
     elseif type(t.select) == 'boolean' then
         btn.select = t.select
