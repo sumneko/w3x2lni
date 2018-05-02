@@ -26,10 +26,10 @@ local function btn_checkbox(t)
     btn.select = t.select or false
     btn.hover = t.hover or false
     btn._backgroundcolor1 = '#333743'
-    btn._backgroundcolor2 = getActiveColor(btn._backgroundcolor1)
     lbl._backgroundcolor1 = window._color
-    lbl._backgroundcolor2 = getActiveColor(lbl._backgroundcolor1)
     local function update_color()
+        btn._backgroundcolor2 = getActiveColor(btn._backgroundcolor1)
+        lbl._backgroundcolor2 = getActiveColor(lbl._backgroundcolor1)
         if btn.select then
             lbl:setvisible(true)
         else
@@ -59,7 +59,7 @@ local function btn_checkbox(t)
         lbl:setbackgroundcolor(lbl._backgroundcolor2)
     end
     function btn:update_theme(c)
-        yes_color1 = c
+        lbl._backgroundcolor1 = c
         update_color()
     end
     return btn, lbl
