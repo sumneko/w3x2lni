@@ -1,4 +1,5 @@
 local gui = require 'yue.gui'
+local ev = require 'gui.event'
 
 local function getActiveColor(color)
     if #color == 4 then
@@ -58,10 +59,10 @@ local function btn_checkbox(t)
         btn:setbackgroundcolor(btn._backgroundcolor2)
         lbl:setbackgroundcolor(lbl._backgroundcolor2)
     end
-    function btn:update_theme(c)
-        lbl._backgroundcolor1 = c
+    ev.on('update theme', function()
+        lbl._backgroundcolor1 = window._color
         update_color()
-    end
+    end)
     return btn, lbl
 end
 

@@ -6,6 +6,7 @@ local config = require 'tool.config' ()
 local input_path = require 'tool.input_path'
 local builder = require 'map-builder'
 local war3_name = require 'tool.war3_name'
+local ev = require 'gui.event'
 
 lang:set_lang(config.global.lang)
 window = {}
@@ -198,6 +199,7 @@ function window:set_theme(title, color)
     self._color = color
     self._caption:setbackgroundcolor(color)
     self:close_theme()
+    ev.emit('update theme')
 end
 
 function window:show_page(name)

@@ -1,4 +1,5 @@
 local gui = require 'yue.gui'
+local ev = require 'gui.event'
 
 local function getActiveColor(color)
     if #color == 4 then
@@ -94,10 +95,10 @@ local function tree_button(t, children)
         self.hover = true
         btn:setbackgroundcolor(btn._backgroundcolor2)
     end
-    function btn:update_theme(c)
-        btn._backgroundcolor1 = c
+    ev.on('update theme', function()
+        btn._backgroundcolor1 = window._color
         update_color()
-    end
+    end)
     btn:addchildview(tree_label(t))
     tree_icon(btn)
     return btn
