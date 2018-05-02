@@ -25,10 +25,9 @@ local function checkbox_button(t, data)
     btn:setstyle { Width = 20, Height = 20 }
     lbl:setstyle { Width = 16, Height = 16, Position = 'absolute', Left = 2, Top = 2 }
     btn.hover = t.hover or false
-    btn._backgroundcolor1 = '#333743'
+    btn:setbackgroundcolor('#333743')
     lbl._backgroundcolor1 = window._color
     local function update_color()
-        btn._backgroundcolor2 = getActiveColor(btn._backgroundcolor1)
         lbl._backgroundcolor2 = getActiveColor(lbl._backgroundcolor1)
         if btn.select then
             lbl:setvisible(true)
@@ -36,10 +35,8 @@ local function checkbox_button(t, data)
             lbl:setvisible(false)
         end
         if btn.hover then
-            btn:setbackgroundcolor(btn._backgroundcolor1)
             lbl:setbackgroundcolor(lbl._backgroundcolor1)
         else
-            btn:setbackgroundcolor(btn._backgroundcolor2)
             lbl:setbackgroundcolor(lbl._backgroundcolor2)
         end
     end
@@ -59,20 +56,18 @@ local function checkbox_button(t, data)
     update_color()
 
     function btn:onmousedown()
-        self.select = not self.select
+        btn.select = not btn.select
         update_color()
         if d_select then
-            d_select:set(self.select)
+            d_select:set(btn.select)
         end
     end
     function btn:onmouseleave()
-        self.hover = false
-        btn:setbackgroundcolor(btn._backgroundcolor1)
+        btn.hover = false
         lbl:setbackgroundcolor(lbl._backgroundcolor1)
     end
     function btn:onmouseenter()
-        self.hover = true
-        btn:setbackgroundcolor(btn._backgroundcolor2)
+        btn.hover = true
         lbl:setbackgroundcolor(lbl._backgroundcolor2)
     end
     ev.on('update theme', function()
