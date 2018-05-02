@@ -1,3 +1,50 @@
+local event_queue = nil
+
+local function event_init()
+    if event_queue then
+        event_queue.level = event_queue.level + 1
+        return
+    end
+    event_queue = {
+        front = 1,
+        back = 1,
+        level = 1,
+    }
+end
+
+local function event_push(v)
+    if event_queue[v] then
+        return
+    end
+    event_queue[v] = true
+    event_queue[event_queue.back] = v
+    event_queue.back = event_queue.back + 1
+end
+
+local function event_pop(v)
+    if event_queue.front == event_queue.back then
+        return
+    end
+    local v = event_queue[event_queue.front]
+    event_queue.front = event_queue.front + 1
+    return v
+end
+
+local function event_close()
+    if event_queue.level > 1 then
+        event_queue.level = event_queue.level - 1
+        return
+    end
+    while true do
+        local ev = event_pop()
+        if not ev then
+            break
+        end
+        ev()
+    end
+    event_queue = nil
+end
+
 local function getpath(root, k)
     if root then
         return root .. '.' .. k
@@ -5,7 +52,6 @@ local function getpath(root, k)
     return k
 end
 
-local disable_e = {}
 local has_e = false
 local cur_e
 local has_v = true
@@ -58,9 +104,7 @@ local function create_table(data, root)
             data[k] = v
         end
         for _, e in ipairs(event) do
-            if not disable_e[e] or disable_e[e] == 0 then  
-                e()
-            end
+            event_push(e)
         end
     end
     return setmetatable({}, get_mt), setmetatable({}, set_mt)
@@ -70,27 +114,26 @@ local mt = {}
 mt.__index = mt
 
 function mt:get(str, e)
-    if not e then
-        return assert(load('return ' .. str, '=(databinding)', 't', self.__get))()
+    event_init()
+    if e then
+        has_e = true
+        cur_e = e
     end
-    has_e = true
-    cur_e = e
     local r = assert(load('return ' .. str, '=(databinding)', 't', self.__get))()
-    has_e = false
+    if e then
+        has_e = false
+    end
+    event_close()
     return r
 end
 
 function mt:set(str, value, e)
-    if e then
-        disable_e[e] = disable_e[e] and (disable_e[e] + 1) or 1
-    end
+    event_init()
     has_v = true
     cur_v = value
     assert(load(str .. '=false', '=(databinding)', 't', self.__set))()
     has_v = false
-    if e then
-        disable_e[e] = disable_e[e] - 1
-    end
+    event_close()
 end
 
 function mt:binding(d, e)
@@ -102,10 +145,12 @@ function mt:binding(d, e)
             end
         elseif type(d.get) == 'function' then
             res.get = function()
+                event_init()
                 has_e = true
                 cur_e = e
                 local r = d.get(self)
                 has_e = false
+                event_close()
                 return r
             end
         end
@@ -115,9 +160,9 @@ function mt:binding(d, e)
             end
         elseif type(d.set) == 'function' then
             res.set = function(_, v)
-                disable_e[e] = disable_e[e] and (disable_e[e] + 1) or 1
+                event_init()
                 d.set(self, v)
-                disable_e[e] = disable_e[e] - 1
+                event_close()
             end
         end
         return res
