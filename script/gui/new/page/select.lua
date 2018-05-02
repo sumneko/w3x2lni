@@ -14,7 +14,7 @@ bottomview:setstyle { FlexGrow = 1, JustifyContent = 'center' }
 view:addchildview(bottomview)
 
 local filename = Button('')
-filename:setstyle { Height = 50, Margin = 2 }
+filename:setstyle { Height = 36, Margin = 8, MarginTop = 16, MarginBottom = 16 }
 filename:setfont(Font('黑体', 20))
 topview:addchildview(filename)
 
