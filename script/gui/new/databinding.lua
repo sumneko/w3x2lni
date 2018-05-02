@@ -127,7 +127,7 @@ function mt:get(str, e)
     return r
 end
 
-function mt:set(str, value, e)
+function mt:set(str, value)
     event_init()
     has_v = true
     cur_v = value
@@ -156,7 +156,7 @@ function mt:binding(d, e)
         end
         if type(d.set) == 'string' then
             res.set = function(_, v)
-                return self:set(d.set, v, e)
+                return self:set(d.set, v)
             end
         elseif type(d.set) == 'function' then
             res.set = function(_, v)
@@ -172,7 +172,7 @@ function mt:binding(d, e)
                 return self:get(d, f, e)
             end,
             set = function(_, v)
-                return self:set(d, v, e)
+                return self:set(d, v)
             end,
         }
     end

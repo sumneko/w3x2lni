@@ -16,7 +16,7 @@ local function create_template(t, data)
     return view
 end
 
-return function (t, data)
-    local data = databinding(data)
+return function (t)
+    local data = databinding(t.data)
     return create_template(t, data), data.set
 end
