@@ -29,7 +29,7 @@ local function checkbox_button(t, data)
     lbl._backgroundcolor1 = window._color
     local function update_color()
         lbl._backgroundcolor2 = getActiveColor(lbl._backgroundcolor1)
-        if btn.select then
+        if btn.value then
             lbl:setvisible(true)
         else
             lbl:setvisible(false)
@@ -42,24 +42,24 @@ local function checkbox_button(t, data)
     end
     
     local d_select
-    if type(t.select) == 'string' then
-        d_select = data:bind(t.select, function()
-            btn.select = d_select:get()
+    if type(t.value) == 'string' then
+        d_select = data:bind(t.value, function()
+            btn.value = d_select:get()
             update_color()
         end)
-        btn.select = d_select:get()
-    elseif type(t.select) == 'boolean' then
-        btn.select = t.select
+        btn.value = d_select:get()
+    elseif type(t.value) == 'boolean' then
+        btn.value = t.value
     else
-        btn.select = false
+        btn.value = false
     end
     update_color()
 
     function btn:onmousedown()
-        btn.select = not btn.select
+        btn.value = not btn.value
         update_color()
         if d_select then
-            d_select:set(btn.select)
+            d_select:set(btn.value)
         end
     end
     function btn:onmouseleave()
