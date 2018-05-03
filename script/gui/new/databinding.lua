@@ -12,6 +12,10 @@ local function event_init()
     }
 end
 
+local function event_disable(v)
+    event_queue[v] = true
+end
+
 local function event_push(v)
     if event_queue[v] then
         return
@@ -110,6 +114,10 @@ function mt:bind(str, f)
         event = event[k]
         data = data[k]
     end
+    if not event[k] then
+        event[k] = {}
+    end
+    event = event[k]
     if f and not event[f] then
         event[f] = true
         event[#event+1] = f
@@ -120,6 +128,7 @@ function mt:bind(str, f)
         end,
         set = function(_, v)
             event_init()
+            event_disable(f)
             data[k] = v
             for _, e in ipairs(event) do
                 event_push(e)
