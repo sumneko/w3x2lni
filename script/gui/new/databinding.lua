@@ -62,12 +62,14 @@ local function split(str)
     return r
 end
 
-local function create_proxy(data, path)
-    local event = {}
+local function create_proxy(data, event, path)
     local node = {}
     for k, v in pairs(data) do
         if type(v) == 'table' then
-            node[k], event[k] = create_proxy(v, getpath(path, k))
+            if not event[k] then
+                event[k] = {}
+            end
+            node[k] = create_proxy(v, event[k], getpath(path, k))
         end
     end
     local mt = {}
@@ -77,10 +79,6 @@ local function create_proxy(data, path)
         end
         if type(data[k]) == 'table' then
             return node[k]
-        end
-        if f and not event[f] then
-            event[f] = true
-            event[#event+1] = f
         end
         return data[k]
     end
@@ -93,12 +91,14 @@ local function create_proxy(data, path)
         end
         data[k] = v
         event_init()
-        for _, e in ipairs(event) do
-            event_push(e)
+        if event[k] then
+            for _, e in ipairs(event[k]) do
+                event_push(e)
+            end
         end
         event_close()
     end
-    return setmetatable({}, mt), event
+    return setmetatable({}, mt)
 end
 
 local mt = {}
@@ -139,7 +139,8 @@ function mt:bind(str, f)
 end
 
 return function (data)
-    local proxy, event = create_proxy(data)
+    local event = {}
+    local proxy = create_proxy(data, event)
     return setmetatable({ 
         proxy = proxy,
         event = event,
