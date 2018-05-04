@@ -55,7 +55,7 @@ end
 
 local function get_path(path, used)
     path = path:gsub('[$\\$/$:$*$?$"$<$>$|]', '_')
-    while used[path] do
+    while used[path:lower()] do
         local name, id = path:match '(.+)_(%d+)$'
         if name and id then
             id = id + 1
@@ -65,6 +65,7 @@ local function get_path(path, used)
         end
         path = name .. '_' .. id
     end
+    used[path:lower()] = true
     return path
 end
 
@@ -79,7 +80,6 @@ local function compute_path()
         dirs[dir.id] = {}
         map[dir.id] = {}
         local path = get_path(dir.name, used)
-        used[path] = true
         map[dir.id][1] = path
     end
     for _, trg in ipairs(wtg.triggers) do
@@ -113,9 +113,9 @@ local function read_dirs(map)
         end
         for i, trg in ipairs(dirs[dir.id]) do
             local filename = map[dir.id][trg.name]
-            local trg_data = { filename, false }
+            local trg_data = { trg.name, false }
             if trg.name ~= filename then
-                trg_data[#trg_data+1] = { lang.lml.NAME, trg.name }
+                trg_data[#trg_data+1] = { lang.lml.NAME, filename }
             end
             if trg.type == 1 then
                 trg_data[#trg_data+1] = { lang.lml.COMMENT }

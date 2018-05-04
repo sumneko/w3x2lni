@@ -31,7 +31,7 @@ local function load_trigger(trg, id, filename)
         local line = trg[i]
         local k, v = line[1], line[2]
         if k == lang.lml.NAME then
-            trigger.name = v
+            name = v
         elseif k == lang.lml.COMMENT then
             trigger.type = 1
         elseif k == lang.lml.DISABLE then
