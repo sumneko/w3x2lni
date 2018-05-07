@@ -76,7 +76,7 @@ local function try_value(t, key)
     end
 
     if t[key] == nil then
-        return nil, nil, '对象[%s]找不到[%s]属性'
+        return nil, nil, '对象[%s]没有[%s]属性'
     end
     return t[key], nil
 end
@@ -142,6 +142,10 @@ local function try_meta(key, meta1, meta2)
         end
     end
     
+    local meta = get_meta(key)
+    if not meta then
+        return nil, nil, nil, '对象[%s]没有[%s]属性'
+    end
     return get_meta(key), nil, nil
 end
 
@@ -285,8 +289,9 @@ function mt:create_object(objt, ttype, name)
         end
         local parent = objt._parent
         local objd = session.default[ttype][parent]
-        local meta, level, list_type = try_meta(key, session.metadata[ttype], objd._code and session.metadata[objd._code])
+        local meta, level, list_type, err = try_meta(key, session.metadata[ttype], objd._code and session.metadata[objd._code])
         if not meta then
+            errors[#errors+1] = err:format(objt._id, key)
             return
         end
 
@@ -300,7 +305,7 @@ function mt:create_object(objt, ttype, name)
 
             if meta.type == 3 and #nvalue > 1023 then
                 nvalue = nvalue:sub(1, 1023)
-                errors[#errors+1] = ('字符串[%s...]太长（不能超过1023个字符）'):format(nvalue:sub(1, 10))
+                errors[#errors+1] = ('字符串[%s...]太长（不能超过1023个字符）'):format(nvalue:sub(1, 20))
             end
             if level then
                 if not objt[key] then
