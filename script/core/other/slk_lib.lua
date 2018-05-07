@@ -425,18 +425,21 @@ function mt:create_object(objt, ttype, name)
             return session:create_object(nil, ttype, '')
         end
         if type(id) ~= 'string' then
+            errors[#errors+1] = ('新建对象的ID[%s]无效'):format(id)
             return session:create_object(nil, ttype, '')
         end
         local w2lobject
         if #id == 4 and not id:find('%W') then
             w2lobject = 'static'
             if session.default[ttype][id] or session.slk[ttype][id] then
+                errors[#errors+1] = ('新建对象的ID[%s]重复'):format(id)
                 return session:create_object(nil, ttype, '')
             end
         else
             w2lobject = 'dynamic|' .. id
             id = session:find_id(session.slk[ttype], session.dynamics[ttype], name, w2lobject, ttype)
             if not id then
+                errors[#errors+1] = ('无法找到可用ID[%s]'):format(id)
                 return session:create_object(nil, ttype, '')
             end
             session.dynamics[ttype][w2lobject] = id
@@ -468,17 +471,18 @@ function mt:create_proxy(ttype)
     local session = self
     local errors = self.error
     local mt = {}
-    function mt:__index(key)
+    function mt:__index(okey)
+        local key = okey
         if type(key) == 'number' then
             local suc, res = pcall(string.pack, '>I4', key)
             if suc then
                 key = res
             else
-                errors[#errors+1] = ('不合法的ID[%s]'):format(key)
+                errors[#errors+1] = ('不合法的ID[%s]'):format(okey)
             end
         end
         if key and not t[key] then
-            errors[#errors+1] = ('找不到对象[%s]'):format(key)
+            errors[#errors+1] = ('找不到对象[%s]'):format(okey)
         end
         return session:create_object(t[key], ttype, key)
     end
