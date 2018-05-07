@@ -5,6 +5,13 @@ local w2l
 local mt = {}
 mt.__index = mt
 
+local type_name = {
+    [0] = '整数',
+    [1] = '实数',
+    [2] = '实数',
+    [3] = '字符串',
+}
+
 local function copy_table(tbl)
     local new = {}
     for k, v in pairs(tbl) do
@@ -68,6 +75,9 @@ local function try_value(t, key)
         end
     end
 
+    if t[key] == nil then
+        return nil, nil, '对象[%s]找不到[%s]属性'
+    end
     return t[key], nil
 end
 
@@ -244,12 +254,16 @@ function mt:create_object(objt, ttype, name)
     if not objt and not session.safe_mode then
         return nil
     end
+    local errors = self.error
     local mt = {}
     function mt:__index(key)
-        local value, level = try_value(objt, key)
+        local value, level, err = try_value(objt, key)
         local null
         if session.safe_mode then
             null = ''
+        end
+        if err then
+            errors[#errors+1] = err:format(objt._id, key)
         end
         if not value then
             return null
@@ -276,15 +290,17 @@ function mt:create_object(objt, ttype, name)
             return
         end
 
-        local function write_data(nvalue, level)
-            nvalue = to_type(nvalue, meta.type)
+        local function write_data(value, level)
+            local nvalue = to_type(value, meta.type)
             if not nvalue then
+                errors[#errors+1] = ('无法将[%s]转换为[%s][%s]需要的类型（%s)'):format(value, objt._id, key, type_name[meta.type])
                 return
             end
             key = meta.field:lower()
 
             if meta.type == 3 and #nvalue > 1023 then
                 nvalue = nvalue:sub(1, 1023)
+                errors[#errors+1] = ('字符串[%s...]太长（不能超过1023个字符）'):format(nvalue:sub(1, 10))
             end
             if level then
                 if not objt[key] then
@@ -450,13 +466,19 @@ end
 function mt:create_proxy(ttype)
     local t = self.slk[ttype]
     local session = self
+    local errors = self.error
     local mt = {}
     function mt:__index(key)
         if type(key) == 'number' then
             local suc, res = pcall(string.pack, '>I4', key)
             if suc then
                 key = res
+            else
+                errors[#errors+1] = ('不合法的ID[%s]'):format(key)
             end
+        end
+        if key and not t[key] then
+            errors[#errors+1] = ('找不到对象[%s]'):format(key)
         end
         return session:create_object(t[key], ttype, key)
     end
@@ -543,6 +565,7 @@ function mt:create_report()
 	local lold = to_list(self.old)
     local lnew = to_list(self.new)
     local lchg = to_list(self.change)
+    local lerr = self.error
 	local lines = {}
 	if #lold > 0 then
 		lines[#lines+1] = ('移除了 %d 个对象'):format(#lold)
@@ -569,6 +592,15 @@ function mt:create_report()
 		for i = 1, math.min(10, #lchg) do
 			local o = lchg[i]
 			lines[#lines+1] = ("[%s][%s] '%s'"):format(displaytype[o._type], get_displayname(o, self.slk[o._type][o._parent]), o._id)
+		end
+    end
+    if #lerr > 0 then
+		if #lines > 0 then
+			lines[#lines+1] = ''
+        end
+		lines[#lines+1] = ('有 %d 个错误'):format(#lerr)
+        for i = 1, math.min(10, #lerr) do
+            lines[#lines+1] = lerr[i]
 		end
     end
     return table.concat(lines, '\n')
@@ -658,6 +690,7 @@ return function (w2l_, read_only, safe_mode)
         new = {},
         change = {},
         all_chs = {},
+        error = {},
     }, mt)
 
     w2l:frontend(session.slk)
