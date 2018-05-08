@@ -1,11 +1,10 @@
-package.path = package.path .. ';.\\..\\build\\?.lua'
+package.path  = package.path  .. ';.\\..\\build\\luabuild\\?.lua'
+package.cpath = package.cpath .. ';.\\..\\build\\luabuild\\?.dll'
 
 require 'filesystem'
 local process = require 'process'
 local sleep = require 'ffi.sleep'
 local uni = require 'ffi.unicode'
-local loaddll = require 'ffi.loaddll'
-loaddll '..\\build\\minizip'
 local minizip = require 'minizip'
 
 local root = fs.path(arg[1])
