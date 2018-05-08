@@ -1,6 +1,3 @@
-package.path  = package.path  .. ';.\\..\\build\\luabuild\\?.lua'
-package.cpath = package.cpath .. ';.\\..\\build\\luabuild\\?.dll'
-
 require 'filesystem'
 local process = require 'process'
 local sleep = require 'ffi.sleep'

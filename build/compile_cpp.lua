@@ -1,6 +1,3 @@
-package.path  = package.path  .. ';.\\..\\build\\luabuild\\?.lua'
-package.cpath = package.cpath .. ';.\\..\\build\\luabuild\\?.dll'
-
 local root = fs.current_path() / '..'
 
 local msvc = require 'msvc'
