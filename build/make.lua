@@ -1,7 +1,7 @@
 require 'filesystem'
 local process = require 'process'
 local sleep = require 'ffi.sleep'
-local uni = require 'ffi.unicode'
+local uni = require 'unicode'
 local minizip = require 'minizip'
 
 local root = fs.path(arg[1])
