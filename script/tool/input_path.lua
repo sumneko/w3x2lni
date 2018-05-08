@@ -34,5 +34,5 @@ return function (path)
     if check_lni_mark(path) then
         path = path:parent_path()
     end
-    return fs.canonical(path)
+    return fs.absolute(path)
 end

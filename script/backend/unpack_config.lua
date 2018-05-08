@@ -20,7 +20,7 @@ local function output_path(path)
             path = root:parent_path() / path
         end
     end
-    return fs.canonical(path)
+    return fs.absolute(path)
 end
 
 return function (mode)
