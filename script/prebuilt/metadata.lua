@@ -3,14 +3,7 @@ local lang = require 'tool.lang'
 local w2l = w2l
 local slk = w3xparser.slk
 local fixer
-
 local codemapped
-local function get_codemapped(w2l, id)
-    if not codemapped then
-        codemapped = w2l:parse_lni(io.load(fs.current_path() / 'core' / 'defined' / 'codemapped.ini'), 'codemapped.ini')
-    end
-    return codemapped[id] or id
-end
 
 local concat_types = {
     abilCode = false,
@@ -221,7 +214,7 @@ local function parse_id(w2l, metadata, id, meta, type, has_level)
     local lkey = key:lower()
     if objs then
         for name in objs:gmatch '%w+' do
-            local code = get_codemapped(w2l, name)
+            local code = get_codemapped[name] or name
             if not metadata[code] then
                 metadata[code] = { type = type }
             end
@@ -315,9 +308,10 @@ local function copy_code(t, template)
     end
 end
 
-return function(w2l_, fixer_, loader)
+return function(w2l_, fixer_, codemapped_, loader)
     w2l = w2l_
     fixer = fixer_
+    codemapped = codemapped_
     local metadata = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         create_metadata(w2l, type, metadata, loader)

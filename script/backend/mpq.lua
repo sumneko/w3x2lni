@@ -111,19 +111,13 @@ local function extract_mpq()
     end
 end
 
-local function prebuilt_codemapped(w2l)
+local function get_codemapped(w2l)
     local template = w2l:parse_slk(mpqs:load_file 'units\\abilitydata.slk')
     local t = {}
     for id, d in pairs(template) do
         t[id] = d.code
     end
-    local f = {}
-    for k, v in pairs(t) do
-        f[#f+1] = ('%s = %s'):format(k, v)
-    end
-    table.sort(f)
-    table.insert(f, 1, '[root]')
-    io.save(root:parent_path() / 'data' / mpq_name / 'we' / 'codemapped.ini', table.concat(f, '\r\n'))
+    return t
 end
 
 local function prebuilt_typedefine(w2l)
@@ -148,9 +142,9 @@ local function prebuilt_typedefine(w2l)
     io.save(root:parent_path() / 'data' / mpq_name / 'we' / 'typedefine.ini', table.concat(f, '\r\n'))
 end
 
-local function create_metadata(w2l)
+local function create_metadata(w2l, codemapped)
     local defined_meta = w2l:parse_lni(io.load(root / 'core' / 'defined' / 'metadata.ini'))
-    local meta = prebuilt_metadata(w2l, defined_meta, function (filename)
+    local meta = prebuilt_metadata(w2l, defined_meta, codemapped, function (filename)
         if filename == 'doodadmetadata.slk' then
             return mpqs:load_file('Doodads\\' .. filename)
         else
@@ -283,16 +277,16 @@ return function ()
     report_fail()
     w2l.progress:finish()
 
-    prebuilt_codemapped(w2l)
+    local codemapped = get_codemapped(w2l)
     prebuilt_typedefine(w2l)
 
     w2l.progress:start(0.3)
-    create_metadata(w2l)
+    create_metadata(w2l, codemapped)
     create_wes(w2l)
     w2l.progress:finish()
 
     prebuilt_keydata(w2l)
-    prebuilt_search(w2l)
+    prebuilt_search(w2l, codemapped)
 
     w2l.progress:start(0.4)
     local slk = makefile(w2l, 'Melee')

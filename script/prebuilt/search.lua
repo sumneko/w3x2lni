@@ -24,12 +24,6 @@ local function get_key2(w2l, type, code, id)
 end
 
 local codemapped
-local function get_codemapped(w2l, id)
-    if not codemapped then
-        codemapped = w2l:parse_lni(io.load(fs.current_path() / 'core' / 'defined' / 'codemapped.ini'), 'codemapped.ini')
-    end
-    return codemapped[id] or id
-end
 
 local enable_type = {
     abilCode = 'ability',
@@ -135,7 +129,7 @@ local function create_search(w2l, type, search)
             local objs = meta.useSpecific or meta.section
             if objs then
                 for name in objs:gmatch '%w+' do
-                    local code = get_codemapped(w2l, name)
+                    local code = codemapped[name] or name
                     if not search[code] then
                         search[code] = {}
                     end
@@ -156,7 +150,8 @@ local function create_search(w2l, type, search)
     end
 end
 
-return function(w2l)
+return function(w2l, codemapped_)
+    codemapped = codemapped_
     messager.txt('正在生成search')
     local search = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
