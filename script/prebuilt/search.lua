@@ -24,6 +24,7 @@ local function get_key2(w2l, type, code, id)
 end
 
 local codemapped
+local mpqs
 
 local enable_type = {
     abilCode = 'ability',
@@ -123,7 +124,7 @@ end
 
 local function create_search(w2l, type, search)
     search[type] = {}
-    local metadata = w2l:parse_slk(io.load(fs.current_path() / 'meta' / w2l.info.metadata[type]))
+    local metadata = w2l:parse_slk(mpqs:load_file('units\\' .. w2l.info.metadata[type]) or mpqs:load_file('doodads\\' .. w2l.info.metadata[type]))
     for id, meta in pairs(metadata) do
         if is_enable(meta, type) then
             local objs = meta.useSpecific or meta.section
@@ -134,11 +135,13 @@ local function create_search(w2l, type, search)
                         search[code] = {}
                     end
                     local key = get_key2(w2l, type, code, id)
-                    local type = enable_type[meta.type]
-                    if search[code][key] and search[code][key] ~= type then
-                        messager.txt('类型不同:', 'skill', name, 'code', code)
+                    local vtype = enable_type[meta.type]
+                    if search[code][key] then
+                        if search[code][key] ~= vtype then
+                            messager.txt('类型不同:', 'skill', name, 'code', code)
+                        end
+                        search[code][key] = vtype
                     end
-                    search[code][key] = type
                 end
             else
                 local key = get_key(w2l, type, id)
@@ -150,8 +153,9 @@ local function create_search(w2l, type, search)
     end
 end
 
-return function(w2l, codemapped_)
+return function(w2l, codemapped_, mpqs_)
     codemapped = codemapped_
+    mpqs = mpqs_
     messager.txt('正在生成search')
     local search = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
@@ -166,5 +170,7 @@ return function(w2l, codemapped_)
     for k, v in sortpairs(search) do
         stringify(f, k, v)
     end
-    io.save(fs.current_path() / 'core' / 'defined' / 'search.ini', table.concat(f, '\r\n'))
+    local dir = fs.current_path():parent_path() / 'data' / w2l.config.data_war3 / 'war3' / 'defined'
+    fs.create_directories(dir)
+    io.save(dir / 'search.ini', table.concat(f, '\r\n'))
 end

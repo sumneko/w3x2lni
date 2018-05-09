@@ -242,6 +242,7 @@ return function ()
         return
     end
     local config = require 'tool.config' ()
+    w2l.config.data_war3 = mpq_name
     config.global.data_war3 = mpq_name
     if config.global.data_ui ~= '${YDWE}' then
         config.global.data_ui = mpq_name
@@ -284,8 +285,8 @@ return function ()
     create_wes(w2l)
     w2l.progress:finish()
 
-    prebuilt_keydata(w2l)
-    prebuilt_search(w2l, codemapped)
+    prebuilt_keydata(w2l, mpqs)
+    prebuilt_search(w2l, codemapped, mpqs)
 
     w2l.progress:start(0.4)
     local slk = makefile(w2l, 'Melee')
