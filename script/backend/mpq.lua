@@ -120,13 +120,14 @@ local function get_codemapped(w2l)
     return t
 end
 
-local function prebuilt_typedefine(w2l)
+local function get_typedefine(w2l)
     local uniteditordata = w2l:parse_txt(mpqs:load_file 'ui\\uniteditordata.txt')
-    local f = {}
-    f[#f+1] = ('%s = %s'):format('int', 0)
-    f[#f+1] = ('%s = %s'):format('bool', 0)
-    f[#f+1] = ('%s = %s'):format('real', 1)
-    f[#f+1] = ('%s = %s'):format('unreal', 2)
+    local t = {
+        int    = 0,
+        bool   = 0,
+        real   = 1,
+        unreal = 2,
+    }
     for key, data in pairs(uniteditordata) do
         local value = data['00'][1]
         local tp
@@ -135,16 +136,14 @@ local function prebuilt_typedefine(w2l)
         else
             tp = 3
         end
-        f[#f+1] = ('%s = %s'):format(key, tp)
+        t[key] = tp
     end
-    table.sort(f)
-    table.insert(f, 1, '[root]')
-    io.save(root:parent_path() / 'data' / mpq_name / 'we' / 'typedefine.ini', table.concat(f, '\r\n'))
+    return t
 end
 
-local function create_metadata(w2l, codemapped)
+local function create_metadata(w2l, codemapped, typedefine)
     local defined_meta = w2l:parse_lni(io.load(root / 'core' / 'defined' / 'metadata.ini'))
-    local meta = prebuilt_metadata(w2l, defined_meta, codemapped, function (filename)
+    local meta = prebuilt_metadata(w2l, defined_meta, codemapped, typedefine, function (filename)
         if filename == 'doodadmetadata.slk' then
             return mpqs:load_file('Doodads\\' .. filename)
         else
@@ -278,10 +277,10 @@ return function ()
     w2l.progress:finish()
 
     local codemapped = get_codemapped(w2l)
-    prebuilt_typedefine(w2l)
+    local typedefine = get_typedefine(w2l)
 
     w2l.progress:start(0.3)
-    create_metadata(w2l, codemapped)
+    create_metadata(w2l, codemapped, typedefine)
     create_wes(w2l)
     w2l.progress:finish()
 

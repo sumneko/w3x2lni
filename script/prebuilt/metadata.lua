@@ -85,12 +85,6 @@ local cant_empty = {
 }
 
 local typedefine
-local function get_typedefine(w2l, type)
-    if not typedefine then
-        typedefine = w2l:parse_lni(io.load(fs.current_path() / 'core' / 'defined' / 'typedefine.ini'), 'typedefine.ini')
-    end
-    return typedefine[type:lower()] or 3
-end
 
 local function sortpairs(t)
     local sort = {}
@@ -185,7 +179,7 @@ local function parse_id(w2l, metadata, id, meta, type, has_level)
     local data = {
         ['id'] = id,
         ['key'] = meta.slk == 'Profile' and meta.field:lower() or meta.field,
-        ['type'] = get_typedefine(w2l, meta.type),
+        ['type'] = typedefine[meta.type:lower()] or 3,
         ['field'] = key,
         ['appendindex'] = meta.appendIndex == 1 and true or nil,
         ['displayname'] = meta.displayName,
@@ -214,7 +208,7 @@ local function parse_id(w2l, metadata, id, meta, type, has_level)
     local lkey = key:lower()
     if objs then
         for name in objs:gmatch '%w+' do
-            local code = get_codemapped[name] or name
+            local code = codemapped[name] or name
             if not metadata[code] then
                 metadata[code] = { type = type }
             end
@@ -308,10 +302,11 @@ local function copy_code(t, template)
     end
 end
 
-return function(w2l_, fixer_, codemapped_, loader)
+return function(w2l_, fixer_, codemapped_, typedefine_, loader)
     w2l = w2l_
     fixer = fixer_
     codemapped = codemapped_
+    typedefine = typedefine_
     local metadata = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         create_metadata(w2l, type, metadata, loader)
