@@ -1,4 +1,4 @@
-
+local messager = require 'tool.messager'
 local key_cache = {}
 local function get_key(w2l, type, id)
     if not key_cache[type] then
@@ -91,7 +91,7 @@ local function stringify(f, name, t)
 end
 
 return function(w2l)
-    print('正在生成keydata')
+    messager.txt('正在生成keydata')
     local keydata = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         create_keydata(w2l, type, keydata)

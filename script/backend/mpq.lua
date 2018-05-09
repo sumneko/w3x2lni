@@ -5,6 +5,8 @@ local sleep = require 'ffi.sleep'
 local makefile = require 'prebuilt.makefile'
 local maketemplate = require 'prebuilt.maketemplate'
 local prebuilt_metadata = require 'prebuilt.metadata'
+local prebuilt_keydata = require 'prebuilt.keydata'
+local prebuilt_search = require 'prebuilt.search'
 local proto = require 'tool.protocol'
 local lang = require 'tool.lang'
 local core = require 'backend.sandbox_core'
@@ -14,6 +16,7 @@ local messager = require 'tool.messager'
 local war3_name = require 'tool.war3_name'
 local w2l
 local mpq_name
+local mpqs
 local root = fs.current_path()
 
 local function task(f, ...)
@@ -82,8 +85,8 @@ local function report_fail()
     end
 end
 
-local function extract_mpq(mpqs)
-    local info = w2l:parse_lni(assert(io.load(fs.current_path() / 'core' / 'info.ini')))
+local function extract_mpq()
+    local info = w2l:parse_lni(assert(io.load(root / 'core' / 'info.ini')))
     for _, root in ipairs {'', 'Custom_V1\\'} do
         mpqs:extract_file('war3', root .. 'Scripts\\Common.j')
         mpqs:extract_file('war3', root .. 'Scripts\\Blizzard.j')
@@ -108,7 +111,44 @@ local function extract_mpq(mpqs)
     end
 end
 
-local function create_metadata(w2l, mpqs)
+local function prebuilt_codemapped(w2l)
+    local template = w2l:parse_slk(mpqs:load_file 'units\\abilitydata.slk')
+    local t = {}
+    for id, d in pairs(template) do
+        t[id] = d.code
+    end
+    local f = {}
+    for k, v in pairs(t) do
+        f[#f+1] = ('%s = %s'):format(k, v)
+    end
+    table.sort(f)
+    table.insert(f, 1, '[root]')
+    io.save(root:parent_path() / 'data' / mpq_name / 'we' / 'codemapped.ini', table.concat(f, '\r\n'))
+end
+
+local function prebuilt_typedefine(w2l)
+    local uniteditordata = w2l:parse_txt(mpqs:load_file 'ui\\uniteditordata.txt')
+    local f = {}
+    f[#f+1] = ('%s = %s'):format('int', 0)
+    f[#f+1] = ('%s = %s'):format('bool', 0)
+    f[#f+1] = ('%s = %s'):format('real', 1)
+    f[#f+1] = ('%s = %s'):format('unreal', 2)
+    for key, data in pairs(uniteditordata) do
+        local value = data['00'][1]
+        local tp
+        if tonumber(value) then
+            tp = 0
+        else
+            tp = 3
+        end
+        f[#f+1] = ('%s = %s'):format(key, tp)
+    end
+    table.sort(f)
+    table.insert(f, 1, '[root]')
+    io.save(root:parent_path() / 'data' / mpq_name / 'we' / 'typedefine.ini', table.concat(f, '\r\n'))
+end
+
+local function create_metadata(w2l)
     local defined_meta = w2l:parse_lni(io.load(root / 'core' / 'defined' / 'metadata.ini'))
     local meta = prebuilt_metadata(w2l, defined_meta, function (filename)
         if filename == 'doodadmetadata.slk' then
@@ -122,7 +162,7 @@ local function create_metadata(w2l, mpqs)
     io.save(meta_path / 'metadata.ini', meta)
 end
 
-local function create_wes(w2l, mpqs)
+local function create_wes(w2l)
     local wes_path = root:parent_path() / 'data' / mpq_name / 'we'
     fs.create_directories(wes_path)
     local wes = mpqs:load_file 'ui\\WorldEditStrings.txt'
@@ -147,6 +187,10 @@ local function get_w2l()
     function w2l:wes_load(filename)
         return io.load(root:parent_path() / 'data' / mpq_name / 'we' / filename)
     end
+
+    --function w2l:defined_load(filename)
+    --    return io.load(root:parent_path() / 'data' / mpq_name / 'war3' / 'defined' / filename)
+    --end
 
     function messager.report(_, _, str, tip)
         if str == lang.report.NO_WES_STRING then
@@ -200,7 +244,7 @@ return function ()
         w2l.messager.text(lang.script.NEED_WAR3_DIR)
         return
     end
-    local mpqs = open_mpq(input)
+    mpqs = open_mpq(input)
     if not mpqs then
         return
     end
@@ -235,14 +279,20 @@ return function ()
 
     w2l.progress:start(0.2)
     w2l.messager.text(lang.script.EXPORT_MPQ)
-    extract_mpq(mpqs)
+    extract_mpq()
     report_fail()
     w2l.progress:finish()
 
+    prebuilt_codemapped(w2l)
+    prebuilt_typedefine(w2l)
+
     w2l.progress:start(0.3)
-    create_metadata(w2l, mpqs)
-    create_wes(w2l, mpqs)
+    create_metadata(w2l)
+    create_wes(w2l)
     w2l.progress:finish()
+
+    prebuilt_keydata(w2l)
+    prebuilt_search(w2l)
 
     w2l.progress:start(0.4)
     local slk = makefile(w2l, 'Melee')
