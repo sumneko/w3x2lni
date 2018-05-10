@@ -153,8 +153,6 @@ local function create_metadata(w2l, codemapped, typedefine)
     local meta_path = root:parent_path() / 'data' / mpq_name / 'we'
     fs.create_directories(meta_path)
     io.save(meta_path / 'metadata.ini', meta)
-    w2l.config.data_meta = mpq_name
-    w2l.cache_metadata = nil
 end
 
 local function create_wes(w2l)
@@ -287,8 +285,10 @@ return function ()
     create_wes(w2l)
     w2l.progress:finish()
 
+    w2l.cache_metadata = w2l:parse_lni(io.load(root:parent_path() / 'data' / mpq_name / 'we' / 'metadata.ini'))
     prebuilt_keydata(w2l, mpqs)
     prebuilt_search(w2l, codemapped, mpqs)
+    w2l.cache_metadata = nil
 
     w2l.progress:start(0.4)
     local slk = makefile(w2l, 'Melee')
