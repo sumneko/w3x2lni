@@ -24,6 +24,8 @@ Used market '%s'[%s]
 Invalid object
 [INVALID_OBJECT_ID]
 Invalid object id
+[INVALID_OBJECT_PARENT]
+Can't find parent object
 [INVALID_OBJECT_DATA]
 Invalid object data
 [OPTIMIZE_JASS]
