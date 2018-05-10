@@ -136,10 +136,10 @@ local function create_search(w2l, type, search)
                     end
                     local key = get_key2(w2l, type, code, id)
                     local vtype = enable_type[meta.type]
-                    if search[code][key] then
-                        if search[code][key] ~= vtype then
-                            messager.txt('类型不同:', 'skill', name, 'code', code)
-                        end
+                    if search[code][key] and search[code][key] ~= vtype then
+                        messager.txt('类型不同:', 'skill', name, 'code', code)
+                    end
+                    if key then
                         search[code][key] = vtype
                     end
                 end
