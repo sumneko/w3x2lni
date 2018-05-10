@@ -170,7 +170,8 @@ return function(w2l, codemapped_, mpqs_)
     for k, v in sortpairs(search) do
         stringify(f, k, v)
     end
-    local dir = fs.current_path():parent_path() / 'data' / w2l.config.data_war3 / 'war3' / 'defined'
+    local config = require 'tool.config' ()
+    local dir = fs.current_path():parent_path() / 'data' / config.global.data_war3 / 'war3' / 'defined'
     fs.create_directories(dir)
     io.save(dir / 'search.ini', table.concat(f, '\r\n'))
 end

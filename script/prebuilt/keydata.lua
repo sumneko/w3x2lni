@@ -107,7 +107,8 @@ return function(w2l, mpqs_)
     for k, v in sortpairs(keydata) do
         stringify(f, k, v)
     end
-    local dir = fs.current_path():parent_path() / 'data' / w2l.config.data_war3 / 'war3' / 'defined'
+    local config = require 'tool.config' ()
+    local dir = fs.current_path():parent_path() / 'data' / config.global.data_war3 / 'war3' / 'defined'
     fs.create_directories(dir)
     io.save(dir / 'keydata.ini', table.concat(f, '\r\n'))
 end
