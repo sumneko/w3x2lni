@@ -86,7 +86,6 @@ local function report_fail()
 end
 
 local function extract_mpq()
-    local info = w2l:parse_lni(assert(io.load(root / 'core' / 'info.ini')))
     for _, root in ipairs {'', 'Custom_V1\\'} do
         mpqs:extract_file('war3', root .. 'Scripts\\Common.j')
         mpqs:extract_file('war3', root .. 'Scripts\\Blizzard.j')
@@ -99,13 +98,13 @@ local function extract_mpq()
         mpqs:extract_file('we', root .. 'ui\\TriggerData.txt')
         mpqs:extract_file('we', root .. 'ui\\TriggerStrings.txt')
 
-        for type, slks in pairs(info.slk) do
+        for type, slks in pairs(w2l.info.slk) do
             for _, name in ipairs(slks) do
                 mpqs:extract_file('war3', root .. name)
             end
         end
 
-        for _, name in ipairs(info.txt) do
+        for _, name in ipairs(w2l.info.txt) do
             mpqs:extract_file('war3', root .. name)
         end
     end

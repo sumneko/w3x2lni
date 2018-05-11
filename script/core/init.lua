@@ -203,7 +203,7 @@ function mt:__index(name)
         return nil
     end
     if name == 'info' then
-        self.info = lni(assert(load_file('info.ini')), 'info')
+        self.info = require 'info'
         return self.info
     end
     if hasFile('slk.'..name) then
