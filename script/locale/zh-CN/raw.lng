@@ -174,3 +174,11 @@
 至少要有2个字母
 [AUTO_SELECT]
 自动选择
+[CREATING]
+正在生成
+[TYPE_CONFLICT]
+类型不同:
+[CREATED_ID_CONFLICT]
+生成的ID不同：skill [%s] code [%s]
+[COPIED_ID_CONFLICT]
+复制的ID[%s]不同：skill [%s][%s] code [%s][%s]
