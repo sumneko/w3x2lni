@@ -11,10 +11,9 @@ return function()
 
     local f = io.open((root / 'script' / 'gui' / 'gitlog.lua'):string(), 'w')
     f:write(([[
-    return {
-        commit = '%s',
-        date = '%s',
-    }
-    ]]):format(commit, date))
+return {
+    commit = '%s',
+    date = '%s',
+}]]):format(commit, date))
     f:close()
 end
