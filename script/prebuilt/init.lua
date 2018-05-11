@@ -1,3 +1,7 @@
+if arg[1] then
+    package.path = arg[1] .. '\\script\\?.lua;' .. arg[1] .. '\\script\\?\\init.lua'
+    package.cpath = arg[1] .. '\\bin\\?.dll'
+end
 require 'filesystem'
 
 fs.current_path(fs.path 'script')

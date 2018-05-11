@@ -37,7 +37,8 @@
         {
             "taskName": "预处理",
             "args": [
-                ".\\script\\prebuilt\\init.lua"
+                ".\\script\\prebuilt\\init.lua",
+                "${workspaceRoot}"
             ]
         }
     ]

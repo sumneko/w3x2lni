@@ -50,10 +50,13 @@
                 "PATH": "${workspaceRoot}\\bin\\"
             },
             "luadll": "${workspaceRoot}\\bin\\lua53.dll",
-            "path": ".\\?.lua;.\\?\\init.lua",
-            "cpath": "${workspaceRoot}\\bin\\?.dll;",
+            "path": "",
+            "cpath": "",
             "consoleCoding": "utf8",
             "program": "${workspaceRoot}\\script\\prebuilt\\init.lua",
+            "arg": [
+                "${workspaceRoot}"
+            ]
         },
         {
             "name": "单元测试",
