@@ -44,12 +44,9 @@ function mt:parse_ini(buf)
     return ini(buf)
 end
 
-function mt:defined_load(name)
-    return load_file(name)
-end
 
 function mt:defined(name)
-    return lni(self:defined_load('defined\\' .. name .. '.ini'))
+    return lni(self:mpq_load('defined\\' .. name .. '.ini'))
 end
 
 function mt:metadata()
@@ -79,7 +76,7 @@ function mt:get_editstring(source)
         self.editstring = {}
         local t
         if self.config.data_wes == '${YDWE}' then
-            t = ini(load_file('WorldEditStrings.txt'))['WorldEditStrings']
+            t = ini(load_file('defined\\WorldEditStrings.txt'))['WorldEditStrings']
         else
             t = ini(self:wes_load('WorldEditStrings.txt'))['WorldEditStrings']
         end
