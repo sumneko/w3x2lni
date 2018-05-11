@@ -13,6 +13,7 @@ local function setenv(name, value)
     local env = uni.u2w(name..'='..value)
     ucrt._wputenv(env)
 end
-setenv('PATH', (root / 'bin'):string())
+
+setenv('PATH', uni.a2u(os.getenv('PATH')) .. ';' .. (root / 'bin'):string())
 
 loadfile(arg[2])()
