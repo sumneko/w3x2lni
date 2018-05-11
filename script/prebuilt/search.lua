@@ -124,7 +124,7 @@ end
 
 local function create_search(w2l, type, search)
     search[type] = {}
-    local metadata = w2l:parse_slk(loader(w2l.info.metadata[type]))
+    local metadata = w2l:parse_slk(loader('units\\' .. w2l.info.metadata[type]) or loader('doodads\\' .. w2l.info.metadata[type]))
     for id, meta in pairs(metadata) do
         if is_enable(meta, type) then
             local objs = meta.useSpecific or meta.section
@@ -153,9 +153,18 @@ local function create_search(w2l, type, search)
     end
 end
 
-return function(w2l, codemapped_, loader_)
-    codemapped = codemapped_
+local function get_codemapped(w2l, loader)
+    local template = w2l:parse_slk(loader 'units\\abilitydata.slk')
+    local t = {}
+    for id, d in pairs(template) do
+        t[id] = d.code
+    end
+    return t
+end
+
+return function(w2l, loader_)
     loader = loader_
+    codemapped = get_codemapped(w2l, loader)
     messager.text('正在生成search')
     local search = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do

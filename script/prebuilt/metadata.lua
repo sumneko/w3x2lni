@@ -249,7 +249,7 @@ end
 local function create_metadata(w2l, type, metadata, loader)
     metadata[type] = {}
     local has_level = w2l.info.key.max_level[type]
-    local tbl = slk(loader(w2l.info.metadata[type]))
+    local tbl = slk(loader('units\\' .. w2l.info.metadata[type]) or loader('doodads\\' .. w2l.info.metadata[type]))
     tbl.Ytip = nil
     local has_index = {}
     for k, v in pairs(tbl) do
@@ -302,11 +302,43 @@ local function copy_code(t, template)
     end
 end
 
-return function(w2l_, fixer_, codemapped_, typedefine_, loader)
+local function get_codemapped(w2l, loader)
+    local template = w2l:parse_slk(loader 'units\\abilitydata.slk')
+    local t = {}
+    for id, d in pairs(template) do
+        t[id] = d.code
+    end
+    return t
+end
+
+local function get_typedefine(w2l, loader)
+    local uniteditordata = w2l:parse_txt(loader 'ui\\uniteditordata.txt')
+    local t = {
+        int    = 0,
+        bool   = 0,
+        real   = 1,
+        unreal = 2,
+    }
+    for key, data in pairs(uniteditordata) do
+        local value = data['00'][1]
+        local tp
+        if tonumber(value) then
+            tp = 0
+        else
+            tp = 3
+        end
+        t[key] = tp
+    end
+    return t
+end
+
+return function(w2l_, fixer_, loader)
     w2l = w2l_
     fixer = fixer_
-    codemapped = codemapped_
-    typedefine = typedefine_
+
+    codemapped = get_codemapped(w2l, loader)
+    typedefine = get_typedefine(w2l, loader)
+    
     local metadata = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         create_metadata(w2l, type, metadata, loader)

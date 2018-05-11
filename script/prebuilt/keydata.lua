@@ -57,7 +57,7 @@ local function is_enable(meta, type)
 end
 
 local function create_keydata(w2l, type, keydata)
-    local metadata = w2l:parse_slk(loader(w2l.info.metadata[type]))
+    local metadata = w2l:parse_slk(loader('units\\' .. w2l.info.metadata[type]) or loader('doodads\\' .. w2l.info.metadata[type]))
     metadata.Ytip = nil
     for id, meta in pairs(metadata) do
         if is_enable(meta, type) and not meta.useSpecific or meta.section then
