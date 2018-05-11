@@ -218,7 +218,7 @@ local function parse_id(w2l, metadata, id, meta, type, has_level)
                         metadata[code][lkey] = data
                     end
                 else
-                    w2l.messager.report(lang.report.OTHER, 9, ('生成的ID不同：skill [%s] code [%s]'):format(name, code))
+                    w2l.messager.report(lang.report.OTHER, 9, lang.raw.CREATED_ID_CONFLICT:format(name, code))
                 end
             else
                 metadata[code][lkey] = data
@@ -286,7 +286,7 @@ local function copy_code(t, template)
                     local dest = t[code][k]
                     if dest then
                         if v.id ~= dest.id then
-                            w2l.messager.report(lang.report.OTHER, 9, ('复制的ID[%s]不同：skill [%s][%s] code [%s][%s]'):format(k, name, v.id, code, dest.id))
+                            w2l.messager.report(lang.report.OTHER, 9, lang.raw.COPIED_ID_CONFLICT:format(k, name, v.id, code, dest.id))
                         end
                     else
                         t[code][k] = v

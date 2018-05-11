@@ -175,3 +175,11 @@ At least 3 different characters
 At least 2 letters
 [AUTO_SELECT]
 Auto select
+[CREATING]
+Creating 
+[TYPE_CONFLICT]
+Type conflict:
+[CREATED_ID_CONFLICT]
+Created id conflict: skill [%s] code [%s]
+[COPIED_ID_CONFLICT]
+Copied id [%s] conflict: skill [%s][%s] code [%s][%s]
