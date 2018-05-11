@@ -36,9 +36,9 @@
         },
         {
             "taskName": "预处理",
+            "command": "\"${workspaceRoot}/bin/w3x2lni-lua.exe\"",
             "args": [
-                ".\\script\\prebuilt\\init.lua",
-                "${workspaceRoot}"
+                ".\\build\\prebuild.lua"
             ]
         }
     ]
