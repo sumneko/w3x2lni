@@ -1,3 +1,4 @@
+require 'filesystem'
 require 'registry'
 local uni = require 'unicode'
 local ffi = require 'ffi'
@@ -24,27 +25,6 @@ local function addenv(name, newvalue)
     end
     ffi.C.SetEnvironmentVariableA(name, newvalue)
 end
-
-local function execute(coding, command)
-    local f = io.popen(command, 'r')
-    if coding == 'ansi' then
-        for line in f:lines() do
-            print(line)
-        end
-    else
-        for line in f:lines() do
-            print(uni.a2u(line))
-        end
-    end
-    local ok = f:close()
-    if not ok then
-        if coding == 'ansi' then
-            error(("execute failed: %q"):format(uni.u2a(command)))
-        else
-            error(("execute failed: %q"):format(command))
-        end
-    end
-end    
 
 local function msvc_path(version)
     local reg = registry.local_machine() / [[SOFTWARE\Microsoft\VisualStudio\SxS\VS7]]
@@ -83,8 +63,8 @@ function mt:redistversion()
     return strtrim(r)
 end
 
-function mt:crtpath()
-    return self.__path / 'VC' / 'Redist' / 'MSVC' / self:redistversion() / 'x86' / ('Microsoft.VC' .. self.version .. '.CRT')
+function mt:crtpath(platform)
+    return self.__path / 'VC' / 'Redist' / 'MSVC' / self:redistversion() / platform / ('Microsoft.VC' .. self.version .. '.CRT')
 end
 
 function mt:sdkpath()
@@ -92,21 +72,45 @@ function mt:sdkpath()
     return fs.path(reg.KitsRoot10)
 end
 
-function mt:ucrtpath()
-    return self:sdkpath() / 'Redist' / 'ucrt' / 'DLLs' / 'x86'
+function mt:ucrtpath(platform)
+    return self:sdkpath() / 'Redist' / 'ucrt' / 'DLLs' / platform
 end
 
-function mt:copy_crt_dll(target)
+function mt:copy_crt_dll(platform, target)
     fs.create_directories(target)
-    fs.copy_file(self:crtpath() / 'msvcp140.dll', target / 'msvcp140.dll', true)
-    fs.copy_file(self:crtpath() / 'vcruntime140.dll', target / 'vcruntime140.dll', true)
-    for dll in self:ucrtpath():list_directory() do
+    fs.copy_file(self:crtpath(platform) / 'msvcp140.dll', target / 'msvcp140.dll', true)
+    fs.copy_file(self:crtpath(platform) / 'vcruntime140.dll', target / 'vcruntime140.dll', true)
+    for dll in self:ucrtpath(platform):list_directory() do
         fs.copy_file(dll, target / dll:filename(), true)
     end
 end
 
-function mt:rebuild(solution, configuration, platform)
-    execute(self.coding, ('MSBuild "%s" /m /v:m /t:rebuild /clp:ShowEventId /p:Configuration="%s",Platform="%s"'):format(solution:string(), configuration or 'Release', platform or 'Win32'))
+function mt:compile(target, solution, property)
+    property.Configuration = property.Configuration or 'Release'
+    property.Platform = property.Platform or 'Win32'
+    local pstr = {}
+    for k, v in pairs(property) do
+        pstr[#pstr+1] = ('%s="%s"'):format(k, v)
+    end
+    local command = ('MSBuild "%s" /m /v:m /t:%s /clp:ShowEventId /p:%s'):format(solution:string(), target, table.concat(pstr, ','))
+    local f = io.popen(command, 'r')
+    if self.coding == 'ansi' then
+        for line in f:lines() do
+            print(line)
+        end
+    else
+        for line in f:lines() do
+            print(uni.a2u(line))
+        end
+    end
+    local ok = f:close()
+    if not ok then
+        if self.coding == 'ansi' then
+            error(("execute failed: %q"):format(uni.u2a(command)))
+        else
+            error(("execute failed: %q"):format(command))
+        end
+    end
 end
 
 return mt
