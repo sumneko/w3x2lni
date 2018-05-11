@@ -142,3 +142,7 @@ w3i里的文本长度超过1023字符
 没有找到触发器数据的目录：
 [TRIGGER_DATA_ERROR]
 触发器文件解析错误
+[OPEN_FAILED_MAYBE_W3X]
+文件 "%s" 不存在，也许你指的是 "%s.w3x"
+[OPEN_FAILED_NO_EXISTS]
+文件 "%s" 不存在

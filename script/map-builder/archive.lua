@@ -187,24 +187,33 @@ return function (pathorhandle, tp)
         ar._type = 'mpq'
         ar._attach = true
         ar._read = false
-    elseif read_only then
-        if fs.is_directory(pathorhandle) then
-            ar.handle, err = dir(pathorhandle)
-            ar._type = 'dir'
-        else
-            ar.handle, err = mpq(pathorhandle, true)
-            ar._type = 'mpq'
-        end
-        if not ar.handle then
-            return nil, err or lang.script.OPEN_FAILED
-        end
     else
-        if fs.is_directory(pathorhandle) then
-            ar.handle = dir(pathorhandle)
-            ar._type = 'dir'
+        if not fs.exists(pathorhandle) then
+            if fs.exists(pathorhandle:parent_path() / (pathorhandle:filename():string() .. '.w3x')) then
+                return nil, lang.script.OPEN_FAILED_MAYBE_W3X:format(pathorhandle, pathorhandle)
+            else
+                return nil, lang.script.OPEN_FAILED_NO_EXISTS:format(pathorhandle)
+            end
+        end
+        if read_only then
+            if fs.is_directory(pathorhandle) then
+                ar.handle, err = dir(pathorhandle)
+                ar._type = 'dir'
+            else
+                ar.handle, err = mpq(pathorhandle, true)
+                ar._type = 'mpq'
+            end
+            if not ar.handle then
+                return nil, err or lang.script.OPEN_FAILED
+            end
         else
-            ar.handle = mpq(pathorhandle)
-            ar._type = 'mpq'
+            if fs.is_directory(pathorhandle) then
+                ar.handle = dir(pathorhandle)
+                ar._type = 'dir'
+            else
+                ar.handle = mpq(pathorhandle)
+                ar._type = 'mpq'
+            end
         end
     end
     return setmetatable(ar, mt)
