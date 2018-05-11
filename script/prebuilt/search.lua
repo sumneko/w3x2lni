@@ -24,7 +24,7 @@ local function get_key2(w2l, type, code, id)
 end
 
 local codemapped
-local mpqs
+local loader
 
 local enable_type = {
     abilCode = 'ability',
@@ -124,7 +124,7 @@ end
 
 local function create_search(w2l, type, search)
     search[type] = {}
-    local metadata = w2l:parse_slk(mpqs:load_file('units\\' .. w2l.info.metadata[type]) or mpqs:load_file('doodads\\' .. w2l.info.metadata[type]))
+    local metadata = w2l:parse_slk(loader(w2l.info.metadata[type]))
     for id, meta in pairs(metadata) do
         if is_enable(meta, type) then
             local objs = meta.useSpecific or meta.section
@@ -137,7 +137,7 @@ local function create_search(w2l, type, search)
                     local key = get_key2(w2l, type, code, id)
                     local vtype = enable_type[meta.type]
                     if search[code][key] and search[code][key] ~= vtype then
-                        messager.txt('类型不同:', 'skill', name, 'code', code)
+                        messager.text('类型不同:', 'skill', name, 'code', code)
                     end
                     if key then
                         search[code][key] = vtype
@@ -153,10 +153,10 @@ local function create_search(w2l, type, search)
     end
 end
 
-return function(w2l, codemapped_, mpqs_)
+return function(w2l, codemapped_, loader_)
     codemapped = codemapped_
-    mpqs = mpqs_
-    messager.txt('正在生成search')
+    loader = loader_
+    messager.text('正在生成search')
     local search = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
         create_search(w2l, type, search)
@@ -170,8 +170,5 @@ return function(w2l, codemapped_, mpqs_)
     for k, v in sortpairs(search) do
         stringify(f, k, v)
     end
-    local config = require 'tool.config' ()
-    local dir = fs.current_path():parent_path() / 'data' / config.global.data_war3 / 'war3' / 'defined'
-    fs.create_directories(dir)
-    io.save(dir / 'search.ini', table.concat(f, '\r\n'))
+    return table.concat(f, '\r\n')
 end

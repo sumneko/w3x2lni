@@ -181,10 +181,6 @@ local function get_w2l()
         return io.load(root:parent_path() / 'data' / mpq_name / 'we' / filename)
     end
 
-    --function w2l:defined_load(filename)
-    --    return io.load(root:parent_path() / 'data' / mpq_name / 'war3' / 'defined' / filename)
-    --end
-
     function messager.report(_, _, str, tip)
         if str == lang.report.NO_WES_STRING then
             lost_wes[tip] = true
@@ -225,6 +221,10 @@ local function make_log()
     end
     local buf = table.concat(lines, '\r\n')
     io.save(root:parent_path() / 'log' / 'mpq.log', buf)
+end
+
+local function loader(name)
+    return mpqs:load_file('units\\' .. name) or mpqs:load_file('doodads\\' .. name)
 end
 
 return function ()
@@ -286,8 +286,12 @@ return function ()
     w2l.progress:finish()
 
     w2l.cache_metadata = w2l:parse_lni(io.load(root:parent_path() / 'data' / mpq_name / 'we' / 'metadata.ini'))
-    prebuilt_keydata(w2l, mpqs)
-    prebuilt_search(w2l, codemapped, mpqs)
+    local dir = root:parent_path() / 'data' / mpq_name / 'war3' / 'defined'
+    fs.create_directories(dir)
+    local keydata = prebuilt_keydata(w2l, loader)
+    local search = prebuilt_search(w2l, codemapped, loader)
+    io.save(dir / 'keydata.ini', keydata)
+    io.save(dir / 'search.ini', search)
     w2l.cache_metadata = nil
 
     w2l.progress:start(0.4)

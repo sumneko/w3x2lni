@@ -35,29 +35,23 @@ function w2l:wes_load(filename)
     return io.load(wes_path / filename)
 end
 
-local function prebuilt_codemapped(w2l)
-    local info     = w2l:parse_lni(assert(io.load(root / 'core'/ 'info.ini')), 'info')
-    local template = w2l:parse_slk(w2l:mpq_load(info.slk.ability[1]))
+local function get_codemapped(w2l)
+    local template = w2l:parse_slk(io.load(root:parent_path() / 'data' / w2l.config.data_war3 / 'war3' / 'units' / 'abilitydata.slk'))
     local t = {}
     for id, d in pairs(template) do
         t[id] = d.code
     end
-    local f = {}
-    for k, v in pairs(t) do
-        f[#f+1] = ('%s = %s'):format(k, v)
-    end
-    table.sort(f)
-    table.insert(f, 1, '[root]')
-    io.save(root / 'core' / 'defined' / 'codemapped.ini', table.concat(f, '\r\n'))
+    return t
 end
 
-local function prebuilt_typedefine(w2l)
+local function get_typedefine(w2l)
     local uniteditordata = w2l:parse_txt(io.load(root / 'meta' / 'uniteditordata.txt'))
-    local f = {}
-    f[#f+1] = ('%s = %s'):format('int', 0)
-    f[#f+1] = ('%s = %s'):format('bool', 0)
-    f[#f+1] = ('%s = %s'):format('real', 1)
-    f[#f+1] = ('%s = %s'):format('unreal', 2)
+    local t = {
+        int    = 0,
+        bool   = 0,
+        real   = 1,
+        unreal = 2,
+    }
     for key, data in pairs(uniteditordata) do
         local value = data['00'][1]
         local tp
@@ -66,25 +60,24 @@ local function prebuilt_typedefine(w2l)
         else
             tp = 3
         end
-        f[#f+1] = ('%s = %s'):format(key, tp)
+        t[key] = tp
     end
-    table.sort(f)
-    table.insert(f, 1, '[root]')
-    io.save(root / 'core' / 'defined' / 'typedefine.ini', table.concat(f, '\r\n'))
+    return t
+end
+
+local function loader(name)
+    return io.load(root / 'meta' / name)
 end
 
 local function main()
     fs.create_directories(root:parent_path() / 'template')
     fs.create_directories(root / 'core' / 'defined')
 
-    prebuilt_codemapped(w2l)
-    prebuilt_typedefine(w2l)
-    local meta = prebuilt_metadata(w2l, nil, function (filename)
-        return io.load(root / 'meta' / filename)
-    end)
+    local codemapped = get_codemapped(w2l)
+    local typedefine = get_typedefine(w2l)
+
+    local meta = prebuilt_metadata(w2l, nil, codemapped, typedefine, loader)
     io.save(fs.current_path() / 'core' / 'defined' / 'metadata.ini', meta)
-    prebuilt_keydata(w2l)
-    prebuilt_search(w2l)
 
     config.global.lang = "${AUTO}"
     config.global.data_ui = "${YDWE}"

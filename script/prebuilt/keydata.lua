@@ -1,5 +1,5 @@
 local messager = require 'tool.messager'
-local mpqs
+local loader
 local key_cache = {}
 local function get_key(w2l, type, id)
     if not key_cache[type] then
@@ -57,7 +57,7 @@ local function is_enable(meta, type)
 end
 
 local function create_keydata(w2l, type, keydata)
-    local metadata = w2l:parse_slk(mpqs:load_file('units\\' .. w2l.info.metadata[type]) or mpqs:load_file('doodads\\' .. w2l.info.metadata[type]))
+    local metadata = w2l:parse_slk(loader(w2l.info.metadata[type]))
     metadata.Ytip = nil
     for id, meta in pairs(metadata) do
         if is_enable(meta, type) and not meta.useSpecific or meta.section then
@@ -91,9 +91,9 @@ local function stringify(f, name, t)
     f[#f+1] = '}'
 end
 
-return function(w2l, mpqs_)
-    mpqs = mpqs_
-    messager.txt('正在生成keydata')
+return function(w2l, loader_)
+    loader = loader_
+    messager.text('正在生成keydata')
     local keydata = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
         create_keydata(w2l, type, keydata)
@@ -107,8 +107,5 @@ return function(w2l, mpqs_)
     for k, v in sortpairs(keydata) do
         stringify(f, k, v)
     end
-    local config = require 'tool.config' ()
-    local dir = fs.current_path():parent_path() / 'data' / config.global.data_war3 / 'war3' / 'defined'
-    fs.create_directories(dir)
-    io.save(dir / 'keydata.ini', table.concat(f, '\r\n'))
+    return table.concat(f, '\r\n')
 end
