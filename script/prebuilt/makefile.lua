@@ -20,7 +20,7 @@ return function (w2l, version)
         io.save(prebuilt_path / filename, buf)
     end
 
-    local slk = w2l:build_slk()
+    local slk = w2l:frontend_buildslk()
 
     function w2l:prebuilt_save()
     end

@@ -56,7 +56,7 @@ return function (w2l, output_ar, w3i, input_ar)
         w2l:file_remove('map', 'war3mapunits.doo')
     else
         if not w2l:file_load('map', 'war3mapunits.doo') then
-            w2l:file_save('map', 'war3mapunits.doo', w2l:create_unitsdoo())
+            w2l:file_save('map', 'war3mapunits.doo', w2l:backend_unitsdoo())
         end
     end
     
