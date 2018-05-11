@@ -141,6 +141,9 @@ end
 
 local version = read_version()
 
+local gitlog = require 'gitlog'
+gitlog()
+
 if arg[3] == 'zh-CN' then
     release_path = root / 'build' / 'zh-CN' / ('w3x2lni_v'..version)
     print('生成中文版，目录为：', release_path:string())
