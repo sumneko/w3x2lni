@@ -11,6 +11,7 @@ local lang = require 'tool.lang'
 local input_path = require 'tool.input_path'
 local builder = require 'map-builder'
 local war3_name = require 'tool.war3_name'
+local push_error = require 'gui.push_error'
 local currenttheme = {0, 173, 217}
 local worker
 
@@ -236,7 +237,7 @@ local function update_worker()
     if worker then
         worker:update()
         if #worker.error > 0 then
-            messagebox(lang.ui.ERROR, '%s', worker.error)
+            push_error(worker.error)
             worker.error = ''
         end
     end

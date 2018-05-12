@@ -3,6 +3,7 @@ local backend = require 'gui.backend'
 local timer = require 'gui.timer'
 local messagebox = require 'ffi.messagebox'
 local lang = require 'tool.lang'
+local push_error = require 'gui.push_error'
 require 'filesystem'
 
 local worker
@@ -60,7 +61,7 @@ local function update()
     update_progress(backend.progress)
     update_show()
     if #worker.error > 0 then
-        messagebox(lang.ui.ERROR, '%s', worker.error)
+        push_error(worker.error)
         worker.error = ''
         return 0, 1
     end
