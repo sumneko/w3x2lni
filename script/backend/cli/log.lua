@@ -5,7 +5,12 @@ local messager = require 'share.messager'
 return function ()
     local root = fs.current_path()
     local s = {}
-    for l in io.lines((root:parent_path() / 'log' / 'report.log'):string()) do
+    local logfile = (root:parent_path() / 'log' / 'report.log'):string()
+    local f = io.open(logfile, 'r')
+    if not f then
+        return
+    end
+    for l in f:lines() do
         s[#s+1] = l
         if #s > 50 then
             messager.raw(table.concat(s, '\r\n') .. '\r\n')
@@ -13,5 +18,6 @@ return function ()
             s = {}
         end
     end
+    f:close()
     messager.raw(table.concat(s, '\r\n') .. '\r\n')
 end
