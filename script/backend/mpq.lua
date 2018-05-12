@@ -13,7 +13,7 @@ local core = require 'backend.sandbox_core'
 local unpack_config = require 'backend.unpack_config'
 local w3xparser = require 'w3xparser'
 local messager = require 'tool.messager'
-local war3_name = require 'tool.war3_name'
+local war3 = require 'tool.war3'
 local w2l
 local mpq_name
 local mpqs
@@ -201,11 +201,16 @@ return function ()
     local input = config.input
     get_w2l()
 
-    mpq_name = war3_name(input)
-    if not mpq_name then
+    if not war3:open(input) then
         w2l.messager.text(lang.script.NEED_WAR3_DIR)
         return
     end
+    if not war3.name then
+        -- TODO: 换个提示
+        w2l.messager.text(lang.script.NEED_WAR3_DIR)
+        return
+    end
+    mpq_name = war3.name
     mpqs = open_mpq(input)
     if not mpqs then
         return

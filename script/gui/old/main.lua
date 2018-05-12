@@ -10,7 +10,7 @@ local create_config = require 'tool.config'
 local lang = require 'tool.lang'
 local input_path = require 'tool.input_path'
 local builder = require 'map-builder'
-local war3_name = require 'tool.war3_name'
+local war3 = require 'tool.war3'
 local push_error = require 'gui.push_error'
 local currenttheme = {0, 173, 217}
 local worker
@@ -59,8 +59,7 @@ function window:dropfile(file)
     if worker and not worker.exited then
         return
     end
-    local war3 = war3_name(fs.path(file))
-    if war3 then
+    if war3:open(fs.path(file)) then
         return
     end
     local inputpath = input_path(file)

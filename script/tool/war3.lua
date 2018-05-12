@@ -1,28 +1,6 @@
 local file_version = require 'ffi.file_version'
 local stormlib = require 'ffi.stormlib'
 
-local mpq_names = {
-    'War3.mpq',
-    'War3Local.mpq',
-    'War3x.mpq',
-    'War3xLocal.mpq',
-    'War3Patch.mpq',
-}
-
-local function load_mpq(dir, filename)
-    for i, name in ipairs(mpq_names) do
-        local mpq = stormlib.open(dir / name, true)
-        if mpq then
-            local buf = mpq:load_file(filename)
-            mpq:close()
-            if buf then
-                return buf
-            end
-        end
-    end
-    return nil
-end
-
 local language_map = {
     [0x00000409] = 'enUS',
     [0x00000809] = 'enGB',
@@ -80,16 +58,38 @@ local function war3_ver (input)
     return nil
 end
 
-return function (input)
-    local war3_ver = war3_ver(input)
-    if not war3_ver then
-        return nil
-    end
-    
-    local lg = mpq_language(load_mpq(input, 'config.txt'))
-    if not lg then
-        return nil
-    end
+local m = {}
 
-    return lg .. '-' .. war3_ver
+function m:open(path)
+    local war3_ver = war3_ver(path)
+    if not war3_ver then
+        return false
+    end
+    self.path = path
+    local lg = mpq_language(self:readfile('config.txt'))
+    if lg then
+        self.name = lg .. '-' .. war3_ver
+    end
+    return true
 end
+
+function m:readfile(filename)
+    for _, mpqname in ipairs {
+        'War3.mpq',
+        'War3Local.mpq',
+        'War3x.mpq',
+        'War3xLocal.mpq',
+        'War3Patch.mpq',
+    } do
+        local mpq = stormlib.open(self.path / mpqname, true)
+        if mpq then
+            local buf = mpq:load_file(filename)
+            mpq:close()
+            if buf then
+                return buf
+            end
+        end
+    end
+end
+
+return m
