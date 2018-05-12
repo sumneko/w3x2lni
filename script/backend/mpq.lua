@@ -32,18 +32,13 @@ local result = {}
 local function extract_file(type, name)
     local path = root:parent_path() / 'data' / war3.name / type / name
     local r = war3:extractfile(name, path)
-    if r ~= nil then
-        result[name] = r
-    end
-    if not name:match '^Custom_V1' then
-        result[name] = false
-    end
+    result[name] = r or false
 end
 
 local function report_fail()
     local tbl = {}
     for name, res in pairs(result) do
-        if res == false then
+        if res == false and not name:match '^Custom_V1' then
             table.insert(tbl, name)
         end
     end
