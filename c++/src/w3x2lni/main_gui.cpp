@@ -46,7 +46,7 @@ int __stdcall wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCm
 	}
 	if (pos) {
 		msg[pos] = 0;
-		MessageBoxW(0, u2w(msg), L"Error!", 0);
+		execute_crashreport(L"GUI", msg);
 	}
 	return 0;
 }

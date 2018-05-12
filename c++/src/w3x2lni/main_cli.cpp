@@ -315,6 +315,7 @@ int __cdecl wmain()
 		}
 	}
 	if (!error.empty()) {
+		execute_crashreport(L"CLI", error);
 		proto.message_error(error);
 	}
 	return 0;

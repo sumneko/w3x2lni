@@ -28,9 +28,9 @@ path::path() {
 
 
 pipe::~pipe() {
-	if (f) CloseHandle(f);
-	if (h) CloseHandle(h);
+	close();
 }
+
 bool pipe::open(int type) {
 	SECURITY_ATTRIBUTES sa;
 	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
@@ -46,6 +46,13 @@ bool pipe::open(int type) {
 	return true;
 }
 
+void pipe::close() {
+	if (f) CloseHandle(f);
+	if (h) CloseHandle(h);
+	f = NULL;
+	h = NULL;
+}
+
 size_t pipe::read(char* buf, size_t len) {
 	DWORD rlen = 0;
 	if (!PeekNamedPipe(f, 0, 0, 0, &rlen, 0)) {
@@ -58,6 +65,14 @@ size_t pipe::read(char* buf, size_t len) {
 		return -1;
 	}
 	return (size_t)rlen;
+}
+
+size_t pipe::write(const char* buf, size_t len) {
+	DWORD wlen = 0;
+	if (!WriteFile(f, buf, len, &wlen, 0)) {
+		return -1;
+	}
+	return (size_t)wlen;
 }
 
 bool execute_lua(const wchar_t* who, pipe* out, pipe* err) {
@@ -122,4 +137,91 @@ bool execute_lua(const wchar_t* who, pipe* out, pipe* err) {
 	::CloseHandle(pi.hProcess);
 
 	return true;
+}
+
+bool execute_crashreport(const wchar_t* who, pipe* in, pipe* err) {
+	path app = path() / L"bin" / L"w3x2lni-lua.exe";
+	path cwd = path() / L"script";
+	strbuilder<32768> cmd;
+	cmd += L"\"";
+	cmd += app;
+	cmd += L"\" -e \"_W2L_MODE='";
+	cmd += who;
+	cmd += L"'\" -E \"";
+	cmd += path() / L"script" / L"crashreport" / L"init.lua";
+	cmd += L"\"";
+
+	strbuilder<1024> env;
+	env += L"PATH=";
+	env += path() / L"bin";
+	env += L"\0";
+
+	PROCESS_INFORMATION     pi = { 0 };
+	STARTUPINFOW            si = { sizeof STARTUPINFOW };
+	si.dwFlags = STARTF_USESTDHANDLES;
+	si.hStdInput = INVALID_HANDLE_VALUE;
+	si.hStdOutput = INVALID_HANDLE_VALUE;
+	si.hStdError = INVALID_HANDLE_VALUE;
+	if (in) {
+		si.hStdInput = in->h;
+		in->h = NULL;
+	}
+	if (err) {
+		si.hStdError = err->h;
+		err->h = NULL;
+	}
+
+	if (!::CreateProcessW(
+		app.string(),
+		cmd.string(),
+		NULL, NULL, TRUE,
+		NORMAL_PRIORITY_CLASS | CREATE_UNICODE_ENVIRONMENT | CREATE_NO_WINDOW,
+		env.string(),
+		cwd.string(),
+		&si, &pi))
+	{
+		return false;
+	}
+
+	::CloseHandle(si.hStdInput);
+	::CloseHandle(si.hStdOutput);
+	::CloseHandle(si.hStdError);
+	::CloseHandle(pi.hThread);
+	::CloseHandle(pi.hProcess);
+
+	return true;
+}
+
+bool execute_crashreport(const wchar_t* who, const std::string& errmessage)
+{
+	pipe in, err;
+	if (in.open('w') && err.open('r')) {
+		if (!execute_crashreport(who, &in, &err)) {
+			return false;
+		}
+		in.write(errmessage.data(), errmessage.size());
+		in.close();
+		std::string error;
+		char errbuf[2048];
+		for (;;) {
+			size_t errlen = err.read(errbuf, sizeof errbuf);
+			if (errlen == -1) {
+				break;
+			}
+			if (errlen == 0) {
+				Sleep(200);
+				continue;
+			}
+			if (errlen != 0 && errlen != -1) {
+				error += std::string(errbuf, errlen);
+			}
+		}
+		if (!error.empty()) {
+			return true;
+		}
+		return false;
+	}
+	else {
+		return false;
+	}
 }

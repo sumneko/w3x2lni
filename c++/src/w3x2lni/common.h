@@ -2,6 +2,7 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <Windows.h>
+#include <string>
 
 struct strview {
 	const wchar_t* buf;
@@ -50,10 +51,14 @@ struct path : public strbuilder<MAX_PATH> {
 struct pipe {
 	~pipe();
 	bool open(int type);
+	void close();
 	size_t read(char* buf, size_t len);
+	size_t write(const char* buf, size_t len);
 
 	HANDLE f = NULL;
 	HANDLE h = NULL;
 };
 
 bool execute_lua(const wchar_t* who, pipe* out, pipe* err);
+bool execute_crashreport(const wchar_t* who, pipe* in, pipe* err);
+bool execute_crashreport(const wchar_t* who, const std::string& errmessage);
