@@ -149,6 +149,9 @@ return function (mode)
     if not input_ar then
         w2l:failed(err)
     end
+    if not input_ar:get '(listfile)' then
+        w2l:failed(lang.script.UNSUPPORTED_MAP)
+    end
 
     if check_lni_mark(input_ar:get '.w3x') then
         w2l.input_mode = 'lni'

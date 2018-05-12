@@ -111,10 +111,6 @@ return function (input, read)
         if not handle then
             return nil
         end
-        if not handle:has_file '(listfile)' then
-            handle:close()
-            return nil, lang.script.UNSUPPORTED_MAP
-        end
     else
         handle = stormlib.open(input)
     end
