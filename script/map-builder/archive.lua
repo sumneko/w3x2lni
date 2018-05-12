@@ -188,11 +188,11 @@ return function (pathorhandle, tp)
         ar._attach = true
         ar._read = false
     else
-        if not fs.exists(pathorhandle) then
+        if tp ~= 'w' and not fs.exists(pathorhandle) then
             if fs.exists(pathorhandle:parent_path() / (pathorhandle:filename():string() .. '.w3x')) then
-                return nil, lang.script.OPEN_FAILED_MAYBE_W3X:format(pathorhandle, pathorhandle)
+                return nil, lang.script.OPEN_FAILED_MAYBE_W3X:format(pathorhandle:filename())
             else
-                return nil, lang.script.OPEN_FAILED_NO_EXISTS:format(pathorhandle)
+                return nil, lang.script.OPEN_FAILED_NO_EXISTS:format()
             end
         end
         if read_only then

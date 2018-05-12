@@ -145,6 +145,6 @@ No trigger data directory was found
 [TRIGGER_DATA_ERROR]
 Trigger data error
 [OPEN_FAILED_MAYBE_W3X]
-"%s" dose not exsit, did you mean "%s.w3x" ?
+File dose not exsit, did you mean "%s.w3x" ?
 [OPEN_FAILED_NO_EXISTS]
-"%s" dose not exsit
+File dose not exsit
