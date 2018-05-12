@@ -106,6 +106,8 @@ w3i里的文本长度超过1023字符
 未知原因
 [NEED_WAR3_DIR]
 请使用魔兽目录
+[NEED_WAR3_NAME]
+无法解析出魔兽版本名
 [EXPORT_FILE_FAILED]
 文件导出失败：
 [OPEN_FILE_FAILED]

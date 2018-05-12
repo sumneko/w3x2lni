@@ -106,6 +106,8 @@ Create map failed, maybe occupied
 Unknown reason
 [NEED_WAR3_DIR]
 Need WarIII directory
+[NEED_WAR3_NAME]
+Unable to parse WC3 name
 [EXPORT_FILE_FAILED]
 Export file failed: 
 [OPEN_FILE_FAILED]

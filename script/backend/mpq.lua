@@ -181,8 +181,7 @@ return function ()
         return
     end
     if not war3.name then
-        -- TODO: 换个提示
-        w2l.messager.text(lang.script.NEED_WAR3_DIR)
+        w2l.messager.text(lang.script.NEED_WAR3_NAME)
         return
     end
     mpq_name = war3.name
