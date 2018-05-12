@@ -183,3 +183,5 @@ Type conflict:
 Created id conflict: skill [%s] code [%s]
 [COPIED_ID_CONFLICT]
 Copied id [%s] conflict: skill [%s][%s] code [%s][%s]
+[DATA_VERSION_ERROR]
+Incompatible data files, please re-extracting MPQ data by `mpq` command
