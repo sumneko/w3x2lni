@@ -181,7 +181,7 @@ return function ()
         return
     end
     if not war3.name then
-        w2l.messager.text(lang.script.NEED_WAR3_NAME)
+        w2l.messager.text(lang.script.LOAD_WAR3_LANG_FAILED)
         return
     end
     mpq_name = war3.name
