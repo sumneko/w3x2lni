@@ -1,5 +1,5 @@
 return function()
-    local root = fs.current_path() / '..'
+    local root = fs.absolute(fs.path '..')
 
     local f = io.popen('git log -n 1', 'r')
     local lines = {}

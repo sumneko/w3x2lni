@@ -24,4 +24,4 @@
 !/data/enUS-1.27.1/
 *.user
 
-script/tool/gitlog.lua
+script/share/gitlog.lua
