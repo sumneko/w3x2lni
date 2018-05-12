@@ -31,6 +31,7 @@ end
 
 local mpq_names = {
     'War3.mpq',
+    'War3Local.mpq',
     'War3x.mpq',
     'War3xLocal.mpq',
     'War3Patch.mpq',
