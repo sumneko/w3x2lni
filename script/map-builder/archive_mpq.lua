@@ -43,7 +43,7 @@ end
 local mt = {}
 mt.__index = mt
 
-function mt:save(path, w3i, n, encrypt)
+function mt:save(path, w3i, filecount, encrypt)
     if self.handle then
         self.handle:close()
         self.handle = nil
@@ -55,7 +55,7 @@ function mt:save(path, w3i, n, encrypt)
     hexs[#hexs+1] = ('l'):pack(get_map_flag(w3i))
     hexs[#hexs+1] = ('l'):pack(w3i and get_player_count(w3i) or 233)
     io.save(path, table.concat(hexs))
-    self.handle = stormlib.create(path, n+3, encrypt)
+    self.handle = stormlib.create(path, filecount+3, encrypt)
     if not self.handle then
         return false, lang.script.CREATE_MAP_FAILED
     end

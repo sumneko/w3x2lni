@@ -10,8 +10,8 @@ local unpack_config = require 'backend.unpack_config'
 local w2l = core()
 local root = fs.current_path()
 local config
-local input_ar
-local output_ar
+local input_ar, input_proxy
+local output_ar, output_proxy
 
 local report = {}
 local messager_report = messager.report
@@ -79,120 +79,21 @@ function w2l:map_remove(filename)
 end
 
 function w2l:file_save(type, name, buf)
-    if type == 'table' then
-        input_ar:set(self.info.lni_dir[name][1], buf)
-        output_ar:set(self.info.lni_dir[name][1], buf)
-    elseif type == 'trigger' then
-        input_ar:set('trigger/' .. name, buf)
-        output_ar:set('trigger/' .. name, buf)
-    elseif type == 'scripts' then
-        if not self.config.export_lua then
-            return
-        end
-        input_ar:set('scripts/' .. name, buf)
-        output_ar:set('scripts/' .. name, buf)
-    elseif type == 'w3x2lni' then
-        input_ar:set('w3x2lni/' .. name, buf)
-        output_ar:set('w3x2lni/' .. name, buf)
-    else
-        if self.input_mode == 'lni' then
-            input_ar:set(type .. '/' .. name, buf)
-        else
-            input_ar:set(name, buf)
-        end
-        if self.config.mode == 'lni' then
-            output_ar:set(type .. '/' .. name, buf)
-        else
-            output_ar:set(name, buf)
-        end
-    end
+    input_proxy:save(type, name, buf)
+    output_proxy:save(type, name, buf)
 end
 
 function w2l:file_load(type, name)
-    if type == 'table' then
-        for _, filename in ipairs(self.info.lni_dir[name]) do
-            local buf = input_ar:get(filename)
-            if buf then
-                return buf
-            end
-        end
-    elseif type == 'trigger' then
-        return input_ar:get('trigger/' .. name) or input_ar:get('war3map.wtg.lml/' .. name)
-    elseif type == 'scripts' then
-        return input_ar:get('scripts/' .. name)
-    elseif type == 'w3x2lni' then
-        return input_ar:get('w3x2lni/' .. name)
-    else
-        if self.input_mode == 'lni' then
-            return input_ar:get(type .. '/' .. name)
-        else
-            return input_ar:get(name)
-        end
-    end
+    return input_proxy:load(type, name)
 end
 
 function w2l:file_remove(type, name)
-    if type == 'table' then
-        for _, filename in ipairs(self.info.lni_dir[name]) do
-            input_ar:remove(filename)
-            output_ar:remove(filename)
-        end
-    elseif type == 'trigger' then
-        input_ar:remove('trigger/' .. name, buf)
-        input_ar:remove('war3map.wtg.lml/' .. name, buf)
-        output_ar:remove('trigger/' .. name, buf)
-        output_ar:remove('war3map.wtg.lml/' .. name, buf)
-    elseif type == 'scripts' then
-        input_ar:remove('scripts/' .. name, buf)
-        output_ar:remove('scripts/' .. name, buf)
-    elseif type == 'w3x2lni' then
-        input_ar:remove('w3x2lni/' .. name, buf)
-        output_ar:remove('w3x2lni/' .. name, buf)
-    else
-        if self.input_mode == 'lni' then
-            input_ar:remove(type .. '/' .. name, buf)
-        else
-            input_ar:remove(name, buf)
-        end
-        if self.config.mode == 'lni' then
-            output_ar:remove(type .. '/' .. name, buf)
-        else
-            output_ar:remove(name, buf)
-        end
-    end
+    input_proxy:remove(type, name)
+    output_proxy:remove(type, name)
 end
 
 function w2l:file_pairs()
-    local next, tbl, index = input_ar:search_files()
-    return function ()
-        local name, buf = next(tbl, index)
-        if not name then
-            return nil
-        end
-        index = name
-        local type
-        local dir = name:match '^[^/\\]+' :lower()
-        local ext = name:match '[^%.]+$'
-        if ext == 'mdx' or ext == 'mdl' or ext == 'blp' or ext == 'tga' then
-            type = 'resource'
-        elseif ext == 'mp3' or ext == 'wav' then
-            type = 'sound'
-        elseif name == 'scripts\\war3map.j' then
-            type = 'map'
-        elseif dir == 'scripts' then
-            type = 'scripts'
-        elseif dir == 'w3x2lni' then
-            type = 'w3x2lni'
-        else
-            type = 'map'
-        end
-        if w2l.input_mode == 'lni' or type == 'scripts' or type == 'w3x2lni' then
-            if dir == type then
-                name = name:sub(#type + 2)
-            end
-        end
-        return type, name, buf
-    end
+    return input_proxy:pairs()
 end
 
 function w2l:mpq_load(filename)
@@ -278,6 +179,9 @@ return function (mode)
         w2l:failed(err)
     end
     output_ar:flush()
+    
+    input_proxy = builder.proxy(input_ar, w2l.input_mode)
+    output_proxy = builder.proxy(output_ar, config.mode)
 
     local slk = {}
     local file_count = input_ar:number_of_files()
