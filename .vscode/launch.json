@@ -13,8 +13,8 @@
             "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
-            //"runtimeExecutable": "${workspaceRoot}\\bin\\w2l-worker.exe",
-            //"runtimeArgs": "${workspaceRoot}\\script\\main.lua",
+            "runtimeExecutable": "${workspaceRoot}\\bin\\w3x2lni-lua.exe",
+            "runtimeArgs": "${workspaceRoot}\\script\\gui\\new\\main.lua",
             "consoleCoding": "utf8",
             "program": "${workspaceRoot}\\script\\gui\\new\\main.lua"
         },
@@ -39,23 +39,6 @@
             ],
             "arg": [
                 "slk"
-            ]
-        },
-        {
-            "name": "预生成",
-            "type": "lua",
-            "request": "launch",
-            "cwd": "${workspaceRoot}\\",
-            "env": {
-                "PATH": "${workspaceRoot}\\bin\\"
-            },
-            "luadll": "${workspaceRoot}\\bin\\lua53.dll",
-            "path": "",
-            "cpath": "",
-            "consoleCoding": "utf8",
-            "program": "${workspaceRoot}\\script\\prebuilt\\init.lua",
-            "arg": [
-                "${workspaceRoot}"
             ]
         },
         {
@@ -93,6 +76,13 @@
                 "${workspaceRoot}\\1.w3x",
                 "-lni",
             ]
+        },
+        {
+            "name": "TestAttach",
+            "type": "lua",
+            "request": "attach",
+            "consoleCoding": "utf8",
+            "processName" : "w3x2lni-lua.exe"
         },
     ]
 }
