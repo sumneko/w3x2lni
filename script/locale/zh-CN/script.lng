@@ -105,7 +105,7 @@ w3i里的文本长度超过1023字符
 [UNKNOWN_REASON]
 未知原因
 [NEED_WAR3_DIR]
-请使用魔兽目录
+请输入魔兽目录
 [LOAD_WAR3_LANG_FAILED]
 获取魔兽语言版本失败
 [EXPORT_FILE_FAILED]

@@ -33,6 +33,9 @@ local function mpq_language(config)
 end
 
 local function war3_ver (input)
+    if not input then
+        return nil
+    end
     if not fs.is_directory(input) then
         return nil
     end
