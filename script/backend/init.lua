@@ -20,7 +20,12 @@ elseif act == 'mpq' then
     mpq()
 elseif act == 'version' then
     local cl = require 'tool.changelog'
-    messager.raw('w3x2lni version '..cl[1].version)
+    messager.raw('w3x2lni version ' .. cl[1].version)
+    local ok, gl = pcall(require, 'tool.gitlog')
+    if ok then
+        messager.raw('\ncommit: ' .. gl.commit)
+        messager.raw('\ndate: ' .. gl.date)
+    end
 elseif act == 'config' then
     local cli_config = require 'backend.cli_config'
     cli_config(command)
