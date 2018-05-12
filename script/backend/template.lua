@@ -16,6 +16,10 @@ function w2l:mpq_load(filename)
     end)
 end
 
+function w2l:defined_load(filename)
+    return io.load(root:parent_path() / 'data' / w2l.config.data_war3 / 'war3' / 'defined' / filename)
+end
+
 function w2l:wes_load(filename)
     return io.load(root:parent_path() / 'data' / w2l.config.data_wes / 'we' / filename)
 end
