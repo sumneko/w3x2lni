@@ -171,6 +171,7 @@ return function ()
         return
     end
     fs.create_directories(root:parent_path() / 'data' / war3.name)
+    io.save(root:parent_path() / 'data' / war3.name / 'version', data_version)
     local config = require 'share.config' ()
     config.global.data_war3 = war3.name
     if config.global.data_ui ~= '${YDWE}' then
@@ -219,8 +220,6 @@ return function ()
     io.save(dir / 'keydata.ini', keydata)
     io.save(dir / 'search.ini', search)
     w2l.cache_metadata = nil
-
-    io.save(root:parent_path() / 'data' / war3.name / 'version', data_version)
 
     w2l.progress:start(0.4)
     local slk = makefile(w2l, 'Melee')
