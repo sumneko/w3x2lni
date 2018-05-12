@@ -1,6 +1,6 @@
-local messager = require 'tool.messager'
-local config1, config2 = require 'tool.config' ()
-local lang = require 'tool.lang'
+local messager = require 'share.messager'
+local config1, config2 = require 'share.config' ()
+local lang = require 'share.lang'
 
 local function show_config(section, k, v)
     if v[3] ~= nil then

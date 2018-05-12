@@ -1,6 +1,6 @@
 local gui = require 'yue.gui'
 local timer = require 'gui.timer'
-local lang = require 'tool.lang'
+local lang = require 'share.lang'
 
 local view = gui.Container.create()
 view:setstyle { FlexGrow = 1, Padding = 1 }

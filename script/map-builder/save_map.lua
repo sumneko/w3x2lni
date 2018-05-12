@@ -1,5 +1,5 @@
 local w3xparser = require 'w3xparser'
-local lang = require 'tool.lang'
+local lang = require 'share.lang'
 
 local function build_imp(w2l, output_ar, imp_buf)
     local impignore = {}

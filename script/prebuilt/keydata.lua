@@ -1,5 +1,5 @@
-local messager = require 'tool.messager'
-local lang = require 'tool.lang'
+local messager = require 'share.messager'
+local lang = require 'share.lang'
 local loader
 local key_cache = {}
 local function get_key(w2l, type, id)

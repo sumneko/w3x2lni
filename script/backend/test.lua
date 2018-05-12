@@ -1,5 +1,5 @@
 local unpack_config = require 'backend.unpack_config'
-local messager = require 'tool.messager'
+local messager = require 'share.messager'
 local uni = require 'ffi.unicode'
 local root = fs.current_path()
 

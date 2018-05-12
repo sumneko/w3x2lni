@@ -1,6 +1,6 @@
 local lni = require 'lni'
 local sandbox = require 'backend.sandbox'
-local lang = require 'tool.lang'
+local lang = require 'share.lang'
 
 local w2l
 local config

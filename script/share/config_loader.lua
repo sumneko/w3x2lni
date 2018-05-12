@@ -1,6 +1,6 @@
 require 'filesystem'
-local lang = require 'tool.lang'
-local data_version = require 'tool.data_version'
+local lang = require 'share.lang'
+local data_version = require 'share.data_version'
 local root = fs.current_path()
 
 local function proxy(t)

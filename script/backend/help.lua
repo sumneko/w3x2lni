@@ -1,5 +1,5 @@
-local messager = require 'tool.messager'
-local lang = require 'tool.lang'
+local messager = require 'share.messager'
+local lang = require 'share.lang'
 
 local list = {
     mpq = lang.raw.HELP_MPQ .. '\r\n\r\n' .. lang.raw.HELP_MPQ_DESC,

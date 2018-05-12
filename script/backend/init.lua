@@ -1,7 +1,7 @@
-local command = require 'tool.command'
-local messager = require 'tool.messager'
-local lang = require 'tool.lang'
-local config = require 'tool.config' ()
+local command = require 'share.command'
+local messager = require 'share.messager'
+local lang = require 'share.lang'
+local config = require 'share.config' ()
 local act = command[1]
 
 lang:set_lang(config.global.lang)
@@ -19,9 +19,9 @@ elseif act == 'mpq' then
     local mpq = require 'backend.mpq'
     mpq()
 elseif act == 'version' then
-    local cl = require 'tool.changelog'
+    local cl = require 'share.changelog'
     messager.raw('w3x2lni version ' .. cl[1].version)
-    local ok, gl = pcall(require, 'tool.gitlog')
+    local ok, gl = pcall(require, 'share.gitlog')
     if ok then
         messager.raw('\ncommit: ' .. gl.commit)
         messager.raw('\ndate: ' .. gl.date)

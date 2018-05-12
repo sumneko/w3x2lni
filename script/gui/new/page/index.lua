@@ -1,6 +1,6 @@
 local gui = require 'yue.gui'
 local timer = require 'gui.timer'
-local lang = require 'tool.lang'
+local lang = require 'share.lang'
 
 local view = gui.Container.create()
 
@@ -10,7 +10,7 @@ label:setfont(Font('黑体', 16))
 label:setstyle { Height = 50, Width = 200 }
 view:addchildview(label)
 
-local about = Button(lang.ui.VERSION .. (require 'tool.changelog')[1].version, '#333743') 
+local about = Button(lang.ui.VERSION .. (require 'share.changelog')[1].version, '#333743') 
 about:setstyle { Position = 'absolute', Bottom = 20, Right = 0, Width = 140 }
 function about:onclick()
     window:show_page('about')

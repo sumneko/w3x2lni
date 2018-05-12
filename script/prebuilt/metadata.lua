@@ -1,5 +1,5 @@
 local w3xparser = require 'w3xparser'
-local lang = require 'tool.lang'
+local lang = require 'share.lang'
 local w2l = w2l
 local slk = w3xparser.slk
 local fixer

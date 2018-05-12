@@ -1,5 +1,5 @@
 local stormlib = require 'ffi.stormlib'
-local lang = require 'tool.lang'
+local lang = require 'share.lang'
 
 local function get_map_flag(w3i)
     if not w3i then

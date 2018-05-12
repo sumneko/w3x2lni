@@ -1,10 +1,10 @@
 require 'filesystem'
 local lni = require 'lni'
-local lang = require 'tool.lang'
-local input_path = require 'tool.input_path'
-local command = require 'tool.command'
+local lang = require 'share.lang'
+local input_path = require 'share.input_path'
+local command = require 'share.command'
 local builder = require 'map-builder'
-local config_loader = require 'tool.config_loader'
+local config_loader = require 'share.config_loader'
 local root = fs.current_path()
 local default_config
 local global_config
@@ -84,7 +84,7 @@ end
 
 return function (path)
     if not default_config then
-        default_config = load_config(io.load(root / 'tool' / 'config.ini'), true)
+        default_config = load_config(io.load(root / 'share' / 'config.ini'), true)
     end
     if not global_config then
         global_config = load_config(io.load(root:parent_path() / 'config.ini'), false)

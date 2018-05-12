@@ -2,7 +2,7 @@ local gui = require 'yue.gui'
 local backend = require 'gui.backend'
 local timer = require 'gui.timer'
 local messagebox = require 'ffi.messagebox'
-local lang = require 'tool.lang'
+local lang = require 'share.lang'
 local push_error = require 'gui.push_error'
 require 'filesystem'
 

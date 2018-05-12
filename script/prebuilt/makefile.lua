@@ -1,5 +1,5 @@
-local lang = require 'tool.lang'
-local config = require 'tool.config' ()
+local lang = require 'share.lang'
+local config = require 'share.config' ()
 local root = fs.current_path()
 
 return function (w2l, version)

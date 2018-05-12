@@ -1,12 +1,12 @@
-local messager = require 'tool.messager'
+local messager = require 'share.messager'
 local core = require 'backend.sandbox_core'
 local builder = require 'map-builder'
 local triggerdata = require 'backend.triggerdata'
-local plugin = require 'tool.plugin'
-local lang = require 'tool.lang'
-local get_report = require 'tool.report'
+local plugin = require 'share.plugin'
+local lang = require 'share.lang'
+local get_report = require 'share.report'
 local root_path = require 'backend.root_path'
-local check_lni_mark = require 'tool.check_lni_mark'
+local check_lni_mark = require 'share.check_lni_mark'
 local unpack_config = require 'backend.unpack_config'
 local w2l = core()
 local root = fs.current_path()

@@ -15,7 +15,7 @@ return function()
         end
     end
 
-    local f = io.open((root / 'script' / 'tool' / 'gitlog.lua'):string(), 'w')
+    local f = io.open((root / 'script' / 'share' / 'gitlog.lua'):string(), 'w')
     f:write(([[
 return {
     commit = '%s',

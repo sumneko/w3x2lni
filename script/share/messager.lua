@@ -1,4 +1,4 @@
-local proto = require 'tool.protocol'
+local proto = require 'share.protocol'
 
 local messager = {}
 function messager.text(text)

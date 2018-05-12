@@ -7,14 +7,14 @@ local maketemplate = require 'prebuilt.maketemplate'
 local prebuilt_metadata = require 'prebuilt.metadata'
 local prebuilt_keydata = require 'prebuilt.keydata'
 local prebuilt_search = require 'prebuilt.search'
-local proto = require 'tool.protocol'
-local lang = require 'tool.lang'
+local proto = require 'share.protocol'
+local lang = require 'share.lang'
 local core = require 'backend.sandbox_core'
 local unpack_config = require 'backend.unpack_config'
 local w3xparser = require 'w3xparser'
-local messager = require 'tool.messager'
-local war3 = require 'tool.war3'
-local data_version = require 'tool.data_version'
+local messager = require 'share.messager'
+local war3 = require 'share.war3'
+local data_version = require 'share.data_version'
 local w2l
 local mpqs
 local root = fs.current_path()
@@ -171,7 +171,7 @@ return function ()
         return
     end
     fs.create_directories(root:parent_path() / 'data' / war3.name)
-    local config = require 'tool.config' ()
+    local config = require 'share.config' ()
     config.global.data_war3 = war3.name
     if config.global.data_ui ~= '${YDWE}' then
         config.global.data_ui = war3.name

@@ -23,7 +23,7 @@ for _, name in ipairs {'.vscode', '.git', '.svn', '.gitignore', '.gitmodules'} d
 end
 
 local function read_version()
-    local chg = require 'tool.changelog'
+    local chg = require 'share.changelog'
     return chg[1].version
 end
 

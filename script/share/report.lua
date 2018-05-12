@@ -1,4 +1,4 @@
-local lang = require 'tool.lang'
+local lang = require 'share.lang'
 
 local function sortpairs(t)
     local sort = {}

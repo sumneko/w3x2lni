@@ -6,11 +6,11 @@ local nk = require 'nuklear'
 local backend = require 'gui.backend'
 local show_version = require 'gui.old.show_version'
 local plugin = require 'gui.old.plugin'
-local create_config = require 'tool.config'
-local lang = require 'tool.lang'
-local input_path = require 'tool.input_path'
+local create_config = require 'share.config'
+local lang = require 'share.lang'
+local input_path = require 'share.input_path'
 local builder = require 'map-builder'
-local war3 = require 'tool.war3'
+local war3 = require 'share.war3'
 local push_error = require 'gui.push_error'
 local currenttheme = {0, 173, 217}
 local worker
@@ -106,7 +106,7 @@ local function button_mapname(canvas, height)
     return height
 end
 
-local version = (require 'tool.changelog')[1].version
+local version = (require 'share.changelog')[1].version
 local function button_about(canvas)
     window:set_style('button.color', 51, 55, 67)
     canvas:text('', NK_TEXT_RIGHT)

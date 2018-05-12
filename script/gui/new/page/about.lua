@@ -1,5 +1,5 @@
 local gui = require 'yue.gui'
-local lang = require 'tool.lang'
+local lang = require 'share.lang'
 
 local main = gui.Container.create()
 main:setstyle { FlexGrow = 1 }
@@ -41,7 +41,7 @@ local color  = {
 
 local height = 0
 local log = gui.Container.create()
-for _, v in ipairs(require 'tool.changelog') do
+for _, v in ipairs(require 'share.changelog') do
     local label = gui.Label.create(v.version)
     label:setstyle { Margin = 3, Height = 25 }
     label:setbackgroundcolor('#444')

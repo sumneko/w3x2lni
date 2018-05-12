@@ -1,7 +1,7 @@
 local gui = require 'yue.gui'
 local backend = require 'gui.backend'
-local get_report = require 'tool.report'
-local lang = require 'tool.lang'
+local get_report = require 'share.report'
+local lang = require 'share.lang'
 
 local function count_report_height(text)
     local n = 1

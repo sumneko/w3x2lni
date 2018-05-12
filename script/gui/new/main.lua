@@ -1,11 +1,11 @@
 local gui = require 'yue.gui'
 local ext = require 'yue-ext'
 local timer = require 'gui.timer'
-local lang = require 'tool.lang'
-local config = require 'tool.config' ()
-local input_path = require 'tool.input_path'
+local lang = require 'share.lang'
+local config = require 'share.config' ()
+local input_path = require 'share.input_path'
 local builder = require 'map-builder'
-local war3 = require 'tool.war3'
+local war3 = require 'share.war3'
 local ev = require 'gui.event'
 
 lang:set_lang(config.global.lang)

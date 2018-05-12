@@ -1,7 +1,7 @@
 local mpq = require 'map-builder.archive_mpq'
 local dir = require 'map-builder.archive_dir'
 local search = require 'map-builder.search'
-local lang = require 'tool.lang'
+local lang = require 'share.lang'
 
 local os_clock = os.clock
 

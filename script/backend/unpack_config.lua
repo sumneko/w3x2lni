@@ -1,8 +1,8 @@
-local command = require 'tool.command'
+local command = require 'share.command'
 local lni = require 'lni'
 local root_path = require 'backend.root_path'
-local input_path = require 'tool.input_path'
-local create_config = require 'tool.config'
+local input_path = require 'share.input_path'
+local create_config = require 'share.config'
 require 'utility'
 require 'filesystem'
 
