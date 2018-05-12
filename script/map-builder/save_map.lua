@@ -44,7 +44,7 @@ local function build_imp(w2l, output_ar, imp_buf)
     return table.concat(hex, '\r')
 end
 
-return function (w2l, output_ar, w3i, input_ar)
+return function (w2l, w3i, input_ar, output_ar)
     local files = {}
     if w2l.config.remove_we_only then
         w2l:file_remove('map', 'war3map.wtg')

@@ -16,7 +16,7 @@ return function (path)
     elseif _W2L_MODE == 'CLI' then
         local cur = fs.path(_W2L_DIR)
         while true do
-            if check_lni_mark(cur / '.w3x') then
+            if check_lni_mark(io.load(cur / '.w3x')) then
                 path = cur
                 break
             end
@@ -31,7 +31,7 @@ return function (path)
     else
         return nil
     end
-    if check_lni_mark(path) then
+    if check_lni_mark(io.load(path)) then
         path = path:parent_path()
     end
     return fs.absolute(path)

@@ -40,13 +40,6 @@ local function default_output(input)
     end
 end
 
-local function check_input_lni()
-    if fs.is_directory(input) and check_lni_mark(input / '.w3x') then
-        return true
-    end
-    return false
-end
-
 local function exit(report)
     local err = 0
     local warn = 0
@@ -124,12 +117,6 @@ function w2l:trigger_data()
     return triggerdata(self.config.data_ui)
 end
 
-local function save_builder()
-    if w2l.config.mode == 'lni' then
-        fs.copy_file(root / 'map-builder' / '.w3x', output / '.w3x', true)
-    end
-end
-
 local function get_io_time(map, file_count)
     local io_speed = map:get_type() == 'mpq' and 30000 or 10000
     local io_rate = math.min(0.3, file_count / io_speed)
@@ -148,10 +135,6 @@ return function (mode)
     w2l.messager.text(lang.script.INIT)
     w2l.messager.progress(0)
 
-    if check_input_lni() then
-        w2l.input_mode = 'lni'
-    end
-
     if config.mode == 'slk' then
         messager.title 'Slk'
     elseif config.mode == 'obj' then
@@ -166,6 +149,11 @@ return function (mode)
     if not input_ar then
         w2l:failed(err)
     end
+
+    if check_lni_mark(input_ar:get '.w3x') then
+        w2l.input_mode = 'lni'
+    end
+    
     w2l:set_config(config)
     
     output = config.output or default_output(config.input)
@@ -231,12 +219,10 @@ return function (mode)
     end
     
     messager.text(lang.script.SAVE_FILE)
-    local doo = input_ar:get 'war3map.doo'
     w2l.progress:start(1)
-    builder.save(w2l, output_ar, slk.w3i, input_ar)
+    builder.save(w2l, slk.w3i, input_ar, output_ar, input_proxy, output_proxy)
     w2l.progress:finish()
     
-    save_builder()
     fs.create_directories(root:parent_path() / 'log')
     io.save(root:parent_path() / 'log' / 'report.log', get_report(report))
     messager.text((lang.script.FINISH):format(os.clock()))

@@ -1,4 +1,6 @@
+require 'filesystem'
 local info = require 'core.info'
+local root = fs.current_path()
 
 local mt = {}
 mt.__index = mt
@@ -99,5 +101,9 @@ function mt:pairs()
 end
 
 return function (archive, mode)
+    if mode == 'lni' then
+        local buf = io.load(root / 'map-builder' / '.w3x')
+        archive:set('.w3x', buf)
+    end
     return setmetatable({ archive = archive, mode = mode }, mt)
 end
