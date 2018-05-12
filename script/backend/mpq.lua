@@ -14,6 +14,7 @@ local unpack_config = require 'backend.unpack_config'
 local w3xparser = require 'w3xparser'
 local messager = require 'tool.messager'
 local war3 = require 'tool.war3'
+local data_version = require 'tool.data_version'
 local w2l
 local mpqs
 local root = fs.current_path()
@@ -218,6 +219,8 @@ return function ()
     io.save(dir / 'keydata.ini', keydata)
     io.save(dir / 'search.ini', search)
     w2l.cache_metadata = nil
+
+    io.save(root:parent_path() / 'data' / war3.name / 'version', data_version)
 
     w2l.progress:start(0.4)
     local slk = makefile(w2l, 'Melee')
