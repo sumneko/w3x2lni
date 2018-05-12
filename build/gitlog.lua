@@ -7,7 +7,13 @@ return function()
         lines[#lines+1] = l
     end
     local commit = lines[1]:match 'commit[ ]+([0-9|a-f]*)'
-    local date = lines[4]:match 'Date:[ ]+([0-9|a-z|A-Z|%+|%:| ]*)'
+    local date
+    for i = 2, 4 do
+        if lines[i] and lines[i]:sub(1,5) == 'Date:' then
+            date = lines[i]:match 'Date:[ ]+([0-9|a-z|A-Z|%+|%:| ]*)'
+            break
+        end
+    end
 
     local f = io.open((root / 'script' / 'tool' / 'gitlog.lua'):string(), 'w')
     f:write(([[
