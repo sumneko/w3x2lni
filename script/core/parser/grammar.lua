@@ -161,9 +161,8 @@ local Str = P{
 local Real = P{
     'Def',
     Def  = Ct(keyvalue('type', 'real') * Cg(V'Real', 'value')),
-    Real = V'Neg' * V'Char' / function(neg, n) return neg and -n or n end,
-    Neg   = Cc(true) * P'-' * sp + Cc(false),
-    Char  = (P'.' * expect(R'09'^1, '不合法的实数') + R'09'^1 * P'.' * R'09'^0) / tonumber,
+    Real = P'-'^-1 * sp * V'Char',
+    Char  = (P'.' * expect(R'09'^1, '不合法的实数') + R'09'^1 * P'.' * R'09'^0),
 }
 
 local Int = P{
