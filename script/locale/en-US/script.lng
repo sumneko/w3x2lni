@@ -105,7 +105,7 @@ Create map failed, maybe occupied
 [UNKNOWN_REASON]
 Unknown reason
 [NEED_WAR3_DIR]
-Need WarIII directory
+Need inputed WarIII directory
 [LOAD_WAR3_LANG_FAILED]
 Failed to load WC3 language
 [EXPORT_FILE_FAILED]

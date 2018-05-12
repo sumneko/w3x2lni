@@ -1,5 +1,6 @@
 require 'filesystem'
 local lang = require 'tool.lang'
+local data_version = require 'tool.data_version'
 local root = fs.current_path()
 
 local function proxy(t)
@@ -161,11 +162,21 @@ local function langf(v)
     return false, lang.raw.CONFIG_GLOBAL_LANG_ERROR .. lang_hint()
 end
 
+local function is_valid_data(dir)
+    if not fs.is_directory(dir) then
+        return false
+    end
+    if data_version ~= io.load(dir / 'version') then
+        return false, lang.raw.DATA_VERSION_ERROR
+    end
+    return true
+end
+
 local function get_datas()
     local locale = root:parent_path() / 'data'
     local list = {}
     for dir in locale:list_directory() do
-        if fs.is_directory(dir) then
+        if is_valid_data(dir) then
             list[#list+1] = dir:filename():string()
         end
     end
@@ -191,7 +202,13 @@ local function war3(v)
             return true, v, v
         end
     end
-    return false, lang.raw.CONFIG_GLOBAL_WAR3_ERROR .. data_hint()
+    local suc, info = is_valid_data(root:parent_path() / 'data' / v)
+    assert(suc == false)
+    if info then
+        return false, info
+    else
+        return false, lang.raw.CONFIG_GLOBAL_WAR3_ERROR .. data_hint()
+    end
 end
 
 local function ui(v)
@@ -204,7 +221,13 @@ local function ui(v)
             return true, v, v
         end
     end
-    return false, lang.raw.CONFIG_GLOBAL_UI_ERROR .. data_hint()
+    local suc, info = is_valid_data(root:parent_path() / 'data' / v)
+    assert(suc == false)
+    if info then
+        return false, info
+    else
+        return false, lang.raw.CONFIG_GLOBAL_UI_ERROR .. data_hint()
+    end
 end
 
 local function meta(v)
@@ -217,7 +240,13 @@ local function meta(v)
             return true, v, v
         end
     end
-    return false, lang.raw.CONFIG_GLOBAL_META_ERROR .. data_hint()
+    local suc, info = is_valid_data(root:parent_path() / 'data' / v)
+    assert(suc == false)
+    if info then
+        return false, info
+    else
+        return false, lang.raw.CONFIG_GLOBAL_META_ERROR .. data_hint()
+    end
 end
 
 local function wes(v)
@@ -230,7 +259,13 @@ local function wes(v)
             return true, v, v
         end
     end
-    return false, lang.raw.CONFIG_GLOBAL_WES_ERROR .. data_hint()
+    local suc, info = is_valid_data(root:parent_path() / 'data' / v)
+    assert(suc == false)
+    if info then
+        return false, info
+    else
+        return false, lang.raw.CONFIG_GLOBAL_WES_ERROR .. data_hint()
+    end
 end
 
 local function string_proxy(key, concat)

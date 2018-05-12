@@ -182,3 +182,5 @@
 生成的ID不同：skill [%s] code [%s]
 [COPIED_ID_CONFLICT]
 复制的ID[%s]不同：skill [%s][%s] code [%s][%s]
+[DATA_VERSION_ERROR]
+数据文件版本不兼容，请使用 mpq 命令重新提取
