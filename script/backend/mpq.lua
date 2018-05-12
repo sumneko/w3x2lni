@@ -29,47 +29,22 @@ local function task(f, ...)
     return false
 end
 
-local mpq_names = {
-    'War3.mpq',
-    'War3Local.mpq',
-    'War3x.mpq',
-    'War3xLocal.mpq',
-    'War3Patch.mpq',
-}
-
 local result = {} 
-local function open_mpq(dir)
-    local mpqs = {}
-    for i, name in ipairs(mpq_names) do
-        mpqs[#mpqs+1] = stormlib.open(dir / name, true)
-    end
-
+local function open_mpq(war3)
     local obj = {}
-
     function obj:extract_file(type, name)
         local path = root:parent_path() / 'data' / mpq_name / type / name
-        for i = #mpqs, 1, -1 do
-            local mpq = mpqs[i]
-            if mpq:has_file(name) then
-                result[name] = mpq:extract(name, path)
-                return
-            end
+        local r = war3:extractfile(name, path)
+        if r ~= nil then
+            result[name] = r
         end
         if not name:match '^Custom_V1' then
             result[name] = false
         end
     end
-
     function obj:load_file(name)
-        for i = #mpqs, 1, -1 do
-            local mpq = mpqs[i]
-            if mpq:has_file(name) then
-                return mpq:load_file(name)
-            end
-        end
-        return nil
+        return war3:readfile(name)
     end
-
     return obj
 end
 
@@ -211,7 +186,7 @@ return function ()
         return
     end
     mpq_name = war3.name
-    mpqs = open_mpq(input)
+    mpqs = open_mpq(war3)
     if not mpqs then
         return
     end

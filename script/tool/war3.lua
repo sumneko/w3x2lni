@@ -65,7 +65,16 @@ function m:open(path)
     if not war3_ver then
         return false
     end
-    self.path = path
+    self.mpqs = {}
+    for _, mpqname in ipairs {
+        'War3Patch.mpq',
+        'War3xLocal.mpq',
+        'War3x.mpq',
+        'War3Local.mpq',
+        'War3.mpq',
+    } do
+        self.mpqs[#self.mpqs+1] = stormlib.open(path / mpqname, true)
+    end
     local lg = mpq_language(self:readfile('config.txt'))
     if lg then
         self.name = lg .. '-' .. war3_ver
@@ -73,23 +82,28 @@ function m:open(path)
     return true
 end
 
+function m:close()
+    for _, mpq in ipairs(self.mpqs) do
+        mpq:close()
+    end
+    self.mpqs = {}
+end
+
 function m:readfile(filename)
-    for _, mpqname in ipairs {
-        'War3.mpq',
-        'War3Local.mpq',
-        'War3x.mpq',
-        'War3xLocal.mpq',
-        'War3Patch.mpq',
-    } do
-        local mpq = stormlib.open(self.path / mpqname, true)
-        if mpq then
-            local buf = mpq:load_file(filename)
-            mpq:close()
-            if buf then
-                return buf
-            end
+    for _, mpq in ipairs(self.mpqs) do
+        if mpq:has_file(filename) then
+            return mpq:load_file(filename)
         end
     end
 end
+
+function m:extractfile(filename, targetpath)
+    for _, mpq in ipairs(self.mpqs) do
+        if mpq:has_file(filename) then
+            return mpq:extract(filename, targetpath)
+        end
+    end
+end
+
 
 return m
