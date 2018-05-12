@@ -1,6 +1,5 @@
 local command = require 'share.command'
 local lni = require 'lni'
-local root_path = require 'backend.root_path'
 local input_path = require 'share.input_path'
 local create_config = require 'share.config'
 require 'utility'

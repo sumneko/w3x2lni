@@ -5,7 +5,6 @@ local triggerdata = require 'backend.triggerdata'
 local plugin = require 'share.plugin'
 local lang = require 'share.lang'
 local get_report = require 'share.report'
-local root_path = require 'backend.root_path'
 local check_lni_mark = require 'share.check_lni_mark'
 local unpack_config = require 'backend.unpack_config'
 local w2l = core()
