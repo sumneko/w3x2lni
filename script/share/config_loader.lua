@@ -204,7 +204,7 @@ local function war3(v)
             return true, v, v
         end
     end
-    local suc, info = is_valid_data(root:parent_path() / 'data' / v)
+    local suc, info = is_valid_data(root:parent_path() / 'data' / tostring(v))
     assert(suc == false)
     if info then
         return false, info
@@ -223,7 +223,7 @@ local function ui(v)
             return true, v, v
         end
     end
-    local suc, info = is_valid_data(root:parent_path() / 'data' / v)
+    local suc, info = is_valid_data(root:parent_path() / 'data' / tostring(v))
     assert(suc == false)
     if info then
         return false, info
@@ -242,7 +242,7 @@ local function meta(v)
             return true, v, v
         end
     end
-    local suc, info = is_valid_data(root:parent_path() / 'data' / v)
+    local suc, info = is_valid_data(root:parent_path() / 'data' / tostring(v))
     assert(suc == false)
     if info then
         return false, info
@@ -261,7 +261,7 @@ local function wes(v)
             return true, v, v
         end
     end
-    local suc, info = is_valid_data(root:parent_path() / 'data' / v)
+    local suc, info = is_valid_data(root:parent_path() / 'data' / tostring(v))
     assert(suc == false)
     if info then
         return false, info
