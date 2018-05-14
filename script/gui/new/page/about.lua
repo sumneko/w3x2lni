@@ -1,36 +1,75 @@
 local gui = require 'yue.gui'
 local lang = require 'share.lang'
+local ui = require 'gui.new.template'
+local ev = require 'gui.event'
 
-local main = gui.Container.create()
-main:setstyle { FlexGrow = 1 }
+local template = ui.container {
+    style = { FlexGrow = 1 },
+    ui.container {
+        style = { FlexGrow = 1 },
+        ui.label {
+            text = lang.ui.AUTHOR,
+            text_color = '#000',
+            font = { size = 16 },
+            style = { MarginTop = 20, Height = 28, Width = 240 },
+            bind = {
+                color = 'theme'
+            }
+        },
+        ui.label {
+            text = lang.ui.FRONTEND .. 'actboy168',
+            text_color = '#AAA',
+            font = { size = 16 },
+            style = { MarginTop = 5, Height = 28, Width = 240 }
+        },
+        ui.label {
+            text = lang.ui.BACKEND .. lang.ui.SUMNEKO,
+            text_color = '#AAA',
+            font = { size = 16 },
+            style = { Height = 28, Width = 240 }
+        },
+        ui.label {
+            text = lang.ui.CHANGE_LOG,
+            text_color = '#000',
+            font = { size = 16 },
+            style = { Height = 28, Width = 240 },
+            bind = {
+                color = 'theme'
+            }
+        },
+        ui.scroll {
+            id = 'changelog',
+            style = { FlexGrow = 1 },
+            hpolicy = 'never',
+            vpolicy = 'never',
+            width = 0,
+            bind = {
+                height = 'height'
+            }
+        },
+    },
+    ui.button {
+        title = lang.ui.BACK,
+        style = { Bottom = 0, Height = 28, Margin = 5 },
+        font = { size = 16 },
+        on = {
+            click = function()
+                window:show_page('index')
+            end
+        }
+    }
+}
 
-local view = gui.Container.create()
-view:setstyle { FlexGrow = 1 }
-main:addchildview(view)
+local view, data, element = ui.create(template, {
+    theme = window._color,
+    height = 0
+})
 
-local label = Label(lang.ui.AUTHOR)
-label:setstyle { MarginTop = 20, Height = 28, Width = 240 }
-view:addchildview(label)
+ev.on('update theme', function()
+    data.theme = window._color
+end)
 
-local label = Label(lang.ui.FRONTEND .. 'actboy168', '#222')
-label:setcolor('#AAA')
-label:setstyle { MarginTop = 5, Height = 28, Width = 240 }
-view:addchildview(label)
-
-local label = Label(lang.ui.BACKEND .. lang.ui.SUMNEKO, '#222')
-label:setcolor('#AAA')
-label:setstyle { Height = 28, Width = 240 }
-view:addchildview(label)
-
-local label = Label(lang.ui.CHANGE_LOG)
-label:setstyle { Height = 28, Width = 240 }
-view:addchildview(label)
-
-
-local changelog = gui.Scroll.create()
-changelog:setstyle { FlexGrow = 1 }
-changelog:setscrollbarpolicy('never', 'never')
-view:addchildview(changelog)
+local changelog = element.changelog
 
 local color  = {
     NEW = gui.Color.rgb(0, 173, 60),
@@ -81,14 +120,6 @@ for _, v in ipairs(require 'share.changelog') do
     end
 end
 changelog:setcontentview(log)
-changelog:setcontentsize { width = 0, height = height }
+data.height = height
 
-local btn = Button(lang.ui.BACK)
-btn:setstyle { Bottom = 0, Height = 28, Margin = 5 }
-btn:setfont(Font { size = 16 })
-function btn:onclick()
-    window:show_page('index')
-end
-main:addchildview(btn)
-
-return main
+return view

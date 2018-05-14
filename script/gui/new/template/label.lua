@@ -21,20 +21,30 @@ return function (t, data)
     if t.align then
         label:setalign(t.align)
     end
-    if t.bind and t.bind.color then
-        local bind_color
-        bind_color = data:bind(t.bind.color, function()
-            label:setcolor(bind_color:get())
+    local bind = {}
+    if t.bind and t.bind.text_color then
+        bind.text_color = data:bind(t.bind.text_color, function()
+            label:setcolor(bind.text_color:get())
         end)
-        label:setcolor(bind_color:get())
+        label:setcolor(bind.text_color:get())
     else
-        if t.color then
-            label:setcolor(t.color)
+        if t.text_color then
+            label:setcolor(t.text_color)
         else
             label:setcolor(window._color)
             ev.on('update theme', function()
                 label:setcolor(window._color)
             end)
+        end
+    end
+    if t.bind and t.bind.color then
+        bind.color = data:bind(t.bind.color, function()
+            label:setbackgroundcolor(bind.color:get())
+        end)
+        label:setbackgroundcolor(bind.color:get())
+    else
+        if t.color then
+            label:setbackgroundcolor(t.color)
         end
     end
     return label

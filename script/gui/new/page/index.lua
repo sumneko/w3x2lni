@@ -10,7 +10,7 @@ local template = ui.container {
         style = { Height = 50, Width = 200 },
         font = { size = 16 },
         bind = {
-            color = 'color',
+            text_color = 'color',
         }
     },
     ui.button {

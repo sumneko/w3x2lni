@@ -27,7 +27,7 @@ local template = ui.container {
             ui.label {
                 style = { FlexGrow = 1 },
                 font = { size = 18 },
-                color = '#CCC',
+                text_color = '#CCC',
                 align = 'start',
                 bind = {
                     text = 'report.text'
