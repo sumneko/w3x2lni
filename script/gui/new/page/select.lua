@@ -3,11 +3,11 @@ local ui = require 'gui.new.template'
 
 local template = ui.container {
     style = { FlexGrow = 1, Padding = 1 },
+    font = { size = 20 },
     ui.container{
         style = { JustifyContent = 'flex-start' },
         ui.button {
             style = { Height = 36, Margin = 8, MarginTop = 16, MarginBottom = 16 },
-            font = { size = 20 },
             bind = {
                 title = 'filename',
             }
@@ -18,7 +18,6 @@ local template = ui.container {
         ui.button {
             title = lang.ui.CONVERT_TO..'Lni',
             color = '#00ADD9',
-            font = { size = 20 },
             style = { Margin = 8, MarginTop = 2, MarginBottom = 2, Height = 140 },
             on = {
                 click = function()
@@ -31,7 +30,6 @@ local template = ui.container {
         ui.button {
             title = lang.ui.CONVERT_TO..'Slk',
             color = '#00AD3C',
-            font = { size = 20 },
             style = { Margin = 8, MarginTop = 2, MarginBottom = 2, Height = 140 },
             on = {
                 click = function()
@@ -44,7 +42,6 @@ local template = ui.container {
         ui.button {
             title = lang.ui.CONVERT_TO..'Obj',
             color = '#D9A33C',
-            font = { size = 20 },
             style = { Margin = 8, MarginTop = 2, MarginBottom = 2, Height = 140 },
             on = {
                 click = function()

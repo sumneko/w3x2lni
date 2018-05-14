@@ -5,12 +5,12 @@ local ev = require 'gui.event'
 
 local template = ui.container {
     style = { FlexGrow = 1 },
+    font = { size = 16 },
     ui.container {
         style = { FlexGrow = 1 },
         ui.label {
             text = lang.ui.AUTHOR,
             text_color = '#000',
-            font = { size = 16 },
             style = { MarginTop = 20, Height = 28, Width = 240 },
             bind = {
                 color = 'theme'
@@ -19,19 +19,16 @@ local template = ui.container {
         ui.label {
             text = lang.ui.FRONTEND .. 'actboy168',
             text_color = '#AAA',
-            font = { size = 16 },
             style = { MarginTop = 5, Height = 28, Width = 240 }
         },
         ui.label {
             text = lang.ui.BACKEND .. lang.ui.SUMNEKO,
             text_color = '#AAA',
-            font = { size = 16 },
             style = { Height = 28, Width = 240 }
         },
         ui.label {
             text = lang.ui.CHANGE_LOG,
             text_color = '#000',
-            font = { size = 16 },
             style = { Height = 28, Width = 240 },
             bind = {
                 color = 'theme'
@@ -51,7 +48,6 @@ local template = ui.container {
     ui.button {
         title = lang.ui.BACK,
         style = { Bottom = 0, Height = 28, Margin = 5 },
-        font = { size = 16 },
         on = {
             click = function()
                 window:show_page('index')

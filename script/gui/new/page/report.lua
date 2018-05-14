@@ -14,6 +14,7 @@ end
 
 local template = ui.container {
     style = { FlexGrow = 1 },
+    font = { size = 16 },
     ui.scroll {
         style = { FlexGrow = 1, Margin = 2 },
         hpolicy = 'never',
@@ -26,7 +27,6 @@ local template = ui.container {
             style = { FlexGrow = 1 },
             ui.label {
                 style = { FlexGrow = 1 },
-                font = { size = 18 },
                 text_color = '#CCC',
                 align = 'start',
                 bind = {
@@ -38,7 +38,6 @@ local template = ui.container {
     ui.button {
         title = lang.ui.BACK,
         style = { Bottom = 0, Height = 28, Margin = 5 },
-        font = { size = 16 },
         on = {
             click = function()
                 window:show_page('convert')
