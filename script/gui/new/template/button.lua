@@ -44,7 +44,22 @@ return function (t, data)
             btn:setbackgroundcolor(btn._backgroundcolor2)
         end
     end
-    if t.color then
+    if t.bind and t.bind.color then
+        local bind_color
+        bind_color = data:bind(t.bind.color, function ()
+            if bind_color:get() == '${THEME}' then
+                btn._backgroundcolor1 = window._color
+            else
+                btn._backgroundcolor1 = bind_color:get()
+            end
+            update_color()
+        end)
+        if bind_color:get() == '${THEME}' then
+            btn._backgroundcolor1 = window._color
+        else
+            btn._backgroundcolor1 = bind_color:get()
+        end
+    elseif t.color then
         btn._backgroundcolor1 = t.color
     else
         btn._backgroundcolor1 = window._color

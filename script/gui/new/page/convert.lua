@@ -4,14 +4,13 @@ local timer = require 'gui.timer'
 local messagebox = require 'ffi.messagebox'
 local lang = require 'share.lang'
 local push_error = require 'gui.push_error'
+local ui = require 'gui.new.template'
 require 'filesystem'
 
 local worker
 local view
-local pb
-local label
-local lower
-local report
+local data
+local element
 
 local function getexe()
     local i = 0
@@ -28,37 +27,33 @@ local function pack_arg()
     return table.concat(buf, ' ')
 end
 
-local function update_progress(value)
-    pb:set_progress(value)
-end
-
 local function update_show()
     if backend.lastword then
-        report:setvisible(true)
+        element.report:setvisible(true)
     else
-        report:setvisible(false)
+        element.report:setvisible(false)
     end
-    if worker and not report:isvisible() then
-        pb:setvisible(true)
+    if worker and not element.report:isvisible() then
+        element.progress:setvisible(true)
     else
-        pb:setvisible(false)
+        element.progress:setvisible(false)
     end
 end
 
 local function update()
     worker:update()
-    message:settext(backend.message)
+    data.message = backend.message
     if backend.lastword then
-        report:settitle(backend.lastword.content)
+        data.report.text = backend.lastword.content
         if backend.lastword.type == 'failed' or backend.lastword.type == 'error' then
-            report:update_color('#C33')
+            data.report.color = '#C33'
         elseif backend.lastword.type == 'warning' then
-            report:update_color('#FC3')
+            data.report.color = '#FC3'
         else
-            report:update_color()
+            data.report.color = '${THEME}'
         end
     end
-    update_progress(backend.progress)
+    data.progress = backend.progress
     update_show()
     if #worker.error > 0 then
         push_error(worker.error)
@@ -86,70 +81,96 @@ local function delayedtask(t)
     end
 end
 
-view = gui.Container.create()
-view:setstyle { FlexGrow = 1, Padding = 2 }
+local template = ui.container {
+    style = { FlexGrow = 1, Padding = 2 },
+    -- upper
+    ui.container {
+        style = { FlexGrow = 1, JustifyContent = 'flex-start' },
+        -- filename
+        ui.button {
+            style = { Height = 36, Margin = 8, MarginTop = 16, MarginBottom = 16 },
+            font = { size = 20 },
+            bind = {
+                title = 'filename',
+            },
+        },
+    },
+    -- lower
+    ui.container {
+        style = { FlexGrow = 1, JustifyContent = 'flex-end' },
+        -- message
+        ui.label {
+            style = { Height = 20, Margin = 2 },
+            font = { size = 20 },
+            text_color = '#CCC',
+            align = 'start',
+            bind = {
+                text = 'message',
+            },
+        },
+        -- progress
+        ui.progress {
+            id = 'progress',
+            style = { Height = 30, Margin = 5, Padding = 3, FlexDirection = 'row' },
+            bind = {
+                value = 'progress',
+            },
+        },
+        -- report
+        ui.button {
+            id = 'report',
+            style = { Height = 30, Margin = 5 },
+            font = { size = 24 },
+            bind = {
+                title = 'report.text',
+                color = 'report.color',
+            },
+            on = {
+                clock = function ()
+                    if next(backend.report) then
+                        window:show_page 'report'
+                    end
+                end
+            },
+        },
+        -- start
+        ui.button {
+            title = '开始',
+            style = { Height = 50, Margin = 2 },
+            font = { size = 24 },
+            on = {
+                click = function ()
+                    if worker and not worker.exited then
+                        return
+                    end
+                    element.progress:setvisible(true)
+                    element.report:setvisible(false)
+                    backend:init(getexe(), fs.current_path())
+                    worker = backend:open('backend\\init.lua', pack_arg())
+                    backend.message = lang.ui.INIT
+                    backend.progress = 0
+                    data.progress = backend.progress
+                    timer.loop(100, delayedtask)
+                    window._worker = worker
+                end,
+            },
+        },
+    },
+}
 
-local upper = gui.Container.create()
-upper:setstyle { FlexGrow = 1, JustifyContent = 'flex-start' }
-view:addchildview(upper)
-
-lower = gui.Container.create()
-lower:setstyle { FlexGrow = 1, JustifyContent = 'flex-end' }
-view:addchildview(lower)
-
-local filename = Button('')
-filename:setstyle { Height = 36, Margin = 8, MarginTop = 16, MarginBottom = 16 }
-filename:setfont(Font { size = 20 })
-upper:addchildview(filename)
-
-message = gui.Label.create('')
-message:setstyle { Height = 20, Margin = 2 }
-message:setfont(Font { size = 20 })
-message:setcolor('#CCC')
-message:setalign('start')
-lower:addchildview(message)
-
-pb = Progress()
-pb:setstyle { Height = 30, Margin = 5, Padding = 3, FlexDirection = 'row' }
-lower:addchildview(pb)
-
-report = Button('')
-report:setstyle { Height = 30, Margin = 5 }
-report:setfont(Font { size = 24 })
-lower:addchildview(report)
-
-local start = Button('开始')
-start:setstyle { Height = 50, Margin = 2 }
-start:setfont(Font { size = 24 })
-lower:addchildview(start)
-
-function start:onclick()
-    if worker and not worker.exited then
-        return
-    end
-    pb:setvisible(true)
-    report:setvisible(false)
-    backend:init(getexe(), fs.current_path())
-    worker = backend:open('backend\\init.lua', pack_arg())
-    backend.message = lang.ui.INIT
-    backend.progress = 0
-    update_progress(backend.progress)
-    timer.loop(100, delayedtask)
-    window._worker = worker
-end
-
-function report:onclick()
-    if next(backend.report) then
-        window:show_page 'report'
-    end
-end
+view, data, element = ui.create(template, {
+    filename = '',
+    message  = '',
+    report   = {
+        text  = '',
+        color = '${THEME}',
+    },
+    progress = 0,
+})
 
 function view:on_show()
     update_show()
-    filename:settitle(window._filename:filename():string())
-    filename:update_color()
-    start:update_color()
-    pb:update_color()
+    data.filename = window._filename:filename():string()
 end
 
 return view
