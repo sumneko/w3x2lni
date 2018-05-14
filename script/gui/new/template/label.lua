@@ -6,7 +6,7 @@ return function (t, data)
     if t.bind and t.bind.text then
         local bind_text
         bind_text = data:bind(t.bind.text, function()
-            label:settitle(bind_text:get())
+            label:settext(bind_text:get())
         end)
         label:settext(bind_text:get())
     else
@@ -17,6 +17,9 @@ return function (t, data)
     end
     if t.font then
         label:setfont(Font(t.font))
+    end
+    if t.align then
+        label:setalign(t.align)
     end
     if t.bind and t.bind.color then
         local bind_color
