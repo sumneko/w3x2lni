@@ -1,4 +1,4 @@
-local config = require 'share.config' ()
+local config = require 'share.config' (true)
 local root = fs.current_path()
 
 return function (w2l, version, slk)

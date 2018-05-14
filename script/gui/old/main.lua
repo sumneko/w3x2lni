@@ -34,7 +34,7 @@ NK_TEXT_RIGHT          = NK_TEXT_ALIGN_MIDDLE | NK_TEXT_ALIGN_RIGHT
 
 local root = fs.current_path():remove_filename()
 local fmt = nil
-local config = create_config()
+local config = create_config(false)
 
 local function getexe()
 	local i = 0

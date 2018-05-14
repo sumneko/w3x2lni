@@ -172,7 +172,7 @@ return function ()
     end
     fs.create_directories(root:parent_path() / 'data' / war3.name)
     io.save(root:parent_path() / 'data' / war3.name / 'version', data_version)
-    local config = require 'share.config' ()
+    local config = require 'share.config' (true)
     config.global.data_war3 = war3.name
     if config.global.data_ui ~= '${YDWE}' then
         config.global.data_ui = war3.name

@@ -1,5 +1,5 @@
 local messager = require 'share.messager'
-local config1, config2 = require 'share.config' ()
+local config1, config2 = require 'share.config' (true, true)
 local lang = require 'share.lang'
 
 local function show_config(section, k, v)
