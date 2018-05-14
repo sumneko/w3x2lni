@@ -89,7 +89,6 @@ local template = ui.container {
         -- filename
         ui.button {
             style = { Height = 36, Margin = 8, MarginTop = 16, MarginBottom = 16 },
-            font = { size = 20 },
             bind = {
                 title = 'filename',
             },
@@ -101,7 +100,6 @@ local template = ui.container {
         -- message
         ui.label {
             style = { Height = 20, Margin = 2 },
-            font = { size = 20 },
             text_color = '#CCC',
             align = 'start',
             bind = {
@@ -120,7 +118,6 @@ local template = ui.container {
         ui.button {
             id = 'report',
             style = { Height = 30, Margin = 5 },
-            font = { size = 22 },
             bind = {
                 title = 'report.text',
                 color = 'report.color',
@@ -137,7 +134,6 @@ local template = ui.container {
         ui.button {
             title = '开始',
             style = { Height = 50, Margin = 2 },
-            font = { size = 24 },
             on = {
                 click = function ()
                     if worker and not worker.exited then
