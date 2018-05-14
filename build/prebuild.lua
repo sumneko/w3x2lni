@@ -9,7 +9,7 @@ fs.current_path(fs.path 'script')
 require 'utility'
 local makefile = require 'prebuilt.makefile'
 local core  = require 'backend.sandbox_core'
-local order_prebuilt = require 'order.prebuilt'
+--local order_prebuilt = require 'order.prebuilt'
 local prebuilt_metadata = require 'prebuilt.metadata'
 local maketemplate = require 'prebuilt.maketemplate'
 local config = require 'share.config' ()
