@@ -1,4 +1,5 @@
 local gui = require 'yue.gui'
+local ca = require 'gui.new.common_attribute'
 
 return function (t, data)
     local label = gui.Label.create('')
@@ -31,25 +32,6 @@ return function (t, data)
             label:setcolor(t.text_color)
         end
     end
-    if t.bind and t.bind.color then
-        bind.color = data:bind(t.bind.color, function()
-            label:setbackgroundcolor(bind.color:get())
-        end)
-        label:setbackgroundcolor(bind.color:get())
-    else
-        if t.color then
-            if type(t.color) == 'table' then
-                label:setbackgroundcolor(t.color.normal)
-                function label:onmouseleave()
-                    label:setbackgroundcolor(t.color.normal)
-                end
-                function label:onmouseenter()
-                    label:setbackgroundcolor(t.color.hover)
-                end
-            else
-                label:setbackgroundcolor(t.color)
-            end
-        end
-    end
+    ca.color(label, t, data, bind)
     return label
 end
