@@ -94,6 +94,9 @@ return function (path, ext)
     end
     local map_config
     if path then
+        if path == true then
+            path = nil
+        end
         local map = builder.load(input_path(path))
         if map then
             map_config = load_config(map:get 'w3x2lni\\config.ini', false)
