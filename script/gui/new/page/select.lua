@@ -1,5 +1,3 @@
-local gui = require 'yue.gui'
-local timer = require 'gui.timer'
 local lang = require 'share.lang'
 local template = require 'gui.new.template'
 
