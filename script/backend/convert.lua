@@ -149,7 +149,7 @@ return function (mode)
     if not input_ar then
         w2l:failed(err)
     end
-    if not input_ar:get '(listfile)' then
+    if input_ar:get_type() == 'mpq' and not input_ar:get '(listfile)' then
         w2l:failed(lang.script.UNSUPPORTED_MAP)
     end
 
