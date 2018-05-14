@@ -1,4 +1,3 @@
-local gui = require 'yue.gui'
 local lang = require 'share.lang'
 local ui = require 'gui.new.template'
 local ev = require 'gui.event'
@@ -58,24 +57,6 @@ local template = ui.container {
     }
 }
 
-local view, data, element = ui.create(template, {
-    theme = window._color,
-    height = 0
-})
-
-ev.on('update theme', function()
-    data.theme = window._color
-end)
-
-local log = element.changelog
-
-local color  = {
-    NEW = gui.Color.rgb(0, 173, 60),
-    CHG = gui.Color.rgb(217, 163, 60),
-    FIX = gui.Color.rgb(200, 30, 30),
-    UI =  gui.Color.rgb(111, 77, 150),
-}
-
 local template_version = ui.label {
     style = { Margin = 3, Height = 25 },
     color = '#444',
@@ -86,7 +67,7 @@ local template_version = ui.label {
     }
 }
 
-local template_changlog = ui.container {
+local template_changelog = ui.container {
     style = { Height = 31, FlexDirection = 'row' },
     color = { normal = '#222', hover = '#444' },
     ui.label {
@@ -108,29 +89,43 @@ local template_changlog = ui.container {
     }
 }
 
+local color  = {
+    NEW = '#00AD3C',
+    CHG = '#D9A33C',
+    FIX = '#C81E1E',
+    UI =  '#6F4D96',
+}
+
+local view, data, element = ui.create(template, {
+    theme = window._color,
+    height = 0
+})
+
+local log = element.changelog
 local height = 0
 for _, v in ipairs(require 'share.changelog') do
-    local label = ui.create(template_version, {
+    local version = ui.create(template_version, {
         version = v.version
     })
-    log:addchildview(label)
-
+    log:addchildview(version)
     height = height + 31
 
     for _, l in ipairs(v) do
-        local line = ui.create(template_changlog, {
+        local changelog = ui.create(template_changelog, {
             type = {
                 text = l[1],
                 color = color[l[1]]
             },
             text = l[2]
         })
-        log:addchildview(line)
-
+        log:addchildview(changelog)
         height = height + 31
     end
 end
 
 data.height = height
+ev.on('update theme', function()
+    data.theme = window._color
+end)
 
 return view
