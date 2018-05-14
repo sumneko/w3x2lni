@@ -84,6 +84,7 @@ end
 
 local template = ui.container {
     style = { FlexGrow = 1, Padding = 1 },
+    font = { size = 20 },
     -- upper
     ui.container {
         style = { FlexGrow = 1, JustifyContent = 'flex-start' },
