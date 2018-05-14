@@ -1,14 +1,11 @@
 local lang = require 'share.lang'
-local template = require 'gui.new.template'
+local ui = require 'gui.new.template'
 
-local view = template {
-    'container',
+local template = ui.container {
     style = { FlexGrow = 1, Padding = 1 },
-    {
-        'container',
+    ui.container{
         style = { JustifyContent = 'flex-start' },
-        {
-            'button',
+        ui.button {
             style = { Height = 36, Margin = 8, MarginTop = 16, MarginBottom = 16 },
             font = { size = 20 },
             bind = {
@@ -16,11 +13,9 @@ local view = template {
             }
         }
     },
-    {
-        'container',
+    ui.container {
         style =  { FlexGrow = 1, JustifyContent = 'center' },
-        {
-            'button',
+        ui.button {
             title = lang.ui.CONVERT_TO..'Lni',
             color = '#00ADD9',
             font = { size = 20 },
@@ -33,8 +28,7 @@ local view = template {
                 end
             }
         },
-        {
-            'button',
+        ui.button {
             title = lang.ui.CONVERT_TO..'Slk',
             color = '#00AD3C',
             font = { size = 20 },
@@ -47,8 +41,7 @@ local view = template {
                 end
             }
         },
-        {
-            'button',
+        ui.button {
             title = lang.ui.CONVERT_TO..'Obj',
             color = '#D9A33C',
             font = { size = 20 },
@@ -61,14 +54,15 @@ local view = template {
                 end
             }
         }
-    },
-    data = {
-        filename = ''
     }
 }
 
+local view, data = ui.create(template, {
+    filename = ''
+})
+
 function view:on_show()
-    view.data.filename = window._filename:filename():string()
+    data.filename = window._filename:filename():string()
 end
 
 return view
