@@ -99,25 +99,19 @@ function Button(text, color1, color2)
 end
 
 function Progress(color)
-    local view = gui.Container.create()
-    view:setbackgroundcolor '#444'
-
-    local bar = gui.Label.create('')
-    bar:setstyle { FlexGrow = 0 }
-    view:addchildview(bar)
-    local function make_color()
-        if not color then
-            color = window._color
-        end
-        bar:setbackgroundcolor(color)
-    end
-    make_color()
+    local ui = require 'gui.new.template'
+    local template = ui.progress {
+        bind = {
+            value = 'progress'
+        }
+    }
+    local view, data = ui.create(template, {
+        progress = 0
+    })
     function view:update_color(c)
-        color = c
-        make_color()
     end
     function view:set_progress(n)
-        bar:setstyle { FlexGrow = n / 100 }
+        data.progress = n
     end
     return view
 end

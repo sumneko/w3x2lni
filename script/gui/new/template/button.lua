@@ -36,7 +36,6 @@ return function (t, data)
     if t.font then
         btn:setfont(Font(t.font))
     end
-    btn._backgroundcolor1 = t.color or window._color
     local function update_color()
         btn._backgroundcolor2 = getActiveColor(btn._backgroundcolor1)
         if btn.hover then
@@ -44,6 +43,15 @@ return function (t, data)
         else
             btn:setbackgroundcolor(btn._backgroundcolor2)
         end
+    end
+    if t.color then
+        btn._backgroundcolor1 = t.color
+    else
+        btn._backgroundcolor1 = window._color
+        ev.on('update theme', function()
+            btn._backgroundcolor1 = window._color
+            update_color()
+        end)
     end
     update_color()
     if t.on and t.on.click then
@@ -58,12 +66,6 @@ return function (t, data)
     function btn:onmouseenter()
         btn.hover = true
         btn:setbackgroundcolor(btn._backgroundcolor2)
-    end
-    if not t.color then
-        ev.on('update theme', function()
-            btn._backgroundcolor1 = window._color
-            update_color()
-        end)
     end
     return btn
 end
