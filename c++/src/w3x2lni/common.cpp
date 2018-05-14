@@ -9,6 +9,11 @@ strview::strview(const wchar_t* str)
 	, len(wcslen(str))
 { }
 
+strview::strview(const wchar_t* str, size_t len)
+	: buf(str)
+	, len(len)
+{ }
+
 path::path() {
 	::GetModuleFileNameW(NULL, buf, sizeof buf / sizeof buf[0]);
 	::PathRemoveBlanksW(buf);
@@ -82,20 +87,18 @@ bool execute_lua(const wchar_t* who, pipe* out, pipe* err) {
 	path app = path() / L"bin" / L"w3x2lni-lua.exe";
 	path cwd = path() / L"script";
 	strbuilder<32768> cmd;
-	cmd += L"\"";
-	cmd += app;
-	cmd += L"\" -e \"_W2L_MODE='";
+	cmd.push_string(app.get_strview());
+	cmd += L" -e \"_W2L_MODE='";
 	cmd += who;
 	cmd += L"'\" -e \"_W2L_DIR=[[";
-	cmd += workdir;
+	cmd.push_string(workdir.get_strview());
 	cmd += L"]]\" -E \"";
 	cmd += path() / L"script" / L"main.lua";
 	cmd += L"\"";
 
 	for (int i = 1; i < __argc; ++i) {
-		cmd += L" \"";
-		cmd += __wargv[i];
-		cmd += L"\"";
+		cmd += L" ";
+		cmd.push_string(__wargv[i]);
 	}
 
 	strbuilder<1024> env;
@@ -143,9 +146,8 @@ bool execute_crashreport(const wchar_t* who, pipe* in, pipe* err) {
 	path app = path() / L"bin" / L"w3x2lni-lua.exe";
 	path cwd = path() / L"script";
 	strbuilder<32768> cmd;
-	cmd += L"\"";
-	cmd += app;
-	cmd += L"\" -e \"_W2L_MODE='";
+	cmd.push_string(app.get_strview());
+	cmd += L" -e \"_W2L_MODE='";
 	cmd += who;
 	cmd += L"'\" -E \"";
 	cmd += path() / L"script" / L"crashreport" / L"init.lua";

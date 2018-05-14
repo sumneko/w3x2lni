@@ -8,6 +8,7 @@ struct strview {
 	const wchar_t* buf;
 	size_t len;
 	strview(const wchar_t* str);
+	strview(const wchar_t* str, size_t len);
 };
 
 template <size_t N>
@@ -31,6 +32,21 @@ struct strbuilder {
 	}
 	void operator +=(const strview& str) {
 		append(str.buf, str.len);
+	}
+	void push_string(const strview& str) {
+		if (str.len > 0 && str.buf[str.len - 1] == '\\' && (str.len == 1 || str.buf[str.len - 2] != '\\')) {
+			*this += L"\"";
+			*this += str;
+			*this += L"\\\"";
+		}
+		else {
+			*this += L"\"";
+			*this += str;
+			*this += L"\"";
+		}
+	}
+	strview get_strview() {
+		return strview(buf, len);
 	}
 	wchar_t* string() {
 		buf[len] = L'\0';
