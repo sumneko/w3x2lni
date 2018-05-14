@@ -326,8 +326,22 @@ local function prebuild_merge(obj, a, b)
     end
 end
 
+local function sortpairs(tbl)
+    local keys = {}
+    for k in pairs(tbl) do
+        keys[#keys+1] = k
+    end
+    table.sort(keys)
+    local i = 0
+    return function ()
+        i = i + 1
+        local k = keys[i]
+        return k, tbl[k]
+    end
+end
+
 local function prebuild(type, input, output, list)
-    for name, obj in pairs(input) do
+    for name, obj in sortpairs(input) do
         local r = prebuild_obj(name, obj)
         if r then
             r._type = type
