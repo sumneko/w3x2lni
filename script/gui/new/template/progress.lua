@@ -1,5 +1,6 @@
 local gui = require 'yue.gui'
 local ev = require 'gui.event'
+local ca = require 'gui.new.common_attribute'
 
 return function (t, data)
     local view = gui.Container.create()
@@ -29,5 +30,6 @@ return function (t, data)
     else
         set_progress(t.value or 0)
     end
+    ca.visible(view, t, data, bind)
     return view
 end

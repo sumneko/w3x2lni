@@ -1,5 +1,6 @@
 local gui = require 'yue.gui'
 local ev = require 'gui.event'
+local ca = require 'gui.new.common_attribute'
 
 local function getActiveColor(color)
     if #color == 4 then
@@ -21,6 +22,7 @@ end
 
 return function (t, data)
     local btn = gui.Button.create('')
+    local bind = {}
     if t.bind and t.bind.title then
         local bind_title
         bind_title = data:bind(t.bind.title, function()
@@ -74,5 +76,6 @@ return function (t, data)
         btn.hover = true
         btn:setbackgroundcolor(btn._backgroundcolor2)
     end
+    ca.visible(btn, t, data, bind)
     return btn
 end

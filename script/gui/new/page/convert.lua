@@ -30,14 +30,14 @@ end
 
 local function update_show()
     if backend.lastword then
-        element.report:setvisible(true)
+        data.report.visible = true
     else
-        element.report:setvisible(false)
+        data.report.visible = false
     end
     if worker and not element.report:isvisible() then
-        element.progress:setvisible(true)
+        data.progress.visible = true
     else
-        element.progress:setvisible(false)
+        data.progress.visible = false
     end
 end
 
@@ -54,7 +54,7 @@ local function update()
             data.report.color = window._color
         end
     end
-    data.progress = backend.progress
+    data.progress.value = backend.progress
     update_show()
     if #worker.error > 0 then
         push_error(worker.error)
@@ -113,7 +113,8 @@ local template = ui.container {
             id = 'progress',
             style = { Height = 30, Margin = 5, Padding = 3, FlexDirection = 'row' },
             bind = {
-                value = 'progress',
+                value = 'progress.value',
+                visible = 'progress.visible',
             },
         },
         -- report
@@ -123,6 +124,7 @@ local template = ui.container {
             bind = {
                 title = 'report.text',
                 color = 'report.color',
+                visible = 'report.visible',
             },
             on = {
                 click = function ()
@@ -141,13 +143,13 @@ local template = ui.container {
                     if worker and not worker.exited then
                         return
                     end
-                    element.progress:setvisible(true)
-                    element.report:setvisible(false)
+                    data.progress.visible = true
+                    data.report.visible = false
                     backend:init(getexe(), fs.current_path())
                     worker = backend:open('backend\\init.lua', pack_arg())
                     backend.message = lang.ui.INIT
                     backend.progress = 0
-                    data.progress = backend.progress
+                    data.progress.value = backend.progress
                     timer.loop(100, delayedtask)
                     window._worker = worker
                 end,
@@ -162,8 +164,12 @@ view, data, element = ui.create(template, {
     report   = {
         text  = '',
         color = window._color,
+        visible = false
     },
-    progress = 0,
+    progress = {
+        value = 0,
+        visible = false
+    },
 })
 
 function view:on_show()

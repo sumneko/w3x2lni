@@ -20,7 +20,20 @@ local function color(self, t, data, bind)
         end
     end
 end
+local function visible(self, t, data, bind)
+    if t.bind and t.bind.visible then
+        bind.visible = data:bind(t.bind.visible, function()
+            self:setvisible(bind.visible:get())
+        end)
+        self:setvisible(bind.visible:get())
+    else
+        if t.visible ~= nil then
+            self:setvisible(t.visible)
+        end
+    end
+end
 
 return {
     color = color,
+    visible = visible,
 }
