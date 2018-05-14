@@ -293,32 +293,33 @@ local function prebuild_merge(obj, a, b)
         if k == '_id' or k == '_type' or k == '_slk_id' then
             goto CONTINUE
         end
+        local id = b._id
         if type(v) == 'table' then
             if type(a[k]) == 'table' then
                 for i, iv in pairs(v) do
                     if a[k][i] ~= iv then
                         report_failed(obj, metadata[k].field, lang.report.TXT_CONFLICT, '--> ' .. a._id)
-                        if obj[k] then
-                            obj[k][i] = iv
+                        if object[id][k] then
+                            object[id][k][i] = iv
                         else
-                            obj[k] = {[i] = iv}
+                            object[id][k] = {[i] = iv}
                         end
                     end
                 end
             else
                 report_failed(obj, metadata[k].field, lang.report.TXT_CONFLICT, '--> ' .. a._id)
                 for i, iv in pairs(v) do
-                    if obj[k] then
-                        obj[k][i] = iv
+                    if object[id][k] then
+                        object[id][k][i] = iv
                     else
-                        obj[k] = {[i] = iv}
+                        object[id][k] = {[i] = iv}
                     end
                 end
             end
         else
             if a[k] ~= v then
                 report_failed(obj, metadata[k].field, lang.report.TXT_CONFLICT, '--> ' .. a._id)
-                obj[k] = v
+                object[id][k] = v
             end
         end
         ::CONTINUE::
