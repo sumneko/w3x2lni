@@ -38,7 +38,17 @@ return function (t, data)
         label:setbackgroundcolor(bind.color:get())
     else
         if t.color then
-            label:setbackgroundcolor(t.color)
+            if type(t.color) == 'table' then
+                label:setbackgroundcolor(t.color.normal)
+                function label:onmouseleave()
+                    label:setbackgroundcolor(t.color.normal)
+                end
+                function label:onmouseenter()
+                    label:setbackgroundcolor(t.color.hover)
+                end
+            else
+                label:setbackgroundcolor(t.color)
+            end
         end
     end
     return label

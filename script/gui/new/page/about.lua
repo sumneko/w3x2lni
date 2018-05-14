@@ -35,13 +35,15 @@ local template = ui.container {
             }
         },
         ui.scroll {
-            id = 'changelog',
             style = { FlexGrow = 1 },
             hpolicy = 'never',
             vpolicy = 'never',
             width = 0,
             bind = {
                 height = 'height'
+            },
+            ui.container {
+                id = 'changelog',
             }
         },
     },
@@ -65,7 +67,7 @@ ev.on('update theme', function()
     data.theme = window._color
 end)
 
-local changelog = element.changelog
+local log = element.changelog
 
 local color  = {
     NEW = gui.Color.rgb(0, 173, 60),
@@ -74,48 +76,61 @@ local color  = {
     UI =  gui.Color.rgb(111, 77, 150),
 }
 
+local template_version = ui.label {
+    style = { Margin = 3, Height = 25 },
+    color = '#444',
+    text_color = '#AAA',
+    font = { size = 16 },
+    bind = {
+        text = 'version'
+    }
+}
+
+local template_changlog = ui.container {
+    style = { Height = 31, FlexDirection = 'row' },
+    color = { normal = '#222', hover = '#444' },
+    ui.label {
+        style = { Margin = 3, Width = 40 },
+        font = { name = 'Consolas', size = 18 },
+        bind = {
+            text = 'type.text',
+            color = 'type.color'
+        }
+    },
+    ui.label {
+        style = { Margin = 3, Width = 360, FlexGlow = 1 },
+        text_color = '#AAA',
+        font = { size = 16 },
+        align = 'start',
+        bind = {
+            text = 'text'
+        }
+    }
+}
+
 local height = 0
-local log = gui.Container.create()
 for _, v in ipairs(require 'share.changelog') do
-    local label = gui.Label.create(v.version)
-    label:setstyle { Margin = 3, Height = 25 }
-    label:setbackgroundcolor('#444')
-    label:setcolor('#AAA')
-    label:setfont(Font { size = 16 })
+    local label = ui.create(template_version, {
+        version = v.version
+    })
     log:addchildview(label)
 
     height = height + 31
 
     for _, l in ipairs(v) do
-        local line = gui.Container.create()
-        line:setstyle { Height = 31, FlexDirection = 'row' }
-
-        local label = gui.Label.create(l[1])
-        label:setbackgroundcolor(color[l[1]])
-        label:setstyle { Margin = 3, Width = 40 }
-        label:setfont(Font { name = 'Consolas', size = 18 })
-        line:addchildview(label)
-
-        local text = gui.Label.create(l[2])
-        text:setcolor('#AAA')
-        text:setstyle { Margin = 3, Width = 360, FlexGlow = 1 }
-        text:setalign('start')
-        text:setfont(Font { size = 16 })
-        line:addchildview(text)
-
-        function text:onmouseleave()
-            line:setbackgroundcolor('#222')
-        end
-        function text:onmouseenter()
-            line:setbackgroundcolor('#444')
-        end
-
+        local line = ui.create(template_changlog, {
+            type = {
+                text = l[1],
+                color = color[l[1]]
+            },
+            text = l[2]
+        })
         log:addchildview(line)
 
         height = height + 31
     end
 end
-changelog:setcontentview(log)
+
 data.height = height
 
 return view
