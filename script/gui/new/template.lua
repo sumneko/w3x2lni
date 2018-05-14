@@ -17,6 +17,9 @@ local function create_template(t, data)
 end
 
 return function (t)
+    if not t.data then
+        return create_template(t)
+    end
     local data = databinding(t.data)
     return create_template(t, data), data.proxy
 end
