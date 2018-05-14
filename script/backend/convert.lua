@@ -132,6 +132,10 @@ return function (mode)
         w2l:failed(lang.script.NO_INPUT)
     end
 
+    if input:filename():string() == '.w3x' then
+        w2l:failed(lang.script.UNSUPPORTED_LNI_MARK)
+    end
+
     w2l.messager.text(lang.script.INIT)
     w2l.messager.progress(0)
 
@@ -153,8 +157,12 @@ return function (mode)
         w2l:failed(lang.script.UNSUPPORTED_MAP)
     end
 
-    if check_lni_mark(input_ar:get '.w3x') then
-        w2l.input_mode = 'lni'
+    if input_ar:get '.w3x' then
+        if check_lni_mark(input_ar:get '.w3x') then
+            w2l.input_mode = 'lni'
+        else
+            w2l:failed(lang.script.UNSUPPORTED_LNI_MARK)
+        end
     end
     
     w2l:set_config(config)

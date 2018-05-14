@@ -148,3 +148,5 @@ Trigger data error
 File dose not exsit, did you mean "%s.w3x" ?
 [OPEN_FAILED_NO_EXISTS]
 File dose not exsit
+[UNSUPPORTED_LNI_MARK]
+Unsupported Lni map

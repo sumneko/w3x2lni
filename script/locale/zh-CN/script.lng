@@ -148,3 +148,5 @@ w3i里的文本长度超过1023字符
 文件不存在，也许你指的是 "%s.w3x"
 [OPEN_FAILED_NO_EXISTS]
 文件不存在
+[UNSUPPORTED_LNI_MARK]
+不支持的Lni地图
