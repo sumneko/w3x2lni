@@ -5,6 +5,7 @@ local messagebox = require 'ffi.messagebox'
 local lang = require 'share.lang'
 local push_error = require 'gui.push_error'
 local ui = require 'gui.new.template'
+local ev = require 'gui.event'
 require 'filesystem'
 
 local worker
@@ -50,7 +51,7 @@ local function update()
         elseif backend.lastword.type == 'warning' then
             data.report.color = '#FC3'
         else
-            data.report.color = '${THEME}'
+            data.report.color = window._color
         end
     end
     data.progress = backend.progress
@@ -159,7 +160,7 @@ view, data, element = ui.create(template, {
     message  = '',
     report   = {
         text  = '',
-        color = '${THEME}',
+        color = window._color,
     },
     progress = 0,
 })
@@ -168,5 +169,9 @@ function view:on_show()
     update_show()
     data.filename = window._filename:filename():string()
 end
+
+ev.on('update theme', function()
+    data.report.color = window._color
+end)
 
 return view
