@@ -10,6 +10,7 @@ local function proxy(t)
     local value = {}
     local comment = {}
     local fmt = {}
+    t._raw = {}
     return setmetatable(t, {
         __index = function (_, k)
             return value[k]
@@ -22,6 +23,7 @@ local function proxy(t)
                 if suc then
                     value[k], fmt[k] = res1, res2
                 end
+                t._raw[k] = v
             elseif type(v) == 'table' then
                 if next(v) then
                     func[k] = v[1]

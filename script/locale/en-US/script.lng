@@ -150,3 +150,5 @@ File dose not exsit, did you mean "%s.w3x" ?
 File dose not exsit
 [UNSUPPORTED_LNI_MARK]
 Unsupported Lni map
+[CONFIG_INVALID_DIR]
+Invalid dir specified by %s.%s

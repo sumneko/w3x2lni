@@ -7,6 +7,7 @@ local lang = require 'share.lang'
 local get_report = require 'share.report'
 local check_lni_mark = require 'share.check_lni_mark'
 local unpack_config = require 'backend.unpack_config'
+local check_config = require 'backend.check_config'
 local w2l = core()
 local root = fs.current_path()
 local config
@@ -131,6 +132,7 @@ return function (mode)
     if not input then
         w2l:failed(lang.script.NO_INPUT)
     end
+    check_config(w2l, input)
 
     if input:filename():string() == '.w3x' then
         w2l:failed(lang.script.UNSUPPORTED_LNI_MARK)

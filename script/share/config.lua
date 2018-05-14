@@ -49,6 +49,9 @@ local function proxy(default, global, map, merge)
             comments[k] = comment
         end
     end
+    table._default = default
+    table._global  = global
+    table._map     = map
     setmetatable(table, {
         __index = function (_, k)
             if merge then
