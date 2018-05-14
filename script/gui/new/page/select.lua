@@ -1,7 +1,7 @@
 local lang = require 'share.lang'
 local template = require 'gui.new.template'
 
-local view, data = template {
+local view = template {
     'container',
     style = { FlexGrow = 1, Padding = 1 },
     {
@@ -68,7 +68,7 @@ local view, data = template {
 }
 
 function view:on_show()
-    data.filename = window._filename:filename():string()
+    view.data.filename = window._filename:filename():string()
 end
 
 return view

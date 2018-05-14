@@ -3,7 +3,7 @@ local timer = require 'gui.timer'
 local lang = require 'share.lang'
 local template = require 'gui.new.template'
 
-local view, data = template {
+local view = template {
     'container',
     style = { FlexGrow = 1, FlexDirection = 'row', AlignItems = 'center', JustifyContent = 'center' },
     {
@@ -40,14 +40,14 @@ function view:onmouseenter()
             local n = 2
             ani = timer.count(100, 6, function()
                 n = n + 1
-                data.color = '#' .. n .. n .. n
+                view.data.color = '#' .. n .. n .. n
             end)
         end
     end)
 end
 function view:onmouseleave()
     hover = false
-    data.color = '#222'
+    view.data.color = '#222'
     if ani then ani:remove() end
 end
 

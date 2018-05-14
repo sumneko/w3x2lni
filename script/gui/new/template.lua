@@ -1,6 +1,9 @@
 local databinding = require 'gui.new.databinding'
 
 local function create_template(t, data)
+    if t.data then
+        data = databinding(t.data)
+    end
     local name = t[1]
     local create_control = require ('gui.new.template.' .. name)
     local view, addchild = create_control(t, data)
@@ -13,13 +16,12 @@ local function create_template(t, data)
             view:addchildview(child)
         end
     end
+    if t.data then
+        view.data = data.proxy
+    end
     return view
 end
 
 return function (t)
-    if not t.data then
-        return create_template(t)
-    end
-    local data = databinding(t.data)
-    return create_template(t, data), data.proxy
+    return create_template(t)
 end
