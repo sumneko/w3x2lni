@@ -11,7 +11,6 @@ require 'filesystem'
 local worker
 local view
 local data
-local element
 
 local function getexe()
     local i = 0
@@ -29,16 +28,8 @@ local function pack_arg()
 end
 
 local function update_show()
-    if backend.lastword then
-        data.report.visible = true
-    else
-        data.report.visible = false
-    end
-    if worker and not element.report:isvisible() then
-        data.progress.visible = true
-    else
-        data.progress.visible = false
-    end
+    data.report.visible = not not backend.lastword
+    data.progress.visible = (not not worker) and not data.report.visible
 end
 
 local function update()
@@ -110,7 +101,6 @@ local template = ui.container {
         },
         -- progress
         ui.progress {
-            id = 'progress',
             style = { Height = 30, Margin = 5, Padding = 3, FlexDirection = 'row' },
             bind = {
                 value = 'progress.value',
@@ -119,7 +109,6 @@ local template = ui.container {
         },
         -- report
         ui.button {
-            id = 'report',
             style = { Height = 30, Margin = 5 },
             bind = {
                 title = 'report.text',
@@ -143,13 +132,13 @@ local template = ui.container {
                     if worker and not worker.exited then
                         return
                     end
-                    data.progress.visible = true
-                    data.report.visible = false
                     backend:init(getexe(), fs.current_path())
                     worker = backend:open('backend\\init.lua', pack_arg())
                     backend.message = lang.ui.INIT
                     backend.progress = 0
                     data.progress.value = backend.progress
+                    data.progress.visible = true
+                    data.report.visible = false
                     timer.loop(100, delayedtask)
                     window._worker = worker
                 end,
@@ -158,7 +147,7 @@ local template = ui.container {
     },
 }
 
-view, data, element = ui.create(template, {
+view, data = ui.create(template, {
     filename = '',
     message  = '',
     report   = {
