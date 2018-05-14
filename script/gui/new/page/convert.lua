@@ -99,12 +99,12 @@ view:addchildview(lower)
 
 local filename = Button('')
 filename:setstyle { Height = 36, Margin = 8, MarginTop = 16, MarginBottom = 16 }
-filename:setfont(Font('黑体', 20))
+filename:setfont(Font { size = 20 })
 upper:addchildview(filename)
 
 message = gui.Label.create('')
 message:setstyle { Height = 20, Margin = 2 }
-message:setfont(Font('黑体', 20))
+message:setfont(Font { size = 20 })
 message:setcolor('#CCC')
 message:setalign('start')
 lower:addchildview(message)
@@ -115,12 +115,12 @@ lower:addchildview(pb)
 
 report = Button('')
 report:setstyle { Height = 30, Margin = 5 }
-report:setfont(Font('黑体', 24))
+report:setfont(Font { size = 24 })
 lower:addchildview(report)
 
 local start = Button('开始')
 start:setstyle { Height = 50, Margin = 2 }
-start:setfont(Font('黑体', 24))
+start:setfont(Font { size = 24 })
 lower:addchildview(start)
 
 function start:onclick()

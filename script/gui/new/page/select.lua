@@ -15,7 +15,7 @@ view:addchildview(bottomview)
 
 local filename = Button('')
 filename:setstyle { Height = 36, Margin = 8, MarginTop = 16, MarginBottom = 16 }
-filename:setfont(Font('黑体', 20))
+filename:setfont(Font { size = 20 })
 topview:addchildview(filename)
 
 local info = {
@@ -35,7 +35,7 @@ local info = {
 for i = 1, 3 do
     local data = info[i]
     local btn = Button(lang.ui.CONVERT_TO..data.type, data.color)
-    btn:setfont(Font('黑体', 20))
+    btn:setfont(Font { size = 20 })
     btn:setstyle { Margin = 8, MarginTop = 2, MarginBottom = 2, Height = 140 }
     bottomview:addchildview(btn)
     function btn:onclick()

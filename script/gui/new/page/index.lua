@@ -6,7 +6,7 @@ local view = gui.Container.create()
 
 local label = gui.Label.create(lang.ui.DRAG_MAP)
 label:setcolor('#222')
-label:setfont(Font('黑体', 16))
+label:setfont(Font { size = 16 })
 label:setstyle { Height = 50, Width = 200 }
 view:addchildview(label)
 

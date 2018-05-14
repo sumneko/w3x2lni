@@ -19,7 +19,7 @@ report:setstyle { FlexGrow = 1 }
 
 local label = gui.Label.create('')
 label:setstyle { FlexGrow = 1 }
-label:setfont(Font('黑体', 18))
+label:setfont(Font { size = 18 })
 label:setcolor('#CCC')
 label:setalign('start')
 report:addchildview(label)
@@ -32,7 +32,7 @@ view:addchildview(scroll)
 
 local btn = Button(lang.ui.BACK)
 btn:setstyle { Bottom = 0, Height = 28, Margin = 5 }
-btn:setfont(Font('黑体', 16))
+btn:setfont(Font { size = 16 })
 function btn:onclick()
     window:show_page('convert')
 end

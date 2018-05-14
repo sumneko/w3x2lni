@@ -46,7 +46,7 @@ for _, v in ipairs(require 'share.changelog') do
     label:setstyle { Margin = 3, Height = 25 }
     label:setbackgroundcolor('#444')
     label:setcolor('#AAA')
-    label:setfont(Font('黑体', 18))
+    label:setfont(Font { size = 16 })
     log:addchildview(label)
 
     height = height + 31
@@ -58,14 +58,14 @@ for _, v in ipairs(require 'share.changelog') do
         local label = gui.Label.create(l[1])
         label:setbackgroundcolor(color[l[1]])
         label:setstyle { Margin = 3, Width = 40 }
-        label:setfont(Font('黑体', 18))
+        label:setfont(Font { name = 'Consolas', size = 18 })
         line:addchildview(label)
 
         local text = gui.Label.create(l[2])
         text:setcolor('#AAA')
         text:setstyle { Margin = 3, Width = 360, FlexGlow = 1 }
         text:setalign('start')
-        text:setfont(Font('黑体', 18))
+        text:setfont(Font { size = 16 })
         line:addchildview(text)
 
         function text:onmouseleave()
@@ -85,7 +85,7 @@ changelog:setcontentsize { width = 0, height = height }
 
 local btn = Button(lang.ui.BACK)
 btn:setstyle { Bottom = 0, Height = 28, Margin = 5 }
-btn:setfont(Font('黑体', 16))
+btn:setfont(Font { size = 16 })
 function btn:onclick()
     window:show_page('index')
 end

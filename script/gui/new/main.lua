@@ -30,9 +30,14 @@ function ext.on_dropfile(filename)
 end
 
 local FontPool = {}
-function Font(name, size, weight, style)
-    weight = weight or 'normal'
-    style = style or 'normal'
+local defaultFont = gui.app:getdefaultfont()
+local fontName = defaultFont:getname()
+local fontSize = defaultFont:getsize()
+function Font(t)
+    local name = t.name or fontName
+    local size = t.size or fontSize
+    local weight = t.weight or 'normal'
+    local style = t.style or 'normal'
     local key = ('%s|%d|%s|%s'):format(name, size, weight, style)
     local r = FontPool[key]
     if not r then
@@ -49,7 +54,7 @@ function Label(text, color)
     end
     local label = gui.Label.create(text)
     label:setbackgroundcolor(color)
-    label:setfont(Font('黑体', 16))
+    label:setfont(Font { size = 16 })
     return label
 end
 
@@ -131,7 +136,7 @@ function window:addcaption(w)
     local title = gui.Label.create('W3x2Lni')
     title:setmousedowncanmovewindow(true)
     title:setstyle { Width = 120 }
-    title:setfont(Font('Constantia', 24, 'bold'))
+    title:setfont(Font { name = 'Constantia', size = 24, weight = 'bold' })
     caption:addchildview(title)
     self._title = title
 
