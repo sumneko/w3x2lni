@@ -38,7 +38,7 @@ function btn:onclick()
 end
 view:addchildview(btn)
 
-function window:show_report()
+function view:on_show()
     local text = get_report(backend.report)
     local height = count_report_height(text)
     scroll:setcontentsize { width = 0, height = height }

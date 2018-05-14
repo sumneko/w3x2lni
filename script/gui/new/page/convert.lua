@@ -141,7 +141,6 @@ end
 function report:onclick()
     if next(backend.report) then
         window:show_page 'report'
-        window:show_report()
     end
 end
 
