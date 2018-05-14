@@ -1,5 +1,4 @@
 local gui = require 'yue.gui'
-local ev = require 'gui.event'
 
 return function (t, data)
     local label = gui.Label.create('')
@@ -30,11 +29,6 @@ return function (t, data)
     else
         if t.text_color then
             label:setcolor(t.text_color)
-        else
-            label:setcolor(window._color)
-            ev.on('update theme', function()
-                label:setcolor(window._color)
-            end)
         end
     end
     if t.bind and t.bind.color then
