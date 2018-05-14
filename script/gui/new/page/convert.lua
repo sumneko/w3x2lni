@@ -82,7 +82,7 @@ local function delayedtask(t)
 end
 
 local template = ui.container {
-    style = { FlexGrow = 1, Padding = 2 },
+    style = { FlexGrow = 1, Padding = 1 },
     -- upper
     ui.container {
         style = { FlexGrow = 1, JustifyContent = 'flex-start' },
@@ -120,7 +120,7 @@ local template = ui.container {
         ui.button {
             id = 'report',
             style = { Height = 30, Margin = 5 },
-            font = { size = 24 },
+            font = { size = 22 },
             bind = {
                 title = 'report.text',
                 color = 'report.color',
