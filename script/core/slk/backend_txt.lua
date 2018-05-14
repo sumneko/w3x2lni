@@ -283,7 +283,6 @@ local function prebuild_obj(name, obj)
 end
 
 local function prebuild_merge(obj, a, b)
-    -- TODO: 需要处理a和b类型不一样的情况
     if a._type ~= b._type then
         local tp1, _, name1 = get_displayname(a)
         local tp2, _, name2 = get_displayname(b)
