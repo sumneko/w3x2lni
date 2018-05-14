@@ -125,7 +125,7 @@ local template = ui.container {
                 color = 'report.color',
             },
             on = {
-                clock = function ()
+                click = function ()
                     if next(backend.report) then
                         window:show_page 'report'
                     end
