@@ -180,7 +180,7 @@ local function checkbox(t)
         mouseenter = 'update_tip(self.tip)',
         mouseleave = 'update_tip()'
     }
-    t.style = { Margin = 4 }
+    t.style = { MarginTop = 4, MarginBottom = 4 }
     if t.bind then
         t.bind.color = 'theme'
     else
@@ -213,7 +213,7 @@ local function lni()
         },
         ui.tree {
             text = lang.ui.ADVANCED,
-            style = { Margin = 4 },
+            style = { MarginTop = 4, MarginBottom = 4 },
             bind = {
                 color = 'theme'
             },
@@ -262,7 +262,7 @@ local function slk()
         },
         ui.tree {
             text = lang.ui.ADVANCED,
-            style = { Margin = 4 },
+            style = { MarginTop = 4, MarginBottom = 4 },
             bind = {
                 color = 'theme'
             },
