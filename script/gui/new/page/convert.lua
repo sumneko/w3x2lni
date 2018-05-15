@@ -216,6 +216,9 @@ local function lni()
         },
         ui.tree {
             text = lang.ui.ADVANCED,
+            bind = {
+                color = 'theme'
+            },
             checkbox {
                 text = lang.ui.EXPORT_LUA,
                 tip = lang.ui.EXPORT_LUA_HINT,
@@ -256,6 +259,9 @@ local function slk()
         },
         ui.tree {
             text = lang.ui.ADVANCED,
+            bind = {
+                color = 'theme'
+            },
             checkbox {
                 text = lang.ui.SLK_DOODAD,
                 tip = lang.ui.SLK_DOODAD_HINT
@@ -278,6 +284,9 @@ local function obj()
         },
         ui.tree {
             text = lang.ui.ADVANCED,
+            bind = {
+                color = 'theme'
+            },
             checkbox {
                 text = lang.ui.FIND_ID_TIMES,
                 tip = lang.ui.FIND_ID_TIMES_HINT

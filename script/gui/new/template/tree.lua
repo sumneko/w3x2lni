@@ -62,16 +62,6 @@ local function tree_button(t, children)
     local btn = gui.Container.create()
     btn:setstyle { Height = 24, FlexGrow = 1 }
     btn.select = t.select or false
-    btn.hover = t.hover or false
-    btn._backgroundcolor1 = window._color
-    local function update_color()
-        btn._backgroundcolor2 = getActiveColor(btn._backgroundcolor1)
-        if btn.hover then
-            btn:setbackgroundcolor(btn._backgroundcolor1)
-        else
-            btn:setbackgroundcolor(btn._backgroundcolor2)
-        end
-    end
     local function update_select()
         if btn.select then
             children:setvisible(true)
@@ -79,25 +69,12 @@ local function tree_button(t, children)
             children:setvisible(false)
         end
     end
-    update_color()
     update_select()
     function btn:onmousedown()
         self.select = not self.select
         update_select()
         self:schedulepaint()
     end
-    function btn:onmouseleave()
-        self.hover = false
-        btn:setbackgroundcolor(btn._backgroundcolor1)
-    end
-    function btn:onmouseenter()
-        self.hover = true
-        btn:setbackgroundcolor(btn._backgroundcolor2)
-    end
-    ev.on('update theme', function()
-        btn._backgroundcolor1 = window._color
-        update_color()
-    end)
     btn:addchildview(tree_label(t))
     tree_icon(btn)
     return btn
@@ -107,13 +84,15 @@ local function tree_children(t, btn)
     return gui.Container.create()
 end
 
-return function (t)
+return function (t, data)
     local o = gui.Container.create()
     if t.style then
         o:setstyle(t.style)
     end
     local children = tree_children(t)
     local btn = tree_button(t, children)
+    local bind = {}
+    ca.button_color(btn, btn, t, data, bind)
     o:addchildview(btn)
     o:addchildview(children)
     return o, function (self, child)
