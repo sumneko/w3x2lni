@@ -181,9 +181,11 @@ local function checkbox(t)
         mouseenter = 'update_tip(self.tip)',
         mouseleave = 'update_tip()'
     }
-    t.bind = {
-        color = 'theme'
-    }
+    if t.bind then
+        t.bind.color = 'theme'
+    else
+        t.bind = { color = 'theme' }
+    end
     return ui.checkbox(t)
 end
 
@@ -192,8 +194,18 @@ local configData = databinding {
     config = {
         lni = {
             read_slk = config.lni.read_slk,
-            find_id_times = config.lni.find_id_times == 0,
             export_lua = config.lni.export_lua,
+        },
+        slk = {
+            remove_unuse_object = config.slk.remove_unuse_object,
+            optimize_jass = config.slk.optimize_jass,
+            mdx_squf = config.slk.mdx_squf,
+            remove_we_only = config.slk.remove_we_only,
+            slk_doodad = config.slk.slk_doodad,
+            confused = config.slk.confused,
+        },
+        obj = {
+            read_slk = config.obj.read_slk,
         }
     },
     update_tip = function(tip)
@@ -226,13 +238,6 @@ local function lni()
                 bind = {
                     value = 'config.lni.export_lua'
                 }
-            },
-            checkbox {
-                text = lang.ui.FIND_ID_TIMES,
-                tip = lang.ui.FIND_ID_TIMES_HINT,
-                bind = {
-                    value = 'config.lni.find_id_times'
-                }
             }
         }
     }
@@ -244,19 +249,31 @@ local function slk()
         font = { size = 20 },
         checkbox {
             text = lang.ui.SIMPLIFY,
-            tip = lang.ui.SIMPLIFY_HINT
+            tip = lang.ui.SIMPLIFY_HINT,
+            bind = {
+                value = 'config.slk.remove_unuse_object'
+            }
         },
         checkbox {
             text = lang.ui.OPTIMIZE_JASS,
-            tip = lang.ui.OPTIMIZE_JASS_HINT
+            tip = lang.ui.OPTIMIZE_JASS_HINT,
+            bind = {
+                value = 'config.slk.optimize_jass'
+            }
         },
         checkbox {
             text = lang.ui.MDX_SQUF,
-            tip = lang.ui.MDX_SQUF_HINT
+            tip = lang.ui.MDX_SQUF_HINT,
+            bind = {
+                value = 'config.slk.mdx_squf'
+            }
         },
         checkbox {
             text = lang.ui.REMOVE_WE_ONLY,
-            tip = lang.ui.REMOVE_WE_ONLY_HINT
+            tip = lang.ui.REMOVE_WE_ONLY_HINT,
+            bind = {
+                value = 'config.slk.remove_we_only'
+            }
         },
         ui.tree {
             text = lang.ui.ADVANCED,
@@ -265,11 +282,17 @@ local function slk()
             },
             checkbox {
                 text = lang.ui.SLK_DOODAD,
-                tip = lang.ui.SLK_DOODAD_HINT
+                tip = lang.ui.SLK_DOODAD_HINT,
+                bind = {
+                    value = 'config.slk.slk_doodad'
+                }
             },
             checkbox {
-                text = lang.ui.FIND_ID_TIMES,
-                tip = lang.ui.FIND_ID_TIMES_HINT
+                text = lang.ui.CONFUSION,
+                tip = lang.ui.CONFUSION_HINT,
+                bind = {
+                    value = 'config.slk.confused'
+                }
             }
         }
     }
@@ -282,16 +305,6 @@ local function obj()
         checkbox {
             text = lang.ui.READ_SLK,
             tip = lang.ui.READ_SLK_HINT
-        },
-        ui.tree {
-            text = lang.ui.ADVANCED,
-            bind = {
-                color = 'theme'
-            },
-            checkbox {
-                text = lang.ui.FIND_ID_TIMES,
-                tip = lang.ui.FIND_ID_TIMES_HINT
-            }
         }
     }
     return ui.createEx(template, configData)
