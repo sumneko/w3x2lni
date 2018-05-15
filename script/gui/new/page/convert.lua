@@ -45,7 +45,7 @@ local function update()
             data.report.color = window._color
         end
     end
-    data.progress.value = backend.progress
+    data.progress.value = backend.progress / 100
     update_show()
     if #worker.error > 0 then
         push_error(worker.error)
@@ -136,7 +136,7 @@ local template = ui.container {
                     worker = backend:open('backend\\init.lua', pack_arg())
                     backend.message = lang.ui.INIT
                     backend.progress = 0
-                    data.progress.value = backend.progress
+                    data.progress.value = backend.progress / 100
                     data.progress.visible = true
                     data.report.visible = false
                     timer.loop(100, delayedtask)
