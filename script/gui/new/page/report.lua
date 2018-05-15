@@ -1,9 +1,10 @@
+require 'filesystem'
 local gui = require 'yue.gui'
 local backend = require 'gui.backend'
-local get_report = require 'share.report'
 local lang = require 'share.lang'
 local ui = require 'gui.new.template'
 local ev = require 'gui.event'
+local root = fs.current_path()
 
 local function count_report_height(text)
     local n = 1
@@ -63,7 +64,7 @@ ev.on('update theme', function()
 end)
 
 function view:on_show()
-    local text = get_report(backend.report)
+    local text = io.load(root:parent_path() / 'log' / 'report.log') or ''
     data.report.text = text
     data.report.height = count_report_height(text)
 end

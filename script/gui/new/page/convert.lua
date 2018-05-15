@@ -10,6 +10,7 @@ local databinding = require 'gui.new.databinding'
 local ev = require 'gui.event'
 require 'filesystem'
 
+local root = fs.current_path()
 local worker
 local view
 local data
@@ -122,9 +123,7 @@ local template = ui.container {
             },
             on = {
                 click = function ()
-                    if next(backend.report) then
-                        window:show_page 'report'
-                    end
+                    window:show_page 'report'
                 end
             },
         },
@@ -149,6 +148,7 @@ local template = ui.container {
                     data.report.visible = false
                     timer.loop(100, delayedtask)
                     window._worker = worker
+                    fs.remove(root:parent_path() / 'log' / 'report.log')
                 end,
             },
         },
