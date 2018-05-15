@@ -3,6 +3,7 @@ local backend = require 'gui.backend'
 local get_report = require 'share.report'
 local lang = require 'share.lang'
 local ui = require 'gui.new.template'
+local ev = require 'gui.event'
 
 local function count_report_height(text)
     local n = 1
@@ -40,7 +41,7 @@ local template = ui.container {
         style = { Bottom = 0, Height = 28, Margin = 5 },
         bind = {
             color = 'theme'
-        }
+        },
         on = {
             click = function()
                 window:show_page('convert')
@@ -50,10 +51,10 @@ local template = ui.container {
 }
 
 local view, data = ui.create(template, {
+    theme = window._color,
     report = {
         text = '',
-        height = 0,
-        theme = window._color
+        height = 0
     }
 })
 
