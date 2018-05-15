@@ -4,6 +4,7 @@ local root = fs.current_path()
 local function string_proxy(key, concat)
     return setmetatable({}, {
         __tostring = function ()
+            -- TODO 这里有个死循环隐患
             local lang = require 'share.lang'
             if concat then
                 return raw[key] .. concat()
@@ -22,51 +23,6 @@ local raw = setmetatable({}, {
         return string_proxy(key)
     end,
 })
-
-local function proxy(t)
-    local keys = {}
-    local mark = {}
-    local func = {}
-    local value = {}
-    local comment = {}
-    local fmt = {}
-    t._raw = {}
-    return setmetatable(t, {
-        __index = function (_, k)
-            return value[k]
-        end,
-        __newindex = function (_, k, v)
-            if type(v) == 'function' then
-                func[k] = v
-            elseif func[k] then
-                local suc, res1, res2 = func[k](v)
-                if suc then
-                    value[k], fmt[k] = res1, res2
-                end
-                t._raw[k] = v
-            elseif type(v) == 'table' then
-                if next(v) then
-                    func[k] = v[1]
-                    comment[k] = v[2]
-                else
-                    value[k] = proxy(v)
-                end
-            end
-            if not mark[k] then
-                mark[k] = true
-                keys[#keys+1] = k
-            end
-        end,
-        __pairs = function ()
-            local i = 0
-            return function ()
-                i = i + 1
-                local k = keys[i]
-                return k, value[k], fmt[k], func[k], comment[k]
-            end
-        end,
-    })
-end
 
 local function string(v)
     v = tostring(v)
@@ -291,34 +247,39 @@ local function wes(v)
     end
 end
 
-return function ()
-    local config = proxy {}
-    
-    config.global                  = {}
-    config.global.lang             = {langf,  raw.CONFIG_GLOBAL_LANG .. lang_hint}
-    config.global.data_war3        = {war3,   raw.CONFIG_GLOBAL_WAR3 .. data_hint}
-    config.global.data_ui          = {ui,     raw.CONFIG_GLOBAL_UI   .. data_hint}
-    config.global.data_meta        = {meta,   raw.CONFIG_GLOBAL_META .. data_hint}
-    config.global.data_wes         = {wes,    raw.CONFIG_GLOBAL_WES  .. data_hint}
+local define = {
+    _child = true,
+    'global', 'lni', 'slk', 'obj',
+    global = {
+        'lang', 'data_war3', 'data_ui', 'data_meta', 'data_wes',
+        lang                = {langf,     raw.CONFIG_GLOBAL_LANG .. lang_hint},
+        data_war3           = {war3,      raw.CONFIG_GLOBAL_WAR3 .. data_hint},
+        data_ui             = {ui,        raw.CONFIG_GLOBAL_UI   .. data_hint},
+        data_meta           = {meta,      raw.CONFIG_GLOBAL_META .. data_hint},
+        data_wes            = {wes,       raw.CONFIG_GLOBAL_WES  .. data_hint},
+    },
+    lni = {
+        'read_slk', 'find_id_times', 'export_lua',
+        read_slk            = {boolean,   raw.CONFIG_LNI_READ_SLK},
+        find_id_times       = {integer,   raw.CONFIG_LNI_FIND_ID_TIMES},
+        export_lua          = {boolean,   raw.CONFIG_LNI_EXPORT_LUA},
+    },
+    slk = {
+        'remove_unuse_object', 'optimize_jass', 'mdx_squf', 'remove_we_only', 'slk_doodad', 'find_id_times', 'confused', 'confusion',
+        remove_unuse_object = {boolean,   raw.CONFIG_LNI_REMOVE_UNUSE_OBJECT},
+        optimize_jass       = {boolean,   raw.CONFIG_SLK_OPTIMIZE_JASS},
+        mdx_squf            = {boolean,   raw.CONFIG_SLK_MDX_SQUF},
+        remove_we_only      = {boolean,   raw.CONFIG_SLK_REMOVE_WE_ONLY},
+        slk_doodad          = {boolean,   raw.CONFIG_SLK_SLK_DOODAD},
+        find_id_times       = {integer,   raw.CONFIG_SLK_FIND_ID_TIMES},
+        confused            = {boolean,   raw.CONFIG_SLK_CONFUSED},
+        confusion           = {confusion, raw.CONFIG_SLK_CONFUSION},
+    },
+    obj = {
+        'read_slk', 'find_id_times',
+        read_slk            = {boolean,   raw.CONFIG_OBJ_READ_SLK},
+        find_id_times       = {integer,   raw.CONFIG_OBJ_FIND_ID_TIMES},
+    }
+}
 
-    config.lni                     = {}
-    config.lni.read_slk            = {boolean, raw.CONFIG_LNI_READ_SLK}
-    config.lni.find_id_times       = {integer, raw.CONFIG_LNI_FIND_ID_TIMES}
-    config.lni.export_lua          = {boolean, raw.CONFIG_LNI_EXPORT_LUA}
-
-    config.slk                     = {}
-    config.slk.remove_unuse_object = {boolean,   raw.CONFIG_LNI_REMOVE_UNUSE_OBJECT}
-    config.slk.optimize_jass       = {boolean,   raw.CONFIG_SLK_OPTIMIZE_JASS}
-    config.slk.mdx_squf            = {boolean,   raw.CONFIG_SLK_MDX_SQUF}
-    config.slk.remove_we_only      = {boolean,   raw.CONFIG_SLK_REMOVE_WE_ONLY}
-    config.slk.slk_doodad          = {boolean,   raw.CONFIG_SLK_SLK_DOODAD}
-    config.slk.find_id_times       = {integer,   raw.CONFIG_SLK_FIND_ID_TIMES}
-    config.slk.confused            = {boolean,   raw.CONFIG_SLK_CONFUSED}
-    config.slk.confusion           = {confusion, raw.CONFIG_SLK_CONFUSION}
-
-    config.obj                     = {}
-    config.obj.read_slk            = {boolean, raw.CONFIG_OBJ_READ_SLK}
-    config.obj.find_id_times       = {integer, raw.CONFIG_OBJ_FIND_ID_TIMES}
-
-    return config
-end
+return define

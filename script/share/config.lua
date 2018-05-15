@@ -1,6 +1,6 @@
 require 'filesystem'
 local lni = require 'lni'
-local config_loader = require 'share.config_loader'
+local define = require 'share.config_define'
 local root = fs.current_path()
 local default_config
 local global_config
@@ -18,51 +18,30 @@ local function save()
     io.save(root:parent_path() / 'config.ini', buf)
 end
 
-local function load_config(buf, fill)
-    local config = config_loader()
-    local lni = lni(buf or '', 'config.ini')
-    for name, t in pairs(config) do
-        if type(lni[name]) == 'table' then
-            for k in pairs(t) do
-                if fill or lni[name][k] ~= nil then
-                    t[k] = lni[name][k]
-                end
-            end
-        end
-    end
-    return config
+local function load_config(buf)
+    return lni(buf or '', 'config.ini')
 end
 
-local function proxy(default, global, map, merge)
+local function proxy(default, global, map, define)
     local table = {}
-    local funcs = {}
-    local comments = {}
-    for k, v, _, func, comment in pairs(default) do
-        if type(v) == 'table' then
-            table[k] = proxy(v, global[k] or {}, map[k] or {}, merge)
-        else
-            funcs[k] = func
-            comments[k] = comment
+    if define._child then
+        for _, k in ipairs(define) do
+            table[k] = proxy(default[k], global[k], map[k], define[k])
         end
     end
-    table._default = default
-    table._global  = global
-    table._map     = map
+    local list = { default, global, map }
     setmetatable(table, {
         __index = function (_, k)
-            if merge then
-                if map[k] ~= nil then
-                    return map[k]
-                elseif global[k] ~= nil then
-                    return global[k]
-                else
-                    return default[k]
-                end
-            else
-                if funcs[k] ~= nil then
-                    return { default[k], global[k], map[k], funcs[k], comments[k] }
-                else
-                    return nil
+            if not define[k] then
+                return nil
+            end
+            for i = 3, 1, -1 do
+                local lni = list[i]
+                if lni and lni[k] ~= nil then
+                    local suc, res = define[k][1](lni[k])
+                    if suc then
+                        return res
+                    end
                 end
             end
         end,
@@ -71,9 +50,10 @@ local function proxy(default, global, map, merge)
             save()
         end,
         __pairs = function ()
-            local next = pairs(default)
+            local i = 0
             return function ()
-                local k = next()
+                i = i + 1
+                local k = define[i]
                 return k, table[k]
             end
         end,
@@ -84,33 +64,25 @@ end
 local api = {}
 
 function api:load()
-    if not default_config then
-        default_config = load_config(io.load(root / 'share' / 'config.ini'), true)
-    end
-    if not global_config then
-        global_config = load_config(io.load(root:parent_path() / 'config.ini'), false)
-    end
-    return proxy(default_config, global_config, {}, true)
+    default_config = default_config or load_config(io.load(root / 'share' / 'config.ini'))
+    global_config = global_config or load_config(io.load(root:parent_path() / 'config.ini'))
+    return proxy(default_config, global_config, {}, define)
 end
 
 function api:load_map(path)
     local builder = require 'map-builder'
     local input_path = require 'share.input_path'
-    if not default_config then
-        default_config = load_config(io.load(root / 'share' / 'config.ini'), true)
-    end
-    if not global_config then
-        global_config = load_config(io.load(root:parent_path() / 'config.ini'), false)
-    end
+    default_config = default_config or load_config(io.load(root / 'share' / 'config.ini'))
+    global_config = global_config or load_config(io.load(root:parent_path() / 'config.ini'))
     local map = builder.load(input_path(path))
     if map then
-        map_config = load_config(map:get 'w3x2lni\\config.ini', false)
+        map_config = load_config(map:get 'w3x2lni\\config.ini')
         map:close()
     end
     if not map_config then
         map_config = {}
     end
-    return proxy(default_config, global_config, map_config, true)
+    return proxy(default_config, global_config, map_config, define)
 end
 
 return api
