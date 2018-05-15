@@ -16,14 +16,12 @@ return function (t, data)
     if t.style then
         btn:setstyle(t.style)
     end
-    if t.font then
-        btn:setfont(Font(t.font))
-    end
     if t.on and t.on.click then
         function btn:onmousedown()
             t.on.click(self, t)
         end
     end
+    ca.font(btn, t)
     ca.button_color(btn, t, data, bind)
     ca.visible(btn, t, data, bind)
     return btn

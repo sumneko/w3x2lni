@@ -1,5 +1,6 @@
 local gui = require 'yue.gui'
 local ev = require 'gui.event'
+local ca = require 'gui.new.common_attribute'
 
 local function getActiveColor(color)
     if #color == 4 then
@@ -80,11 +81,9 @@ end
 local function checkbox_label(t)
     local label = gui.Label.create(t.text)
     label:setcolor('#AAA')
-    if t.font then
-        label:setfont(Font(t.font.name, t.font.size, t.font.weight, t.font.style))
-    end
     label:setalign 'start'
     label:setstyle { FlexGrow = 1, MarginTop = 3 }
+    ca.font(label, t)
     return label
 end
 

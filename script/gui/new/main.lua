@@ -7,6 +7,7 @@ local input_path = require 'share.input_path'
 local builder = require 'map-builder'
 local war3 = require 'share.war3'
 local ev = require 'gui.event'
+local ca = require 'gui.new.common_attribute'
 
 lang:set_lang(config.global.lang)
 window = {}
@@ -29,24 +30,6 @@ function ext.on_dropfile(filename)
     window:show_page('select')
 end
 
-local FontPool = {}
-local defaultFont = gui.app:getdefaultfont()
-local fontName = defaultFont:getname()
-local fontSize = defaultFont:getsize()
-function Font(t)
-    local name = t.name or fontName
-    local size = t.size or fontSize
-    local weight = t.weight or 'normal'
-    local style = t.style or 'normal'
-    local key = ('%s|%d|%s|%s'):format(name, size, weight, style)
-    local r = FontPool[key]
-    if not r then
-        r = gui.Font.create(name, size, weight, style)
-        FontPool[key] = r
-    end
-    return r
-end
-
 function window:close_theme()
     self._close._backgroundcolor1 = self._color
     self._close:setbackgroundcolor(self._close._backgroundcolor1)
@@ -61,7 +44,7 @@ function window:addcaption(w)
     local title = gui.Label.create('W3x2Lni')
     title:setmousedowncanmovewindow(true)
     title:setstyle { Width = 120 }
-    title:setfont(Font { name = 'Constantia', size = 24, weight = 'bold' })
+    ca.font(title, {font = { name = 'Constantia', size = 24, weight = 'bold' }})
     caption:addchildview(title)
     self._title = title
 

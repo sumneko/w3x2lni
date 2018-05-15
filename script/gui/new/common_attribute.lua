@@ -1,3 +1,5 @@
+local gui = require 'yue.gui'
+
 local function BindValue(t, data, bind, name, func)
     if t.bind and t.bind[name] then
         bind[name] = data:bind(t.bind[name], function()
@@ -27,6 +29,24 @@ local function GetHoverColor(color)
     else
         return color
     end
+end
+
+local FontPool = {}
+local defaultFont = gui.app:getdefaultfont()
+local fontName = defaultFont:getname()
+local fontSize = defaultFont:getsize()
+local function Font(t)
+    local name = t.name or fontName
+    local size = t.size or fontSize
+    local weight = t.weight or 'normal'
+    local style = t.style or 'normal'
+    local key = ('%s|%d|%s|%s'):format(name, size, weight, style)
+    local r = FontPool[key]
+    if not r then
+        r = gui.Font.create(name, size, weight, style)
+        FontPool[key] = r
+    end
+    return r
 end
 
 local function label_color(self, t, data, bind)
@@ -85,8 +105,15 @@ local function visible(self, t, data, bind)
     end)
 end
 
+local function font(self, t)
+    if t.font then
+        self:setfont(Font(t.font))
+    end
+end
+
 return {
     label_color = label_color,
     button_color = button_color,
     visible = visible,
+    font = font,
 }

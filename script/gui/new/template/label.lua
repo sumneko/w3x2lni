@@ -15,9 +15,6 @@ return function (t, data)
     if t.style then
         label:setstyle(t.style)
     end
-    if t.font then
-        label:setfont(Font(t.font))
-    end
     if t.align then
         label:setalign(t.align)
     end
@@ -32,6 +29,7 @@ return function (t, data)
             label:setcolor(t.text_color)
         end
     end
+    ca.font(label, t)
     ca.label_color(label, t, data, bind)
     return label
 end

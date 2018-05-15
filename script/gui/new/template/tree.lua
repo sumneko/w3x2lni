@@ -1,5 +1,6 @@
 local gui = require 'yue.gui'
 local ev = require 'gui.event'
+local ca = require 'gui.new.common_attribute'
 
 local function getActiveColor(color)
     if #color == 4 then
@@ -52,10 +53,8 @@ end
 local function tree_label(t)
     local label = gui.Label.create(t.text)
     label:setstyle { Height = 24, Top = 2, Left = 24 }
-    if t.font then
-        label:setfont(Font(t.font.name, t.font.size, t.font.weight, t.font.style))
-    end
     label:setalign 'start'
+    ca.font(label, t)
     return label
 end
 
