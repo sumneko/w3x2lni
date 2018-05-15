@@ -233,8 +233,8 @@ local function slk()
     local template = ui.container {
         font = { size = 18 },
         checkbox {
-            text = lang.ui.SIMPLIFY,
-            tip = lang.ui.SIMPLIFY_HINT,
+            text = lang.ui.REMOVE_UNUSE_OBJECT,
+            tip = lang.ui.REMOVE_UNUSE_OBJECT_HINT,
             bind = {
                 value = 'config.slk.remove_unuse_object'
             }

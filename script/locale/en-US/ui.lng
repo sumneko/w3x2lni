@@ -32,7 +32,7 @@ To Obj
 Read SLK
 [READ_SLK_HINT]
 Read imported SLK files
-[SIMPLIFY]
+[REMOVE_UNUSE_OBJECT]
 Remove unreferenced objects
 [SIMPLIFY_HINT]
 

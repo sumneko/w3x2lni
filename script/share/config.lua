@@ -100,7 +100,8 @@ end
 function config:define_check(k1, k2, v)
     local definer = define[k1][k2]
     if not definer then
-        return false, '无效的配置'
+        local lang = require 'share.lang'
+        return false, lang.raw.INVALID_CONFIG
     end
     return definer[1](v)
 end
@@ -108,7 +109,8 @@ end
 function config:define_comment(k1, k2)
     local definer = define[k1][k2]
     if not definer then
-        return false, '无效的配置'
+        local lang = require 'share.lang'
+        return false, lang.raw.INVALID_CONFIG
     end
     return tostring(definer[2])
 end

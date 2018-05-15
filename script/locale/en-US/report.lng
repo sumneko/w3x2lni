@@ -14,8 +14,8 @@ Warn
 `}` is modified to `|`
 [COMPUTED_TEXT_FAILED]
 Compute text failed
-[SIMPLIFY]
-Simplify
+[REMOVE_UNUSE_OBJECT]
+Remove unreferenced objects
 [RETAIN_MARKET]
 Retained items in market
 [RETAIN_MARKET_HINT]
