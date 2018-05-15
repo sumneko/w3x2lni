@@ -43,6 +43,8 @@ local function create_mainview(win)
             },
             ui.label {
                 id = 'title',
+                style = { Width = 200 },
+                align = 'start',
                 font = { name = 'Constantia', size = 24, weight = 'bold' },
                 bind = {
                     text = 'title'
@@ -110,7 +112,6 @@ function window:create(t)
 end
 
 function window:set_theme(title, color)
-    self._title = title
     self._color = color
     ev.emit('update theme', color, title)
 end
