@@ -65,6 +65,7 @@ local function confusion(confusion)
     local chars = {}
     for char in confusion:gmatch '[%w_]' do
         if not chars[char] then
+            chars[char] = true
             chars[#chars+1] = char
         end
     end

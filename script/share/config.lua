@@ -13,7 +13,8 @@ local function save()
     for name, t in pairs(config) do
         lines[#lines+1] = ('[%s]'):format(name)
         for k, v in pairs(t) do
-            lines[#lines+1] = ('%s = %s'):format(k, global_config[name][k])
+            local _, _, fmt = define[name][k][1](global_config[name][k])
+            lines[#lines+1] = ('%s = %s'):format(k, fmt)
         end
         lines[#lines+1] = ''
     end
@@ -54,6 +55,7 @@ local function proxy(default, global, map, define, table)
             end
         end,
         __newindex = function (_, k, v)
+            local _, v = define[k][1](v)
             global[k] = v
             save()
         end,
@@ -103,9 +105,9 @@ function config:define_check(k1, k2, v)
         local lang = require 'share.lang'
         return false, lang.raw.INVALID_CONFIG
     end
-    local suc, res = definer[1](v)
+    local suc, res, fmt = definer[1](v)
     if suc then
-        return suc, res
+        return suc, res, fmt
     else
         return suc, tostring(res)
     end
