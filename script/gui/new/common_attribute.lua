@@ -36,36 +36,31 @@ local function label_color(self, t, data, bind)
     local color_normal = ''
     local event = false
     BindValue(t, data, bind, 'color', function (color)
-        if type(color) == 'table' then
-            color_normal = color.normal
-            color_hover = color.hover
-            if not event then
-                event = true
-                function self:onmouseleave()
-                    self:setbackgroundcolor(color_normal)
-                end
-                function self:onmouseenter()
-                    self:setbackgroundcolor(color_hover)
-                end
-            end
-        else
-            color_normal = color
-            color_hover = color
-        end
+        color_normal = color
         self:setbackgroundcolor(color_normal)
+    end)
+    BindValue(t, data, bind, 'color_hover', function (color)
+        color_hover = color
+        if not event then
+            event = true
+            function self:onmouseleave()
+                self:setbackgroundcolor(color_normal)
+            end
+            function self:onmouseenter()
+                self:setbackgroundcolor(color_hover)
+            end
+        end
     end)
 end
 
 local function button_color(self, t, data, bind)
     local color_hover = ''
     local color_normal = ''
+    local has_hover = false
     local event = false
     BindValue(t, data, bind, 'color', function (color)
-        if type(color) == 'table' then
-            color_normal = color.normal
-            color_hover = color.hover
-        else
-            color_normal = color
+        color_normal = color
+        if not has_hover then
             color_hover = GetHoverColor(color)
         end
         if not event then
@@ -78,6 +73,19 @@ local function button_color(self, t, data, bind)
             end
         end
         self:setbackgroundcolor(color_normal)
+    end)
+    BindValue(t, data, bind, 'color_hover', function (color)
+        color_hover = true
+        color_hover = color
+        if not event then
+            event = true
+            function self:onmouseleave()
+                self:setbackgroundcolor(color_normal)
+            end
+            function self:onmouseenter()
+                self:setbackgroundcolor(color_hover)
+            end
+        end
     end)
 end
 

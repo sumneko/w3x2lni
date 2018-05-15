@@ -11,9 +11,9 @@ local function create_template(t, data, element)
         else
             view:addchildview(child)
         end
-        if t[i].id then
-            element[t[i].id] = child
-        end
+    end
+    if t.id then
+        element[t.id] = view
     end
     return view
 end

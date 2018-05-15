@@ -72,7 +72,8 @@ local template_version = ui.label {
 
 local template_changelog = ui.container {
     style = { Height = 31, FlexDirection = 'row' },
-    color = { normal = '#222', hover = '#444' },
+    color = '#222',
+    color_hover = '#444',
     ui.label {
         style = { Margin = 3, Width = 40 },
         font = { name = 'Consolas', size = 18 },

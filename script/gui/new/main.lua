@@ -8,6 +8,7 @@ local builder = require 'map-builder'
 local war3 = require 'share.war3'
 local ev = require 'gui.event'
 local ca = require 'gui.new.common_attribute'
+local ui = require 'gui.new.template'
 
 lang:set_lang(config.global.lang)
 window = {}
@@ -30,20 +31,50 @@ function ext.on_dropfile(filename)
     window:show_page('select')
 end
 
-function window:addcaption(w)
-    local caption = gui.Container.create()
-    caption:setmousedowncanmovewindow(true)
-    caption:setstyle { Height = 40, FlexDirection = 'row', JustifyContent = 'space-between' }
-    local title = gui.Label.create('W3x2Lni')
-    title:setmousedowncanmovewindow(true)
-    title:setstyle { Width = 120 }
-    ca.font(title, {font = { name = 'Constantia', size = 24, weight = 'bold' }})
-    caption:addchildview(title)
-    self._title = title
+local function create_mainview(win)
+    local template = ui.container {
+        color = '#222',
+        style = { Padding = 1 },
+        ui.container {
+            id = 'caption',
+            style = { Height = 40, FlexDirection = 'row', JustifyContent = 'space-between' },
+            bind = {
+                color = 'theme'
+            },
+            ui.label {
+                id = 'title',
+                font = { name = 'Constantia', size = 24, weight = 'bold' },
+                bind = {
+                    text = 'title'
+                }
+            },
+            ui.container {
+                id = 'close',
+                style = { Margin = 0, Width = 40 },
+                color_hover = '#BE3246',
+                bind = {
+                    color = 'theme'
+                }
+            }
+        }
+    }
+    
+    local view, data, element = ui.create(template, {
+        title = 'W3x2Lni',
+        theme = '#00ADD9',
+    })
+    
+    ev.on('update theme', function(color, title)
+        data.theme = color
+        data.title = title
+    end)
+    
+    element.caption:setmousedowncanmovewindow(true)
+    element.title:setmousedowncanmovewindow(true)
 
-    local close = gui.Container.create()
-    close:setstyle { Margin = 0, Width = 40 }
-
+    function element.close:onmousedown()
+        win:close()
+    end
     local canvas = gui.Canvas.createformainscreen{width=40, height=40}
     local painter = canvas:getpainter()
     painter:setstrokecolor('#000000')
@@ -54,27 +85,10 @@ function window:addcaption(w)
     painter:lineto(25, 15)
     painter:closepath()
     painter:stroke()
-    close._backgroundcolor1 = '#000000'
-    close:setbackgroundcolor('#000000')
-    function close:onmouseleave()
-        self:setbackgroundcolor(self._backgroundcolor1)
+    function element.close:ondraw(painter, dirty)
+        painter:drawcanvas(canvas, {x=0, y=0, width=40, height=40})
     end
-    function close:onmouseenter()
-        self:setbackgroundcolor('#BE3246')
-    end
-    ev.on('update theme', function()
-        close._backgroundcolor1 = window._color
-        close:setbackgroundcolor(close._backgroundcolor1)
-        caption:setbackgroundcolor(window._color)
-    end)
-    function close:onmousedown()
-        w:close()
-    end
-    function close.ondraw(self, painter, dirty)
-      painter:drawcanvas(canvas, {x=0, y=0, width=40, height=40})
-    end
-    caption:addchildview(close)
-    return caption
+    return view
 end
 
 function window:create(t)
@@ -84,17 +98,11 @@ function window:create(t)
     end
     win:settitle('w3x2lni')
     ext.register_window('w3x2lni')
-
-    local view = gui.Container.create()
-    view:setbackgroundcolor('#222')
-    view:setstyle { Padding = 1 }
-    local caption = self:addcaption(win)
-    view:addchildview(caption)
     win:sethasshadow(true)
     win:setresizable(false)
     win:setmaximizable(false)
     win:setminimizable(false)
-    win:setcontentview(view)
+    win:setcontentview(create_mainview(win))
     win:setcontentsize { width = t.width, height = t.height }
     win:center()
     win:activate()
@@ -102,9 +110,9 @@ function window:create(t)
 end
 
 function window:set_theme(title, color)
-    self._title:settext(title)
+    self._title = title
     self._color = color
-    ev.emit('update theme')
+    ev.emit('update theme', color, title)
 end
 
 function window:show_page(name)
