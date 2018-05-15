@@ -3,11 +3,13 @@ local backend = require 'gui.backend'
 local timer = require 'gui.timer'
 local messagebox = require 'ffi.messagebox'
 local lang = require 'share.lang'
+local config = require 'share.config'
 local push_error = require 'gui.push_error'
 local ui = require 'gui.new.template'
 local ev = require 'gui.event'
 require 'filesystem'
 
+local config = config:load()
 local worker
 local view
 local data
@@ -78,6 +80,7 @@ local template = ui.container {
     font = { size = 20 },
     -- upper
     ui.container {
+        id = 'config',
         style = { Padding = 8, FlexGrow = 1, JustifyContent = 'flex-start' },
         -- filename
         ui.button {
@@ -86,7 +89,7 @@ local template = ui.container {
                 title = 'filename',
                 color = 'theme'
             },
-        },
+        }
     },
     -- lower
     ui.container {
@@ -152,7 +155,7 @@ local template = ui.container {
     },
 }
 
-view, data = ui.create(template, {
+view, data, element = ui.create(template, {
     filename = '',
     message  = '',
     theme = window._color,
@@ -164,7 +167,7 @@ view, data = ui.create(template, {
     progress = {
         value = 0,
         visible = false
-    },
+    }
 })
 
 function view:on_show()
@@ -172,9 +175,148 @@ function view:on_show()
     data.filename = window._filename:filename():string()
 end
 
-ev.on('update theme', function()
-    data.theme = window._color
-    data.report.color = window._color
+local function checkbox(t)
+    t.on = {
+        mouseenter = 'update_tip(self.tip)',
+        mouseleave = 'update_tip()'
+    }
+    return ui.checkbox(t)
+end
+
+local data_template = {
+    config = {
+        lni = {
+            read_slk = config.lni.read_slk,
+            find_id_times = config.lni.find_id_times == 0,
+            export_lua = config.lni.export_lua,
+        }
+    },
+    update_tip = function(tip)
+        if tip then
+            data.message = tip
+        else
+            data.message = ''
+        end
+    end
+}
+
+local function lni()
+    local template = ui.container {
+        font = { size = 20 },
+        checkbox {
+            text = lang.ui.READ_SLK,
+            tip = lang.ui.READ_SLK_HINT,
+            bind = {
+                value = 'config.lni.read_slk'
+            }
+        },
+        ui.tree {
+            text = lang.ui.ADVANCED,
+            checkbox {
+                text = lang.ui.EXPORT_LUA,
+                tip = lang.ui.EXPORT_LUA_HINT,
+                bind = {
+                    value = 'config.lni.export_lua'
+                }
+            },
+            checkbox {
+                text = lang.ui.FIND_ID_TIMES,
+                tip = lang.ui.FIND_ID_TIMES_HINT,
+                bind = {
+                    value = 'config.lni.find_id_times'
+                }
+            }
+        }
+    }
+    return ui.create(template, data_template)
+end
+
+local function slk()
+    local template = ui.container {
+        font = { size = 20 },
+        checkbox {
+            text = lang.ui.SIMPLIFY,
+            tip = lang.ui.SIMPLIFY_HINT
+        },
+        checkbox {
+            text = lang.ui.OPTIMIZE_JASS,
+            tip = lang.ui.OPTIMIZE_JASS_HINT
+        },
+        checkbox {
+            text = lang.ui.MDX_SQUF,
+            tip = lang.ui.MDX_SQUF_HINT
+        },
+        checkbox {
+            text = lang.ui.REMOVE_WE_ONLY,
+            tip = lang.ui.REMOVE_WE_ONLY_HINT
+        },
+        ui.tree {
+            text = lang.ui.ADVANCED,
+            checkbox {
+                text = lang.ui.SLK_DOODAD,
+                tip = lang.ui.SLK_DOODAD_HINT
+            },
+            checkbox {
+                text = lang.ui.FIND_ID_TIMES,
+                tip = lang.ui.FIND_ID_TIMES_HINT
+            }
+        }
+    }
+    return ui.create(template, data_template)
+end
+
+local function obj()
+    local template = ui.container {
+        font = { size = 20 },
+        checkbox {
+            text = lang.ui.READ_SLK,
+            tip = lang.ui.READ_SLK_HINT
+        },
+        ui.tree {
+            text = lang.ui.ADVANCED,
+            checkbox {
+                text = lang.ui.FIND_ID_TIMES,
+                tip = lang.ui.FIND_ID_TIMES_HINT
+            }
+        }
+    }
+    return ui.create(template, data_template)
+end
+
+local function init(template)
+    return ui.create(template, {
+        update_tip = function(tip)
+            if tip then
+                data.message = tip
+            else
+                data.message = ''
+            end
+        end
+    })
+end
+
+local current_page
+local page = {}
+
+ev.on('update theme', function(color, title)
+    data.theme = color
+    data.report.color = color
+    
+    if current_page then
+        current_page:setvisible(false)
+    end
+    if not page[title] then
+        if title == 'W3x2Lni' then
+            page[title] = lni()
+        elseif title == 'W3x2Slk' then
+            page[title] = slk()
+        elseif title == 'W3x2Obj' then
+            page[title] = obj()
+        end
+        element.config:addchildview(page[title])
+    end
+    current_page = page[title]
+    current_page:setvisible(true)
 end)
 
 return view

@@ -42,25 +42,29 @@ local function checkbox_button(t, data)
         end
     end
     
-    local d_select
-    if type(t.value) == 'string' then
-        d_select = data:bind(t.value, function()
-            btn.value = d_select:get()
+    local bind = {}
+    if t.bind and t.bind.value then
+        bind.value = data:bind(t.bind.value, function()
+            btn.value = bind.value:get()
             update_color()
         end)
-        btn.value = d_select:get()
-    elseif type(t.value) == 'boolean' then
-        btn.value = t.value
+        btn.value = bind.value:get()
+        update_color()
     else
-        btn.value = false
+        if type(t.value) ~= 'nil' then
+            btn.value = t.value
+            update_color()
+        else
+            btn.value = false
+            update_color()
+        end
     end
-    update_color()
 
     function btn:onmousedown()
         btn.value = not btn.value
         update_color()
-        if d_select then
-            d_select:set(btn.value)
+        if bind.value then
+            bind.value:set(btn.value)
         end
     end
     function btn:onmouseleave()

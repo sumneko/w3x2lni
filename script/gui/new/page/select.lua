@@ -23,9 +23,10 @@ local template = ui.container {
             style = { Margin = 8, MarginTop = 2, MarginBottom = 2, Height = 140 },
             on = {
                 click = function()
-                    window:set_theme('W3x2Lni', '#00ADD9')
                     window._mode = 'lni'
+                    window:set_theme('W3x2Lni', '#00ADD9')
                     window:show_page 'convert'
+                    window:set_theme('W3x2Lni', '#00ADD9')
                 end
             }
         },
@@ -35,9 +36,10 @@ local template = ui.container {
             style = { Margin = 8, MarginTop = 2, MarginBottom = 2, Height = 140 },
             on = {
                 click = function()
-                    window:set_theme('W3x2Slk', '#00AD3C')
                     window._mode = 'slk'
+                    window:set_theme('W3x2Slk', '#00AD3C')
                     window:show_page 'convert'
+                    window:set_theme('W3x2Slk', '#00AD3C')
                 end
             }
         },
@@ -47,9 +49,10 @@ local template = ui.container {
             style = { Margin = 8, MarginTop = 2, MarginBottom = 2, Height = 140 },
             on = {
                 click = function()
-                    window:set_theme('W3x2Obj', '#D9A33C')
                     window._mode = 'obj'
+                    window:set_theme('W3x2Obj', '#D9A33C')
                     window:show_page 'convert'
+                    window:set_theme('W3x2Obj', '#D9A33C')
                 end
             }
         }
