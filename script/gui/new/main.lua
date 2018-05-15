@@ -2,7 +2,6 @@ local gui = require 'yue.gui'
 local ext = require 'yue-ext'
 local timer = require 'gui.timer'
 local ev = require 'gui.event'
-local ca = require 'gui.new.common_attribute'
 local ui = require 'gui.new.template'
 
 window = {}
