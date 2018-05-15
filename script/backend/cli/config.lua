@@ -1,23 +1,27 @@
 local messager = require 'share.messager'
-local config1, config2 = require 'share.config' (true, true)
+local config = require 'share.config'
 local lang = require 'share.lang'
 
 local function show_config(section, k, v)
-    if v[3] ~= nil then
-        messager.raw(('%s %s.%s = %s\r\n'):format(lang.raw.USED_MAP, section, k, tostring(v[3])))
+    local map = config:raw_map(section, k)
+    if map ~= nil then
+        messager.raw(('%s %s.%s = %s\r\n'):format(lang.raw.USED_MAP, section, k, map))
         return
     end
-    if v[2] ~= nil then
-        messager.raw(('%s %s.%s = %s\r\n'):format(lang.raw.USED_GLOBAL, section, k, tostring(v[2])))
+    local global = config:raw_global(section, k)
+    if global ~= nil then
+        messager.raw(('%s %s.%s = %s\r\n'):format(lang.raw.USED_GLOBAL, section, k, global))
         return
     end
-    messager.raw(('%s %s.%s = %s\r\n'):format(lang.raw.USED_DEFAULT, section, k, tostring(v[1])))
+    local default = config:raw_default(section, k)
+    messager.raw(('%s %s.%s = %s\r\n'):format(lang.raw.USED_DEFAULT, section, k, default))
 end
 
 return function (command)
+    config:open_map()
     if not command[2] then
         messager.raw(lang.raw.CONFIG_DISPLAY .. '\r\n\r\n')
-        for section, tbl in pairs(config2) do
+        for section, tbl in pairs(config) do
             for k, v in pairs(tbl) do
                 show_config(section, k, v)
             end
@@ -28,9 +32,9 @@ return function (command)
     local request = command[2]
     local section, k = request:match '(%a+)%.([%w_]+)$'
     if section then
-        local v = config2[section][k]
+        local v = config:define_comment(section, k)
         if v then
-            messager.raw(tostring(v[5]))
+            messager.raw(v)
             messager.raw('\r\n\r\n')
             messager.raw(lang.raw.CONFIG_DISPLAY .. '\r\n\r\n')
             show_config(section, k, v)
@@ -42,21 +46,21 @@ return function (command)
     end
     local section, k, v = request:match '(%a+)%.([%w_]+)%=(.*)$'
     if section then
-        local suc, msg = config2[section][k][4](v)
+        local suc, msg = config:define_check(section, k, v)
         if not suc then
             messager.exit('error', msg)
             os.exit(1)
         end
-        config1[section][k] = v
-        lang:set_lang(config1.global.lang)
+        config[section][k] = v
+        lang:set_lang(config.global.lang)
 
         messager.raw(lang.raw.CONFIG_UPDATE .. '\r\n\r\n')
         show_config(section, k, {nil, v})
 
-        if config2[section][k][3] ~= nil then
+        if config:raw_map(section, k) ~= nil then
             messager.raw('\r\n')
             messager.raw(lang.raw.CONFIG_USED_MAP .. '\r\n\r\n')
-            show_config(section, k, config2[section][k])
+            show_config(section, k, config:raw_map(section, k))
         end
         return
     end

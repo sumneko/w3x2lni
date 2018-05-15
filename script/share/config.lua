@@ -23,6 +23,15 @@ local function proxy(default, global, map, define, table)
     local table = table or {}
     if define._child then
         for _, k in ipairs(define) do
+            if not default[k] then
+                default[k] = {}
+            end
+            if not global[k] then
+                global[k] = {}
+            end
+            if not map[k] then
+                map[k] = {}
+            end
             table[k] = proxy(default[k], global[k], map[k], define[k])
         end
     end
@@ -34,7 +43,7 @@ local function proxy(default, global, map, define, table)
             end
             for i = 3, 1, -1 do
                 local lni = list[i]
-                if lni and lni[k] ~= nil then
+                if lni[k] ~= nil then
                     local suc, res = define[k][1](lni[k])
                     if suc then
                         return res
@@ -74,6 +83,34 @@ function api:close_map()
     for k in pairs(map_config) do
         map_config[k] = nil
     end
+end
+
+function api:raw_default(k1, k2)
+    return default_config[k1][k2]
+end
+
+function api:raw_global(k1, k2)
+    return global_config[k1][k2]
+end
+
+function api:raw_map(k1, k2)
+    return map_config[k1][k2]
+end
+
+function api:define_check(k1, k2, v)
+    local definer = define[k1][k2]
+    if not definer then
+        return false, '无效的配置'
+    end
+    return definer[1](v)
+end
+
+function api:define_comment(k1, k2)
+    local definer = define[k1][k2]
+    if not definer then
+        return false, '无效的配置'
+    end
+    return tostring(definer[2])
 end
 
 return proxy(default_config, global_config, map_config, define, api)

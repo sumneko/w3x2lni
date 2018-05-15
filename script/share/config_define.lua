@@ -7,9 +7,9 @@ local function string_proxy(key, concat)
             -- TODO 这里有个死循环隐患
             local lang = require 'share.lang'
             if concat then
-                return raw[key] .. concat()
+                return lang.raw[key] .. concat()
             else
-                return raw[key]
+                return lang.raw[key]
             end
         end,
         __concat = function (_, concat)
@@ -137,7 +137,7 @@ local function langf(v)
             return true, v, v
         end
     end
-    return false, raw.CONFIG_GLOBAL_LANG_ERROR .. lang_hint()
+    return false, raw.CONFIG_GLOBAL_LANG_ERROR .. lang_hint
 end
 
 local function is_valid_data(dir)
@@ -186,7 +186,7 @@ local function war3(v)
     if info then
         return false, info
     else
-        return false, raw.CONFIG_GLOBAL_WAR3_ERROR .. data_hint()
+        return false, raw.CONFIG_GLOBAL_WAR3_ERROR .. data_hint
     end
 end
 
@@ -205,7 +205,7 @@ local function ui(v)
     if info then
         return false, info
     else
-        return false, raw.CONFIG_GLOBAL_UI_ERROR .. data_hint()
+        return false, raw.CONFIG_GLOBAL_UI_ERROR .. data_hint
     end
 end
 
@@ -224,7 +224,7 @@ local function meta(v)
     if info then
         return false, info
     else
-        return false, raw.CONFIG_GLOBAL_META_ERROR .. data_hint()
+        return false, raw.CONFIG_GLOBAL_META_ERROR .. data_hint
     end
 end
 
@@ -243,7 +243,7 @@ local function wes(v)
     if info then
         return false, info
     else
-        return false, raw.CONFIG_GLOBAL_WES_ERROR .. data_hint()
+        return false, raw.CONFIG_GLOBAL_WES_ERROR .. data_hint
     end
 end
 

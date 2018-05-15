@@ -2,11 +2,11 @@ local config = require 'share.config'
 local lang = require 'share.lang'
 local w2l
 
-local function check(type, key, config)
+local function check(type, key)
     local effect  = config[type][key]
-    local default = config[type]._default._raw[key]
-    local global  = config[type]._global._raw[key]
-    local map     = config[type]._map._raw[key]
+    local default = config:raw_default(type, key)
+    local global  = config:raw_global(type, key)
+    local map     = config:raw_map(type, key)
     local raw
     if map ~= nil then
         raw = map
@@ -24,8 +24,8 @@ end
 return function (w2l_, input)
     w2l = w2l_
     config:open_map(input)
-    check('global' ,'data_war3', config)
-    check('global' ,'data_ui',   config)
-    check('global' ,'data_meta', config)
-    check('global' ,'data_wes',  config)
+    check('global' ,'data_war3')
+    check('global' ,'data_ui')
+    check('global' ,'data_meta')
+    check('global' ,'data_wes')
 end
