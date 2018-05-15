@@ -2,8 +2,8 @@ require 'filesystem'
 local lni = require 'lni'
 local define = require 'share.config_define'
 local root = fs.current_path()
-local default_config = lni(io.load(root / 'share' / 'config.ini'))
-local global_config  = lni(io.load(root:parent_path() / 'config.ini'))
+local default_config = lni(io.load(root / 'share' / 'config.ini'), 'script\\share\\config.ini')
+local global_config  = lni(io.load(root:parent_path() / 'config.ini'), 'config.ini')
 local map_config = {}
 
 local config = {}
@@ -103,7 +103,12 @@ function config:define_check(k1, k2, v)
         local lang = require 'share.lang'
         return false, lang.raw.INVALID_CONFIG
     end
-    return definer[1](v)
+    local suc, res = definer[1](v)
+    if suc then
+        return suc, res
+    else
+        return suc, tostring(res)
+    end
 end
 
 function config:define_comment(k1, k2)

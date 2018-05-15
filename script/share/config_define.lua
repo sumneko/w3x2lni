@@ -4,7 +4,6 @@ local root = fs.current_path()
 local function string_proxy(key, concat)
     return setmetatable({}, {
         __tostring = function ()
-            -- TODO 这里有个死循环隐患
             local lang = require 'share.lang'
             if concat then
                 return lang.raw[key] .. concat()
