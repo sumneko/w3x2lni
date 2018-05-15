@@ -1,16 +1,10 @@
 local gui = require 'yue.gui'
 local ext = require 'yue-ext'
 local timer = require 'gui.timer'
-local lang = require 'share.lang'
-local config = require 'share.config' (false)
-local input_path = require 'share.input_path'
-local builder = require 'map-builder'
-local war3 = require 'share.war3'
 local ev = require 'gui.event'
 local ca = require 'gui.new.common_attribute'
 local ui = require 'gui.new.template'
 
-lang:set_lang(config.global.lang)
 window = {}
 
 ext.on_timer = timer.update
@@ -18,6 +12,9 @@ function ext.on_dropfile(filename)
     if window._worker and not window._worker.exited then
         return
     end
+    local input_path = require 'share.input_path'
+    local builder = require 'map-builder'
+    local war3 = require 'share.war3'
     if war3:open(fs.path(filename)) then
         return
     end
