@@ -1,5 +1,4 @@
 local gui = require 'yue.gui'
-local ev = require 'gui.event'
 local ca = require 'gui.new.common_attribute'
 
 return function (t, data)

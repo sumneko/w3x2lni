@@ -106,6 +106,7 @@ local template = ui.container {
             bind = {
                 value = 'progress.value',
                 visible = 'progress.visible',
+                color = 'theme'
             },
         },
         -- report

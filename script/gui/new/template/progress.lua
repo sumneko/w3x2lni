@@ -1,5 +1,4 @@
 local gui = require 'yue.gui'
-local ev = require 'gui.event'
 local ca = require 'gui.new.common_attribute'
 local timer = require 'gui.timer'
 
@@ -11,14 +10,6 @@ return function (t, data)
     view:setbackgroundcolor '#444'
     local frontlabel = gui.Label.create('')
     view:addchildview(frontlabel)
-    if t.color then
-        frontlabel:setbackgroundcolor(t.color)
-    else
-        frontlabel:setbackgroundcolor(window._color)
-        ev.on('update theme', function()
-            frontlabel:setbackgroundcolor(window._color)
-        end)
-    end
     local frontground = 0
     local background = 0
     local ti
@@ -61,5 +52,6 @@ return function (t, data)
         set_progress(t.value or 0, true)
     end
     ca.visible(view, t, data, bind)
+    ca.label_color(frontlabel, t, data, bind)
     return view
 end
