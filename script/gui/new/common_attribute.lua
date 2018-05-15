@@ -25,17 +25,16 @@ local function label_color(self, t, data, bind)
             color_normal = color
             color_hover = color
         end
+        updatebackgroundcolor()
     end
     if t.bind and t.bind.color then
         bind.color = data:bind(t.bind.color, function()
             setbackgroundcolor(bind.color:get())
         end)
         setbackgroundcolor(bind.color:get())
-        updatebackgroundcolor()
     else
         if t.color then
             setbackgroundcolor(t.color)
-            updatebackgroundcolor()
         end
     end
 end
@@ -85,17 +84,16 @@ local function button_color(self, t, data, bind)
                 updatebackgroundcolor()
             end
         end
+        updatebackgroundcolor()
     end
     if t.bind and t.bind.color then
         bind.color = data:bind(t.bind.color, function()
             setbackgroundcolor(bind.color:get())
         end)
         setbackgroundcolor(bind.color:get())
-        updatebackgroundcolor()
     else
         if t.color then
             setbackgroundcolor(t.color)
-            updatebackgroundcolor()
         end
     end
 end
