@@ -19,8 +19,20 @@ local function sortpairs(t)
     end
 end
 
-return function (report)
+return function (w2l, report, config, clock, err, warn)
     local lines = {}
+    lines[#lines+1] = lang.report.INPUT_PATH .. config.input:string()
+    lines[#lines+1] = lang.report.OUTPUT_PATH .. config.output:string()
+    if w2l.input_mode == 'lni' then
+        lines[#lines+1] = lang.report.INPUT_FORMAT .. 'Lni'
+    elseif w2l.input_ar:get_type() == 'mpq' then
+        lines[#lines+1] = lang.report.INPUT_FORMAT .. 'Mpq'
+    elseif w2l.input_ar:get_type() == 'dir' then
+        lines[#lines+1] = lang.report.INPUT_FORMAT .. 'Dir'
+    end
+    lines[#lines+1] = lang.report.OUTPUT_MODE .. config.mode
+    lines[#lines+1] = lang.report.RESULT .. lang.script.ERROR_COUNT:format(err, warn)
+    lines[#lines+1] = lang.report.TAKES_TIME:format(clock)
     for type, report in sortpairs(report) do
         if type ~= '' then
             

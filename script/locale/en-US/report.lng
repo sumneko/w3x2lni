@@ -172,3 +172,15 @@ Unexpect expression type
 Unexpect judgment type
 [UNEXPECT_CHUNK]
 Unexpect chunk type
+[INPUT_PATH]
+Input_path: 
+[OUTPUT_PATH]
+Output path: 
+[INPUT_FORMAT]
+Input format: 
+[OUTPUT_MODE]
+Output mode: 
+[RESULT]
+Result: 
+[TAKES_TIME]
+Takes: %.3f sec

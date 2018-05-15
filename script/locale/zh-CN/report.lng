@@ -172,3 +172,15 @@
 未知的判断类型
 [UNEXPECT_CHUNK]
 未知的代码行类型
+[INPUT_PATH]
+输入路径：
+[OUTPUT_PATH]
+输出路径：
+[INPUT_FORMAT]
+输入格式：
+[OUTPUT_MODE]
+输出模式：
+[RESULT]
+结果：
+[TAKES_TIME]
+用时：%.3f 秒

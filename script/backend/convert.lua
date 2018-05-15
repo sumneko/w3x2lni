@@ -58,6 +58,7 @@ local function exit(report)
     else
         messager.exit('success', lang.script.ERROR_COUNT:format(err, warn))
     end
+    return err, warn
 end
 
 function w2l:map_load(filename)
@@ -169,7 +170,9 @@ return function (mode)
     
     w2l:set_config(config)
     
+    w2l.input_ar = input_ar
     output = config.output or default_output(config.input)
+    config.output = output
     if w2l.config.target_storage == 'dir' then
         if not fs.exists(output) then
             fs.create_directories(output)
@@ -180,6 +183,7 @@ return function (mode)
         w2l:failed(err)
     end
     output_ar:flush()
+    w2l.output_ar = output_ar
     
     input_proxy = builder.proxy(input_ar, w2l.input_mode)
     output_proxy = builder.proxy(output_ar, config.mode)
@@ -237,7 +241,8 @@ return function (mode)
     w2l.progress:finish()
     
     fs.create_directories(root:parent_path() / 'log')
-    io.save(root:parent_path() / 'log' / 'report.log', get_report(report))
-    messager.text((lang.script.FINISH):format(os.clock()))
-    exit(report)
+    local clock = os.clock()
+    messager.text(lang.script.FINISH:format(clock))
+    local err, warn = exit(report)
+    io.save(root:parent_path() / 'log' / 'report.log', get_report(w2l, report, config, clock, err, warn))
 end
