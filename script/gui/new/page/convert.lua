@@ -191,23 +191,7 @@ end
 
 local configData = databinding {
     theme = window._color,
-    config = {
-        lni = {
-            read_slk = config.lni.read_slk,
-            export_lua = config.lni.export_lua,
-        },
-        slk = {
-            remove_unuse_object = config.slk.remove_unuse_object,
-            optimize_jass = config.slk.optimize_jass,
-            mdx_squf = config.slk.mdx_squf,
-            remove_we_only = config.slk.remove_we_only,
-            slk_doodad = config.slk.slk_doodad,
-            confused = config.slk.confused,
-        },
-        obj = {
-            read_slk = config.obj.read_slk,
-        }
-    },
+    config = config,
     update_tip = function(tip)
         if tip then
             data.message = tip
