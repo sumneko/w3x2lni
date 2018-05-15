@@ -1,45 +1,17 @@
-local function label_color(self, t, data, bind)
-    local color_hover = ''
-    local color_normal = ''
-    local hover = false
-    local event = false
-    local function updatebackgroundcolor()
-        self:setbackgroundcolor(hover and color_hover or color_normal)
-    end
-    local function setbackgroundcolor(color)
-        if type(color) == 'table' then
-            color_normal = color.normal
-            color_hover = color.hover
-            if not event then
-                event = true
-                function self:onmouseleave()
-                    hover = false
-                    updatebackgroundcolor()
-                end
-                function self:onmouseenter()
-                    hover = true
-                    updatebackgroundcolor()
-                end
-            end
-        else
-            color_normal = color
-            color_hover = color
-        end
-        updatebackgroundcolor()
-    end
-    if t.bind and t.bind.color then
-        bind.color = data:bind(t.bind.color, function()
-            setbackgroundcolor(bind.color:get())
+local function BindValue(t, data, bind, name, func)
+    if t.bind and t.bind[name] then
+        bind[name] = data:bind(t.bind[name], function()
+            func(bind[name]:get())
         end)
-        setbackgroundcolor(bind.color:get())
+        func(bind[name]:get())
     else
-        if t.color then
-            setbackgroundcolor(t.color)
+        if t[name] ~= nil then
+            func(t[name])
         end
     end
 end
 
-local function getHoverColor(color)
+local function GetHoverColor(color)
     if #color == 4 then
         return ('#%01X%01X%01X'):format(
             math.min(tonumber(color:sub(2, 2), 16) + 0x1, 0xF),
@@ -57,58 +29,60 @@ local function getHoverColor(color)
     end
 end
 
+local function label_color(self, t, data, bind)
+    local color_hover = ''
+    local color_normal = ''
+    local event = false
+    BindValue(t, data, bind, 'color', function (color)
+        if type(color) == 'table' then
+            color_normal = color.normal
+            color_hover = color.hover
+            if not event then
+                event = true
+                function self:onmouseleave()
+                    self:setbackgroundcolor(color_normal)
+                end
+                function self:onmouseenter()
+                    self:setbackgroundcolor(color_hover)
+                end
+            end
+        else
+            color_normal = color
+            color_hover = color
+        end
+        self:setbackgroundcolor(color_normal)
+    end)
+end
+
 local function button_color(self, t, data, bind)
     local color_hover = ''
     local color_normal = ''
-    local hover = false
     local event = false
-    local function updatebackgroundcolor()
-        self:setbackgroundcolor(hover and color_hover or color_normal)
-    end
-    local function setbackgroundcolor(color)
+    BindValue(t, data, bind, 'color', function (color)
         if type(color) == 'table' then
             color_normal = color.normal
             color_hover = color.hover
         else
             color_normal = color
-            color_hover = getHoverColor(color)
+            color_hover = GetHoverColor(color)
         end
         if not event then
             event = true
             function self:onmouseleave()
-                hover = false
-                updatebackgroundcolor()
+                self:setbackgroundcolor(color_normal)
             end
             function self:onmouseenter()
-                hover = true
-                updatebackgroundcolor()
+                self:setbackgroundcolor(color_hover)
             end
         end
-        updatebackgroundcolor()
-    end
-    if t.bind and t.bind.color then
-        bind.color = data:bind(t.bind.color, function()
-            setbackgroundcolor(bind.color:get())
-        end)
-        setbackgroundcolor(bind.color:get())
-    else
-        if t.color then
-            setbackgroundcolor(t.color)
-        end
-    end
+        self:setbackgroundcolor(color_normal)
+    end)
 end
 
 local function visible(self, t, data, bind)
-    if t.bind and t.bind.visible then
-        bind.visible = data:bind(t.bind.visible, function()
-            self:setvisible(bind.visible:get())
-        end)
-        self:setvisible(bind.visible:get())
-    else
-        if t.visible ~= nil then
-            self:setvisible(t.visible)
-        end
-    end
+    BindValue(t, data, bind, 'visible', function (value)
+        self:setvisible(value)
+    end)
 end
 
 return {
