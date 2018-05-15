@@ -25,7 +25,7 @@ return function (t, data)
         if n >= 1 then
             set_progress(1, true)
         end
-        if n <= 0 then
+        if n < background then
             set_progress(n, true)
             return
         end
