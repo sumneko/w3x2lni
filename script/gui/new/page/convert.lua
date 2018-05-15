@@ -78,10 +78,10 @@ local template = ui.container {
     font = { size = 20 },
     -- upper
     ui.container {
-        style = { FlexGrow = 1, JustifyContent = 'flex-start' },
+        style = { Padding = 8, FlexGrow = 1, JustifyContent = 'flex-start' },
         -- filename
         ui.button {
-            style = { Height = 36, Margin = 8, MarginTop = 16, MarginBottom = 16 },
+            style = { Height = 36, MarginTop = 8, MarginBottom = 16 },
             bind = {
                 title = 'filename',
                 color = 'theme'
