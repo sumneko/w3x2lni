@@ -82,7 +82,7 @@ local function checkbox_label(t)
     local label = gui.Label.create(t.text)
     label:setcolor('#AAA')
     label:setalign 'start'
-    label:setstyle { FlexGrow = 1, MarginTop = 3 }
+    label:setstyle { FlexGrow = 1 }
     ca.font(label, t)
     return label
 end
@@ -97,5 +97,7 @@ return function (t, data)
     o:addchildview(btn)
     o:addchildview(lbl)
     o:addchildview(checkbox_label(t))
+    ca.event(o, t, data, 'mouseenter')
+    ca.event(o, t, data, 'mouseleave')
     return o
 end

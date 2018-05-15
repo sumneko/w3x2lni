@@ -116,9 +116,26 @@ local function font(self, t)
     self:setfont(r)
 end
 
+local function event(self, t, data, name)
+    if not t.on or not t.on[name] then
+        return
+    end
+    local on = t.on[name]
+    if type(on) == 'function' then
+        self['on'..name] = function (self)
+            on(t)
+        end
+    elseif type(on) == 'string' then
+        self['on'..name] = function (self)
+            data:execute(on, t)
+        end
+    end
+end
+
 return {
     label_color = label_color,
     button_color = button_color,
     visible = visible,
     font = font,
+    event = event,
 }
