@@ -79,13 +79,13 @@ local function fbj(id)
     end
     if need_mark[id] then
         if need_mark[id] == 'creeps' and not marks.creeps then
-            w2l.messager.report(lang.report.SIMPLIFY, 4, lang.report.RETAIN_CREEP_UNIT, (lang.report.REFERENCE_BY_JASS):format(id))
+            w2l.messager.report(lang.report.REMOVE_UNUSED_OBJECT, 4, lang.report.RETAIN_CREEP_UNIT, (lang.report.REFERENCE_BY_JASS):format(id))
         end
         if need_mark[id] == 'building' and not marks.building then
-            w2l.messager.report(lang.report.SIMPLIFY, 4, lang.report.RETAIN_CREEP_BUILDING, (lang.report.REFERENCE_BY_JASS):format(id))
+            w2l.messager.report(lang.report.REMOVE_UNUSED_OBJECT, 4, lang.report.RETAIN_CREEP_BUILDING, (lang.report.REFERENCE_BY_JASS):format(id))
         end
         if need_mark[id] == 'item' and not marks.item then
-            w2l.messager.report(lang.report.SIMPLIFY, 4, lang.report.RETAIN_RANDOM_ITEM, (lang.report.REFERENCE_BY_JASS):format(id))
+            w2l.messager.report(lang.report.REMOVE_UNUSED_OBJECT, 4, lang.report.RETAIN_RANDOM_ITEM, (lang.report.REFERENCE_BY_JASS):format(id))
         end
         marks[need_mark[id]] = true
     end

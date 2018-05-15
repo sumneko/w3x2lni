@@ -268,7 +268,7 @@ local function window_convert(canvas)
     else
         height = height - 129
         canvas:layout_row_dynamic(30, 1)
-        checkbox_simple(canvas, lang.ui.SIMPLIFY, lang.ui.SIMPLIFY_HINT, 'remove_unuse_object')
+        checkbox_simple(canvas, lang.ui.REMOVE_UNUSED_OBJECT, lang.ui.SIMPLIFY_HINT, 'remove_unuse_object')
         checkbox_simple(canvas, lang.ui.OPTIMIZE_JASS, lang.ui.OPTIMIZE_JASS_HINT, 'optimize_jass')
         checkbox_simple(canvas, lang.ui.MDX_SQUF, lang.ui.MDX_SQUF_HINT, 'mdx_squf')
         checkbox_simple(canvas, lang.ui.REMOVE_WE_ONLY, lang.ui.REMOVE_WE_ONLY_HINT, 'remove_we_only')
