@@ -180,10 +180,14 @@ local function checkbox(t)
         mouseenter = 'update_tip(self.tip)',
         mouseleave = 'update_tip()'
     }
+    t.bind = {
+        color = 'theme'
+    }
     return ui.checkbox(t)
 end
 
 local data_template = {
+    theme = window._color,
     config = {
         lni = {
             read_slk = config.lni.read_slk,
@@ -283,39 +287,31 @@ local function obj()
     return ui.create(template, data_template)
 end
 
-local function init(template)
-    return ui.create(template, {
-        update_tip = function(tip)
-            if tip then
-                data.message = tip
-            else
-                data.message = ''
-            end
-        end
-    })
-end
-
 local current_page
-local page = {}
+local pages = {}
 
 ev.on('update theme', function(color, title)
     data.theme = color
     data.report.color = color
     
+    for _, page in pairs(pages) do
+        page[2].theme = color
+    end
+
     if current_page then
         current_page:setvisible(false)
     end
-    if not page[title] then
+    if not pages[title] then
         if title == 'W3x2Lni' then
-            page[title] = lni()
+            pages[title] = { lni() }
         elseif title == 'W3x2Slk' then
-            page[title] = slk()
+            pages[title] = { slk() }
         elseif title == 'W3x2Obj' then
-            page[title] = obj()
+            pages[title] = { obj() }
         end
-        element.config:addchildview(page[title])
+        element.config:addchildview(pages[title][1])
     end
-    current_page = page[title]
+    current_page = pages[title][1]
     current_page:setvisible(true)
 end)
 

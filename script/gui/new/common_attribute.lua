@@ -53,7 +53,7 @@ local function label_color(self, t, data, bind)
     end)
 end
 
-local function button_color(self, t, data, bind)
+local function button_color(self1, self2, t, data, bind)
     local color_hover = ''
     local color_normal = ''
     local has_hover = false
@@ -65,25 +65,25 @@ local function button_color(self, t, data, bind)
         end
         if not event then
             event = true
-            function self:onmouseleave()
-                self:setbackgroundcolor(color_normal)
+            function self1:onmouseleave()
+                self2:setbackgroundcolor(color_normal)
             end
-            function self:onmouseenter()
-                self:setbackgroundcolor(color_hover)
+            function self1:onmouseenter()
+                self2:setbackgroundcolor(color_hover)
             end
         end
-        self:setbackgroundcolor(color_normal)
+        self2:setbackgroundcolor(color_normal)
     end)
     BindValue(t, data, bind, 'color_hover', function (color)
         color_hover = true
         color_hover = color
         if not event then
             event = true
-            function self:onmouseleave()
-                self:setbackgroundcolor(color_normal)
+            function self1:onmouseleave()
+                self2:setbackgroundcolor(color_normal)
             end
-            function self:onmouseenter()
-                self:setbackgroundcolor(color_hover)
+            function self1:onmouseenter()
+                self2:setbackgroundcolor(color_hover)
             end
         end
     end)

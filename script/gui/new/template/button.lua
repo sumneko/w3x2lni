@@ -22,7 +22,7 @@ return function (t, data)
         end
     end
     ca.font(btn, t)
-    ca.button_color(btn, t, data, bind)
+    ca.button_color(btn, btn, t, data, bind)
     ca.visible(btn, t, data, bind)
     return btn
 end

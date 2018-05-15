@@ -24,21 +24,14 @@ local function checkbox_button(t, data)
     local btn = gui.Button.create('')
     local lbl = gui.Label.create('')
     btn:setstyle { Width = 20, Height = 20 }
-    lbl:setstyle { Width = 16, Height = 16, Position = 'absolute', Left = 2, Top = 2 }
-    btn.hover = t.hover or false
     btn:setbackgroundcolor('#333743')
-    lbl._backgroundcolor1 = window._color
+    lbl:setstyle { Width = 16, Height = 16, Position = 'absolute', Left = 2, Top = 2 }
+
     local function update_color()
-        lbl._backgroundcolor2 = getActiveColor(lbl._backgroundcolor1)
         if btn.value then
             lbl:setvisible(true)
         else
             lbl:setvisible(false)
-        end
-        if btn.hover then
-            lbl:setbackgroundcolor(lbl._backgroundcolor1)
-        else
-            lbl:setbackgroundcolor(lbl._backgroundcolor2)
         end
     end
     
@@ -67,18 +60,7 @@ local function checkbox_button(t, data)
             bind.value:set(btn.value)
         end
     end
-    function btn:onmouseleave()
-        btn.hover = false
-        lbl:setbackgroundcolor(lbl._backgroundcolor1)
-    end
-    function btn:onmouseenter()
-        btn.hover = true
-        lbl:setbackgroundcolor(lbl._backgroundcolor2)
-    end
-    ev.on('update theme', function()
-        lbl._backgroundcolor1 = window._color
-        update_color()
-    end)
+    ca.button_color(btn, lbl, t, data, bind)
     return btn, lbl
 end
 
