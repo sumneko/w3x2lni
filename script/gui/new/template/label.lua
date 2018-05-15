@@ -32,6 +32,6 @@ return function (t, data)
             label:setcolor(t.text_color)
         end
     end
-    ca.color(label, t, data, bind)
+    ca.label_color(label, t, data, bind)
     return label
 end

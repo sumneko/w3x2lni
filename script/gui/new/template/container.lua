@@ -7,6 +7,6 @@ return function (t, data)
         o:setstyle(t.style)
     end
     local bind = {}
-    ca.color(o, t, data, bind)
+    ca.label_color(o, t, data, bind)
     return o
 end
