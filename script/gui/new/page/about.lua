@@ -49,6 +49,9 @@ local template = ui.container {
     ui.button {
         title = lang.ui.BACK,
         style = { Bottom = 0, Height = 28, Margin = 5 },
+        bind = {
+            color = 'theme'
+        },
         on = {
             click = function()
                 window:show_page('index')

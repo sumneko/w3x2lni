@@ -1,5 +1,3 @@
-local ev = require 'gui.event'
-
 local function label_color(self, t, data, bind)
     local color_hover = ''
     local color_normal = ''
@@ -98,13 +96,6 @@ local function button_color(self, t, data, bind)
         if t.color then
             setbackgroundcolor(t.color)
             updatebackgroundcolor()
-        else
-            setbackgroundcolor(window._color)
-            updatebackgroundcolor()
-            ev.on('update theme', function()
-                setbackgroundcolor(window._color)
-                updatebackgroundcolor()
-            end)
         end
     end
 end

@@ -38,6 +38,9 @@ local template = ui.container {
     ui.button {
         title = lang.ui.BACK,
         style = { Bottom = 0, Height = 28, Margin = 5 },
+        bind = {
+            color = 'theme'
+        }
         on = {
             click = function()
                 window:show_page('convert')
@@ -50,8 +53,13 @@ local view, data = ui.create(template, {
     report = {
         text = '',
         height = 0,
+        theme = window._color
     }
 })
+
+ev.on('update theme', function()
+    data.theme = window._color
+end)
 
 function view:on_show()
     local text = get_report(backend.report)

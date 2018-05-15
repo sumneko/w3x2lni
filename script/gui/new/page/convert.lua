@@ -84,6 +84,7 @@ local template = ui.container {
             style = { Height = 36, Margin = 8, MarginTop = 16, MarginBottom = 16 },
             bind = {
                 title = 'filename',
+                color = 'theme'
             },
         },
     },
@@ -127,6 +128,9 @@ local template = ui.container {
         ui.button {
             title = lang.ui.START,
             style = { Height = 50, Margin = 2 },
+            bind = {
+                color = 'theme'
+            },
             on = {
                 click = function ()
                     if worker and not worker.exited then
@@ -150,6 +154,7 @@ local template = ui.container {
 view, data = ui.create(template, {
     filename = '',
     message  = '',
+    theme = window._color,
     report   = {
         text  = '',
         color = window._color,
@@ -167,6 +172,7 @@ function view:on_show()
 end
 
 ev.on('update theme', function()
+    data.theme = window._color
     data.report.color = window._color
 end)
 

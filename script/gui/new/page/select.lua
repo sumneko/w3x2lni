@@ -1,5 +1,6 @@
 local lang = require 'share.lang'
 local ui = require 'gui.new.template'
+local ev = require 'gui.event'
 
 local template = ui.container {
     style = { FlexGrow = 1, Padding = 1 },
@@ -10,6 +11,7 @@ local template = ui.container {
             style = { Height = 36, Margin = 8, MarginTop = 16, MarginBottom = 16 },
             bind = {
                 title = 'filename',
+                color = 'theme'
             }
         }
     },
@@ -55,8 +57,13 @@ local template = ui.container {
 }
 
 local view, data = ui.create(template, {
-    filename = ''
+    filename = '',
+    theme = window._color
 })
+
+ev.on('update theme', function()
+    data.theme = window._color
+end)
 
 function view:on_show()
     data.filename = window._filename:filename():string()
