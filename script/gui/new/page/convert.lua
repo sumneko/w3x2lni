@@ -6,6 +6,7 @@ local lang = require 'share.lang'
 local config = require 'share.config'
 local push_error = require 'gui.push_error'
 local ui = require 'gui.new.template'
+local databinding = require 'gui.new.databinding'
 local ev = require 'gui.event'
 require 'filesystem'
 
@@ -186,7 +187,7 @@ local function checkbox(t)
     return ui.checkbox(t)
 end
 
-local data_template = {
+local configData = databinding {
     theme = window._color,
     config = {
         lni = {
@@ -235,7 +236,7 @@ local function lni()
             }
         }
     }
-    return ui.create(template, data_template)
+    return ui.createEx(template, configData)
 end
 
 local function slk()
@@ -272,7 +273,7 @@ local function slk()
             }
         }
     }
-    return ui.create(template, data_template)
+    return ui.createEx(template, configData)
 end
 
 local function obj()
@@ -293,7 +294,7 @@ local function obj()
             }
         }
     }
-    return ui.create(template, data_template)
+    return ui.createEx(template, configData)
 end
 
 local current_page
@@ -303,24 +304,22 @@ ev.on('update theme', function(color, title)
     data.theme = color
     data.report.color = color
     
-    for _, page in pairs(pages) do
-        page[2].theme = color
-    end
+    configData.proxy.theme = color
 
     if current_page then
         current_page:setvisible(false)
     end
     if not pages[title] then
         if title == 'W3x2Lni' then
-            pages[title] = { lni() }
+            pages[title] = lni()
         elseif title == 'W3x2Slk' then
-            pages[title] = { slk() }
+            pages[title] = slk()
         elseif title == 'W3x2Obj' then
-            pages[title] = { obj() }
+            pages[title] = obj()
         end
-        element.config:addchildview(pages[title][1])
+        element.config:addchildview(pages[title])
     end
-    current_page = pages[title][1]
+    current_page = pages[title]
     current_page:setvisible(true)
 end)
 

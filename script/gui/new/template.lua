@@ -18,12 +18,6 @@ local function create_template(t, data, element)
     return view
 end
 
-local function create(t, data)
-    local element = {}
-    local data = databinding(data)
-    return create_template(t, data, element), data.proxy, element
-end
-
 local ui = {}
 
 function ui:__index(name)
@@ -35,4 +29,18 @@ function ui:__index(name)
     return reg
 end
 
-return setmetatable({ create = create }, ui)
+local function create(t, dataTemplate)
+    local element = {}
+    local data = databinding(dataTemplate)
+    return create_template(t, data, element), data.proxy, element
+end
+
+local function createEx(t, data)
+    local element = {}
+    return create_template(t, data, element), data.proxy, element
+end
+
+return setmetatable({
+    create = create,
+    createEx = createEx,
+}, ui)
