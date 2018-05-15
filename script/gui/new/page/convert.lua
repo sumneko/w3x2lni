@@ -125,7 +125,7 @@ local template = ui.container {
         },
         -- start
         ui.button {
-            title = '开始',
+            title = lang.ui.START,
             style = { Height = 50, Margin = 2 },
             on = {
                 click = function ()
