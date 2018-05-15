@@ -1,4 +1,4 @@
-local config = require 'share.config' (true)
+local config = require 'share.config' :load()
 local root = fs.current_path()
 
 return function (w2l, version, slk)

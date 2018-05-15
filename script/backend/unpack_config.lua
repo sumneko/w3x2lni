@@ -27,7 +27,7 @@ return function (mode)
     local input = input_path(command[2])
     local output = output_path(command[3])
 
-    local tbl = create_config(input)
+    local tbl = create_config:load_map(input)
     for k, v in pairs(tbl.global) do
         config[k] = v
     end

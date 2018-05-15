@@ -12,7 +12,7 @@ local core  = require 'backend.sandbox_core'
 --local order_prebuilt = require 'order.prebuilt'
 local prebuilt_metadata = require 'prebuilt.metadata'
 local maketemplate = require 'prebuilt.maketemplate'
-local config = require 'share.config' (true)
+local config = require 'share.config' :load()
 
 local root = fs.current_path()
 local w2l = core()

@@ -1,9 +1,5 @@
 require 'filesystem'
 local lni = require 'lni'
-local lang = require 'share.lang'
-local input_path = require 'share.input_path'
-local command = require 'share.command'
-local builder = require 'map-builder'
 local config_loader = require 'share.config_loader'
 local root = fs.current_path()
 local default_config
@@ -85,35 +81,36 @@ local function proxy(default, global, map, merge)
     return table
 end
 
-return function (path, ext)
+local api = {}
+
+function api:load()
     if not default_config then
         default_config = load_config(io.load(root / 'share' / 'config.ini'), true)
     end
     if not global_config then
         global_config = load_config(io.load(root:parent_path() / 'config.ini'), false)
     end
-    local map_config
-    if path then
-        if path == true then
-            path = nil
-        end
-        local map = builder.load(input_path(path))
-        if map then
-            map_config = load_config(map:get 'w3x2lni\\config.ini', false)
-            map:close()
-        end
-        if not map_config then
-            map_config = load_config()
-        end
-    else
+    return proxy(default_config, global_config, {}, true)
+end
+
+function api:load_map(path)
+    local builder = require 'map-builder'
+    local input_path = require 'share.input_path'
+    if not default_config then
+        default_config = load_config(io.load(root / 'share' / 'config.ini'), true)
+    end
+    if not global_config then
+        global_config = load_config(io.load(root:parent_path() / 'config.ini'), false)
+    end
+    local map = builder.load(input_path(path))
+    if map then
+        map_config = load_config(map:get 'w3x2lni\\config.ini', false)
+        map:close()
+    end
+    if not map_config then
         map_config = {}
     end
-    if ext then
-        local t1 = proxy(default_config, global_config, map_config, true)
-        local t2 = proxy(default_config, global_config, map_config, false)
-        return t1, t2
-    else
-        local t1 = proxy(default_config, global_config, map_config, true)
-        return t1
-    end
+    return proxy(default_config, global_config, map_config, true)
 end
+
+return api

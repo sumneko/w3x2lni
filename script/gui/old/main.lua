@@ -34,7 +34,7 @@ NK_TEXT_RIGHT          = NK_TEXT_ALIGN_MIDDLE | NK_TEXT_ALIGN_RIGHT
 
 local root = fs.current_path():remove_filename()
 local fmt = nil
-local config = create_config(false)
+local config = create_config:load()
 
 local function getexe()
 	local i = 0
@@ -70,7 +70,7 @@ function window:dropfile(file)
     map:close()
     mappath = inputpath
     mapname = mappath:filename():string()
-    config = create_config(mappath)
+    config = create_config:load_map(mappath)
     uitype = 'select'
 end
 
