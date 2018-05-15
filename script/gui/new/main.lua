@@ -30,17 +30,10 @@ function ext.on_dropfile(filename)
     window:show_page('select')
 end
 
-function window:close_theme()
-    self._close._backgroundcolor1 = self._color
-    self._close:setbackgroundcolor(self._close._backgroundcolor1)
-end
-
 function window:addcaption(w)
     local caption = gui.Container.create()
     caption:setmousedowncanmovewindow(true)
     caption:setstyle { Height = 40, FlexDirection = 'row', JustifyContent = 'space-between' }
-    self._caption = caption
-    g_caption = caption
     local title = gui.Label.create('W3x2Lni')
     title:setmousedowncanmovewindow(true)
     title:setstyle { Width = 120 }
@@ -69,15 +62,17 @@ function window:addcaption(w)
     function close:onmouseenter()
         self:setbackgroundcolor('#BE3246')
     end
+    ev.on('update theme', function()
+        close._backgroundcolor1 = window._color
+        close:setbackgroundcolor(close._backgroundcolor1)
+        caption:setbackgroundcolor(window._color)
+    end)
     function close:onmousedown()
         w:close()
     end
     function close.ondraw(self, painter, dirty)
       painter:drawcanvas(canvas, {x=0, y=0, width=40, height=40})
     end
-
-    self._close = close
-    
     caption:addchildview(close)
     return caption
 end
@@ -109,8 +104,6 @@ end
 function window:set_theme(title, color)
     self._title:settext(title)
     self._color = color
-    self._caption:setbackgroundcolor(color)
-    self:close_theme()
     ev.emit('update theme')
 end
 
