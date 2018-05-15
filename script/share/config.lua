@@ -6,12 +6,14 @@ local default_config = lni(io.load(root / 'share' / 'config.ini'))
 local global_config  = lni(io.load(root:parent_path() / 'config.ini'))
 local map_config = {}
 
+local config = {}
+
 local function save()
     local lines = {}
-    for name, t in pairs(global_config) do
+    for name, t in pairs(config) do
         lines[#lines+1] = ('[%s]'):format(name)
-        for k, _, v in pairs(t) do
-            lines[#lines+1] = ('%s = %s'):format(k, v)
+        for k, v in pairs(t) do
+            lines[#lines+1] = ('%s = %s'):format(k, global_config[name][k])
         end
         lines[#lines+1] = ''
     end
@@ -67,9 +69,7 @@ local function proxy(default, global, map, define, table)
     return table
 end
 
-local api = {}
-
-function api:open_map(path)
+function config:open_map(path)
     local builder = require 'map-builder'
     local input_path = require 'share.input_path'
     local map = builder.load(input_path(path))
@@ -79,25 +79,25 @@ function api:open_map(path)
     end
 end
 
-function api:close_map()
+function config:close_map()
     for k in pairs(map_config) do
         map_config[k] = nil
     end
 end
 
-function api:raw_default(k1, k2)
+function config:raw_default(k1, k2)
     return default_config[k1][k2]
 end
 
-function api:raw_global(k1, k2)
+function config:raw_global(k1, k2)
     return global_config[k1][k2]
 end
 
-function api:raw_map(k1, k2)
+function config:raw_map(k1, k2)
     return map_config[k1][k2]
 end
 
-function api:define_check(k1, k2, v)
+function config:define_check(k1, k2, v)
     local definer = define[k1][k2]
     if not definer then
         return false, '无效的配置'
@@ -105,7 +105,7 @@ function api:define_check(k1, k2, v)
     return definer[1](v)
 end
 
-function api:define_comment(k1, k2)
+function config:define_comment(k1, k2)
     local definer = define[k1][k2]
     if not definer then
         return false, '无效的配置'
@@ -113,4 +113,4 @@ function api:define_comment(k1, k2)
     return tostring(definer[2])
 end
 
-return proxy(default_config, global_config, map_config, define, api)
+return proxy(default_config, global_config, map_config, define, config)
