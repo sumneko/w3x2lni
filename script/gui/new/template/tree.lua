@@ -90,6 +90,7 @@ return function (t, data)
         o:setstyle(t.style)
     end
     local children = tree_children(t)
+    children:setstyle { Padding = 4 }
     local btn = tree_button(t, children)
     local bind = {}
     ca.button_color(btn, btn, t, data, bind)

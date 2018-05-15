@@ -78,7 +78,7 @@ end
 
 local template = ui.container {
     style = { FlexGrow = 1, Padding = 1 },
-    font = { size = 20 },
+    font = { size = 18 },
     -- upper
     ui.container {
         id = 'config',
@@ -181,6 +181,7 @@ local function checkbox(t)
         mouseenter = 'update_tip(self.tip)',
         mouseleave = 'update_tip()'
     }
+    t.style = { Margin = 4 }
     if t.bind then
         t.bind.color = 'theme'
     else
@@ -203,7 +204,7 @@ local configData = databinding {
 
 local function lni()
     local template = ui.container {
-        font = { size = 20 },
+        font = { size = 18 },
         checkbox {
             text = lang.ui.READ_SLK,
             tip = lang.ui.READ_SLK_HINT,
@@ -213,6 +214,7 @@ local function lni()
         },
         ui.tree {
             text = lang.ui.ADVANCED,
+            style = { Margin = 4 },
             bind = {
                 color = 'theme'
             },
@@ -230,7 +232,7 @@ end
 
 local function slk()
     local template = ui.container {
-        font = { size = 20 },
+        font = { size = 18 },
         checkbox {
             text = lang.ui.SIMPLIFY,
             tip = lang.ui.SIMPLIFY_HINT,
@@ -261,6 +263,7 @@ local function slk()
         },
         ui.tree {
             text = lang.ui.ADVANCED,
+            style = { Margin = 4 },
             bind = {
                 color = 'theme'
             },
@@ -285,7 +288,7 @@ end
 
 local function obj()
     local template = ui.container {
-        font = { size = 20 },
+        font = { size = 18 },
         checkbox {
             text = lang.ui.READ_SLK,
             tip = lang.ui.READ_SLK_HINT
