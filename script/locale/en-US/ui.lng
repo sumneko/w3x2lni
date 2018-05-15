@@ -34,7 +34,7 @@ Read SLK
 Read imported SLK files
 [REMOVE_UNUSE_OBJECT]
 Remove unreferenced objects
-[SIMPLIFY_HINT]
+[REMOVE_UNUSE_OBJECT_HINT]
 
 [OPTIMIZE_JASS]
 Optimize JASS
