@@ -31,24 +31,6 @@ local function GetHoverColor(color)
     end
 end
 
-local FontPool = {}
-local defaultFont = gui.app:getdefaultfont()
-local fontName = defaultFont:getname()
-local fontSize = defaultFont:getsize()
-local function Font(t)
-    local name = t.name or fontName
-    local size = t.size or fontSize
-    local weight = t.weight or 'normal'
-    local style = t.style or 'normal'
-    local key = ('%s|%d|%s|%s'):format(name, size, weight, style)
-    local r = FontPool[key]
-    if not r then
-        r = gui.Font.create(name, size, weight, style)
-        FontPool[key] = r
-    end
-    return r
-end
-
 local function label_color(self, t, data, bind)
     local color_hover = ''
     local color_normal = ''
@@ -105,10 +87,25 @@ local function visible(self, t, data, bind)
     end)
 end
 
+local fontPool = {}
+local fontDefault = gui.app:getdefaultfont()
+local fontName = fontDefault:getname()
+local fontSize = fontDefault:getsize()
 local function font(self, t)
-    if t.font then
-        self:setfont(Font(t.font))
+    if not t.font then
+        return
     end
+    local name = t.font.name or fontName
+    local size = t.font.size or fontSize
+    local weight = t.font.weight or 'normal'
+    local style = t.font.style or 'normal'
+    local key = ('%s|%d|%s|%s'):format(name, size, weight, style)
+    local r = fontPool[key]
+    if not r then
+        r = gui.Font.create(name, size, weight, style)
+        fontPool[key] = r
+    end
+    self:setfont(r)
 end
 
 return {
