@@ -35,7 +35,7 @@ end
 
 function mt:load_lng(filename)
     if not lang then
-        local config = require 'share.config' :load()
+        local config = require 'share.config'
         self:set_lang(config.global.lang)
     end
     local buf = io.load(root / 'locale' / lang / (filename .. '.lng'))

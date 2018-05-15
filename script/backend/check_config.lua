@@ -1,4 +1,4 @@
-local create_config = require 'share.config'
+local config = require 'share.config'
 local lang = require 'share.lang'
 local w2l
 
@@ -23,7 +23,7 @@ end
 
 return function (w2l_, input)
     w2l = w2l_
-    local config, source = create_config:load_map(input)
+    config:open_map(input)
     check('global' ,'data_war3', config)
     check('global' ,'data_ui',   config)
     check('global' ,'data_meta', config)

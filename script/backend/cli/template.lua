@@ -3,7 +3,7 @@ local messager = require 'share.messager'
 local maketemplate = require 'prebuilt.maketemplate'
 local core = require 'backend.sandbox_core'
 local lang = require 'share.lang'
-local config = require 'share.config' :load()
+local config = require 'share.config'
 local w2l = core()
 local root = fs.current_path()
 

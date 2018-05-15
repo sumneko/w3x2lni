@@ -6,7 +6,7 @@ local nk = require 'nuklear'
 local backend = require 'gui.backend'
 local show_version = require 'gui.old.show_version'
 local plugin = require 'gui.old.plugin'
-local create_config = require 'share.config'
+local config = require 'share.config'
 local lang = require 'share.lang'
 local input_path = require 'share.input_path'
 local builder = require 'map-builder'
@@ -69,7 +69,7 @@ function window:dropfile(file)
     map:close()
     mappath = inputpath
     mapname = mappath:filename():string()
-    config = create_config:load_map(mappath)
+    config:open_map(mappath)
     uitype = 'select'
 end
 

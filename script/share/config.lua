@@ -2,8 +2,9 @@ require 'filesystem'
 local lni = require 'lni'
 local define = require 'share.config_define'
 local root = fs.current_path()
-local default_config
-local global_config
+local default_config = lni(io.load(root / 'share' / 'config.ini'))
+local global_config  = lni(io.load(root:parent_path() / 'config.ini'))
+local map_config = {}
 
 local function save()
     local lines = {}
@@ -18,12 +19,8 @@ local function save()
     io.save(root:parent_path() / 'config.ini', buf)
 end
 
-local function load_config(buf)
-    return lni(buf or '', 'config.ini')
-end
-
-local function proxy(default, global, map, define)
-    local table = {}
+local function proxy(default, global, map, define, table)
+    local table = table or {}
     if define._child then
         for _, k in ipairs(define) do
             table[k] = proxy(default[k], global[k], map[k], define[k])
@@ -63,26 +60,20 @@ end
 
 local api = {}
 
-function api:load()
-    default_config = default_config or load_config(io.load(root / 'share' / 'config.ini'))
-    global_config = global_config or load_config(io.load(root:parent_path() / 'config.ini'))
-    return proxy(default_config, global_config, {}, define)
-end
-
-function api:load_map(path)
+function api:open_map(path)
     local builder = require 'map-builder'
     local input_path = require 'share.input_path'
-    default_config = default_config or load_config(io.load(root / 'share' / 'config.ini'))
-    global_config = global_config or load_config(io.load(root:parent_path() / 'config.ini'))
     local map = builder.load(input_path(path))
     if map then
-        map_config = load_config(map:get 'w3x2lni\\config.ini')
+        lni(map:get 'w3x2lni\\config.ini' or '', 'w3x2lni\\config.ini', { map_config })
         map:close()
     end
-    if not map_config then
-        map_config = {}
-    end
-    return proxy(default_config, global_config, map_config, define)
 end
 
-return api
+function api:close_map()
+    for k in pairs(map_config) do
+        map_config[k] = nil
+    end
+end
+
+return proxy(default_config, global_config, map_config, define, api)

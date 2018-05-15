@@ -10,7 +10,6 @@ local databinding = require 'gui.new.databinding'
 local ev = require 'gui.event'
 require 'filesystem'
 
-local config = config:load()
 local worker
 local view
 local data
