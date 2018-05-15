@@ -4,8 +4,8 @@ local ev = require 'gui.event'
 
 local template = ui.container {
     style = { FlexGrow = 1, Padding = 1 },
-    font = { size = 20 },
     ui.container{
+        font = { size = 18 },
         style = { JustifyContent = 'flex-start' },
         ui.button {
             style = { Height = 36, Margin = 8, MarginTop = 16, MarginBottom = 16 },
@@ -16,6 +16,7 @@ local template = ui.container {
         }
     },
     ui.container {
+        font = { size = 20 },
         style =  { FlexGrow = 1, JustifyContent = 'center' },
         ui.button {
             title = lang.ui.CONVERT_TO..'Lni',
