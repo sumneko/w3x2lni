@@ -1,7 +1,27 @@
 require 'filesystem'
-local lang = require 'share.lang'
-local data_version = require 'share.data_version'
 local root = fs.current_path()
+
+local function string_proxy(key, concat)
+    return setmetatable({}, {
+        __tostring = function ()
+            local lang = require 'share.lang'
+            if concat then
+                return raw[key] .. concat()
+            else
+                return raw[key]
+            end
+        end,
+        __concat = function (_, concat)
+            return string_proxy(key, concat)
+        end,
+    })
+end
+
+local raw = setmetatable({}, {
+    __index = function (_, key)
+        return string_proxy(key)
+    end,
+})
 
 local function proxy(t)
     local keys = {}
@@ -65,7 +85,7 @@ local function boolean(v)
     elseif v == 'false' then
         return true, false, 'false'
     else
-        return false, lang.raw.CONFIG_MUST_BOOLEAN
+        return false, raw.CONFIG_MUST_BOOLEAN
     end
 end
 
@@ -74,7 +94,7 @@ local function integer(v)
     if v then
         return true, v, tostring(v)
     else
-        return false, lang.raw.CONFIG_MUST_INTEGER
+        return false, raw.CONFIG_MUST_INTEGER
     end
 end
 
@@ -84,7 +104,7 @@ local function confusion(confusion)
     end
 
     if confusion:find '[^%w_]' then
-        return false, lang.raw.CONFIG_CONFUSION_1
+        return false, raw.CONFIG_CONFUSION_1
     end
     
     local chars = {}
@@ -94,7 +114,7 @@ local function confusion(confusion)
         end
     end
     if #chars < 3 then
-        return false, lang.raw.CONFIG_CONFUSION_2
+        return false, raw.CONFIG_CONFUSION_2
     end
     
     confusion = table.concat(chars)
@@ -104,7 +124,7 @@ local function confusion(confusion)
         count = count + 1
     end
     if count < 2 then
-        return false, lang.raw.CONFIG_CONFUSION_3
+        return false, raw.CONFIG_CONFUSION_3
     end
 
     return string(confusion)
@@ -127,7 +147,7 @@ local function insert_lang(chars, max, lng)
     chars[#chars+1] = lng
     chars[#chars+1] = (' '):rep(max + 1 - #lng)
     if lng == '${AUTO}' then
-        chars[#chars+1] = lang.raw.AUTO_SELECT
+        chars[#chars+1] = raw.AUTO_SELECT
     else
         chars[#chars+1] = io.load(root / 'locale' / lng / 'name')
     end
@@ -161,15 +181,16 @@ local function langf(v)
             return true, v, v
         end
     end
-    return false, lang.raw.CONFIG_GLOBAL_LANG_ERROR .. lang_hint()
+    return false, raw.CONFIG_GLOBAL_LANG_ERROR .. lang_hint()
 end
 
 local function is_valid_data(dir)
     if not fs.is_directory(dir) then
         return false
     end
+    local data_version = require 'share.data_version'
     if data_version ~= io.load(dir / 'version') then
-        return false, lang.raw.DATA_VERSION_ERROR
+        return false, raw.DATA_VERSION_ERROR
     end
     return true
 end
@@ -209,7 +230,7 @@ local function war3(v)
     if info then
         return false, info
     else
-        return false, lang.raw.CONFIG_GLOBAL_WAR3_ERROR .. data_hint()
+        return false, raw.CONFIG_GLOBAL_WAR3_ERROR .. data_hint()
     end
 end
 
@@ -228,7 +249,7 @@ local function ui(v)
     if info then
         return false, info
     else
-        return false, lang.raw.CONFIG_GLOBAL_UI_ERROR .. data_hint()
+        return false, raw.CONFIG_GLOBAL_UI_ERROR .. data_hint()
     end
 end
 
@@ -247,7 +268,7 @@ local function meta(v)
     if info then
         return false, info
     else
-        return false, lang.raw.CONFIG_GLOBAL_META_ERROR .. data_hint()
+        return false, raw.CONFIG_GLOBAL_META_ERROR .. data_hint()
     end
 end
 
@@ -266,30 +287,9 @@ local function wes(v)
     if info then
         return false, info
     else
-        return false, lang.raw.CONFIG_GLOBAL_WES_ERROR .. data_hint()
+        return false, raw.CONFIG_GLOBAL_WES_ERROR .. data_hint()
     end
 end
-
-local function string_proxy(key, concat)
-    return setmetatable({}, {
-        __tostring = function ()
-            if concat then
-                return lang.raw[key] .. concat()
-            else
-                return lang.raw[key]
-            end
-        end,
-        __concat = function (_, concat)
-            return string_proxy(key, concat)
-        end,
-    })
-end
-
-local raw = setmetatable({}, {
-    __index = function (_, key)
-        return string_proxy(key)
-    end,
-})
 
 return function ()
     local config = proxy {}

@@ -34,7 +34,7 @@ NK_TEXT_RIGHT          = NK_TEXT_ALIGN_MIDDLE | NK_TEXT_ALIGN_RIGHT
 
 local root = fs.current_path():remove_filename()
 local fmt = nil
-local config = create_config:load()
+local config
 
 local function getexe()
 	local i = 0
@@ -45,7 +45,6 @@ local function getexe()
 end
 
 backend:init(getexe(), root / 'script')
-lang:set_lang(config.global.lang)
 local window = nk.window('W3x2Lni', 400, 600)
 window:set_theme(0, 173, 217)
 

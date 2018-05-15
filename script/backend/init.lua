@@ -1,10 +1,7 @@
 local command = require 'share.command'
 local messager = require 'share.messager'
 local lang = require 'share.lang'
-local config = require 'share.config' :load()
 local act = command[1]
-
-lang:set_lang(config.global.lang)
 
 if not act then
     act = 'help'
