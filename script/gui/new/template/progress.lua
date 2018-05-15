@@ -41,8 +41,12 @@ return function (t, data)
         background = n
         if not ti then
             ti = timer.loop(30, function ()
-                local delta = background - frontground
-                frontground = frontground + math.min(math.max(0.02, delta * 0.1), delta)
+                local delta1 = 0
+                local delta2 = 0.1 * (frontground - background) / (100 - background)
+                if frontground < background then
+                    delta1 = (background - frontground) / 10
+                end
+                frontground = frontground + math.max(delta1, delta2)
                 frontlabel:setstyle { FlexGrow = frontground }
             end)
         end
