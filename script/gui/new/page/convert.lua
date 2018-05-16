@@ -302,6 +302,8 @@ local pages = {}
 ev.on('update theme', function(color, title)
     data.theme = color
     data.report.color = color
+    backend.lastword = nil
+    data.message = ''
     
     configData.proxy.theme = color
 
