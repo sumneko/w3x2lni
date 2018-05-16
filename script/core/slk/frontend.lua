@@ -160,7 +160,9 @@ local function update_then_merge(w2l, slks, objs, lnis, slk)
                 obj[k] = v
             end
         end
-        mark_keep_obj(type, obj)
+        if w2l.mode == 'slk' then
+            mark_keep_obj(type, obj)
+        end
         slk[type] = w2l:frontend_merge(type, data, obj)
         if report then
             for i = 1, 10 do

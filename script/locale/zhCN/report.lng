@@ -143,9 +143,9 @@
 [TEMPLATE_NOT_EXISTED]
 底板不存在: %s [%s:%s]
 [ABILITY_REMOVED]
-技能被移除: %s
+魔兽无法识别技能: %s
 [ABILITY_REMOVED_HINT]
-没有修改的自定义技能会被魔兽移除
+魔兽无法识别未修改的自定义技能
 [JASS_LINE]
 第[%d]行：
 [JASS_LINES]

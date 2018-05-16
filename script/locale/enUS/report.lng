@@ -143,9 +143,9 @@ Default is %s
 [TEMPLATE_NOT_EXISTED]
 Template not existed: %s [%s:%s]
 [ABILITY_REMOVED]
-Ability removed: %s
+Wc3 can't identify ability: %s
 [ABILITY_REMOVED_HINT]
-Custom ability will be removed by WC3 without modifying any attributes
+Wc3 can't identify a custom ability without any modify
 [JASS_LINE]
 Line [%d] : 
 [JASS_LINES]
