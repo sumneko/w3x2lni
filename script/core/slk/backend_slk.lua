@@ -345,16 +345,19 @@ local function load_obj(id, obj, slk_name)
         obj_data._parent = obj._parent
         obj_data._keep_obj = obj._keep_obj
     end
+    if obj._keep_obj then
+        return nil
+    end
     if not obj._slk_id and not is_usable_string(obj._id) then
         obj._slk_id = find_unused_id()
         obj_data._slk_id = obj._slk_id
+        if slk_type == 'ability' then
+            obj_data.name = obj.name
+        end
         report_failed(obj, 'id', lang.report.OBJECT_ID_CAN_CONVERT_NUMBER, '')
         if not obj._slk_id then
             return nil
         end
-    end
-    if obj._keep_obj then
-        return nil
     end
     local slk_data = {}
     slk_data[slk_keys[slk_name][1]] = obj._slk_id or obj._id
