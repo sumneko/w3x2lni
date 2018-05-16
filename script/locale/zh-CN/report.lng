@@ -14,7 +14,7 @@
 文本中的"}"被修改为了"|"
 [COMPUTED_TEXT_FAILED]
 公式计算失败
-[REMOVE_UNUSE_OBJECT]
+[REMOVE_UNUSED_OBJECT]
 移除未引用对象
 [RETAIN_MARKET]
 保留市场物品
