@@ -6,9 +6,9 @@ local template = ui.container {
     style = { FlexGrow = 1, Padding = 1 },
     ui.container{
         font = { size = 18 },
-        style = { JustifyContent = 'flex-start' },
+        style = { Padding = 4, JustifyContent = 'flex-start' },
         ui.button {
-            style = { Height = 36, Margin = 8, MarginTop = 16, MarginBottom = 16 },
+            style = { Height = 36, MarginTop = 4 },
             bind = {
                 title = 'filename',
                 color = 'theme'
@@ -17,11 +17,11 @@ local template = ui.container {
     },
     ui.container {
         font = { size = 20 },
-        style =  { FlexGrow = 1, JustifyContent = 'center' },
+        style =  { Padding = 4, FlexGrow = 1, JustifyContent = 'flex-end' },
         ui.button {
             title = lang.ui.CONVERT_TO..'Lni',
             color = '#00ADD9',
-            style = { Margin = 8, MarginTop = 2, MarginBottom = 2, Height = 140 },
+            style = { MarginTop = 1, MarginBottom = 1, Height = 155 },
             on = {
                 click = function()
                     window._mode = 'lni'
@@ -34,7 +34,7 @@ local template = ui.container {
         ui.button {
             title = lang.ui.CONVERT_TO..'Slk',
             color = '#00AD3C',
-            style = { Margin = 8, MarginTop = 2, MarginBottom = 2, Height = 140 },
+            style = { MarginTop = 1, MarginBottom = 1, Height = 155 },
             on = {
                 click = function()
                     window._mode = 'slk'
@@ -47,7 +47,7 @@ local template = ui.container {
         ui.button {
             title = lang.ui.CONVERT_TO..'Obj',
             color = '#D9A33C',
-            style = { Margin = 8, MarginTop = 2, MarginBottom = 2, Height = 140 },
+            style = { MarginTop = 1, MarginBottom = 1, Height = 155 },
             on = {
                 click = function()
                     window._mode = 'obj'

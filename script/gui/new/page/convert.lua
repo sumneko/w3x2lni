@@ -77,15 +77,15 @@ local function delayedtask(t)
 end
 
 local template = ui.container {
-    style = { FlexGrow = 1, Padding = 1 },
+    style = { FlexGrow = 1, Padding = 4 },
     font = { size = 18 },
     -- upper
     ui.container {
         id = 'config',
-        style = { Padding = 8, FlexGrow = 1, JustifyContent = 'flex-start' },
+        style = { FlexGrow = 1, JustifyContent = 'flex-start' },
         -- filename
         ui.button {
-            style = { Height = 36, MarginTop = 8, MarginBottom = 16 },
+            style = { Height = 36, MarginTop = 4, MarginBottom = 16 },
             bind = {
                 title = 'filename',
                 color = 'theme'
@@ -97,7 +97,7 @@ local template = ui.container {
         style = { FlexGrow = 1, JustifyContent = 'flex-end' },
         -- message
         ui.label {
-            style = { Height = 20, Margin = 2 },
+            style = { Height = 20, MarginBottom = 8 },
             text_color = '#CCC',
             align = 'start',
             bind = {
@@ -106,7 +106,7 @@ local template = ui.container {
         },
         -- progress
         ui.progress {
-            style = { Height = 30, Margin = 5, Padding = 3, FlexDirection = 'row' },
+            style = { Height = 30, MarginBottom = 8, FlexDirection = 'row' },
             bind = {
                 value = 'progress.value',
                 visible = 'progress.visible',
@@ -115,7 +115,7 @@ local template = ui.container {
         },
         -- report
         ui.button {
-            style = { Height = 30, Margin = 5 },
+            style = { Height = 30, MarginBottom = 8 },
             bind = {
                 title = 'report.text',
                 color = 'report.color',
@@ -130,7 +130,7 @@ local template = ui.container {
         -- start
         ui.button {
             title = lang.ui.START,
-            style = { Height = 50, Margin = 2 },
+            style = { Height = 50 },
             bind = {
                 color = 'theme'
             },
