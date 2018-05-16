@@ -38,3 +38,4 @@ slk.ability.A001._mark = true
 w2l:backend(slk)
 assert(ok1)
 assert(ok2)
+assert(slk.ability.AHtb._mark)
