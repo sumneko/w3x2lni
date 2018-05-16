@@ -35,15 +35,14 @@ local function checkbox_button(t, data)
         end
     end
 
-    function btn:onmousedown()
+    ca.button_color(btn, lbl, t, data, bind)
+    return btn, lbl, function()
         btn.value = not btn.value
         update_color()
         if bind.value then
             bind.value:set(btn.value)
         end
     end
-    ca.button_color(btn, lbl, t, data, bind)
-    return btn, lbl
 end
 
 local function checkbox_label(t)
@@ -61,11 +60,14 @@ return function (t, data)
     if t.style then
         o:setstyle(t.style)
     end
-    local btn, lbl = checkbox_button(t, data)
+    local btn, lbl, onclick = checkbox_button(t, data)
     o:addchildview(btn)
     o:addchildview(lbl)
     o:addchildview(checkbox_label(t))
     ca.event(o, t, data, 'mouseenter')
     ca.event(o, t, data, 'mouseleave')
+    function o:onmousedown()
+        onclick()
+    end
     return o
 end
