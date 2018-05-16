@@ -49,9 +49,6 @@ local function add_id(id)
     if #id ~= 4 then
         return
     end
-    if id:find '%W' then
-        return
-    end
     ids[id] = true
 end
 
