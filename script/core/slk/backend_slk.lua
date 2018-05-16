@@ -339,7 +339,7 @@ local function load_obj(id, obj, slk_name)
         obj_data = {}
         object[id] = obj_data
         obj_data._id     = obj._id
-        obj_data._slk    = true
+        obj_data._slk    = not obj._keep_obj
         obj_data._code   = obj._code
         obj_data._mark   = obj._mark
         obj_data._parent = obj._parent
