@@ -66,6 +66,9 @@ return function (t, data)
     o:addchildview(checkbox_label(t))
     ca.event(o, t, data, 'mouseenter')
     ca.event(o, t, data, 'mouseleave')
+    function btn:onmousedown()
+        onclick()
+    end
     function o:onmousedown()
         onclick()
     end
