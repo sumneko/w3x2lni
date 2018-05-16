@@ -137,7 +137,7 @@ return function (w2l_)
     line_count = 0
     local suc, err = pcall(pjass.match, pjass, buf)
     if not suc then
-        w2l.messager.report(lang.report.ERROR, 1, lang.report.SYNTAX_ERROR, err:match '[\r\n]+(.+)$' or ('\n' .. err))
+        w2l.messager.report(lang.report.ERROR, 1, lang.report.SYNTAX_ERROR, err:match('%.lua:%d+: (.*)'))
         return
     end
     return ids, marks
