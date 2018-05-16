@@ -63,7 +63,7 @@
 [CONFUSION]
 混淆脚本
 [CONFUSION_HINT]
-将变量名与函数名混淆为以下字符的组合
+重命名变量与函数
 [REPORT]
 详情
 [PROCESSING]
