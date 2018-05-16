@@ -1,6 +1,7 @@
 local grammar = require 'parser.grammar'
 local lang = require 'lang'
 
+local jass
 local ast
 local messager
 
@@ -8,7 +9,26 @@ local parse_exp
 local parse_lines
 
 local function parser_error(str)
-    error(lang.parser.PARSER_ERROR:format(ast.file, ast.current_line, str))
+    local line = ast.current_line
+    local start = 1
+    while true do
+        start = jass:find('[\r\n]', start)
+        if not start then
+            start = 1
+            break
+        end
+        if jass:sub(start, start + 1) == '\r\n' then
+            start = start + 2
+        else
+            start = start + 1
+        end
+        line = line - 1
+        if line <= 1 then
+            break
+        end
+    end
+    local finish = jass:find('%f[\r\n]', start) or #jass
+    error(lang.parser.ERROR_POS:format(str, ast.file, ast.current_line, jass:sub(start, finish)))
 end
 
 local function base_type(type)
@@ -414,7 +434,8 @@ local function parser_gram(gram)
     end
 end
 
-return function (jass, file, _ast, _messager)
+return function (jass_, file, _ast, _messager)
+    jass = jass_
     messager = _messager or print
     if _ast then
         ast = _ast
