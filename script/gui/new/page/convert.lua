@@ -193,6 +193,9 @@ local configData = databinding {
     theme = window._color,
     config = config,
     update_tip = function(tip)
+        if worker and not worker.exited then
+            return
+        end
         if tip then
             data.message = tip
         else
