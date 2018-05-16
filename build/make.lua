@@ -177,6 +177,7 @@ if arg[3] == 'en-US' then
     command('config', 'global.data_ui=enUS-1.27.1')
     command('config', 'global.data_meta=enUS-1.27.1')
     command('config', 'global.data_wes=enUS-1.27.1')
+    command('config', 'slk.slk_doodad=false')
     command('template')
     zippack()
 end

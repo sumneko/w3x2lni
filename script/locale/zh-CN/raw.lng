@@ -146,8 +146,12 @@
 输出目标是Slk时，压缩mdx文件（有损压缩）。必须是布尔。
 [CONFIG_SLK_REMOVE_WE_ONLY]
 输出目标是Slk时，删除只在WE中使用的文件。必须是布尔。
+
+这将使WE与W3x2lni无法打开转换后的地图。
 [CONFIG_SLK_SLK_DOODAD]
 输出目标是Slk时，对装饰物进行Slk优化。必须是布尔。
+
+这可以使地形变化不再卡顿，但同时包含了潜在的风险：如果玩家没有重启魔兽就去玩另一张地图，那么他将看不到装饰物模型并且有可能掉线。
 [CONFIG_SLK_FIND_ID_TIMES]
 输出目标是Slk时，限制搜索最优模板的次数，0表示无限。必须是整数。
 [CONFIG_SLK_CONFUSED]
