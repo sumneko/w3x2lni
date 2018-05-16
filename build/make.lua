@@ -144,8 +144,8 @@ local version = read_version()
 local gitlog = require 'gitlog'
 gitlog()
 
-if arg[3] == 'zh-CN' then
-    release_path = root / 'build' / 'zh-CN' / ('w3x2lni_v'..version)
+if arg[3] == 'zhCN' then
+    release_path = root / 'build' / 'zhCN' / ('w3x2lni_v'..version)
     print('生成中文版，目录为：', release_path:string())
     create_directory()
     copy_files('bin')
@@ -163,8 +163,8 @@ if arg[3] == 'zh-CN' then
     zippack()
 end
 
-if arg[3] == 'en-US' then
-    release_path = root / 'build' / 'en-US' / ('w3x2lni_v'..version)
+if arg[3] == 'enUS' then
+    release_path = root / 'build' / 'enUS' / ('w3x2lni_v'..version)
     print('生成英文版，目录为：', release_path:string())
     create_directory()
     copy_files('bin')

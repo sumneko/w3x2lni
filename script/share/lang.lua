@@ -79,12 +79,12 @@ function mt:set_lang(lang_)
         lang = lang_
     end
     if not fs.exists(root / 'locale' / lang) then
-        if lang:sub(1, 3) == 'zh-' then
-            lang = 'zh-CN'
-        elseif lang:sub(1, 3) == 'en-' then
-            lang = 'en-US'
+        if lang:sub(1, 2) == 'zh' then
+            lang = 'zhCN'
+        elseif lang:sub(1, 2) == 'en' then
+            lang = 'enUS'
         else
-            lang = 'en-US'
+            lang = 'enUS'
         end
     end
     for filename in pairs(cache) do

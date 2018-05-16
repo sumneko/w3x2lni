@@ -12,8 +12,8 @@
 !/build/
 !/docs/
 !/locale
-/build/zh-CN/
-/build/en-US/
+/build/zhCN/
+/build/enUS/
 /plugin/*
 !/plugin/示例.lua
 /*.w3x

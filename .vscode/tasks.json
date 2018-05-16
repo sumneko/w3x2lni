@@ -11,7 +11,7 @@
                 ".\\build\\execute.lua",
                 "${workspaceRoot}",
                 "${workspaceRoot}\\build\\make.lua",
-                "zh-CN"
+                "zhCN"
             ]
         },
         {
@@ -21,7 +21,7 @@
                 ".\\build\\execute.lua",
                 "${workspaceRoot}",
                 "${workspaceRoot}\\build\\make.lua",
-                "en-US"
+                "enUS"
             ]
         },
         {

@@ -103,7 +103,7 @@ local function insert_lang(chars, max, lng)
     chars[#chars+1] = lng
     chars[#chars+1] = (' '):rep(max + 1 - #lng)
     if lng == '${AUTO}' then
-        chars[#chars+1] = raw.AUTO_SELECT
+        chars[#chars+1] = tostring(raw.AUTO_SELECT)
     else
         chars[#chars+1] = io.load(root / 'locale' / lng / 'name')
     end
