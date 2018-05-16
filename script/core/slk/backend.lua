@@ -259,6 +259,11 @@ local function to_slk(w2l, slk)
     if w2l.config.slk_doodad then
         slk_list[#slk_list+1] = 'doodad'
     end
+    for id, obj in pairs(slk.ability) do
+        if obj._keep_obj then
+            slk.ability[obj._parent]._mark = obj._mark
+        end
+    end
     for _, type in ipairs(slk_list) do
         local data = slk[type]
         object[type] = {}
