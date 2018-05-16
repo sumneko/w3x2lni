@@ -57,7 +57,7 @@ function mt:set_lng_file(filename, buf)
             key = str
         elseif key then
             if t[key] then
-                t[key] = t[key] .. '\n' .. line
+                t[key] = t[key] .. '\r\n' .. line
             else
                 t[key] = line
             end
