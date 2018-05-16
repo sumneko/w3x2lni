@@ -43,7 +43,7 @@ local function filter(name)
         print('屏蔽文件:', name)
         return false
     end
-    if name:sub(1, 15) == 'script\\gui\\old\\' then
+    if name:sub(1, 14) == 'script\\gui\\old' then
         print('屏蔽文件:', name)
         return false
     end
@@ -59,7 +59,9 @@ local function copy_files(input)
         end
         if fs.is_directory(root / name) then
             for new in (root / name):list_directory() do
-                f(name / new:filename())
+                if filter(name) then
+                    f(name / new:filename())
+                end
             end
         else
             fs.create_directories((release_path / name):parent_path())
