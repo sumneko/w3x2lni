@@ -11,12 +11,12 @@ local function count_report_height(text)
     for _ in text:gmatch '\n' do
         n = n + 1
     end
-    return n * 21
+    return n * 15
 end
 
 local template = ui.container {
     style = { FlexGrow = 1 },
-    font = { size = 16 },
+    font = { size = 12 },
     ui.scroll {
         style = { FlexGrow = 1, Margin = 2 },
         hpolicy = 'never',
