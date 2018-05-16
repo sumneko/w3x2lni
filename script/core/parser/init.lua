@@ -26,7 +26,11 @@ local function get_var(name)
             return ast.current_function.args[name]
         end
     end
-    return ast.globals[name]
+    local var = ast.globals[name]
+    if not var then
+        parser_error(('变量[%s]不存在'):format(name))
+    end
+    return var
 end
 
 local function get_function(name)
