@@ -37,6 +37,19 @@ local function create_directory()
     fs.create_directories(release_path)
 end
 
+local function filter(name)
+    name = name:string()
+    if name == 'bin\\nuklear.dll' then
+        print('屏蔽文件:', name)
+        return false
+    end
+    if name:sub(1, 15) == 'script\\gui\\old\\' then
+        print('屏蔽文件:', name)
+        return false
+    end
+    return true
+end
+
 local function copy_files(input)
     print('正在复制文件：', input)
     local function f (name)
@@ -50,9 +63,11 @@ local function copy_files(input)
             end
         else
             fs.create_directories((release_path / name):parent_path())
-            local suc, err = pcall(fs.copy_file, root / name, release_path / name, true)
-            if not suc then
-                error(('复制文件失败：[%s] -> [%s]\n%s'):format(root / name, release_path / name, err))
+            if filter(name) then
+                local suc, err = pcall(fs.copy_file, root / name, release_path / name, true)
+                if not suc then
+                    error(('复制文件失败：[%s] -> [%s]\n%s'):format(root / name, release_path / name, err))
+                end
             end
         end
     end
