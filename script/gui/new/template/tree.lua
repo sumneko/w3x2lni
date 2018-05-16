@@ -2,24 +2,6 @@ local gui = require 'yue.gui'
 local ev = require 'gui.event'
 local ca = require 'gui.new.common_attribute'
 
-local function getActiveColor(color)
-    if #color == 4 then
-        return ('#%01X%01X%01X'):format(
-            math.min(tonumber(color:sub(2, 2), 16) + 0x1, 0xF),
-            math.min(tonumber(color:sub(3, 3), 16) + 0x1, 0xF),
-            math.min(tonumber(color:sub(4, 4), 16) + 0x1, 0xF)
-        )
-    elseif #color == 7 then
-        return ('#%02X%02X%02X'):format(
-            math.min(tonumber(color:sub(2, 3), 16) + 0x10, 0xFF),
-            math.min(tonumber(color:sub(4, 5), 16) + 0x10, 0xFF),
-            math.min(tonumber(color:sub(6, 7), 16) + 0x10, 0xFF)
-        )
-    else
-        return color
-    end
-end
-
 local function tree_icon(view)
     local canvas1 = gui.Canvas.createformainscreen{width=24, height=24}
     local painter = canvas1:getpainter()
