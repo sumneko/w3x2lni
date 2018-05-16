@@ -145,7 +145,7 @@
 [ABILITY_REMOVED]
 技能被移除: %s
 [ABILITY_REMOVED_HINT]
-自定义技能没有修改任何属性的话会被魔兽移除
+没有修改的自定义技能会被魔兽移除
 [JASS_LINE]
 第[%d]行：
 [JASS_LINES]
