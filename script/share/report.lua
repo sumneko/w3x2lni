@@ -62,5 +62,5 @@ return function (w2l, report, config, clock, err, warn)
             end
         end
     end
-    return table.concat(lines, '\n')
+    return table.concat(lines, '\r\n')
 end
