@@ -304,6 +304,7 @@ ev.on('update theme', function(color, title)
     data.report.color = color
     backend.lastword = nil
     data.message = ''
+    worker = nil
     
     configData.proxy.theme = color
 
