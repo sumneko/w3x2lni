@@ -67,6 +67,7 @@ function view:on_show()
     local text = io.load(root:parent_path() / 'log' / 'report.log') or ''
     data.report.text = text
     data.report.height = count_report_height(text)
+    data.theme = window._color
 end
 
 return view

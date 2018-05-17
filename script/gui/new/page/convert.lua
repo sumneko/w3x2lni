@@ -299,6 +299,10 @@ local function obj()
     return ui.createEx(template, configData)
 end
 
+local function mpq()
+    return ui.create(ui.container { }, {})
+end
+
 local current_page
 local pages = {}
 
@@ -321,6 +325,8 @@ ev.on('update theme', function(color, title)
             pages[title] = slk()
         elseif title == 'W3x2Obj' then
             pages[title] = obj()
+        elseif title == 'War3Dump' then
+            pages[title] = mpq()
         end
         element.config:addchildview(pages[title])
     end

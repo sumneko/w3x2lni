@@ -70,6 +70,7 @@ ev.on('update theme', function()
 end)
 
 function view:on_show()
+    window:set_theme('W3x2Lni', '#00ADD9')
     data.filename = window._filename:filename():string()
 end
 

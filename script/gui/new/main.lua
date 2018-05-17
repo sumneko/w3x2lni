@@ -15,6 +15,11 @@ function ext.on_dropfile(filename)
     local builder = require 'map-builder'
     local war3 = require 'share.war3'
     if war3:open(fs.path(filename)) then
+        window._filename = fs.path(filename)
+        window._mode = 'mpq'
+        window:set_theme('War3Dump', '#9CD')
+        window:show_page('convert')
+        window:set_theme('War3Dump', '#9CD')
         return
     end
     local mappath = input_path(filename)
