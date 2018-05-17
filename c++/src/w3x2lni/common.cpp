@@ -91,7 +91,7 @@ bool execute_lua(const wchar_t* who, pipe* out, pipe* err) {
 	cmd += L" -e \"_W2L_MODE='";
 	cmd += who;
 	cmd += L"'\" -e \"_W2L_DIR=[[";
-	cmd.push_string(workdir.get_strview());
+	cmd += workdir;
 	cmd += L"]]\" -E \"";
 	cmd += path() / L"script" / L"main.lua";
 	cmd += L"\"";
