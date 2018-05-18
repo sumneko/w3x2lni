@@ -157,6 +157,7 @@ local function make_log(clock)
         lines[#lines+1] = ''
     end
     local buf = table.concat(lines, '\r\n')
+    fs.create_directories(root:parent_path() / 'log')
     io.save(root:parent_path() / 'log' / 'report.log', buf)
 end
 
