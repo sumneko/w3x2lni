@@ -72,10 +72,13 @@ local function remove_same_as_txt(meta, key, data, default, obj, ttype)
         local new_data = {}
         local valued
         for i = #data, 1, -1 do
-            if valued or (data[i] ~= data[i-1]) then
-                if data[i] ~= dest[i] then
+            if dest[i] == nil then
+                if valued or (data[i] ~= data[i-1]) then
                     new_data[i] = data[i]
+                    valued = true
                 end
+            elseif data[i] ~= dest[i] then
+                new_data[i] = data[i]
                 valued = true
             end
         end
