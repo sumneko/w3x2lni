@@ -70,18 +70,14 @@ local function remove_same_as_txt(meta, key, data, default, obj, ttype)
     local dest = default[key]
     if type(dest) == 'table' then
         local new_data = {}
-        local last
-        for i = 1, #data do
-            local default
-            if i > #dest then
-                default = last
-            else
-                default = dest[i]
+        local valued
+        for i = #data, 1, -1 do
+            if valued or (data[i] ~= data[i-1]) then
+                if data[i] ~= dest[i] then
+                    new_data[i] = data[i]
+                end
+                valued = true
             end
-            if data[i] ~= default then
-                new_data[i] = data[i]
-            end
-            last = data[i]
         end
         if not next(new_data) then
             obj[key] = new_data
