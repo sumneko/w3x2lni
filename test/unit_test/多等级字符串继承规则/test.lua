@@ -30,5 +30,17 @@ end
 
 local slk = {}
 w2l:frontend(slk)
+
+assert(slk.upgrade.R001.name[1] == '1')
+assert(slk.upgrade.R001.name[2] == '钢甲')
+assert(slk.upgrade.R001.name[3] == '重金甲')
+assert(slk.upgrade.R001.name[4] == '')
+assert(slk.upgrade.R001.name[5] == '2')
+assert(slk.upgrade.R001.name[6] == '')
+assert(slk.upgrade.R001.name[7] == '')
+assert(slk.upgrade.R001.name[8] == '3')
+assert(slk.upgrade.R001.name[9] == '3')
+assert(slk.upgrade.R001.name[10] == '3')
+
 w2l:backend(slk)
 assert(ok)
