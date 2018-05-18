@@ -1,6 +1,7 @@
 return {
 {
     version = '2.3.1',
+    { 'NEW', 'GUI支持提取War3数据文件' },
     { 'FIX', '修正路径不能带空格的问题' },
     { 'FIX', '修正obj时丢失部分物编文本的问题' },
     { 'FIX', '修正slk时科技的tooltip问题' },
