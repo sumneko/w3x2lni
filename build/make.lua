@@ -174,7 +174,7 @@ if arg[3] == 'zhCN' then
     command('config', 'global.data_war3=zhCN-1.24.4')
     command('config', 'global.data_ui=${YDWE}')
     command('config', 'global.data_meta=${DEFAULT}')
-    command('config', 'global.data_wes=${YDWE}')
+    command('config', 'global.data_wes=${DEFAULT}')
     command('template')
     unit_test()
     zippack()

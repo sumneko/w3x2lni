@@ -123,12 +123,12 @@
 [CONFIG_GLOBAL_WES]
 使用编辑器文本的目录，可以使以下值：
 
-        ${YDWE}        使用YDWE的编辑器字符串
+        ${DEFAULT}        使用默认的编辑器字符串
 
 [CONFIG_GLOBAL_WES_ERROR]
 无效的目录，必须是以下值：
 
-        ${YDWE}        使用YDWE的编辑器字符串
+        ${DEFAULT}        使用默认的编辑器字符串
 
 [CONFIG_GLOBAL_PLUGIN]
 插件的目录。默认是`plugin`。

@@ -189,7 +189,7 @@ return function ()
     if config.global.data_meta ~= '${DEFAULT}' then
         config.global.data_meta = war3.name
     end
-    if config.global.data_wes ~= '${YDWE}' then
+    if config.global.data_wes ~= '${DEFAULT}' then
         config.global.data_wes = war3.name
     end
 

@@ -52,7 +52,7 @@ local function main()
     config.global.lang = "${AUTO}"
     config.global.data_ui = "${YDWE}"
     config.global.data_meta = "${DEFAULT}"
-    config.global.data_wes = "${YDWE}"
+    config.global.data_wes = "${DEFAULT}"
 
     config.global.data_war3 = "zhCN-1.24.4"
     

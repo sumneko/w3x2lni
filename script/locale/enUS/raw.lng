@@ -124,12 +124,12 @@ Invalid directory, must be the following:
 [CONFIG_GLOBAL_WES]
 WE strings used, can be the following:
 
-        ${YDWE}        YDWE strings
+        ${DEFAULT}        Default strings
 
 [CONFIG_GLOBAL_WES_ERROR]
 Invalid directory, must be the following:
 
-        ${YDWE}        YDWE strings
+        ${DEFAULT}        Default strings
 
 [CONFIG_GLOBAL_PLUGIN]
 Path to the plugins. Defaults to: `plugin`.
