@@ -197,6 +197,7 @@ if arg[3] == 'enUS' then
     command('config', 'slk.slk_doodad=false')
     command('template')
     zippack()
+    command('config', 'global.lang=enUS')
 end
 
 print('完成')
