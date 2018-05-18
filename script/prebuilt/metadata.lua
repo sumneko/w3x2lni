@@ -84,6 +84,7 @@ local cant_empty = {
     fart = true,
     gub1 = true,
     gtp1 = true,
+    gar1 = true,
 }
 
 local typedefine
