@@ -148,7 +148,6 @@ local template = ui.container {
                     data.report.visible = false
                     timer.loop(100, delayedtask)
                     window._worker = worker
-                    fs.remove(root:parent_path() / 'log' / 'report.log')
                 end,
             },
         },

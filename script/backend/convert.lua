@@ -126,6 +126,7 @@ local function get_io_time(map, file_count)
 end
 
 return function (mode)
+    fs.remove(root:parent_path() / 'log' / 'report.log')
     config = unpack_config(mode)
     input = config.input
 
