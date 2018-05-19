@@ -25,11 +25,11 @@ local sp_rep = setmetatable({}, {
 
 local function lml_string(str)
     if type(str) == 'string' then
-		-- Check string from WTS firstly.
-		if find(str, '^TRIGSTR_%d+$') then
+        -- Check string from WTS firstly.
+        if find(str, '^TRIGSTR_%d+$') then
             str = w2l:load_wts(wts, str)
         end
-		-- Then check if the string should be in quotes.
+        -- Then check if the string should be in quotes.
         if find(str, "[%s%:%'%c]") then
             str = format("'%s'", gsub(str, "'", "''"))
         end
