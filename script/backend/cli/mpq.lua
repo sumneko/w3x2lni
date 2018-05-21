@@ -10,11 +10,11 @@ local prebuilt_search = require 'prebuilt.search'
 local proto = require 'share.protocol'
 local lang = require 'share.lang'
 local core = require 'backend.sandbox_core'
-local unpack_config = require 'backend.unpack_config'
 local w3xparser = require 'w3xparser'
 local messager = require 'share.messager'
 local war3 = require 'share.war3'
 local data_version = require 'share.data_version'
+local command = require 'share.command'
 local w2l
 local mpqs
 local root = fs.current_path()
@@ -165,14 +165,31 @@ local function loader(name)
     return war3:readfile(name)
 end
 
+local function input_war3(path)
+    if path then
+        path = fs.path(path)
+        if not path:is_absolute() then
+            if _W2L_DIR then
+                path = fs.path(_W2L_DIR) / path
+            else
+                path = root:parent_path() / path
+            end
+        end
+    elseif _W2L_MODE == 'CLI' then
+        path = fs.path(_W2L_DIR)
+    else
+        return nil
+    end
+    return fs.absolute(path)
+end
+
 return function ()
     get_w2l()
     w2l.messager.text(lang.script.INIT)
     w2l.messager.progress(0)
 
     fs.remove(root:parent_path() / 'log' / 'report.log')
-    local config = unpack_config()
-    input = config.input
+    input = input_war3(command[2])
 
     if not war3:open(input) then
         w2l.messager.text(lang.script.NEED_WAR3_DIR)
