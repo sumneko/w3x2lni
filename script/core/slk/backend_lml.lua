@@ -37,10 +37,9 @@ local function lml_string(str)
     return str
 end
 
--- Like lml_string. But this version will never check WTS.
-local function lml_string_without_wts(str)
+local function lml_key(str)
     if type(str) == 'string' then
-        if find(str, "[%s%:%'%c]") then
+        if find(str, "[%:%'%c]") or find(str, '%s+%S') then
             str = format("'%s'", gsub(str, "'", "''"))
         end
     end
@@ -49,7 +48,7 @@ end
 
 local function lml_value(v, sp)
     if v[2] then
-        buf[#buf+1] = format('%s%s: %s\n', sp_rep[sp], lml_string_without_wts(v[1]), lml_string(v[2]))
+        buf[#buf+1] = format('%s%s: %s\n', sp_rep[sp], lml_key(v[1]), lml_string(v[2]))
     else
         buf[#buf+1] = format('%s%s\n', sp_rep[sp], lml_string(v[1]))
     end
