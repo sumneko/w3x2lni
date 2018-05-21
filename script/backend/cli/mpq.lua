@@ -166,10 +166,13 @@ local function loader(name)
 end
 
 return function ()
+    get_w2l()
+    w2l.messager.text(lang.script.INIT)
+    w2l.messager.progress(0)
+
     fs.remove(root:parent_path() / 'log' / 'report.log')
     local config = unpack_config()
     input = config.input
-    get_w2l()
 
     if not war3:open(input) then
         w2l.messager.text(lang.script.NEED_WAR3_DIR)

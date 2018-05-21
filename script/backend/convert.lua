@@ -126,11 +126,14 @@ local function get_io_time(map, file_count)
 end
 
 return function (mode)
+    w2l:set_messager(messager)
+    w2l.messager.text(lang.script.INIT)
+    w2l.messager.progress(0)
+
     fs.remove(root:parent_path() / 'log' / 'report.log')
     config = unpack_config(mode)
     input = config.input
 
-    w2l:set_messager(messager)
     if not input then
         w2l:failed(lang.script.NO_INPUT)
     end
@@ -139,9 +142,6 @@ return function (mode)
     if input:filename():string() == '.w3x' then
         w2l:failed(lang.script.UNSUPPORTED_LNI_MARK)
     end
-
-    w2l.messager.text(lang.script.INIT)
-    w2l.messager.progress(0)
 
     if config.mode == 'slk' then
         messager.title 'Slk'
