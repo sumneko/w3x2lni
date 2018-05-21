@@ -50,7 +50,7 @@ end
 
 function mt:metadata()
     if not self.cache_metadata then
-        if self.config.mode ~= 'obj' or self.config.data_meta == '${DEFAULT}' then
+        if self.setting.mode ~= 'obj' or self.setting.data_meta == '${DEFAULT}' then
             self.cache_metadata = lni(load_file 'defined\\metadata.ini')
         else
             self.cache_metadata = lni(self:meta_load 'metadata.ini')
@@ -74,7 +74,7 @@ function mt:get_editstring(source)
     if not self.editstring then
         self.editstring = {}
         local t
-        if self.config.data_wes == '${DEFAULT}' then
+        if self.setting.data_wes == '${DEFAULT}' then
             t = ini(load_file('defined\\WorldEditStrings.txt'))['WorldEditStrings']
         else
             t = ini(self:wes_load('WorldEditStrings.txt'))['WorldEditStrings']
@@ -82,7 +82,7 @@ function mt:get_editstring(source)
         for k, v in pairs(t) do
             self.editstring[k:upper()] = v
         end
-        if self.config.data_wes ~= '${DEFAULT}' then
+        if self.setting.data_wes ~= '${DEFAULT}' then
             t = ini(self:wes_load('WorldEditGameStrings.txt'))['WorldEditStrings']
         end
         for k, v in pairs(t) do
@@ -251,7 +251,7 @@ function mt:file_save(type, name, buf)
     elseif type == 'map' then
         self:map_save(name, buf)
     elseif type == 'scirpt' then
-        if self.config.export_lua then
+        if self.setting.export_lua then
             self:map_save(name, buf)
         end
     end
@@ -282,7 +282,7 @@ function mt:failed(msg)
     os.exit(1, true)
 end
 
-mt.config = {}
+mt.setting = {}
 
 local function toboolean(v)
     if v == 'true' or v == true then
@@ -293,29 +293,29 @@ local function toboolean(v)
     return nil
 end
 
-function mt:set_config(config)
+function mt:set_setting(setting)
     local default = self:parse_lni(load_file 'config.ini')
-    local config = config or {}
+    local setting = setting or {}
     local dir
 
     local function choose(k, f)
-        local a = config[k]
+        local a = setting[k]
         local b = dir and dir[k]
         if f then
             a = f(a)
             b = f(b)
         end
         if a == nil then
-            config[k] = b
+            setting[k] = b
         else
-            config[k] = a
+            setting[k] = a
         end
     end
     dir = default.global
     choose('data_war3')
     choose('data_meta')
     choose('data_wes')
-    dir = default[config.mode]
+    dir = default[setting.mode]
     choose('read_slk', toboolean)
     choose('find_id_times', math.tointeger)
     choose('remove_same', toboolean)
@@ -330,10 +330,10 @@ function mt:set_config(config)
     choose('computed_text', toboolean)
     choose('export_lua', toboolean)
     
-    self.config = config
+    self.setting = setting
     
     self.mpq_path = mpq_path()
-    if self.config.version == 'Melee' then
+    if self.setting.version == 'Melee' then
         self.mpq_path:open 'Melee_V1'
     else
         self.mpq_path:open 'Custom_V1'
@@ -358,6 +358,6 @@ return function ()
     self.progress = progress()
     self.loaded = {}
     self:set_messager(function () end)
-    self:set_config()
+    self:set_setting()
     return self
 end

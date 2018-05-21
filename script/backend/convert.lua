@@ -6,11 +6,11 @@ local plugin = require 'share.plugin'
 local lang = require 'share.lang'
 local get_report = require 'share.report'
 local check_lni_mark = require 'share.check_lni_mark'
-local unpack_config = require 'backend.unpack_config'
+local unpack_setting = require 'backend.unpack_setting'
 local check_config = require 'backend.check_config'
 local w2l = core()
 local root = fs.current_path()
-local config
+local setting
 local input_ar, input_proxy
 local output_ar, output_proxy
 
@@ -26,17 +26,17 @@ function messager.report(type, level, content, tip)
 end
 
 local function default_output(input)
-    if w2l.config.target_storage == 'dir' then
+    if w2l.setting.target_storage == 'dir' then
         if fs.is_directory(input) then
-            return input:parent_path() / (input:filename():string() .. '_' .. w2l.config.mode)
+            return input:parent_path() / (input:filename():string() .. '_' .. w2l.setting.mode)
         else
             return input:parent_path() / input:stem():string()
         end
-    elseif w2l.config.target_storage == 'mpq' then
+    elseif w2l.setting.target_storage == 'mpq' then
         if fs.is_directory(input) then
             return input:parent_path() / (input:filename():string() .. '.w3x')
         else
-            return input:parent_path() / (input:stem():string() .. '_' .. w2l.config.mode .. '.w3x')
+            return input:parent_path() / (input:stem():string() .. '_' .. w2l.setting.mode .. '.w3x')
         end
     end
 end
@@ -93,30 +93,30 @@ end
 
 function w2l:mpq_load(filename)
     return w2l.mpq_path:each_path(function(path)
-        return io.load(root:parent_path() / 'data' / self.config.data_war3 / 'war3' / path / filename)
+        return io.load(root:parent_path() / 'data' / self.setting.data_war3 / 'war3' / path / filename)
     end)
 end
 
 function w2l:defined_load(filename)
-    return io.load(root:parent_path() / 'data' / self.config.data_war3 / 'war3' / 'defined' / filename)
+    return io.load(root:parent_path() / 'data' / self.setting.data_war3 / 'war3' / 'defined' / filename)
 end
 
 function w2l:prebuilt_load(filename)
     return w2l.mpq_path:each_path(function(path)
-        return io.load(root:parent_path() / 'data' / self.config.data_war3 / 'prebuilt' / path / filename)
+        return io.load(root:parent_path() / 'data' / self.setting.data_war3 / 'prebuilt' / path / filename)
     end)
 end
 
 function w2l:meta_load(filename)
-    return io.load(root:parent_path() / 'data' / self.config.data_meta / 'we' / filename)
+    return io.load(root:parent_path() / 'data' / self.setting.data_meta / 'we' / filename)
 end
 
 function w2l:wes_load(filename)
-    return io.load(root:parent_path() / 'data' / self.config.data_wes / 'we' / filename)
+    return io.load(root:parent_path() / 'data' / self.setting.data_wes / 'we' / filename)
 end
 
 function w2l:trigger_data()
-    return triggerdata(self.config.data_ui)
+    return triggerdata(self.setting.data_ui)
 end
 
 local function get_io_time(map, file_count)
@@ -131,8 +131,8 @@ return function (mode)
     w2l.messager.progress(0)
 
     fs.remove(root:parent_path() / 'log' / 'report.log')
-    config = unpack_config(mode)
-    input = config.input
+    setting = unpack_setting(mode)
+    input = setting.input
 
     if not input then
         w2l:failed(lang.script.NO_INPUT)
@@ -143,11 +143,11 @@ return function (mode)
         w2l:failed(lang.script.UNSUPPORTED_LNI_MARK)
     end
 
-    if config.mode == 'slk' then
+    if setting.mode == 'slk' then
         messager.title 'Slk'
-    elseif config.mode == 'obj' then
+    elseif setting.mode == 'obj' then
         messager.title 'Obj'
-    elseif config.mode == 'lni' then
+    elseif setting.mode == 'lni' then
         messager.title 'Lni'
     end
 
@@ -169,12 +169,12 @@ return function (mode)
         end
     end
     
-    w2l:set_config(config)
+    w2l:set_setting(setting)
     
     w2l.input_ar = input_ar
-    output = config.output or default_output(config.input)
-    config.output = output
-    if w2l.config.target_storage == 'dir' then
+    output = setting.output or default_output(setting.input)
+    setting.output = output
+    if w2l.setting.target_storage == 'dir' then
         if not fs.exists(output) then
             fs.create_directories(output)
         end
@@ -187,7 +187,7 @@ return function (mode)
     w2l.output_ar = output_ar
     
     input_proxy = builder.proxy(input_ar, w2l.input_mode)
-    output_proxy = builder.proxy(output_ar, config.mode)
+    output_proxy = builder.proxy(output_ar, setting.mode)
 
     local slk = {}
     local file_count = input_ar:number_of_files()
@@ -197,7 +197,7 @@ return function (mode)
     local backend_rate = (1 - input_rate - output_rate) * 0.6
 
     messager.text(lang.script.CHECK_PLUGIN)
-    plugin(w2l, config)
+    plugin(w2l, setting)
     
     w2l:call_plugin('on_convert')
     
@@ -226,7 +226,7 @@ return function (mode)
     w2l:backend(slk)
     w2l.progress:finish()
 
-    if w2l.config.mode == 'lni' then
+    if w2l.setting.mode == 'lni' then
         local path = root / 'locale' / lang:current_lang() / 'w3i.lng'
         w2l:file_save('w3x2lni', 'locale/w3i.lng', io.load(path) or '')
         local path = root / 'locale' / lang:current_lang() / 'lml.lng'
@@ -245,5 +245,5 @@ return function (mode)
     local clock = os.clock()
     messager.text(lang.script.FINISH:format(clock))
     local err, warn = exit(report)
-    io.save(root:parent_path() / 'log' / 'report.log', get_report(w2l, report, config, clock, err, warn))
+    io.save(root:parent_path() / 'log' / 'report.log', get_report(w2l, report, setting, clock, err, warn))
 end

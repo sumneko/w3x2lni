@@ -5,7 +5,7 @@ local root = fs.current_path()
 return function (w2l, version)
     w2l.messager.text(lang.script.CONVERT_ONE .. version)
 
-    w2l:set_config
+    w2l:set_setting
     {
         data_war3 = config.global.data_war3,
         data_ui   = config.global.data_ui,

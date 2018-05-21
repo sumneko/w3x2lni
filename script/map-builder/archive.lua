@@ -48,7 +48,7 @@ function mt:save(w3i, w2l)
     for _ in pairs(self) do
         max = max + 1
     end
-    local suc, res = self.handle:save(self.path, w3i, max, w2l.config.remove_we_only)
+    local suc, res = self.handle:save(self.path, w3i, max, w2l.setting.remove_we_only)
     if not suc then
         return false, res
     end

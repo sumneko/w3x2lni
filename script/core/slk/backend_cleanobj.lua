@@ -152,7 +152,7 @@ local function clean_misc(type, t)
         return
     end
     for name in pairs(default[type]) do
-        if t[name] and (t[name]._source ~= 'slk' or w2l.config.mode ~= 'slk') then
+        if t[name] and (t[name]._source ~= 'slk' or w2l.setting.mode ~= 'slk') then
             clean_obj(id, t[name], type, default[type])
         end
     end
@@ -162,10 +162,10 @@ return function (w2l_, slk)
     w2l = w2l_
     keydata = w2l:keydata()
     default = w2l:get_default()
-    is_remove_same = w2l.config.remove_same
+    is_remove_same = w2l.setting.remove_same
     metadata = w2l:metadata()
-    if w2l.config.mode == 'slk' then
-        if not w2l.config.slk_doodad then
+    if w2l.setting.mode == 'slk' then
+        if not w2l.setting.slk_doodad then
             local type = 'doodad'
             clean_objs(type, slk[type])
             w2l.progress(0.5)

@@ -23,21 +23,21 @@ local function output_path(path)
 end
 
 return function (mode)
-    local config = { mode = mode }
+    local setting = { mode = mode }
     local input = input_path(command[2])
     local output = output_path(command[3])
 
     global_config:open_map(input)
     for k, v in pairs(global_config.global) do
-        config[k] = v
+        setting[k] = v
     end
-    if global_config[config.mode] then
-        for k, v in pairs(global_config[config.mode]) do
-            config[k] = v
+    if global_config[setting.mode] then
+        for k, v in pairs(global_config[setting.mode]) do
+            setting[k] = v
         end
     end
-    config.input = input
-    config.output = output
+    setting.input = input
+    setting.output = output
     
-    return config
+    return setting
 end
