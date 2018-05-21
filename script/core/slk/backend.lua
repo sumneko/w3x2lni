@@ -260,7 +260,7 @@ local function to_slk(w2l, slk)
         slk_list[#slk_list+1] = 'doodad'
     end
     for id, obj in pairs(slk.ability) do
-        if obj._keep_obj then
+        if obj._keep_obj and not slk.ability[obj._parent]._mark then
             slk.ability[obj._parent]._mark = obj._mark
         end
     end

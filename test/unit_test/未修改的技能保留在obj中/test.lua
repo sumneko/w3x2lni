@@ -35,7 +35,10 @@ assert(slk.ability.A000._keep_obj)
 assert(not slk.ability.A001._keep_obj)
 slk.ability.A000._mark = true
 slk.ability.A001._mark = true
+slk.ability.Avul._mark = true
 w2l:backend(slk)
 assert(ok1)
 assert(ok2)
 assert(slk.ability.AHtb._mark)
+assert(slk.ability.Avul._mark)
+assert(not slk.ability.A002._mark)

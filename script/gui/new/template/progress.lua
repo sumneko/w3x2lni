@@ -37,7 +37,7 @@ return function (t, data)
                 if frontground < background then
                     delta1 = (background - frontground) / 10
                 else
-                    delta2 = delta2 * ((1 - frontground) / (1 - background)) ^ 3
+                    delta2 = delta2 * ((1 - frontground) / (1 - background)) ^ 5
                 end
                 frontground = frontground + math.max(delta1, delta2)
                 frontlabel:setstyle { FlexGrow = frontground }
