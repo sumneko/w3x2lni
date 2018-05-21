@@ -152,3 +152,5 @@ File dose not exsit
 Unsupported Lni map
 [CONFIG_INVALID_DIR]
 Invalid dir specified by %s.%s
+[NO_LNI]
+No Lni dir

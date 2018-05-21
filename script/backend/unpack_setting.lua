@@ -24,7 +24,7 @@ end
 
 return function (mode)
     local setting = { mode = mode }
-    local input = input_path(command[2])
+    local input, err = input_path(command[2])
     local output = output_path(command[3])
 
     global_config:open_map(input)
@@ -39,5 +39,5 @@ return function (mode)
     setting.input = input
     setting.output = output
     
-    return setting
+    return setting, err
 end

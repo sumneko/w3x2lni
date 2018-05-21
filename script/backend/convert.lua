@@ -131,17 +131,26 @@ return function (mode)
     w2l.messager.progress(0)
 
     fs.remove(root:parent_path() / 'log' / 'report.log')
-    setting = unpack_setting(mode)
-    input = setting.input
+    local err
+    setting, err = unpack_setting(mode)
 
-    if not input then
+    if err == 'no path' then
         w2l:failed(lang.script.NO_INPUT)
+        return
     end
-    check_config(w2l, input)
 
-    if input:filename():string() == '.w3x' then
-        w2l:failed(lang.script.UNSUPPORTED_LNI_MARK)
+    if err == 'no lni' then
+        w2l:failed(lang.script.NO_LNI)
+        return
     end
+
+    if err == 'lni mark failed' then
+        w2l:failed(lang.script.UNSUPPORTED_LNI_MARK)
+        return
+    end
+    
+    check_config(w2l, input)
+    input = setting.input
 
     if setting.mode == 'slk' then
         messager.title 'Slk'

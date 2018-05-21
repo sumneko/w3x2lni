@@ -152,3 +152,5 @@ w3i里的文本长度超过1023字符
 不支持的Lni地图
 [CONFIG_INVALID_DIR]
 %s.%s 指定的目录无效
+[NO_LNI]
+没有找到所在的Lni目录

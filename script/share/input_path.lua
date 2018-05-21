@@ -16,9 +16,13 @@ return function (path)
     elseif _W2L_MODE == 'CLI' then
         local cur = fs.path(_W2L_DIR)
         while true do
-            if check_lni_mark(io.load(cur / '.w3x')) then
-                path = cur
-                break
+            if fs.exists(cur / '.w3x') then
+                if check_lni_mark(io.load(cur / '.w3x')) then
+                    path = cur
+                    break
+                else
+                    return nil, 'lni mark failed'
+                end
             end
             if cur == cur:parent_path() then
                 break
@@ -26,13 +30,17 @@ return function (path)
             cur = cur:parent_path()
         end
         if not path then
-            return nil
+            return nil, 'no lni'
         end
     else
-        return nil
+        return nil, 'no path'
     end
-    if check_lni_mark(io.load(path)) then
-        path = path:parent_path()
+    if path:filename():string() == '.w3x' then
+        if check_lni_mark(io.load(path)) then
+            return fs.absolute(path:parent_path())
+        else
+            return fs.absolute(path), 'lni mark failed'
+        end
     end
     return fs.absolute(path)
 end
