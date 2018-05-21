@@ -1,6 +1,6 @@
 local w2l = w3x2lni()
 
-w2l:set_config
+w2l:set_setting
 {
     mode = 'obj',
 }

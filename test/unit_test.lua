@@ -78,7 +78,7 @@ function mt:load_lni(w2l, type, id, path)
 end
 
 function mt:load_slk(w2l, type, id, path)
-    w2l.config.read_slk = true
+    w2l.setting.read_slk = true
     local enable_keys = {}
     local function pack_keys(filename)
         if not slk_keys[filename] then
@@ -108,7 +108,7 @@ function mt:load_slk(w2l, type, id, path)
     return { obj = w2l.slk[type][id], type = 'slk', keys = enable_keys }
 end
 
-function mt:load_all(w2l, type, id, path, config)
+function mt:load_all(w2l, type, id, path, setting)
     function w2l:map_load(filename)
         return io.load(path / filename)
     end
@@ -237,8 +237,8 @@ end
 
 function mt:w3x2lni()
     local w2l = core()
-    local mpq_path = fs.current_path():parent_path() / 'data' / w2l.config.data_war3 / 'war3'
-    local prebuilt_path = fs.current_path():parent_path() / 'data' / w2l.config.data_war3 / 'prebuilt'
+    local mpq_path = fs.current_path():parent_path() / 'data' / w2l.setting.data_war3 / 'war3'
+    local prebuilt_path = fs.current_path():parent_path() / 'data' / w2l.setting.data_war3 / 'prebuilt'
 
     function w2l:mpq_load(filename)
         return w2l.mpq_path:each_path(function(path)
@@ -264,12 +264,12 @@ function mt:init(type, id)
     self._id = id
 end
 
-function mt:load(mode, config)
+function mt:load(mode, setting)
     local w2l = self:w3x2lni()
     local name = self._path:filename():string()
     local dump
-    config = config or {}
-    w2l:set_config(config)
+    setting = setting or {}
+    w2l:set_setting(setting)
 
     if mode == 'obj' then
         dump = self:load_obj(w2l, self._type, self._id, self._path)
@@ -284,14 +284,14 @@ function mt:load(mode, config)
     return dump
 end
 
-function mt:save(mode, dump, config)
+function mt:save(mode, dump, setting)
     local w2l = self:w3x2lni()
     local name = self._path:filename():string()
     local slk
-    config = config or {}
-    config.mode = mode
+    setting = setting or {}
+    setting.mode = mode
     
-    w2l:set_config(config)
+    w2l:set_setting(setting)
     w2l.slk = {}
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable', 'doodad', 'misc', 'txt'} do
         w2l.slk[type] = {}

@@ -8,7 +8,7 @@ mt.info = {
 }
 
 function mt:on_full(w2l)
-    if w2l.config.mode == 'slk' then
+    if w2l.setting.mode == 'slk' then
         for id, obj in pairs(w2l.slk.unit) do
             obj.name = '被插件修改过的' .. obj.name
         end

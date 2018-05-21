@@ -1,5 +1,5 @@
 local w2l = w3x2lni()
-w2l:set_config { mode = 'slk', read_slk = true }
+w2l:set_setting { mode = 'slk', read_slk = true }
 w2l.slk = {}
 w2l:frontend()
 assert(w2l.slk.misc.HERO._source == 'slk', '来自slk的misc要有标记')

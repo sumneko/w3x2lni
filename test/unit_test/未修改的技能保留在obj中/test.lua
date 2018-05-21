@@ -1,5 +1,5 @@
 local w2l = w3x2lni()
-w2l.config.mode = 'slk'
+w2l.setting.mode = 'slk'
 
 function w2l:map_load(filename)
     return read(filename)

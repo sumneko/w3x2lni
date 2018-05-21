@@ -1,5 +1,5 @@
 local w2l = w3x2lni()
-w2l:set_config { mode = 'lni' }
+w2l:set_setting { mode = 'lni' }
 w2l.slk = {}
 w2l:frontend()
 w2l:backend()
