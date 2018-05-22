@@ -14,7 +14,7 @@ local w3xparser = require 'w3xparser'
 local messager = require 'share.messager'
 local war3 = require 'share.war3'
 local data_version = require 'share.data_version'
-local command = require 'share.command'
+local command = require 'backend.command'
 local w2l
 local mpqs
 local root = fs.current_path()
