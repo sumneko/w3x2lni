@@ -246,10 +246,6 @@ function mt:w3x2lni()
         end)
     end
 
-    function w2l:defined_load(filename)
-        return io.load(mpq_path / 'defined' / filename)
-    end
-
     return w2l
 end
 

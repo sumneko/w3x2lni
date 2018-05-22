@@ -105,10 +105,6 @@ local function get_w2l()
         end)
     end
 
-    function w2l:defined_load(filename)
-        return io.load(output / 'war3' / 'defined' / filename)
-    end
-
     function messager.report(_, _, str, tip)
         if str == lang.report.NO_WES_STRING then
             lost_wes[tip] = true

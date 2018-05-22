@@ -31,16 +31,6 @@ function w2l:mpq_load(filename)
     end)
 end
 
-function w2l:defined_load(filename)
-    local mpq_path = root:parent_path() / 'data' / w2l.setting.data_war3 / 'war3'
-    return io.load(mpq_path / 'defined' / filename)
-end
-
-function w2l:wes_load(filename)
-    local wes_path = root:parent_path() / 'data' / w2l.setting.data_wes / 'we'
-    return io.load(wes_path / filename)
-end
-
 local function loader(name)
     return io.load(root / 'meta' / name) or w2l:mpq_load(name)
 end

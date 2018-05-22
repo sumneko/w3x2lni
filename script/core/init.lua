@@ -46,10 +46,6 @@ function mt:parse_ini(buf)
     return ini(buf)
 end
 
-function mt:defined(name)
-    return lni(self:defined_load(name .. '.ini'))
-end
-
 local function prebuilt_load(w2l, filename)
     return w2l.mpq_path:each_path(function(path)
         return loaddata(fs.path('data') / w2l.setting.data_war3 / 'prebuilt' / path / filename)
@@ -60,12 +56,24 @@ local function wes_load(w2l, filename)
     return loaddata(fs.path('data') / w2l.setting.data_wes / 'we' / filename)
 end
 
+local function meta_load(w2l, filename)
+    return loaddata(fs.path('data') / w2l.setting.data_meta / 'we' / filename)
+end
+
+local function defined_load(w2l, filename)
+    return loaddata(fs.path('data') / self.setting.data_war3 / 'war3' / 'defined' / filename)
+end
+
+function mt:defined(name)
+    return lni(defined_load(self, name .. '.ini'))
+end
+
 function mt:metadata()
     if not self.cache_metadata then
         if self.setting.mode ~= 'obj' or self.setting.data_meta == '${DEFAULT}' then
             self.cache_metadata = lni(load_file 'defined\\metadata.ini')
         else
-            self.cache_metadata = lni(self:meta_load 'metadata.ini')
+            self.cache_metadata = lni(meta_load(self, 'metadata.ini'))
         end
     end
     return self.cache_metadata
@@ -91,11 +99,11 @@ function mt:get_editstring(source)
                 self.editstring[k:upper()] = v
             end
         else
-            local t = ini(wes_load(w2l, 'WorldEditStrings.txt'))['WorldEditStrings']
+            local t = ini(wes_load(self, 'WorldEditStrings.txt'))['WorldEditStrings']
             for k, v in pairs(t) do
                 self.editstring[k:upper()] = v
             end
-            local t = ini(wes_load(w2l, 'WorldEditGameStrings.txt'))['WorldEditStrings']
+            local t = ini(wes_load(self, 'WorldEditGameStrings.txt'))['WorldEditStrings']
             for k, v in pairs(t) do
                 self.editstring[k:upper()] = v
             end
@@ -237,10 +245,6 @@ function mt:map_remove(filename)
 end
 
 function mt:mpq_load(filename)
-    return nil
-end
-
-function mt:defined_load(filename)
     return nil
 end
 

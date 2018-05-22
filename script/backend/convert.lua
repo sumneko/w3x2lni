@@ -96,18 +96,6 @@ function w2l:mpq_load(filename)
     end)
 end
 
-function w2l:defined_load(filename)
-    return io.load(root:parent_path() / 'data' / self.setting.data_war3 / 'war3' / 'defined' / filename)
-end
-
-function w2l:meta_load(filename)
-    return io.load(root:parent_path() / 'data' / self.setting.data_meta / 'we' / filename)
-end
-
-function w2l:wes_load(filename)
-    return io.load(root:parent_path() / 'data' / self.setting.data_wes / 'we' / filename)
-end
-
 function w2l:trigger_data()
     return triggerdata(self.setting.data_ui)
 end
