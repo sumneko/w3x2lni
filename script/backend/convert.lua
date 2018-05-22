@@ -7,7 +7,6 @@ local lang = require 'share.lang'
 local get_report = require 'share.report'
 local check_lni_mark = require 'share.check_lni_mark'
 local unpack_setting = require 'backend.unpack_setting'
-local check_config = require 'backend.check_config'
 local w2l = core()
 local root = fs.current_path()
 local setting
@@ -131,25 +130,8 @@ return function (mode)
     w2l.messager.progress(0)
 
     fs.remove(root:parent_path() / 'log' / 'report.log')
-    local err
-    setting, err = unpack_setting(mode)
 
-    if err == 'no path' then
-        w2l:failed(lang.script.NO_INPUT)
-        return
-    end
-
-    if err == 'no lni' then
-        w2l:failed(lang.script.NO_LNI)
-        return
-    end
-
-    if err == 'lni mark failed' then
-        w2l:failed(lang.script.UNSUPPORTED_LNI_MARK)
-        return
-    end
-    
-    check_config(w2l, input)
+    setting = unpack_setting(w2l, mode)
     input = setting.input
 
     if setting.mode == 'slk' then
