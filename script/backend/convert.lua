@@ -1,7 +1,6 @@
 local messager = require 'share.messager'
 local core = require 'backend.sandbox_core'
 local builder = require 'map-builder'
-local triggerdata = require 'backend.triggerdata'
 local plugin = require 'share.plugin'
 local lang = require 'share.lang'
 local get_report = require 'share.report'
@@ -96,8 +95,23 @@ function w2l:mpq_load(filename)
     end)
 end
 
-function w2l:trigger_data()
-    return triggerdata(self.setting.data_ui)
+function w2l:ui_ydwe()
+    local ydwe_path = require 'backend.ydwe_path'
+    local ydwe = ydwe_path()
+    if not ydwe then
+        return nil, lang.script.NEED_YDWE_ASSOCIATE
+    end
+    local path
+    if fs.exists(ydwe / 'ui') then
+        path = ydwe / 'ui'
+    elseif fs.exists(ydwe / 'ui') then
+        path = ydwe / 'ui'
+    elseif fs.exists(ydwe / 'share' / 'mpq') then
+        path = ydwe / 'share' / 'mpq'
+    else
+        return nil, lang.script.NO_TRIGGER_DATA
+    end
+    return path:string() .. '/'
 end
 
 local function get_io_time(map, file_count)

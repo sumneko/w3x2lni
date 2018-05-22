@@ -231,10 +231,6 @@ function mt:mpq_load(filename)
     return nil
 end
 
-function mt:trigger_data()
-    return nil
-end
-
 function mt:call_plugin()
 end
 
