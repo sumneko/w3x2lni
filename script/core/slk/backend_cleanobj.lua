@@ -70,16 +70,24 @@ local function remove_same_as_txt(meta, key, data, default, obj, ttype)
     local dest = default[key]
     if type(dest) == 'table' then
         local new_data = {}
-        local valued
-        for i = #data, 1, -1 do
-            if dest[i] == nil then
-                if valued or (data[i] ~= data[i-1]) then
+        if meta and meta.appendindex then
+            for i = 1, #data do
+                if data[i] ~= (dest[i] or '') then
+                    new_data[i] = data[i]
+                end
+            end
+        else
+            local valued
+            for i = #data, 1, -1 do
+                if dest[i] == nil then
+                    if valued or (data[i] ~= data[i-1]) then
+                        new_data[i] = data[i]
+                        valued = true
+                    end
+                elseif data[i] ~= dest[i] then
                     new_data[i] = data[i]
                     valued = true
                 end
-            elseif data[i] ~= dest[i] then
-                new_data[i] = data[i]
-                valued = true
             end
         end
         if not next(new_data) then
