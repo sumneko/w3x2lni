@@ -106,12 +106,7 @@ local function get_w2l()
     end
 
     function w2l:defined_load(filename)
-        local mpq_path = output / 'war3'
-        return io.load(mpq_path / 'defined' / filename)
-    end
-
-    function w2l:wes_load(filename)
-        return io.load(output / 'we' / filename)
+        return io.load(output / 'war3' / 'defined' / filename)
     end
 
     function messager.report(_, _, str, tip)

@@ -50,6 +50,16 @@ function mt:defined(name)
     return lni(self:defined_load(name .. '.ini'))
 end
 
+local function prebuilt_load(w2l, filename)
+    return w2l.mpq_path:each_path(function(path)
+        return loaddata(fs.path('data') / w2l.setting.data_war3 / 'prebuilt' / path / filename)
+    end)
+end
+
+local function wes_load(w2l, filename)
+    return loaddata(fs.path('data') / w2l.setting.data_wes / 'we' / filename)
+end
+
 function mt:metadata()
     if not self.cache_metadata then
         if self.setting.mode ~= 'obj' or self.setting.data_meta == '${DEFAULT}' then
@@ -75,20 +85,20 @@ function mt:get_editstring(source)
     end
     if not self.editstring then
         self.editstring = {}
-        local t
         if self.setting.data_wes == '${DEFAULT}' then
-            t = ini(load_file('defined\\WorldEditStrings.txt'))['WorldEditStrings']
+            local t = ini(load_file('defined\\WorldEditStrings.txt'))['WorldEditStrings']
+            for k, v in pairs(t) do
+                self.editstring[k:upper()] = v
+            end
         else
-            t = ini(self:wes_load('WorldEditStrings.txt'))['WorldEditStrings']
-        end
-        for k, v in pairs(t) do
-            self.editstring[k:upper()] = v
-        end
-        if self.setting.data_wes ~= '${DEFAULT}' then
-            t = ini(self:wes_load('WorldEditGameStrings.txt'))['WorldEditStrings']
-        end
-        for k, v in pairs(t) do
-            self.editstring[k:upper()] = v
+            local t = ini(wes_load(w2l, 'WorldEditStrings.txt'))['WorldEditStrings']
+            for k, v in pairs(t) do
+                self.editstring[k:upper()] = v
+            end
+            local t = ini(wes_load(w2l, 'WorldEditGameStrings.txt'))['WorldEditStrings']
+            for k, v in pairs(t) do
+                self.editstring[k:upper()] = v
+            end
         end
     end
     if self.editstring[str] then
@@ -110,12 +120,6 @@ function mt:get_editstring(source)
         self.messager.report(lang.report.OTHER, 9, lang.report.NO_WES_STRING, source)
     end
     return source
-end
-
-local function prebuilt_load(w2l, filename)
-    return w2l.mpq_path:each_path(function(path)
-        return loaddata(fs.path('data') / w2l.setting.data_war3 / 'prebuilt' / path / filename)
-    end)
 end
 
 local function create_default(w2l)
