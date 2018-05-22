@@ -1,39 +1,31 @@
 require 'filesystem'
 local ui = require 'ui-builder'
 local lang = require 'share.lang'
-
 local root = fs.current_path()
 
 local function string_trim (self) 
 	return self:gsub("^%s*(.-)%s*$", "%1")
 end
 
-local function ydwe_path()
-    require 'registry'
-    local commands = registry.current_user() / [[SOFTWARE\Classes\YDWEMap\shell\run_war3\command]]
-    if not commands then
-        return nil
+local function ydwe_ui_path()
+    local ydwe_path = require 'backend.ydwe_path'
+    local ydwe = ydwe_path()
+    if not ydwe then
+        return nil, lang.script.NEED_YDWE_ASSOCIATE
     end
-    local command = commands['']
-    if not command then
-        return nil
+    if fs.exists(ydwe / 'ui') then
+        return ydwe / 'ui'
+    elseif fs.exists(ydwe / 'ui') then
+        return ydwe / 'ui'
+    elseif fs.exists(ydwe / 'share' / 'mpq') then
+        return ydwe / 'share' / 'mpq'
     end
-    local path = command:match '^"([^"]*)"'
-    local ydpath = fs.path(path):remove_filename()
-    if fs.exists(ydpath / 'YDWE.exe') then
-        return ydpath
-    else
-        local ydpath = ydpath:remove_filename()
-        if fs.exists(ydpath / 'YDWE.exe') then
-            return ydpath
-        end
-    end
-    return nil
+    return nil, lang.script.NO_TRIGGER_DATA
 end
 
 local function trigger_config(mpq_path)
-    if not fs.exists(mpq_path) then
-        return nil
+    if not mpq_path or not fs.exists(mpq_path) then
+        return
     end
 	local list = {}
 	local f, err = io.open((mpq_path / 'config'):string(), 'r')
@@ -79,27 +71,18 @@ local function load_triggerdata(list)
     return t
 end
 
-local function load_ydew()
-    local path = ydwe_path()
-    if not path then
-        return nil, lang.script.NEED_YDWE_ASSOCIATE
+local function ui_path(ui)
+    if ui == '${YDWE}' then
+        return ydwe_ui_path()
     end
-    local list = trigger_config(path / 'ui') or trigger_config(path / 'share' / 'ui') or trigger_config(path / 'share' / 'mpq')
-    if not list then
-        return nil, lang.script.NO_TRIGGER_DATA_DIR .. path:string()
-    end
-    local suc, state = pcall(load_triggerdata, list)
-    if not suc then
-        return nil, lang.script.TRIGGER_DATA_ERROR
-    end
-    if not state then
-        return nil, lang.script.NO_TRIGGER_DATA
-    end
-    return state
+    return root:parent_path() / 'data' / ui / 'we' / 'ui'
 end
 
-local function load_ui(ui)
-    local path = root:parent_path() / 'data' / ui / 'we' / 'ui'
+return function (ui)
+    local path, err = ui_path(ui)
+    if not path then
+        return nil, err
+    end
     local list = trigger_config(path)
     if not list then
         return nil, lang.script.NO_TRIGGER_DATA_DIR .. path:string()
@@ -112,12 +95,4 @@ local function load_ui(ui)
         return nil, lang.script.NO_TRIGGER_DATA
     end
     return state
-end
-
-return function (ui)
-    if ui == '${YDWE}' then
-        return load_ydew()
-    else
-        return load_ui(ui)
-    end
 end
