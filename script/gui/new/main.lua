@@ -11,7 +11,7 @@ function ext.on_dropfile(filename)
     if window._worker and not window._worker.exited then
         return
     end
-    local input_path = require 'share.input_path'
+    local normalize_path = require 'share.normalize_path'
     local builder = require 'map-builder'
     local war3 = require 'share.war3'
     if war3:open(fs.path(filename)) then
@@ -22,7 +22,7 @@ function ext.on_dropfile(filename)
         window:set_theme('War3Dump', '#9CD')
         return
     end
-    local mappath = input_path(filename)
+    local mappath = normalize_path(filename)
     local map = builder.load(mappath)
     if not map then
         return

@@ -1,6 +1,7 @@
 local command = require 'share.command'
 local lni = require 'lni'
-local input_path = require 'share.input_path'
+local get_lni_map = require 'share.get_lni_map'
+local normalize_path = require 'share.normalize_path'
 local config = require 'share.config'
 local lang = require 'share.lang'
 require 'utility'
@@ -44,22 +45,24 @@ end
 
 return function (w2l, mode)
     local setting = { mode = mode }
-    local input, err = input_path(command[2])
     local output = output_path(command[3])
+    local input
 
-    if err == 'no path' then
+    if command[2] then
+        input = normalize_path(command[2])
+    elseif _W2L_MODE ~= 'CLI' then
         w2l:failed(lang.script.NO_INPUT)
         return
-    end
-
-    if err == 'no lni' then
-        w2l:failed(lang.script.NO_LNI)
-        return
-    end
-
-    if err == 'lni mark failed' then
-        w2l:failed(lang.script.UNSUPPORTED_LNI_MARK)
-        return
+    else
+        local err
+        input, err = get_lni_map()
+        if err == 'no lni' then
+            w2l:failed(lang.script.NO_LNI)
+            return
+        elseif err == 'lni mark failed' then
+            w2l:failed(lang.script.UNSUPPORTED_LNI_MARK)
+            return
+        end
     end
 
     config:open_map(input)
