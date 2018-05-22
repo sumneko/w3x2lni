@@ -20,6 +20,5 @@ return (require 'backend.sandbox')('.\\core\\', io.open, {
     ['lpeg']      = require 'lpeg',
     ['lml']       = require 'lml',
     ['lang']      = require 'share.lang',
-    ['filesystem'] = fs,
     ['loaddata']   = loaddata
 })

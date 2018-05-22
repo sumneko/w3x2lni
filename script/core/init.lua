@@ -10,7 +10,6 @@ local ini = w3xparser.ini
 local pairs = pairs
 local string_lower = string.lower
 local loaddata = require 'loaddata'
-fs = require 'filesystem'
 
 local mt = {}
 
@@ -46,26 +45,8 @@ function mt:parse_ini(buf)
     return ini(buf)
 end
 
-local function prebuilt_load(w2l, filename)
-    return w2l.mpq_path:each_path(function(path)
-        return loaddata(fs.path('data') / w2l.setting.data_war3 / 'prebuilt' / path / filename)
-    end)
-end
-
-local function wes_load(w2l, filename)
-    return loaddata(fs.path('data') / w2l.setting.data_wes / 'we' / filename)
-end
-
-local function meta_load(w2l, filename)
-    return loaddata(fs.path('data') / w2l.setting.data_meta / 'we' / filename)
-end
-
-local function defined_load(w2l, filename)
-    return loaddata(fs.path('data') / self.setting.data_war3 / 'war3' / 'defined' / filename)
-end
-
 function mt:defined(name)
-    return lni(defined_load(self, name .. '.ini'))
+    return lni(loaddata(('data/%s/war3/defined/%s.ini'):format(self.setting.data_war3, name)))
 end
 
 function mt:metadata()
@@ -73,7 +54,7 @@ function mt:metadata()
         if self.setting.mode ~= 'obj' or self.setting.data_meta == '${DEFAULT}' then
             self.cache_metadata = lni(load_file 'defined\\metadata.ini')
         else
-            self.cache_metadata = lni(meta_load(self, 'metadata.ini'))
+            self.cache_metadata = lni(loaddata(('data/%s/we/metadata.ini'):format(self.setting.data_meta)))
         end
     end
     return self.cache_metadata
@@ -99,11 +80,11 @@ function mt:get_editstring(source)
                 self.editstring[k:upper()] = v
             end
         else
-            local t = ini(wes_load(self, 'WorldEditStrings.txt'))['WorldEditStrings']
+            local t = ini(loaddata(('data/%s/we/WorldEditStrings.txt'):format(self.setting.data_wes)))['WorldEditStrings']
             for k, v in pairs(t) do
                 self.editstring[k:upper()] = v
             end
-            local t = ini(wes_load(self, 'WorldEditGameStrings.txt'))['WorldEditStrings']
+            local t = ini(loaddata(('data/%s/we/WorldEditGameStrings.txt'):format(self.setting.data_wes)))['WorldEditStrings']
             for k, v in pairs(t) do
                 self.editstring[k:upper()] = v
             end
@@ -134,7 +115,9 @@ local function create_default(w2l)
     local default = {}
     local need_build = false
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'txt', 'misc'} do
-        local str = prebuilt_load(w2l, name .. '.ini')
+        local str = w2l.mpq_path:each_path(function(path)
+            return loaddata(('data/%s/prebuilt/%s/%s.ini'):format(w2l.setting.data_war3, path, name))
+        end)
         if str then
             default[name] = lni(str)
         else
