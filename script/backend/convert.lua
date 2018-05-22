@@ -100,12 +100,6 @@ function w2l:defined_load(filename)
     return io.load(root:parent_path() / 'data' / self.setting.data_war3 / 'war3' / 'defined' / filename)
 end
 
-function w2l:prebuilt_load(filename)
-    return w2l.mpq_path:each_path(function(path)
-        return io.load(root:parent_path() / 'data' / self.setting.data_war3 / 'prebuilt' / path / filename)
-    end)
-end
-
 function w2l:meta_load(filename)
     return io.load(root:parent_path() / 'data' / self.setting.data_meta / 'we' / filename)
 end

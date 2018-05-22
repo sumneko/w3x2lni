@@ -9,6 +9,8 @@ local txt = w3xparser.txt
 local ini = w3xparser.ini
 local pairs = pairs
 local string_lower = string.lower
+local loaddata = require 'loaddata'
+fs = require 'filesystem'
 
 local mt = {}
 
@@ -110,11 +112,17 @@ function mt:get_editstring(source)
     return source
 end
 
+local function prebuilt_load(w2l, filename)
+    return w2l.mpq_path:each_path(function(path)
+        return loaddata(fs.path('data') / w2l.setting.data_war3 / 'prebuilt' / path / filename)
+    end)
+end
+
 local function create_default(w2l)
     local default = {}
     local need_build = false
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'txt', 'misc'} do
-        local str = w2l:prebuilt_load(name .. '.ini')
+        local str = prebuilt_load(w2l, name .. '.ini')
         if str then
             default[name] = lni(str)
         else
@@ -229,10 +237,6 @@ function mt:mpq_load(filename)
 end
 
 function mt:defined_load(filename)
-    return nil
-end
-
-function mt:prebuilt_load(filename)
     return nil
 end
 
