@@ -47,18 +47,6 @@ return function (w2l, mode)
     local input, err = input_path(command[2])
     local output = output_path(command[3])
 
-    config:open_map(input)
-    for k, v in pairs(config.global) do
-        setting[k] = v
-    end
-    if config[setting.mode] then
-        for k, v in pairs(config[setting.mode]) do
-            setting[k] = v
-        end
-    end
-    setting.input = input
-    setting.output = output
-    
     if err == 'no path' then
         w2l:failed(lang.script.NO_INPUT)
         return
@@ -73,6 +61,18 @@ return function (w2l, mode)
         w2l:failed(lang.script.UNSUPPORTED_LNI_MARK)
         return
     end
+
+    config:open_map(input)
+    for k, v in pairs(config.global) do
+        setting[k] = v
+    end
+    if config[setting.mode] then
+        for k, v in pairs(config[setting.mode]) do
+            setting[k] = v
+        end
+    end
+    setting.input = input
+    setting.output = output
 
     check_config(w2l, 'global' ,'data_war3')
     check_config(w2l, 'global' ,'data_ui')
