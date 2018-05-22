@@ -1,7 +1,7 @@
 local messager = require 'share.messager'
 local config = require 'share.config'
 local lang = require 'share.lang'
-local get_lni_map = require 'share.get_lni_map'
+local get_lni_map = require 'backend.get_lni_map'
 
 local function show_config(section, k, v)
     local map = config:raw_map(section, k)
