@@ -1,5 +1,6 @@
 require 'filesystem'
-local root = fs.path(arg[1])
+local root = fs.absolute(fs.path '.')
+local main = fs.absolute(fs.path(arg[1]))
 fs.current_path(root / 'script')
 
 local ffi = require 'ffi'
@@ -17,4 +18,6 @@ end
 setenv('PATH', uni.a2u(os.getenv('PATH')) .. ';' .. (root / 'bin'):string())
 
 package.path = package.path .. ';'  .. (root / 'build' / '?.lua'):string()
-loadfile(arg[2])()
+
+table.remove(arg, 1)
+loadfile(main:string())()

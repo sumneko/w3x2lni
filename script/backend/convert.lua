@@ -1,18 +1,16 @@
 local messager = require 'share.messager'
 local core = require 'backend.sandbox_core'
 local builder = require 'map-builder'
-local triggerdata = require 'backend.triggerdata'
 local plugin = require 'share.plugin'
 local lang = require 'share.lang'
 local get_report = require 'share.report'
 local check_lni_mark = require 'share.check_lni_mark'
 local unpack_setting = require 'backend.unpack_setting'
-local check_config = require 'backend.check_config'
 local w2l = core()
 local root = fs.current_path()
 local setting
-local input_ar, input_proxy
-local output_ar, output_proxy
+local input_ar
+local output_ar
 
 local report = {}
 local messager_report = messager.report
@@ -61,64 +59,6 @@ local function exit(report)
     return err, warn
 end
 
-function w2l:map_load(filename)
-    return input_ar:get(filename)
-end
-
-function w2l:map_save(filename, buf)
-    input_ar:set(filename, buf)
-end
-
-function w2l:map_remove(filename)
-    input_ar:remove(filename)
-end
-
-function w2l:file_save(type, name, buf)
-    input_proxy:save(type, name, buf)
-    output_proxy:save(type, name, buf)
-end
-
-function w2l:file_load(type, name)
-    return input_proxy:load(type, name)
-end
-
-function w2l:file_remove(type, name)
-    input_proxy:remove(type, name)
-    output_proxy:remove(type, name)
-end
-
-function w2l:file_pairs()
-    return input_proxy:pairs()
-end
-
-function w2l:mpq_load(filename)
-    return w2l.mpq_path:each_path(function(path)
-        return io.load(root:parent_path() / 'data' / self.setting.data_war3 / 'war3' / path / filename)
-    end)
-end
-
-function w2l:defined_load(filename)
-    return io.load(root:parent_path() / 'data' / self.setting.data_war3 / 'war3' / 'defined' / filename)
-end
-
-function w2l:prebuilt_load(filename)
-    return w2l.mpq_path:each_path(function(path)
-        return io.load(root:parent_path() / 'data' / self.setting.data_war3 / 'prebuilt' / path / filename)
-    end)
-end
-
-function w2l:meta_load(filename)
-    return io.load(root:parent_path() / 'data' / self.setting.data_meta / 'we' / filename)
-end
-
-function w2l:wes_load(filename)
-    return io.load(root:parent_path() / 'data' / self.setting.data_wes / 'we' / filename)
-end
-
-function w2l:trigger_data()
-    return triggerdata(self.setting.data_ui)
-end
-
 local function get_io_time(map, file_count)
     local io_speed = map:get_type() == 'mpq' and 30000 or 10000
     local io_rate = math.min(0.3, file_count / io_speed)
@@ -131,25 +71,8 @@ return function (mode)
     w2l.messager.progress(0)
 
     fs.remove(root:parent_path() / 'log' / 'report.log')
-    local err
-    setting, err = unpack_setting(mode)
 
-    if err == 'no path' then
-        w2l:failed(lang.script.NO_INPUT)
-        return
-    end
-
-    if err == 'no lni' then
-        w2l:failed(lang.script.NO_LNI)
-        return
-    end
-
-    if err == 'lni mark failed' then
-        w2l:failed(lang.script.UNSUPPORTED_LNI_MARK)
-        return
-    end
-    
-    check_config(w2l, input)
+    setting = unpack_setting(w2l, mode)
     input = setting.input
 
     if setting.mode == 'slk' then
@@ -192,11 +115,7 @@ return function (mode)
     if not output_ar then
         w2l:failed(err)
     end
-    output_ar:flush()
     w2l.output_ar = output_ar
-    
-    input_proxy = builder.proxy(input_ar, w2l.input_mode)
-    output_proxy = builder.proxy(output_ar, setting.mode)
 
     local slk = {}
     local file_count = input_ar:number_of_files()
@@ -247,7 +166,7 @@ return function (mode)
     
     messager.text(lang.script.SAVE_FILE)
     w2l.progress:start(1)
-    builder.save(w2l, slk.w3i, input_ar, output_ar, input_proxy, output_proxy)
+    builder.save(w2l, slk.w3i, input_ar, output_ar, w2l.input_proxy, w2l.output_proxy)
     w2l.progress:finish()
     
     fs.create_directories(root:parent_path() / 'log')

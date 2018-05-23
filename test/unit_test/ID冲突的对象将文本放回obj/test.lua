@@ -2,7 +2,7 @@ local w2l = w3x2lni()
 w2l.setting.mode = 'slk'
 w2l.setting.remove_unused_object =false
 
-function w2l:map_load(filename)
+function w2l.input_ar:get(filename)
     return read(filename)
 end
 

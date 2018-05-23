@@ -63,7 +63,6 @@ return function (w2l, w3i, input_ar, output_ar)
     for _, name in pairs(w2l.info.pack.packignore) do
         w2l:file_remove('map', name)
     end
-    w2l:map_remove('.w3x')
     local imp = w2l:file_load('table', 'imp')
     w2l:file_remove('table', 'imp')
 

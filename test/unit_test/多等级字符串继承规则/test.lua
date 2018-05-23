@@ -5,12 +5,12 @@ w2l:set_setting
     mode = 'obj',
 }
 
-function w2l:map_load(path)
+function w2l.input_ar:get(path)
     return read(path)
 end
 
 local ok
-function w2l:map_save(name, buf)
+function w2l.input_ar:set(name, buf)
     if name ~= 'war3map.w3q' then
         return
     end

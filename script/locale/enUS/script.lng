@@ -140,8 +140,6 @@ The extracted MPQ does not find the following WorldEditStrings
 No trigger data was read
 [NEED_YDWE_ASSOCIATE]
 Need to set the map to the associated YDWE
-[NO_TRIGGER_DATA_DIR]
-No trigger data directory was found
 [TRIGGER_DATA_ERROR]
 Trigger data error
 [OPEN_FAILED_MAYBE_W3X]

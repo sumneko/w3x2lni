@@ -24,23 +24,6 @@ w2l:set_messager(function (tp, ...)
     print(...)
 end)
 
-function w2l:mpq_load(filename)
-    local mpq_path = root:parent_path() / 'data' / w2l.setting.data_war3 / 'war3'
-    return self.mpq_path:each_path(function(path)
-        return io.load(mpq_path / path / filename)
-    end)
-end
-
-function w2l:defined_load(filename)
-    local mpq_path = root:parent_path() / 'data' / w2l.setting.data_war3 / 'war3'
-    return io.load(mpq_path / 'defined' / filename)
-end
-
-function w2l:wes_load(filename)
-    local wes_path = root:parent_path() / 'data' / w2l.setting.data_wes / 'we'
-    return io.load(wes_path / filename)
-end
-
 local function loader(name)
     return io.load(root / 'meta' / name) or w2l:mpq_load(name)
 end
@@ -50,11 +33,7 @@ local function main()
     fs.create_directories(root / 'core' / 'defined')
 
     config.global.lang = "${AUTO}"
-    config.global.data_ui = "${YDWE}"
-    config.global.data_meta = "${DEFAULT}"
-    config.global.data_wes = "${DEFAULT}"
-
-    config.global.data_war3 = "zhCN-1.24.4"
+    config.global.data = "zhCN-1.24.4"
     
     local meta = prebuilt_metadata(w2l, nil, loader)
     io.save(fs.current_path() / 'core' / 'defined' / 'metadata.ini', meta)
@@ -62,11 +41,11 @@ local function main()
     local slk_melee  = makefile(w2l, 'Melee')
     local slk_custom = makefile(w2l, 'Custom')
     
-    config.global.data_war3 = "enUS-1.27.1"
+    config.global.data = "enUS-1.27.1"
     makefile(w2l, 'Melee')
     makefile(w2l, 'Custom')
 
-    config.global.data_war3 = "zhCN-1.24.4"
+    config.global.data = "zhCN-1.24.4"
     maketemplate(w2l, 'Melee',  slk_melee)
     maketemplate(w2l, 'Custom', slk_custom)
 

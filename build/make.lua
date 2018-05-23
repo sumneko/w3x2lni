@@ -4,7 +4,7 @@ local sleep = require 'ffi.sleep'
 local uni = require 'unicode'
 local minizip = require 'minizip'
 
-local root = fs.path(arg[1])
+local root = fs.current_path():parent_path()
 local release_path
 
 local function task(f, ...)
@@ -161,7 +161,7 @@ local version = read_version()
 local gitlog = require 'gitlog'
 gitlog()
 
-if arg[3] == 'zhCN' then
+if arg[1] == 'zhCN' then
     release_path = root / 'build' / 'zhCN' / ('w3x2lni_v'..version)
     print('生成中文版，目录为：', release_path:string())
     create_directory()
@@ -171,7 +171,7 @@ if arg[3] == 'zhCN' then
     copy_files('config.ini')
     copy_files('w3x2lni.exe')
     copy_files('w2l.exe')
-    command('config', 'global.data_war3=zhCN-1.24.4')
+    command('config', 'global.data=zhCN-1.24.4')
     command('config', 'global.data_ui=${YDWE}')
     command('config', 'global.data_meta=${DEFAULT}')
     command('config', 'global.data_wes=${DEFAULT}')
@@ -180,7 +180,7 @@ if arg[3] == 'zhCN' then
     zippack()
 end
 
-if arg[3] == 'enUS' then
+if arg[1] == 'enUS' then
     release_path = root / 'build' / 'enUS' / ('w3x2lni_v'..version)
     print('生成英文版，目录为：', release_path:string())
     create_directory()
@@ -190,10 +190,10 @@ if arg[3] == 'enUS' then
     copy_files('config.ini')
     copy_files('w3x2lni.exe')
     copy_files('w2l.exe')
-    command('config', 'global.data_war3=enUS-1.27.1')
-    command('config', 'global.data_ui=enUS-1.27.1')
-    command('config', 'global.data_meta=enUS-1.27.1')
-    command('config', 'global.data_wes=enUS-1.27.1')
+    command('config', 'global.data=enUS-1.27.1')
+    command('config', 'global.data_ui=${DATA}')
+    command('config', 'global.data_meta=${DATA}')
+    command('config', 'global.data_wes=${DATA}')
     command('config', 'slk.slk_doodad=false')
     command('template')
     zippack()
