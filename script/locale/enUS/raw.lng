@@ -93,40 +93,40 @@ Language used, can be the following:
 Invalid language, must be the following:
 
 
-[CONFIG_GLOBAL_WAR3]
+[CONFIG_GLOBAL_DATA]
 War3 data used, can be the following:
 
 
-[CONFIG_GLOBAL_WAR3_ERROR]
+[CONFIG_GLOBAL_DATA_ERROR]
 Invalid directory, must be the following:
 
 
-[CONFIG_GLOBAL_UI]
+[CONFIG_GLOBAL_DATA_UI]
 Trigger data used, can be the following:
 
         ${YDWE}        Search for trigger data used by local YDWE
 
-[CONFIG_GLOBAL_UI_ERROR]
+[CONFIG_GLOBAL_DATA_UI_ERROR]
 Invalid directory, must be the following:
 
         ${YDWE}        Search for trigger data used by local YDWE
 
-[CONFIG_GLOBAL_META]
+[CONFIG_GLOBAL_DATA_META]
 WE data used, can be the following:
 
         ${DEFAULT}        Correct WE data
 
-[CONFIG_GLOBAL_META_ERROR]
+[CONFIG_GLOBAL_DATA_META_ERROR]
 Invalid directory, must be the following:
 
         ${DEFAULT}        Correct WE data
 
-[CONFIG_GLOBAL_WES]
+[CONFIG_GLOBAL_DATA_WES]
 WE strings used, can be the following:
 
         ${DEFAULT}        Default strings
 
-[CONFIG_GLOBAL_WES_ERROR]
+[CONFIG_GLOBAL_DATA_WES_ERROR]
 Invalid directory, must be the following:
 
         ${DEFAULT}        Default strings

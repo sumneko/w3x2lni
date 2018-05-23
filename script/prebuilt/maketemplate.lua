@@ -5,7 +5,7 @@ return function (w2l, version, slk)
     local template_path = root:parent_path() / 'template' / version
     w2l:set_setting
     {
-        data_war3 = config.global.data_war3,
+        data      = config.global.data,
         data_ui   = config.global.data_ui,
         data_meta = config.global.data_meta,
         data_wes  = config.global.data_wes,

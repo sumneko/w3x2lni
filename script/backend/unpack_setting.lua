@@ -100,7 +100,7 @@ return function (w2l, mode)
     setting.input = input
     setting.output = output
 
-    check_config(w2l, 'global' ,'data_war3')
+    check_config(w2l, 'global' ,'data')
     check_config(w2l, 'global' ,'data_ui')
     check_config(w2l, 'global' ,'data_meta')
     check_config(w2l, 'global' ,'data_wes')

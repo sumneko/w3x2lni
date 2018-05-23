@@ -46,7 +46,7 @@ function mt:parse_ini(buf)
 end
 
 function mt:defined(name)
-    return lni(loaddata(('data/%s/war3/defined/%s.ini'):format(self.setting.data_war3, name)))
+    return lni(loaddata(('data/%s/war3/defined/%s.ini'):format(self.setting.data, name)))
 end
 
 function mt:metadata()
@@ -116,7 +116,7 @@ local function create_default(w2l)
     local need_build = false
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'txt', 'misc'} do
         local str = w2l.mpq_path:each_path(function(path)
-            return loaddata(('data/%s/prebuilt/%s/%s.ini'):format(w2l.setting.data_war3, path, name))
+            return loaddata(('data/%s/prebuilt/%s/%s.ini'):format(w2l.setting.data, path, name))
         end)
         if str then
             default[name] = lni(str)
@@ -229,7 +229,7 @@ end
 
 function mt:mpq_load(filename)
     return self.mpq_path:each_path(function(path)
-        return loaddata(('data/%s/war3/%s/%s'):format(self.setting.data_war3, path, filename))
+        return loaddata(('data/%s/war3/%s/%s'):format(self.setting.data, path, filename))
     end)
 end
 
@@ -305,7 +305,7 @@ function mt:set_setting(setting)
         end
     end
     dir = default.global
-    choose('data_war3')
+    choose('data')
     choose('data_meta')
     choose('data_wes')
     dir = default[setting.mode]

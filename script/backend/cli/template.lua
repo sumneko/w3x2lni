@@ -10,7 +10,7 @@ local root = fs.current_path()
 w2l:set_messager(messager)
 
 return function ()
-    local mpq = config.global.data_war3
+    local mpq = config.global.data
 
     w2l.messager.text(lang.report.CREATE_TEMPLATE:format(mpq, 'Melee'))
     w2l.progress:start(0.5)

@@ -237,10 +237,6 @@ end
 
 function mt:w3x2lni()
     local w2l = core()
-    local mpq_path = fs.current_path():parent_path() / 'data' / w2l.setting.data_war3 / 'war3'
-    local prebuilt_path = fs.current_path():parent_path() / 'data' / w2l.setting.data_war3 / 'prebuilt'
-
-
     return w2l
 end
 

@@ -74,13 +74,13 @@ return function (w2l, version)
 
     w2l:set_setting
     {
-        data_war3 = config.global.data_war3,
+        data      = config.global.data,
         data_ui   = config.global.data_ui,
         data_meta = config.global.data_meta,
         data_wes  = config.global.data_wes,
         version   = version,
     }
-    local prebuilt_path = root:parent_path() / 'data' / config.global.data_war3 / 'prebuilt' / w2l.mpq_path:first_path()
+    local prebuilt_path = root:parent_path() / 'data' / config.global.data / 'prebuilt' / w2l.mpq_path:first_path()
     fs.create_directories(prebuilt_path)
 
     local slk = w2l:frontend_buildslk()

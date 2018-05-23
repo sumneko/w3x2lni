@@ -37,7 +37,7 @@ local function main()
     config.global.data_meta = "${DEFAULT}"
     config.global.data_wes = "${DEFAULT}"
 
-    config.global.data_war3 = "zhCN-1.24.4"
+    config.global.data = "zhCN-1.24.4"
     
     local meta = prebuilt_metadata(w2l, nil, loader)
     io.save(fs.current_path() / 'core' / 'defined' / 'metadata.ini', meta)
@@ -45,11 +45,11 @@ local function main()
     local slk_melee  = makefile(w2l, 'Melee')
     local slk_custom = makefile(w2l, 'Custom')
     
-    config.global.data_war3 = "enUS-1.27.1"
+    config.global.data = "enUS-1.27.1"
     makefile(w2l, 'Melee')
     makefile(w2l, 'Custom')
 
-    config.global.data_war3 = "zhCN-1.24.4"
+    config.global.data = "zhCN-1.24.4"
     maketemplate(w2l, 'Melee',  slk_melee)
     maketemplate(w2l, 'Custom', slk_custom)
 
