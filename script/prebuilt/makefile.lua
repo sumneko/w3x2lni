@@ -80,7 +80,7 @@ return function (w2l, version)
         data_wes  = config.global.data_wes,
         version   = version,
     }
-    local prebuilt_path = root:parent_path() / 'data' / config.global.data / 'prebuilt' / w2l.mpq_path:first_path()
+    local prebuilt_path = root:parent_path() / 'data' / config.global.data / 'prebuilt' / version
     fs.create_directories(prebuilt_path)
 
     local slk = w2l:frontend_buildslk()

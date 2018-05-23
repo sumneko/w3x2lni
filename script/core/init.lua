@@ -111,9 +111,7 @@ local function create_default(w2l)
     local default = {}
     local need_build = false
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'txt', 'misc'} do
-        local str = w2l.mpq_path:each_path(function(path)
-            return w2l:data_load(('prebuilt/%s/%s.ini'):format(path, name))
-        end)
+        local str = w2l:data_load(('prebuilt/%s/%s.ini'):format(w2l.setting.version, name))
         if str then
             default[name] = lni(str)
         else
@@ -309,9 +307,7 @@ function mt:set_setting(setting)
     self.setting = setting
     
     self.mpq_path = mpq_path()
-    if self.setting.version == 'Melee' then
-        self.mpq_path:open 'Melee_V1'
-    else
+    if self.setting.version == 'Custom' then
         self.mpq_path:open 'Custom_V1'
     end
     self.data_load = require 'data_load'

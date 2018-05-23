@@ -77,8 +77,8 @@ local function extract_mpq()
     extract_mpq('UI\\WorldEditStrings.txt')
     extract_mpq('UI\\WorldEditGameStrings.txt')
 
-    extract_file(output, 'ui\\TriggerData.txt')
-    extract_file(output, 'ui\\TriggerStrings.txt')
+    extract_file(output, 'UI\\TriggerData.txt')
+    extract_file(output, 'UI\\TriggerStrings.txt')
 end
 
 local function create_metadata(w2l, loader)
