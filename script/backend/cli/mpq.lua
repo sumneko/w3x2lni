@@ -57,7 +57,7 @@ local function report_fail()
     end
 end
 
-local function extract_mpq()
+local function extract()
     for _, root in ipairs {'', 'Custom_V1\\'} do
         extract_mpq(root .. 'Scripts\\Common.j')
         extract_mpq(root .. 'Scripts\\Blizzard.j')
@@ -204,8 +204,9 @@ return function ()
 
     w2l.progress:start(0.3)
     w2l.messager.text(lang.script.EXPORT_MPQ)
-    extract_mpq()
+    extract()
     report_fail()
+    create_metadata(w2l, loader)
     w2l.progress:finish()
 
     w2l.cache_metadata = w2l:parse_lni(io.load(output / 'prebuilt' / 'metadata.ini'))
