@@ -20,7 +20,7 @@ local function ydwe_ui(w2l)
 end
 
 return function (w2l, filename)
-    if filename:sub(1, 6) == 'we/ui/' and w2l.setting.data_ui == '${YDWE}' then
+    if filename:sub(1, 6) == 'ui/' and w2l.setting.data_ui == '${YDWE}' then
         if not w2l.ydwe_ui then
             w2l.ydwe_ui = { ydwe_ui() }
         end

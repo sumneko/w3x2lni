@@ -33,11 +33,16 @@ local function task(f, ...)
 end
 
 local result = {}
-local function extract_file(type, name)
-    local path = output / type / name
-    local r = war3:extractfile(name, path)
+
+local function extract_file(path, name)
+    local r = war3:extractfile(name, path / name)
     result[name] = r or false
 end
+
+local function extract_mpq(name)
+    extract_file(output / 'war3', name)
+end
+
 
 local function report_fail()
     local tbl = {}
@@ -54,27 +59,22 @@ end
 
 local function extract_mpq()
     for _, root in ipairs {'', 'Custom_V1\\'} do
-        extract_file('war3', root .. 'Scripts\\Common.j')
-        extract_file('war3', root .. 'Scripts\\Blizzard.j')
-        
-        extract_file('war3', root .. 'UI\\MiscData.txt')
-
-        extract_file('war3', root .. 'Units\\MiscGame.txt')
-        extract_file('war3', root .. 'Units\\MiscData.txt')
-
-        extract_file('we', root .. 'ui\\TriggerData.txt')
-        extract_file('we', root .. 'ui\\TriggerStrings.txt')
-
+        extract_mpq(root .. 'Scripts\\Common.j')
+        extract_mpq(root .. 'Scripts\\Blizzard.j')
+        extract_mpq(root .. 'UI\\MiscData.txt')
+        extract_mpq(root .. 'Units\\MiscGame.txt')
+        extract_mpq(root .. 'Units\\MiscData.txt')
         for type, slks in pairs(w2l.info.slk) do
             for _, name in ipairs(slks) do
-                extract_file('war3', root .. name)
+                extract_mpq(root .. name)
             end
         end
-
         for _, name in ipairs(w2l.info.txt) do
-            extract_file('war3', root .. name)
+            extract_mpq(root .. name)
         end
     end
+    extract_file(output, 'ui\\TriggerData.txt')
+    extract_file(output, 'ui\\TriggerStrings.txt')
 end
 
 local function create_metadata(w2l, loader)

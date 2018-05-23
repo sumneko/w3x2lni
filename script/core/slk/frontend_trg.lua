@@ -12,11 +12,19 @@ local function split(str)
     return r
 end
 
+local function hasFile(name)
+    local f = w2l:data_load(name)
+    return not not f
+end
+
 local function trigger_config()
-    local f, err = w2l:data_load('we/ui/config')
+    local f, err = w2l:data_load('ui/config')
     if not f then
         if err:sub(#err-24) == 'No such file or directory' then
-            return { mpq_path, type = 'old' }
+            if hasFile('ui/TriggerData.txt') then
+                return { '' }
+            end
+            return { 'ui/' }
         end
         return nil, err
     end
@@ -24,10 +32,9 @@ local function trigger_config()
     for _, line in ipairs(split(f)) do
         line = string_trim(line)
         if line ~= '' then
-            list[#list+1] = string_trim(line)
+            list[#list+1] = 'ui/' .. string_trim(line) .. '/'
         end
-	end
-    list.type = 'new'
+    end
     return list
 end
 
@@ -37,10 +44,13 @@ local function load_triggerdata(list)
     end
     local t = nil
     local ok
-    for _, name in ipairs(list) do
-        local reader = list.type == 'old' and ui.old_reader or ui.new_reader
+    for _, uiname in ipairs(list) do
+        local reader = ui.new_reader
+        if hasFile(uiname .. 'ui/TriggerData.txt') then
+            reader = ui.old_reader
+        end
         t = ui.merge(t, reader(function(filename)
-            local buf = w2l:data_load('we/ui/' .. name .. '/' .. filename)
+            local buf = w2l:data_load(uiname .. filename)
             if buf then
                 ok = true
             end
