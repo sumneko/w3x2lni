@@ -9,8 +9,7 @@
             "command": "chcp 65001 && \"${workspaceRoot}/build/luabuild/lua.exe\"",
             "args": [
                 ".\\build\\execute.lua",
-                "${workspaceRoot}",
-                "${workspaceRoot}\\build\\make.lua",
+                ".\\build\\make.lua",
                 "zhCN"
             ]
         },
@@ -19,8 +18,7 @@
             "command": "chcp 65001 && \"${workspaceRoot}/build/luabuild/lua.exe\"",
             "args": [
                 ".\\build\\execute.lua",
-                "${workspaceRoot}",
-                "${workspaceRoot}\\build\\make.lua",
+                ".\\build\\make.lua",
                 "enUS"
             ]
         },
@@ -29,8 +27,7 @@
             "command": "chcp 65001 && \"${workspaceRoot}/build/luabuild/lua.exe\"",
             "args": [
                 ".\\build\\execute.lua",
-                "${workspaceRoot}",
-                "${workspaceRoot}\\build\\compile_cpp.lua"
+                ".\\build\\compile_cpp.lua"
             ]
         },
         {

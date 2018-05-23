@@ -1,4 +1,4 @@
-local root = fs.current_path() / '..'
+local root = fs.current_path():parent_path()
 
 local msvc = require 'msvc'
 if not msvc:initialize(141, 'ansi') then
