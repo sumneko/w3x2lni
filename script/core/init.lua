@@ -4,6 +4,7 @@ local lni = require 'lni'
 local lml = require 'lml'
 local progress = require 'progress'
 local lang = require 'lang'
+local proxy = require 'proxy'
 local slk = w3xparser.slk
 local txt = w3xparser.txt
 local ini = w3xparser.ini
@@ -240,38 +241,35 @@ end
 function mt:call_plugin()
 end
 
-function mt:file_save(type, name, buf)
-    if type == 'table' then
-        self:map_save(self.info.lni_dir[name][1], buf)
-    elseif type == 'trigger' then
-        self:map_save('war3map.wtg.lml/' .. name, buf)
-    elseif type == 'map' then
-        self:map_save(name, buf)
-    elseif type == 'scirpt' then
-        if self.setting.export_lua then
-            self:map_save(name, buf)
-        end
+function mt:init_proxy()
+    if self.inited_proxy then
+        return
     end
+    self.inited_proxy = true
+    self.input_proxy = proxy(self.input_ar, self.input_mode)
+    self.output_proxy = proxy(self.output_ar, self.setting.mode)
+end
+
+function mt:file_save(type, name, buf)
+    self:init_proxy()
+    self.input_proxy:save(type, name, buf)
+    self.output_proxy:save(type, name, buf)
 end
 
 function mt:file_load(type, name)
-    if type == 'table' then
-        return self:map_load(self.info.lni_dir[name][1])
-    elseif type == 'trigger' then
-        return self:map_load('war3map.wtg.lml/' .. name)
-    elseif type == 'map' then
-        return self:map_load(name)
-    end
+    self:init_proxy()
+    return self.input_proxy:load(type, name)
 end
 
 function mt:file_remove(type, name)
-    if type == 'table' then
-        self:map_remove(self.info.lni_dir[name][1], buf)
-    elseif type == 'trigger' then
-        self:map_remove('war3map.wtg.lml/' .. name, buf)
-    elseif type == 'map' then
-        self:map_remove(name, buf)
-    end
+    self:init_proxy()
+    self.input_proxy:remove(type, name)
+    self.output_proxy:remove(type, name)
+end
+
+function mt:file_pairs()
+    self:init_proxy()
+    return self.input_proxy:pairs()
 end
 
 function mt:failed(msg)

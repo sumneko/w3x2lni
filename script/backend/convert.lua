@@ -9,8 +9,8 @@ local unpack_setting = require 'backend.unpack_setting'
 local w2l = core()
 local root = fs.current_path()
 local setting
-local input_ar, input_proxy
-local output_ar, output_proxy
+local input_ar
+local output_ar
 
 local report = {}
 local messager_report = messager.report
@@ -69,24 +69,6 @@ end
 
 function w2l:map_remove(filename)
     input_ar:remove(filename)
-end
-
-function w2l:file_save(type, name, buf)
-    input_proxy:save(type, name, buf)
-    output_proxy:save(type, name, buf)
-end
-
-function w2l:file_load(type, name)
-    return input_proxy:load(type, name)
-end
-
-function w2l:file_remove(type, name)
-    input_proxy:remove(type, name)
-    output_proxy:remove(type, name)
-end
-
-function w2l:file_pairs()
-    return input_proxy:pairs()
 end
 
 function w2l:ui_ydwe()
@@ -166,9 +148,6 @@ return function (mode)
     end
     output_ar:flush()
     w2l.output_ar = output_ar
-    
-    input_proxy = builder.proxy(input_ar, w2l.input_mode)
-    output_proxy = builder.proxy(output_ar, setting.mode)
 
     local slk = {}
     local file_count = input_ar:number_of_files()
@@ -219,7 +198,7 @@ return function (mode)
     
     messager.text(lang.script.SAVE_FILE)
     w2l.progress:start(1)
-    builder.save(w2l, slk.w3i, input_ar, output_ar, input_proxy, output_proxy)
+    builder.save(w2l, slk.w3i, input_ar, output_ar, w2l.input_proxy, w2l.output_proxy)
     w2l.progress:finish()
     
     fs.create_directories(root:parent_path() / 'log')
