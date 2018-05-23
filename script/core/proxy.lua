@@ -3,76 +3,112 @@ local info = require 'info'
 local mt = {}
 mt.__index = mt
 
+local function unify(name)
+    return name:lower():gsub('/', '\\'):gsub('\\[\\]+', '\\')
+end
+
+function mt:set(name, buf)
+    name = unify(name)
+    self.cache[name] = buf
+    if self.archive and self.type == 'output' then
+        self.archive:set(name, buf)
+    end
+end
+
 function mt:save(type, name, buf)
     if type == 'table' then
-        self.archive:set(info.lni_dir[name][1], buf)
+        self:set(info.lni_dir[name][1], buf)
     elseif type == 'trigger' then
-        self.archive:set('trigger/' .. name, buf)
+        self:set('trigger/' .. name, buf)
     elseif type == 'scripts' then
-        self.archive:set('scripts/' .. name, buf)
+        self:set('scripts/' .. name, buf)
     elseif type == 'w3x2lni' then
-        self.archive:set('w3x2lni/' .. name, buf)
+        self:set('w3x2lni/' .. name, buf)
     else
         if self.mode == 'lni' then
-            self.archive:set(type .. '/' .. name, buf)
+            self:set(type .. '/' .. name, buf)
         else
-            self.archive:set(name, buf)
+            self:set(name, buf)
         end
+    end
+end
+
+function mt:get(name)
+    name = unify(name)
+    if self.cache[name] == false then
+        return nil
+    end
+    if self.cache[name] ~= nil then
+        return self.cache[name]
+    end
+    if self.archive and self.type == 'input' then
+        return self.archive:get(name)
     end
 end
 
 function mt:load(type, name)
     if type == 'table' then
         for _, filename in ipairs(info.lni_dir[name]) do
-            local buf = self.archive:get(filename)
+            local buf = self:get(filename)
             if buf then
                 return buf
             end
         end
     elseif type == 'trigger' then
-        return self.archive:get('trigger/' .. name) or self.archive:get('war3map.wtg.lml/' .. name)
+        return self:get('trigger/' .. name) or self:get('war3map.wtg.lml/' .. name)
     elseif type == 'scripts' then
-        return self.archive:get('scripts/' .. name)
+        return self:get('scripts/' .. name)
     elseif type == 'w3x2lni' then
-        return self.archive:get('w3x2lni/' .. name)
+        return self:get('w3x2lni/' .. name)
     else
         if self.mode == 'lni' then
-            return self.archive:get(type .. '/' .. name)
+            return self:get(type .. '/' .. name)
         else
-            return self.archive:get(name)
+            return self:get(name)
         end
+    end
+end
+
+function mt:rm(name)
+    name = unify(name)
+    self.cache[name] = false
+    if self.archive and self.type == 'output' then
+        self.archive:remove(name)
     end
 end
 
 function mt:remove(type, name)
     if type == 'table' then
         for _, filename in ipairs(info.lni_dir[name]) do
-            self.archive:remove(filename)
+            self:rm(filename)
         end
     elseif type == 'trigger' then
-        self.archive:remove('trigger/' .. name)
-        self.archive:remove('war3map.wtg.lml/' .. name)
+        self:rm('trigger/' .. name)
+        self:rm('war3map.wtg.lml/' .. name)
     elseif type == 'scripts' then
-        self.archive:remove('scripts/' .. name)
+        self:rm('scripts/' .. name)
     elseif type == 'w3x2lni' then
-        self.archive:remove('w3x2lni/' .. name)
+        self:rm('w3x2lni/' .. name)
     else
         if self.mode == 'lni' then
-            self.archive:remove(type .. '/' .. name)
+            self:rm(type .. '/' .. name)
         else
-            self.archive:remove(name)
+            self:rm(name)
         end
     end
 end
 
 function mt:pairs()
     local next, tbl, index = self.archive:search_files()
-    return function ()
+    local function next_one()
         local name, buf = next(tbl, index)
         if not name then
             return nil
         end
         index = name
+        if self.cache[name] ~= nil then
+            return next_one()
+        end
         local type
         local dir = name:match '^[^/\\]+' :lower()
         local ext = name:match '[^%.]+$'
@@ -96,6 +132,7 @@ function mt:pairs()
         end
         return type, name, buf
     end
+    return next_one
 end
 
 local function load_file(path)
@@ -108,10 +145,11 @@ local function load_file(path)
     return nil
 end
 
-return function (archive, mode)
+return function (archive, mode, type)
+    local proxy = setmetatable({ archive = archive, mode = mode, type = type, cache = {} }, mt)
     if mode == 'lni' then
         local buf = load_file '.w3x'
-        archive:set('.w3x', buf)
+        proxy:set('.w3x', buf)
     end
-    return setmetatable({ archive = archive, mode = mode }, mt)
+    return proxy
 end

@@ -115,7 +115,6 @@ return function (mode)
     if not output_ar then
         w2l:failed(err)
     end
-    output_ar:flush()
     w2l.output_ar = output_ar
 
     local slk = {}

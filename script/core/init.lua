@@ -225,8 +225,8 @@ function mt:init_proxy()
         return
     end
     self.inited_proxy = true
-    self.input_proxy = proxy(self.input_ar, self.input_mode)
-    self.output_proxy = proxy(self.output_ar, self.setting.mode)
+    self.input_proxy = proxy(self.input_ar, self.input_mode, 'input')
+    self.output_proxy = proxy(self.output_ar, self.setting.mode, 'output')
 end
 
 function mt:file_save(type, name, buf)
