@@ -40,7 +40,7 @@ local function extract_file(path, name)
 end
 
 local function extract_mpq(name)
-    extract_file(output / 'war3', name)
+    extract_file(output / 'mpq', name)
 end
 
 
@@ -187,7 +187,7 @@ return function ()
 
     w2l.progress:start(0.1)
     w2l.messager.text(lang.script.CLEAN_DIR)
-    local mpq_path = output / 'war3'
+    local mpq_path = output / 'mpq'
     if fs.exists(mpq_path) then
         if not task(fs.remove_all, mpq_path) then
             w2l.messager.text(lang.script.CREATE_DIR_FAILED:format(mpq_path:string()))

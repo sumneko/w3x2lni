@@ -76,11 +76,11 @@ function mt:get_editstring(source)
                 self.editstring[k:upper()] = v
             end
         else
-            local t = ini(self:data_load('war3/ui/WorldEditStrings.txt'))['WorldEditStrings']
+            local t = ini(self:data_load('mpq/ui/WorldEditStrings.txt'))['WorldEditStrings']
             for k, v in pairs(t) do
                 self.editstring[k:upper()] = v
             end
-            local t = ini(self:data_load('war3/ui/WorldEditGameStrings.txt'))['WorldEditStrings']
+            local t = ini(self:data_load('mpq/ui/WorldEditGameStrings.txt'))['WorldEditStrings']
             for k, v in pairs(t) do
                 self.editstring[k:upper()] = v
             end
@@ -215,7 +215,7 @@ end
 
 function mt:mpq_load(filename)
     return self.mpq_path:each_path(function(path)
-        return self:data_load(('war3/%s/%s'):format(path, filename))
+        return self:data_load(('mpq/%s/%s'):format(path, filename))
     end)
 end
 
