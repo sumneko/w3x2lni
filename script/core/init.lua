@@ -54,7 +54,7 @@ function mt:metadata()
         if self.setting.mode ~= 'obj' or self.setting.data_meta == '${DEFAULT}' then
             self.cache_metadata = lni(load_file 'defined\\metadata.ini')
         else
-            self.cache_metadata = lni(loaddata(('data/%s/we/metadata.ini'):format(self.setting.data_meta)))
+            self.cache_metadata = lni(loaddata(('data/%s/we/metadata.ini'):format(self.setting.data)))
         end
     end
     return self.cache_metadata
@@ -80,11 +80,11 @@ function mt:get_editstring(source)
                 self.editstring[k:upper()] = v
             end
         else
-            local t = ini(loaddata(('data/%s/we/WorldEditStrings.txt'):format(self.setting.data_wes)))['WorldEditStrings']
+            local t = ini(loaddata(('data/%s/we/WorldEditStrings.txt'):format(self.setting.data)))['WorldEditStrings']
             for k, v in pairs(t) do
                 self.editstring[k:upper()] = v
             end
-            local t = ini(loaddata(('data/%s/we/WorldEditGameStrings.txt'):format(self.setting.data_wes)))['WorldEditStrings']
+            local t = ini(loaddata(('data/%s/we/WorldEditGameStrings.txt'):format(self.setting.data)))['WorldEditStrings']
             for k, v in pairs(t) do
                 self.editstring[k:upper()] = v
             end

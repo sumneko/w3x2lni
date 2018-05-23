@@ -33,10 +33,6 @@ local function main()
     fs.create_directories(root / 'core' / 'defined')
 
     config.global.lang = "${AUTO}"
-    config.global.data_ui = "${YDWE}"
-    config.global.data_meta = "${DEFAULT}"
-    config.global.data_wes = "${DEFAULT}"
-
     config.global.data = "zhCN-1.24.4"
     
     local meta = prebuilt_metadata(w2l, nil, loader)

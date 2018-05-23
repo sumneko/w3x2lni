@@ -59,7 +59,7 @@ local function trigger_data(w2l, ui)
             return nil, err
         end
     else
-        path = ('data/%s/we/ui/'):format(w2l.setting.data_ui)
+        path = ('data/%s/we/ui/'):format(w2l.setting.data)
     end
     local list = trigger_config(path)
     if not list then

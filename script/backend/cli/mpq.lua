@@ -188,15 +188,6 @@ return function ()
     io.save(output / 'version', data_version)
     local config = require 'share.config'
     config.global.data = war3.name
-    if config.global.data_ui ~= '${YDWE}' then
-        config.global.data_ui = war3.name
-    end
-    if config.global.data_meta ~= '${DEFAULT}' then
-        config.global.data_meta = war3.name
-    end
-    if config.global.data_wes ~= '${DEFAULT}' then
-        config.global.data_wes = war3.name
-    end
 
     w2l.progress:start(0.1)
     w2l.messager.text(lang.script.CLEAN_DIR)

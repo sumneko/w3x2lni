@@ -194,57 +194,30 @@ local function global_data_ui(v)
     if v == '${YDWE}' then
         return true, v, v
     end
-    local list = get_datas()
-    for _, name in ipairs(list) do
-        if name == v then
-            return true, v, v
-        end
+    if v == '${DATA}' then
+        return true, v, v
     end
-    local suc, info = is_valid_data(root:parent_path() / 'data' / tostring(v))
-    assert(suc == false)
-    if info then
-        return false, info
-    else
-        return false, raw.CONFIG_GLOBAL_DATA_UI_ERROR .. data_hint
-    end
+    return false, raw.CONFIG_GLOBAL_DATA_UI_ERROR
 end
 
 local function global_data_meta(v)
     if v == '${DEFAULT}' then
         return true, v, v
     end
-    local list = get_datas()
-    for _, name in ipairs(list) do
-        if name == v then
-            return true, v, v
-        end
+    if v == '${DATA}' then
+        return true, v, v
     end
-    local suc, info = is_valid_data(root:parent_path() / 'data' / tostring(v))
-    assert(suc == false)
-    if info then
-        return false, info
-    else
-        return false, raw.CONFIG_GLOBAL_DATA_META_ERROR .. data_hint
-    end
+    return false, raw.CONFIG_GLOBAL_DATA_META_ERROR
 end
 
 local function global_data_wes(v)
     if v == '${DEFAULT}' then
         return true, v, v
     end
-    local list = get_datas()
-    for _, name in ipairs(list) do
-        if name == v then
-            return true, v, v
-        end
+    if v == '${DATA}' then
+        return true, v, v
     end
-    local suc, info = is_valid_data(root:parent_path() / 'data' / tostring(v))
-    assert(suc == false)
-    if info then
-        return false, info
-    else
-        return false, raw.CONFIG_GLOBAL_DATA_WES_ERROR .. data_hint
-    end
+    return false, raw.CONFIG_GLOBAL_DATA_WES_ERROR
 end
 
 local define = {

@@ -104,31 +104,37 @@ Invalid directory, must be the following:
 [CONFIG_GLOBAL_DATA_UI]
 Trigger data used, can be the following:
 
-        ${YDWE}        Search for trigger data used by local YDWE
+        ${DATA}           Use `global.data`
+        ${YDWE}           Search for trigger data used by local YDWE
 
 [CONFIG_GLOBAL_DATA_UI_ERROR]
 Invalid directory, must be the following:
 
-        ${YDWE}        Search for trigger data used by local YDWE
+        ${DATA}           Use `global.data`
+        ${YDWE}           Search for trigger data used by local YDWE
 
 [CONFIG_GLOBAL_DATA_META]
 WE data used, can be the following:
 
+        ${DATA}           Use `global.data`
         ${DEFAULT}        Correct WE data
 
 [CONFIG_GLOBAL_DATA_META_ERROR]
 Invalid directory, must be the following:
 
+        ${DATA}           Use `global.data`
         ${DEFAULT}        Correct WE data
 
 [CONFIG_GLOBAL_DATA_WES]
 WE strings used, can be the following:
 
+        ${DATA}           Use `global.data`
         ${DEFAULT}        Default strings
 
 [CONFIG_GLOBAL_DATA_WES_ERROR]
 Invalid directory, must be the following:
 
+        ${DATA}           Use `global.data`
         ${DEFAULT}        Default strings
 
 [CONFIG_GLOBAL_PLUGIN]
