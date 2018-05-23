@@ -73,6 +73,10 @@ local function extract_mpq()
             extract_mpq(root .. name)
         end
     end
+    -- TODO: 应该放在上面的循环中？
+    extract_mpq('UI\\WorldEditStrings.txt')
+    extract_mpq('UI\\WorldEditGameStrings.txt')
+
     extract_file(output, 'ui\\TriggerData.txt')
     extract_file(output, 'ui\\TriggerStrings.txt')
 end
@@ -80,16 +84,8 @@ end
 local function create_metadata(w2l, loader)
     local defined_meta = w2l:parse_lni(io.load(root / 'core' / 'defined' / 'metadata.ini'))
     local meta = prebuilt_metadata(w2l, defined_meta, loader)
-    local meta_path = output / 'we'
-    fs.create_directories(meta_path)
-    io.save(meta_path / 'metadata.ini', meta)
-end
-
-local function create_wes(w2l)
-    local wes_path = output / 'we'
-    fs.create_directories(wes_path)
-    war3:extractfile('ui\\WorldEditStrings.txt', wes_path / 'WorldEditStrings.txt')
-    war3:extractfile('ui\\WorldEditGameStrings.txt', wes_path / 'WorldEditGameStrings.txt')
+    fs.create_directories(output / 'prebuilt')
+    io.save(output / 'prebuilt' / 'metadata.ini', meta)
 end
 
 local lost_wes = {}
@@ -206,24 +202,18 @@ return function ()
     end
     w2l.progress:finish()
 
-    w2l.progress:start(0.2)
+    w2l.progress:start(0.3)
     w2l.messager.text(lang.script.EXPORT_MPQ)
     extract_mpq()
     report_fail()
     w2l.progress:finish()
 
-    w2l.progress:start(0.3)
-    create_metadata(w2l, loader)
-    create_wes(w2l)
-    w2l.progress:finish()
-
-    w2l.cache_metadata = w2l:parse_lni(io.load(output / 'we' / 'metadata.ini'))
-    local dir = output / 'war3' / 'defined'
-    fs.create_directories(dir)
+    w2l.cache_metadata = w2l:parse_lni(io.load(output / 'prebuilt' / 'metadata.ini'))
+    fs.create_directories(output / 'prebuilt')
     local keydata = prebuilt_keydata(w2l, loader)
     local search = prebuilt_search(w2l, loader)
-    io.save(dir / 'keydata.ini', keydata)
-    io.save(dir / 'search.ini', search)
+    io.save(output / 'prebuilt' / 'keydata.ini', keydata)
+    io.save(output / 'prebuilt' / 'search.ini', search)
     w2l.cache_metadata = nil
 
     w2l.progress:start(0.4)

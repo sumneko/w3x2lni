@@ -45,16 +45,12 @@ function mt:parse_ini(buf)
     return ini(buf)
 end
 
-function mt:defined(name)
-    return lni(self:data_load(('war3/defined/%s.ini'):format(name)))
-end
-
 function mt:metadata()
     if not self.cache_metadata then
         if self.setting.mode ~= 'obj' or self.setting.data_meta == '${DEFAULT}' then
             self.cache_metadata = lni(load_file 'defined\\metadata.ini')
         else
-            self.cache_metadata = lni(self:data_load('we/metadata.ini'))
+            self.cache_metadata = lni(self:data_load('prebuilt/metadata.ini'))
         end
     end
     return self.cache_metadata
@@ -62,7 +58,7 @@ end
 
 function mt:keydata()
     if not keydata then
-        keydata = self:defined 'keydata'
+        keydata = lni(self:data_load('prebuilt/keydata.ini'))
     end
     return keydata
 end
@@ -80,11 +76,11 @@ function mt:get_editstring(source)
                 self.editstring[k:upper()] = v
             end
         else
-            local t = ini(self:data_load('we/WorldEditStrings.txt'))['WorldEditStrings']
+            local t = ini(self:data_load('war3/ui/WorldEditStrings.txt'))['WorldEditStrings']
             for k, v in pairs(t) do
                 self.editstring[k:upper()] = v
             end
-            local t = ini(self:data_load('we/WorldEditGameStrings.txt'))['WorldEditStrings']
+            local t = ini(self:data_load('war3/ui/WorldEditGameStrings.txt'))['WorldEditStrings']
             for k, v in pairs(t) do
                 self.editstring[k:upper()] = v
             end
