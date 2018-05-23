@@ -59,18 +59,6 @@ local function exit(report)
     return err, warn
 end
 
-function w2l:map_load(filename)
-    return input_ar:get(filename)
-end
-
-function w2l:map_save(filename, buf)
-    input_ar:set(filename, buf)
-end
-
-function w2l:map_remove(filename)
-    input_ar:remove(filename)
-end
-
 function w2l:ui_ydwe()
     local ydwe_path = require 'backend.ydwe_path'
     local ydwe = ydwe_path()
