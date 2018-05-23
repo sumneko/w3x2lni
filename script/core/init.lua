@@ -228,7 +228,9 @@ function mt:map_remove(filename)
 end
 
 function mt:mpq_load(filename)
-    return nil
+    return self.mpq_path:each_path(function(path)
+        return loaddata(('data/%s/war3/%s/%s'):format(self.setting.data_war3, path, filename))
+    end)
 end
 
 function mt:call_plugin()

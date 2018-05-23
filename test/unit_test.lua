@@ -240,11 +240,6 @@ function mt:w3x2lni()
     local mpq_path = fs.current_path():parent_path() / 'data' / w2l.setting.data_war3 / 'war3'
     local prebuilt_path = fs.current_path():parent_path() / 'data' / w2l.setting.data_war3 / 'prebuilt'
 
-    function w2l:mpq_load(filename)
-        return w2l.mpq_path:each_path(function(path)
-            return io.load(mpq_path / path / filename)
-        end)
-    end
 
     return w2l
 end

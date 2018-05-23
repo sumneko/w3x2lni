@@ -98,13 +98,6 @@ local function get_w2l()
     w2l = core()
     w2l:set_messager(messager)
 
-    function w2l:mpq_load(filename)
-        local mpq_path = output / 'war3'
-        return self.mpq_path:each_path(function(path)
-            return io.load(mpq_path / path / filename)
-        end)
-    end
-
     function messager.report(_, _, str, tip)
         if str == lang.report.NO_WES_STRING then
             lost_wes[tip] = true

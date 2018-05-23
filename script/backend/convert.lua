@@ -89,12 +89,6 @@ function w2l:file_pairs()
     return input_proxy:pairs()
 end
 
-function w2l:mpq_load(filename)
-    return w2l.mpq_path:each_path(function(path)
-        return io.load(root:parent_path() / 'data' / self.setting.data_war3 / 'war3' / path / filename)
-    end)
-end
-
 function w2l:ui_ydwe()
     local ydwe_path = require 'backend.ydwe_path'
     local ydwe = ydwe_path()
