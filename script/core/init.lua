@@ -10,7 +10,7 @@ local txt = w3xparser.txt
 local ini = w3xparser.ini
 local pairs = pairs
 local string_lower = string.lower
-local loaddata = require 'loaddata'
+local data_open = require 'data'
 
 local mt = {}
 
@@ -47,7 +47,7 @@ function mt:parse_ini(buf)
 end
 
 function mt:load_data(name)
-    return loaddata(('data/%s/%s'):format(self.setting.data, name))
+    return self.data_load(name)
 end
 
 function mt:defined(name)
@@ -323,6 +323,7 @@ function mt:set_setting(setting)
     else
         self.mpq_path:open 'Custom_V1'
     end
+    self.data_load = data_open(self.setting.data)
 end
 
 function mt:set_messager(messager)
