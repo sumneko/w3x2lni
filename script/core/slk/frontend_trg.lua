@@ -1,6 +1,6 @@
 local ui = require 'ui-builder.init'
 local lang = require 'lang'
-local loaddata = require 'loaddata'
+local w2l
 
 local function string_trim (self) 
 	return self:gsub("^%s*(.-)%s*$", "%1")
@@ -14,7 +14,7 @@ end
 
 local function trigger_config(path)
 	local list = {}
-	local f, err = loaddata(path .. 'config')
+	local f, err = w2l:load_data(path .. 'config')
 	if not f then
 		return { mpq_path, type = 'old' }
     end
@@ -37,7 +37,7 @@ local function load_triggerdata(path, list)
     for _, name in ipairs(list) do
         local reader = list.type == 'old' and ui.old_reader or ui.new_reader
         t = ui.merge(t, reader(function(filename)
-            local buf = loaddata(path .. name .. '/' .. filename)
+            local buf = w2l:load_data(path .. name .. '/' .. filename)
             if buf then
                 ok = true
             end
@@ -50,7 +50,7 @@ local function load_triggerdata(path, list)
     return t
 end
 
-local function trigger_data(w2l, ui)
+local function trigger_data()
     local path
     if w2l.setting.data_ui == '${YDWE}' then
         local err
@@ -59,7 +59,7 @@ local function trigger_data(w2l, ui)
             return nil, err
         end
     else
-        path = ('data/%s/we/ui/'):format(w2l.setting.data)
+        path = 'we/ui/'
     end
     local list = trigger_config(path)
     if not list then
@@ -75,9 +75,10 @@ local function trigger_data(w2l, ui)
     return state
 end
 
-return function (w2l)
+return function (w2l_)
+    w2l = w2l_
     if not w2l.trg then
-        local res, err = trigger_data(w2l)
+        local res, err = trigger_data()
         if not res then
             error(err)
         end
