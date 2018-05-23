@@ -55,7 +55,7 @@ function mt:load_obj(w2l, type, id, path)
     local w2l = self:w3x2lni()
 
     local target_name = w2l.info.obj[type]
-    function w2l:map_load(filename)
+    function w2l.input_ar:get(filename)
         if filename == target_name then
             return io.load(path / filename)
         end
@@ -67,7 +67,7 @@ end
 
 function mt:load_lni(w2l, type, id, path)
     local target_name = w2l.info.lni[type]
-    function w2l:map_load(filename)
+    function w2l.input_ar:get(filename)
         if filename == 'table/' .. target_name then
             return io.load(path / target_name)
         end
@@ -97,7 +97,7 @@ function mt:load_slk(w2l, type, id, path)
         target_names[name] = name:sub(7)
     end
     
-    function w2l:map_load(filename)
+    function w2l.input_ar:get(filename)
         if target_names[filename] then
             pack_keys(filename)
             return io.load(path / target_names[filename])
@@ -109,7 +109,7 @@ function mt:load_slk(w2l, type, id, path)
 end
 
 function mt:load_all(w2l, type, id, path, setting)
-    function w2l:map_load(filename)
+    function w2l.input_ar:get(filename)
         return io.load(path / filename)
     end
     
@@ -120,7 +120,7 @@ end
 local function save_obj(w2l, type, id, path)
     local lni_name = w2l.info.obj[type]
     local obj = { obj = nil, type = 'obj' }
-    function w2l:map_save(filename, buf)
+    function w2l.input_ar:set(filename, buf)
         if filename == lni_name then
             if type == 'misc' then
                 local txt = find_txt(buf, id)
@@ -166,7 +166,7 @@ local function save_slk(w2l, type, id, path)
     local obj_name = w2l.info.obj[type]
 
     local obj = { slk = nil, txt = nil, type = 'slk' }
-    function w2l:map_save(filename, buf)
+    function w2l.input_ar:set(filename, buf)
         if slk_names[filename] then
         elseif txt_names[filename] then
             local txt = find_txt(buf, id)
@@ -237,6 +237,24 @@ end
 
 function mt:w3x2lni()
     local w2l = core()
+
+    w2l.input_ar = {
+        get = function ()
+        end,
+        set = function ()
+        end,
+        remove = function ()
+        end,
+    }
+    w2l.output_ar = {
+        get = function ()
+        end,
+        set = function ()
+        end,
+        remove = function ()
+        end,
+    }
+    
     return w2l
 end
 
