@@ -10,7 +10,6 @@ local txt = w3xparser.txt
 local ini = w3xparser.ini
 local pairs = pairs
 local string_lower = string.lower
-local data_open = require 'data'
 
 local mt = {}
 
@@ -46,12 +45,8 @@ function mt:parse_ini(buf)
     return ini(buf)
 end
 
-function mt:load_data(name)
-    return self.data_load(name)
-end
-
 function mt:defined(name)
-    return lni(self:load_data(('war3/defined/%s.ini'):format(name)))
+    return lni(self:data_load(('war3/defined/%s.ini'):format(name)))
 end
 
 function mt:metadata()
@@ -59,7 +54,7 @@ function mt:metadata()
         if self.setting.mode ~= 'obj' or self.setting.data_meta == '${DEFAULT}' then
             self.cache_metadata = lni(load_file 'defined\\metadata.ini')
         else
-            self.cache_metadata = lni(self:load_data('we/metadata.ini'))
+            self.cache_metadata = lni(self:data_load('we/metadata.ini'))
         end
     end
     return self.cache_metadata
@@ -85,11 +80,11 @@ function mt:get_editstring(source)
                 self.editstring[k:upper()] = v
             end
         else
-            local t = ini(self:load_data('we/WorldEditStrings.txt'))['WorldEditStrings']
+            local t = ini(self:data_load('we/WorldEditStrings.txt'))['WorldEditStrings']
             for k, v in pairs(t) do
                 self.editstring[k:upper()] = v
             end
-            local t = ini(self:load_data('we/WorldEditGameStrings.txt'))['WorldEditStrings']
+            local t = ini(self:data_load('we/WorldEditGameStrings.txt'))['WorldEditStrings']
             for k, v in pairs(t) do
                 self.editstring[k:upper()] = v
             end
@@ -121,7 +116,7 @@ local function create_default(w2l)
     local need_build = false
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'txt', 'misc'} do
         local str = w2l.mpq_path:each_path(function(path)
-            return w2l:load_data(('prebuilt/%s/%s.ini'):format(path, name))
+            return w2l:data_load(('prebuilt/%s/%s.ini'):format(path, name))
         end)
         if str then
             default[name] = lni(str)
@@ -224,7 +219,7 @@ end
 
 function mt:mpq_load(filename)
     return self.mpq_path:each_path(function(path)
-        return self:load_data(('war3/%s/%s'):format(path, filename))
+        return self:data_load(('war3/%s/%s'):format(path, filename))
     end)
 end
 
@@ -323,7 +318,7 @@ function mt:set_setting(setting)
     else
         self.mpq_path:open 'Custom_V1'
     end
-    self.data_load = data_open(self.setting.data)
+    self.data_load = require 'data_load'
 end
 
 function mt:set_messager(messager)

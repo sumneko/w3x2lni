@@ -59,25 +59,6 @@ local function exit(report)
     return err, warn
 end
 
-function w2l:ui_ydwe()
-    local ydwe_path = require 'backend.ydwe_path'
-    local ydwe = ydwe_path()
-    if not ydwe then
-        return nil, lang.script.NEED_YDWE_ASSOCIATE
-    end
-    local path
-    if fs.exists(ydwe / 'ui') then
-        path = ydwe / 'ui'
-    elseif fs.exists(ydwe / 'ui') then
-        path = ydwe / 'ui'
-    elseif fs.exists(ydwe / 'share' / 'mpq') then
-        path = ydwe / 'share' / 'mpq'
-    else
-        return nil, lang.script.NO_TRIGGER_DATA
-    end
-    return path:string() .. '/'
-end
-
 local function get_io_time(map, file_count)
     local io_speed = map:get_type() == 'mpq' and 30000 or 10000
     local io_rate = math.min(0.3, file_count / io_speed)

@@ -12,12 +12,15 @@ local function split(str)
     return r
 end
 
-local function trigger_config(path)
-	local list = {}
-	local f, err = w2l:load_data(path .. 'config')
-	if not f then
-		return { mpq_path, type = 'old' }
+local function trigger_config()
+    local f, err = w2l:data_load('we/ui/config')
+    if not f then
+        if err:sub(#err-24) == 'No such file or directory' then
+            return { mpq_path, type = 'old' }
+        end
+        return nil, err
     end
+	local list = {}
     for _, line in ipairs(split(f)) do
         line = string_trim(line)
         if line ~= '' then
@@ -28,7 +31,7 @@ local function trigger_config(path)
     return list
 end
 
-local function load_triggerdata(path, list)
+local function load_triggerdata(list)
     if not list or #list == 0 then
         return nil
     end
@@ -37,7 +40,7 @@ local function load_triggerdata(path, list)
     for _, name in ipairs(list) do
         local reader = list.type == 'old' and ui.old_reader or ui.new_reader
         t = ui.merge(t, reader(function(filename)
-            local buf = w2l:load_data(path .. name .. '/' .. filename)
+            local buf = w2l:data_load('we/ui/' .. name .. '/' .. filename)
             if buf then
                 ok = true
             end
@@ -51,21 +54,11 @@ local function load_triggerdata(path, list)
 end
 
 local function trigger_data()
-    local path
-    if w2l.setting.data_ui == '${YDWE}' then
-        local err
-        path, err = w2l:ui_ydwe()
-        if not path then
-            return nil, err
-        end
-    else
-        path = 'we/ui/'
-    end
-    local list = trigger_config(path)
+    local list, err = trigger_config()
     if not list then
-        return nil, lang.script.NO_TRIGGER_DATA_DIR .. path:string()
+        return nil, err
     end
-    local suc, state = pcall(load_triggerdata, path, list)
+    local suc, state = pcall(load_triggerdata, list)
     if not suc then
         return nil, lang.script.TRIGGER_DATA_ERROR
     end
