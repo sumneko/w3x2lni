@@ -67,14 +67,16 @@
             "env": {
                 "PATH": "${workspaceRoot}\\bin\\"
             },
+            "luaexe": "${workspaceRoot}\\bin\\w3x2lni-lua.exe",
             "luadll": "${workspaceRoot}\\bin\\lua53.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
             "consoleCoding": "utf8",
             "program": "${workspaceRoot}\\script\\gui\\mini.lua",
+            "sourceCoding": "utf8",
             "arg": [
-                "${workspaceRoot}\\1.w3x",
-                "-lni",
+                "lni",
+                "${workspaceRoot}\\2.w3x",
             ]
         },
         {
