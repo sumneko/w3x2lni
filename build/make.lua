@@ -103,6 +103,7 @@ local function unit_test()
     p:close()
     if err ~= '' then
         print(err)
+        os.exit(false)
     else
         print('单位测试完成')
     end
