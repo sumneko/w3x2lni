@@ -68,7 +68,7 @@ end
 function mt:load_lni(w2l, type, id, path)
     local target_name = w2l.info.lni[type]
     function w2l.input_ar:get(filename)
-        if filename == 'table/' .. target_name then
+        if filename == 'table\\' .. target_name then
             return io.load(path / target_name)
         end
     end
