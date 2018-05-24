@@ -10,7 +10,7 @@ function w2l.input_ar:get(path)
 end
 
 local ok
-function w2l.input_ar:set(name, buf)
+function w2l.output_ar:set(name, buf)
     if name ~= 'war3map.w3q' then
         return
     end

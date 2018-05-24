@@ -120,7 +120,7 @@ end
 local function save_obj(w2l, type, id, path)
     local lni_name = w2l.info.obj[type]
     local obj = { obj = nil, type = 'obj' }
-    function w2l.input_ar:set(filename, buf)
+    function w2l.output_ar:set(filename, buf)
         if filename == lni_name then
             if type == 'misc' then
                 local txt = find_txt(buf, id)
@@ -166,7 +166,7 @@ local function save_slk(w2l, type, id, path)
     local obj_name = w2l.info.obj[type]
 
     local obj = { slk = nil, txt = nil, type = 'slk' }
-    function w2l.input_ar:set(filename, buf)
+    function w2l.output_ar:set(filename, buf)
         if slk_names[filename] then
         elseif txt_names[filename] then
             local txt = find_txt(buf, id)
