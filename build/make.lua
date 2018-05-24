@@ -157,13 +157,7 @@ local function zippack()
     zip(release_path, zip_path)
 end
 
-local version = read_version()
-
-local gitlog = require 'gitlog'
-gitlog()
-
-if arg[1] == 'zhCN' then
-    release_path = root / 'build' / 'zhCN' / ('w3x2lni_v'..version)
+local function make_zhCN()
     print('生成中文版，目录为：', release_path:string())
     create_directory()
     copy_files('bin')
@@ -177,12 +171,9 @@ if arg[1] == 'zhCN' then
     command('config', 'global.data_meta=${DEFAULT}')
     command('config', 'global.data_wes=${DEFAULT}')
     command('template')
-    unit_test()
-    zippack()
 end
 
-if arg[1] == 'enUS' then
-    release_path = root / 'build' / 'enUS' / ('w3x2lni_v'..version)
+local function make_enUS()
     print('生成英文版，目录为：', release_path:string())
     create_directory()
     copy_files('bin')
@@ -197,8 +188,28 @@ if arg[1] == 'enUS' then
     command('config', 'global.data_wes=${DATA}')
     command('config', 'slk.slk_doodad=false')
     command('template')
+end
+
+local gitlog = require 'gitlog'
+gitlog()
+
+if arg[1] == 'zhCN' then
+    release_path = root / 'build' / 'zhCN' / ('w3x2lni_v'..read_version())
+    make_zhCN()
+    unit_test()
+    zippack()
+elseif arg[1] == 'enUS' then
+    release_path = root / 'build' / 'enUS' / ('w3x2lni_v'..read_version())
+    make_enUS()
     zippack()
     command('config', 'global.lang=enUS')
+elseif arg[1] == 'ci' then
+    release_path = root / 'build' / 'ci' / 'zhCN'
+    make_zhCN()
+    unit_test()
+    release_path = root / 'build' / 'ci' / 'enUS'
+    make_enUS()
+    --unit_test()
 end
 
 print('完成')
