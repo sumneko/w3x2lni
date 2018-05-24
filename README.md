@@ -1,5 +1,7 @@
 # W3x2Lni
 
+[![Build status](https://ci.appveyor.com/api/projects/status/2227ydtok16yoj7r?svg=true)](https://ci.appveyor.com/project/actboy168/w3x2lni)
+
 * [文档](https://sumneko.github.io/w3x2lni/#/zh-cn/)
 * [English Documents](https://sumneko.github.io/w3x2lni/#/en-us/)
 
