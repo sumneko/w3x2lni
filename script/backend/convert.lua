@@ -175,3 +175,4 @@ return function (mode)
     local err, warn = exit(report)
     io.save(root:parent_path() / 'log' / 'report.log', get_report(w2l, report, setting, clock, err, warn))
 end
+
