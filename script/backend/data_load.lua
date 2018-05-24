@@ -10,8 +10,8 @@ local function ydwe_ui(w2l)
     end
     if fs.exists(ydwe / 'ui') then
         return ydwe / 'ui'
-    elseif fs.exists(ydwe / 'ui') then
-        return ydwe / 'ui'
+    elseif fs.exists(ydwe / 'share' / 'ui') then
+        return ydwe / 'share' / 'ui'
     elseif fs.exists(ydwe / 'share' / 'mpq') then
         return ydwe / 'share' / 'mpq'
     else
