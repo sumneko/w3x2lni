@@ -16,7 +16,7 @@ local function load_plugins(source, callback, loadfile)
         end
     end
     table.sort(plugins, function (a, b)
-        return a.name < b.name
+        return a.info.name < b.info.name
     end)
     for _, plugin in ipairs(plugins) do
         callback(source, plugin)
