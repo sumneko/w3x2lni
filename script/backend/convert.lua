@@ -73,7 +73,6 @@ return function (mode)
     fs.remove(root:parent_path() / 'log' / 'report.log')
 
     setting = unpack_setting(w2l, mode)
-    input = setting.input
 
     if setting.mode == 'slk' then
         messager.title 'Slk'
@@ -85,7 +84,7 @@ return function (mode)
 
     messager.text(lang.script.OPEN_MAP)
     local err
-    input_ar, err = builder.load(input)
+    input_ar, err = builder.load(setting.input)
     if not input_ar then
         w2l:failed(err)
     end
@@ -126,8 +125,6 @@ return function (mode)
 
     messager.text(lang.script.CHECK_PLUGIN)
     plugin(w2l, setting)
-    
-    w2l:call_plugin('on_convert')
     
     messager.text(lang.script.LOAD_FILE)
     w2l.progress:start(input_rate)
