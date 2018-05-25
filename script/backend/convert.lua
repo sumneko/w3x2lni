@@ -124,7 +124,9 @@ return function (mode)
     local backend_rate = (1 - input_rate - output_rate) * 0.6
 
     messager.text(lang.script.CHECK_PLUGIN)
-    plugin(w2l, setting)
+    plugin(w2l, function(source, plugin)
+        w2l:add_plugin(source, plugin)
+    end)
     
     messager.text(lang.script.LOAD_FILE)
     w2l.progress:start(input_rate)
@@ -142,9 +144,6 @@ return function (mode)
     w2l.progress:start(input_rate + frontend_rate)
     w2l:frontend(slk)
     w2l.progress:finish()
-    
-    messager.text(lang.script.DO_PLUGIN)
-    w2l:call_plugin('on_full')
     
     messager.text(lang.script.DO_CONVERT)
     w2l.progress:start(input_rate + frontend_rate + backend_rate)

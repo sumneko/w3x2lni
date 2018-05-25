@@ -217,7 +217,19 @@ function mt:mpq_load(filename)
     end)
 end
 
-function mt:call_plugin()
+function mt:add_plugin(source, plugin)
+    self.plugins[#self.plugins + 1] = plugin
+    self.messager.report(lang.report.OTHER, 9, lang.report.USED_PLUGIN:format(plugin.info.name, source), plugin.info.description)
+end
+
+function mt:call_plugin(event)
+    for _, plugin in ipairs(self.plugins) do
+        if plugin[event] then
+            if not pcall(plugin[event], plugin, self) then
+                self.messager.report(lang.report.OTHER, 2, lang.report.PLUGIN_FAILED:format(plugin.info.name), res)
+            end
+        end
+    end
 end
 
 function mt:init_proxy()
@@ -330,6 +342,7 @@ return function ()
     local self = setmetatable({}, mt)
     self.progress = progress()
     self.loaded = {}
+    self.plugins = {}
     self:set_messager(function () end)
     self:set_setting()
     return self
