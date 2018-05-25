@@ -142,16 +142,6 @@ return function (mode)
     w2l.progress:start(input_rate + frontend_rate + backend_rate)
     w2l:backend(slk)
     w2l.progress:finish()
-
-    if w2l.setting.mode == 'lni' then
-        local path = root / 'locale' / lang:current_lang() / 'w3i.lng'
-        w2l:file_save('w3x2lni', 'locale/w3i.lng', io.load(path) or '')
-        local path = root / 'locale' / lang:current_lang() / 'lml.lng'
-        w2l:file_save('w3x2lni', 'locale/lml.lng', io.load(path) or '')
-    else
-        w2l:file_remove('w3x2lni', 'locale/w3i.lng')
-        w2l:file_remove('w3x2lni', 'locale/lml.lng')
-    end
     
     messager.text(lang.script.SAVE_FILE)
     w2l.progress:start(1)

@@ -246,6 +246,14 @@ function mt:init_proxy()
     if self:file_load('w3x2lni', 'locale/lml.lng') then
         lang:set_lng_file('lml', self:file_load('w3x2lni', 'locale/lml.lng'))
     end
+    
+    if self.setting.mode == 'lni' then
+        self:file_save('w3x2lni', 'locale/w3i.lng', lang:get_lng_file 'w3i')
+        self:file_save('w3x2lni', 'locale/lml.lng', lang:get_lng_file 'lml')
+    else
+        self:file_remove('w3x2lni', 'locale/w3i.lng')
+        self:file_remove('w3x2lni', 'locale/lml.lng')
+    end
 end
 
 function mt:file_save(type, name, buf)
