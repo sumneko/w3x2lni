@@ -239,6 +239,13 @@ function mt:init_proxy()
     self.inited_proxy = true
     self.input_proxy = proxy(self.input_ar, self.input_mode, 'input')
     self.output_proxy = proxy(self.output_ar, self.setting.mode, 'output')
+    
+    if self:file_load('w3x2lni', 'locale/w3i.lng') then
+        lang:set_lng_file('w3i', self:file_load('w3x2lni', 'locale/w3i.lng'))
+    end
+    if self:file_load('w3x2lni', 'locale/lml.lng') then
+        lang:set_lng_file('lml', self:file_load('w3x2lni', 'locale/lml.lng'))
+    end
 end
 
 function mt:file_save(type, name, buf)
