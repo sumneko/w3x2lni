@@ -44,7 +44,7 @@ return mt
 ```
 
 ### 插件
-插件为`plugin\插件名.lua`，需要在`plugin\.config`中定义后才会加载。插件应该是一个lua脚本，它需要返回一张表，在表中应有以下属性：
+插件为`plugin\插件名.lua`，需要在`plugin\.config`中定义后才会加载。插件应该是一个lua脚本，它需要返回一张表，在表中可以有以下属性或方法：
 
 #### info
 插件的基本信息，是一张拥有下列属性的表：
@@ -95,5 +95,63 @@ function mt:on_mark()
     return list
 end
 ```
+
+### 接口
+w3x2lni没有为插件准备专用的接口，而是将插件当做了代码的一部分，在调用插件的事件时将当前会话作为参数传入。也就是说，插件可以任意使用w3x2lni内部的函数，任意修改会话状态，你需要自己确保转换不会出错。这里提供一些常用的内部方法（假定传入的会话保存在变量`w2l`中）：
+
+#### slk
+物编数据表，数据结构参考`data\zhCN-1.24.4\prebuilt\Custom`
+```lua
+for type, list in pairs(w2l.slk) do
+    for id, obj in pairs(list) do
+        for key, value in pairs(obj) do
+        end
+    end
+end
+```
+
+#### setting
+配置表，除了在`config.ini`中能看到的属性以外，还有以下属性：
+
++ input (filesystem) - 输入路径。
++ output (filesystem) - 输出路径。
++ target_storage (string) - 输出格式，`mpq`表示打包成地图，`dir`表示生成目录。
++ mode (string) - 输出模式，`slk`、`obj`或`lni`。
++ version (string) - 地图版本，`Custom`表示自定义地图，`Melee`表示对战地图。
+```lua
+if w2l.setting.mode == 'slk' then
+end
+```
+
+#### file_save
+保存文件
+
++ type (string) - 文件类型，参考Lni后的目录结构
++ path (string) - 文件名
++ buf (string) - 文件内容
+```lua
+w2l:file_save('scripts', 'blizzard.j', '')
+```
+
+#### file_load
+读取文件
+
++ type (string) - 文件类型
++ path (string) - 文件名
+```lua
+local buf = w2l:file_load('script', 'blizzard.j')
+```
+
+#### file_remove
+删除文件
+
++ type (string) - 文件类型
++ path (string) - 文件名
+```lua
+w2l:file_remove('script', 'blizzard.j')
+```
+
+#### input_mode
+输入文件模式，`lni`表示输入地图是Lni模式的。
 
 [完整数据]: /zh-cn/insider
