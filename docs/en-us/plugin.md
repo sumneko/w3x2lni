@@ -172,4 +172,8 @@ w2l:file_remove('script', 'blizzard.j')
 
 Input file mode, `lni` for that the input map is Lni
 
+### In-map plugins
+
+Place the `plugin` directory under `w3x2lni` directory of a map. The map here can be `Lni` format or `Obj` format. W3x2lni will invoke these plugins when processing the map. The in-map plugins will stay where they are, except for that the conversion mode is `Slk` and `Removed WE-only files` is enabled.
+
 [DataFull]: /en-us/insider
