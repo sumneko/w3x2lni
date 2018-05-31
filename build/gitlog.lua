@@ -1,6 +1,4 @@
-return function()
-    local root = fs.absolute(fs.path '..')
-
+return function(path)
     local f = io.popen('git log -n 1', 'r')
     local lines = {}
     for l in f:lines() do
@@ -15,7 +13,7 @@ return function()
         end
     end
 
-    local f = io.open((root / 'script' / 'share' / 'gitlog.lua'):string(), 'w')
+    local f = io.open(path, 'w')
     f:write(([[
 return {
     commit = '%s',

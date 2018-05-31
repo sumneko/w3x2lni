@@ -4,7 +4,7 @@ local sleep = require 'ffi.sleep'
 local uni = require 'unicode'
 local minizip = require 'minizip'
 
-local root = fs.current_path():parent_path()
+local root = fs.absolute(fs.path '..')
 local release_path
 
 local function task(f, ...)
@@ -191,7 +191,7 @@ local function make_enUS()
 end
 
 local gitlog = require 'gitlog'
-gitlog()
+gitlog((root / 'script' / 'share' / 'gitlog.lua'):string())
 
 if arg[1] == 'zhCN' then
     release_path = root / 'build' / 'zhCN' / ('w3x2lni_v'..read_version())
