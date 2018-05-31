@@ -154,4 +154,7 @@ w2l:file_remove('script', 'blizzard.j')
 #### input_mode
 输入文件模式，`lni`表示输入地图是Lni模式的。
 
+### 地图内插件
+将`plugin`目录放在地图的`w3x2lni`目录中便是地图内插件，这里的地图既可以是目录格式（`Lni`）也可以是MPQ格式（`Obj`）。W3x2lni在转换该地图时便会应用地图内的插件。地图内插件会继续保留在转后的地图内，除非转换模式为`Slk`且启用了`删除只在WE中使用的文件`。
+
 [完整数据]: /zh-cn/insider
