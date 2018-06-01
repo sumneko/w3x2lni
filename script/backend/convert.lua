@@ -66,8 +66,8 @@ local function get_io_time(map, file_count)
 end
 
 local function message_log()
-    fs.remove(root:parent_path() / 'log' / 'messager.log')
-    local f = io.open((root:parent_path() / 'log' / 'messager.log'):string(), 'a+b')
+    fs.remove(w2l.log_path / 'messager.log')
+    local f = io.open((w2l.log_path / 'messager.log'):string(), 'a+b')
     if not f then
         return messager
     end
@@ -88,12 +88,15 @@ local function message_log()
 end
 
 return function (mode)
+    w2l.log_path = root:parent_path() / 'log'
+    fs.create_directories(w2l.log_path)
+    w2l:call_plugin 'on_convert'
     local messager = message_log()
     w2l:set_messager(messager)
     w2l.messager.text(lang.script.INIT)
     w2l.messager.progress(0)
 
-    fs.remove(root:parent_path() / 'log' / 'report.log')
+    fs.remove(w2l.log_path / 'report.log')
 
     setting = unpack_setting(w2l, mode)
 
@@ -171,9 +174,8 @@ return function (mode)
     builder.save(w2l, slk.w3i, input_ar, output_ar)
     w2l.progress:finish()
     
-    fs.create_directories(root:parent_path() / 'log')
     local clock = os.clock()
     messager.text(lang.script.FINISH:format(clock))
     local err, warn = exit(report)
-    io.save(root:parent_path() / 'log' / 'report.log', get_report(w2l, report, setting, clock, err, warn))
+    io.save(w2l.log_path / 'report.log', get_report(w2l, report, setting, clock, err, warn))
 end
