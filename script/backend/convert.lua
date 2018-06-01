@@ -65,33 +65,8 @@ local function get_io_time(map, file_count)
     return io_rate
 end
 
-local function message_log()
-    fs.remove(w2l.log_path / 'messager.log')
-    local f = io.open((w2l.log_path / 'messager.log'):string(), 'a+b')
-    if not f then
-        return messager
-    end
-    f:setvbuf 'line'
-    return setmetatable({}, {
-        __index = function (_, type)
-            return function (...)
-                messager[type](...)
-                local strs = table.pack(type, ...)
-                for i = 1, strs.n do
-                    strs[i] = tostring(strs[i])
-                end
-                f:write(table.concat(strs, '\t'))
-                f:write '\r\n'
-            end
-        end,
-    })
-end
-
 return function (mode)
     w2l.log_path = root:parent_path() / 'log'
-    fs.create_directories(w2l.log_path)
-    w2l:call_plugin 'on_convert'
-    local messager = message_log()
     w2l:set_messager(messager)
     w2l.messager.text(lang.script.INIT)
     w2l.messager.progress(0)
@@ -142,6 +117,13 @@ return function (mode)
     end
     w2l.output_ar = output_ar
 
+    messager.text(lang.script.CHECK_PLUGIN)
+    plugin(w2l, function(source, plugin)
+        w2l:add_plugin(source, plugin)
+    end)
+
+    w2l:call_plugin 'on_convert'
+
     local slk = {}
     local file_count = input_ar:number_of_files()
     local input_rate = get_io_time(input_ar, file_count)
@@ -149,11 +131,6 @@ return function (mode)
     local frontend_rate = (1 - input_rate - output_rate) * 0.4
     local backend_rate = (1 - input_rate - output_rate) * 0.6
 
-    messager.text(lang.script.CHECK_PLUGIN)
-    plugin(w2l, function(source, plugin)
-        w2l:add_plugin(source, plugin)
-    end)
-    
     messager.text(lang.script.LOAD_OBJECT)
     w2l.progress:start(frontend_rate)
     w2l:frontend(slk)
@@ -177,5 +154,6 @@ return function (mode)
     local clock = os.clock()
     messager.text(lang.script.FINISH:format(clock))
     local err, warn = exit(report)
+    fs.create_directories(w2l.log_path)
     io.save(w2l.log_path / 'report.log', get_report(w2l, report, setting, clock, err, warn))
 end
