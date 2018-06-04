@@ -263,7 +263,7 @@ return function (w2l_, type, data, wts_)
     wts = wts_
     ttype = type
     has_level = w2l.info.key.max_level[type]
-    metadata = w2l:metadata()
+    metadata = w2l:we_metadata()
     default = w2l:get_default()[type]
     
     local origin_id, user_id = sort_chunk(data, w2l.setting.remove_unuse_object)
