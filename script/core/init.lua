@@ -223,6 +223,13 @@ function mt:add_plugin(source, plugin)
 end
 
 function mt:call_plugin(event)
+    if not self.plugins then
+        self.plugins = {}
+        local plugin_loader = require 'plugin'
+        plugin_loader(self, function (source, plugin)
+            self:add_plugin(source, plugin)
+        end)
+    end
     for _, plugin in ipairs(self.plugins) do
         if plugin[event] then
             if not pcall(plugin[event], plugin, self) then
@@ -366,7 +373,6 @@ return function ()
     local self = setmetatable({}, mt)
     self.progress = progress()
     self.loaded = {}
-    self.plugins = {}
     self:set_messager(function () end)
     self:set_setting()
     return self
