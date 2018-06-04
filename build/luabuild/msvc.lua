@@ -1,5 +1,5 @@
 require 'filesystem'
-require 'registry'
+local registry = require 'registry'
 local uni = require 'unicode'
 local ffi = require 'ffi'
 ffi.cdef[[
@@ -27,7 +27,7 @@ local function addenv(name, newvalue)
 end
 
 local function msvc_path(version)
-    local reg = registry.local_machine() / [[SOFTWARE\Microsoft\VisualStudio\SxS\VS7]]
+    local reg = registry.open [[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\SxS\VS7]]
     local path = reg[("%d.0"):format(math.ceil(version / 10))]
     return fs.path(path)
 end
