@@ -158,7 +158,13 @@ local function write_object(chunk, name, obj)
                     count = count + 1
                 end
             else
-                report(lang.report.INVALID_OBJECT_DATA, obj, key, obj[key])
+                if type(data) == 'table' then
+                    if next(data) then
+                        report(lang.report.INVALID_OBJECT_DATA, obj, key, obj[key])
+                    end
+                else
+                    report(lang.report.INVALID_OBJECT_DATA, obj, key, obj[key])
+                end
             end
         end
     end
