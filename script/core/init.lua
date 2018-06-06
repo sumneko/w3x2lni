@@ -380,6 +380,7 @@ return function ()
     local self = setmetatable({}, mt)
     self.progress = progress()
     self.loaded = {}
+    self.lang = require 'lang'
     self:set_messager(function () end)
     self:set_setting()
     return self
