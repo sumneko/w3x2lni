@@ -214,7 +214,7 @@ return function ()
     io.save(output / 'prebuilt' / 'search.ini', search)
     w2l.cache_metadata = nil
 
-    io.save(output / 'version', data_version)
+    io.save(output / 'version', table.concat(data_version, '\r\n'))
     local config = require 'share.config'
     config.global.data = war3.name
 
