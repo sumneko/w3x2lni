@@ -15,7 +15,8 @@ local messager = require 'share.messager'
 local war3 = require 'share.war3'
 local data_version = require 'share.data_version'
 local command = require 'backend.command'
-local root = require 'backend.base_path'
+local base = require 'backend.base_path'
+local root = fs.current_path():parent_path()
 local w2l
 local mpqs
 
@@ -160,7 +161,7 @@ local function input_war3(path)
     end
     path = fs.path(path)
     if not path:is_absolute() then
-        path = fs.absolute(path, root)
+        path = fs.absolute(path, base)
     end
     return fs.absolute(path)
 end

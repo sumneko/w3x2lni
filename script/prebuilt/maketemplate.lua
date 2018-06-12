@@ -1,8 +1,8 @@
 local config = require 'share.config'
-local root = require 'backend.base_path'
+local root = fs.current_path()
 
 return function (w2l, version, slk)
-    local template_path = root / 'template' / version
+    local template_path = root:parent_path() / 'template' / version
     w2l:set_setting
     {
         data      = config.global.data,
