@@ -2,6 +2,7 @@ require 'filesystem'
 require 'utility'
 local uni = require 'ffi.unicode'
 local core = require 'backend.sandbox_core'
+local root = require 'backend.w2l_path'
 
 local slk_keys = {
     ['units\\abilitydata.slk']      = {
@@ -357,7 +358,7 @@ local function do_test(path)
     f()
 end
 
-local test_dir = fs.current_path():parent_path() / 'test' / 'unit_test'
+local test_dir = root / 'test' / 'unit_test'
 if arg[1] then
     do_test(test_dir / arg[1])
 else

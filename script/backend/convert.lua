@@ -6,7 +6,7 @@ local get_report = require 'share.report'
 local check_lni_mark = require 'share.check_lni_mark'
 local unpack_setting = require 'backend.unpack_setting'
 local w2l = core()
-local root = fs.current_path()
+local root = require 'backend.w2l_path'
 local setting
 local input_ar
 local output_ar
@@ -65,7 +65,7 @@ local function get_io_time(map, file_count)
 end
 
 return function (mode)
-    w2l.log_path = root:parent_path() / 'log'
+    w2l.log_path = root / 'log'
     w2l:set_messager(messager)
     w2l.messager.text(lang.script.INIT)
     w2l.messager.progress(0)

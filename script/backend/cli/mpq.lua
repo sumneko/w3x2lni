@@ -16,7 +16,7 @@ local war3 = require 'share.war3'
 local data_version = require 'share.data_version'
 local command = require 'backend.command'
 local base = require 'backend.base_path'
-local root = fs.current_path():parent_path()
+local root = require 'backend.w2l_path'
 local w2l
 local mpqs
 
