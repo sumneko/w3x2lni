@@ -57,7 +57,7 @@ function mt:we_metadata()
         if self.setting.data_meta == '${DEFAULT}' then
             self.cache_we_metadata = self.cache_metadata
         else
-            self.cache_we_metadata = lni(self:data_load('data/prebuilt/metadata.ini'))
+            self.cache_we_metadata = lni(self:data_load('prebuilt/metadata.ini'))
         end
     end
     return self.cache_we_metadata
@@ -65,7 +65,7 @@ end
 
 function mt:keydata()
     if not keydata then
-        keydata = lni(self:data_load('data/prebuilt/keydata.ini'))
+        keydata = lni(self:data_load('prebuilt/keydata.ini'))
     end
     return keydata
 end
@@ -83,11 +83,11 @@ function mt:get_editstring(source)
                 self.editstring[k:upper()] = v
             end
         else
-            local t = ini(self:data_load('data/mpq/ui/WorldEditStrings.txt'))['WorldEditStrings']
+            local t = ini(self:data_load('mpq/ui/WorldEditStrings.txt'))['WorldEditStrings']
             for k, v in pairs(t) do
                 self.editstring[k:upper()] = v
             end
-            local t = ini(self:data_load('data/mpq/ui/WorldEditGameStrings.txt'))['WorldEditStrings']
+            local t = ini(self:data_load('mpq/ui/WorldEditGameStrings.txt'))['WorldEditStrings']
             for k, v in pairs(t) do
                 self.editstring[k:upper()] = v
             end
@@ -118,7 +118,7 @@ local function create_default(w2l)
     local default = {}
     local need_build = false
     for _, name in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'txt', 'misc'} do
-        local str = w2l:data_load(('data/prebuilt/%s/%s.ini'):format(w2l.setting.version, name))
+        local str = w2l:data_load(('prebuilt/%s/%s.ini'):format(w2l.setting.version, name))
         if str then
             default[name] = lni(str)
         else
@@ -220,7 +220,7 @@ end
 
 function mt:mpq_load(filename)
     return self.mpq_path:each_path(function(path)
-        return self:data_load(('data/mpq/%s/%s'):format(path, filename))
+        return self:data_load(('mpq/%s/%s'):format(path, filename))
     end)
 end
 
@@ -230,16 +230,10 @@ function mt:add_plugin(source, plugin)
 end
 
 function mt:call_plugin(event)
-    if not self.plugins then
-        self.plugins = {}
-        local plugin_loader = require 'plugin'
-        plugin_loader(self, function (source, plugin)
-            self:add_plugin(source, plugin)
-        end)
-    end
     for _, plugin in ipairs(self.plugins) do
         if plugin[event] then
-            if not pcall(plugin[event], plugin, self) then
+            local ok, res = pcall(plugin[event], plugin, self)
+            if not ok then
                 self.messager.report(lang.report.OTHER, 2, lang.report.PLUGIN_FAILED:format(plugin.info.name), res)
             end
         end
@@ -380,6 +374,7 @@ return function ()
     local self = setmetatable({}, mt)
     self.progress = progress()
     self.loaded = {}
+    self.plugins = {}
     self.lang = require 'lang'
     self:set_messager(function () end)
     self:set_setting()
