@@ -68,11 +68,6 @@ local function search_mpq(map)
         end)
     end
 
-    if count ~= total then
-        w2l.messager.report(lang.report.ERROR, 1, lang.report.FILE_LOST:format(total - count), lang.report.FILE_LOST_HINT)
-        w2l.messager.report(lang.report.ERROR, 1, lang.report.FILE_READ:format(count, total))
-    end
-
     return files
 end
 

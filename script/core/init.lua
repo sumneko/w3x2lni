@@ -289,6 +289,15 @@ end
 function mt:save()
     local save = require 'map-builder.save'
     save(self)
+    local total = self.input_ar:number_of_files()
+    local count = 0
+    for _ in pairs(self.input_ar) do
+        count = count + 1
+    end
+    if count ~= total then
+        self.messager.report(lang.report.ERROR, 1, lang.report.FILE_LOST:format(total - count), lang.report.FILE_LOST_HINT)
+        self.messager.report(lang.report.ERROR, 1, lang.report.FILE_READ:format(count, total))
+    end
 end
 
 function mt:failed(msg)
