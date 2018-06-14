@@ -6,9 +6,16 @@ local function unify(name)
 end
 
 local function search_staticfile(map, callback)
-    for _, name in ipairs {'(listfile)', '(signature)', '(attributes)'} do
-        callback(name)
+    local function search_tbl(tbl)
+        for _, v in pairs(tbl) do
+            if type(v) == 'table' then
+                search_tbl(v)
+            elseif type(v) == 'string' then
+                callback(v)
+            end
+        end
     end
+    search_tbl(w2l.info)
 end
 
 local function search_listfile(map, callback)
