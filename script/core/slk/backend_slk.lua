@@ -106,7 +106,7 @@ local slk_keys = {
 
 local index = {1, 1, 1, 1}
 local strs1 = {}
-for c in ('!@#$%^&*()_=+\\|/?>.<,`~'):gmatch '.' do
+for c in ('!@#$%^&*()_=+\\|/?><,`~'):gmatch '.' do
     strs1[#strs1+1] = c
 end
 local strs2 = {}
