@@ -12,8 +12,8 @@ local backend_slk = w2l.backend_slk
 function w2l:backend_obj(type, ...)
     local buf = backend_obj(self, type, ...)
     if type == 'ability' then
-        assert(buf:find('!001-000', 1, true))
-        assert(buf:find('!000.AAA', 1, true))
+        assert(buf:find('!000-000', 1, true))
+        assert(buf:find('!001.AAA', 1, true))
         ok1 = buf
     end
     return buf
