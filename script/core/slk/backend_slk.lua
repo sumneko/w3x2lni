@@ -379,8 +379,21 @@ local function load_obj(id, obj, slk_name)
     return slk_data
 end
 
+local function sort_pairs(t)
+    local keys = {}
+    for k in pairs(t) do
+        keys[#keys+1] = k
+    end
+    local i = 0
+    return function ()
+        i = i + 1
+        local k = keys[i]
+        return k, t[k]
+    end
+end
+
 local function load_chunk(chunk, slk_name)
-    for id, obj in pairs(chunk) do
+    for id, obj in sort_pairs(chunk) do
         slk[id] = load_obj(id, obj, slk_name)
     end
 end
