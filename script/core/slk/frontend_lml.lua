@@ -25,14 +25,12 @@ local function load_trigger(trg, id, filename)
         run = 0,
         wct = 0,
     }
-    local name = trg[1]
+    local name = trg[2] or trg[1]
     trigger.name = name
     for i = 3, #trg do
         local line = trg[i]
         local k, v = line[1], line[2]
-        if k == lang.lml.NAME then
-            name = v
-        elseif k == lang.lml.COMMENT then
+        if k == lang.lml.COMMENT then
             trigger.type = 1
         elseif k == lang.lml.DISABLE then
             trigger.enable = 0
@@ -73,11 +71,11 @@ local function load_category(dir)
         local line = dir[i]
         local k, v = line[1], line[2]
         if v then
-            if k == lang.lml.COMMENT and v == '1' then
+            load_trigger(line, category_id, dir_name)
+        else
+            if k == lang.lml.COMMENT then
                 category.comment = 1
             end
-        else
-            load_trigger(line, category_id, dir_name)
         end
     end
     
