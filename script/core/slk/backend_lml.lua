@@ -135,9 +135,11 @@ local function read_dirs(map)
     local lml = { '', false }
     for i, dir in ipairs(wtg.categories) do
         local filename = map[dir.id][1]
-        local dir_data = { dir.name, dir.id }
+        local dir_data
         if dir.name ~= filename then
-            dir_data[#dir_data+1] = { lang.lml.NAME, filename }
+            dir_data = { dir.name, filename }
+        else
+            dir_data = { dir.name, false }
         end
         if dir.comment == 1 then
             dir_data[#dir_data+1] = { lang.lml.COMMENT, 1 }
