@@ -384,6 +384,7 @@ local function sort_pairs(t)
     for k in pairs(t) do
         keys[#keys+1] = k
     end
+    table_sort(keys)
     local i = 0
     return function ()
         i = i + 1
