@@ -57,10 +57,6 @@ function mt:save(w3i, w3f, w2l)
     return true
 end
 
-local function unify(name)
-    return name:lower():gsub('/', '\\')
-end
-
 function mt:list_file()
     return self.handle:list_file()
 end
@@ -73,7 +69,7 @@ function mt:has(name)
     if not self.handle then
         return false
     end
-    local lname = unify(name)
+    local lname = name:lower()
     self.case[lname] = name
     if self.cache[lname] then
         return true
@@ -92,7 +88,7 @@ function mt:set(name, buf)
     if not self.handle then
         return
     end
-    local lname = unify(name)
+    local lname = name:lower()
     self.cache[lname] = buf
     self.case[lname] = name
 end
@@ -101,7 +97,7 @@ function mt:remove(name)
     if not self.handle then
         return
     end
-    local lname = unify(name)
+    local lname = name:lower()
     self.cache[lname] = false
     self.case[lname] = name
 end
@@ -110,7 +106,7 @@ function mt:get(name)
     if not self.handle then
         return nil
     end
-    local lname = unify(name)
+    local lname = name:lower()
     self.case[lname] = name
     if self.cache[lname] then
         return self.cache[lname]

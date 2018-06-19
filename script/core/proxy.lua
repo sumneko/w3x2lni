@@ -4,12 +4,8 @@ local w2l
 local mt = {}
 mt.__index = mt
 
-local function unify(name)
-    return name:lower():gsub('/', '\\')
-end
-
 function mt:set(name, buf)
-    local lname = unify(name)
+    local lname = name:lower()
     self.cache[lname] = buf
     self.case[lname] = name
     if self.archive and self.type == 'output' then
@@ -36,7 +32,7 @@ function mt:save(type, name, buf)
 end
 
 function mt:get(name)
-    local lname = unify(name)
+    local lname = name:lower()
     self.case[lname] = name
     if self.cache[lname] == false then
         return nil
@@ -73,7 +69,7 @@ function mt:load(type, name)
 end
 
 function mt:rm(name)
-    local lname = unify(name)
+    local lname = name:lower()
     self.cache[lname] = false
     self.case[lname] = name
     if self.archive and self.type == 'output' then
@@ -117,7 +113,7 @@ function mt:pairs()
             return nil
         end
         index = name
-        local lname = unify(name)
+        local lname = name:lower()
         if self.cache[lname] ~= nil then
             return next_one()
         end

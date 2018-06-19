@@ -1,10 +1,6 @@
 local lang = require 'lang'
 local w2l
 
-local function unify(name)
-    return name:lower():gsub('/', '\\')
-end
-
 local function search_staticfile(map, callback)
     local function search_tbl(tbl)
         for _, v in pairs(tbl) do
@@ -57,7 +53,7 @@ local function search_mpq(map)
     local files = {}
     for i, searcher in ipairs(searchers) do
         pcall(searcher, map, function (name)
-            local lname = unify(name)
+            local lname = name:lower()
             if mark[lname] then
                 return
             end
