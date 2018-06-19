@@ -3,10 +3,6 @@ for _, name in ipairs {'.git', '.svn', '.vscode', '.gitignore'} do
     ignore[name] = true
 end
 
-local function unify(name)
-    return name:lower():gsub('/', '\\')
-end
-
 local function scan_dir(dir, callback)
     for path in dir:list_directory() do
         if not ignore[path:filename():string()] then
@@ -34,8 +30,8 @@ function mt:list_file()
         self._list_file = {}
         local len = #self.path:string()
         scan_dir(self.path, function (path)
-            local name = path:string():sub(len+2):lower()
-            self._list_file[#self._list_file+1] = unify(name)
+            local name = path:string():sub(len+2)
+            self._list_file[#self._list_file+1] = name
         end)
     end
     return self._list_file

@@ -57,11 +57,11 @@ local function search_mpq(map)
     local files = {}
     for i, searcher in ipairs(searchers) do
         pcall(searcher, map, function (name)
-            name = unify(name)
-            if mark[name] then
+            local lname = unify(name)
+            if mark[lname] then
                 return
             end
-            mark[name] = true
+            mark[lname] = true
             if not map:has(name) then
                 return
             end
