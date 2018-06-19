@@ -17,8 +17,15 @@ end
 local function search_listfile(map, callback)
     local buf = map:get '(listfile)'
     if buf then
-        for name in buf:gmatch '[^\r\n]+' do
-            callback(name)
+        local start = 1
+        while true do
+            local pos = buf:find('\r\n', start)
+            if not pos then
+                callback(buf:sub(start))
+                break
+            end
+            callback(buf:sub(start, pos-1))
+            start = pos + 2
         end
     end
 end
