@@ -91,6 +91,14 @@ return function()
         w2l:failed(err)
     end
 
+    local plugin_loader = require 'backend.plugin'
+    plugin_loader(w2l, function (source, plugin)
+        w2l:add_plugin(source, plugin)
+    end)
+
+    messager.text(lang.script.CHECK_PLUGIN)
+    w2l:call_plugin 'on_pack'
+
     local wts = w2l:frontend_wts(input_ar:get 'war3map.wts')
     local w3i = w2l:frontend_w3i(input_ar:get 'war3map.w3i', wts)
     local w3f = w2l:frontend_w3f(input_ar:get 'war3campaign.w3f', wts)
