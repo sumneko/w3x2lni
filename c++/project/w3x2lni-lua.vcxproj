@@ -21,13 +21,13 @@
     <ResourceCompile Include="resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="lua53.vcxproj">
-      <Project>{b84f7231-16ce-41d8-8c08-7b523ff4225b}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="..\src\utf8\unicode.c" />
     <ClCompile Include="..\src\utf8\wmain.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="lua54.vcxproj">
+      <Project>{b84f7231-16ce-41d8-8c08-7b523ff4225b}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A4422458-F0B3-40DE-9B8A-2AC0D753AFDE}</ProjectGuid>

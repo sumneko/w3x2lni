@@ -14,7 +14,6 @@
     <ClCompile Include="..\src\lua\lapi.c" />
     <ClCompile Include="..\src\lua\lauxlib.c" />
     <ClCompile Include="..\src\lua\lbaselib.c" />
-    <ClCompile Include="..\src\lua\lbitlib.c" />
     <ClCompile Include="..\src\lua\lcode.c" />
     <ClCompile Include="..\src\lua\lcorolib.c" />
     <ClCompile Include="..\src\lua\lctype.c" />
@@ -81,6 +80,7 @@
     <ProjectGuid>{B84F7231-16CE-41D8-8C08-7B523FF4225B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <ProjectName>lua54</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

@@ -84,9 +84,6 @@
     <ClCompile Include="..\src\lua\lbaselib.c">
       <Filter>standard-library</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\lua\lbitlib.c">
-      <Filter>standard-library</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\lua\lmathlib.c">
       <Filter>standard-library</Filter>
     </ClCompile>
