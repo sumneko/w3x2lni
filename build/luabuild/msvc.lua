@@ -29,7 +29,9 @@ end
 local function msvc_path(version)
     local reg = registry.open [[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\SxS\VS7]]
     local path = reg[("%d.0"):format(math.ceil(version / 10))]
-    return fs.path(path)
+    if path then
+        fs.path(path)
+    end
 end
 
 local mt = {}
@@ -38,6 +40,9 @@ local need = { LIB = true, LIBPATH = true, PATH = true, INCLUDE = true }
 
 function mt:initialize(version, coding)
     self.__path = msvc_path(version)
+    if not self.__path then
+        return false
+    end
     local vsvars32 = self.__path / 'Common7' / 'Tools' / 'VsDevCmd.bat'
     local f = io.popen(('"%s" & set'):format(vsvars32:string()), 'r')
     for line in f:lines() do
