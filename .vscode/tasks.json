@@ -3,6 +3,14 @@
     // for the documentation about the tasks.json format
     "version": "2.0.0",
     "type": "shell",
+    "options": {
+       "shell": {
+           "executable": "c:\\windows\\system32\\cmd.exe",
+           "args" :[
+              "/c" 
+           ]
+       } 
+    },
     "tasks": [
         {
             "label": "发布中文版",
