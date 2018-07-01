@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lua53", "lua53.vcxproj", "{B84F7231-16CE-41D8-8C08-7B523FF4225B}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "w3x2lni", "w3x2lni.vcxproj", "{9FD838AC-A5A2-4A24-8166-105BA0D8A973}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yue-ext", "yue-ext.vcxproj", "{9022BEF7-18C3-47C0-BE1A-C24B82E3E5FA}"
@@ -13,16 +11,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "w3x2lni-lua", "w3x2lni-lua.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "w2l", "w2l.vcxproj", "{EDE93A98-B9D8-4208-B346-AA98093CB04A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lua54", "lua54.vcxproj", "{B84F7231-16CE-41D8-8C08-7B523FF4225B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B84F7231-16CE-41D8-8C08-7B523FF4225B}.Debug|Win32.ActiveCfg = Debug|Win32
-		{B84F7231-16CE-41D8-8C08-7B523FF4225B}.Debug|Win32.Build.0 = Debug|Win32
-		{B84F7231-16CE-41D8-8C08-7B523FF4225B}.Release|Win32.ActiveCfg = Release|Win32
-		{B84F7231-16CE-41D8-8C08-7B523FF4225B}.Release|Win32.Build.0 = Release|Win32
 		{9FD838AC-A5A2-4A24-8166-105BA0D8A973}.Debug|Win32.ActiveCfg = Debug|Win32
 		{9FD838AC-A5A2-4A24-8166-105BA0D8A973}.Debug|Win32.Build.0 = Debug|Win32
 		{9FD838AC-A5A2-4A24-8166-105BA0D8A973}.Release|Win32.ActiveCfg = Release|Win32
@@ -39,6 +35,10 @@ Global
 		{EDE93A98-B9D8-4208-B346-AA98093CB04A}.Debug|Win32.Build.0 = Debug|Win32
 		{EDE93A98-B9D8-4208-B346-AA98093CB04A}.Release|Win32.ActiveCfg = Release|Win32
 		{EDE93A98-B9D8-4208-B346-AA98093CB04A}.Release|Win32.Build.0 = Release|Win32
+		{B84F7231-16CE-41D8-8C08-7B523FF4225B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B84F7231-16CE-41D8-8C08-7B523FF4225B}.Debug|Win32.Build.0 = Debug|Win32
+		{B84F7231-16CE-41D8-8C08-7B523FF4225B}.Release|Win32.ActiveCfg = Release|Win32
+		{B84F7231-16CE-41D8-8C08-7B523FF4225B}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
