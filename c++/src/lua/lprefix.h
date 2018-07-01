@@ -38,6 +38,7 @@
 #if !defined(_CRT_SECURE_NO_WARNINGS)
 #define _CRT_SECURE_NO_WARNINGS  /* avoid warnings about ISO C functions */
 #endif
+
 #ifndef lua_c
 #include "../utf8/utf8_crt.h"
 #ifndef lundump_c
@@ -54,6 +55,18 @@
 #endif
 
 #endif			/* } */
+
+#include <stdlib.h>
+
+__inline unsigned int luafix_makeseed(void *L) {
+	const char* seed = getenv("LUA_SEED");
+	if (seed) {
+		return atoi(seed);
+	}
+	return *(unsigned int*)"Lua\0";
+}
+
+#define luai_makeseed luafix_makeseed
 
 #endif
 
