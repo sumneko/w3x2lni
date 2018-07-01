@@ -30,7 +30,7 @@ local function msvc_path(version)
     local reg = registry.open [[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\SxS\VS7]]
     local path = reg[("%d.0"):format(math.ceil(version / 10))]
     if path then
-        fs.path(path)
+        return fs.path(path)
     end
 end
 
