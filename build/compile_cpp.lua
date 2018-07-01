@@ -13,7 +13,7 @@ local property = {
 msvc:compile('rebuild', root / 'c++' / 'project' / 'w3x2lni.sln', property)
 
 print('复制...')
-fs.copy_file(root / 'c++' / 'bin' / 'Release' / 'lua53.dll',       root / 'bin' / 'lua53.dll', true)
+fs.copy_file(root / 'c++' / 'bin' / 'Release' / 'lua54.dll',       root / 'bin' / 'lua54.dll', true)
 fs.copy_file(root / 'c++' / 'bin' / 'Release' / 'yue-ext.dll',     root / 'bin' / 'yue-ext.dll', true)
 fs.copy_file(root / 'c++' / 'bin' / 'Release' / 'w3x2lni-lua.exe', root / 'bin' / 'w3x2lni-lua.exe', true)
 fs.copy_file(root / 'c++' / 'bin' / 'Release' / 'w3x2lni.exe',     root / 'w3x2lni.exe', true)
