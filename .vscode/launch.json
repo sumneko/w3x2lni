@@ -10,7 +10,7 @@
             "env": {
                 "PATH": "${workspaceRoot}\\bin\\"
             },
-            "luadll": "${workspaceRoot}\\bin\\lua53.dll",
+            "luadll": "${workspaceRoot}\\bin\\lua54.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
             "runtimeExecutable": "${workspaceRoot}\\bin\\w3x2lni-lua.exe",
@@ -27,7 +27,7 @@
                 "PATH": "${workspaceRoot}\\bin\\"
             },
             "luaexe": "${workspaceRoot}\\bin\\w3x2lni-lua.exe",
-            "luadll": "${workspaceRoot}\\bin\\lua53.dll",
+            "luadll": "${workspaceRoot}\\bin\\lua54.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
             "consoleCoding": "utf8",
@@ -50,7 +50,7 @@
                 "PATH": "${workspaceRoot}\\bin\\"
             },
             "luaexe": "${workspaceRoot}\\bin\\w3x2lni-lua.exe",
-            "luadll": "${workspaceRoot}\\bin\\lua53.dll",
+            "luadll": "${workspaceRoot}\\bin\\lua54.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
             "consoleCoding": "utf8",
@@ -68,7 +68,7 @@
                 "PATH": "${workspaceRoot}\\bin\\"
             },
             "luaexe": "${workspaceRoot}\\bin\\w3x2lni-lua.exe",
-            "luadll": "${workspaceRoot}\\bin\\lua53.dll",
+            "luadll": "${workspaceRoot}\\bin\\lua54.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
             "consoleCoding": "utf8",
