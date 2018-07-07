@@ -252,10 +252,7 @@ local function to_type(tp, value)
         if n == 0 then
             return nil
         end
-        if type(value) ~= 'string' then
-            value = ('%.4f'):format(n)
-        end
-        return value:gsub('[0]+$', ''):gsub('%.$', '')
+        return ('%.4f'):format(n):gsub('[0]+$', ''):gsub('%.$', '') -- slk 的浮点数总是转成数字
     elseif tp == 3 then
         if not value then
             return nil

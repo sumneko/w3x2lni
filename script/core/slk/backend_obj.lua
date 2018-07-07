@@ -82,7 +82,7 @@ local function write_value(meta, level, obj, value)
         end
         write('l', value)
     elseif tp == 1 or tp == 2 then
-        write('c4', float2bin(value))
+        write('c4', float2bin(value)) -- obj 的浮点数用api转换为二进制
     else
         if type(value) ~= 'string' then
             value = ''
