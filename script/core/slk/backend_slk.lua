@@ -162,7 +162,11 @@ local function add(x, y, k)
         strs[#strs+1] = 'Y' .. y
     end
     if type(k) == 'string' then
-        k = ('"%s"'):format(k:gsub('\r\n', '|n'):gsub('[\r\n]', '|n'))
+        if k:find '[^%d%.]' then
+            k = ('"%s"'):format(k:gsub('\r\n', '|n'):gsub('[\r\n]', '|n'))
+        else
+            k = k:gsub('[0]+$', ''):gsub('%.$', '.0')
+        end
     elseif math_type(k) == 'float' then
         k = ('%.4f'):format(k):gsub('[0]+$', ''):gsub('%.$', '.0')
     end
@@ -239,13 +243,19 @@ local function to_type(tp, value)
         if not value or value == 0 then
             return nil
         end
-        return math_floor(wtonumber(value))
+        return math_floor(value)
     elseif tp == 1 or tp == 2 then
+        if not value then
+            return nil
+        end
         local n = wtonumber(value)
         if n == 0 then
             return nil
         end
-        return value
+        if type(value) ~= 'string' then
+            value = ('%.4f'):format(n)
+        end
+        return value:gsub('[0]+$', ''):gsub('%.$', '')
     elseif tp == 3 then
         if not value then
             return nil

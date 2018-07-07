@@ -20,10 +20,13 @@ local function slk_to_type(tp, value)
         if not value then
             return 0
         end
-        return math_floor(value)
+        return math_floor(wtonumber(value))
     elseif tp == 1 or tp == 2 then
-        if not value or value:match '[^ %-%_]' then
-            return '0.0'
+        if not value or value == 0 then
+            return 0.0
+        end
+        if math.type(value) == 'integer' then
+            return value + 0.0
         end
         return value
     elseif tp == 3 then
@@ -111,12 +114,15 @@ local function txt_to_type(tp, value)
         if not value then
             return 0
         end
-        return math_floor(wtonumber(value))
+        return math_floor(wtonumber(value)) -- txt中的整数支持256进制、16进制和8进制表达方式，因此要使用wtonumber
     elseif tp == 1 or tp == 2 then
-        if not value then
+        if not value or value == 0 then
             return 0.0
         end
-        return wtonumber(value) + 0.0
+        if math.type(value) == 'integer' then
+            return value + 0.0
+        end
+        return value
     elseif tp == 3 then
         if not value then
             return nil
