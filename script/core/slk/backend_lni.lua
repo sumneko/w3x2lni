@@ -31,9 +31,9 @@ local function format_value(tp, value)
         return ('%d'):format(math.floor(value))
     elseif tp == 1 or tp == 2 then
         if type(value) == 'number' then
-            value = ('%.4f'):format(value)
+            return ('%.4f'):format(value)
         end
-        return value:gsub('[0]+$', ''):gsub('%.$', '.0')
+        return value
     elseif tp == 3 then
         value = w2l:get_editstring(value)
         if value:match '[\n\r]' then
