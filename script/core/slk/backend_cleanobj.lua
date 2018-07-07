@@ -29,7 +29,7 @@ local function default_value(tp)
     if tp == 0 then
         return 0
     elseif tp == 1 or tp == 2 then
-        return 0.0
+        return 0
     elseif tp == 3 then
         return ''
     end
