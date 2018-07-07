@@ -11,10 +11,13 @@ local function txt_to_type(tp, value)
         end
         return math.floor(wtonumber(value))
     elseif tp == 1 or tp == 2 then
-        if not value then
+        if not value or value == 0 then
             return 0.0
         end
-        return wtonumber(value) + 0.0
+        if math.type(value) == 'integer' then
+            return value + 0.0
+        end
+        return value
     elseif tp == 3 then
         if not value then
             return nil

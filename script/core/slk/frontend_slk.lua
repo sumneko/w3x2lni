@@ -20,15 +20,9 @@ local function slk_to_type(tp, value)
         if not value then
             return 0
         end
-        if type(value) == 'string' and not value:match '[^ %-%_]' then
-            return 0
-        end
         return math_floor(value)
     elseif tp == 1 or tp == 2 then
         if not value or value == 0 then
-            return 0.0
-        end
-        if type(value) == 'string' and not value:match '[^ %-%_]' then
             return 0.0
         end
         if math.type(value) == 'integer' then
