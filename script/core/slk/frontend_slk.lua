@@ -116,6 +116,9 @@ local function txt_to_type(tp, value)
         if not value or value == 0 then
             return 0
         end
+        if type(value) == 'string' then
+            return value:gsub("^%s*(.-)%s*$", "%1")
+        end
         return value
     elseif tp == 3 then
         if not value then
