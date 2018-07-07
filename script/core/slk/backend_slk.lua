@@ -241,10 +241,11 @@ local function to_type(tp, value)
         end
         return math_floor(wtonumber(value))
     elseif tp == 1 or tp == 2 then
-        if not value or value == 0 then
+        local n = wtonumber(value)
+        if n == 0 then
             return nil
         end
-        return wtonumber(value) + 0.0
+        return value
     elseif tp == 3 then
         if not value then
             return nil

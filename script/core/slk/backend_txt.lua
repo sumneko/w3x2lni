@@ -29,10 +29,11 @@ local function to_type(tp, value)
         end
         return value
     elseif tp == 1 or tp == 2 then
-        if not value or value == 0 then
+        local n = wtonumber(value)
+        if n == 0 then
             return nil
         end
-        return ('%.4f'):format(value):gsub('[0]+$', ''):gsub('%.$', '')
+        return ('%.4f'):format(n):gsub('[0]+$', ''):gsub('%.$', '')
     elseif tp == 3 then
         if not value then
             return

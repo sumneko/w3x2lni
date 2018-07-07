@@ -20,12 +20,12 @@ local function slk_to_type(tp, value)
         if not value then
             return 0
         end
-        return math_floor(wtonumber(value))
+        return math_floor(value)
     elseif tp == 1 or tp == 2 then
-        if not value then
-            return 0.0
+        if not value or value:match '[^ %-%_]' then
+            return '0.0'
         end
-        return wtonumber(value) + 0.0
+        return value
     elseif tp == 3 then
         if not value then
             return ''
