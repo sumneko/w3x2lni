@@ -361,10 +361,12 @@ end
 local test_dir = root / 'test' / 'unit_test'
 if arg[1] then
     do_test(test_dir / arg[1])
+    print('指定的单元测试完成:' .. arg[1])
 else
+    local count = 0
     for path in test_dir:list_directory() do
+        count = count + 1
         do_test(path)
     end
+    print(('单元测试完成，共测试[%d]个'):format(count))
 end
-
-print('单元测试完成')
