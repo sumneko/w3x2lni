@@ -162,7 +162,11 @@ local function add(x, y, k)
         strs[#strs+1] = 'Y' .. y
     end
     if type(k) == 'string' then
-        k = ('"%s"'):format(k:gsub('\r\n', '|n'):gsub('[\r\n]', '|n'))
+        if k:find '[^%d%.]' then
+            k = ('"%s"'):format(k:gsub('\r\n', '|n'):gsub('[\r\n]', '|n'))
+        else
+            k = k:gsub('[0]+$', ''):gsub('%.$', '.0')
+        end
     elseif math_type(k) == 'float' then
         k = ('%.4f'):format(k):gsub('[0]+$', ''):gsub('%.$', '.0')
     end
