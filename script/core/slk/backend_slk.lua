@@ -239,13 +239,19 @@ local function to_type(tp, value)
         if not value or value == 0 then
             return nil
         end
-        return math_floor(wtonumber(value))
+        return math_floor(value)
     elseif tp == 1 or tp == 2 then
+        if not value then
+            return nil
+        end
         local n = wtonumber(value)
         if n == 0 then
             return nil
         end
-        return value
+        if type(value) ~= 'string' then
+            value = ('%.4f'):format(n)
+        end
+        return value:gsub('[0]+$', ''):gsub('%.$', '')
     elseif tp == 3 then
         if not value then
             return nil
