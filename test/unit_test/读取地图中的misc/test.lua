@@ -1,3 +1,3 @@
 init('misc', 'Misc')
 local obj = load('all')
-compare_value(obj.obj.agiattackspeedbonus, 0.0)
+compare_value(obj.obj.agiattackspeedbonus, '0.0123456789   ')
