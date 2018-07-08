@@ -24,7 +24,11 @@ local object
 
 local function to_type(tp, value)
     if tp == 0 then
-        if not value or value == 0 then
+        if not value then
+            return nil
+        end
+        local value = tostring(math_floor(value))
+        if value == '0' then
             return nil
         end
         return value
@@ -32,17 +36,17 @@ local function to_type(tp, value)
         if not value then
             return nil
         end
-        local n = wtonumber(value)
-        if n == 0 then
-            return nil
-        end
-        if type(value) ~= 'string' then
-            value = ('%.4f'):format(n)
+        if type(value) == 'number' then
+            value = tostring(value)
         end
         if value:find('.', 1, true) then
             value = value:gsub('0+$', '')
         end
-        return value:gsub('%.$', '')
+        value = value:gsub('%.$', '')
+        if value == '' or value == '0' then
+            return nil
+        end
+        return value
     elseif tp == 3 then
         if not value then
             return

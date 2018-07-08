@@ -231,10 +231,9 @@ end
 
 local function to_type(tp, value)
     if tp == 0 then
-        if not value or value == 0 then
+        if not value then
             return nil
         end
-        -- TODO
         local value = tostring(math_floor(value))
         if value == '0' then
             return nil
