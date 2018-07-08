@@ -250,8 +250,8 @@ local function to_type(tp, value)
         if value:find('.', 1, true) then
             value = value:gsub('0+$', '')
         end
-        value = value:gsub('%.$', '.0')
-        if value == '-' or value == '' or value == '0' or value == '0.0' then
+        value = value:gsub('%.$', '')
+        if value == '-' or value == '' or value == '0' then
             return nil
         end
         return value

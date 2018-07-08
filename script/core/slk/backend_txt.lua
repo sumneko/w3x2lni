@@ -39,7 +39,10 @@ local function to_type(tp, value)
         if type(value) ~= 'string' then
             value = ('%.4f'):format(n)
         end
-        return value:gsub('[0]+$', ''):gsub('%.$', '') -- txt 的浮点数保持原文
+        if value:find('.', 1, true) then
+            value = value:gsub('0+$', '')
+        end
+        return value:gsub('%.$', '')
     elseif tp == 3 then
         if not value then
             return
