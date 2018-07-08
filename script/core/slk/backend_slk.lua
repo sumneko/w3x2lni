@@ -9,7 +9,6 @@ local type = type
 local table_sort = table.sort
 local table_insert = table.insert
 local math_floor = math.floor
-local wtonumber = w3xparser.tonumber
 local math_type = math.type
 local os_clock = os.clock
 local tonumber = tonumber

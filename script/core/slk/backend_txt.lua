@@ -8,7 +8,6 @@ local pairs = pairs
 local table_sort = table.sort
 local table_insert = table.insert
 local math_floor = math.floor
-local wtonumber = w3xparser.tonumber
 local select = select
 local table_unpack = table.unpack
 local os_clock = os.clock
