@@ -2,11 +2,11 @@
 Art=ReplaceableTextures\PassiveButtons\PASBTNReincarnation.blp
 Buttonpos=3,2
 EffectArt=Abilities\Spells\Orc\Reincarnation\ReincarnationTarget.mdl
-Name=重生
+Name=Name
 ResearchArt=ReplaceableTextures\CommandButtons\BTNReincarnation.blp
 Researchbuttonpos=3
 Researchhotkey=R
-Researchtip=学习重生(|cffffcc00R|r)
-Researchubertip=当被杀害的时候，酋长会自动复活。|n|n|cffffcc00等级 1|r - 240秒的魔法施放间隔时间。|n|cffffcc00等级 2|r - 120秒的魔法施放间隔时间。
-Tip=重生 - [|cffffcc00等级 1|r]
-Ubertip=当被杀害的时候，卡林会自动复活。重生技能具有240秒的魔法施放间隔时间。
+Researchtip=Researchtip
+Researchubertip=Researchubertip
+Tip=Tip
+Ubertip=Ubertip

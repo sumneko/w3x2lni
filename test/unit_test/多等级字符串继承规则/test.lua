@@ -1,3 +1,14 @@
+local config = require 'share.config'
+
+local names
+if config.global.data == 'zhCN-1.24.4' then
+    names = {'铁甲', '钢甲', '重金甲'}
+elseif config.global.data == 'enUS-1.27.1' then
+    names = {'Iron Plating', 'Steel Plating', 'Mithril Plating'}
+else
+    error(('不支持的版本[%s]'):format(config.global.data))
+end
+
 local w2l = w3x2lni()
 
 w2l:set_setting
@@ -6,7 +17,11 @@ w2l:set_setting
 }
 
 function w2l.input_ar:get(path)
-    return read(path)
+    if config.global.data == 'zhCN-1.24.4' then
+        return read('zhCN-' .. path)
+    else
+        return read('enUS-' .. path)
+    end
 end
 
 local ok
@@ -17,13 +32,13 @@ function w2l.output_ar:set(name, buf)
     ok = true
     local upgrade = w2l:frontend_obj('upgrade', buf)
     assert(upgrade.R000.gnam[1] == nil)
-    assert(upgrade.R000.gnam[2] == '铁甲')
-    assert(upgrade.R000.gnam[3] == '铁甲')
-    assert(upgrade.R000.gnam[4] == '铁甲')
-    assert(upgrade.R000.gnam[5] == '钢甲')
-    assert(upgrade.R000.gnam[6] == '钢甲')
-    assert(upgrade.R000.gnam[7] == '钢甲')
-    assert(upgrade.R000.gnam[8] == '重金甲')
+    assert(upgrade.R000.gnam[2] == names[1])
+    assert(upgrade.R000.gnam[3] == names[1])
+    assert(upgrade.R000.gnam[4] == names[1])
+    assert(upgrade.R000.gnam[5] == names[2])
+    assert(upgrade.R000.gnam[6] == names[2])
+    assert(upgrade.R000.gnam[7] == names[2])
+    assert(upgrade.R000.gnam[8] == names[3])
     assert(upgrade.R000.gnam[9] == nil)
     assert(upgrade.R000.gnam[10] == nil)
 
@@ -54,8 +69,8 @@ local slk = {}
 w2l:frontend(slk)
 
 assert(slk.upgrade.R001.name[1] == '1')
-assert(slk.upgrade.R001.name[2] == '钢甲')
-assert(slk.upgrade.R001.name[3] == '重金甲')
+assert(slk.upgrade.R001.name[2] == names[2])
+assert(slk.upgrade.R001.name[3] == names[3])
 assert(slk.upgrade.R001.name[4] == '')
 assert(slk.upgrade.R001.name[5] == '2')
 assert(slk.upgrade.R001.name[6] == '')
@@ -64,7 +79,7 @@ assert(slk.upgrade.R001.name[8] == '3')
 assert(slk.upgrade.R001.name[9] == '3')
 assert(slk.upgrade.R001.name[10] == '3')
 
-assert(slk.upgrade.R002.name[1] == '铁甲')
+assert(slk.upgrade.R002.name[1] == names[1])
 assert(slk.upgrade.R002.name[2] == '')
 assert(slk.upgrade.R002.name[3] == '')
 assert(slk.upgrade.R002.name[4] == '')

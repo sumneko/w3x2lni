@@ -3,5 +3,5 @@ Art=ReplaceableTextures\CommandButtons\BTNStoneArchitecture.blp
 Buttonpos=1
 Hotkey=M
 Name=防御塔升级
-Tip=升级到加强型石工技术(|cffffcc00M|r),升级到高级石工技术(|cffffcc00M|r),升级到终极石工技术(|cffffcc00M|r)
-Ubertip=增加人族建筑物的生命值和护甲。,进一步增加人族建筑物的生命值和护甲。
+Tip=,
+Ubertip=,
