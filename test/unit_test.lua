@@ -3,6 +3,7 @@ require 'utility'
 local uni = require 'ffi.unicode'
 local core = require 'backend.sandbox_core'
 local root = require 'backend.w2l_path'
+local config = require 'share.config'
 
 local slk_keys = {
     ['units\\abilitydata.slk']      = {
@@ -255,6 +256,24 @@ function mt:w3x2lni()
         remove = function ()
         end,
     }
+    local set_setting = w2l.set_setting
+    function w2l.set_setting(self, data)
+        data = data or {}
+        local setting = {}
+        for k, v in pairs(config.global) do
+            setting[k] = v
+        end
+        if config[data.mode] then
+            for k, v in pairs(config[data.mode]) do
+                setting[k] = v
+            end
+        end
+        for k, v in pairs(data) do
+            setting[k] = v
+        end
+        set_setting(self, setting)
+    end
+    w2l:set_setting()
     
     return w2l
 end
