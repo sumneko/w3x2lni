@@ -349,21 +349,30 @@ end
 local function do_test(path)
     local buf = io.load(path / 'test.lua')
     if not buf then
-        return
+        return false
     end
     print(('正在测试[%s]'):format(path:filename():string()))
     local debuggerpath = '@'..(path / 'test.lua'):string()
     local env = test_env(path)
     local f = assert(load(buf, debuggerpath, 't', env))
     f()
+    return true
 end
 
 local test_dir = root / 'test' / 'unit_test'
 if arg[1] then
     do_test(test_dir / arg[1])
 else
+    local ok
     for path in test_dir:list_directory() do
-        do_test(path)
+        local suc = do_test(path)
+        if not suc then
+            error(('单元测试[%s]执行失败'):format(path:stem():string()))
+        end
+        ok = true
+    end
+    if not ok then
+        error('没有执行任何单元测试')
     end
 end
 
