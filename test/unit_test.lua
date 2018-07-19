@@ -383,15 +383,15 @@ if arg[1] then
     do_test(test_dir / arg[1])
     print('指定的单元测试完成:' .. arg[1])
 else
-    local ok
+    local count = 0
     for path in test_dir:list_directory() do
         local suc = do_test(path)
         if not suc then
             error(('单元测试[%s]执行失败'):format(path:stem():string()))
         end
-        ok = true
+        count = count + 1
     end
-    if not ok then
+    if count == 0 then
         error('没有执行任何单元测试')
     end
     print(('单元测试完成，共测试[%d]个'):format(count))
