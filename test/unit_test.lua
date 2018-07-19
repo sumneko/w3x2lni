@@ -3,6 +3,7 @@ require 'utility'
 local uni = require 'ffi.unicode'
 local core = require 'backend.sandbox_core'
 local root = require 'backend.w2l_path'
+local config = require 'share.config'
 
 local slk_keys = {
     ['units\\abilitydata.slk']      = {
@@ -255,6 +256,24 @@ function mt:w3x2lni()
         remove = function ()
         end,
     }
+    local set_setting = w2l.set_setting
+    function w2l.set_setting(self, data)
+        data = data or {}
+        local setting = {}
+        for k, v in pairs(config.global) do
+            setting[k] = v
+        end
+        if config[data.mode] then
+            for k, v in pairs(config[data.mode]) do
+                setting[k] = v
+            end
+        end
+        for k, v in pairs(data) do
+            setting[k] = v
+        end
+        set_setting(self, setting)
+    end
+    w2l:set_setting()
     
     return w2l
 end
@@ -349,13 +368,14 @@ end
 local function do_test(path)
     local buf = io.load(path / 'test.lua')
     if not buf then
-        return
+        return false
     end
     print(('正在测试[%s]'):format(path:filename():string()))
     local debuggerpath = '@'..(path / 'test.lua'):string()
     local env = test_env(path)
     local f = assert(load(buf, debuggerpath, 't', env))
     f()
+    return true
 end
 
 local test_dir = root / 'test' / 'unit_test'
@@ -363,10 +383,16 @@ if arg[1] then
     do_test(test_dir / arg[1])
     print('指定的单元测试完成:' .. arg[1])
 else
-    local count = 0
+    local ok
     for path in test_dir:list_directory() do
-        count = count + 1
-        do_test(path)
+        local suc = do_test(path)
+        if not suc then
+            error(('单元测试[%s]执行失败'):format(path:stem():string()))
+        end
+        ok = true
+    end
+    if not ok then
+        error('没有执行任何单元测试')
     end
     print(('单元测试完成，共测试[%d]个'):format(count))
 end

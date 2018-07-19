@@ -3,5 +3,5 @@ Art=ReplaceableTextures\CommandButtons\BTNPackBeast.blp
 Buttonpos=3
 Hotkey=B
 Name=测试
-Tip=研究背包技能(|cffffcc00B|r)
-Ubertip=给人族地面部队携带物品的能力。
+Tip=标题
+Ubertip=文本

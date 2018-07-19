@@ -201,6 +201,7 @@ if arg[1] == 'zhCN' then
 elseif arg[1] == 'enUS' then
     release_path = root / 'build' / 'enUS' / ('w3x2lni_v'..read_version())
     make_enUS()
+    unit_test()
     zippack()
     command('config', 'global.lang=enUS')
 elseif arg[1] == 'ci' then
@@ -209,7 +210,7 @@ elseif arg[1] == 'ci' then
     unit_test()
     release_path = root / 'build' / 'ci' / 'enUS'
     make_enUS()
-    --unit_test()
+    unit_test()
 end
 
 print('完成')
