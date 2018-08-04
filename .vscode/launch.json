@@ -86,5 +86,21 @@
             "consoleCoding": "utf8",
             "processName" : "w3x2lni-lua.exe"
         },
+        {
+            "name": "预处理",
+            "type": "lua",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "env": {
+                "PATH": "${workspaceRoot}\\bin\\"
+            },
+            "luaexe": "${workspaceRoot}\\bin\\w3x2lni-lua.exe",
+            "luadll": "${workspaceRoot}\\bin\\lua54.dll",
+            "path": ".\\?.lua;.\\?\\init.lua",
+            "cpath": "${workspaceRoot}\\bin\\?.dll;",
+            "consoleCoding": "utf8",
+            "program": "${workspaceRoot}\\build\\prebuild.lua",
+            "sourceCoding": "utf8",
+        },
     ]
 }
