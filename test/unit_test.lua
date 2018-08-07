@@ -378,18 +378,31 @@ local function do_test(path)
     return true
 end
 
+local ignore = {
+    '技能数值为0'
+}
+
 local test_dir = root / 'test' / 'unit_test'
 if arg[1] then
     do_test(test_dir / arg[1])
     print('指定的单元测试完成:' .. arg[1])
 else
+    local mark = {}
+    for _, name in ipairs(ignore) do
+        mark[name] = true
+    end
     local count = 0
     for path in test_dir:list_directory() do
-        local suc = do_test(path)
-        if not suc then
-            error(('单元测试[%s]执行失败'):format(path:stem():string()))
+        local name = path:stem():string()
+        if mark[name] then
+            print(('已跳过[%s]'):format(name))
+        else
+            local suc = do_test(path)
+            if not suc then
+                error(('单元测试[%s]执行失败'):format(name))
+            end
+            count = count + 1
         end
-        count = count + 1
     end
     if count == 0 then
         error('没有执行任何单元测试')
