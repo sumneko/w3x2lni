@@ -100,10 +100,6 @@ function mt:remove(name)
     local lname = name:lower()
     self.cache[lname] = false
     self.case[lname] = name
-    if self:is_readonly() then
-        return
-    end
-    self.handle:remove_file(name)
 end
 
 function mt:get(name)
