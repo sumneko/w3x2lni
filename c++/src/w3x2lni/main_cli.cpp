@@ -279,7 +279,7 @@ struct protocol {
 	}
 };
 
-int __cdecl wmain()
+int __cdecl wmain(int argc, wchar_t* argv[])
 {
 	pipe out, err;
 	if (!out.open('r')) {
@@ -315,7 +315,14 @@ int __cdecl wmain()
 		}
 	}
 	if (!error.empty()) {
-		execute_crashreport(L"CLI", error);
+		bool silent = false;
+		for (int i = 1; i < argc; ++i) {
+			if (argv[i][0] == L'-' && argv[i][1] == L's'&& argv[i][2] == L'\0') {
+				silent = true;
+				break;
+			}
+		}
+		execute_crashreport(L"CLI", error, silent);
 		proto.message_error(error);
 	}
 	return 0;

@@ -111,14 +111,15 @@ local function unit_test()
 end
 
 local function command(...)
-    local commands = {...}
-    table.insert(commands, 1, (release_path / 'w2l'):string())
-    for i, c in ipairs(commands) do
-        commands[i] = ('%s'):format(c)
+    local commands = {}
+    commands[#commands+1] = (release_path / 'w2l.exe'):string()
+    for _, c in ipairs {...} do
+        commands[#commands+1] = ('%s'):format(c)
     end
+    commands[#commands+1] = '-s'
     local command = table.concat(commands, ' ')
     print('正在执行命令:', command)
-    io.popen(command):close()
+    os.execute(command)
 end
 
 local function for_directory(path, func, leaf)

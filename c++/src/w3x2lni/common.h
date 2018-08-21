@@ -76,5 +76,5 @@ struct pipe {
 };
 
 bool execute_lua(const wchar_t* who, pipe* out, pipe* err);
-bool execute_crashreport(const wchar_t* who, pipe* in, pipe* err);
-bool execute_crashreport(const wchar_t* who, const std::string& errmessage);
+bool execute_crashreport(const wchar_t* who, pipe* in, pipe* err, bool silent);
+bool execute_crashreport(const wchar_t* who, const std::string& errmessage, bool silent);

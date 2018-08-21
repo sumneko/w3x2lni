@@ -142,7 +142,7 @@ bool execute_lua(const wchar_t* who, pipe* out, pipe* err) {
 	return true;
 }
 
-bool execute_crashreport(const wchar_t* who, pipe* in, pipe* err) {
+bool execute_crashreport(const wchar_t* who, pipe* in, pipe* err, bool silent) {
 	path app = path() / L"bin" / L"w3x2lni-lua.exe";
 	path cwd = path() / L"script";
 	strbuilder<32768> cmd;
@@ -152,6 +152,9 @@ bool execute_crashreport(const wchar_t* who, pipe* in, pipe* err) {
 	cmd += L"'\" -E \"";
 	cmd += path() / L"script" / L"crashreport" / L"init.lua";
 	cmd += L"\"";
+	if (silent) {
+		cmd += L" -s";
+	}
 
 	strbuilder<1024> env;
 	env += L"PATH=";
@@ -194,11 +197,11 @@ bool execute_crashreport(const wchar_t* who, pipe* in, pipe* err) {
 	return true;
 }
 
-bool execute_crashreport(const wchar_t* who, const std::string& errmessage)
+bool execute_crashreport(const wchar_t* who, const std::string& errmessage, bool silent)
 {
 	pipe in, err;
 	if (in.open('w') && err.open('r')) {
-		if (!execute_crashreport(who, &in, &err)) {
+		if (!execute_crashreport(who, &in, &err, silent)) {
 			return false;
 		}
 		in.write(errmessage.data(), errmessage.size());
