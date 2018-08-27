@@ -61,14 +61,15 @@ local function convert_wtg(w2l)
     w2l.progress:start(0.5)
     if wtg and wct then
         if w2l.setting.mode == 'lni' then
-            xpcall(function ()
+            local ok, err = xpcall(function ()
                 wtg_data = w2l:frontend_wtg(wtg)
                 wct_data = w2l:frontend_wct(wct)
                 w2l:file_remove('map', 'war3map.wtg')
                 w2l:file_remove('map', 'war3map.wct')
-            end, function (msg)
-                w2l.messager.report(lang.report.WARN, 2, lang.report.NO_CONVERT_WTG, msg:match('%.lua:%d+: (.*)'))
-            end)
+            end, debug.traceback)
+            if not ok then
+                w2l.messager.report(lang.report.WARN, 2, lang.report.NO_CONVERT_WTG, err:match('%.lua:%d+: (.*)'))
+            end
         end
     else
         local version = w2l:file_load('w3x2lni', 'version\\lml')
@@ -96,10 +97,10 @@ local function convert_wtg(w2l)
             end
         else
             local wtg_buf, wct_buf
-            local suc, err = pcall(function ()
+            local suc, err = xpcall(function ()
                 wtg_buf = w2l:backend_wtg(wtg_data, w2l.slk.wts)
                 wct_buf = w2l:backend_wct(wct_data)
-            end)
+            end, debug.traceback)
             if suc then
                 w2l:file_save('map', 'war3map.wtg', wtg_buf)
                 w2l:file_save('map', 'war3map.wct', wct_buf)

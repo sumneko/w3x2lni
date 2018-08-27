@@ -231,7 +231,7 @@ end
 function mt:call_plugin(event, ...)
     for _, plugin in ipairs(self.plugins) do
         if plugin[event] then
-            local ok, res = pcall(plugin[event], plugin, self, ...)
+            local ok, res = xpcall(plugin[event], debug.traceback, plugin, self, ...)
             if ok then
                 if res ~= nil then
                     return res
