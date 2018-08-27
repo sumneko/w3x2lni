@@ -16,6 +16,29 @@ local function load_vars()
     wtg.vars = w2l:parse_lml(loader('variable.lml') or '')
 end
 
+local CALL     = lang.lml.CALL
+local DISABLE  = lang.lml.DISABLE
+local PRESET   = lang.lml.PRESET
+local VARIABLE = lang.lml.VARIABLE
+local CONSTANT = lang.lml.CONSTANT
+local ARRAY    = lang.lml.ARRAY
+local DEFAULT  = lang.lml.DEFAULT
+local key_map = { [CALL] = true, [DISABLE] = true, [PRESET] = true, [VARIABLE] = true, [CONSTANT] = true, [ARRAY] = true, [DEFAULT] = true }
+local function fix_call(call)
+    local key = call[1]
+    if key_map[key] then
+        call[1] = key:match '^(.-)%s*$'
+    end
+    for i = 3, #call do
+        fix_call(call[i])
+    end
+end
+local function fix_trg(trg)
+    for i = 3, #trg do
+        fix_call(trg[i])
+    end
+end
+
 local function load_trigger(trg, id, filename)
     local trigger = {
         category = id,
@@ -55,6 +78,9 @@ local function load_trigger(trg, id, filename)
     end
 
     wtg.triggers[#wtg.triggers+1] = trigger
+
+    -- 支持错误的英文lml
+    fix_trg(trigger.trg)
 end
 
 local category_id
