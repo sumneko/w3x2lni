@@ -67,6 +67,7 @@ end
 
 local function get_path(path, used, index,  max)
     local fmt = ('%%0%dd-%%s'):format(#tostring(max))
+    path = path:match '^%s*(.-)%s*$'
     path = path:gsub('[$\\$/$:$*$?$"$<$>$|]', '_')
     path = fmt:format(index, path)
     while used[path:lower()] do
