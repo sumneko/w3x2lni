@@ -1,5 +1,6 @@
 local ffi = require 'ffi'
 local uni = require 'ffi.unicode'
+local pe = require 'ffi.pe'
 local getmodule = require 'ffi.getmodule'
 
 ffi.cdef[[
@@ -11,9 +12,22 @@ ffi.cdef[[
 local _O_BINARY = 0x8000
 local _O_TEXT   = 0x4000
 
+local function hasmodule(m, name)
+    local obj = pe.parse_memory(m)
+    if not obj then
+        return
+    end
+    for _, dll in ipairs(obj.DataDirectory.ImportTable) do
+        if dll.Name:upper() == name:upper() then
+            return true
+        end
+    end
+    return false
+end
+
 return function (f, mode)
     local ucrt
-    if getmodule('UCRTBASED.DLL') ~= 0 then
+    if hasmodule('lua54.dll', 'UCRTBASED.DLL') ~= 0 then
         ucrt = ffi.load('UCRTBASED.DLL')
     else
         ucrt = ffi.load('API-MS-WIN-CRT-STDIO-L1-1-0.DLL')
