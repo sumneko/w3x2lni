@@ -15,7 +15,7 @@ local _O_TEXT   = 0x4000
 local function hasmodule(m, name)
     local obj = pe.parse_memory(m)
     if not obj then
-        return
+        return false
     end
     for _, dll in ipairs(obj.DataDirectory.ImportTable) do
         if dll.Name:upper() == name:upper() then
@@ -27,7 +27,7 @@ end
 
 return function (f, mode)
     local ucrt
-    if hasmodule('lua54.dll', 'UCRTBASED.DLL') ~= 0 then
+    if hasmodule('lua54.dll', 'UCRTBASED.DLL') then
         ucrt = ffi.load('UCRTBASED.DLL')
     else
         ucrt = ffi.load('API-MS-WIN-CRT-STDIO-L1-1-0.DLL')
