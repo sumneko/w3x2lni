@@ -26,7 +26,6 @@ function mt:update_out()
     if not self.out_rd then
         return
     end
-    pcall(error, 1)
     local n = process.peek(self.out_rd)
     if n == 0 then
         return
@@ -44,7 +43,7 @@ function mt:update_err()
     if not self.err_rd then
         return
     end
-    local n = process.peek(self.out_rd)
+    local n = process.peek(self.err_rd)
     if n == 0 then
         return
     end
