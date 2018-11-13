@@ -4,46 +4,62 @@
     "version": "2.0.0",
     "type": "shell",
     "options": {
-       "shell": {
-           "executable": "c:\\windows\\system32\\cmd.exe",
-           "args" :[
-              "/c" 
-           ]
-       } 
+        "shell": {
+            "executable": "c:\\windows\\system32\\cmd.exe",
+            "args": [
+                "/c"
+            ]
+        }
     },
     "tasks": [
         {
             "label": "发布中文版",
-            "command": "chcp 65001 && \"${workspaceRoot}/build/luabuild/lua.exe\"",
+            "command": "chcp 65001 && \"${workspaceRoot}/build/luamake/lua.exe\"",
             "args": [
                 ".\\build\\execute.lua",
                 ".\\build\\make.lua",
                 "zhCN"
-            ]
+            ],
+            "presentation": {
+                "panel": "new",
+                "clear": true
+            }
         },
         {
             "label": "发布英文版",
-            "command": "chcp 65001 && \"${workspaceRoot}/build/luabuild/lua.exe\"",
+            "command": "chcp 65001 && \"${workspaceRoot}/build/luamake/lua.exe\"",
             "args": [
                 ".\\build\\execute.lua",
                 ".\\build\\make.lua",
                 "enUS"
-            ]
+            ],
+            "presentation": {
+                "panel": "new",
+                "clear": true
+            }
         },
         {
             "label": "编译C++代码",
-            "command": "chcp 65001 && \"${workspaceRoot}/build/luabuild/lua.exe\"",
+            "command": "chcp 65001 && \"${workspaceRoot}/build/luamake/lua.exe\"",
             "args": [
                 ".\\build\\execute.lua",
                 ".\\build\\compile_cpp.lua"
-            ]
+            ],
+            "presentation": {
+                "panel": "new",
+                "clear": true
+            }
         },
         {
             "label": "预处理",
             "command": "chcp 65001 && \"${workspaceRoot}/bin/w3x2lni-lua.exe\"",
             "args": [
                 ".\\build\\prebuild.lua"
-            ]
+            ],
+            "presentation": {
+                "panel": "new",
+                "clear": true
+            }
         }
     ]
 }

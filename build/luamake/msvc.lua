@@ -1,6 +1,6 @@
-require 'filesystem'
-local registry = require 'registry'
-local uni = require 'unicode'
+local fs = require 'bee.filesystem'
+local registry = require 'bee.registry'
+local uni = require 'bee.unicode'
 local ffi = require 'ffi'
 ffi.cdef[[
     int SetEnvironmentVariableA(const char* name, const char* value);

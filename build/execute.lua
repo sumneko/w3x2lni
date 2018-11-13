@@ -1,10 +1,10 @@
-require 'filesystem'
+fs = require 'bee.filesystem'
 local root = fs.absolute(fs.path '.')
 local main = fs.absolute(fs.path(arg[1]))
 fs.current_path(root / 'script')
 
 local ffi = require 'ffi'
-local uni = require 'unicode'
+local uni = require 'bee.unicode'
 ffi.cdef[[
     int _wputenv(const wchar_t* envstring);
 ]]

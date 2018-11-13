@@ -1,7 +1,7 @@
-require 'filesystem'
-local process = require 'process'
+fs = require 'bee.filesystem'
+local subprocess = require 'bee.subprocess'
 local sleep = require 'ffi.sleep'
-local uni = require 'unicode'
+local uni = require 'bee.unicode'
 local minizip = require 'minizip'
 
 local root = fs.absolute(fs.path '..')
@@ -86,21 +86,21 @@ local function remove_files(input)
 end
 
 local function unit_test()
-    local application = release_path / 'bin' / 'w3x2lni-lua.exe'
-    local entry = release_path / 'test' / 'unit_test.lua'
-    local currentdir = release_path / 'script'
-    local command_line = ('"%s" "%s"'):format(application:string(), entry:string())
-    local p = process()
-    p:hide_window()
     copy_files('test')
-	local stdout, stderr = p:std_output(), p:std_error()
-	if not p:create(application, command_line, currentdir) then
-		error('运行失败：\n'..command_line)
+    local process, stderr = subprocess.spawn {
+        release_path / 'bin' / 'w3x2lni-lua.exe',
+        release_path / 'test' / 'unit_test.lua',
+        cwd = release_path / 'script',
+        hideWindow = true,
+        stderr = true,
+    }
+    if not process then
+        error('运行失败：\n')
     end
     print('正在单元测试...')
     local err = stderr:read 'a'
-    local exit_code = p:wait()
-    p:close()
+    local exit_code = process:wait()
+    process:close()
     if err ~= '' then
         print(err)
         os.exit(false)
