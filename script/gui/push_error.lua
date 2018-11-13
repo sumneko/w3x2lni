@@ -1,5 +1,5 @@
-require 'filesystem'
-local process = require 'subprocess'
+fs = require 'bee.filesystem'
+local process = require 'bee.subprocess'
 local root = fs.current_path()
 
 return function (err)

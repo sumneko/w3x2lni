@@ -1,4 +1,4 @@
-local process = require 'subprocess'
+local process = require 'bee.subprocess'
 local proto = require 'share.protocol'
 local lang = require 'share.lang'
 

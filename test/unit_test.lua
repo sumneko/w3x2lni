@@ -1,4 +1,4 @@
-require 'filesystem'
+fs = require 'bee.filesystem'
 require 'utility'
 local uni = require 'ffi.unicode'
 local core = require 'backend.sandbox_core'
