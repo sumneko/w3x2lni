@@ -100,7 +100,6 @@ local function unit_test()
     print('正在单元测试...')
     local err = stderr:read 'a'
     local exit_code = process:wait()
-    process:close()
     if err ~= '' then
         print(err)
         os.exit(false)
