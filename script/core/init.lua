@@ -237,7 +237,7 @@ function mt:call_plugin(event, ...)
                     return res
                 end
             else
-                self.messager.report(lang.report.OTHER, 2, lang.report.PLUGIN_FAILED:format(plugin.info.name), res)
+                self.messager.report(lang.report.WARN, 2, lang.report.PLUGIN_FAILED:format(plugin.info.name), res)
             end
         end
     end
