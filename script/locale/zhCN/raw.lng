@@ -79,11 +79,11 @@
 [CONFIG_USED_MAP]
 但实际生效的是地图配置:
 [USED_MAP]
-[地图]
+[地图]  
 [USED_GLOBAL]
-
+        
 [USED_DEFAULT]
-[默认]
+[默认]  
 [CONFIG_GLOBAL_LANG]
 使用的语言，可以是以下值：
 

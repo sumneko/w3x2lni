@@ -80,11 +80,11 @@ Config updated:
 [CONFIG_USED_MAP]
 But the actual effect is the map configuration:
 [USED_MAP]
-[Map]
+[Map]   
 [USED_GLOBAL]
-
+        
 [USED_DEFAULT]
-[Def]
+[Def]   
 [CONFIG_GLOBAL_LANG]
 Language used, can be the following:
 
@@ -192,7 +192,7 @@ At least 2 letters
 [AUTO_SELECT]
 Auto select
 [CREATING]
-Creating
+Creating 
 [TYPE_CONFLICT]
 Type conflict:
 [CREATED_ID_CONFLICT]
