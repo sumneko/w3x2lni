@@ -64,6 +64,10 @@ Sometimes the search is slow
 Confuse scripts
 [CONFUSION_HINT]
 Rename variables and functions
+[EXTRA_CHECK]
+Extra check
+[EXTRA_CHECK_HINT]
+check the rationality of data
 [REPORT]
 Report
 [PROCESSING]

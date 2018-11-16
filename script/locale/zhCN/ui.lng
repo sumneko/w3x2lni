@@ -64,6 +64,10 @@
 混淆脚本
 [CONFUSION_HINT]
 重命名变量与函数
+[EXTRA_CHECK]
+额外检查
+[EXTRA_CHECK_HINT]
+检查地图数据的合理性
 [REPORT]
 详情
 [PROCESSING]

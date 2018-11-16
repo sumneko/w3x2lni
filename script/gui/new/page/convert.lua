@@ -234,6 +234,13 @@ local function lni()
                 bind = {
                     value = 'config.lni.export_lua'
                 }
+            },
+            checkbox {
+                text = lang.ui.EXTRA_CHECK,
+                tip = lang.ui.EXTRA_CHECK_HINT,
+                bind = {
+                    value = 'config.slk.extra_check'
+                }
             }
         }
     }
@@ -290,6 +297,13 @@ local function slk()
                 bind = {
                     value = 'config.slk.confused'
                 }
+            },
+            checkbox {
+                text = lang.ui.EXTRA_CHECK,
+                tip = lang.ui.EXTRA_CHECK_HINT,
+                bind = {
+                    value = 'config.slk.extra_check'
+                }
             }
         }
     }
@@ -302,6 +316,20 @@ local function obj()
         checkbox {
             text = lang.ui.READ_SLK,
             tip = lang.ui.READ_SLK_HINT
+        },
+        ui.tree {
+            text = lang.ui.ADVANCED,
+            style = { MarginTop = 4, MarginBottom = 4 },
+            bind = {
+                color = 'theme'
+            },
+            checkbox {
+                text = lang.ui.EXTRA_CHECK,
+                tip = lang.ui.EXTRA_CHECK_HINT,
+                bind = {
+                    value = 'config.slk.extra_check'
+                }
+            }
         }
     }
     return ui.createEx(template, configData)
@@ -320,7 +348,7 @@ ev.on('update theme', function(color, title)
     backend.lastword = nil
     data.message = ''
     worker = nil
-    
+
     configData.proxy.theme = color
 
     if current_page then
