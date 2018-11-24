@@ -2,6 +2,7 @@ return {
 {
     version = '2.4.6',
     { 'FIX', '修正没有war3map.imp文件时不会重建的问题' },
+    { 'FIX', '修正wts部分格式解析错误的问题' },
 },
 {
     version = '2.4.5',
