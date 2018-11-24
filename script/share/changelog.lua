@@ -1,5 +1,9 @@
 return {
 {
+    version = '2.4.6',
+    { 'FIX', '修正没有war3map.imp文件时不会重建的问题' },
+},
+{
     version = '2.4.5',
     { 'FIX', '修正config命令使用错误参数时抛错的问题' },
 },
