@@ -144,6 +144,8 @@
 输出目标是Lni时，限制搜索最优模板的次数，0表示无限。必须是整数。
 [CONFIG_LNI_EXPORT_LUA]
 输出目标是Lni时，导出地图内的lua文件。必须是布尔。
+[CONFIG_LNI_EXTRA_CHECK]
+输出目标是Lni时，检查地图数据的合理性。
 [CONFIG_SLK_REMOVE_UNUSE_OBJECT]
 输出目标是Slk时，移除没有引用的物体对象。必须是布尔。
 [CONFIG_SLK_OPTIMIZE_JASS]
@@ -168,10 +170,14 @@
     1.只能是字母数字下划线
     2.至少要有3个不同的字符
     3.至少要有2个字母
+[CONFIG_SLK_EXTRA_CHECK]
+输出目标是Slk时，检查地图数据的合理性。
 [CONFIG_OBJ_READ_SLK]
 输出目标是Obj时，转换地图内的slk文件。必须是布尔。
 [CONFIG_OBJ_FIND_ID_TIMES]
 输出目标是Obj时，限制搜索最优模板的次数，0表示无限。必须是整数。
+[CONFIG_OBJ_EXTRA_CHECK]
+输出目标是Obj时，检查地图数据的合理性。
 [CONFIG_MUST_BOOLEAN]
 必须是布尔
 [CONFIG_MUST_INTEGER]

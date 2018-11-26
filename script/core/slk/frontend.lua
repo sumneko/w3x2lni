@@ -218,4 +218,8 @@ return function(w2l_, slk)
     
     w2l.messager.text(lang.script.DO_PLUGIN)
     w2l:call_plugin('on_full')
+
+    if w2l.setting.extra_check then
+        w2l:frontend_extracheck(slk)
+    end
 end
