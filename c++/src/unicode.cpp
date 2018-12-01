@@ -3,7 +3,7 @@
 #include <vector>
 
 
-std::wstring u2w(const strview& str)
+std::wstring u2w(const std::string_view& str)
 {
 	if (str.empty())
 	{
@@ -19,7 +19,7 @@ std::wstring u2w(const strview& str)
 	return std::wstring(result.data(), result.size());
 }
 
-std::string w2u(const wstrview& wstr)
+std::string w2u(const std::wstring_view& wstr)
 {
 	if (wstr.empty())
 	{
@@ -35,7 +35,7 @@ std::string w2u(const wstrview& wstr)
 	return std::string(result.data(), result.size());
 }
 
-std::wstring a2w(const strview& str)
+std::wstring a2w(const std::string_view& str)
 {
 	if (str.empty())
 	{
@@ -51,7 +51,7 @@ std::wstring a2w(const strview& str)
 	return std::wstring(result.data(), result.size());
 }
 
-std::string w2a(const wstrview& wstr)
+std::string w2a(const std::wstring_view& wstr)
 {
 	if (wstr.empty())
 	{
@@ -67,12 +67,12 @@ std::string w2a(const wstrview& wstr)
 	return std::string(result.data(), result.size());
 }
 
-std::string a2u(const strview& str)
+std::string a2u(const std::string_view& str)
 {
 	return w2u(a2w(str));
 }
 
-std::string u2a(const strview& str)
+std::string u2a(const std::string_view& str)
 {
 	return w2a(u2w(str));
 }

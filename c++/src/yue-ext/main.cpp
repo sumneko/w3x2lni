@@ -5,7 +5,7 @@
 #include <memory>
 #include <string>
 #include "../lua/lua.hpp"
-#include "unicode.h"
+#include "../unicode.h"
 
 static int EXT = 0;
 lua_State* gL = NULL;
@@ -14,7 +14,7 @@ HWND gW = NULL;
 static std::wstring checkwstring(lua_State* L, int idx) {
 	size_t len = 0;
 	const char* str = luaL_checklstring(L, idx, &len);
-	return u2w(strview(str, len));
+	return u2w(std::string_view(str, len));
 }
 
 void OnDropFiles(HWND hwnd, HDROP hdrop)
@@ -36,7 +36,7 @@ void OnDropFiles(HWND hwnd, HDROP hdrop)
 		len++;
 		std::unique_ptr<wchar_t[]> buf(new wchar_t[len]);
 		::DragQueryFileW(hdrop, i, buf.get(), len);
-		std::string filename = w2u(wstrview(buf.get(), len));
+		std::string filename = w2u(std::wstring_view(buf.get(), len));
 		lua_pushlstring(L, filename.data(), filename.size() - 1);
 	}
 	if (lua_pcall(L, n, 0, 0)) {
@@ -151,7 +151,7 @@ int set_icon(lua_State* L) {
 	}
 	size_t len;
 	const char* str = luaL_checklstring(L, 1, &len);
-	std::wstring filename = u2w(strview(str, len));
+	std::wstring filename = u2w(std::string_view(str, len));
 	HANDLE icon = LoadImageW(0, filename.c_str(), IMAGE_ICON, 0, 0, LR_LOADFROMFILE);
 	if (!icon) {
 		lua_pushboolean(L, false);

@@ -11,16 +11,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\unicode.cpp" />
     <ClCompile Include="..\src\yue-ext\main.cpp" />
-    <ClCompile Include="..\src\yue-ext\unicode.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\src\yue-ext\unicode.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="lua54.vcxproj">
       <Project>{b84f7231-16ce-41d8-8c08-7b523ff4225b}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\unicode.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9022BEF7-18C3-47C0-BE1A-C24B82E3E5FA}</ProjectGuid>
@@ -71,6 +71,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WIN32_WINNT=_WIN32_WINNT_WIN7;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -90,6 +91,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_WIN32_WINNT=_WIN32_WINNT_WIN7;_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

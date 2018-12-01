@@ -3,8 +3,12 @@
 #include <string>
 #include <shlwapi.h>
 #include "../lua/lua.hpp"
-extern "C" {
-#include "../utf8/utf8_unicode.h"
+#include "../unicode.h"
+
+static std::string_view checkstrview(lua_State* L, int idx) {
+	size_t len = 0;
+	const char* str = luaL_checklstring(L, idx, &len);
+	return std::string_view(str, len);
 }
 
 struct luaparse {
@@ -64,18 +68,20 @@ public:
 		setxy({ 0, (SHORT)y });
 		text(L"                                                                                ");
 	}
+	void text(std::string_view buf) {
+		std::wstring wstr = u2w(buf);
+		text(wstr.data(), wstr.size());
+	}
 	void text(const std::wstring& buf) {
 		text(buf.data(), buf.size());
 	}
-	void text(const std::string& buf) {
-		text(buf.data(), buf.size());
+	template <size_t n>
+	void text(const wchar_t(&buf)[n] ) {
+		text(buf, n-1);
 	}
-	void text(const wchar_t* buf, size_t len = 0) {
+	void text(const wchar_t* buf, size_t len) {
 		DWORD wlen = 0;
-		WriteConsoleW(handle, buf, len ? len : wcslen(buf), &wlen, 0);
-	}
-	void text(const char* buf, size_t len = 0) {
-		text(u2w(buf));
+		WriteConsoleW(handle, buf, len, &wlen, 0);
 	}
 };
 
@@ -218,7 +224,7 @@ struct protocol {
 			}
 			console.cleanline(progress_pos);
 			console.setxy({ 0, progress_pos });
-			console.text(lua_tostring(L, -1));
+			console.text(checkstrview(L, -1));
 			console.setxy({ 0, basepos.Y });
 		}
 		lua_pop(L, 1);
@@ -226,7 +232,7 @@ struct protocol {
 	void msg_raw() {
 		if (LUA_TSTRING == lua_getfield(L, -1, "args")) {
 			console.setxy({ 0, basepos.Y });
-			console.text(lua_tostring(L, -1));
+			console.text(checkstrview(L, -1));
 			basepos = console.getxy();
 		}
 		lua_pop(L, 1);

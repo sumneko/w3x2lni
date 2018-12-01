@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClCompile Include="..\src\w3x2lni\main_gui.cpp" />
     <ClCompile Include="..\src\w3x2lni\common.cpp" />
-    <ClCompile Include="..\src\utf8\utf8_unicode.c" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="rc">
@@ -20,7 +19,6 @@
       <Filter>rc</Filter>
     </ClInclude>
     <ClInclude Include="..\src\w3x2lni\common.h" />
-    <ClInclude Include="..\src\utf8\utf8_unicode.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">

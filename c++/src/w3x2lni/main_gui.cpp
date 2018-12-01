@@ -1,7 +1,4 @@
 #include "common.h"
-extern "C" {
-#include "../utf8/utf8_unicode.h"
-}
 
 int __stdcall wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
