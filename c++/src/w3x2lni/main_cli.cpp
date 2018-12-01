@@ -1,6 +1,7 @@
 ﻿#include "common.h"
 #include <stdio.h>
 #include <string>
+#include <shlwapi.h>
 #include "../lua/lua.hpp"
 extern "C" {
 #include "../utf8/utf8_unicode.h"
@@ -281,6 +282,16 @@ struct protocol {
 
 int __cdecl wmain(int argc, wchar_t* argv[])
 {
+	wchar_t path[MAX_PATH];
+	::GetModuleFileNameW(NULL, path, sizeof path / sizeof path[0]);
+	::PathRemoveBlanksW(path);
+	::PathUnquoteSpacesW(path);
+	::PathRemoveBackslashW(path);
+	::PathRemoveFileSpecW(path);
+	::PathAppendW(path, L"bin");
+	::PathAppendW(path, L"lua54.dll");
+	::LoadLibraryW(path);
+
 	pipe out, err;
 	if (!out.open('r')) {
 		return -1;
