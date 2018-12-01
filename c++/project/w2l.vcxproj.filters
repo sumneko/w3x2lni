@@ -68,10 +68,10 @@
     <ClCompile Include="..\src\w3x2lni\common.cpp">
       <Filter>common</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\utf8\unicode.c">
+    <ClCompile Include="..\src\utf8\utf8_crt.c">
       <Filter>common</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\utf8\utf8_crt.c">
+    <ClCompile Include="..\src\utf8\utf8_unicode.c">
       <Filter>common</Filter>
     </ClCompile>
   </ItemGroup>
@@ -194,10 +194,10 @@
     <ClInclude Include="..\src\w3x2lni\common.h">
       <Filter>common</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\utf8\unicode.h">
+    <ClInclude Include="..\src\utf8\utf8_crt.h">
       <Filter>common</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\utf8\utf8_crt.h">
+    <ClInclude Include="..\src\utf8\utf8_unicode.h">
       <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,7 +3,7 @@
 #include <string>
 #include "../lua/lua.hpp"
 extern "C" {
-#include "../utf8/unicode.h"
+#include "../utf8/utf8_unicode.h"
 }
 
 struct luaparse {

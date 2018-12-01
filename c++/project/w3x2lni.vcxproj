@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\utf8\unicode.c" />
+    <ClCompile Include="..\src\utf8\utf8_unicode.c" />
     <ClCompile Include="..\src\w3x2lni\common.cpp" />
     <ClCompile Include="..\src\w3x2lni\main_gui.cpp" />
   </ItemGroup>
@@ -19,7 +19,7 @@
     <Image Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\utf8\unicode.h" />
+    <ClInclude Include="..\src\utf8\utf8_unicode.h" />
     <ClInclude Include="..\src\w3x2lni\common.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>

@@ -43,8 +43,8 @@
     <ClCompile Include="..\src\lua\lutf8lib.c" />
     <ClCompile Include="..\src\lua\lvm.c" />
     <ClCompile Include="..\src\lua\lzio.c" />
-    <ClCompile Include="..\src\utf8\unicode.c" />
     <ClCompile Include="..\src\utf8\utf8_crt.c" />
+    <ClCompile Include="..\src\utf8\utf8_unicode.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\lua\lauxlib.h" />
@@ -73,8 +73,8 @@
     <ClInclude Include="..\src\lua\lundump.h" />
     <ClInclude Include="..\src\lua\lvm.h" />
     <ClInclude Include="..\src\lua\lzio.h" />
-    <ClInclude Include="..\src\utf8\unicode.h" />
     <ClInclude Include="..\src\utf8\utf8_crt.h" />
+    <ClInclude Include="..\src\utf8\utf8_unicode.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B84F7231-16CE-41D8-8C08-7B523FF4225B}</ProjectGuid>

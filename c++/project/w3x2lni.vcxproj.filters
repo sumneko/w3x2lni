@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\src\utf8\unicode.c" />
     <ClCompile Include="..\src\w3x2lni\main_gui.cpp" />
     <ClCompile Include="..\src\w3x2lni\common.cpp" />
+    <ClCompile Include="..\src\utf8\utf8_unicode.c" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="rc">
@@ -19,8 +19,8 @@
     <ClInclude Include="resource.h">
       <Filter>rc</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\utf8\unicode.h" />
     <ClInclude Include="..\src\w3x2lni\common.h" />
+    <ClInclude Include="..\src\utf8\utf8_unicode.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">

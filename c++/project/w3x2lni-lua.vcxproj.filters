@@ -19,10 +19,11 @@
     <ClInclude Include="resource.h">
       <Filter>rc</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\utf8\unicode.h" />
+    <ClInclude Include="..\src\utf8\utf8_prefix.h" />
+    <ClInclude Include="..\src\utf8\utf8_unicode.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\utf8\unicode.c" />
-    <ClCompile Include="..\src\utf8\wmain.c" />
+    <ClCompile Include="..\src\utf8\utf8_lua.c" />
+    <ClCompile Include="..\src\utf8\utf8_unicode.c" />
   </ItemGroup>
 </Project>

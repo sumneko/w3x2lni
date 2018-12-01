@@ -1,6 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "utf8_crt.h"
-#include "unicode.h"
+#include "utf8_unicode.h"
 #include <malloc.h>
 #include <Windows.h>
 
@@ -81,6 +81,27 @@ unsigned long __stdcall utf8_GetModuleFileNameA(void* module, char* filename, un
 	wchar_t* tmp = calloc(size, sizeof(wchar_t));
 	unsigned long tmplen = GetModuleFileNameW(module, tmp, size);
 	unsigned long ret = WideCharToMultiByte(CP_UTF8, 0, tmp, tmplen, filename, size, NULL, NULL);
+	free(tmp);
+	return ret;
+}
+
+unsigned long __stdcall utf8_FormatMessageA(
+  unsigned long dwFlags,
+  const void*   lpSource,
+  unsigned long dwMessageId,
+  unsigned long dwLanguageId,
+  char*         lpBuffer,
+  unsigned long nSize,
+  va_list*      Arguments
+)
+{
+	wchar_t* tmp = calloc(nSize, sizeof(wchar_t));
+	int res = FormatMessageW(dwFlags, lpSource, dwMessageId, dwLanguageId, tmp, nSize, Arguments);
+	if (!res) {
+		free(tmp);
+		return res;
+	}
+	int ret = WideCharToMultiByte(CP_UTF8, 0, tmp, -1, lpBuffer, nSize, NULL, NULL);
 	free(tmp);
 	return ret;
 }
