@@ -144,12 +144,32 @@ int hide_in_taskbar(lua_State* L) {
 	return 1;
 }
 
+int set_icon(lua_State* L) {
+	if (!winhook::m_window) {
+		lua_pushboolean(L, false);
+		return 1;
+	}
+	size_t len;
+	const char* str = luaL_checklstring(L, 1, &len);
+	std::wstring filename = u2w(strview(str, len));
+	HANDLE icon = LoadImageW(0, filename.c_str(), IMAGE_ICON, 0, 0, LR_LOADFROMFILE);
+	if (!icon) {
+		lua_pushboolean(L, false);
+		return 1;
+	}
+	::SendMessageW(winhook::m_window, WM_SETICON, ICON_SMALL, (LPARAM)icon);
+	::SendMessageW(winhook::m_window, WM_SETICON, ICON_BIG, (LPARAM)icon);
+	::SendMessageW(winhook::m_window, WM_SETICON, ICON_SMALL2, (LPARAM)icon);
+	lua_pushboolean(L, true);
+	return 1;
+}
 
 extern "C" __declspec(dllexport)
 int luaopen_ext(lua_State* L) {
 	luaL_Reg lib[] = {
 		{ "register_window", register_window },
 		{ "hide_in_taskbar", hide_in_taskbar },
+		{ "set_icon", set_icon },
 		{ NULL, NULL },
 	};
 	luaL_newlib(L, lib);
