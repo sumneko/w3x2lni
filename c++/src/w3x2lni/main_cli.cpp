@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string>
 #include <shlwapi.h>
-#include "../lua/lua.hpp"
+#include <lua.hpp>
 #include "../unicode.h"
 
 static std::string_view checkstrview(lua_State* L, int idx) {

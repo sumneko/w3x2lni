@@ -4,7 +4,7 @@
 #include <string.h>
 #include <memory>
 #include <string>
-#include "../lua/lua.hpp"
+#include <lua.hpp>
 #include "../unicode.h"
 
 static int EXT = 0;
