@@ -48,7 +48,7 @@ local function absolute_path(path)
     end
     path = fs.path(path)
     if not path:is_absolute() then
-        return fs.absolute(path, base)
+        return fs.absolute(path)
     end
     return fs.absolute(path)
 end
