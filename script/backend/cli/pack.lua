@@ -83,10 +83,14 @@ return function()
     local input = absolute_path(command[2])
     local output = absolute_path(command[3])
 
+    if not input then
+        w2l:failed(lang.script.OPEN_FAILED_NO_EXISTS)
+    end
+
     messager.text(lang.script.OPEN_MAP)
     local input_ar, err = builder.load(input)
     if not input_ar then
-        w2l:failed(err)
+        w2l:failed(lang.script.NEED_FILE_PATH)
     end
     
     local output = output or default_output(input)
