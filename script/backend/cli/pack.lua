@@ -6,6 +6,7 @@ local builder = require 'map-builder'
 local core = require 'backend.sandbox_core'
 local w2l = core()
 local root = require 'backend.w2l_path'
+local base = require 'backend.base_path'
 
 local report = {}
 local messager_report = messager.report
@@ -48,7 +49,7 @@ local function absolute_path(path)
     end
     path = fs.path(path)
     if not path:is_absolute() then
-        return fs.absolute(path)
+        return fs.absolute(path, base)
     end
     return fs.absolute(path)
 end
