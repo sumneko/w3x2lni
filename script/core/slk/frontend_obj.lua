@@ -48,7 +48,7 @@ local function read_data(obj)
 
     -- 检查结束标记，如果不正确，则忽略掉这个数据
     local mask = unpack 'c4'
-    if mark ~= '\0\0\0\0' and mark ~= obj._id and mark ~= obj._parent then
+    if mask ~= '\0\0\0\0' and mask ~= obj._id and mask ~= obj._parent then
         return
     end
 
