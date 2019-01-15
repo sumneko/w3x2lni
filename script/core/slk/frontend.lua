@@ -123,6 +123,9 @@ local function get_displayname(o)
     else
         name = o.name
     end
+    if not name then
+        return ''
+    end
     return (name:sub(1, 100):gsub('\r\n', ' '))
 end
 
