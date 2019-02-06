@@ -88,7 +88,6 @@ local function convert_wtg(w2l)
     end
     w2l.progress:finish()
     w2l.progress:start(1)
-    local need_convert_wtg = true
     if wtg_data and wct_data and not w2l.setting.remove_we_only then
         if w2l.setting.mode == 'lni' then
             w2l:file_save('w3x2lni', 'version\\lml', '2')
@@ -105,16 +104,13 @@ local function convert_wtg(w2l)
             if suc then
                 w2l:file_save('map', 'war3map.wtg', wtg_buf)
                 w2l:file_save('map', 'war3map.wct', wct_buf)
-                need_convert_wtg = false
             else
                 w2l.messager.report(lang.report.ERROR, 1, lang.report.SAVE_WTG_FAILED, err:match('%.lua:%d+: (.*)'))
             end
         end
     end
     w2l.progress:finish()
-    if need_convert_wtg then
-        w2l:backend_convertwtg(w2l.slk.wts)
-    end
+    w2l:backend_convertwtg(w2l.slk.wts)
 end
 
 local displaytype = {
