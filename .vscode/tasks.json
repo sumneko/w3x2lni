@@ -6,7 +6,7 @@
     "tasks": [
         {
             "label": "发布中文版",
-            "command": "chcp 65001 && \"${workspaceRoot}/build/luabuild/lua.exe\"",
+            "command": "chcp 65001 && \"${workspaceRoot}/build/luamake/lua.exe\"",
             "args": [
                 ".\\build\\execute.lua",
                 ".\\build\\make.lua",
@@ -15,7 +15,7 @@
         },
         {
             "label": "发布英文版",
-            "command": "chcp 65001 && \"${workspaceRoot}/build/luabuild/lua.exe\"",
+            "command": "chcp 65001 && \"${workspaceRoot}/build/luamake/lua.exe\"",
             "args": [
                 ".\\build\\execute.lua",
                 ".\\build\\make.lua",
@@ -24,7 +24,7 @@
         },
         {
             "label": "编译C++代码",
-            "command": "chcp 65001 && \"${workspaceRoot}/build/luabuild/lua.exe\"",
+            "command": "chcp 65001 && \"${workspaceRoot}/build/luamake/lua.exe\"",
             "args": [
                 ".\\build\\execute.lua",
                 ".\\build\\compile_cpp.lua"
