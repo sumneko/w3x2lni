@@ -194,21 +194,21 @@ local gitlog = require 'gitlog'
 gitlog((root / 'script' / 'share' / 'gitlog.lua'):string())
 
 if arg[1] == 'zhCN' then
-    release_path = root / 'build' / arg[1] / ('w3x2lni_' .. arg[1] .. '_v'..read_version())
+    release_path = root / 'make' / arg[1] / ('w3x2lni_' .. arg[1] .. '_v'..read_version())
     make_zhCN()
     unit_test()
     zippack()
 elseif arg[1] == 'enUS' then
-    release_path = root / 'build' / arg[1] / ('w3x2lni_' .. arg[1] .. '_v'..read_version())
+    release_path = root / 'make' / arg[1] / ('w3x2lni_' .. arg[1] .. '_v'..read_version())
     make_enUS()
     unit_test()
     zippack()
     command('config', 'global.lang=enUS')
 elseif arg[1] == 'ci' then
-    release_path = root / 'build' / 'ci' / 'zhCN'
+    release_path = root / 'make' / 'ci' / 'zhCN'
     make_zhCN()
     unit_test()
-    release_path = root / 'build' / 'ci' / 'enUS'
+    release_path = root / 'make' / 'ci' / 'enUS'
     make_enUS()
     unit_test()
 end

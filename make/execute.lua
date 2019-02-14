@@ -17,7 +17,7 @@ end
 
 setenv('PATH', uni.a2u(os.getenv('PATH')) .. ';' .. (root / 'bin'):string())
 
-package.path = package.path .. ';'  .. (root / 'build' / '?.lua'):string()
+package.path = package.path .. ';'  .. (root / 'make' / '?.lua'):string()
 
 table.remove(arg, 1)
 loadfile(main:string())()

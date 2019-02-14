@@ -99,7 +99,7 @@
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
             "consoleCoding": "utf8",
-            "program": "${workspaceRoot}\\build\\prebuild.lua",
+            "program": "${workspaceRoot}\\make\\prebuild.lua",
             "sourceCoding": "utf8",
         },
     ]

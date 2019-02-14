@@ -9,12 +9,12 @@
 /c++/project/.vs/
 !/plugin/
 !/test/
-!/build/
+!/make/
 !/docs/
 !/locale
-/build/zhCN/
-/build/enUS/
-/build/ci/
+/make/zhCN/
+/make/enUS/
+/make/ci/
 /plugin/*
 !/plugin/示例.lua
 /*.w3x

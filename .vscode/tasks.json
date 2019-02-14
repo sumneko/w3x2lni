@@ -14,10 +14,10 @@
     "tasks": [
         {
             "label": "发布中文版",
-            "command": "chcp 65001 && \"${workspaceRoot}/build/luamake/lua.exe\"",
+            "command": "chcp 65001 && \"${workspaceRoot}/make/luamake/lua.exe\"",
             "args": [
-                ".\\build\\execute.lua",
-                ".\\build\\make.lua",
+                ".\\make\\execute.lua",
+                ".\\make\\make.lua",
                 "zhCN"
             ],
             "presentation": {
@@ -27,10 +27,10 @@
         },
         {
             "label": "发布英文版",
-            "command": "chcp 65001 && \"${workspaceRoot}/build/luamake/lua.exe\"",
+            "command": "chcp 65001 && \"${workspaceRoot}/make/luamake/lua.exe\"",
             "args": [
-                ".\\build\\execute.lua",
-                ".\\build\\make.lua",
+                ".\\make\\execute.lua",
+                ".\\make\\make.lua",
                 "enUS"
             ],
             "presentation": {
@@ -40,10 +40,10 @@
         },
         {
             "label": "编译C++代码",
-            "command": "chcp 65001 && \"${workspaceRoot}/build/luamake/lua.exe\"",
+            "command": "chcp 65001 && \"${workspaceRoot}/make/luamake/lua.exe\"",
             "args": [
-                ".\\build\\execute.lua",
-                ".\\build\\compile_cpp.lua"
+                ".\\make\\execute.lua",
+                ".\\make\\compile_cpp.lua"
             ],
             "presentation": {
                 "panel": "new",
@@ -54,7 +54,7 @@
             "label": "预处理",
             "command": "chcp 65001 && \"${workspaceRoot}/bin/w3x2lni-lua.exe\"",
             "args": [
-                ".\\build\\prebuild.lua"
+                ".\\make\\prebuild.lua"
             ],
             "presentation": {
                 "panel": "new",
