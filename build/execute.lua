@@ -4,7 +4,7 @@ local main = fs.absolute(fs.path(arg[1]))
 fs.current_path(root / 'script')
 
 local ffi = require 'ffi'
-local uni = require 'bee.unicode'
+local uni = require 'unicode'
 ffi.cdef[[
     int _wputenv(const wchar_t* envstring);
 ]]

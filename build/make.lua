@@ -87,7 +87,7 @@ end
 
 local function unit_test()
     copy_files('test')
-    local process, stderr = subprocess.spawn {
+    local process = subprocess.spawn {
         release_path / 'bin' / 'w3x2lni-lua.exe',
         release_path / 'test' / 'unit_test.lua',
         cwd = release_path / 'script',
@@ -98,7 +98,7 @@ local function unit_test()
         error('运行失败：\n')
     end
     print('正在单元测试...')
-    local err = stderr:read 'a'
+    local err = process.stderr:read 'a'
     local exit_code = process:wait()
     if err ~= '' then
         print(err)
