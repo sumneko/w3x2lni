@@ -30,6 +30,20 @@ lm:executable 'w2l' {
         'w3x2lni/main_cli.cpp',
         'w3x2lni/common.cpp',
         'unicode.cpp',
+    },
+    defines = '/DELAYLOAD:"lua54.dll"'
+}
+
+lm:shared_library 'yue-ext' {
+    deps = "lua54",
+    sources = {
+        'yue-ext/main.cpp',
+        'unicode.cpp',
+    },
+    links = {
+        "user32",
+        "shell32",
+        "ole32",
     }
 }
 
