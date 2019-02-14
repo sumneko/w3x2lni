@@ -89,7 +89,6 @@ local function convert_wtg(w2l)
     end
     w2l.progress:finish()
     w2l.progress:start(1)
-    local need_convert_wtg = true
     if wtg_data and wct_data and not w2l.setting.remove_we_only then
         if w2l.setting.mode == 'lni' then
             w2l:file_save('w3x2lni', 'version\\lml', '2')
@@ -106,16 +105,13 @@ local function convert_wtg(w2l)
             if suc then
                 w2l:file_save('map', 'war3map.wtg', wtg_buf)
                 w2l:file_save('map', 'war3map.wct', wct_buf)
-                need_convert_wtg = false
             else
                 w2l.messager.report(lang.report.ERROR, 1, lang.report.SAVE_WTG_FAILED, err:match('%.lua:%d+: (.*)'))
             end
         end
     end
     w2l.progress:finish()
-    if need_convert_wtg then
-        w2l:backend_convertwtg(w2l.slk.wts)
-    end
+    w2l:backend_convertwtg(w2l.slk.wts)
 end
 
 local displaytype = {
@@ -268,14 +264,14 @@ local function to_slk(w2l, slk)
     if w2l.setting.slk_doodad then
         slk_list[#slk_list+1] = 'doodad'
     end
-    for id, obj in pairs(slk.ability) do
-        if obj._keep_obj and not slk.ability[obj._parent]._mark then
-            slk.ability[obj._parent]._mark = obj._mark
-        end
-    end
     for _, type in ipairs(slk_list) do
         local data = slk[type]
         object[type] = {}
+        for id, obj in pairs(data) do
+            if obj._keep_obj and not data[obj._parent]._mark then
+                data[obj._parent]._mark = obj._mark
+            end
+        end
         for _, name in ipairs(w2l.info.slk[type]) do
             w2l:file_save('map', name, w2l:backend_slk(type, name, data, report, object[type], slk))
         end
