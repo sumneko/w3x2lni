@@ -1,4 +1,4 @@
-fs = require 'bee.filesystem'
+local fs = require 'bee.filesystem'
 local subprocess = require 'bee.subprocess'
 local sleep = require 'ffi.sleep'
 local uni = require 'bee.unicode'

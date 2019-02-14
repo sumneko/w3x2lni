@@ -1,3 +1,4 @@
+local fs = require 'bee.filesystem'
 local root = fs.current_path():parent_path()
 
 local msvc = require 'msvc'

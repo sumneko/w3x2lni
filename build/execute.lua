@@ -1,4 +1,4 @@
-fs = require 'bee.filesystem'
+local fs = require 'bee.filesystem'
 local root = fs.absolute(fs.path '.')
 local main = fs.absolute(fs.path(arg[1]))
 fs.current_path(root / 'script')

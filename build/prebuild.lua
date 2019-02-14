@@ -2,7 +2,7 @@ if arg[1] then
     package.path = arg[1] .. '\\script\\?.lua;' .. arg[1] .. '\\script\\?\\init.lua'
     package.cpath = arg[1] .. '\\bin\\?.dll'
 end
-fs = require 'bee.filesystem'
+local fs = require 'bee.filesystem'
 
 fs.current_path(fs.path 'script')
 
