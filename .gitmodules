@@ -10,3 +10,6 @@
 [submodule "3rd/lpeglabel"]
 	path = 3rd/lpeglabel
 	url = https://github.com/sqmedeiros/lpeglabel
+[submodule "3rd/stormlib"]
+	path = 3rd/stormlib
+	url = https://github.com/ladislav-zezula/StormLib

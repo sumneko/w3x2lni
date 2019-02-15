@@ -60,6 +60,16 @@ lm:shared_library 'lpeglabel' {
     ldflags = '/EXPORT:luaopen_lpeglabel'
 }
 
+lm:shared_library 'stormlib' {
+    sources = {
+        'stormlib/src/*.cpp',
+        'stormlib/src/*.c',
+        '!stormlib/src/adpcm/adpcm_old.cpp',
+        '!stormlib/src/zlib/compress.c',
+        '!stormlib/src/pklib/crc32.c',
+    }
+}
+
 lm:build 'install' {
     '$luamake', 'lua', 'make/install.lua',
     deps = {
@@ -71,6 +81,7 @@ lm:build 'install' {
         'lml',
         'w3xparser',
         'lpeglabel',
+        'stormlib',
     }
 }
 

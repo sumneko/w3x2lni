@@ -28,5 +28,4 @@ script/share/gitlog.lua
 /bin/*.dll
 !/bin/ffi.dll
 !/bin/lni.dll
-!/bin/StormLib.dll
 !/bin/yue.dll

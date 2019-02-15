@@ -14,6 +14,7 @@ fs.copy_file(bindir / 'yue-ext.dll', output / 'yue-ext.dll', true)
 fs.copy_file(bindir / 'lml.dll', output / 'lml.dll', true)
 fs.copy_file(bindir / 'w3xparser.dll', output / 'w3xparser.dll', true)
 fs.copy_file(bindir / 'lpeglabel.dll', output / 'lpeglabel.dll', true)
+fs.copy_file(bindir / 'stormlib.dll', output / 'stormlib.dll', true)
 fs.copy_file(bindir / 'w3x2lni.exe', CWD / 'w3x2lni.exe', true)
 fs.copy_file(bindir / 'w2l.exe', CWD / 'w2l.exe', true)
 
