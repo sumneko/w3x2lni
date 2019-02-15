@@ -67,7 +67,8 @@ lm:shared_library 'stormlib' {
         '!stormlib/src/adpcm/adpcm_old.cpp',
         '!stormlib/src/zlib/compress.c',
         '!stormlib/src/pklib/crc32.c',
-    }
+    },
+    ldflags = '/DEF:3rd/stormlib/stormlib_dll/stormlib.def'
 }
 
 lm:build 'install' {
