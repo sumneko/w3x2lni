@@ -13,3 +13,6 @@
 [submodule "3rd/stormlib"]
 	path = 3rd/stormlib
 	url = https://github.com/ladislav-zezula/StormLib
+[submodule "3rd/lni"]
+	path = 3rd/lni
+	url = https://github.com/actboy168/lni

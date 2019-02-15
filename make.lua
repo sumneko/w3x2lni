@@ -71,6 +71,13 @@ lm:shared_library 'stormlib' {
     ldflags = '/DEF:3rd/stormlib/stormlib_dll/stormlib.def'
 }
 
+lm:shared_library 'lni' {
+    deps = 'lua54',
+    sources = {
+        'lni/src/main.cpp',
+    }
+}
+
 lm:build 'install' {
     '$luamake', 'lua', 'make/install.lua',
     deps = {
@@ -83,6 +90,7 @@ lm:build 'install' {
         'w3xparser',
         'lpeglabel',
         'stormlib',
+        'lni',
     }
 }
 
