@@ -94,7 +94,8 @@ lm:shared_library 'ffi' {
     sources = {
         'bee.lua/3rd/luaffi/src/*.c',
         '!bee.lua/3rd/luaffi/src/test.c',
-    }
+    },
+    ldflags = '/EXPORT:luaopen_ffi'
 }
 
 lm:build 'install' {
