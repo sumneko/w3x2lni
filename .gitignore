@@ -23,3 +23,13 @@
 *.user
 
 script/share/gitlog.lua
+
+*.exe
+/bin/*.dll
+!/bin/ffi.dll
+!/bin/lml.dll
+!/bin/lni.dll
+!/bin/lpeglabel.dll
+!/bin/StormLib.dll
+!/bin/w3xparser.dll
+!/bin/yue.dll
