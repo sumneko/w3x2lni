@@ -1,6 +1,5 @@
 /*/
 !/script/
-!/bin/
 !/.vscode/
 !/template/
 !/test/
@@ -25,5 +24,4 @@
 script/share/gitlog.lua
 
 *.exe
-/bin/*.dll
 !/bin/yue.dll
