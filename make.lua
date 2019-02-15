@@ -1,8 +1,8 @@
 local lm = require "luamake"
 
-lm:import 'c++/bee.lua/make.lua'
+lm:import '3rd/bee.lua/make.lua'
 
-lm.rootdir = 'c++/src/'
+lm.rootdir = 'c++/'
 
 lm:executable 'w3x2lni' {
     sources = {

@@ -19,7 +19,7 @@ local function setIcon(file)
         CWD / 'make' / 'rcedit.exe',
         file,
         '--set-icon',
-        CWD / 'c++' / 'project' / 'icon.ico'
+        CWD / 'c++' / 'icon.ico'
     })
     assert(process:wait())
 end

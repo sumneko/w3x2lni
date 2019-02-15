@@ -40,11 +40,7 @@
         },
         {
             "label": "编译C++代码",
-            "command": "chcp 65001 && \"${workspaceRoot}/make/luamake/lua.exe\"",
-            "args": [
-                ".\\make\\execute.lua",
-                ".\\make\\compile_cpp.lua"
-            ],
+            "command": "luamake",
             "presentation": {
                 "panel": "new",
                 "clear": true
