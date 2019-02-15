@@ -16,6 +16,7 @@ fs.copy_file(bindir / 'lni.dll', output / 'lni.dll', true)
 fs.copy_file(bindir / 'w3xparser.dll', output / 'w3xparser.dll', true)
 fs.copy_file(bindir / 'lpeglabel.dll', output / 'lpeglabel.dll', true)
 fs.copy_file(bindir / 'stormlib.dll', output / 'stormlib.dll', true)
+fs.copy_file(bindir / 'ffi.dll', output / 'ffi.dll', true)
 fs.copy_file(bindir / 'w3x2lni.exe', CWD / 'w3x2lni.exe', true)
 fs.copy_file(bindir / 'w2l.exe', CWD / 'w2l.exe', true)
 
