@@ -5,16 +5,13 @@
 !/template/
 !/test/
 !/docs/
+!/c++/
+!/3rd/
 
 !/data/
 /data/*/
 !/data/zhCN-1.24.4/
 !/data/enUS-1.27.1/
-
-!/c++/
-/c++/bin/
-/c++/tmp/
-/c++/project/.vs/
 
 !/make/
 /make/zhCN/

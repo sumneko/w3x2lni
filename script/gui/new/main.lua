@@ -107,7 +107,7 @@ function window:create(t)
     end
     win:settitle('w3x2lni')
     ext.register_window('w3x2lni')
-    ext.set_icon((fs.procedure_path():parent_path() / 'w3x2lni.ico'):string())
+    ext.set_icon((fs.exe_path():parent_path() / 'w3x2lni.ico'):string())
     win:sethasshadow(true)
     win:setresizable(false)
     win:setmaximizable(false)
