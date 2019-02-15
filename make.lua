@@ -68,6 +68,10 @@ lm:shared_library 'stormlib' {
         '!stormlib/src/zlib/compress.c',
         '!stormlib/src/pklib/crc32.c',
     },
+    defines = {
+        '_UNICODE',
+        'UNICODE'
+    },
     ldflags = '/DEF:3rd/stormlib/stormlib_dll/stormlib.def'
 }
 
