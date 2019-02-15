@@ -36,6 +36,29 @@ lm:shared_library 'yue-ext' {
     }
 }
 
+lm.rootdir = '3rd/'
+
+lm:shared_library 'lml' {
+    deps = "lua54",
+    sources = {
+        'lml/src/LmlParse.cpp',
+        'lml/src/main.cpp',
+    }
+}
+
+lm:shared_library 'w3xparser' {
+    deps = "lua54",
+    sources = {
+        'w3xparser/src/real.cpp',
+        'w3xparser/src/main.cpp',
+    }
+}
+
+lm:shared_library 'lpeglabel' {
+    deps = "lua54",
+    sources = 'lpeglabel/*.c',
+}
+
 lm:build 'install' {
     '$luamake', 'lua', 'make/install.lua',
     deps = {
@@ -43,7 +66,10 @@ lm:build 'install' {
         'w2l',
         'yue-ext',
         'bee',
-        'lua'
+        'lua',
+        'lml',
+        'w3xparser',
+        'lpeglabel',
     }
 }
 
