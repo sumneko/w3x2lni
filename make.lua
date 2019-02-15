@@ -82,6 +82,21 @@ lm:shared_library 'lni' {
     }
 }
 
+lm:build 'ffi_dynasm' {
+    '$luamake', 'lua', 'make/ffi_dynasm.lua',
+}
+
+lm:shared_library 'ffi' {
+    deps = {
+        'lua54',
+        'ffi_dynasm'
+    },
+    sources = {
+        'bee.lua/3rd/luaffi/src/*.c',
+        '!bee.lua/3rd/luaffi/src/test.c',
+    }
+}
+
 lm:build 'install' {
     '$luamake', 'lua', 'make/install.lua',
     deps = {
@@ -95,6 +110,7 @@ lm:build 'install' {
         'lpeglabel',
         'stormlib',
         'lni',
+        'ffi',
     }
 }
 

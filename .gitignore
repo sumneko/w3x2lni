@@ -26,5 +26,4 @@ script/share/gitlog.lua
 
 *.exe
 /bin/*.dll
-!/bin/ffi.dll
 !/bin/yue.dll
