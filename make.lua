@@ -8,7 +8,8 @@ lm:executable 'w3x2lni' {
     sources = {
         'w3x2lni/main_gui.cpp',
         'w3x2lni/common.cpp',
-    }
+    },
+    crt = "static"
 }
 
 lm:executable 'w2l' {
@@ -18,7 +19,8 @@ lm:executable 'w2l' {
         'w3x2lni/common.cpp',
         'unicode.cpp',
     },
-    defines = '/DELAYLOAD:"lua54.dll"'
+    defines = '/DELAYLOAD:"lua54.dll"',
+    crt = "static"
 }
 
 lm:shared_library 'yue-ext' {
