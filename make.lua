@@ -1,19 +1,6 @@
 local lm = require "luamake"
 
-lm.rootdir = 'c++/bee.lua/3rd/lua/src/'
-
-lm:shared_library 'lua54' {
-    sources = {
-        "*.c",
-        "!lua.c",
-        "!luac.c",
-        "../utf8/utf8_crt.c",
-    },
-    defines = {
-        "LUA_BUILD_AS_DLL",
-        "LUAI_MAXCCALLS=200"
-    }
-}
+lm:import 'c++/bee.lua/make.lua'
 
 lm.rootdir = 'c++/src/'
 
@@ -47,11 +34,17 @@ lm:shared_library 'yue-ext' {
     }
 }
 
-lm.rootdir = 'c++/bee.lua/3rd/lua/'
-
-lm:executable 'w3x2lni-lua' {
-    deps = "lua54",
-    sources = {
-        "utf8/utf8_lua.c",
+lm:build 'install' {
+    '$luamake', 'lua', 'make/install.lua',
+    deps = {
+        'w3x2lni',
+        'w2l',
+        'yue-ext',
+        'bee',
+        'lua'
     }
+}
+
+lm:default {
+    'install'
 }
