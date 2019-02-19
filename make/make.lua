@@ -1,10 +1,13 @@
+package.path = 'script/?.lua;make/luamake/?.lua;'..package.path
+package.cpath = 'make/luamake/?.dll'
+
 local fs = require 'bee.filesystem'
 local subprocess = require 'bee.subprocess'
 local sleep = require 'ffi.sleep'
 local uni = require 'bee.unicode'
 local minizip = require 'minizip'
 
-local root = fs.absolute(fs.path '..')
+local root = fs.absolute(fs.path '.')
 local release_path
 
 local function task(f, ...)

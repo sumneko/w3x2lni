@@ -14,10 +14,10 @@
     "tasks": [
         {
             "label": "发布中文版",
-            "command": "chcp 65001 && \"${workspaceRoot}/make/luamake/lua.exe\"",
+            "command": "chcp 65001 && luamake",
             "args": [
-                ".\\make\\execute.lua",
-                ".\\make\\make.lua",
+                "lua",
+                "make\\make.lua",
                 "zhCN"
             ],
             "presentation": {
@@ -27,10 +27,10 @@
         },
         {
             "label": "发布英文版",
-            "command": "chcp 65001 && \"${workspaceRoot}/make/luamake/lua.exe\"",
+            "command": "chcp 65001 && luamake",
             "args": [
-                ".\\make\\execute.lua",
-                ".\\make\\make.lua",
+                "lua",
+                "make\\make.lua",
                 "enUS"
             ],
             "presentation": {
