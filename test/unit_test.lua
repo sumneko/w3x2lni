@@ -379,7 +379,6 @@ local function do_test(path)
 end
 
 local ignore = {
-    '技能数值为0'
 }
 
 local test_dir = root / 'test' / 'unit_test'
