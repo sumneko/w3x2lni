@@ -1,5 +1,6 @@
 local w3xparser = require 'w3xparser'
 local lang = require 'lang'
+local convertreal = require 'convertreal'
 
 local table_concat = table.concat
 local ipairs = ipairs
@@ -243,14 +244,7 @@ local function to_type(tp, value)
             return nil
         end
         if type(value) == 'number' then
-            value = tostring(value)
-        end
-        if value:find('.', 1, true) then
-            value = value:gsub('0+$', '')
-        end
-        value = value:gsub('%.$', '')
-        if value == '-' or value == '' or value == '0' then
-            return nil
+            value = convertreal(value)
         end
         return value
     elseif tp == 3 then

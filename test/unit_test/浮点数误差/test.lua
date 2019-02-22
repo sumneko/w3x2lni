@@ -19,8 +19,14 @@ function w2l.input_ar:get(name)
     return read(name)
 end
 
+local outs = {}
+function w2l.output_ar:set(name, buf)
+    outs[name] = buf
+end
+
 w2l:frontend()
 w2l:backend()
 
 assert(w2l.slk.ability.A000.ubertip[1] == '90%')
 assert(string.format('%.14f', w2l.slk.ability.A001.dur[1]) == '1.01234567890123')
+assert(outs['units\\abilitydata.slk']:find('K1.01234567890123', 1, true))
