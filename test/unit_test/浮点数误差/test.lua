@@ -23,4 +23,4 @@ w2l:frontend()
 w2l:backend()
 
 assert(w2l.slk.ability.A000.ubertip[1] == '90%')
-assert(w2l.slk.ability.A001.dur[1] == 1.234567890123456)
+assert(string.format('%.14f', w2l.slk.ability.A001.dur[1]) == '1.01234567890123')
