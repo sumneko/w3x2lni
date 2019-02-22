@@ -244,7 +244,7 @@ local function to_type(tp, value)
             return nil
         end
         if type(value) == 'number' then
-            value = convertreal(value)
+            return convertreal(value)
         end
         return value
     elseif tp == 3 then
