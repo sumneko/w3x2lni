@@ -23,13 +23,9 @@ local function slk_to_type(tp, value)
         return math_floor(wtonumber(value))
     elseif tp == 1 or tp == 2 then
         if not value then
-            return '0'
+            return 0.0
         end
-        value = value:gsub("^%s*(.-)%s*$", "%1")
-        if value == '-' then
-            return '0'
-        end
-        return value
+        return wtonumber(value) + 0.0
     elseif tp == 3 then
         if not value then
             return ''
