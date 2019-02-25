@@ -130,7 +130,7 @@ local function command(...)
     commands[#commands+1] = '-s'
     local command = table.concat(commands, ' ')
     print('正在执行命令:', command)
-    os.execute(command)
+    print(os.execute(command))
 end
 
 local function for_directory(path, func, leaf)
