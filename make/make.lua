@@ -96,11 +96,20 @@ local function unit_test()
         cwd = release_path / 'script',
         hideWindow = true,
         stderr = true,
+        stdout = true,
     }
     if not process then
         error('运行失败：\n')
     end
     print('正在单元测试...')
+    while true do
+        local line = process.stdout:read 'l'
+        if line then
+            print(line)
+        else
+            break
+        end
+    end
     local err = process.stderr:read 'a'
     local exit_code = process:wait()
     if err ~= '' then
