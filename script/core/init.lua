@@ -366,6 +366,9 @@ function mt:set_setting(setting)
     self.setting = setting
 
     self.mpq_path = mpq_path()
+    if not self.setting.version then
+        self.setting.version = 'Custom'
+    end
     if self.setting.version == 'Custom' then
         self.mpq_path:open 'Custom_V1'
     end

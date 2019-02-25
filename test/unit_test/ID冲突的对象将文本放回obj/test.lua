@@ -6,6 +6,15 @@ function w2l.input_ar:get(filename)
     return read(filename)
 end
 
+function w2l:call_plugin(name)
+    if name == 'on_mark' then
+        return {
+            A00A = true,
+            A00a = true,
+        }
+    end
+end
+
 local ok
 function w2l:backend_obj(type, data)
     if type == 'ability' then
