@@ -122,15 +122,20 @@ local function unit_test()
 end
 
 local function command(...)
-    local commands = {}
-    commands[#commands+1] = (release_path / 'w2l.exe'):string()
-    for _, c in ipairs {...} do
-        commands[#commands+1] = ('%s'):format(c)
+    print('正在执行命令:', ...)
+    local process = subprocess.spawn {
+        release_path / 'w2l.exe',
+        {...},
+        '-s',
+        cwd = release_path,
+        hideWindow = true,
+        stderr = true,
+    }
+    local err = process.stderr:read 'a'
+    if err ~= '' then
+        print(err)
+        os.exit(false)
     end
-    commands[#commands+1] = '-s'
-    local command = table.concat(commands, ' ')
-    print('正在执行命令:', command)
-    print(os.execute(command))
 end
 
 local function for_directory(path, func, leaf)
