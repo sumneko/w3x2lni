@@ -115,7 +115,7 @@ local function remove_same_as_txt(meta, key, data, default, obj, ttype)
     end
 end
 
-local function clean_obj(name, obj, type, default)
+local function clean_obj(obj, type, default)
     local parent = obj._parent
     local default = default[parent]
     if not default then
@@ -170,7 +170,7 @@ local function clean_misc(type, t)
     end
     for name in pairs(default[type]) do
         if t[name] and (t[name]._source ~= 'slk' or w2l.setting.mode ~= 'slk') then
-            clean_obj(id, t[name], type, default[type])
+            clean_obj(t[name], type, default[type])
         end
     end
 end
