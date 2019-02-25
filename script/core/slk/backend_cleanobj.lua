@@ -146,7 +146,7 @@ local function clean_objs(type, t)
         return
     end
     for id, obj in sortpairs(t) do
-        clean_obj(id, obj, type, default[type])
+        clean_obj(obj, type, default[type])
     end
 end
 
