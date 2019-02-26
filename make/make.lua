@@ -131,10 +131,13 @@ local function command(...)
         hideWindow = true,
         stderr = true,
     }
-    local err = process.stderr:read 'a'
-    if err ~= '' then
-        print(err)
-        os.exit(false)
+    local code = process:wait()
+    if code ~= 0 then
+        local err = process.stderr:read 'a'
+        if err ~= '' then
+            print(err)
+        end
+        os.exit(code, true)
     end
 end
 
