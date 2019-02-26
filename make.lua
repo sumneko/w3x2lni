@@ -19,7 +19,8 @@ lm:executable 'w2l' {
         'w3x2lni/common.cpp',
         'unicode.cpp',
     },
-    defines = '/DELAYLOAD:lua54.dll',
+    links = "delayimp",
+    ldflags = '/DELAYLOAD:lua54.dll',
     crt = 'static'
 }
 
