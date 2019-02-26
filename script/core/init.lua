@@ -64,7 +64,7 @@ end
 
 function mt:keydata()
     if not keydata then
-        keydata = lni(self:data_load('prebuilt\\keydata.ini'))
+        keydata = lni(assert(self:data_load('prebuilt\\keydata.ini')))
     end
     -- 兼容旧版lni
     if keydata.root then
