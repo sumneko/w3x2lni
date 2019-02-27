@@ -5,6 +5,7 @@ return {
     { 'CHG', '更换 Lua5.3 为 Lua5.4'},
     { 'CHG', '更换 lpeg 为 lpeglabel'},
     { 'FIX', '修正实数在转换过程中产生的误差'},
+    { 'FIX', '修正报告页面显示的问题'},
 },
 {
     version = '2.4',
