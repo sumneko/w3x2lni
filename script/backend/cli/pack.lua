@@ -122,7 +122,10 @@ return function()
 
     messager.text(lang.script.SAVE_FILE)
     w2l.progress:start(1.0)
-    builder.save(w2l, w3i, w3f, input_ar, output_ar, as_mpq)
+    builder.save(w2l, w3i, w3f, input_ar, output_ar, {
+        clear_time = true,
+        as_mpq = as_mpq,
+    })
     w2l.progress:finish()
     
     local clock = os.clock()
