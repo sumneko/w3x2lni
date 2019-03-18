@@ -26,7 +26,7 @@ function mt:close()
     return self.handle:close()
 end
 
-function mt:save(w3i, w3f, w2l)
+function mt:save(w3i, w3f, w2l, as_mpq)
     if self:is_readonly() then
         return false
     end
@@ -35,7 +35,7 @@ function mt:save(w3i, w3f, w2l)
     for _ in pairs(self) do
         max = max + 1
     end
-    local suc, res = self.handle:save(self.path, w3i, w3f, max, w2l.setting.remove_we_only)
+    local suc, res = self.handle:save(self.path, w3i, w3f, max, w2l.setting.remove_we_only, as_mpq)
     if not suc then
         return false, res
     end
