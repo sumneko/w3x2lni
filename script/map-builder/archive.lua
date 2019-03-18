@@ -130,12 +130,20 @@ end
 function mt:__pairs()
     local case = self.case
     local tbl = {}
+    local keys = {}
     for k, v in pairs(self.cache) do
         if v then
             tbl[case[k]] = v
+            keys[#keys+1] = case[k]
         end
     end
-    return next, tbl
+    table.sort(keys)
+    local i = 0
+    return function ()
+        i = i + 1
+        local k = keys[i]
+        return k, tbl[k]
+    end
 end
 
 return function (pathorhandle, tp)
