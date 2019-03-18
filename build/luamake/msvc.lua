@@ -1,5 +1,5 @@
 require 'filesystem'
-local registry = require 'registry'
+require 'registry'
 local uni = require 'unicode'
 local ffi = require 'ffi'
 ffi.cdef[[
