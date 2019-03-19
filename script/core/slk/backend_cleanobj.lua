@@ -174,9 +174,10 @@ return function (w2l_, slk)
     metadata = w2l:metadata()
     if w2l.setting.mode == 'slk' then
         if not w2l.setting.slk_doodad then
-            local type = 'doodad'
-            clean_objs(type, slk[type])
-            w2l.progress(0.5)
+            for i, type in ipairs {'doodad', 'destructable'} do
+                clean_objs(type, slk[type])
+                w2l.progress(i / 3)
+            end
         end
     else
         for i, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do

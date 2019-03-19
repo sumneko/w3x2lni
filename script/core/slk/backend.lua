@@ -259,9 +259,10 @@ end
 local function to_slk(w2l, slk)
     local report = { n = 0 }
     local object = {}
-    local slk_list = {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable'}
+    local slk_list = {'ability', 'buff', 'unit', 'item', 'upgrade'}
     if w2l.setting.slk_doodad then
         slk_list[#slk_list+1] = 'doodad'
+        slk_list[#slk_list+1] = 'destructable'
     end
     for _, type in ipairs(slk_list) do
         local data = slk[type]
