@@ -35,8 +35,8 @@ local function read_data(obj)
     if has_level then
         local this_level = unpack 'l'
         level = this_level
-        -- 扔掉一个整数
-        unpack 'l'
+        -- 扔掉4个字节
+        unpack 'c4'
     end
 
     local value
@@ -47,14 +47,13 @@ local function read_data(obj)
     elseif value_type == 3 then
         local str = unpack 'z'
         value = w2l:load_wts(wts, str)
-    else
-        -- 什么都不是，扔掉4个字节
-        unpack 'c4'
     end
 
-    -- 检查结束标记，如果不正确，则忽略掉这个数据
-    local mask = unpack 'c4'
-    if mask ~= '\0\0\0\0' and mask ~= obj._id and mask ~= obj._parent then
+    -- 扔掉4个字节
+    unpack 'c4'
+
+    -- 没有取到值说明是垃圾，忽略掉
+    if not value then
         return
     end
 
