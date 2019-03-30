@@ -1,5 +1,5 @@
 local fs = require 'bee.filesystem'
-local msvc = require 'msvc_helper'
+local msvc = require 'msvc'
 
 return function (platform, target)
     fs.create_directories(target)
