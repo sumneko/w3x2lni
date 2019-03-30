@@ -310,17 +310,23 @@ local function add_global(global)
         report(lang.report.UNREFERENCE_GLOBAL, global.name, lang.report.JASS_LINE:format(global.line))
         return
     end
+    local chars = {}
     current_line = global.line
-    if global.array then
-        insert_line(([[%s array %s]]):format(global.type, get_confused_name(global)))
-    else
-        local value = get_exp(global[1])
-        if value then
-            insert_line(([[%s %s=%s]]):format(global.type, get_confused_name(global), value))
-        else
-            insert_line(([[%s %s]]):format(global.type, get_confused_name(global)))
-        end
+    if global.constant then
+        chars[#chars+1] = 'constant '
     end
+    chars[#chars+1] = global.type
+    chars[#chars+1] = ' '
+    if global.array then
+        chars[#chars+1] = 'array '
+    end
+    chars[#chars+1] = get_confused_name(global)
+    local value = get_exp(global[1])
+    if value then
+        chars[#chars+1] = '='
+        chars[#chars+1] = value
+    end
+    insert_line(table.concat(chars))
 end
 
 local function add_globals()
