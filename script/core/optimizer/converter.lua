@@ -5,6 +5,7 @@ local report
 local messager
 
 local current_function
+local current_line
 local get_exp
 local add_lines
 
@@ -432,7 +433,7 @@ local function add_ifs(chunk)
         elseif data.type == 'else' then
             add_else(data)
         else
-            messager(lang.report.UNEXPECT_LOGIC, line.type)
+            messager(lang.report.UNEXPECT_LOGIC, chunk.type)
         end
     end
     insert_line('endif')
