@@ -19,6 +19,7 @@ local ok
 function w2l:backend_obj(type, data)
     if type == 'ability' then
         assert(data.A00a.name == 'A00a')
+        assert(data.A00A.name == 'A00A')
         ok = true
     end
 end

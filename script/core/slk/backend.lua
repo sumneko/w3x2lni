@@ -264,6 +264,12 @@ local function to_slk(w2l, slk)
     if w2l.setting.slk_doodad then
         slk_list[#slk_list+1] = 'doodad'
         slk_list[#slk_list+1] = 'destructable'
+    else
+        for _, type in ipairs {'doodad', 'destructable'} do
+            for _, obj in pairs(slk[type]) do
+                obj._keep_obj = true
+            end
+        end
     end
     for _, type in ipairs(slk_list) do
         local data = slk[type]

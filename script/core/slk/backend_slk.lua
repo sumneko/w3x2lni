@@ -333,6 +333,10 @@ local function load_obj(id, obj, slk_name)
     if remove_unuse_object and not obj._mark then
         return nil
     end
+    if obj._keep_obj then
+        object[id] = obj
+        return nil
+    end
     local obj_data = object[id]
     if not obj_data then
         obj_data = {}
@@ -343,9 +347,6 @@ local function load_obj(id, obj, slk_name)
         obj_data._mark   = obj._mark
         obj_data._parent = obj._parent
         obj_data._keep_obj = obj._keep_obj
-    end
-    if obj._keep_obj then
-        return nil
     end
     if not obj._slk_id and not is_usable_string(obj._id) then
         obj._slk_id = find_unused_id()

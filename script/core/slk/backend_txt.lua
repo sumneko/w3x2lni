@@ -285,6 +285,9 @@ local function prebuild_obj(name, obj)
     if remove_unuse_object and not obj._mark then
         return
     end
+    if obj._keep_obj then
+        return
+    end
     local r = {}
     for _, key in ipairs(keys) do
         prebuild_data(obj, key, r)
