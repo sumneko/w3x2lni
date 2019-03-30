@@ -2,6 +2,7 @@ return {
 {
     version = '2.5.2',
     { 'FIX', '修正slk后全局变量丢失constant属性的问题' },
+    { 'FIX', '修正slk后id冲突的对象表现错误的问题' },
 },
 {
     version = '2.5.1',
