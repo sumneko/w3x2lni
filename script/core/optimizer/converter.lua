@@ -1,6 +1,7 @@
 local lang = require 'lang'
 local lines
 local jass
+local state
 local report
 local messager
 
@@ -49,12 +50,20 @@ local function get_confused_name(obj)
 end
 
 local function get_function(name)
-    return jass.functions[name]
+    return state.functions[name]
 end
 
 local function get_arg(name)
-    if current_function and current_function.args then
-        return current_function.args[name]
+    if current_function then
+        local args = current_function.args
+        if args then
+            for i = #args, 1, -1 do
+                local arg = args[i]
+                if arg.name == name then
+                    return arg
+                end
+            end
+        end
     end
 end
 
@@ -73,7 +82,7 @@ local function get_local(name)
 end
 
 local function get_global(name)
-    return jass.globals[name]
+    return state.globals[name]
 end
 
 local function get_var(name)
@@ -341,7 +350,7 @@ local function add_local(loc)
 end
 
 local function add_locals(locals)
-    if #locals == 0 then
+    if not locals or #locals == 0 then
         return
     end
     for _, loc in ipairs(locals) do
@@ -519,10 +528,11 @@ local function add_functions()
     end
 end
 
-return function (ast, _report, _messager)
+return function (ast, _state, _report, _messager)
     lines = {}
     jass = ast
     report = _report
+    state = _state
     messager = _messager
     
     add_globals()

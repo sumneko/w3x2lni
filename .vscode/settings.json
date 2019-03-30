@@ -1,5 +1,6 @@
 {
     "Lua.diagnostics.globals": [
-        "_W2L_MODE"
+        "_W2L_MODE",
+        "fs"
     ]
 }
