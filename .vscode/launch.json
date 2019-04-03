@@ -13,8 +13,7 @@
             "luadll": "${workspaceRoot}\\bin\\lua54.dll",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
-            "runtimeExecutable": "${workspaceRoot}\\bin\\w3x2lni-lua.exe",
-            "runtimeArgs": "${workspaceRoot}\\script\\gui\\new\\main.lua",
+            "luaexe": "${workspaceRoot}\\bin\\w3x2lni-lua.exe",
             "consoleCoding": "utf8",
             "program": "${workspaceRoot}\\script\\gui\\new\\main.lua"
         },
