@@ -153,7 +153,7 @@ end
 
 return function(filename, mode)
     if not mode or mode == 'r' then
-        return unzip_open(filename)
+        return unzip_open()
     elseif mode == 'w' then
         return zip_open(filename, minizip.APPEND_STATUS_CREATE)
     elseif mode == 'a' then

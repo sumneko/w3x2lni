@@ -1,7 +1,7 @@
-/bin/
-/build/
-/make/zhCN/
-/make/enUS/
-/log/
+/bin
+/build
+/make/zhCN
+/make/enUS
+/log
 /script/share/gitlog.lua
 *.exe

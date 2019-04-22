@@ -1,6 +1,15 @@
 {
     "Lua.diagnostics.globals": [
         "_W2L_MODE",
-        "fs"
+        "fs",
+        "_W2L_DIR",
+        "w3x2lni",
+        "read",
+        "init",
+        "save",
+        "compare_string",
+        "compare_dump",
+        "compare_value",
+        "window"
     ]
 }
