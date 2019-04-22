@@ -1,17 +1,20 @@
 local lang = require 'share.lang'
 local base = require 'backend.base_path'
+local messager = require 'share.messager'
 
 local function load_plugins(source, callback, loadfile)
     local plugins = {}
     local config = loadfile '.config'
     if config then
         for name in config:gmatch '[^\r\n]+' do
-            local ok, res = pcall(function()
+            local ok, res = xpcall(function()
                 local buf = loadfile(name .. '.lua')
                 return assert(load(buf, buf, 't', _ENV))()
-            end)
+            end, debug.traceback)
             if ok then
                 plugins[#plugins+1] = res
+            else
+            	messager.report('failed to load plugin ' .. name, 9, res)    
             end
         end
     end
