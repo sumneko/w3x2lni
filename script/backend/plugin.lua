@@ -9,12 +9,19 @@ local function load_plugins(source, callback, loadfile)
         for name in config:gmatch '[^\r\n]+' do
             local ok, res = xpcall(function()
                 local buf = loadfile(name .. '.lua')
-                return assert(load(buf, buf, 't', _ENV))()
+                return assert(load(buf, ('@plugin\\'..name..'.lua'), 't', _ENV))()
             end, debug.traceback)
             if ok then
-                plugins[#plugins+1] = res
+                if not res.info then
+                    res.info = {}
+                end
+                res.info.name        = res.info.name or ('<%s>'):format(name)
+                res.info.description = res.info.name or ""
+                res.info.author      = res.info.name or "<Unknown>"
+                res.info.version     = res.info.name or "<Unknown>"
+                plugins[#plugins+1]  = res
             else
-            	messager.report('failed to load plugin ' .. name, 9, res)    
+                messager.report(lang.report.WARN, 2, lang.report.PLUGIN_FAILED:format(name), res)
             end
         end
     end
