@@ -15,10 +15,10 @@ local function load_plugins(source, callback, loadfile)
                 if not res.info then
                     res.info = {}
                 end
-                res.info.name        = res.info.name or ('<%s>'):format(name)
-                res.info.description = res.info.name or ""
-                res.info.author      = res.info.name or "<Unknown>"
-                res.info.version     = res.info.name or "<Unknown>"
+                res.info.name        = res.info.name        or ('<%s>'):format(name)
+                res.info.description = res.info.description or ""
+                res.info.author      = res.info.author      or "<Unknown>"
+                res.info.version     = res.info.version     or "<Unknown>"
                 plugins[#plugins+1]  = res
             else
                 messager.report(lang.report.WARN, 2, lang.report.PLUGIN_FAILED:format(name), res)
