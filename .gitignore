@@ -2,6 +2,8 @@
 /build
 /make/zhCN
 /make/enUS
+/make/ci
 /log
 /script/share/gitlog.lua
+/*.w3x
 *.exe
