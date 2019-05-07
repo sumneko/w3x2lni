@@ -270,6 +270,10 @@ local function is_usable_string(str)
     if char == '-' or char == '.' or tonumber(char) then
         return false
     end
+    local char = str:sub(-1)
+    if char == ']' then
+        return false
+    end
     return true
 end
 

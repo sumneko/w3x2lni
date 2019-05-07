@@ -14,6 +14,7 @@ function w2l:backend_obj(type, ...)
     if type == 'ability' then
         assert(buf:find('!000-000', 1, true))
         assert(buf:find('!001.AAA', 1, true))
+        assert(buf:find('!002AAA]', 1, true))
         ok1 = buf
     end
     return buf
@@ -26,6 +27,8 @@ function w2l:backend_slk(type, slk_name, ...)
         assert(buf:find('!000', 1, true))
         assert(not buf:find('.AAA', 1, true))
         assert(buf:find('!001', 1, true))
+        assert(not buf:find('AAA]', 1, true))
+        assert(buf:find('!002', 1, true))
         ok2 = true
     end
     return buf
@@ -35,6 +38,7 @@ local slk = {}
 w2l:frontend(slk)
 slk.ability['-000']._mark = true
 slk.ability['.AAA']._mark = true
+slk.ability['AAA]']._mark = true
 w2l:backend(slk)
 assert(ok1)
 assert(ok2)
@@ -42,3 +46,4 @@ assert(ok2)
 local objs = w2l:frontend_obj('ability', ok1)
 assert(objs['-000'].anam[1] == slk.ability['-000'].name)
 assert(objs['.AAA'].anam[1] == slk.ability['.AAA'].name)
+assert(objs['AAA]'].anam[1] == slk.ability['AAA]'].name)
