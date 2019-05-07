@@ -270,6 +270,14 @@ local function is_usable_string(str)
     if char == '-' or char == '.' or tonumber(char) then
         return false
     end
+    return true
+end
+
+local function is_usable_id(str)
+    local char = str:sub(1, 1)
+    if char == '-' or char == '.' or tonumber(char) then
+        return false
+    end
     local char = str:sub(-1)
     if char == ']' then
         return false
@@ -352,7 +360,7 @@ local function load_obj(id, obj, slk_name)
         obj_data._parent = obj._parent
         obj_data._keep_obj = obj._keep_obj
     end
-    if not obj._slk_id and not is_usable_string(obj._id) then
+    if not obj._slk_id and not is_usable_id(obj._id) then
         obj._slk_id = find_unused_id()
         obj_data._slk_id = obj._slk_id
         if slk_type == 'ability' then
