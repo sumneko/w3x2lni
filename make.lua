@@ -105,6 +105,31 @@ lm:shared_library 'ffi' {
     ldflags = '/EXPORT:luaopen_ffi'
 }
 
+lm:shared_library 'minizip' {
+    includes = {
+        'zlib',
+    },
+    sources = {
+        'zlib/inflate.c',
+        'zlib/deflate.c',
+        'zlib/zutil.c',
+        'zlib/trees.c',
+        'zlib/inftrees.c',
+        'zlib/inffast.c',
+        'zlib/crc32.c',
+        'zlib/adler32.c',
+        'zlib/contrib/minizip/zip.c',
+        'zlib/contrib/minizip/unzip.c',
+        'zlib/contrib/minizip/ioapi.c',
+    },
+    defines = {
+        '_CRT_SECURE_NO_WARNINGS',
+    },
+    ldflags = {
+        '/DEF:make/luamake/minizip.def'
+    }
+}
+
 lm:build 'install' {
     '$luamake', 'lua', 'make/install.lua',
     deps = {
@@ -119,6 +144,7 @@ lm:build 'install' {
         'stormlib',
         'lni',
         'ffi',
+        'minizip',
     }
 }
 

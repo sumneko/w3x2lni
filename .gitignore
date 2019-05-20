@@ -3,6 +3,7 @@
 /make/zhCN
 /make/enUS
 /make/ci
+/make/luamake/*.dll
 /log
 /script/share/gitlog.lua
 /*.w3x

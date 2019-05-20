@@ -3,8 +3,13 @@ local sp = require 'bee.subprocess'
 
 local CWD = fs.current_path()
 
-local output = CWD / 'bin'
 local bindir = CWD / 'build' / 'msvc' / 'bin'
+local make = CWD / 'make' / 'luamake'
+
+fs.copy_file(bindir / 'ffi.dll', make / 'ffi.dll', true)
+fs.copy_file(bindir / 'minizip.dll', make / 'minizip.dll', true)
+
+local output = CWD / 'bin'
 
 fs.create_directories(output)
 fs.copy_file(bindir / 'bee.dll', output / 'bee.dll', true)

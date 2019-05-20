@@ -16,3 +16,6 @@
 [submodule "3rd/lni"]
 	path = 3rd/lni
 	url = https://github.com/actboy168/lni
+[submodule "3rd/zlib"]
+	path = 3rd/zlib
+	url = https://github.com/madler/zlib
