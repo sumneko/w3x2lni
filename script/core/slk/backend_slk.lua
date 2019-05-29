@@ -303,8 +303,8 @@ local function load_data(meta, obj, key, slk_data, obj_data)
             end
             for i = 1, 10 do
                 local value = to_type(tp, obj[key][i])
-                if value and tp == 3 and not is_usable_string(value) then
-                    obj_data[key][i] = value
+                if value and tp == 3 and not is_usable_string(value:sub(2, -2)) then
+                    obj_data[key][i] = value:sub(2, -2)
                     report_failed(obj, displaykey, lang.report.STRING_CAN_CONVERT_NUMBER, value)
                 else
                     slk_data[('%s%02d'):format(displaykey, i)] = value
@@ -319,8 +319,8 @@ local function load_data(meta, obj, key, slk_data, obj_data)
             end
             for i = 1, 4 do
                 local value = to_type(tp, obj[key][i])
-                if value and tp == 3 and not is_usable_string(value) then
-                    obj_data[key][i] = value
+                if value and tp == 3 and not is_usable_string(value:sub(2, -2)) then
+                    obj_data[key][i] = value:sub(2, -2)
                     report_failed(obj, displaykey, lang.report.STRING_CAN_CONVERT_NUMBER, value)
                 else
                     slk_data[displaykey..i] = value
@@ -332,8 +332,8 @@ local function load_data(meta, obj, key, slk_data, obj_data)
         end
     else
         local value = to_type(tp, obj[key])
-        if value and tp == 3 and not is_usable_string(value) then
-            obj_data[key] = value
+        if value and tp == 3 and not is_usable_string(value:sub(2, -2)) then
+            obj_data[key] = value:sub(2, -2)
             report_failed(obj, displaykey, lang.report.STRING_CAN_CONVERT_NUMBER, value)
         else
             slk_data[displaykey] = value
