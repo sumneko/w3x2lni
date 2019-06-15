@@ -13,7 +13,7 @@ local function set_pos(...)
 end
 
 local function unpack(str)
-    return set_pos(string_unpack(str, unpack_buf, unpack_pos))
+    return set_pos(string_unpack(str, hex, unpack_pos))
 end
 
 local function unpack_head()
@@ -69,7 +69,7 @@ end
 
 local function unpack_special()
     local id = unpack 'l'
-    obj[id] = {
+    doo[id] = {
         ['未知'] = unpack 'l',
         ['位置'] = {unpack 'll'},
     }
