@@ -11,7 +11,9 @@ fs.copy_file(bindir / 'minizip.dll', make / 'minizip.dll', true)
 
 local output = CWD / 'bin'
 
+fs.remove_all(output)
 fs.create_directories(output)
+fs.copy_file(CWD / 'make' / 'yue.dll', output / 'yue.dll', true)
 fs.copy_file(bindir / 'bee.dll', output / 'bee.dll', true)
 fs.copy_file(bindir / 'lua54.dll', output / 'lua54.dll', true)
 fs.copy_file(bindir / 'lua.exe', output / 'w3x2lni-lua.exe', true)
