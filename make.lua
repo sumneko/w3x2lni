@@ -58,6 +58,7 @@ lm:shared_library 'w3xparser' {
 lm:shared_library 'lpeglabel' {
     deps = 'lua54',
     sources = 'lpeglabel/*.c',
+    undefs = "NDEBUG",
     ldflags = '/EXPORT:luaopen_lpeglabel'
 }
 
