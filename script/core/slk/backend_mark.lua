@@ -90,20 +90,6 @@ local report_once = {}
 local report_cache = {}
 local current_root = {'', '%s%s'}
 
-local function get_displayname(o)
-    local name
-    if o._type == 'buff' then
-        name = o.bufftip or o.editorname or ''
-    elseif o._type == 'upgrade' then
-        name = o.name[1] or ''
-    elseif o._type == 'doodad' or o._type == 'destructable' then
-        name = w2l:get_editstring(o.name or '')
-    else
-        name = o.name or ''
-    end
-    return o._id, (name:sub(1, 100):gsub('\r\n', ' '))
-end
-
 local function get_displayname_by_id(slk, id)
     local o = slk.ability[id]
            or slk.unit[id]
@@ -115,7 +101,8 @@ local function get_displayname_by_id(slk, id)
     if not o then
         return id, '<unknown>'
     end
-    return get_displayname(o)
+    local _, id, name = w2l:get_displayname(o)
+    return id, name
 end
 
 local function format_marktip(slk, marktip)

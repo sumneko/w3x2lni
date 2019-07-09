@@ -208,30 +208,6 @@ local function stringify_obj(str, obj)
     end
 end
 
-local displaytype = {
-    unit = lang.script.UNIT,
-    ability = lang.script.ABILITY,
-    item = lang.script.ITEM,
-    buff = lang.script.BUFF,
-    upgrade = lang.script.UPGRADE,
-    doodad = lang.script.DOODAD,
-    destructable = lang.script.DESTRUCTABLE,
-}
-
-local function get_displayname(o)
-    local name
-    if o._type == 'buff' then
-        name = o.bufftip or o.editorname or ''
-    elseif o._type == 'upgrade' then
-        name = o.name[1] or ''
-    elseif o._type == 'doodad' or o._type == 'destructable' then
-        name = w2l:get_editstring(o.name or '')
-    else
-        name = o.name or ''
-    end
-    return displaytype[o._type], o._id, (name:sub(1, 100):gsub('\r\n', ' '))
-end
-
 local function report_failed(obj, key, tip, info)
     report.n = report.n + 1
     if not report[tip] then
@@ -240,7 +216,7 @@ local function report_failed(obj, key, tip, info)
     if report[tip][obj._id] then
         return
     end
-    local type, id, name = get_displayname(obj)
+    local type, id, name = w2l:get_displayname(obj)
     report[tip][obj._id] = {
         ("%s %s %s"):format(type, id, name),
         ("%s %s"):format(key, info),
@@ -301,8 +277,8 @@ end
 
 local function prebuild_merge(obj, a, b)
     if a._type ~= b._type then
-        local tp1, _, name1 = get_displayname(a)
-        local tp2, _, name2 = get_displayname(b)
+        local tp1, _, name1 = w2l:get_displayname(a)
+        local tp2, _, name2 = w2l:get_displayname(b)
         w2l.messager.report(lang.report.WARN, 2, (lang.report.OBJECT_ID_CONFLICT):format(obj._id), ('[%s]%s --> [%s]%s'):format(tp1, name1, tp2, name2))
     end
     for k, v in pairs(b) do

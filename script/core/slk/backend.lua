@@ -114,30 +114,6 @@ local function convert_wtg(w2l)
     w2l:backend_convertwtg(w2l.slk.wts)
 end
 
-local displaytype = {
-    unit = lang.script.UNIT,
-    ability = lang.script.ABILITY,
-    item = lang.script.ITEM,
-    buff = lang.script.BUFF,
-    upgrade = lang.script.UPGRADE,
-    doodad = lang.script.DOODAD,
-    destructable = lang.script.DESTRUCTABLE,
-}
-
-local function get_displayname(o)
-    local name
-    if o._type == 'buff' then
-        name = o.bufftip or o.editorname or ''
-    elseif o._type == 'upgrade' then
-        name = o.name[1] or ''
-    elseif o._type == 'doodad' or o._type == 'destructable' then
-        name = w2l:get_editstring(o.name or '')
-    else
-        name = o.name or ''
-    end
-    return o._id, (name:sub(1, 100):gsub('\r\n', ' '))
-end
-
 local function get_displayname_by_id(slk, id)
     local o = slk.ability[id]
            or slk.unit[id]
@@ -149,7 +125,8 @@ local function get_displayname_by_id(slk, id)
     if not o then
         return id, '<unknown>'
     end
-    return get_displayname(o)
+    local _, id, name = w2l:get_displayname(o)
+    return id, name
 end
 
 local function format_marktip(slk, marktip)
@@ -157,7 +134,7 @@ local function format_marktip(slk, marktip)
 end
 
 local function report_object(slk, type, o)
-    w2l.messager.report(lang.report.REMOVE_UNUSED_OBJECT, 4, ('%s \'%s\' %s'):format(displaytype[type], get_displayname(o)), o._mark and format_marktip(slk, o._mark)) 
+    w2l.messager.report(lang.report.REMOVE_UNUSED_OBJECT, 4, ('%s \'%s\' %s'):format(w2l:get_displayname(o)), o._mark and format_marktip(slk, o._mark))
 end
 
 local function report_list(slk, list, type, n)

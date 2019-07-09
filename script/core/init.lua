@@ -315,6 +315,30 @@ function mt:failed(msg)
     os.exit(1, true)
 end
 
+local displaytype = {
+    unit = lang.script.UNIT,
+    ability = lang.script.ABILITY,
+    item = lang.script.ITEM,
+    buff = lang.script.BUFF,
+    upgrade = lang.script.UPGRADE,
+    doodad = lang.script.DOODAD,
+    destructable = lang.script.DESTRUCTABLE,
+}
+
+function mt:get_displayname(o)
+    local name
+    if o._type == 'buff' then
+        name = o.bufftip or o.editorname or ''
+    elseif o._type == 'upgrade' then
+        name = o.name[1] or ''
+    elseif o._type == 'doodad' or o._type == 'destructable' then
+        name = self:get_editstring(o.name or '')
+    else
+        name = o.name or ''
+    end
+    return displaytype[o._type], o._id, (tostring(name):sub(1, 100):gsub('\r\n', ' '))
+end
+
 mt.setting = {}
 
 local function toboolean(v)

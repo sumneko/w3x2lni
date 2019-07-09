@@ -29,30 +29,6 @@ local default
 local all_slk
 local used
 
-local displaytype = {
-    unit = lang.script.UNIT,
-    ability = lang.script.ABILITY,
-    item = lang.script.ITEM,
-    buff = lang.script.BUFF,
-    upgrade = lang.script.UPGRADE,
-    doodad = lang.script.DOODAD,
-    destructable = lang.script.DESTRUCTABLE,
-}
-
-local function get_displayname(o)
-    local name
-    if o._type == 'buff' then
-        name = o.bufftip or o.editorname or ''
-    elseif o._type == 'upgrade' then
-        name = o.name[1] or ''
-    elseif o._type == 'doodad' or o._type == 'destructable' then
-        name = w2l:get_editstring(o.name or '')
-    else
-        name = o.name or ''
-    end
-    return displaytype[o._type], o._id, (name:sub(1, 100):gsub('\r\n', ' '))
-end
-
 local function report_failed(obj, key, tip, info)
     report.n = report.n + 1
     if not report[tip] then
@@ -61,7 +37,7 @@ local function report_failed(obj, key, tip, info)
     if report[tip][obj._id] then
         return
     end
-    local type, id, name = get_displayname(obj)
+    local type, id, name = w2l:get_displayname(obj)
     report[tip][obj._id] = {
         ("%s %s %s"):format(type, id, name),
         ("%s %s"):format(key, info),

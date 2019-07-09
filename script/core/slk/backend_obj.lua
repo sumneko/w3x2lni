@@ -22,30 +22,6 @@ local hexs
 local wts
 local ttype
 
-local displaytype = {
-    unit = lang.script.UNIT,
-    ability = lang.script.ABILITY,
-    item = lang.script.ITEM,
-    buff = lang.script.BUFF,
-    upgrade = lang.script.UPGRADE,
-    doodad = lang.script.DOODAD,
-    destructable = lang.script.DESTRUCTABLE,
-}
-
-local function get_displayname(o)
-    local name
-    if o._type == 'buff' then
-        name = o.bufftip or o.editorname or ''
-    elseif o._type == 'upgrade' then
-        name = o.name[1] or ''
-    elseif o._type == 'doodad' or o._type == 'destructable' then
-        name = w2l:get_editstring(o.name or '')
-    else
-        name = o.name or ''
-    end
-    return o._id, (name:sub(1, 100):gsub('\r\n', ' '))
-end
-
 local function format_value(value)
     if type(value) == 'table' then
         local tbl = {}
@@ -61,7 +37,7 @@ local function format_value(value)
 end
 
 local function report(reason, obj, key, tip)
-    w2l.messager.report(reason, 6, ('%s %s %s'):format(displaytype[ttype], get_displayname(obj)), ('[%s]: %s'):format(key, format_value(tip)))
+    w2l.messager.report(reason, 6, ('%s %s %s'):format(w2l:get_displayname(obj)), ('[%s]: %s'):format(key, format_value(tip)))
 end
 
 local function write(format, ...)
