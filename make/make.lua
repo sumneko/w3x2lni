@@ -3,7 +3,7 @@ package.cpath = 'make/luamake/?.dll'
 
 local fs = require 'bee.filesystem'
 local subprocess = require 'bee.subprocess'
-local sleep = require 'ffi.sleep'
+local thread = require 'bee.thread'
 local uni = require 'bee.unicode'
 local minizip = require 'minizip'
 
@@ -15,7 +15,7 @@ local function task(f, ...)
         if pcall(f, ...) then
             return true
         end
-        sleep(10)
+        thread.sleep(0.01)
     end
     return false
 end
