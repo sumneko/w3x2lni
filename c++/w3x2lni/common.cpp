@@ -74,7 +74,7 @@ size_t pipe::read(char* buf, size_t len) {
 
 size_t pipe::write(const char* buf, size_t len) {
 	DWORD wlen = 0;
-	if (!WriteFile(f, buf, len, &wlen, 0)) {
+	if (!WriteFile(f, buf, (DWORD)len, &wlen, 0)) {
 		return -1;
 	}
 	return (size_t)wlen;

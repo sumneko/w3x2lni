@@ -29,17 +29,17 @@ void OnDropFiles(HWND hwnd, HDROP hdrop)
 		return;
 	}
 
-	size_t n = ::DragQueryFileW(hdrop, -1, NULL, 0);
-	for (size_t i = 0; i < n; ++i)
+	UINT n = ::DragQueryFileW(hdrop, -1, NULL, 0);
+	for (UINT i = 0; i < n; ++i)
 	{
-		size_t len = ::DragQueryFileW(hdrop, i, NULL, 0);
+		UINT len = ::DragQueryFileW(hdrop, i, NULL, 0);
 		len++;
 		std::unique_ptr<wchar_t[]> buf(new wchar_t[len]);
 		::DragQueryFileW(hdrop, i, buf.get(), len);
-		std::string filename = w2u(std::wstring_view(buf.get(), len));
+		std::string filename = w2u(std::wstring_view(buf.get(), (size_t)len));
 		lua_pushlstring(L, filename.data(), filename.size() - 1);
 	}
-	if (lua_pcall(L, n, 0, 0)) {
+	if (lua_pcall(L, (int)n, 0, 0)) {
 		printf("%s\n", lua_tostring(L, -1));
 		lua_pop(L, 1);
 	}
