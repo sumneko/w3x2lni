@@ -10,10 +10,10 @@ local metadata
 
 local function to_type(tp, value)
     if tp == 0 then
-        if not value or value == 0 then
+        if not value then
             return nil
         end
-        return value
+        return math.tointeger(value) or 0
     elseif tp == 1 or tp == 2 then
         if not value then
             return nil

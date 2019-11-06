@@ -1,2 +1,3 @@
 [Misc]
 AgiAttackSpeedBonus=0.012
+GlobalExperience=0
