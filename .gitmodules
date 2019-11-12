@@ -19,3 +19,6 @@
 [submodule "3rd/zlib"]
 	path = 3rd/zlib
 	url = https://github.com/madler/zlib
+[submodule "casclib"]
+	path = 3rd/casclib
+	url = https://github.com/ladislav-zezula/CascLib
