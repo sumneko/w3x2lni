@@ -152,6 +152,8 @@ Attemp to recursion in local define.
 Function [%s] returns [%s], you missed it.
 [ERROR_RETURN_TYPE]
 Function [%s] returns [%s], you returns [%s].
+[ERROR_RETURN_INTEGER_AS_REAL]
+Function [%s] returns [%s], you returns [%s]. The returned value convered to [0.0]
 [ERROR_WASTE_RETURN]
 Function [%s] returns nothing, you returns [%s].
 [ERROR_CONSTANT_UNINIT]

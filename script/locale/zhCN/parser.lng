@@ -152,6 +152,8 @@
 函数[%s]需要返回[%s]，但你没有返回。
 [ERROR_RETURN_TYPE]
 函数[%s]需要返回[%s]，但你返回了[%s]。
+[ERROR_RETURN_INTEGER_AS_REAL]
+函数[%s]需要返回[%s]，但你返回了[%s]，返回值将变为[0.0]。
 [ERROR_WASTE_RETURN]
 函数[%s]没有返回值，但你返回了[%s]。
 [ERROR_CONSTANT_UNINIT]
