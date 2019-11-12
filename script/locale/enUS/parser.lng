@@ -1,47 +1,53 @@
 [PARSER_ERROR]
 [%s] line [%d]: %s
 [VAR_NO_EXISTS]
-Variable [%s] not exists
+Variable [%s] not exists.
 [FUNCTION_NO_EXISTS]
-Function [%s] not exists
+Function [%s] not exists.
 [ERROR_ADD]
-Attempt to perform addition operations between [%s] and [%s]
+Attempt to perform addition operations between [%s] and [%s].
 [ERROR_SUB]
-Attempt to perform subtraction operation between [%s] and [%s]
+Attempt to perform subtraction operation between [%s] and [%s].
 [ERROR_MUL]
-Attempt to perform multiplication operations between [%s] and [%s]
+Attempt to perform multiplication operations between [%s] and [%s].
 [ERROR_DIV]
-Attempt to perform division operations between [%s] and [%s]
+Attempt to perform division operations between [%s] and [%s].
+[ERROR_MOD]
+Attempt to perform modulus operations between [%s] and [%s].
+[WARNING_MOD]
+Modulus symbol can only be used after 1.29.
 [ERROR_NEG]
-Attempt to perform negative operations to [%s]
+Attempt to perform negative operations to [%s].
 [ERROR_EQUAL]
-Attempt to judgment [%s] with [%s]
+Attempt to judgment [%s] with [%s].
 [ERROR_COMPARE]
-Attempt to compare [%s] with [%s]
+Attempt to compare [%s] with [%s].
 [UNKNOWN_EXP]
-Attempt to parse unknown exp
+Attempt to parse unknown exp.
 [UNKNOWN_EXP_TYPE]
-Attempt to parse unknown exp type
-[ERROR_TYPE]
-Undefined type [%s]
+Attempt to parse unknown exp type.
 [ERROR_DEFINE_NATIVE_TYPE]
-Native type cannot be redefined
+Name [%s] has been used --> Defined as native type.
 [ERROR_REDEFINE_TYPE]
-Type [%s] redefined --> Defined in [%s] line [%d]
+Name [%s] has been used --> Defined as Type in [%s] line [%d].
 [ERROR_REDEFINE_GLOBAL]
-Global [%s] redefined --> Defined in [%s] line [%d]
+Name [%s] has been used --> Defined as Global in [%s] line [%d].
+[ERROR_REDEFINE_FUNCTION]
+Name [%s] has been used --> Defined as Function in [%s] line [%d].
+[ERROR_REDEFINE_ARG]
+Name [%s] has been used --> Defined as Arg in [%s] line [%d].
 [ERROR_CONSTANT_INIT]
-Constant must be initialized
+Constant must be initialized.
 [ERROR_UNDEFINE_TYPE]
-Undefined type [%s]
+Undefined type [%s].
 [ERROR_ARRAY_INIT]
-Unable to initialize an array
+Unable to initialize an array.
 [ERROR_GLOBAL_AFTER_FUNCTION]
-Globals must defined before functions
+Globals must defined before functions.
 [ERROR_LOCAL_NAME_WITH_ARG]
-Conflicted name between local [%s] and function arg
+Conflicted name between local [%s] and function arg.
 [ERROR_EXITWHEN]
-Unable to use `exitwhen` outside of loop
+Unable to use `exitwhen` outside of loop.
 [UNKNOWN_LINE]
 Unknown line:
 [UNKNOWN_CHUNK]
@@ -57,26 +63,120 @@ Unknown chunk:
 ===========================
 
 [CONFLICT_COMMENT_LINE]
-Conflicted comment line
+Conflicted comment line.
 [ERROR_KEY_WORD]
-Keyword [%s] cannot use as function name or variable name
+Keyword [%s] cannot use as function name or variable name.
 [ERROR_ESC]
-Unlawful escape character
+Unlawful escape character.
 [ERROR_REAL]
-Unlawful real
+Unlawful real.
 [ERROR_INT16]
-Unlawful int16
+Unlawful int16.
 [ERROR_INT256_COUNT]
-Int256 must be composed of 1 or 4 characters
+Int256 must be composed of 1 or 4 characters.
 [ERROR_INT256_ESC]
-4 character int256 cannot use escape characters
+4 character int256 cannot use escape characters.
 [ERROR_VAR_TYPE]
-Variable type error
+Variable type error.
 [ERROR_EXTENDS_TYPE]
-Type extends error
+Type extends error.
 [ERROR_ENDGLOBALS]
-Need `endglobals`
+Missing `endglobals` --> `globals` defined in line [%s].
 [ERROR_ENDFUNCTION]
-Need `endfunction`
+Missing `endfunction` --> `function` defined in line [%s].
+[ERROR_ENDIF]
+Missing `endif` --> `if` defined in line [%s].
+[ERROR_ENDLOOP]
+Missing `endloop` --> `loop` defined in line [%s].
+[ERROR_LOCAL_IN_FUNCTION]
+Local variable must be declared at beginning.
+[ERROR_TYPE_IN_FUNCTION]
+Type cannot be declared in function.
+[EXCEPTION_CHAR]
+Exception char.
 [SYNTAX_ERROR]
-Synatx error
+Synatx error.
+[MISS_NL]
+Missing newline.
+[ERROR_ASSIGN_AS_EQ]
+Error symbol '=' , may be '==' .
+[ERROR_MISS_PL]
+Missing ')' .
+[ERROR_MISS_BR]
+Missing ']' .
+[ERROR_MISS_EXP]
+Missing expression.
+[ERROR_ACTION_IN_CHUNK]
+Statements out of function.
+[ERROR_RETURN_AS_RETURNS]
+Should use "returns" instead of "return".
+[ERROR_MISS_THEN]
+Missing 'then' or legal expression.
+[ERROR_LESS_ARGS]
+Function [%s] needs [%d] args, takes [%d] args, missing "%s".
+[ERROR_MORE_ARGS]
+Function [%s] needs [%d] args, takes [%d] args.
+[ERROR_WRONG_ARG]
+Function [%s] , the [%d]th arg type is [%s], takes [%s].
+[ERROR_FILTER_CODE]
+Function passed to 'Filter' or 'Condition' should return 'boolean'.
+[ERROR_WASTE_ARGS]
+Function [%s] needs nothing, but passed [%d] args.
+[ERROR_WASTE_INDEX]
+Attemp to index variable [%s].
+[ERROR_NO_INDEX]
+Missing index for array [%s].
+[ERROR_SET_CONSTANT]
+Attemp to assign constant [%s].
+[ERROR_SET_IN_CONSTANT]
+Attemp to assign Global [%s] in constant function.
+[ERROR_SET_TYPE]
+variable [%s] type is [%s], attemp to assign [%s].
+[ERROR_GET_UNINIT]
+variable [%s] used without initialize.
+[ERROR_REDEFINE_ARRAY_WITH_ARG]
+Attemp to define [%s] as array --> function [%s] has used this name as arg in [%s] line [%d].
+[ERROR_REDEFINE_VAR_TYPE_WITH_ARG]
+Attemp to define [%s] as [%s] --> function [%s] has used this name as arg in [%s] line [%d].
+[ERROR_REDEFINE_ARRAY_WITH_GLOBAL]
+Attemp to define [%s] as array --> unarray global has used this name in [%s] line [%d].
+[ERROR_CODE_HAS_CODE]
+Attemp to convert a function with args to code.
+[ERROR_CALL_IN_CONSTANT]
+Attemp to call an unconstant function in constant function.
+[ERROR_CODE_ARRAY]
+Code cant be defined as array.
+[ERROR_LOCAL_RECURSION]
+Attemp to recursion in local define.
+[ERROR_MISS_RETURN]
+Function [%s] returns [%s], you missed it.
+[ERROR_RETURN_TYPE]
+Function [%s] returns [%s], you returns [%s].
+[ERROR_WASTE_RETURN]
+Function [%s] returns nothing, you returns [%s].
+[ERROR_CONSTANT_UNINIT]
+Constant function [%s] returns a variable without initialize.
+[ERROR_RETURN_IN_ALL]
+Function [%s] returns [%s], you missed it in some branches of logic.
+[ERROR_SET_AS_CALL]
+Should use 'call' instead of 'set' to call a function.
+[ERROR_CALL_AS_SET]
+Should use 'set' instead or 'call' to assign variable.
+[ERROR_CONSTANT_LOCAL]
+Attemp to define a local as constant.
+[WARNING_REDEFINE_VAR]
+(Caution, variable [%s] has magic redefined in [%s] line [%s].)
+[WARNING_REDEFINED_TO]
+redefined as [%s]
+[WARNING_REDEFINED_AS_ARRAY]
+became an array
+[WARNING_REDEFINED_AS_NOT_ARRAY]
+became an unarray
+[WARNING_REDEFINE_GLOBAL]
+Global [%s] has magic --> defined local used same name in [%s] line [%s].
+[WARNING_REDEFINE_CONCAT]
+, and
+[WARNING_CRASH_NATIVE_IN_GLOBAL]
+Call [%s] in globals will make WC3 crash.
+[WARNING_NULL_NATIVE_IN_GLOBAL]
+Call [%s] in globals will return null.

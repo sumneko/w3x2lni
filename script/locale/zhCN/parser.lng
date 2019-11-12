@@ -1,47 +1,53 @@
 [PARSER_ERROR]
 [%s]第[%d]行: %s
 [VAR_NO_EXISTS]
-变量[%s]不存在
+变量[%s]不存在。
 [FUNCTION_NO_EXISTS]
-函数[%s]不存在
+函数[%s]不存在。
 [ERROR_ADD]
-不能对[%s]与[%s]做加法运算
+不能对[%s]与[%s]做加法运算。
 [ERROR_SUB]
-不能对[%s]与[%s]做减法运算
+不能对[%s]与[%s]做减法运算。
 [ERROR_MUL]
-不能对[%s]与[%s]做乘法运算
+不能对[%s]与[%s]做乘法运算。
 [ERROR_DIV]
-不能对[%s]与[%s]做除法运算
+不能对[%s]与[%s]做除法运算。
+[ERROR_MOD]
+只能在整数之间做取模运算。
+[WARNING_MOD]
+取模符号只能在1.29以上的魔兽中使用。
 [ERROR_NEG]
-不能对[%s]做负数运算
+不能对[%s]做负数运算。
 [ERROR_EQUAL]
-不能比较[%s]与[%s]是否相等
+不能比较[%s]与[%s]是否相等。
 [ERROR_COMPARE]
-不能比较[%s]与[%s]的大小
+不能比较[%s]与[%s]的大小。
 [UNKNOWN_EXP]
 解析未定义的表达式类型:
 [UNKNOWN_EXP_TYPE]
 没有解析到类型:
-[ERROR_TYPE]
-类型[%s]未定义
 [ERROR_DEFINE_NATIVE_TYPE]
-不能重新定义本地类型
+名称[%s]已被使用 --> 作为内置类型。
 [ERROR_REDEFINE_TYPE]
-类型[%s]重复定义 --> 已经定义在[%s]第[%d]行
+名称[%s]已被使用 --> 作为类型定义在[%s]第[%d]行。
 [ERROR_REDEFINE_GLOBAL]
-全局变量[%s]重复定义 --> 已经定义在[%s]第[%d]行
+名称[%s]已被使用 --> 作为全局变量定义在[%s]第[%d]行。
+[ERROR_REDEFINE_FUNCTION]
+名称[%s]已被使用 --> 作为函数定义在[%s]第[%d]行。
+[ERROR_REDEFINE_ARG]
+名称[%s]已被使用 --> 作为函数参数定义在[%s]第[%d]行。
 [ERROR_CONSTANT_INIT]
-常量必须初始化
+常量必须初始化。
 [ERROR_UNDEFINE_TYPE]
-类型[%s]未定义
+类型[%s]未定义。
 [ERROR_ARRAY_INIT]
-数组不能直接初始化
+数组不能直接初始化。
 [ERROR_GLOBAL_AFTER_FUNCTION]
-全局变量必须在函数前定义
+全局变量必须在函数前定义。
 [ERROR_LOCAL_NAME_WITH_ARG]
-局部变量[%s]和函数参数重名
+局部变量[%s]和函数参数重名。
 [ERROR_EXITWHEN]
-不能在循环外使用exitwhen
+不能在循环外使用exitwhen。
 [UNKNOWN_LINE]
 未知的语句类型:
 [UNKNOWN_CHUNK]
@@ -59,24 +65,118 @@
 [CONFLICT_COMMENT_LINE]
 注释行重复:
 [ERROR_KEY_WORD]
-不能使用关键字[%s]作为函数名或变量名
+不能使用关键字[%s]作为函数名或变量名。
 [ERROR_ESC]
-不合法的转义字符
+不合法的转义字符。
 [ERROR_REAL]
-不合法的实数
+不合法的实数。
 [ERROR_INT16]
-不合法的16进制整数
+不合法的16进制整数。
 [ERROR_INT256_COUNT]
-256进制整数必须是由1个或者4个字符组成
+256进制整数必须是由1个或者4个字符组成。
 [ERROR_INT256_ESC]
-4个字符组成的256进制整数不能使用转义字符
+4个字符组成的256进制整数不能使用转义字符。
 [ERROR_VAR_TYPE]
-变量类型定义错误
+变量类型定义错误。
 [ERROR_EXTENDS_TYPE]
-类型继承错误
+类型继承错误。
 [ERROR_ENDGLOBALS]
-缺少endglobals
+缺少endglobals --> globals定义在第[%s]行。
 [ERROR_ENDFUNCTION]
-缺少endfunction
+缺少endfunction --> function定义在第[%s]行。
+[ERROR_ENDIF]
+缺少endif --> if定义在第[%s]行。
+[ERROR_ENDLOOP]
+缺少endloop --> loop定义在第[%s]行。
+[ERROR_LOCAL_IN_FUNCTION]
+局部变量必须在函数开头声明。
+[ERROR_TYPE_IN_FUNCTION]
+类型不能被定义在函数里。
+[EXCEPTION_CHAR]
+错误的字符。
 [SYNTAX_ERROR]
-语法不正确
+语法不正确。
+[MISS_NL]
+缺少换行。
+[ERROR_ASSIGN_AS_EQ]
+表达式中的 '=' ，可能是 '==' 。
+[ERROR_MISS_PR]
+缺少 ')' 。
+[ERROR_MISS_BR]
+缺少 ']' 。
+[ERROR_MISS_EXP]
+缺少表达式。
+[ERROR_ACTION_IN_CHUNK]
+语句必须写在函数内。
+[ERROR_RETURN_AS_RETURNS]
+应该用 "returns" 而不是 "return" 。
+[ERROR_MISS_THEN]
+缺少 then 或 合法的表达式。
+[ERROR_LESS_ARGS]
+函数[%s]需要[%d]个参数，但只传了[%d]个参数，还缺少 "%s"。
+[ERROR_MORE_ARGS]
+函数[%s]需要[%d]个参数，但传了[%d]个参数。
+[ERROR_WRONG_ARG]
+函数[%s]的第[%d]个参数类型为[%s]，但传了[%s]。
+[ERROR_FILTER_CODE]
+传递给 Filter 或 Condition 的函数应该要返回 boolean 。
+[ERROR_WASTE_ARGS]
+函数[%s]不需要参数，但传了[%d]个参数。
+[ERROR_WASTE_INDEX]
+变量[%s]不需要索引。
+[ERROR_NO_INDEX]
+数组变量[%s]缺少索引。
+[ERROR_SET_CONSTANT]
+无法给常量[%s]赋值。
+[ERROR_SET_IN_CONSTANT]
+在常量函数中，无法修改全局变量[%s]。
+[ERROR_SET_TYPE]
+变量[%s]的类型为[%s]，但赋值的类型为[%s]。
+[ERROR_GET_UNINIT]
+变量[%s]没有初始化就使用。
+[ERROR_REDEFINE_ARRAY_WITH_ARG]
+你不能定义[%s]为数组，因为函数[%s]定义了同名的参数 --> 定义在[%s]第[%d]行。
+[ERROR_REDEFINE_VAR_TYPE_WITH_ARG]
+你不能定义[%s]为[%s]，因为函数[%s]定义的同名参数类型为[%s] --> 定义在[%s]第[%d]行。
+[ERROR_REDEFINE_ARRAY_WITH_GLOBAL]
+你不能定义[%s]为数组，因为同名的全局变量不是数组 --> 定义在[%s]第[%d]行。
+[ERROR_CODE_HAS_CODE]
+转为code的函数[%s]不能有任何参数。
+[ERROR_CALL_IN_CONSTANT]
+在常量函数中，无法调用非常量函数[%s]。
+[ERROR_CODE_ARRAY]
+无法使用code数组。
+[ERROR_LOCAL_RECURSION]
+不能在局部变量定义时，递归调用函数。
+[ERROR_MISS_RETURN]
+函数[%s]需要返回[%s]，但你没有返回。
+[ERROR_RETURN_TYPE]
+函数[%s]需要返回[%s]，但你返回了[%s]。
+[ERROR_WASTE_RETURN]
+函数[%s]没有返回值，但你返回了[%s]。
+[ERROR_CONSTANT_UNINIT]
+常量函数[%s]的返回值没有经过初始化。
+[ERROR_RETURN_IN_ALL]
+函数[%s]需要返回[%s]，但你没有在所有的逻辑分支中返回。
+[ERROR_SET_AS_CALL]
+应该用 call 而不是 set 来调用函数。
+[ERROR_CALL_AS_SET]
+应该用 set 而不是 call 来赋值变量。
+[ERROR_CONSTANT_LOCAL]
+局部变量不能是常量。
+[WARNING_REDEFINE_VAR]
+(注意，变量[%s]已在[%s]第[%d]行被重定义。)
+[WARNING_REDEFINED_TO]
+被重定义为[%s]
+[WARNING_REDEFINED_AS_ARRAY]
+成为了数组
+[WARNING_REDEFINED_AS_NOT_ARRAY]
+不再是数组
+[WARNING_REDEFINE_GLOBAL]
+全局变量[%s]%s --> 由于同名局部变量定义在[%s]第[%d]行。
+[WARNING_REDEFINE_CONCAT]
+，且
+[WARNING_CRASH_NATIVE_IN_GLOBAL]
+在定义全局变量时使用[%s]会导致魔兽崩溃。
+[WARNING_NULL_NATIVE_IN_GLOBAL]
+在定义全局变量时[%s]会返回空值。
