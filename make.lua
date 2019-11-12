@@ -77,6 +77,18 @@ lm:shared_library 'stormlib' {
     ldflags = '/DEF:3rd/stormlib/stormlib_dll/stormlib.def'
 }
 
+lm:shared_library 'casclib' {
+    sources = {
+        'casclib/src/*.cpp',
+        'casclib/src/*.c',
+    },
+    defines = {
+        '_UNICODE',
+        'UNICODE'
+    },
+    ldflags = '/DEF:3rd/casclib/src/CascLib.def'
+}
+
 lm:shared_library 'lni' {
     deps = 'lua54',
     sources = {
@@ -143,6 +155,7 @@ lm:build 'install' {
         'w3xparser',
         'lpeglabel',
         'stormlib',
+        'casclib',
         'lni',
         'ffi',
         'minizip',
