@@ -75,17 +75,28 @@ local function writer(t)
     return table.concat(f, '\r\n')
 end
 
-return function (w2l, version)
+return function (w2l, war3ver, version)
     w2l.messager.text(lang.script.CONVERT_ONE .. version)
 
-    w2l:set_setting
-    {
-        data      = config.global.data,
-        data_ui   = config.global.data_ui,
-        data_meta = config.global.data_meta,
-        data_wes  = config.global.data_wes,
-        version   = version,
-    }
+    if war3ver.major > 1 or war3ver.minor >= 29 then
+        w2l:set_setting
+        {
+            data      = config.global.data,
+            data_ui   = '{$DATA}',
+            data_meta = '{$DATA}',
+            data_wes  = '{$DATA}',
+            version   = version,
+        }
+    else
+        w2l:set_setting
+        {
+            data      = config.global.data,
+            data_ui   = config.global.data_ui,
+            data_meta = config.global.data_meta,
+            data_wes  = config.global.data_wes,
+            version   = version,
+        }
+    end
     local prebuilt_path = root / 'data' / config.global.data / 'prebuilt' / version
     fs.create_directories(prebuilt_path)
 

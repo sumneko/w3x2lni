@@ -103,6 +103,7 @@ function m:open(path)
             self.name = lg .. '-' .. verStr
         end
     end
+    self.ver = ver
     return true
 end
 

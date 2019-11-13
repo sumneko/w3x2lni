@@ -46,20 +46,13 @@ end
 
 function mt:metadata()
     if not self.cache_metadata then
-        self.cache_metadata = lni(load_file 'defined\\metadata.ini')
-    end
-    return self.cache_metadata
-end
-
-function mt:we_metadata()
-    if not self.cache_we_metadata then
         if self.setting.data_meta == '${DEFAULT}' then
-            self.cache_we_metadata = self.cache_metadata
+            self.cache_metadata = lni(load_file 'defined\\metadata.ini')
         else
-            self.cache_we_metadata = lni(self:data_load('prebuilt\\metadata.ini'))
+            self.cache_metadata = lni(self:data_load('prebuilt\\metadata.ini'))
         end
     end
-    return self.cache_we_metadata
+    return self.cache_metadata
 end
 
 function mt:keydata()
