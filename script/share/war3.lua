@@ -1,6 +1,7 @@
 local file_version = require 'ffi.file_version'
 local stormlib = require 'ffi.stormlib'
 local casclib = require 'ffi.casclib'
+local config = require 'share.config'
 
 local language_map = {
     [0x00000409] = 'enUS',
@@ -78,7 +79,7 @@ function m:open(path)
     end
     if ver.major > 1 or ver.minor >= 29 then
         self.casc = casclib.open(path:string())
-        local lang = require 'ffi.language' ()
+        local lang = config.global.lang
         self.casc_paths = {
             'war3.w3mod:_locales\\'..lang..'.w3mod:',
             'war3.w3mod:',
