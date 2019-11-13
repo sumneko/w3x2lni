@@ -82,9 +82,9 @@ return function (w2l, war3ver, version)
         w2l:set_setting
         {
             data      = config.global.data,
-            data_ui   = '{$DATA}',
-            data_meta = '{$DATA}',
-            data_wes  = '{$DATA}',
+            data_ui   = '${DATA}',
+            data_meta = '${DATA}',
+            data_wes  = '${DATA}',
             version   = version,
         }
     else
