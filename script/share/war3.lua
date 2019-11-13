@@ -107,10 +107,14 @@ function m:close()
 end
 
 function m:readfile(filename)
-    for _, mpq in ipairs(self.mpqs) do
-        if mpq:has_file(filename) then
-            return mpq:load_file(filename)
+    if self.mpqs then
+        for _, mpq in ipairs(self.mpqs) do
+            if mpq:has_file(filename) then
+                return mpq:load_file(filename)
+            end
         end
+    else
+        return self.casc:load_file('war3.w3mod:'..filename)
     end
 end
 

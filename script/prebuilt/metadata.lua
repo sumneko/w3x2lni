@@ -167,7 +167,7 @@ local function is_enable(meta, type)
     return true
 end
 
-local characters = {'A','B','C','D','E','F','G','H','I'}
+local characters = {'A','B','C','D','E','F','G','H','I', 'J'}
 
 local function parse_id(w2l, metadata, id, meta, type, has_level)
     local key = meta.field
