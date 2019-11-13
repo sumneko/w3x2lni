@@ -38,12 +38,12 @@ local function main()
     local meta = prebuilt_metadata(w2l, nil, loader)
     io.save(fs.current_path() / 'core' / 'defined' / 'metadata.ini', meta)
 
-    local slk_melee  = makefile(w2l, 'Melee')
-    local slk_custom = makefile(w2l, 'Custom')
+    local slk_melee  = makefile(w2l, { major = 1, minor = 24 }, 'Melee')
+    local slk_custom = makefile(w2l, { major = 1, minor = 24 }, 'Custom')
     
     config.global.data = "enUS-1.27.1"
-    makefile(w2l, 'Melee')
-    makefile(w2l, 'Custom')
+    makefile(w2l, { major = 1, minor = 27 }, 'Melee')
+    makefile(w2l, { major = 1, minor = 27 }, 'Custom')
 
     config.global.data = "zhCN-1.24.4"
     maketemplate(w2l, 'Melee',  slk_melee)
