@@ -11,5 +11,6 @@
         "compare_dump",
         "compare_value",
         "window"
-    ]
+    ],
+    "Lua.runtime.version": "Lua 5.4"
 }
