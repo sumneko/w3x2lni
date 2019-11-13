@@ -44,6 +44,13 @@ local function extract_mpq(name)
     extract_file(output / 'mpq', name)
 end
 
+local function extract_casc(dirs, name)
+    local filename = dirs[1] .. name
+    local outpath = output / 'mpq' / dirs[2] / name
+    local r = war3:extractfile(filename, outpath)
+    result[name] = r or false
+end
+
 local function report_fail()
     local tbl = {}
     for name, res in pairs(result) do
@@ -58,27 +65,56 @@ local function report_fail()
 end
 
 local function extract()
-    for _, dir in ipairs {'', 'Custom_V1\\'} do
-        extract_mpq(dir .. 'Scripts\\Common.j')
-        extract_mpq(dir .. 'Scripts\\Blizzard.j')
-        extract_mpq(dir .. 'UI\\MiscData.txt')
-        extract_mpq(dir .. 'Units\\MiscGame.txt')
-        extract_mpq(dir .. 'Units\\MiscData.txt')
-        extract_mpq(dir .. 'Units\\AbilityMetaData.slk')
-        extract_mpq(dir .. 'Units\\DestructableMetaData.slk')
-        extract_mpq(dir .. 'Units\\AbilitybuffMetaData.slk')
-        extract_mpq(dir .. 'Units\\UpgradeMetaData.slk')
-        extract_mpq(dir .. 'Units\\UnitMetaData.slk')
-        extract_mpq(dir .. 'Units\\MiscMetaData.slk')
-        extract_mpq(dir .. 'Doodads\\DoodadMetaData.slk')
-        extract_mpq(dir .. 'UI\\UnitEditorData.txt')
-        for type, slks in pairs(w2l.info.slk) do
-            for _, name in ipairs(slks) do
+    if war3.mpqs then
+        for _, dir in ipairs {'', 'Custom_V1\\'} do
+            extract_mpq(dir .. 'Scripts\\Common.j')
+            extract_mpq(dir .. 'Scripts\\Blizzard.j')
+            extract_mpq(dir .. 'UI\\MiscData.txt')
+            extract_mpq(dir .. 'Units\\MiscGame.txt')
+            extract_mpq(dir .. 'Units\\MiscData.txt')
+            extract_mpq(dir .. 'Units\\AbilityMetaData.slk')
+            extract_mpq(dir .. 'Units\\DestructableMetaData.slk')
+            extract_mpq(dir .. 'Units\\AbilitybuffMetaData.slk')
+            extract_mpq(dir .. 'Units\\UpgradeMetaData.slk')
+            extract_mpq(dir .. 'Units\\UnitMetaData.slk')
+            extract_mpq(dir .. 'Units\\MiscMetaData.slk')
+            extract_mpq(dir .. 'Doodads\\DoodadMetaData.slk')
+            extract_mpq(dir .. 'UI\\UnitEditorData.txt')
+            for type, slks in pairs(w2l.info.slk) do
+                for _, name in ipairs(slks) do
+                    extract_mpq(dir .. name)
+                end
+            end
+            for _, name in ipairs(w2l.info.txt) do
                 extract_mpq(dir .. name)
             end
         end
-        for _, name in ipairs(w2l.info.txt) do
-            extract_mpq(dir .. name)
+    else
+        for _, dirs in ipairs {
+            {'', ''},
+            {'_balance\\Custom_V1.w3mod:','Custom_V1\\'},
+        } do
+            extract_casc(dirs, 'Scripts\\Common.j')
+            extract_casc(dirs, 'Scripts\\Blizzard.j')
+            extract_casc(dirs, 'UI\\MiscData.txt')
+            extract_casc(dirs, 'Units\\MiscGame.txt')
+            extract_casc(dirs, 'Units\\MiscData.txt')
+            extract_casc(dirs, 'Units\\AbilityMetaData.slk')
+            extract_casc(dirs, 'Units\\DestructableMetaData.slk')
+            extract_casc(dirs, 'Units\\AbilitybuffMetaData.slk')
+            extract_casc(dirs, 'Units\\UpgradeMetaData.slk')
+            extract_casc(dirs, 'Units\\UnitMetaData.slk')
+            extract_casc(dirs, 'Units\\MiscMetaData.slk')
+            extract_casc(dirs, 'Doodads\\DoodadMetaData.slk')
+            extract_casc(dirs, 'UI\\UnitEditorData.txt')
+            for type, slks in pairs(w2l.info.slk) do
+                for _, name in ipairs(slks) do
+                    extract_casc(dirs, name)
+                end
+            end
+            for _, name in ipairs(w2l.info.txt) do
+                extract_casc(dirs, name)
+            end
         end
     end
     -- TODO: 应该放在上面的循环中？
