@@ -98,6 +98,11 @@ function archive:open_file(name)
     return setmetatable({ handle = phandle[0] }, rfile)
 end
 
+function archive:has_file(name)
+    local file <close> = self:open_file(name)
+    return file ~= nil
+end
+
 function archive:load_file(name)
     if self.handle == 0 then
         return nil

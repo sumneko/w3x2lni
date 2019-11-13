@@ -34,6 +34,23 @@ local function mpq_language(config)
     return language_map[tonumber(id)]
 end
 
+local function casc_language(casc)
+    local lgs = {}
+    for _, lg in pairs(language_map) do
+        if casc:has_file('war3.w3mod:_locales\\'..lg..'.w3mod:config.txt') then
+            lgs[#lgs+1] = lg
+        end
+    end
+    -- 如果客户端同时支持多个语言，则使用config.ini中定义的语言
+    for _, lg in ipairs(lgs) do
+        if lg == config.global.lang then
+            return lg
+        end
+    end
+    -- 否则随便返回一个语言
+    return lgs[1]
+end
+
 local function war3_ver (input)
     if not input then
         return nil
@@ -79,13 +96,12 @@ function m:open(path)
     end
     if ver.major > 1 or ver.minor >= 29 then
         self.casc = casclib.open(path:string())
-        local lang = config.global.lang
-        self.casc_paths = {
-            'war3.w3mod:_locales\\'..lang..'.w3mod:',
-            'war3.w3mod:',
-        }
-        local lg = mpq_language(self:readfile('config.txt'))
+        local lg = casc_language(self.casc)
         if lg then
+            self.casc_paths = {
+                'war3.w3mod:_locales\\'..lg..'.w3mod:',
+                'war3.w3mod:',
+            }
             self.name = lg .. '-' .. verStr
         end
     else
