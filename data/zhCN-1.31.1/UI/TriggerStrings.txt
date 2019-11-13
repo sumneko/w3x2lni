@@ -1,0 +1,5411 @@
+// All entries in this file correspond to entries in TriggerData.txt
+// with the same key, and define the text to display for a given
+// function.
+//
+// The first value is the name of the function.
+// Following values are the layout of the text description,
+// and each value may either be raw text, or a parameter.
+// Parameters are distinguished from raw text with a '~' as the first
+// character.
+//
+// Any display text to have a comma must be contained in double quotes
+
+
+//***************************************************************************
+[TriggerEventStrings]
+
+// Special events not defined in common.j,
+// handled internally by the editor
+MapInitializationEvent="地图初始化"
+MapInitializationEvent="地图初始化"
+MapInitializationEventHint="该事件发生在读取地图时."
+
+
+// Destructible events
+TriggerRegisterDeathEvent="可破坏物死亡"
+TriggerRegisterDeathEvent=~可破坏物," 死亡"
+TriggerRegisterDeathEventHint="使用'事件响应 - 死亡的可破坏物'来获取死亡物体."
+
+TriggerRegisterDestDeathInRegionEvent="可破坏物在区域内死亡(矩形区域)"
+TriggerRegisterDestDeathInRegionEvent="可破坏物在 ",~矩形区域," 内死亡"
+TriggerRegisterDestDeathInRegionEventHint="默认该事件只能监视最多64个可破坏物. 可以使用'set bj_destInRegionDiesCount'来设置该值. 不建议新手使用该触发."
+
+// Dialog events
+TriggerRegisterDialogEventBJ="对话框点击"
+TriggerRegisterDialogEventBJ=~对话框," 被点击"
+TriggerRegisterDialogEventBJHint=
+
+
+// Game events
+TriggerRegisterGameStateEventTimeOfDay="游戏时间改变"
+TriggerRegisterGameStateEventTimeOfDay="游戏时间变为 ",~Operation," ",~Time
+TriggerRegisterGameStateEventTimeOfDayHint="游戏时间采用24小时制. 当时间从不成立变为成立时触发事件."
+
+TriggerRegisterVariableEvent="实数变化"
+TriggerRegisterVariableEvent=~实数变量," 变为 ",~Operation," ",~Value
+TriggerRegisterVariableEventHint="该事件只对非数组实数变量有效. 不考虑变量原值,只要条件成立即触发事件."
+
+TriggerRegisterGameLoadedEventBJ="读取进度"
+TriggerRegisterGameLoadedEventBJ="读取进度"
+TriggerRegisterGameLoadedEventBJHint="指游戏进度读取完毕时."
+
+TriggerRegisterGameSavedEventBJ="保存进度"
+TriggerRegisterGameSavedEventBJ="保存进度"
+TriggerRegisterGameSavedEventBJHint="指游戏进度开始保存时."
+
+TriggerRegisterShowSkillEventBJ="学习技能按钮被点击"
+TriggerRegisterShowSkillEventBJ="学习技能按钮被点击"
+TriggerRegisterShowSkillEventBJHint="该事件仅用于单人游戏."
+
+TriggerRegisterBuildSubmenuEventBJ="建造按钮被点击"
+TriggerRegisterBuildSubmenuEventBJ="建造按钮被点击"
+TriggerRegisterBuildSubmenuEventBJHint="该事件仅用于单人游戏."
+
+TriggerRegisterGameEvent="比赛事件"
+TriggerRegisterGameEvent="游戏将要结束在 ",~Event Type
+TriggerRegisterGameEventHint="该事件只出现在Battle.net的自动匹配游戏."
+
+
+// Player events
+TriggerRegisterPlayerChatEvent="聊天信息"
+TriggerRegisterPlayerChatEvent=~Player," 输入的聊天信息包含 ",~文字," ,匹配方式: ",~Match Type
+TriggerRegisterPlayerChatEventHint="使用'事件响应 - 输入/匹配的聊天信息'来获取输入/用于对照的文字. 使用'事件响应 - 触发玩家'来获取输入信息的玩家."
+
+TriggerRegisterPlayerEventEndCinematic="按下Esc键"
+TriggerRegisterPlayerEventEndCinematic=~Player," 按下Esc键"
+TriggerRegisterPlayerEventEndCinematicHint=
+
+TriggerRegisterPlayerSelectionEventBJ="选择事件"
+TriggerRegisterPlayerSelectionEventBJ=~Player," ",~Selects/Deselects," 一个单位"
+TriggerRegisterPlayerSelectionEventBJHint="使用'事件响应 - 触发单位'来获取被选择/取消选择的单位."
+
+TriggerRegisterPlayerKeyEventBJ="键盘事件"
+TriggerRegisterPlayerKeyEventBJ=~Player," ",~Presses/Releases," ",~Key
+TriggerRegisterPlayerKeyEventBJHint=
+
+TriggerRegisterPlayerMouseEventBJ="鼠标事件"
+TriggerRegisterPlayerMouseEventBJ=~玩家,"发出",~鼠标上/下/移动,"事件"
+TriggerRegisterPlayerMouseEventBJHint=
+
+TriggerRegisterPlayerStateEvent="属性变化"
+TriggerRegisterPlayerStateEvent=~Player," 的 ",~Property," 变为 ",~Operation," ",~Value
+TriggerRegisterPlayerStateEventHint="不考虑原属性值,只要变化后的属性值满足条件即触发."
+
+TriggerRegisterPlayerEventAllianceChanged="联盟状态更改"
+TriggerRegisterPlayerEventAllianceChanged=~Player," 更改联盟状态"
+TriggerRegisterPlayerEventAllianceChangedHint=
+
+TriggerRegisterPlayerAllianceChange="联盟状态更改(指定项目)"
+TriggerRegisterPlayerAllianceChange=~Player," 更改 ",~Alliance Type," 设置"
+TriggerRegisterPlayerAllianceChangeHint=
+
+TriggerRegisterPlayerEventVictory="胜利"
+TriggerRegisterPlayerEventVictory=~Player," 胜利离开游戏"
+TriggerRegisterPlayerEventVictoryHint=
+
+TriggerRegisterPlayerEventDefeat="失败"
+TriggerRegisterPlayerEventDefeat=~Player," 战败离开游戏"
+TriggerRegisterPlayerEventDefeatHint=
+
+TriggerRegisterPlayerEventLeave="离开游戏"
+TriggerRegisterPlayerEventLeave=~Player," 离开游戏"
+TriggerRegisterPlayerEventLeaveHint="该事件不管玩家因为什么原因离开游戏."
+
+
+// Timer events
+TriggerRegisterTimerEventSingle="游戏逝去时间"
+TriggerRegisterTimerEventSingle="游戏开始 ",~Time," 秒"
+TriggerRegisterTimerEventSingleHint=
+
+TriggerRegisterTimerEventPeriodic="时间周期事件"
+TriggerRegisterTimerEventPeriodic="每 ",~Time," 秒触发事件"
+TriggerRegisterTimerEventPeriodicHint=
+
+TriggerRegisterTimerExpireEventBJ="计时器到期"
+TriggerRegisterTimerExpireEventBJ=~计时器," 到期"
+TriggerRegisterTimerExpireEventBJHint="当计时器到0时触发该事件. 循环计时器可以多次触发该事件. 使用'事件响应 - 到期的计时器'来获取该计时器."
+
+
+// Unit events
+TriggerRegisterUnitEvent="指定单位事件"
+TriggerRegisterUnitEvent=~指定单位," ",~Event
+TriggerRegisterUnitEventHint=
+
+TriggerRegisterPlayerUnitEventSimple="玩家单位事件"
+TriggerRegisterPlayerUnitEventSimple=~Player," 的单位 ",~Event
+TriggerRegisterPlayerUnitEventSimpleHint=
+
+TriggerRegisterAnyUnitEventBJ="任意单位事件"
+TriggerRegisterAnyUnitEventBJ="任意单位 ",~Event
+TriggerRegisterAnyUnitEventBJHint=
+
+TriggerRegisterEnterRectSimple="单位进入矩形区域"
+TriggerRegisterEnterRectSimple="单位进入 ",~矩形区域
+TriggerRegisterEnterRectSimpleHint="使用'事件响应 - 进入的单位'来响应进入该区域的单位. 事实上是创建不规则区域，并注册单位进入不规则区域事件,所以之后改动该矩形区域对事件不会产生任何影响."
+
+TriggerRegisterLeaveRectSimple="单位离开矩形区域"
+TriggerRegisterLeaveRectSimple="单位离开 ",~矩形区域
+TriggerRegisterLeaveRectSimpleHint="使用'事件响应 - 离开的单位'来响应离开该区域的单位. 事实上是创建不规则区域，并注册单位进入不规则区域事件,所以之后改动该矩形区域对事件不会产生任何影响."
+
+TriggerRegisterUnitInRangeSimple="接近指定单位"
+TriggerRegisterUnitInRangeSimple="单位进入 ",~Range," 范围距离 ",~指定单位
+TriggerRegisterUnitInRangeSimpleHint="使用'事件响应 - 触发单位'来获取接近指定单位的单位."
+
+TriggerRegisterUnitLifeEvent="生命值变化"
+TriggerRegisterUnitLifeEvent=~指定单位," 的生命值变为 ",~Operation," ",~Value
+TriggerRegisterUnitLifeEventHint="从不成立变为成立时触发该事件. 注意:该参照值在注册事件时即被确定为常量,是不会变动的."
+
+TriggerRegisterUnitManaEvent="魔法值变化"
+TriggerRegisterUnitManaEvent=~指定单位," 的魔法值变为",~Operation," ",~Value
+TriggerRegisterUnitManaEventHint="从不成立变为成立时触发该事件. 注意:该参照值在注册事件时即被确定为常量,是不会变动的."
+
+
+//***************************************************************************
+[TriggerConditionStrings]
+
+OperatorCompareBoolean="布尔值"
+OperatorCompareBoolean=~Value," ",~Operator," ",~Value
+OperatorCompareBooleanHint=
+
+OperatorCompareAbilityId="技能"
+OperatorCompareAbilityId=~Value," ",~Operator," ",~Value
+OperatorCompareAbilityIdHint=
+
+OperatorCompareBuffId="魔法效果"
+OperatorCompareBuffId=~魔法效果," ",~Operator," ",~魔法效果
+OperatorCompareBuffIdHint=
+
+OperatorCompareDestructible="可破坏物"
+OperatorCompareDestructible=~可破坏物," ",~Operator," ",~可破坏物
+OperatorCompareDestructibleHint=
+
+OperatorCompareDestructableCode="可破坏物类型"
+OperatorCompareDestructableCode=~Value," ",~Operator," ",~Value
+OperatorCompareDestructableCodeHint=
+
+OperatorCompareButton="对话框按钮"
+OperatorCompareButton=~对话框按钮," ",~Operator," ",~对话框按钮
+OperatorCompareButtonHint=
+
+OperatorCompareGameDifficulty="游戏难度"
+OperatorCompareGameDifficulty=~Value," ",~Operator," ",~Value
+OperatorCompareGameDifficultyHint=
+
+OperatorCompareGameSpeed="游戏速度"
+OperatorCompareGameSpeed=~Value," ",~Operator," ",~Value
+OperatorCompareGameSpeedHint=
+
+OperatorCompareHeroSkill="学习技能"
+OperatorCompareHeroSkill=~Value," ",~Operator," ",~Value
+OperatorCompareHeroSkillHint=
+
+OperatorCompareInteger="整数"
+OperatorCompareInteger=~Value," ",~Operator," ",~Value
+OperatorCompareIntegerHint=
+
+OperatorCompareItem="物品"
+OperatorCompareItem=~物品," ",~Operator," ",~物品
+OperatorCompareItemHint=
+
+OperatorCompareItemType="物品分类"
+OperatorCompareItemType=~Value," ",~Operator," ",~Value
+OperatorCompareItemTypeHint=
+
+OperatorCompareItemCode="物品类型"
+OperatorCompareItemCode=~Value," ",~Operator," ",~Value
+OperatorCompareItemCodeHint=
+
+OperatorCompareMeleeDifficulty="对战AI难度"
+OperatorCompareMeleeDifficulty=~Value," ",~Operator," ",~Value
+OperatorCompareMeleeDifficultyHint=
+
+OperatorCompareMouseButton="鼠标按钮类型比较"
+OperatorCompareMouseButton=~值," ",~操作," ",~值
+OperatorCompareMouseButtonHint=
+
+OperatorCompareOrderCode="命令ID"
+OperatorCompareOrderCode=~Value," ",~Operator," ",~Value
+OperatorCompareOrderCodeHint=
+
+OperatorComparePlayer="玩家"
+OperatorComparePlayer=~Value," ",~Operator," ",~Value
+OperatorComparePlayerHint=
+
+OperatorComparePlayerColor="玩家颜色"
+OperatorComparePlayerColor=~Value," ",~Operator," ",~Value
+OperatorComparePlayerColorHint=
+
+OperatorComparePlayerControl="玩家控制者"
+OperatorComparePlayerControl=~Value," ",~Operator," ",~Value
+OperatorComparePlayerControlHint=
+
+OperatorComparePlayerSlotStatus="玩家游戏状态"
+OperatorComparePlayerSlotStatus=~Value," ",~Operator," ",~Value
+OperatorComparePlayerSlotStatusHint=
+
+//OperatorComparePoint="Point Comparison"
+//OperatorComparePoint=~Value," ",~Operator," ",~Value
+//OperatorComparePointHint=
+
+OperatorCompareRace="种族"
+OperatorCompareRace=~Value," ",~Operator," ",~Value
+OperatorCompareRaceHint=
+
+OperatorCompareReal="实数"
+OperatorCompareReal=~Value," ",~Operator," ",~Value
+OperatorCompareRealHint=
+
+//OperatorCompareRegion="Region Comparison"
+//OperatorCompareRegion=~Value," ",~Operator," ",~Value
+//OperatorCompareRegionHint=
+
+OperatorCompareString="字符串"
+OperatorCompareString=~Value," ",~Operator," ",~字符串
+OperatorCompareStringHint=
+
+OperatorCompareTechCode="科技研究"
+OperatorCompareTechCode=~Value," ",~Operator," ",~科技
+OperatorCompareTechCodeHint=
+
+OperatorCompareTrigger="触发"
+OperatorCompareTrigger=~触发," ",~Operator," ",~触发
+OperatorCompareTriggerHint=
+
+OperatorCompareUnit="单位"
+OperatorCompareUnit=~Value," ",~Operator," ",~单位
+OperatorCompareUnitHint=
+
+OperatorCompareUnitCode="单位类型"
+OperatorCompareUnitCode=~Value," ",~Operator," ",~Value
+OperatorCompareUnitCodeHint=
+
+OperatorCompareTerrainType="地形"
+OperatorCompareTerrainType=~Value," ",~Operator," ",~Value
+OperatorCompareTerrainTypeHint=
+
+GetBooleanAnd="And"
+GetBooleanAnd=~条件1," and ",~条件2
+GetBooleanAndHint=
+
+GetBooleanOr="Or"
+GetBooleanOr=~条件1," or ",~条件2
+GetBooleanOrHint=
+
+AndMultiple="And(多个条件)"
+AndMultiple="所有条件成立"
+AndMultipleHint=
+
+OrMultiple="Or(多个条件)"
+OrMultiple="任一条件成立"
+OrMultipleHint=
+
+
+//***************************************************************************
+[TriggerActionStrings]
+
+DoNothing="无动作"
+DoNothing="无动作"
+DoNothingHint=
+
+CommentString="注释"
+CommentString="     ★     ",~注释文字,"     ★     "
+CommentStringHint=
+
+CustomScriptCode="自定义代码"
+CustomScriptCode="自定义代码: ",~Jass代码
+CustomScriptCodeHint="输入一行Jass代码. 如: call my_func(udg_my_var)"
+
+TriggerSleepAction="等待"
+TriggerSleepAction="等待 ",~Time," 秒"
+TriggerSleepActionHint="等待使用实际时间. 所以遇到比如掉线导致等待玩家等情况会导致等待时间不准确."
+
+PolledWait="等待(游戏时间)"
+PolledWait="等待 ",~Time," 秒游戏时间"
+PolledWaitHint="等待(游戏时间)实际上由若干个等待组成. 遇到如等待玩家等情况时不会一次将等待时间花光. 但同时,该功能的效率也是极低的."
+
+WaitForCondition="等待条件成立"
+WaitForCondition="等待直到 ",~条件," 成立,每 ",~Interval," 秒检查一次"
+WaitForConditionHint=
+
+WaitForSoundBJ="等待音效"
+WaitForSoundBJ="等待直到 ",~音效," 结束前 ",~Time," 秒"
+WaitForSoundBJHint="该动作仅当音效正在播放时有效. 如果该音效还没开始播放或是已经播放完毕,则该动作无效."
+
+
+// Specially handled by the editor
+SetVariable="设置变量"
+SetVariable="设置 ",~变量," = ",~值
+SetVariableHint=
+
+
+// Specially handled by the editor
+ReturnAction="跳过剩余动作"
+ReturnAction="跳过剩余动作"
+ReturnActionHint="跳过剩余动作,直接中止触发运行. 但是在组动作中无效."
+
+
+// Specially handled by the editor
+IfThenElseMultiple="If / Then / Else(多个动作)"
+IfThenElseMultiple="如果所有条件成立则做动作1,否则做动作2"
+IfThenElseMultipleHint=
+
+// Specially handled by the editor
+IfThenElse="If / Then / Else"
+IfThenElse="如果 ",~条件," 成立则 ",~做动作1," 否则 ",~做动作2
+IfThenElseHint=
+
+// Specially handled by the editor
+ForLoopAMultiple="For循环整数A做动作(多个动作)"
+ForLoopAMultiple="For循环整数A从 ",~Start," 到 ",~End,", 做动作"
+ForLoopAMultipleHint="结束值要大于开始值."
+
+// Specially handled by the editor
+ForLoopBMultiple="For循环整数B做动作(多个动作)"
+ForLoopBMultiple="For循环整数B从 ",~Start," 到 ",~End,", 做动作"
+ForLoopBMultipleHint="结束值要大于开始值."
+
+// Specially handled by the editor
+ForLoopVarMultiple="For自定循环整数做动作(多个动作)"
+ForLoopVarMultiple="For ",~自定循环整数," 从 ",~Start," 到 ",~End,", 做动作"
+ForLoopVarMultipleHint="结束值要大于开始值."
+
+// Specially handled by the editor
+ForLoopA="For循环整数A做动作"
+ForLoopA="For循环整数A从 ",~Start," 到 ",~End,", ",~做动作
+ForLoopAHint="结束值要大于开始值."
+
+// Specially handled by the editor
+ForLoopB="For循环整数B做动作"
+ForLoopB="For循环整数B从 ",~Start," 到 ",~End,", ",~做动作
+ForLoopBHint="结束值要大于开始值."
+
+// Specially handled by the editor
+ForLoopVar="For自定循环整数做动作"
+ForLoopVar="For ",~自定循环整数," 从 ",~Start," 到 ",~End,", ",~做动作
+ForLoopVarHint="结束值要大于开始值."
+
+
+// AI actions
+StartMeleeAI="启用对战AI"
+StartMeleeAI="为 ",~Player," 启用对战AI: ",~Script
+StartMeleeAIHint="AI只能对电脑玩家使用."
+
+StartCampaignAI="启用战役AI"
+StartCampaignAI="为 ",~Player," 启用战役AI: ",~Script
+StartCampaignAIHint="AI只能对电脑玩家使用."
+
+CommandAI="发送AI命令"
+CommandAI="对 ",~Player," 发送AI命令:(",~命令,", ",~数据,")"
+CommandAIHint="发送的AI命令将被AI脚本所使用."
+
+RemoveGuardPosition="忽视单位警戒点"
+RemoveGuardPosition="忽视 ",~单位," 的警戒点"
+RemoveGuardPositionHint="单位将不会自动返回原警戒点. 一个很有用的功能就是刷怪进攻时忽视单位警戒范围的话,怪就不会想家了."
+
+RemoveAllGuardPositions="忽视所有单位警戒点"
+RemoveAllGuardPositions="忽视 ",~Player," 所有单位的警戒点"
+RemoveAllGuardPositionsHint="单位将不会自动返回原警戒点. 一个很有用的功能就是刷怪进攻时忽视单位警戒范围的话,怪就不会想家了."
+
+RecycleGuardPosition="恢复单位警戒点"
+RecycleGuardPosition="恢复 ",~单位," 的警戒点"
+RecycleGuardPositionHint=
+
+LockGuardPosition="锁定单位警戒点"
+LockGuardPosition="锁定 ",~单位," 的警戒点"
+LockGuardPositionHint="锁定并防止AI脚本改动单位警戒点."
+
+// Animation actions
+SetUnitAnimation="播放单位动画"
+SetUnitAnimation="播放 ",~单位," 的 ",~Animation Name," 动作"
+SetUnitAnimationHint="使用'重置单位动作'恢复单位到正常状态."
+
+SetUnitAnimationWithRarity="播放单位动画(指定概率)"
+SetUnitAnimationWithRarity="播放 ",~单位," 的 ",~Animation Name," 动作,只用 ",~Rarity," 的动作"
+SetUnitAnimationWithRarityHint="使用'重置单位动作'恢复单位到正常状态."
+
+QueueUnitAnimationBJ="将单位动画加入队列"
+QueueUnitAnimationBJ="将 ",~单位," 的 ",~Animation Name," 动作添加到队列"
+QueueUnitAnimationBJHint=
+
+ResetUnitAnimation="重置单位动画"
+ResetUnitAnimation="重置 ",~单位," 动作,恢复到正常状态"
+ResetUnitAnimationHint="其实就是播放单位的'stand'动作. 且建议使用该方法."
+
+AddUnitAnimationPropertiesBJ="添加/删除单位动画附加名"
+AddUnitAnimationPropertiesBJ=~Add/Remove," ",~Tag," 动画附加名给 ",~单位
+AddUnitAnimationPropertiesBJHint="比如恶魔猎手添加'alternate'会显示为恶魔形态;农民添加'gold'则为背负黄金形态."
+
+SetUnitLookAt="锁定身体朝向"
+SetUnitLookAt="锁定 ",~单位," 的 ",~Source," 朝向 ",~目标单位," ,偏移坐标 (",~X,", ",~Y,", ",~Z,")"
+SetUnitLookAtHint="单位的该身体部件会一直朝向目标单位的偏移坐标点处,直到使用'重置身体朝向'. 坐标偏移以目标单位脚下为坐标原点."
+
+ResetUnitLookAt="重置身体朝向"
+ResetUnitLookAt="重置 ",~单位," 的身体朝向"
+ResetUnitLookAtHint="恢复单位的身体朝向为正常状态."
+
+SetUnitScalePercent="改变单位尺寸"
+SetUnitScalePercent="改变 ",~单位," 的尺寸缩放为:(",~X,"%, ",~Y,"%, ",~Z,"%)"
+SetUnitScalePercentHint="缩放值使用(长,宽,高)格式."
+
+SetUnitVertexColorBJ="改变单位颜色 [旧]"
+SetUnitVertexColorBJ="改变 ",~单位,"  的颜色比例为(",~Red,"%, ",~Green,"%, ",~Blue,"%),透明度为 ",~Transparency,"%"
+SetUnitVertexColorBJHint="颜色格式为(红,绿,蓝). 大多数单位使用100%的颜色值和0%透明度. 100%透明度是完全透明的."
+
+SetUnitTimeScalePercent="改变单位动画播放速度"
+SetUnitTimeScalePercent="改变 ",~单位," 的动画播放速度为正常速度的 ",~Percent,"%"
+SetUnitTimeScalePercentHint="设置100%动画播放速度来恢复正常状态."
+
+SetUnitTurnSpeedBJ="改变单位转身速度"
+SetUnitTurnSpeedBJ="改变 ",~单位," 的转身速度为 ",~Value
+SetUnitTurnSpeedBJHint="转身速度表示单位改变面向方向时的速度. 数值越小表示转身越慢."
+
+SetUnitBlendTimeBJ="改变单位混合时间"
+SetUnitBlendTimeBJ="改变 ",~单位," 的混合时间为 ",~数值
+SetUnitBlendTimeBJHint="单位动画图像混合时间. 决定身体部件连接的快慢,比如攻击时手臂挥舞的速度. 默认值0.15,增大该值会导致动作僵硬化."
+
+SetUnitFlyHeightBJ="改变单位飞行高度"
+SetUnitFlyHeightBJ="改变 ",~单位," 的飞行高度为 ",~数值," ,变换速率: ",~数值
+SetUnitFlyHeightBJHint="飞行单位可以直接改变飞行高度. 其他单位通过添加/删除 替换为飞行单位的变身技能(如乌鸦形态)之后,也能改变飞行高度."
+
+SetUnitPropWindowBJ="改变单位转向角度(角度制)"
+SetUnitPropWindowBJ="改变 ",~单位," 的转向角度为 ",~数值," 度"
+SetUnitPropWindowBJHint="设置单位转身时的转向角度. 数值越大转向幅度越大. 大于360度的角将作为359度角处理."
+
+SetDestructableAnimationBJ="播放可破坏物动画"
+SetDestructableAnimationBJ="播放 ",~可破坏物," 的 ",~Animation Name," 动作"
+SetDestructableAnimationBJHint=
+
+QueueDestructableAnimationBJ="将可破坏物动画加入队列"
+QueueDestructableAnimationBJ="将 ",~可破坏物," 的 ",~Animation Name," 动作加入队列"
+QueueDestructableAnimationBJHint=
+
+SetDestAnimationSpeedPercent="改变可破坏物动画播放速度"
+SetDestAnimationSpeedPercent="改变 ",~可破坏物," 的动画播放速度为正常的 ",~Percent,"%"
+SetDestAnimationSpeedPercentHint="设置100%动画播放速度来恢复正常状态."
+
+SetDoodadAnimationRectBJ="播放矩形区域内地形装饰物动画 [旧]"
+SetDoodadAnimationRectBJ="播放 ",~Animation Name," 动作对所有 ",~装饰物类型," 在 ",~Rect," 内"
+SetDoodadAnimationRectBJHint="特殊动画名: 'show', 'hide', 'soundon', 'soundoff'"
+
+SetDoodadAnimationBJ="播放圆范围内地形装饰物动画 [旧]"
+SetDoodadAnimationBJ="播放 ",~Animation Name," 动作对所有 ",~装饰物类型," 在半径为 ",~Radius," 圆心为 ",~指定点," 的圆范围内"
+SetDoodadAnimationBJHint="特殊动画名: 'show', 'hide', 'soundon', 'soundoff'"
+
+
+// Camera actions
+CameraSetupApplyForPlayer="应用镜头(指定玩家)"
+CameraSetupApplyForPlayer=~Apply Method," ",~镜头," 对 ",~Player," 使用时间 ",~Time," 秒"
+CameraSetupApplyForPlayerHint=
+
+CameraSetupApplyForPlayerSmooth="应用镜头对象（固定时长，简易混入混出）"
+CameraSetupApplyForPlayerSmooth="",~应用方式,"",~镜头对象,"为",~玩家,"，时长为",~Time,"秒，使用简易混入时间: "~简易混入时间,"秒，简易混出时间："~简易混出时间,"秒，平滑因子: "~平滑因子
+CameraSetupApplyForPlayerSmoothHint="Camera will accelerate over the specified ease in time, and decelerate over the specified ease out time, smooth factor is the ratio between the Primary coefficient and quadratic coefficient in the velocity equation"
+
+PanCameraToTimedLocForPlayer="平移镜头(指定玩家)"
+PanCameraToTimedLocForPlayer="平移 ",~Player," 的镜头到 ",~指定点," ,使用时间 ",~Time," 秒"
+PanCameraToTimedLocForPlayerHint=
+
+PanCameraToTimedLocWithZForPlayer="指定高度平移镜头(指定玩家)"
+PanCameraToTimedLocWithZForPlayer="平移 ",~Player," 的镜头到 ",~指定点," ,镜头距离地面高度为 ",~Z," ,使用时间 ",~Time," 秒"
+PanCameraToTimedLocWithZForPlayerHint="在指定移动路径上镜头不会低于地面高度."
+
+SmartCameraPanBJ="在必要时平移镜头(指定玩家)"
+SmartCameraPanBJ="在必要时平移 ",~Player," 的镜头到 ",~指定点," ,使用时间 ",~Time," 秒"
+SmartCameraPanBJHint="如果距离过远则直接跳转镜头,如果过近则不做动作. 一个点泄漏."
+
+SetCameraFieldForPlayer="设置镜头属性(指定玩家)"
+SetCameraFieldForPlayer="设置 ",~Player," 的镜头属性: ",~Field," 为 ",~数值," ,使用时间 ",~Time," 秒"
+SetCameraFieldForPlayerHint=
+
+RotateCameraAroundLocBJ="指定点旋转镜头(指定玩家)"
+RotateCameraAroundLocBJ="旋转角度: ",~Angle," 度,中心点: ",~指定点," 指定玩家: ",~Player,"  使用时间: ",~Time," 秒"
+RotateCameraAroundLocBJHint=
+
+SetCameraTargetControllerNoZForPlayer="锁定镜头到单位(指定玩家)"
+SetCameraTargetControllerNoZForPlayer="锁定 ",~Player," 的镜头到 ",~单位,", 偏移坐标(",~X,", ",~Y,") ,使用 ",~Rotation Source
+SetCameraTargetControllerNoZForPlayerHint="偏移坐标(X,Y)以单位脚底为原点坐标."
+
+SetCameraOrientControllerForPlayerBJ="锁定镜头到单位(固定镜头源)(指定玩家)"
+SetCameraOrientControllerForPlayerBJ="锁定 ",~Player," 的镜头到 ",~单位,", 偏移坐标(",~X,", ",~Y,")"
+SetCameraOrientControllerForPlayerBJHint="偏移坐标(X,Y)以单位脚底为原点坐标."
+
+SetCinematicCameraForPlayer="播放电影镜头(指定玩家)"
+SetCinematicCameraForPlayer="对 ",~Player," 播放电影镜头: ",~Camera File
+SetCinematicCameraForPlayerHint="在'Objects\CinematicCameras'目录下有一些电影镜头,可用Mpq工具来查询."
+
+StopCameraForPlayerBJ="停止播放镜头(指定玩家)"
+StopCameraForPlayerBJ="停止对 ",~Player," 播放镜头"
+StopCameraForPlayerBJHint=" 比如在平移镜头的过程中可用该动作来中断平移."
+
+ResetToGameCameraForPlayer="重置游戏镜头(指定玩家)"
+ResetToGameCameraForPlayer="重置 ",~Player," 的镜头为游戏默认状态,使用时间 ",~Time," 秒"
+ResetToGameCameraForPlayerHint=
+
+CameraSetSmoothingFactorBJ="设置镜头平滑参数"
+CameraSetSmoothingFactorBJ="设置镜头平滑参数为 ",~Factor
+CameraSetSmoothingFactorBJHint="数值越大,镜头转换越平滑."
+
+CameraResetSmoothingFactorBJ="重置镜头平滑参数"
+CameraResetSmoothingFactorBJ="重置镜头平滑参数为游戏默认值"
+CameraResetSmoothingFactorBJHint="其实就是设置镜头平滑参数为0."
+
+CameraSetSourceNoiseForPlayer="摇晃镜头源(指定玩家)"
+CameraSetSourceNoiseForPlayer="摇晃 ",~Player," 的镜头源, 摇晃幅度: ",~Magnitude," 速率: ",~Velocity
+CameraSetSourceNoiseForPlayerHint="使用'镜头 - 重置镜头'或'镜头 - 停止摇晃镜头'来停止摇晃."
+
+CameraSetTargetNoiseForPlayer="摇晃镜头目标(指定玩家)"
+CameraSetTargetNoiseForPlayer="摇晃 ",~Player," 的镜头目标, 摇晃幅度: ",~Magnitude," 速率: ",~Velocity
+CameraSetTargetNoiseForPlayerHint="使用'镜头 - 重置镜头'或'镜头 - 停止摇晃镜头'来停止摇晃."
+
+CameraSetEQNoiseForPlayer="震动镜头(指定玩家)"
+CameraSetEQNoiseForPlayer="震动 ",~Player," 的镜头, 震动幅度: ",~Magnitude
+CameraSetEQNoiseForPlayerHint="使用'镜头 - 重置镜头'或'镜头 - 停止震动镜头'来停止震动."
+
+CameraClearNoiseForPlayer="停止摇晃/震动镜头(指定玩家)"
+CameraClearNoiseForPlayer="停止 ",~Player," 镜头的摇晃和震动"
+CameraClearNoiseForPlayerHint="可以用本地玩家实现对所有玩家停止摇晃/震动镜头."
+
+AdjustCameraBoundsForPlayerBJ="扩张/收缩可用镜头区域(指定玩家)"
+AdjustCameraBoundsForPlayerBJ=~Extend/Shrink," ",~Player," 的可用镜头区域, 西: ",~West," ,东 ",~East," ,北: ",~North," ,南: ",~South
+AdjustCameraBoundsForPlayerBJHint="该动作同样会影响小地图的显示. 但小地图的图片是无法改变的. 实际可用区域要大于可用镜头区域."
+
+SetCameraBoundsToRectForPlayerBJ="设置可用镜头区域(指定玩家)"
+SetCameraBoundsToRectForPlayerBJ="设置 ",~Player," 的可用镜头区域为 ",~矩形区域
+SetCameraBoundsToRectForPlayerBJHint="该动作同样会影响小地图的显示. 但小地图的图片是无法改变的. 实际可用区域要大于可用镜头区域."
+
+SetCameraQuickPositionLocForPlayer="设置空格键转向点(指定玩家)"
+SetCameraQuickPositionLocForPlayer="设置 ",~Player," 的空格键转向点为 ",~指定点
+SetCameraQuickPositionLocForPlayerHint="按下空格键时镜头转向的位置."
+
+
+// Cinematic actions
+BlzEnableTargetIndicator="启用目标提示器"
+BlzEnableTargetIndicator="启用目标提示器",~启用
+BlzEnableTargetIndicatorHint="Target Indicator is normally used in cinematic conversation as blinking circles to indicate who's speaking now"
+
+TransmissionFromUnitWithNameBJ="播送单位消息(指定单位)"
+TransmissionFromUnitWithNameBJ="对 ",~玩家组," 播送信息,发言单位: ",~单位," 显示名字: ",~文字," ,播放音效: ",~音效," 显示信息: ",~文字," 持续时间: ",~Method," ",~Time," 秒并 ",~Wait/Don't Wait
+TransmissionFromUnitWithNameBJHint="'没有声音'的持续时间为5秒. 等待表示其他动作需要等待信息播放完毕后才能运行."
+
+TransmissionFromUnitTypeWithNameBJ="播送单位消息(指定单位类型)"
+TransmissionFromUnitTypeWithNameBJ="对 ",~玩家组," 播送信息,发言单位: ",~Player," 的 ",~单位类型,"  显示名字:  ",~文字," 发言位置: ",~指定点," 播放音效: ",~音效," 显示信息: ",~文字," 持续时间: ",~Method," ",~Time," 秒并 ",~Wait/Don't Wait
+TransmissionFromUnitTypeWithNameBJHint="'没有声音'的持续时间为5秒. 等待表示其他动作需要等待信息播放完毕后才能运行."
+
+ForceCinematicSubtitlesBJ="字幕显示"
+ForceCinematicSubtitlesBJ=~On/Off," 电影字幕显示功能"
+ForceCinematicSubtitlesBJHint="该功能和'游戏菜单-声音选项'中的字幕选项中有一项为开时即能够显示电影字幕."
+
+CinematicModeBJ="电影模式"
+CinematicModeBJ=~On/Off," 电影模式对 ",~玩家组
+CinematicModeBJHint=
+
+CinematicModeExBJ="电影模式(指定时间)"
+CinematicModeExBJ=~On/Off," 电影模式对 ",~玩家组," ,转换时间为 ",~Time," 秒"
+CinematicModeExBJHint=
+
+CinematicFadeBJ="淡入淡出滤镜"
+CinematicFadeBJ=~Fade Type," 使用 ",~Duration," 秒时间,使用图片: ",~Texture," 颜色值:(",~Red,"%, ",~Green,"%, ",~Blue,"%) 透明度: ",~Transparency,"%"
+CinematicFadeBJHint="颜色格式为(红,绿,蓝). 透明度100%是不可见的."
+
+CinematicFilterGenericBJ="高级滤镜"
+CinematicFilterGenericBJ="持续时间: ",~Duration," 秒,混合方式: ",~Blending Method," 使用图片: ",~Texture," 开始颜色值:(",~Red,"%, ",~Green,"%, ",~Blue,"%) 透明度: ",~Transparency,"% ,结束颜色值:(",~Red,"%, ",~Green,"%, ",~Blue,"%) 透明度:",~Transparency,"%"
+CinematicFilterGenericBJHint="颜色格式为(红,绿,蓝). 透明度100%是不可见的."
+
+DisplayCineFilterBJ="显示/隐藏滤镜"
+DisplayCineFilterBJ=~Show/Hide," 滤镜"
+DisplayCineFilterBJHint=
+
+PingMinimapLocForForce="小地图信号(指定玩家组)"
+PingMinimapLocForForce="对 ",~玩家组," 发送小地图信号到 ",~指定点," ,持续时间: ",~Duration," 秒"
+PingMinimapLocForForceHint=
+
+PingMinimapLocForForceEx="小地图信号(指定颜色)(指定玩家组)"
+PingMinimapLocForForceEx="对 ",~玩家组," 发送小地图信号到 ",~指定点," ,持续时间: ",~Duration," 秒,信号类型: ",~Style," 信号颜色:(",~Red,"%, ",~Green,"%, ",~Blue,"%)"
+PingMinimapLocForForceExHint="颜色格式为(红,绿,蓝). 警告信号总是红色不可变."
+
+UnitAddIndicatorBJ="闪动指示器(对单位)"
+UnitAddIndicatorBJ="对 ",~单位," 闪动指示器,使用颜色(",~Red,"%, ",~Green,"%, ",~Blue,"%) 透明度 ",~Transparency,"%"
+UnitAddIndicatorBJHint="颜色格式为(红,绿,蓝). 透明度100%是不可见的."
+
+DestructableAddIndicatorBJ="闪动指示器(对可破坏物)"
+DestructableAddIndicatorBJ="对 ",~可破坏物," 闪动指示器,使用颜色(",~Red,"%, ",~Green,"%, ",~Blue,"%) 透明度 ",~Transparency,"%"
+DestructableAddIndicatorBJHint="颜色格式为(红,绿,蓝). 透明度100%是不可见的."
+
+ItemAddIndicatorBJ="闪动指示器(对物品)"
+ItemAddIndicatorBJ="对 ",~物品," 闪动指示器,使用颜色(",~Red,"%, ",~Green,"%, ",~Blue,"%) 透明度 ",~Transparency,"%"
+ItemAddIndicatorBJHint="颜色格式为(红,绿,蓝). 透明度100%是不可见的."
+
+ClearTextMessagesBJ="清空文本信息(指定玩家组)"
+ClearTextMessagesBJ="清空 ",~玩家组," 屏幕上的文本信息"
+ClearTextMessagesBJHint=
+
+ShowInterfaceForceOff="信箱模式开启(指定玩家组)"
+ShowInterfaceForceOff="对 ",~玩家组," 开启信箱模式,转换时间为 ",~Duration," 秒"
+ShowInterfaceForceOffHint="使用电影镜头模式,隐藏游戏界面."
+
+ShowInterfaceForceOn="信箱模式开启关闭(指定玩家组)"
+ShowInterfaceForceOn="对 ",~玩家组," 关闭信箱模式,转换时间为 ",~Duration," 秒"
+ShowInterfaceForceOnHint="关闭信箱模式,返回游戏界面."
+
+SetUserControlForceOff="禁用玩家控制权(指定玩家组)"
+SetUserControlForceOff="禁用 ",~玩家组," 的控制权"
+SetUserControlForceOffHint=
+
+SetUserControlForceOn="启用玩家控制权(指定玩家组)"
+SetUserControlForceOn="启用 ",~玩家组," 的控制权"
+SetUserControlForceOnHint=
+
+EnableOcclusionBJ="允许/禁止闭塞(指定玩家组)"
+EnableOcclusionBJ=~Enable/Disable," 闭塞对 ",~玩家组
+EnableOcclusionBJHint=
+
+EnableWorldFogBoundaryBJ="允许/禁止边界染色(指定玩家组)"
+EnableWorldFogBoundaryBJ=~Enable/Disable," 边界染色对 ",~玩家组
+EnableWorldFogBoundaryBJHint="禁用边界染色时边界为普通地形,不显示为黑色,但仍是不可通行的."
+
+
+// Countdown Timer actions
+StartTimerBJ="开启计时器"
+StartTimerBJ="开启 ",~计时器," ,计时方式: ",~One-Shot/Repeating," 时间设置: ",~Time," 秒"
+StartTimerBJHint=
+
+PauseTimerBJ="暂停/恢复计时器"
+PauseTimerBJ=~Pause/Resume," ",~计时器
+PauseTimerBJHint=
+
+CreateTimerDialogBJ="创建计时器窗口"
+CreateTimerDialogBJ="为 ",~计时器," 创建计时器窗口,使用标题: ",~文字
+CreateTimerDialogBJHint="计时器窗口不能在地图初始化时显示."
+
+DestroyTimerDialogBJ="删除计时器窗口"
+DestroyTimerDialogBJ="删除 ",~计时器窗口
+DestroyTimerDialogBJHint=
+
+TimerDialogDisplayForPlayerBJ="显示/隐藏计时器窗口(指定玩家)"
+TimerDialogDisplayForPlayerBJ=~Show/Hide," ",~计时器窗口," 对 ",~Player
+TimerDialogDisplayForPlayerBJHint="计时器窗口不能在地图初始化时显示."
+
+TimerDialogDisplayBJ="显示/隐藏计时器窗口(所有玩家)"
+TimerDialogDisplayBJ=~Show/Hide," ",~计时器窗口
+TimerDialogDisplayBJHint="计时器窗口不能在地图初始化时显示."
+
+TimerDialogSetTitleBJ="改变计时器窗口标题"
+TimerDialogSetTitleBJ="改变 ",~计时器窗口," 的标题为 ",~文字
+TimerDialogSetTitleBJHint=
+
+TimerDialogSetTitleColorBJ="改变计时器窗口文字颜色 [旧]"
+TimerDialogSetTitleColorBJ="改变 ",~计时器窗口," 文字颜色为(",~Red,"%, ",~Green,"%, ",~Blue,"%) 透明度为 ",~Transparency,"%"
+TimerDialogSetTitleColorBJHint="颜色格式为(红,绿,蓝). 透明度100%是不可见的."
+
+TimerDialogSetTimeColorBJ="改变计时器窗口时间颜色 [旧]"
+TimerDialogSetTimeColorBJ="改变 ",~计时器窗口," 时间颜色为(",~Red,"%, ",~Green,"%, ",~Blue,"%) 透明度为 ",~Transparency,"%"
+TimerDialogSetTimeColorBJHint="颜色格式为(红,绿,蓝). 透明度100%是不可见的."
+
+//TimerDialogSetSpeedBJ="Set Timer Window Speed"
+//TimerDialogSetSpeedBJ="Set the speed of ",~Timer Window," to be ",~Factor," times normal speed"
+//TimerDialogSetSpeedBJHint=
+
+
+// Destructable actions
+CreateDestructableLoc="创建可破坏物"
+CreateDestructableLoc="创建 ",~可破坏物类型," 在 ",~指定点," ,面向角度: ",~Direction," 尺寸缩放: ",~Scale," 样式: ",~Variation
+CreateDestructableLocHint="面向角度采用角度制,0度为正东方向,90度为正北方向. 使用'最后创建的可破坏物'来获取创建的物体."
+
+CreateDeadDestructableLocBJ="创建可破坏物(死亡)"
+CreateDeadDestructableLocBJ="创建死亡的 ",~可破坏物类型," 在 ",~指定点," ,面向角度: ",~Direction," 尺寸缩放: ",~Scale," 样式: ",~Variation
+CreateDeadDestructableLocBJHint="面向角度采用角度制,0度为正东方向,90度为正北方向. 使用'最后创建的可破坏物'来获取创建的物体."
+
+KillDestructable="杀死"
+KillDestructable="杀死 ",~可破坏物
+KillDestructableHint=
+
+RemoveDestructable="删除"
+RemoveDestructable="删除 ",~可破坏物
+RemoveDestructableHint=
+
+DestructableRestoreLife="复活"
+DestructableRestoreLife="复活 ",~可破坏物," 并设置生命值为 ",~Value," , ",~Show/Hide," 复活动画"
+DestructableRestoreLifeHint=
+
+ShowDestructableBJ="显示/隐藏"
+ShowDestructableBJ=~Show/Hide," ",~可破坏物
+ShowDestructableBJHint="隐藏的可破坏物不被显示,但仍影响通行和视线."
+
+SetDestructableLifePercentBJ="设置生命值(百分比)"
+SetDestructableLifePercentBJ="设置 ",~可破坏物," 的生命值为 ",~Percent,"%"
+SetDestructableLifePercentBJHint=
+
+SetDestructableLife="设置生命值(指定值)"
+SetDestructableLife="设置 ",~可破坏物," 的生命值为 ",~Value
+SetDestructableLifeHint=
+
+SetDestructableMaxLifeBJ="设置最大生命值"
+SetDestructableMaxLifeBJ="设置 ",~可破坏物," 的最大生命值为 ",~Value
+SetDestructableMaxLifeBJHint=
+
+ModifyGateBJ="打开/关闭/破坏大门"
+ModifyGateBJ=~Open/Close/Destroy," ",~大门
+ModifyGateBJHint=
+
+ChangeElevatorWalls="打开/关闭升降机墙壁"
+ChangeElevatorWalls=~Open/Close," ",~Walls," 对 ",~升降机
+ChangeElevatorWallsHint="存在10~30个局部变量泄漏."
+
+ChangeElevatorHeight="设置升降机高度"
+ChangeElevatorHeight="设置 ",~升降机," 的高度为 ",~Height
+ChangeElevatorHeightHint=
+
+SetDestructableInvulnerableBJ="设置无敌/可攻击"
+SetDestructableInvulnerableBJ="设置 ",~可破坏物," ",~Invulnerable/Vulnerable
+SetDestructableInvulnerableBJHint=
+
+SetDestructableOccluderHeight="设置闭塞高度"
+SetDestructableOccluderHeight="设置 ",~可破坏物," 的闭塞高度为 ",~Height
+SetDestructableOccluderHeightHint=
+
+EnumDestructablesInRectAllMultiple="选取矩形区域内可破坏物做动作(多个动作)"
+EnumDestructablesInRectAllMultiple="选取 ",~矩形区域," 内所有可破坏物做动作"
+EnumDestructablesInRectAllMultipleHint="组动作中可使用'选取的可破坏物'来获取对应的可破坏物. 每个可破坏物都会运行一次动作(包括死亡和隐藏的). 等待不能在组动作中运行."
+
+EnumDestructablesInCircleBJMultiple="选取指定点范围内可破坏物做动作(多个动作)"
+EnumDestructablesInCircleBJMultiple="选取 ",~Radius," 范围以 ",~指定点," 为中心的区域内所有可破坏物做动作(多个动作)"
+EnumDestructablesInCircleBJMultipleHint="组动作中可使用'选取的可破坏物'来获取对应的可破坏物. 每个可破坏物都会运行一次动作(包括死亡和隐藏的). 等待不能在组动作中运行. 也是矩形区域,不建议使用该功能."
+
+EnumDestructablesInRectAll="选取矩形区域内可破坏物做动作"
+EnumDestructablesInRectAll="选取 ",~矩形区域," 内所有可破坏物 ",~做动作
+EnumDestructablesInRectAllHint="组动作中可使用'选取的可破坏物'来获取对应的可破坏物. 每个可破坏物都会运行一次动作(包括死亡和隐藏的). 等待不能在组动作中运行."
+
+EnumDestructablesInCircleBJ="选取指定点范围内可破坏物做动作"
+EnumDestructablesInCircleBJ="选取 ",~Radius," 范围以 ",~指定点,"为中心的区域内所有可破坏物 ",~做动作
+EnumDestructablesInCircleBJHint="组动作中可使用'选取的可破坏物'来获取对应的可破坏物. 每个可破坏物都会运行一次动作(包括死亡和隐藏的). 等待不能在组动作中运行. 也是矩形区域,不建议使用该功能."
+
+
+// Dialog actions
+DialogDisplayBJ="显示/隐藏"
+DialogDisplayBJ=~Show/Hide," ",~对话框," 对 ",~Player
+DialogDisplayBJHint="对话框不能在地图初始化时显示."
+
+DialogSetMessageBJ="设置标题"
+DialogSetMessageBJ="设置 ",~对话框," 的标题为 ",~文字
+DialogSetMessageBJHint=
+
+DialogAddButtonBJ="添加对话框按钮"
+DialogAddButtonBJ="为 ",~对话框," 添加按钮,按钮标题为: ",~文字
+DialogAddButtonBJHint=
+
+DialogClearBJ="清空对话框"
+DialogClearBJ="清空 ",~对话框
+DialogClearBJHint="清空对话框的标题和所有按钮."
+
+
+// Environment actions
+AddWeatherEffectSaveLast="创建天气效果"
+AddWeatherEffectSaveLast="在 ",~矩形区域," 创建天气效果: ",~Weather Id
+AddWeatherEffectSaveLastHint=
+
+EnableWeatherEffect="启用/禁用天气效果"
+EnableWeatherEffect="设置 ",~天气效果," ",~On/Off
+EnableWeatherEffectHint="可以使用'环境 - 创建天气效果'动作来创建天气效果."
+
+RemoveWeatherEffectBJ="删除天气效果"
+RemoveWeatherEffectBJ="删除 ",~天气效果
+RemoveWeatherEffectBJHint=
+
+TerrainDeformationCraterBJ="创建地形变化:弹坑"
+TerrainDeformationCraterBJ="创建一个持续 ",~Duration," 秒的 ",~Type," 弹坑变形在 ",~指定点," ,半径: ",~Radius,"深度: ",~Depth
+TerrainDeformationCraterBJHint="使用'最后创建的地形变化'来获取该变化. 深度可取负数. 永久地形变化在保存游戏时不会被记录."
+
+TerrainDeformationRippleBJ="创建地形变化:波纹"
+TerrainDeformationRippleBJ="创建一个持续 ",~Duration," 秒的 ",~Type," 波纹变形在 ",~指定点," ,开始半径: ",~Radius," ,结束半径: ",~Radius," ,深度: ",~Depth," 周期: ",~Time," 秒,波间距: ",~Distance
+TerrainDeformationRippleBJHint="使用'最后创建的地形变化'来获取该变化."
+
+TerrainDeformationWaveBJ="创建地形变化:冲击波"
+TerrainDeformationWaveBJ="创建一个持续 ",~Duration," 秒的冲击波变形从 ",~Source," 到 ",~Target," ,半径: ",~Radius," ,深度: ",~Depth," ,效果存在时间: ",~Delay," 秒"
+TerrainDeformationWaveBJHint="使用'最后创建的地形变化'来获取该变化. 深度可取负数."
+
+TerrainDeformationRandomBJ="创建地形变化:随机"
+TerrainDeformationRandomBJ="创建一个持续 ",~Duration," 秒的随机变形变形在 ",~指定点," ,半径: ",~Radius," 最小深度: ",~Minimum," 最大深度: ",~Maximum,", 变形间隔: ",~Update Interval," 秒"
+TerrainDeformationRandomBJHint="使用'最后创建的地形变化'来获取该变化."
+
+TerrainDeformationStopBJ="停止地形变化"
+TerrainDeformationStopBJ="停止 ",~Terrain Deformation," ,衰退时间: ",~Duration," 秒"
+TerrainDeformationStopBJHint="地形变化会平滑地过渡到无."
+
+TerrainDeformStopAll="停止所有地形变化"
+TerrainDeformStopAll="停止所有地形变化"
+TerrainDeformStopAllHint="包括由技能引起的地形变化."
+
+SetWaterDeforms="开启/关闭水面变形"
+SetWaterDeforms=~On/Off," 水面变形"
+SetWaterDeformsHint="开启时当发生地形变化时水面高度也会随着变化. 对永久变形无效."
+
+SetTerrainTypeBJ="改变地形类型(指定点)"
+SetTerrainTypeBJ="改变 ",~指定点," 处的地形为 ",~Terrain Type," ,使用样式: ",~Variation," 范围: ",~Area," 形状: ",~Shape
+SetTerrainTypeBJHint="地形样式-1表示随机样式. 范围即地形编辑器中的刷子大小.1表示128x128范围"
+
+SetTerrainPathableBJ="设置地形通行状态(指定点)"
+SetTerrainPathableBJ="设置 ",~指定点," 处单元点的 ",~Pathing," 地形通行状态为: ",~On/Off
+SetTerrainPathableBJHint="例:设置'建造'通行状态为开,则该点可以建造建筑. 一个单元点范围为32x32."
+
+SetWaterBaseColorBJ="设置水颜色 [旧]"
+SetWaterBaseColorBJ="设置水颜色为(",~Red,"%, ",~Green,"%, ",~Blue,"%) 透明度为 ",~Transparency,"%"
+SetWaterBaseColorBJHint="颜色格式为(红,绿,蓝). 100%透明的水是不可见的."
+
+SetSkyModel="设置天空"
+SetSkyModel="设置天空模型为 ",~Sky
+SetSkyModelHint=
+
+SetTerrainFogExBJ="设置迷雾"
+SetTerrainFogExBJ="迷雾风格: ",~Style,", Z轴开始端: ",~Z-Start,", Z轴结束端: ",~Z-End,", 密度: ",~Density," 颜色:(",~Red,"%, ",~Green,"%, ",~Blue,"%)"
+SetTerrainFogExBJHint="颜色格式为(红,绿,蓝)."
+
+ResetTerrainFogBJ="重置迷雾"
+ResetTerrainFogBJ="重置迷雾为默认设置"
+ResetTerrainFogBJHint=
+
+SetBlightRectBJ="创建/删除荒芜地表(矩形区域)"
+SetBlightRectBJ=~Create/Remove," 一块荒芜地表给 ",~Player," 在 ",~Region
+SetBlightRectBJHint=
+
+SetBlightRadiusLocBJ="创建/删除荒芜地表(圆范围)(指定点)"
+SetBlightRadiusLocBJ=~Create/Remove," 一块荒芜地表给 ",~Player," 在圆心为 ",~指定点," 半径为 ",~Radius," 的圆范围"
+SetBlightRadiusLocBJHint=
+
+// Text Tag actions
+CreateTextTagLocBJ="创建漂浮文字(指定点)"
+CreateTextTagLocBJ="创建漂浮文字: ",~文字," 在 ",~指定点," ,Z轴高度: ",~Z," ,字体大小: ",~Size," ,颜色值:(",~Red,"%, ",~Green,"%, ",~Blue,"%) ,透明度: ",~Transparency,"%"
+CreateTextTagLocBJHint="颜色格式为(红,绿,蓝). 透明度100%是不可见的."
+
+CreateTextTagUnitBJ="创建漂浮文字(指定单位)"
+CreateTextTagUnitBJ="创建漂浮文字:",~文字," 在 ",~单位," 头顶Z轴偏移 ",~Z," 处,字体大小: ",~Size," ,颜色值:(",~Red,"%, ",~Green,"%, ",~Blue,"%) ,透明度: ",~Transparency,"%"
+CreateTextTagUnitBJHint="该方式创建的漂浮文字并不会跟随单位一起移动.  颜色格式为(红,绿,蓝). 透明度100%是不可见的."
+
+DestroyTextTagBJ="删除"
+DestroyTextTagBJ="删除 ",~Floating Text
+DestroyTextTagBJHint=" 游戏最多允许存在100个漂浮文字. 当超过范围时新创建的漂浮文字会直接替换最后一个漂浮文字,导致只能显示一个漂浮文字的状况. 所以请及时删除不再使用的漂浮文字."
+
+ShowTextTagForceBJ="显示/隐藏(指定玩家组)"
+ShowTextTagForceBJ=~Show/Hide," ",~Floating Text," 对 ",~玩家组
+ShowTextTagForceBJHint=
+
+SetTextTagVelocityBJ="设置速率"
+SetTextTagVelocityBJ="设置 ",~Floating Text," 的移动速率为 ",~Speed," ,方向为 ",~Angle," 度"
+SetTextTagVelocityBJHint="对移动后的漂浮文字设置速率,该漂浮文字会先回到原点再向设定的角度移动. 方向采用角度制,0度为正东方向,90度为正北方向."
+
+SetTextTagColorBJ="改变颜色 [旧]"
+SetTextTagColorBJ="改变 ",~Floating Text," 的颜色为(",~Red,"%, ",~Green,"%, ",~Blue,"%) 透明度为 ",~Transparency,"%"
+SetTextTagColorBJHint="颜色格式为(红,绿,蓝). 透明度100%是不可见的."
+
+SetTextTagPosBJ="改变位置(指定点)"
+SetTextTagPosBJ="改变 ",~Floating Text," 的位置为 ",~指定点," ,Z轴高度为 ",~Z
+SetTextTagPosBJHint=
+
+SetTextTagPosUnitBJ="改变位置(指定单位)"
+SetTextTagPosUnitBJ="改变 ",~Floating Text," 的位置到 ",~单位," 头顶Z轴偏移 ",~Z," 处"
+SetTextTagPosUnitBJHint=
+
+SetTextTagTextBJ="改变文字"
+SetTextTagTextBJ="改变 ",~Floating Text," 的内容为 ",~文字," ,字体大小: ",~Size
+SetTextTagTextBJHint=
+
+SetTextTagSuspendedBJ="暂停/恢复"
+SetTextTagSuspendedBJ="设置 ",~Floating Text," : ",~Enable/Disable," 暂停状态"
+SetTextTagSuspendedBJHint="暂停状态暂停漂浮文字的移动和生命计时."
+
+SetTextTagPermanentBJ="设置永久性"
+SetTextTagPermanentBJ="设置 ",~Floating Text," : ",~Enable/Disable," 永久显示."
+SetTextTagPermanentBJHint=
+
+SetTextTagLifespanBJ="设置生命周期"
+SetTextTagLifespanBJ="设置 ",~Floating Text," 的生命周期为 ",~Time," 秒"
+SetTextTagLifespanBJHint="该动作并不影响永久性漂浮文字. 当生命周期到期时,系统会自动清除该漂浮文字."
+
+SetTextTagFadepointBJ="设置消逝时间点"
+SetTextTagFadepointBJ="设置 ",~Floating Text," 的消逝时间点为 ",~Time," 秒"
+SetTextTagFadepointBJHint="该动作并不影响永久性漂浮文字. 当漂浮文字存在时间到达该值时会开始淡化消逝."
+
+SetTextTagAgeBJ="设置已存在时间"
+SetTextTagAgeBJ="设置 ",~Floating Text," 的已存在时间为 ",~Time," 秒"
+SetTextTagAgeBJHint="该动作并不影响永久性漂浮文字. "
+
+
+// Game actions
+DisplayTextToForce="对玩家组显示文本消息(自动限时)"
+DisplayTextToForce="对 ",~玩家组," 发送文本信息: ",~文字
+DisplayTextToForceHint="显示时间取决于文字长度."
+
+DisplayTimedTextToForce="对玩家组显示文本消息(指定时间)"
+DisplayTimedTextToForce="对 ",~玩家组," 发送显示 ",~Time," 秒的文本信息: ",~文字
+DisplayTimedTextToForceHint=
+
+PauseGameOn="暂停游戏"
+PauseGameOn="暂停游戏"
+PauseGameOnHint=
+
+PauseGameOff="恢复游戏"
+PauseGameOff="恢复被暂停的游戏"
+PauseGameOffHint=
+
+SetGameSpeed="设置游戏速度"
+SetGameSpeed="设置游戏速度为 ",~Speed
+SetGameSpeedHint="你可以通过'游戏 - 锁定游戏速度'动作来锁定游戏速度."
+
+LockGameSpeedBJ="锁定游戏速度"
+LockGameSpeedBJ="锁定游戏速度"
+LockGameSpeedBJHint="防止游戏速度被更改. 就算是触发也不可以."
+
+UnlockGameSpeedBJ="解除锁定游戏速度"
+UnlockGameSpeedBJ="解除锁定游戏速度"
+UnlockGameSpeedBJHint="解除'游戏 - 锁定游戏速度'对游戏速度的锁定."
+
+SetMapFlag="设置地图参数"
+SetMapFlag="设置 ",~Map Flag," ",~On/Off
+SetMapFlagHint=
+
+SetTimeOfDay="设置游戏时间"
+SetTimeOfDay="设置游戏时间为 ",~Time
+SetTimeOfDayHint="游戏时间采用24小时制."
+
+SetTimeOfDayScalePercentBJ="设置昼夜时间流逝速度"
+SetTimeOfDayScalePercentBJ="设置昼夜时间流逝速度为默认值的 ",~Percent,"%"
+SetTimeOfDayScalePercentBJHint="设置100%来恢复正常值. 该值并不影响游戏速度."
+
+UseTimeOfDayBJ="开启/关闭昼夜交替"
+UseTimeOfDayBJ=~On/Off," 昼夜交替"
+UseTimeOfDayBJHint=
+
+ShareEverythingWithTeam="对盟友共享视野和完全控制权"
+ShareEverythingWithTeam="命令 ",~Player," 对盟友共享视野和完全控制权"
+ShareEverythingWithTeamHint="当玩家互相为盟友时才有效. 同时玩家也会获得其盟友的单位控制权."
+
+MakeUnitsPassiveForPlayer="改变所有单位为中立受害单位"
+MakeUnitsPassiveForPlayer="改变 ",~Player," 所有单位为中立受害单位"
+MakeUnitsPassiveForPlayerHint="默认状态中立受害受所有玩家欺凌而不抵抗."
+
+SetNextLevelBJ="设置下一关卡"
+SetNextLevelBJ="设置下一关卡为 ",~Level
+SetNextLevelBJHint="设置游戏结束后的下一关卡."
+
+CustomVictoryBJ="胜利"
+CustomVictoryBJ="设置 ",~Player," 胜利(",~Show/Skip," 胜利对话框, ",~Show/Skip," 计分屏)"
+CustomVictoryBJHint=
+
+CustomDefeatBJ="失败"
+CustomDefeatBJ="设置 ",~Player," 失败并显示失败信息: ",~文字
+CustomDefeatBJHint=
+
+SaveGame="保存进度 [R]"
+SaveGame="保存游戏进度为: ",~Filename
+SaveGameHint=
+
+LoadGameBJ="读取进度"
+LoadGameBJ="读取 ",~Filename," (",~Show/Skip," 计分屏)"
+LoadGameBJHint=
+
+SaveAndLoadGameBJ="保存并读取进度 [旧]"
+SaveAndLoadGameBJ="保存游戏进度为: ",~Filename," 并读取进度: ",~Filename," (",~Show/Skip," 计分屏)"
+SaveAndLoadGameBJHint=
+
+SaveAndChangeLevelBJ="保存并切换关卡 [旧]"
+SaveAndChangeLevelBJ="保存游戏进度为: ",~Filename," 并切换到关卡: ",~Filename," (",~Show/Skip," 计分屏)"
+SaveAndChangeLevelBJHint=
+
+RenameSaveDirectoryBJ="重命名存档文件夹"
+RenameSaveDirectoryBJ="更改 ",~源文件夹," 的名字为 ",~目标文件夹
+RenameSaveDirectoryBJHint=
+
+RemoveSaveDirectoryBJ="删除存档文件夹"
+RemoveSaveDirectoryBJ="删除 ",~文件夹
+RemoveSaveDirectoryBJHint="文件夹内的内容都会被删除."
+
+CopySaveGameBJ="复制存档文件"
+CopySaveGameBJ="复制 ",~源文件," 并保存为 ",~目标文件
+CopySaveGameBJHint="该动作只在响应'保存/读取进度'时有效,每个事件中最多能用16次."
+
+SetCampaignMenuRaceBJ="设置战役背景"
+SetCampaignMenuRaceBJ="设置战役背景为 ",~Campaign
+SetCampaignMenuRaceBJHint=
+
+SetMissionAvailableBJ="允许/禁止关卡"
+SetMissionAvailableBJ=~Enable/Disable," ",~Mission
+SetMissionAvailableBJHint=
+
+SetCampaignAvailableBJ="允许/禁止战役"
+SetCampaignAvailableBJ=~Enable/Disable,"  ",~Campaign
+SetCampaignAvailableBJHint=
+
+SetCinematicAvailableBJ="允许/禁止过场电影"
+SetCinematicAvailableBJ=~Enable/Disable," ",~Cinematic
+SetCinematicAvailableBJHint=
+
+ShowCustomCampaignButton="显示/隐藏自定义战役按钮"
+ShowCustomCampaignButton=~Show/Hide," 自定义战役按钮 #",~Number
+ShowCustomCampaignButtonHint=
+
+SetAllyColorFilterState="设置联盟颜色显示"
+SetAllyColorFilterState="设置联盟颜色显示状态为 ",~State
+SetAllyColorFilterStateHint="0为不开启. 1为小地图显示. 2为小地图和游戏都显示. 相当于游戏中Alt+A功能."
+
+SetCreepCampFilterState="设置小地图中立生物显示"
+SetCreepCampFilterState="小地图 "~Show/Hide," 中立生物"
+SetCreepCampFilterStateHint="相当于游戏中Alt+R功能."
+
+EnableMinimapFilterButtons="允许/禁用小地图按钮"
+EnableMinimapFilterButtons=~Enable/Disable," 联盟颜色显示按钮, ",~Enable/Disable," 中立生物显示按钮"
+EnableMinimapFilterButtonsHint=
+
+EnableSelect="允许/禁用选择"
+EnableSelect=~Enable/Disable," 选择和取消选择功能 (",~Enable/Disable," 显示选择圈)"
+EnableSelectHint="禁用选择后仍可以通过触发来选择物体. 只有允许选择功能时才会显示选择圈."
+
+EnableDragSelect="允许/禁用框选"
+EnableDragSelect=~Enable/Disable," 框选功能 (",~Enable/Disable," 显示选择框)"
+EnableDragSelectHint=
+
+EnablePreSelect="允许/禁用预选"
+EnablePreSelect=~Enable/Disable," 预选功能 (",~Enable/Disable," 显示预选圈,生命槽,物体信息)"
+EnablePreSelectHint=
+
+ForceUIKeyBJ="按下UI键"
+ForceUIKeyBJ="命令 ",~Player," 按下 ",~Key," 键"
+ForceUIKeyBJHint=
+
+ForceUICancelBJ="按下Esc键"
+ForceUICancelBJ="命令 ",~Player," 按下Esc键"
+ForceUICancelBJHint=
+
+Preload="预载文件"
+Preload="预载 ",~文件
+PreloadHint=
+
+PreloadEnd="开始预载"
+PreloadEnd="开始预载, 超时设置 ",~Time," 秒"
+PreloadEndHint=
+
+Preloader="批量预载"
+Preloader="预载所有在 ",~文件," 中列出的文件"
+PreloaderHint=
+
+
+// Game Cache actions
+InitGameCacheBJ="创建缓存"
+InitGameCacheBJ="创建游戏缓存,使用文件名: ",~Filename
+InitGameCacheBJHint=
+
+SaveGameCacheBJ="本地保存游戏缓存"
+SaveGameCacheBJ="保存 ",~Game Cache," 到本地硬盘"
+SaveGameCacheBJHint="只对单机游戏有效,保存缓存数据到本地硬盘,主要用来实现战役关卡间的数据传递."
+
+StoreUnitBJ="记录单位"
+StoreUnitBJ="记录 ",~单位," ,使用名称: ",~文字," 类别名: ",~Category," 缓存: ",~Game Cache
+StoreUnitBJHint="使用'游戏缓存 - 读取单位'来读取该单位. 名称和类别名不能包含空格."
+
+StoreRealBJ="记录实数"
+StoreRealBJ="记录 ",~实数," ,使用名称: ",~文字," 类别名: ",~Category," 缓存: ",~Game Cache
+StoreRealBJHint="使用'游戏缓存 - 读取实数'来读取该数值. 名称和类别名不能包含空格."
+
+StoreIntegerBJ="记录整数"
+StoreIntegerBJ="记录 ",~整数," ,使用名称: ",~文字," 类别名: ",~Category," 缓存: ",~Game Cache
+StoreIntegerBJHint="使用'游戏缓存 - 读取整数'来读取该数值. 名称和类别名不能包含空格."
+
+StoreBooleanBJ="记录布尔值"
+StoreBooleanBJ="记录 ",~布尔值," ,使用名称: ",~文字," 类别名: ",~Category," 缓存: ",~Game Cache
+StoreBooleanBJHint="使用'游戏缓存 - 读取布尔值'来读取该值. 名称和类别名不能包含空格."
+
+StoreStringBJ="记录字符串"
+StoreStringBJ="记录 ",~字符串," ,使用名称: ",~文字," 类别名: ",~Category," 缓存: ",~Game Cache
+StoreStringBJHint="使用'游戏缓存 - 读取字符串'来读取该值. 名称和类别名不能包含空格."
+
+RestoreUnitLocFacingAngleBJ="读取单位(面向角度)"
+RestoreUnitLocFacingAngleBJ="从缓存读取单位, 名称: ",~文字," 类别名: ",~Category," 缓存: ",~Game Cache," ,所属玩家: ",~Player," 创建点: ",~点," 面向角度: ",~Angle
+RestoreUnitLocFacingAngleBJHint="使用'最后读取的单位'来获取该单位. 如果不存在该缓存数据,则'最后读取的单位'将被设为null."
+
+RestoreUnitLocFacingPointBJ="读取单位(面向点)"
+RestoreUnitLocFacingPointBJ="从缓存读取单位, 名称: ",~文字," 类别名: ",~Category," 缓存: ",~Game Cache," ,所属玩家: ",~Player," 创建点: ",~点," 面向: ",~指定点
+RestoreUnitLocFacingPointBJHint="使用'最后读取的单位'来获取该单位. 如果不存在该缓存数据,则'最后读取的单位'将被设为null."
+
+ReloadGameCachesFromDisk="读取本地缓存数据"
+ReloadGameCachesFromDisk="从本地硬盘读取缓存数据"
+ReloadGameCachesFromDiskHint="只对单机游戏有效,从本地硬盘读取缓存数据,主要用来实现战役关卡间的数据传递."
+
+FlushGameCacheBJ="删除缓存"
+FlushGameCacheBJ="删除 ",~GameCache
+FlushGameCacheBJHint="删除并清空该缓存的所有数据."
+
+FlushStoredMissionBJ="删除类别"
+FlushStoredMissionBJ="删除类别 ",~Category," 在缓存 ",~GameCache," 中"
+FlushStoredMissionBJHint="清空该类别下的所有缓存数据."
+
+// Hashtable actions
+InitHashtableBJ="<1.24> 新建哈希表"
+InitHashtableBJ="创建一个新的哈希表"
+InitHashtableBJHint="您可以使用哈希表来储存临时数据，比缓存的效率要高"
+
+SaveRealBJ="<1.24> 保存实数"
+SaveRealBJ="保存实数 ",~Value," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable," 之内"
+SaveRealBJHint="使用 '哈希表 - 从哈希表提取实数' 可以取出保存的值"
+
+SaveIntegerBJ="<1.24> 保存整数"
+SaveIntegerBJ="保存整数 ",~Value," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable," 之内"
+SaveIntegerBJHint="使用 '哈希表 - 从哈希表提取整数' 可以取出保存的值"
+
+SaveBooleanBJ="<1.24> 保存布尔"
+SaveBooleanBJ="保存布尔 ",~Value," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable," 之内"
+SaveBooleanBJHint="使用 '哈希表 - 从哈希表提取布尔' 可以取出保存的值"
+
+SaveStringBJ="<1.24> 保存字符串"
+SaveStringBJ="保存字符串 ",~Value," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveStringBJHint="使用 '哈希表 - 从哈希表提取字符串' 可以取出保存的值"
+
+SavePlayerHandleBJ="<1.24> 保存玩家"
+SavePlayerHandleBJ="保存玩家 ",~Player," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SavePlayerHandleBJHint="使用 '哈希表 - 从哈希表提取玩家' 可以取出保存的值"
+
+SaveWidgetHandleBJ="<1.24> 保存物体"
+SaveWidgetHandleBJ="保存物体 ",~Widget," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveWidgetHandleBJHint="使用 '哈希表 - 从哈希表提取物体' 可以取出保存的值"
+
+SaveDestructableHandleBJ="<1.24> 保存可破坏物"
+SaveDestructableHandleBJ="保存可破坏物 ",~Destructable," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveDestructableHandleBJHint="使用 '哈希表 - 从哈希表提取可破坏物' 可以取出保存的值"
+
+SaveItemHandleBJ="<1.24> 保存物品"
+SaveItemHandleBJ="保存物品 ",~Item," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveItemHandleBJHint="使用 '哈希表 - 从哈希表提取物品' 可以取出保存的值"
+
+SaveUnitHandleBJ="<1.24> 保存单位"
+SaveUnitHandleBJ="保存单位 ",~Unit," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveUnitHandleBJHint="使用 '哈希表 - 从哈希表提取单位' 可以取出保存的值"
+
+SaveAbilityHandleBJ="<1.24> 保存技能"
+SaveAbilityHandleBJ="保存技能 ",~Ability," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveAbilityHandleBJHint="使用 '哈希表 - 从哈希表提取技能' 可以取出保存的值"
+
+SaveTimerHandleBJ="<1.24> 保存计时器"
+SaveTimerHandleBJ="保存计时器 ",~Timer," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveTimerHandleBJHint="使用 '哈希表 - 从哈希表提取计时器' 可以取出保存的值"
+
+//SaveTriggerRegionHandleBJ="Save Region"
+//SaveTriggerRegionHandleBJ="Save Handle Of",~Region," as ",~Value," of ",~Value," in ",~Hashtable
+//SaveTriggerRegionHandleBJHint="Use the 'Hashtable - Load Region' actions to load this region from a hashtable."
+
+SaveTriggerHandleBJ="<1.24> 保存触发器"
+SaveTriggerHandleBJ="保存触发器 ",~Trigger," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveTriggerHandleBJHint="使用 '哈希表 - 从哈希表提取触发器' 可以取出保存的值"
+
+SaveTriggerConditionHandleBJ="<1.24> 保存触发条件"
+SaveTriggerConditionHandleBJ="保存触发条件 ",~Triggercondition," 在子索引 ",~Value," of ",~Value," 位于 ",~Hashtable,"  之内"
+SaveTriggerConditionHandleBJHint="使用 '哈希表 - 从哈希表提取触发条件' 可以取出保存的值"
+
+SaveTriggerActionHandleBJ="<1.24> 保存触发动作"
+SaveTriggerActionHandleBJ="保存触发动作 ",~Triggeraction," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveTriggerActionHandleBJHint="使用 '哈希表 - 从哈希表提取触发动作' 可以取出保存的值"
+
+SaveTriggerEventHandleBJ="<1.24> 保存触发事件"
+SaveTriggerEventHandleBJ="保存触发事件 ",~Eventid," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveTriggerEventHandleBJHint="使用 '哈希表 - 从哈希表提取触发事件' 可以取出保存的值"
+
+SaveForceHandleBJ="<1.24> 保存玩家组"
+SaveForceHandleBJ="保存玩家组 ",~Force," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveForceHandleBJHint="使用 '哈希表 - 从哈希表提取玩家组' 可以取出保存的值"
+
+SaveGroupHandleBJ="<1.24> 保存单位组"
+SaveGroupHandleBJ="保存单位组",~Group," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveGroupHandleBJHint="使用 '哈希表 - 从哈希表提取单位组' 可以取出保存的值"
+
+SaveLocationHandleBJ="<1.24> 保存点"
+SaveLocationHandleBJ="保存点 ",~Location," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveLocationHandleBJHint="使用 '哈希表 - 从哈希表提取点' 可以取出保存的值"
+
+SaveRegionHandleBJ="<1.24> 保存区域(不规则)"
+SaveRegionHandleBJ="保存区域(不规则) ",~Region," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveRegionHandleBJHint="使用 '哈希表 - 从哈希表提取区域(不规则)' 可以取出保存的值"
+
+SaveRectHandleBJ="<1.24> 保存区域(矩型)"
+SaveRectHandleBJ="保存区域(矩型) ",~Rect," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveRectHandleBJHint="使用 '哈希表 - 从哈希表提取区域(矩型)' 可以取出保存的值"
+
+SaveBooleanExprHandleBJ="<1.24> 保存布尔表达式"
+SaveBooleanExprHandleBJ="保存布尔表达式 ",~Boolexpr," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveBooleanExprHandleBJHint="使用 '哈希表 - 从哈希表提取布尔表达式' 可以取出保存的值"
+
+//SaveConditionFuncHandleBJ="Save Conditionfunc Handle"
+//SaveConditionFuncHandleBJ="Save Handle Of",~Conditionfunc," as ",~Value," of ",~Value," in ",~Hashtable
+//SaveConditionFuncHandleBJHint="Use the 'Hashtable - Load Conditionfunc' actions to load this conditionfunc from a hashtable."
+
+//SaveFilterFuncHandleBJ="Save Filterfunc Handle"
+//SaveFilterFuncHandleBJ="Save Handle Of",~Filterfunc," as ",~Value," of ",~Value," in ",~Hashtable
+//SaveFilterFuncHandleBJHint="Use the 'Hashtable - Load Filterfunc' actions to load this filterfunc from a hashtable."
+
+SaveSoundHandleBJ="<1.24> 保存音效"
+SaveSoundHandleBJ="保存音效 ",~Sound," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveSoundHandleBJHint="使用 '哈希表 - 从哈希表提取音效' 可以取出保存的值"
+
+//SaveRaceHandleBJ="Save Race Handle"
+//SaveRaceHandleBJ="Save Handle Of",~Race," as ",~Value," of ",~Value," in ",~Hashtable
+//SaveRaceHandleBJHint="Use the 'Hashtable - Load Race' actions to load this race from a hashtable."
+
+SaveEffectHandleBJ="<1.24> 保存特效"
+SaveEffectHandleBJ="保存特效",~Effect," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveEffectHandleBJHint="使用 '哈希表 - 从哈希表提取特效' 可以取出保存的值"
+
+SaveUnitPoolHandleBJ="<1.24> 保存单位池"
+SaveUnitPoolHandleBJ="保存单位池 ",~Unitpool," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveUnitPoolHandleBJHint="使用 '哈希表 - 从哈希表提取单位池' 可以取出保存的值"
+
+SaveItemPoolHandleBJ="<1.24> 保存物品池"
+SaveItemPoolHandleBJ="保存物品池 ",~Itempool," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveItemPoolHandleBJHint="使用 '哈希表 - 从哈希表提取物品池' 可以取出保存的值"
+
+SaveQuestHandleBJ="<1.24> 保存任务"
+SaveQuestHandleBJ="保存任务 ",~Quest," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveQuestHandleBJHint="使用 '哈希表 - 从哈希表提取任务' 可以取出保存的值"
+
+SaveQuestItemHandleBJ="<1.24> 保存任务要求"
+SaveQuestItemHandleBJ="保存任务要求 ",~Questitem," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveQuestItemHandleBJHint="使用 '哈希表 - 从哈希表提取任务要求' 可以取出保存的值"
+
+SaveDefeatConditionHandleBJ="<1.24> 保存失败条件"
+SaveDefeatConditionHandleBJ="保存失败条件 ",~Defeatcondition," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveDefeatConditionHandleBJHint="使用 '哈希表 - 从哈希表提取失败条件' 可以取出保存的值"
+
+SaveTimerDialogHandleBJ="<1.24> 保存计时器窗口"
+SaveTimerDialogHandleBJ="保存计时器窗口 ",~Timerdialog," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveTimerDialogHandleBJHint="使用 '哈希表 - 从哈希表提取计时器窗口' 可以取出保存的值"
+
+SaveLeaderboardHandleBJ="<1.24> 保存排行榜"
+SaveLeaderboardHandleBJ="保存排行榜 ",~Leaderboard," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveLeaderboardHandleBJHint="使用 '哈希表 - 从哈希表提取排行榜' 可以取出保存的值"
+
+SaveMultiboardHandleBJ="<1.24> 保存多面板"
+SaveMultiboardHandleBJ="保存多面板 ",~Multiboard," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveMultiboardHandleBJHint="使用 '哈希表 - 从哈希表提取多面板' 可以取出保存的值"
+
+SaveMultiboardItemHandleBJ="<1.24> 保存多面板项目"
+SaveMultiboardItemHandleBJ="保存多面板项目 ",~Multiboarditem," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveMultiboardItemHandleBJHint="使用 '哈希表 - 从哈希表提取多面板项目' 可以取出保存的值"
+
+SaveTrackableHandleBJ="<1.24> 保存可追踪对象"
+SaveTrackableHandleBJ="保存可追踪对象 ",~Trackable," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveTrackableHandleBJHint="使用 '哈希表 - 从哈希表提取可追踪对象' 可以取出保存的值"
+
+SaveGameCacheHandleBJ="<1.24> 保存游戏缓存"
+SaveGameCacheHandleBJ="保存游戏缓存 ",~Gamecache," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveGameCacheHandleBJHint="使用 '哈希表 - 从哈希表提取游戏缓存' 可以取出保存的值"
+
+SaveDialogHandleBJ="<1.24> 保存对话框"
+SaveDialogHandleBJ="保存对话框 ",~Dialog," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveDialogHandleBJHint="使用 '哈希表 - 从哈希表提取对话框' 可以取出保存的值"
+
+SaveButtonHandleBJ="<1.24> 保存对话框按钮"
+SaveButtonHandleBJ="保存对话框按钮 ",~Button," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveButtonHandleBJHint="使用 '哈希表 - 从哈希表提取对话框按钮' 可以取出保存的值"
+
+//SaveVersionHandleBJ="Save Version Handle"
+//SaveVersionHandleBJ="Save Handle Of",~Version," as ",~Value," of ",~Value," in ",~Hashtable
+//SaveVersionHandleBJHint="Use the 'Hashtable - Load Version' actions to load this version from a hashtable."
+
+//SaveItemTypeHandleBJ="Save Itemtype Handle"
+//SaveItemTypeHandleBJ="Save Handle Of",~Itemtype," as ",~Value," of ",~Value," in ",~Hashtable
+//SaveItemTypeHandleBJHint="Use the 'Hashtable - Load Itemtype' actions to load this itemtype from a hashtable."
+
+SaveTextTagHandleBJ="<1.24> 保存漂浮文字"
+SaveTextTagHandleBJ="保存漂浮文字 ",~Texttag," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveTextTagHandleBJHint="使用 '哈希表 - 从哈希表提取漂浮文字' 可以取出保存的值"
+
+SaveLightningHandleBJ="<1.24> 保存闪电效果"
+SaveLightningHandleBJ="保存闪电效果 ",~Lightning," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveLightningHandleBJHint="使用 '哈希表 - 从哈希表提取闪电效果' 可以取出保存的值"
+
+SaveImageHandleBJ="<1.24> 保存图像"
+SaveImageHandleBJ="保存图像 ",~Image," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveImageHandleBJHint="使用 '哈希表 - 从哈希表提取图像' 可以取出保存的值"
+
+SaveUbersplatHandleBJ="<1.24> 保存地面纹理变化"
+SaveUbersplatHandleBJ="保存地面纹理变化 ",~Ubersplat," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveUbersplatHandleBJHint="使用 '哈希表 - 从哈希表提取地面纹理变化' 可以取出保存的值"
+
+SaveFogStateHandleBJ="<1.24> 保存迷雾状态"
+SaveFogStateHandleBJ="保存迷雾状态 ",~Fogstate," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveFogStateHandleBJHint="使用 '哈希表 - 从哈希表提取迷雾状态' 可以取出保存的值"
+
+SaveFogModifierHandleBJ="<1.24> 保存可见度修正器"
+SaveFogModifierHandleBJ="保存可见度修正器 ",~Fogmodifier," 在子索引 ",~Value," 主索引 ",~Value," 位于 ",~Hashtable,"  之内"
+SaveFogModifierHandleBJHint="使用 '哈希表 - 从哈希表提取可见度修正器' 可以取出保存的值"
+
+FlushParentHashtableBJ="<1.24> 清空哈希表"
+FlushParentHashtableBJ="<1.24> 清空 ",~Hashtable
+FlushParentHashtableBJHint="清空哈希表所有数据"
+
+FlushChildHashtableBJ="<1.24> 清空哈希表主索引"
+FlushChildHashtableBJ="<1.24> 清空 ",~Value," 位于 ",~Hashtable,"  之内"
+FlushChildHashtableBJHint="清空哈希表主索引下的所有数据"
+
+// Hero actions
+SelectHeroSkill="学习技能"
+SelectHeroSkill="命令 ",~Hero," 学习技能 ",~Skill
+SelectHeroSkillHint="只有当英雄有剩余技能点时有效."
+
+SetHeroLevel="设置等级"
+SetHeroLevel="设置 ",~Hero," 的英雄等级为 ",~Level," , ",~Show/Hide," 升级动画"
+SetHeroLevelHint="如果等级有变动,英雄经验将重置为该等级的初始值."
+
+SetHeroXP="设置经验值"
+SetHeroXP="设置 ",~Hero," 的经验值为 ",~Quantity," , ",~Show/Hide," 升级动画"
+SetHeroXPHint="经验值不能倒退."
+
+AddHeroXPSwapped="增加经验值"
+AddHeroXPSwapped="增加 ",~Quantity," 经验值给 ",~Hero," , ",~Show/Hide," 升级动画"
+AddHeroXPSwappedHint="经验值不能倒退."
+
+SuspendHeroXPBJ="允许/禁止经验获取"
+SuspendHeroXPBJ=~Enable/Disable," ",~Hero," 的经验获取"
+SuspendHeroXPBJHint=
+
+SetPlayerHandicapXPBJ="设置经验获得率"
+SetPlayerHandicapXPBJ="设置 ",~Player," 的经验获得率为 ",~Percent,"%"
+SetPlayerHandicapXPBJHint=
+
+ReviveHeroLoc="立即复活(指定点)"
+ReviveHeroLoc="立即复活 ",~英雄," 在 ",~指定点," , ",~Show/Hide," 复活动画"
+ReviveHeroLocHint="如果英雄正在祭坛复活,则会退回部分花费(默认为100%)."
+
+ModifyHeroStat="修改英雄属性"
+ModifyHeroStat="修改 ",~Attribute," 对 ",~英雄," : ",~Modify," ",~Value," 点"
+ModifyHeroStatHint=
+
+ModifyHeroSkillPoints="修改剩余技能点"
+ModifyHeroSkillPoints="修改 ",~英雄," 的剩余技能点: ",~Modify," ",~Value," 点"
+ModifyHeroSkillPointsHint=
+
+SetReservedLocalHeroButtons="保留英雄图标"
+SetReservedLocalHeroButtons="为玩家保留 ",~Number," 个左上角英雄图标."
+SetReservedLocalHeroButtonsHint="因为共享单位而被控制的其他玩家英雄的图标将在保留位置之后开始显示."
+
+UnitAddItemSwapped="给予物品"
+UnitAddItemSwapped="把 ",~物品," 给 ",~单位
+UnitAddItemSwappedHint=
+
+UnitAddItemByIdSwapped="创建物品给英雄"
+UnitAddItemByIdSwapped="创建 ",~物品类型," 给 ",~单位
+UnitAddItemByIdSwappedHint=
+
+UnitRemoveItemSwapped="丢弃物品(指定物品)"
+UnitRemoveItemSwapped="丢弃 ",~物品," ,从 ",~单位," 身上"
+UnitRemoveItemSwappedHint="物品将被丢弃在英雄脚下."
+
+UnitRemoveItemFromSlotSwapped="丢弃物品(指定物品栏)"
+UnitRemoveItemFromSlotSwapped="丢弃物品栏中第 ",~Index," 格的物品,从 ",~单位," 身上"
+UnitRemoveItemFromSlotSwappedHint="如果物品存在则会被丢弃在英雄脚下."
+
+UnitUseItemTarget="使用物品(对单位)"
+UnitUseItemTarget="命令 ",~单位," 使用 ",~物品," ,目标: ",~单位
+UnitUseItemTargetHint=
+
+UnitUseItemPointLoc="使用物品(指定点)"
+UnitUseItemPointLoc="命令 ",~单位," 使用 ",~物品," ,目标点: ",~指定点
+UnitUseItemPointLocHint=
+
+UnitUseItemDestructable="使用物品(对可破坏物)"
+UnitUseItemDestructable="命令 ",~单位," 使用 ",~物品," ,目标: ",~可破坏物
+UnitUseItemDestructableHint=
+
+UnitUseItem="使用物品(无目标)"
+UnitUseItem="命令 ",~单位," 使用 ",~物品
+UnitUseItemHint=
+
+
+// Item actions
+CreateItemLoc="创建"
+CreateItemLoc="创建 ",~物品," 在 ",~指定点
+CreateItemLocHint=
+
+RemoveItem="删除"
+RemoveItem="删除 ",~物品
+RemoveItemHint=
+
+SetItemVisibleBJ="显示/隐藏"
+SetItemVisibleBJ=~Show/Hide," ",~物品
+SetItemVisibleBJHint="只对在地面的物品有效,不会影响在物品栏中的物品. 单位通过触发得到一个隐藏物品时,会自动显示该物品."
+
+SetItemPositionLoc="移动到指定点(立即)(指定点)"
+SetItemPositionLoc="移动 ",~物品," 到 ",~指定点
+SetItemPositionLocHint=
+
+SetItemLifeBJ="设置生命值"
+SetItemLifeBJ="设置 ",~物品," 的生命值为 ",~Value
+SetItemLifeBJHint=
+
+SetItemCharges="设置使用次数"
+SetItemCharges="设置 ",~物品," 的使用次数为 ",~Charges
+SetItemChargesHint="设置为0可以使物品能无限次使用."
+
+SetItemInvulnerableBJ="设置无敌/可攻击"
+SetItemInvulnerableBJ="设置 ",~物品," ",~Invulnerable/Vulnerable
+SetItemInvulnerableBJHint=
+
+SetItemPawnable="设置可否抵押"
+SetItemPawnable="设置 ",~物品," ",~Pawnable/Unpawnable
+SetItemPawnableHint="不可抵押物品不能被卖到商店."
+
+SetItemDroppableBJ="设置可否丢弃"
+SetItemDroppableBJ="设置",~物品," ",~Droppable/Undroppable
+SetItemDroppableBJHint="不可掉落物品在被捡起之后就不能移动和丢弃.(但可通过触发实现)"
+
+SetItemDropOnDeathBJ="设置死亡是否掉落"
+SetItemDropOnDeathBJ="设置 ",~物品," ",~Drop from/Stay with," 在持有者死亡时"
+SetItemDropOnDeathBJHint=
+
+SetItemPlayerBJ="改变所属玩家"
+SetItemPlayerBJ="改变 ",~物品," 的所属玩家为: ",~Player," 并 ",~Change/Retain Color
+SetItemPlayerBJHint="不是所有物品都能改变颜色. 所属玩家与持有者无关,默认为中立被动玩家."
+
+SetItemUserData="设置自定义值"
+SetItemUserData="设置 ",~物品," 的自定义值为 ",~Index
+SetItemUserDataHint="物品自定义值只用于触发器. 可以用来为物品绑定一个整型数据."
+
+EnumItemsInRectBJMultiple="选取矩形区域内物品做动作(多个动作)"
+EnumItemsInRectBJMultiple="选取 ",~矩形区域," 内所有物品做动作"
+EnumItemsInRectBJMultipleHint="组动作中可使用'选取物品'来获取对应的物品. 区域内每个物品都会运行一次动作(包括隐藏物品,不包括物品栏中的物品). 等待不能在组动作中运行."
+
+EnumItemsInRectBJ="选取矩形区域内物品做动作"
+EnumItemsInRectBJ="选取 ",~矩形区域," 内所有物品 ",~做动作
+EnumItemsInRectBJHint="组动作中可使用'选取物品'来获取对应的物品. 区域内每个物品都会运行一次动作(包括隐藏物品,不包括单位身上的物品). 等待不能在组动作中运行."
+
+
+// Image actions
+CreateImageBJ="创建"
+CreateImageBJ="使用图像: ",~Image," 大小: ",~Size," 创建点: ",~指定点," Z轴偏移: ",~Z," 图像类型: ",~Type
+CreateImageBJHint="使用'图像 - 设置永久渲染状态'才能显示图像. 创建点作为图像的左下角位置. 该功能存在Bug,会在图像上和右面多出256象素. 所以需要支持Alpha通道的图像且上和右面最后一行像素为透明才能完美显示."
+
+DestroyImage="删除"
+DestroyImage="删除 ",~图像
+DestroyImageHint=
+
+ShowImageBJ="显示/隐藏"
+ShowImageBJ=~Show/Hide," ",~Image
+ShowImageBJHint=
+
+SetImageConstantHeight="设置高度"
+SetImageConstantHeight="设置 ",~Image," ",~Enable/Disable," Z轴显示,并设置高度为 ",~Height
+SetImageConstantHeightHint="实际显示高度为图像高度+Z轴偏移. 只有允许Z轴显示时才有效."
+
+SetImagePositionBJ="改变位置(指定点)"
+SetImagePositionBJ="改变 ",~Image," 的位置为 ",~Position," ,Z轴偏移为 ",~Z
+SetImagePositionBJHint="指图像的左下角位置."
+
+SetImageColorBJ="改变颜色"
+SetImageColorBJ="设置 ",~Image," 的颜色值为(",~Red,"%, ",~Green,"%, ",~Blue,"%) 透明度为 ",~Transparency,"%"
+SetImageColorBJHint="颜色格式为(红,绿,蓝). 透明度100%是不可见的."
+
+SetImageRender="设置渲染状态"
+SetImageRender="设置 ",~Image," : ",~Enable/Disable," 显示状态"
+SetImageRenderHint="未发现有任何作用."
+
+SetImageRenderAlways="设置永久渲染状态"
+SetImageRenderAlways="设置 ",~Image," : ",~Enable/Disable," 永久显示状态"
+SetImageRenderAlwaysHint="要显示图像则必须开启该项."
+
+SetImageAboveWater="水面显示状态"
+SetImageAboveWater="设置 ",~Image," : ",~Enable/Disable," 水面显示, ",~Enable/Disable," 水的Alpha通道"
+SetImageAboveWaterHint="前者设置图像在水面或是水底显示. 后者设置图像是否受水的Alpha通道影响. "
+
+SetImageType="改变类型"
+SetImageType="改变 ",~Image," 类型为 ",~Type
+SetImageTypeHint=
+
+// Leaderboard actions
+CreateLeaderboardBJ="创建"
+CreateLeaderboardBJ="对 ",~玩家组," 创建排行榜,使用标题: ",~文字
+CreateLeaderboardBJHint="排行榜不能在地图初始化时显示. 标题为空则不显示标题栏."
+
+DestroyLeaderboardBJ="删除"
+DestroyLeaderboardBJ="删除 ",~排行榜
+DestroyLeaderboardBJHint=
+
+LeaderboardSortItemsBJ="排序"
+LeaderboardSortItemsBJ="将 ",~排行榜," 按 ",~Field," 使用 ",~Ascending/Descending," 排列"
+LeaderboardSortItemsBJHint=
+
+LeaderboardDisplayBJ="显示/隐藏"
+LeaderboardDisplayBJ=~Show/Hide," ",~排行榜
+LeaderboardDisplayBJHint="排行榜不能在地图初始化时显示."
+
+LeaderboardSetLabelBJ="设置标题"
+LeaderboardSetLabelBJ="设置 ",~Leaderboard," 的标题为 ",~文字
+LeaderboardSetLabelBJHint=
+
+LeaderboardSetLabelColorBJ="设置文字颜色 [旧]"
+LeaderboardSetLabelColorBJ="设置 ",~Leaderboard," 的文字颜色为(",~Red,"%, ",~Green,"%, ",~Blue,"%) 透明度为 ",~Transparency,"%"
+LeaderboardSetLabelColorBJHint="颜色格式为(红,绿,蓝). 透明度100%是不可见的."
+
+LeaderboardSetValueColorBJ="设置数值颜色 [旧]"
+LeaderboardSetValueColorBJ="设置 ",~Leaderboard," 的数值颜色为(",~Red,"%, ",~Green,"%, ",~Blue,"%) 透明度为 ",~Transparency,"%"
+LeaderboardSetValueColorBJHint="颜色格式为(红,绿,蓝). 透明度100%是不可见的."
+
+LeaderboardSetStyleBJ="设置显示样式"
+LeaderboardSetStyleBJ="设置 ",~Leaderboard," 的显示样式: ",~Show/Hide," 标题, ",~Show/Hide," 文字, ",~Show/Hide," 分数, ",~Show/Hide," 图标"
+LeaderboardSetStyleBJHint=
+
+LeaderboardAddItemBJ="添加玩家"
+LeaderboardAddItemBJ="添加 ",~Player," 到 ",~Leaderboard," ,使用名字: ",~文字," 设置分数: ",~Value
+LeaderboardAddItemBJHint=
+
+LeaderboardRemovePlayerItemBJ="移除玩家"
+LeaderboardRemovePlayerItemBJ="把 ",~Player," 从 ",~Leaderboard," 移除"
+LeaderboardRemovePlayerItemBJHint=
+
+LeaderboardSetPlayerItemLabelBJ="改变玩家名字"
+LeaderboardSetPlayerItemLabelBJ="设置 ",~Player," 在 ",~Leaderboard," 中的名字为 ",~文字
+LeaderboardSetPlayerItemLabelBJHint=
+
+LeaderboardSetPlayerItemLabelColorBJ="改变玩家名字颜色"
+LeaderboardSetPlayerItemLabelColorBJ="设置 ",~Player," 在 ",~Leaderboard," 中的名字颜色为(",~Red,"%, ",~Green,"%, ",~Blue,"%) 透明度为 ",~Transparency,"%"
+LeaderboardSetPlayerItemLabelColorBJHint="颜色格式为(红,绿,蓝). 透明度100%是不可见的."
+
+LeaderboardSetPlayerItemValueBJ="改变玩家分数"
+LeaderboardSetPlayerItemValueBJ="设置 ",~Player," 在 ",~Leaderboard," 中的分数为: ",~Value
+LeaderboardSetPlayerItemValueBJHint=
+
+LeaderboardSetPlayerItemValueColorBJ="改变玩家分数颜色"
+LeaderboardSetPlayerItemValueColorBJ="设置 ",~Player," 在 ",~Leaderboard," 中的分数颜色为(",~Red,"%, ",~Green,"%, ",~Blue,"%) 透明度为 ",~Transparency,"%"
+LeaderboardSetPlayerItemValueColorBJHint="颜色格式为(红,绿,蓝). 透明度100%是不可见的."
+
+LeaderboardSetPlayerItemStyleBJ="设置玩家显示样式"
+LeaderboardSetPlayerItemStyleBJ="设置 ",~Player," 在 ",~Leaderboard," 中的显示样式: ",~Show/Hide," 名字, ",~Show/Hide," 分数, ",~Show/Hide," 图标"
+LeaderboardSetPlayerItemStyleBJHint=
+
+
+// Lightning actions
+AddLightningLoc="创建"
+AddLightningLoc="创建一道 ",~Type," 闪电效果,从 ",~点," 到 ",~点
+AddLightningLocHint=
+
+DestroyLightningBJ="删除"
+DestroyLightningBJ="删除 ",~Lightning
+DestroyLightningBJHint=
+
+MoveLightningLoc="移动(指定点)"
+MoveLightningLoc="移动 ",~Lightning," ,使其连接 ",~点," 到 ",~点
+MoveLightningLocHint=
+
+SetLightningColorBJ="改变颜色"
+SetLightningColorBJ="改变 ",~Lightning," 的颜色值为(",~Red," ",~Green," ",~Blue,") Alpha通道值为 ",~Alpha
+SetLightningColorBJHint="颜色格式为(红,绿,蓝). 颜色和Alpha通道值取值范围0-1. Alpha通道值为0即完全透明."
+
+
+// Melee Game actions
+MeleeStartingVisibility="使用对战昼夜设置"
+MeleeStartingVisibility="使用对战昼夜设置"
+MeleeStartingVisibilityHint=
+
+MeleeStartingHeroLimit="英雄限制"
+MeleeStartingHeroLimit="使用对战英雄设置"
+MeleeStartingHeroLimitHint="每个对战英雄只能建造1个. 最大英雄数量为3."
+
+MeleeGrantHeroItems="英雄初始物品"
+MeleeGrantHeroItems="给首发英雄一个回城卷轴"
+MeleeGrantHeroItemsHint=
+
+MeleeStartingResources="设置初始资源"
+MeleeStartingResources="设置初始资源"
+MeleeStartingResourcesHint=
+
+MeleeClearExcessUnits="删除多余单位"
+MeleeClearExcessUnits="删除已使用开始点附近的中立生物"
+MeleeClearExcessUnitsHint=
+
+MeleeStartingUnits="创建初始单位"
+MeleeStartingUnits="创建对战初始单位"
+MeleeStartingUnitsHint=
+
+MeleeStartingAI="运行AI"
+MeleeStartingAI="对电脑玩家运行对战AI脚本"
+MeleeStartingAIHint="动作运行之前玩家要有初始单位和资源."
+
+MeleeInitVictoryDefeat="强制胜利/失败条件"
+MeleeInitVictoryDefeat="强制使用对战胜利/失败条件"
+MeleeInitVictoryDefeatHint="动作运行之前玩家要有单位."
+
+MeleeStartingUnitsForPlayer="创建初始单位(指定玩家)"
+MeleeStartingUnitsForPlayer="创建 ",~Race," 的对战初始单位给 ",~Player," 在 ",~指定点," (",~Include/Exclude," 英雄)"
+MeleeStartingUnitsForPlayerHint=
+
+
+// Multiboard actions
+CreateMultiboardBJ="创建"
+CreateMultiboardBJ="创建一个列数为 ",~Columns," 行数为 ",~Rows," 标题为 ",~文字," 的多面板"
+CreateMultiboardBJHint="多面板不能在地图初始化时显示."
+
+DestroyMultiboardBJ="删除"
+DestroyMultiboardBJ="删除 ",~Multiboard
+DestroyMultiboardBJHint=
+
+MultiboardDisplayBJ="显示/隐藏"
+MultiboardDisplayBJ=~Show/Hide," ",~Multiboard
+MultiboardDisplayBJHint="多面板不能在地图初始化时显示."
+
+MultiboardAllowDisplayBJ="显示/隐藏多面板模式"
+MultiboardAllowDisplayBJ=~Show/Hide," 多面板模式"
+MultiboardAllowDisplayBJHint="隐藏多面板模式将无法显示多面板."
+
+MultiboardMinimizeBJ="最大/最小化"
+MultiboardMinimizeBJ=~Minimize/Maximize," ",~Multiboard
+MultiboardMinimizeBJHint="最小化的多面板只显示标题."
+
+MultiboardClear="清空多面板"
+MultiboardClear="清空 ",~Multiboard
+MultiboardClearHint="清空该多面板中的所有行和列."
+
+MultiboardSetTitleText="设置标题"
+MultiboardSetTitleText="设置 ",~Multiboard," 的标题为 ",~文字
+MultiboardSetTitleTextHint=
+
+MultiboardSetTitleTextColorBJ="设置标题颜色 [旧]"
+MultiboardSetTitleTextColorBJ="设置 ",~Multiboard," 的标题颜色为(",~Red,"%, ",~Green,"%, ",~Blue,"%) 透明度为 ",~Transparency,"%"
+MultiboardSetTitleTextColorBJHint="颜色格式为(红,绿,蓝). 透明度100%是不可见的."
+
+MultiboardSetRowCount="设置行数"
+MultiboardSetRowCount="设置 ",~Multiboard," 的行数为 ",~Rows
+MultiboardSetRowCountHint=
+
+MultiboardSetColumnCount="设置列数"
+MultiboardSetColumnCount="设置 ",~Multiboard," 的列数为 ",~Columns
+MultiboardSetColumnCountHint=
+
+MultiboardSetItemStyleBJ="设置项目显示风格 [旧]"
+MultiboardSetItemStyleBJ="设置 ",~Multiboard," 第 ",~Column," 列,第 ",~Row," 行项目的显示风格: ",~Show/Hide," 文字 ",~Show/Hide," 图标"
+MultiboardSetItemStyleBJHint="可以设置行/列数为0来指代所有的行/列. 以下5个动作都有1个局部变量泄漏."
+
+MultiboardSetItemValueBJ="设置项目文本 [旧]"
+MultiboardSetItemValueBJ="设置 ",~Multiboard," 第 ",~Column," 列,第 ",~Row," 行的项目文本为 ",~文字
+MultiboardSetItemValueBJHint="可以设置行/列数为0来指代所有的行/列."
+
+MultiboardSetItemColorBJ="设置项目颜色 [旧]"
+MultiboardSetItemColorBJ="设置 ",~Multiboard," 第 ",~Column," 列,第 ",~Row," 行的项目颜色为(",~Red,"%, ",~Green,"%, ",~Blue,"%) 透明度为 ",~Transparency,"%"
+MultiboardSetItemColorBJHint="可以设置行/列数为0来指代所有的行/列. 颜色格式为(红,绿,蓝). 透明度100%是不可见的."
+
+MultiboardSetItemWidthBJ="设置项目宽度 [旧]"
+MultiboardSetItemWidthBJ="设置 ",~Multiboard," 第 ",~Column," 列,第 ",~Row," 行的项目宽度为屏幕的 ",~Width,"%"
+MultiboardSetItemWidthBJHint=
+
+MultiboardSetItemIconBJ="设置项目图标 [旧]"
+MultiboardSetItemIconBJ="设置 ",~Multiboard," 第 ",~Column," 列,第 ",~Row," 行的项目图标为 ",~Icon File
+MultiboardSetItemIconBJHint=
+
+
+// Neutral Building actions
+AddResourceAmountBJ="增加储金量"
+AddResourceAmountBJ="增加 ",~Quantity," 黄金到 ",~金矿
+AddResourceAmountBJHint="使用负数来减少储金量."
+
+SetResourceAmount="设置储金量"
+SetResourceAmount="设置 ",~金矿," 的储金量为 ",~Quantity
+SetResourceAmountHint=
+
+BlightGoldMineForPlayer="创建不死族金矿(立即)"
+BlightGoldMineForPlayer="将 ",~金矿," 变为 ",~Player," 的不死族金矿"
+BlightGoldMineForPlayerHint="金矿的储金量不会改变."
+
+WaygateActivateBJ="启用/禁用传送门"
+WaygateActivateBJ=~Enable/Disable," ",~传送门
+WaygateActivateBJHint=
+
+WaygateSetDestinationLocBJ="设置传送门目的点"
+WaygateSetDestinationLocBJ="设置 ",~传送门," 的目的地为 ",~Target
+WaygateSetDestinationLocBJHint=
+
+SetAltMinimapIcon="设置小地图特殊标志"
+SetAltMinimapIcon="设置小地图特殊标志为 ",~Image
+SetAltMinimapIconHint="必须使用16x16的图像."
+
+UnitSetUsesAltIconBJ="开启/关闭小地图特殊标志"
+UnitSetUsesAltIconBJ=~On/Off," ",~单位," 的小地图特殊标志"
+UnitSetUsesAltIconBJHint="使用'中立建筑 - 设置小地图特殊标志'动作来设置显示的标志. 默认为中立建筑标志."
+
+AddItemToStockBJ="添加物品(指定市场)"
+AddItemToStockBJ="添加 ",~物品类型," 到 ",~Marketplace," 并设置库存量: ",~Count," 最大库存量: ",~Max
+AddItemToStockBJHint="只影响有'出售物品'技能的单位."
+
+AddItemToAllStock="添加物品(所有市场)"
+AddItemToAllStock="添加 ",~物品类型," 到所有市场并设置库存量: ",~Count," 最大库存量: ",~Max
+AddItemToAllStockHint="影响所有拥有'出售物品'技能的单位."
+
+AddUnitToStockBJ="添加单位(指定市场)"
+AddUnitToStockBJ="添加 ",~单位类型," 到 ",~Marketplace," 并设置库存量: ",~Count," 最大库存量: ",~Max
+AddUnitToStockBJHint="只影响有'出售单位'技能的单位."
+
+AddUnitToAllStock="添加单位(所有市场)"
+AddUnitToAllStock="添加 ",~单位类型," 到所有市场并设置库存量: ",~Count," 最大库存量: ",~Max
+AddUnitToAllStockHint="影响所有拥有'出售单位'技能的单位."
+
+RemoveItemFromStockBJ="删除物品(指定市场)"
+RemoveItemFromStockBJ="删除 ",~物品类型," 从 ",~Marketplace
+RemoveItemFromStockBJHint="只影响有'出售物品'技能的单位"
+
+RemoveItemFromAllStock="删除物品(所有市场)"
+RemoveItemFromAllStock="删除 ",~物品类型," 从所有市场"
+RemoveItemFromAllStockHint="影响所有拥有'出售物品'技能的单位."
+
+RemoveUnitFromStockBJ="删除单位(指定市场)"
+RemoveUnitFromStockBJ="删除 ",~单位类型," 从 ",~Marketplace
+RemoveUnitFromStockBJHint="只影响有'出售单位'技能的单位."
+
+RemoveUnitFromAllStock="删除单位(所有市场)"
+RemoveUnitFromAllStock="删除 ",~单位类型," 从所有市场"
+RemoveUnitFromAllStockHint="影响所有拥有'出售单位'技能的单位."
+
+SetItemTypeSlots="限制物品种类(指定市场)"
+SetItemTypeSlots="限制 ",~Marketplace," 的可出售物品种类数为 ",~Quantity
+SetItemTypeSlotsHint="只影响有'出售物品'技能的单位."
+
+SetAllItemTypeSlots="限制物品种类(所有市场)"
+SetAllItemTypeSlots="限制所有市场的可出售物品种类数为 ",~Quantity
+SetAllItemTypeSlotsHint="影响所有拥有'出售物品'技能的单位."
+
+SetUnitTypeSlots="限制单位种类(指定市场)"
+SetUnitTypeSlots="限制 ",~Marketplace," 的可出售单位种类数为 ",~Quantity
+SetUnitTypeSlotsHint="只影响有'出售单位'技能的单位."
+
+SetAllUnitTypeSlots="限制单位种类(所有市场)"
+SetAllUnitTypeSlots="限制所有市场的可出售单位种类数为 ",~Quantity
+SetAllUnitTypeSlotsHint="影响所有拥有'出售单位'技能的单位."
+
+
+// Player actions
+SetPlayerState="设置属性"
+SetPlayerState="设置 ",~Player," 的 ",~Property," 为 ",~Value
+SetPlayerStateHint=
+
+AdjustPlayerStateBJ="增加属性"
+AdjustPlayerStateBJ="增加 ",~Value," ",~Player," 的 ",~Property
+AdjustPlayerStateBJHint="使用负数来减少."
+
+SetPlayerFlagBJ="开启/关闭玩家参数"
+SetPlayerFlagBJ="设置 ",~Player Flag," ",~On/Off," 对 ",~Player
+SetPlayerFlagBJHint=""开启玩家12的'给与奖励'表示杀死玩家12单位会获得金钱奖励."
+
+SetPlayerTaxRateBJ="设置所得税"
+SetPlayerTaxRateBJ="设置 ",~Rate," %的 ",~Resource," 所得税, ",~Player," 交纳给 ",~Player
+SetPlayerTaxRateBJHint="缴纳所得税所损失的资源可以通过'玩家得分'的'税务损失的黄金/木材'来获取. 所得税最高为100%. 且玩家1对玩家2和玩家3都交纳80%所得税.则玩家1采集黄金时将给玩家2 8黄金,玩家3 2黄金."
+
+EnableCreepSleepBJ="允许/禁止中立生物睡眠"
+EnableCreepSleepBJ=~Enable/Disable," 中立生物睡眠"
+EnableCreepSleepBJHint="只影响夜晚的睡眠. 不影响催眠魔法."
+
+SetPlayerAllianceStateBJ="设置联盟状态"
+SetPlayerAllianceStateBJ="命令 ",~Player," 设置对 ",~Player," 的联盟状态为 ",~Alliance Setting
+SetPlayerAllianceStateBJHint=
+
+SetPlayerAllianceBJ="设置联盟状态(指定项目)"
+SetPlayerAllianceBJ="命令 ",~Player," 设置 ",~Alliance Type," ",~On/Off," 对 ",~Player
+SetPlayerAllianceBJHint=
+
+SetPlayerAbilityAvailableBJ="允许/禁用技能"
+SetPlayerAbilityAvailableBJ=~Enable/Disable," ",~技能," 对 ",~Player
+SetPlayerAbilityAvailableBJHint="设置玩家能否使用该技能."
+
+SetPlayerUnitAvailableBJ="设置单位可用性"
+SetPlayerUnitAvailableBJ="设置 ",~单位类型," ",~Available/Unavailable," 对 ",~Player
+SetPlayerUnitAvailableBJHint="设置玩家能否建造该单位."
+
+SetPlayerUnitMaxAllowed="限制单位可建造数量"
+SetPlayerUnitMaxAllowed="限制 ",~单位类型," 的可建造数量为 ",~Limit," 对 ",~Player
+SetPlayerUnitMaxAllowedHint="-1为无限制,0为不能生产."
+
+SetPlayerMaxHeroesAllowed="限制英雄数量"
+SetPlayerMaxHeroesAllowed="限制英雄数量为 ",~Limit," 对 ",~Player
+SetPlayerMaxHeroesAllowedHint="-1为无限制,0为不能生产."
+
+SetPlayerTechResearchedSwap="设置科技等级"
+SetPlayerTechResearchedSwap="设置 ",~科技," 的等级为 ",~Level," 对 ",~Player
+SetPlayerTechResearchedSwapHint="科技等级不能倒退."
+
+SetPlayerTechMaxAllowedSwap="设置最大科技等级"
+SetPlayerTechMaxAllowedSwap="设置 ",~科技," 的等级为 ",~Level," 对 ",~Player
+SetPlayerTechMaxAllowedSwapHint="科技等级不能倒退."
+
+SetPlayerColorBJ="改变玩家颜色"
+SetPlayerColorBJ="改变 ",~Player," 的玩家颜色为 ",~Color," ,并 ",~Changing/Retaining color," 对已存在单位"
+SetPlayerColorBJHint=
+
+SetPlayerHandicapBJ="设置生命障碍"
+SetPlayerHandicapBJ="设置 ",~Player," 的生命障碍为正常的 ",~Percent,"%"
+SetPlayerHandicapBJHint="生命障碍影响玩家拥有单位的生命最大值. 生命之书并不受生命障碍限制,所以对英雄血量可能会有偏差."
+
+SetPlayerOnScoreScreenBJ="显示/隐藏计分屏显示"
+SetPlayerOnScoreScreenBJ=~Show/Hide," ",~Player," 在计分屏的显示."
+SetPlayerOnScoreScreenBJHint=
+
+SetPlayerName="更改名字"
+SetPlayerName="更改 ",~Player," 的名字为 ",~文字
+SetPlayerNameHint=
+
+
+// Player Group actions
+ForForceMultiple="选取玩家组内玩家做动作(多个动作)"
+ForForceMultiple="选取 ",~玩家组," 内所有玩家做动作"
+ForForceMultipleHint="玩家组动作中可使用'选取玩家'来获取对应的玩家. 等待不能在组动作中运行."
+
+ForForce="选取玩家组内玩家做动作"
+ForForce="选取 ",~玩家组," 内所有玩家 ",~做动作
+ForForceHint="玩家组动作中可使用'选取玩家'来获取对应的玩家. 等待不能在组动作中运行."
+
+ForceAddPlayerSimple="添加玩家"
+ForceAddPlayerSimple="添加 ",~Player," 到 ",~玩家组
+ForceAddPlayerSimpleHint="并不影响玩家本身."
+
+ForceRemovePlayerSimple="移除玩家"
+ForceRemovePlayerSimple="把 ",~Player," 从 ",~玩家组," 移除"
+ForceRemovePlayerSimpleHint="并不影响玩家本身."
+
+ForceClear="清空玩家组"
+ForceClear="清空 ",~玩家组," 内所有玩家"
+ForceClearHint="并不影响玩家本身."
+
+SetForceAllianceStateBJ="设置联盟"
+SetForceAllianceStateBJ="命令 ",~Player," 设置对 ",~Player," 的联盟状态为 ",~Alliance Setting
+SetForceAllianceStateBJHint=
+
+
+// Quest actions
+QuestMessageBJ="发送任务信息"
+QuestMessageBJ="对 ",~玩家组," 发送 ",~Quest Message Type," 信息: ",~文字
+QuestMessageBJHint=
+
+CreateQuestBJ="创建任务"
+CreateQuestBJ="创建一个 ",~Quest Type," 任务,标题: ",~文字," 任务说明: ",~文字," 任务图标: ",~Icon Path
+CreateQuestBJHint=
+
+DestroyQuestBJ="删除任务"
+DestroyQuestBJ="删除 ",~Quest
+DestroyQuestBJHint="被删除的任务将不再显示在任务列表."
+
+QuestSetEnabledBJ="启用/禁用任务"
+QuestSetEnabledBJ=~Enable/Disable," ",~Quest
+QuestSetEnabledBJHint="被禁用的任务将不会显示在任务列表."
+
+QuestSetCompletedBJ="设置任务完成"
+QuestSetCompletedBJ="设置 ",~Quest," ",~Completed/Incomplete
+QuestSetCompletedBJHint=
+
+QuestSetFailedBJ="设置任务失败"
+QuestSetFailedBJ="设置 ",~Quest," ",~Failed/Not Failed
+QuestSetFailedBJHint=
+
+QuestSetDiscoveredBJ="设置任务被发现"
+QuestSetDiscoveredBJ="设置 ",~Quest," ",~Discovered/Undiscovered
+QuestSetDiscoveredBJHint=
+
+QuestSetTitleBJ="设置任务标题"
+QuestSetTitleBJ="设置 ",~Quest," 的标题为 ",~文字
+QuestSetTitleBJHint=
+
+QuestSetDescriptionBJ="设置任务说明"
+QuestSetDescriptionBJ="设置 ",~Quest," 的任务说明为: ",~文字
+QuestSetDescriptionBJHint=
+
+CreateQuestItemBJ="创建任务项目"
+CreateQuestItemBJ="为 ",~Quest," 创建一个任务项目: ",~文字
+CreateQuestItemBJHint=
+
+QuestItemSetCompletedBJ="设置任务项目完成"
+QuestItemSetCompletedBJ="设置 ",~Quest Requirement," ",~Completed/Incomplete
+QuestItemSetCompletedBJHint=
+
+QuestItemSetDescriptionBJ="改变任务项目说明"
+QuestItemSetDescriptionBJ="改变 ",~Quest Requirement," 的说明为: ",~文字
+QuestItemSetDescriptionBJHint=
+
+CreateDefeatConditionBJ="创建失败条件"
+CreateDefeatConditionBJ="创建失败条件: ",~文字
+CreateDefeatConditionBJHint="失败条件会在每个任务中显示."
+
+DestroyDefeatConditionBJ="删除失败条件"
+DestroyDefeatConditionBJ="删除 ",~Defeat Condition
+DestroyDefeatConditionBJHint="被删除的失败条件会从每个任务中移除."
+
+DefeatConditionSetDescriptionBJ="改变失败条件说明"
+DefeatConditionSetDescriptionBJ="改变 ",~Defeat Condition," 的说明为: ",~文字
+DefeatConditionSetDescriptionBJHint=
+
+FlashQuestDialogButtonBJ="闪动任务按钮"
+FlashQuestDialogButtonBJ="闪动任务按钮"
+FlashQuestDialogButtonBJHint=
+
+
+// Region actions
+MoveRectToLoc="移动矩形区域(指定点)"
+MoveRectToLoc="移动 ",~矩形区域," 到 ",~目标点
+MoveRectToLocHint="该区域必须是一个变量. 目标点将作为该区域的新中心点."
+
+
+// Selection actions
+ClearSelectionForPlayer="清空选择(指定玩家)"
+ClearSelectionForPlayer="清空 ",~Player," 的选择"
+ClearSelectionForPlayerHint="使玩家取消选择所有已选单位."
+
+SelectGroupForPlayerBJ="选择单位组(指定玩家)"
+SelectGroupForPlayerBJ="选择 ",~单位组," 对 ",~Player
+SelectGroupForPlayerBJHint="使玩家取消选择所有单位,并选择单位组中最多12个单位."
+
+SelectUnitForPlayerSingle="选择单位(指定玩家)"
+SelectUnitForPlayerSingle="选择 ",~单位," 对 ",~Player
+SelectUnitForPlayerSingleHint="使玩家取消选择所有单位,并选择该单位."
+
+SelectUnitAddForPlayer="添加选择单位(指定玩家)"
+SelectUnitAddForPlayer="添加选择 ",~单位," 对 ",~Player
+SelectUnitAddForPlayerHint="使玩家添加选择该单位."
+
+SelectUnitRemoveForPlayer="取消选择单位(指定玩家)"
+SelectUnitRemoveForPlayer="取消选择 ",~单位," 对 ",~Player
+SelectUnitRemoveForPlayerHint="使玩家取消选择该单位."
+
+BlzEnableSelections="启用选择"
+BlzEnableSelections="启用选择：",~启用,"，启用选择圈",~启用
+BlzEnableSelectionsHint=
+
+ClearSelection="清空选择(所有玩家)"
+ClearSelection="清空所有玩家的选择"
+ClearSelectionHint="使玩家取消选择所有已选单位."
+
+SelectGroupBJ="选择单位组(所有玩家)"
+SelectGroupBJ="命令所有玩家选择 ",~单位组
+SelectGroupBJHint="使所有玩家取消选择所有单位,并选择单位组中最多12个单位."
+
+SelectUnitSingle="选择单位(所有玩家)"
+SelectUnitSingle="命令所有玩家选择 ",~单位
+SelectUnitSingleHint="使玩家取消选择所有已选单位,并选择该单位."
+
+SelectUnitAdd="添加选择单位(所有玩家)"
+SelectUnitAdd="命令所有玩家添加选择 ",~单位
+SelectUnitAddHint=
+
+SelectUnitRemove="取消选择单位(所有玩家)"
+SelectUnitRemove="命令所有玩家取消选择 ",~单位
+SelectUnitRemoveHint=
+
+
+// Sound actions
+PlaySoundBJ="播放音效"
+PlaySoundBJ="播放 ",~音效
+PlaySoundBJHint="音效不能在地图初始化时播放. 注意3D音效必须指定地点播放."
+
+PlaySoundAtPointBJ="播放3D音效(指定点)"
+PlaySoundAtPointBJ="播放 ",~3D音效," ,音量: ",~Volume,"% 播放位置: ",~指定点," Z轴高度: ",~Z
+PlaySoundAtPointBJHint="音效不能在地图初始化时播放. 该动作只能用于播放3D音效."
+
+PlaySoundOnUnitBJ="播放3D音效(跟随单位)"
+PlaySoundOnUnitBJ="播放 ",~3D音效," ,音量: ",~Volume,"%, 跟随单位: ",~目标单位
+PlaySoundOnUnitBJHint="音效不能在地图初始化时播放. 该动作只能用于播放3D音效."
+
+PlaySoundFromOffsetBJ="跳播音效"
+PlaySoundFromOffsetBJ="播放 ",~音效,",音量: ",~Volume,"%,跳过开始 ",~Offset," 秒"
+PlaySoundFromOffsetBJHint="音效不能在地图初始化时播放.该动作不能用于3D音效."
+
+StopSoundBJ="停止音效"
+StopSoundBJ="停止播放 ",~音效," ",~After Fading/Immediately
+StopSoundBJHint=
+
+KillSoundWhenDoneBJ="删除音效"
+KillSoundWhenDoneBJ="删除 ",~音效
+KillSoundWhenDoneBJHint="如果音效正在播放则在播放结束时删除."
+
+SetSoundVolumeBJ="设置音效音量"
+SetSoundVolumeBJ="设置 ",~音效," 的音量为 ",~Volume,"%"
+SetSoundVolumeBJHint=
+
+SetSoundOffsetBJ="设置音效播放时间点"
+SetSoundOffsetBJ="设置播放时间点为 ",~Offset," 秒对 ",~音效
+SetSoundOffsetBJHint="音效必须是正在播放的. 不能用于3D音效."
+
+SetSoundDistanceCutoffBJ="设置声音截断距离"
+SetSoundDistanceCutoffBJ="设置 ",~音效," 的截断距离为 ",~数值
+SetSoundDistanceCutoffBJHint="地图距离,玩家镜头距离音源超过该范围则切断声音."
+
+SetSoundPitchBJ="设置声音速率"
+SetSoundPitchBJ="设置 ",~音效," 的速率为 ",~数值
+SetSoundPitchBJHint="表示正常速率的倍数."
+
+AttachSoundToUnitBJ="绑定单位"
+AttachSoundToUnitBJ="将 ",~3D音效," 绑定到 ",~单位
+AttachSoundToUnitBJHint="该动作仅用于3D音效."
+
+SetSoundPositionLocBJ="设置3D音效位置(指定点)"
+SetSoundPositionLocBJ="设置 ",~3D音效," 的播放位置为 ",~指定点," Z轴高度为 ",~Z
+SetSoundPositionLocBJHint="该动作仅用于3D音效."
+
+SetSoundDistances="设置3D音效衰减范围"
+SetSoundDistances="设置 ",~3D音效," 的衰减最小范围: ",~数值," 最大范围: ",~数值
+SetSoundDistancesHint="该动作仅用于3D音效. 注意不一定要达到最大范围,音量衰减到一定程度也会变没的."
+
+SetStackedSoundBJ="添加/删除区域音效"
+SetStackedSoundBJ=~Add/Remove," ",~3D音效," 到 ",~矩形区域
+SetStackedSoundBJHint="该动作仅用于3D音效."
+
+SetAmbientDaySound="使用白天环境音效"
+SetAmbientDaySound="使用 ",~Theme," 白天环境音效"
+SetAmbientDaySoundHint=
+
+SetAmbientNightSound="使用夜晚环境音效"
+SetAmbientNightSound="使用 ",~Theme," 夜晚环境音效"
+SetAmbientNightSoundHint=
+
+EnableDawnDusk="允许/禁止昼夜交替音效"
+EnableDawnDusk=~Enable/Disable," 昼夜交替音效"
+EnableDawnDuskHint=
+
+SetMapMusicIndexedBJ="设置背景音乐列表(指定播放)"
+SetMapMusicIndexedBJ="设置背景音乐列表为: ",~Music," ,播放序号: ",~Index
+SetMapMusicIndexedBJHint="可指定播放文件或播放目录."
+
+SetMapMusicRandomBJ="设置背景音乐列表(随机播放)"
+SetMapMusicRandomBJ="设置背景音乐列表为: ",~Music," ,随机播放"
+SetMapMusicRandomBJHint="可指定播放文件或播放目录."
+
+ClearMapMusicBJ="清空背景音乐列表"
+ClearMapMusicBJ="清空背景音乐列表"
+ClearMapMusicBJHint=
+
+PlayMusicBJ="播放背景音乐"
+PlayMusicBJ="播放 ",~背景音乐
+PlayMusicBJHint=
+
+PlayMusicExBJ="跳播背景音乐"
+PlayMusicExBJ="播放 ",~背景音乐," ,跳过开始 ",~Offset," 秒,淡入时间: ",~Fade Time," 秒"
+PlayMusicExBJHint=
+
+PlayThematicMusicBJ="播放主题音乐"
+PlayThematicMusicBJ="播放 ",~Music Theme," 主题音乐"
+PlayThematicMusicBJHint="播放主题音乐一次,然后恢复原来的音乐."
+
+PlayThematicMusicExBJ="跳播主题音乐"
+PlayThematicMusicExBJ="播放 ",~Music Theme," 主题音乐,跳过开始 ",~Offset," 秒"
+PlayThematicMusicExBJHint="播放主题音乐一次,然后恢复原来的音乐."
+
+EndThematicMusicBJ="停止主题音乐"
+EndThematicMusicBJ="停止正在播放的主题音乐"
+EndThematicMusicBJHint=
+
+StopMusicBJ="停止背景音乐"
+StopMusicBJ="停止背景音乐 ",~After Fading/Immediately
+StopMusicBJHint=
+
+ResumeMusicBJ="恢复背景音乐"
+ResumeMusicBJ="恢复背景音乐"
+ResumeMusicBJHint=
+
+SetMusicVolumeBJ="设置背景音乐音量"
+SetMusicVolumeBJ="设置背景音乐音量为 ",~Volume,"%"
+SetMusicVolumeBJHint=
+
+SetMusicOffsetBJ="设置背景音乐播放时间点"
+SetMusicOffsetBJ="设置当前背景音乐的播放时间点为 ",~Offset," 秒"
+SetMusicOffsetBJHint=
+
+SetThematicMusicOffsetBJ="设置主题音乐播放时间点"
+SetThematicMusicOffsetBJ="设置当前主题音乐播放时间点为 ",~Offset," 秒"
+SetThematicMusicOffsetBJHint=
+
+VolumeGroupSetVolumeBJ="设置多通道音量"
+VolumeGroupSetVolumeBJ="设置 ",~Volume Channel," 的音量为 ",~Volume,"%"
+VolumeGroupSetVolumeBJHint=
+
+SetCineModeVolumeGroupsBJ="设置电影多通道音量环境"
+SetCineModeVolumeGroupsBJ="设置多通道音量为电影模式"
+SetCineModeVolumeGroupsBJHint=
+
+SetSpeechVolumeGroupsBJ="设置语音多通道音量环境"
+SetSpeechVolumeGroupsBJ="设置多通道音量为语音模式"
+SetSpeechVolumeGroupsBJHint="语音模式即电影的播送单位消息功能."
+
+VolumeGroupResetBJ="重置多通道音量"
+VolumeGroupResetBJ="重置所有通道音量为预设值."
+VolumeGroupResetBJHint=
+
+
+// Special Effect actions
+AddSpecialEffectLocBJ="创建特效(指定点)"
+AddSpecialEffectLocBJ="在 ",~指定点," 创建特效: ",~Model File
+AddSpecialEffectLocBJHint=
+
+AddSpecialEffectTargetUnitBJ="创建特效(绑定单位)"
+AddSpecialEffectTargetUnitBJ="创建并绑定特效到 ",~Attachment Point," 对 ",~单位," ,使用模型: ",~Model File
+AddSpecialEffectTargetUnitBJHint=
+
+DestroyEffectBJ="删除特效"
+DestroyEffectBJ="删除 ",~Special Effect
+DestroyEffectBJHint=
+
+
+// Trigger actions
+DisableTrigger="关闭"
+DisableTrigger="关闭 ",~Trigger
+DisableTriggerHint=
+
+EnableTrigger="开启"
+EnableTrigger="开启 ",~Trigger
+EnableTriggerHint=
+
+ConditionalTriggerExecute="运行触发(检查条件)"
+ConditionalTriggerExecute="运行 ",~触发," (检查条件)"
+ConditionalTriggerExecuteHint="如果其触发条件成立则运行触发动作."
+
+TriggerExecute="运行触发(无视条件)"
+TriggerExecute="运行 ",~触发," (无视条件)"
+TriggerExecuteHint="无视事件和条件,运行触发动作."
+
+QueuedTriggerAddBJ="添加到触发队列"
+QueuedTriggerAddBJ="添加 ",~触发," 到触发队列(",~Checking/Ignoring," 条件)"
+QueuedTriggerAddBJHint="个人认为触发队列属于没用的功能."
+
+QueuedTriggerRemoveBJ="移出触发队列"
+QueuedTriggerRemoveBJ="将 ",~触发," 移出触发队列"
+QueuedTriggerRemoveBJHint="如果触发正在运行,从队列移出该单位将允许后面的触发运行,但不影响本身的动作."
+
+QueuedTriggerClearBJ="清空触发队列"
+QueuedTriggerClearBJ="清空触发队列中所有触发"
+QueuedTriggerClearBJHint=
+
+QueuedTriggerClearInactiveBJ="清空未运行触发"
+QueuedTriggerClearInactiveBJ="清空触发队列中所有未运行触发"
+QueuedTriggerClearInactiveBJHint="只有正在运行的触发不会被移出队列."
+
+AddTriggerEvent="添加事件"
+AddTriggerEvent="为 ",~触发," 添加事件: ",~事件
+AddTriggerEventHint="使用该功能可以在游戏中为其他触发添加事件."
+
+
+// Unit actions
+CreateNUnitsAtLoc="创建多个单位(面向角度)"
+CreateNUnitsAtLoc="创建 ",~Number," 个 ",~单位," 给 ",~Player," 在 ",~指定点," ,面向角度为 ",~Direction," 度"
+CreateNUnitsAtLocHint="面向角度采用角度制,0度为正东方向,90度为正北方向. 使用'最后创建的单位组'来获取创建的所有单位. 使用'最后创建的单位'来获取创建的单个单位."
+
+CreateNUnitsAtLocFacingLocBJ="创建多个单位(面向点)"
+CreateNUnitsAtLocFacingLocBJ="创建 ",~Number," ",~单位," 给 ",~Player," 在 ",~指定点," ,面向 ",~指定点
+CreateNUnitsAtLocFacingLocBJHint="使用'最后创建的单位组'来获取创建的所有单位. 使用'最后创建的单位'来获取创建的单个单位."
+
+CreateCorpseLocBJ="创建尸体"
+CreateCorpseLocBJ="创建一个 ",~单位," 的尸体给 ",~Player," 在 ",~指定点
+CreateCorpseLocBJHint="不是所有单位都有尸体形态. 使用'最后创建的单位'来获取该尸体."
+
+CreatePermanentCorpseLocBJ="创建永久性尸体"
+CreatePermanentCorpseLocBJ="创建一个 ",~Style," ",~单位," 尸体给 ",~Player," 在 ",~指定点," 面向角度为 ",~Direction," 度"
+CreatePermanentCorpseLocBJHint="肉态尸体经常会自动变为骨态尸体."
+
+KillUnit="杀死"
+KillUnit="杀死 ",~单位
+KillUnitHint=
+
+RemoveUnit="删除"
+RemoveUnit="删除 ",~单位
+RemoveUnitHint="被删除的单位不会留下尸体. 如果是英雄则不能再被复活."
+
+ExplodeUnitBJ="爆炸"
+ExplodeUnitBJ="使 ",~单位," 爆炸而死"
+ExplodeUnitBJHint="爆炸死亡不会留下尸体."
+
+ReplaceUnitBJ="替换"
+ReplaceUnitBJ="将 ",~单位," 替换为 ",~单位类型," 使用 ",~Property Usage," 生命和魔法"
+ReplaceUnitBJHint="使用'最后替换的单位'来获取该单位. 如果是不死族金矿被替换,经常还会留下一个普通的金矿. 实际上就是创建加删除单位,3个局部变量泄漏."
+
+ShowUnitHide="隐藏"
+ShowUnitHide="隐藏 ",~单位
+ShowUnitHideHint="使用'单位 - 显示'来显示该单位. 隐藏单位不会被'区域内单位'所选取."
+
+ShowUnitShow="显示"
+ShowUnitShow="显示 ",~单位
+ShowUnitShowHint="使用'单位 - 隐藏'来显示该单位. 隐藏单位不会被'区域内单位'所选取."
+
+SetUnitColor="改变队伍颜色"
+SetUnitColor="改变 ",~单位," 的队伍颜色为 ",~Color
+SetUnitColorHint="改变队伍颜色并不会改变单位所属."
+
+SetUnitOwner="改变所属"
+SetUnitOwner="改变 ",~单位," 所属为 ",~Player," 并 ",~Change/Retain Color
+SetUnitOwnerHint=
+
+UnitShareVisionBJ="共享视野"
+UnitShareVisionBJ=~Grant/Deny," 共享 ",~单位," 的视野对 ",~Player
+UnitShareVisionBJHint=
+
+SetUnitPositionLoc="移动单位(立即)(指定点)"
+SetUnitPositionLoc="立即移动 ",~单位," 到 ",~指定点
+SetUnitPositionLocHint=
+
+SetUnitPositionLocFacingBJ="移动单位面向角度(立即)"
+SetUnitPositionLocFacingBJ="立即移动 ",~单位," 到 ",~指定点," ,面向角度 ",~Direction," 度"
+SetUnitPositionLocFacingBJHint="建议使用'移动单位'+'设置面向角度'动作. 面向角度采用角度制,0度为正东方向,90度为正北方向."
+
+SetUnitPositionLocFacingLocBJ="移动单位面向点(立即)"
+SetUnitPositionLocFacingLocBJ="立即移动 ",~单位," 到 ",~指定点," ,并面向 ",~指定点
+SetUnitPositionLocFacingLocBJHint="建议使用'移动单位'+'设置面向角度'动作."
+
+SetUnitRallyPoint="设置集结点(指定点)"
+SetUnitRallyPoint="设置 ",~单位," 的集结点到 ",~指定点
+SetUnitRallyPointHint="建议用发布'setrally'命令来实现该功能."
+
+SetUnitRallyUnit="设置集结点(指定单位)"
+SetUnitRallyUnit="设置 ",~单位," 的集结点到 ",~单位
+SetUnitRallyUnitHint="建议用发布'setrally'命令来实现该功能."
+
+SetUnitRallyDestructable="设置集结点(指定可破坏物)"
+SetUnitRallyDestructable="设置 ",~单位," 的集结点到 ",~可破坏物
+SetUnitRallyDestructableHint="建议用发布'setrally'命令来实现该功能."
+
+SetUnitLifePercentBJ="设置生命值(百分比)"
+SetUnitLifePercentBJ="设置 ",~单位," 的生命值为 ",~Percent,"%"
+SetUnitLifePercentBJHint=
+
+SetUnitManaPercentBJ="设置魔法值(百分比)"
+SetUnitManaPercentBJ="设置 ",~单位," 的魔法值为 ",~Percent,"%"
+SetUnitManaPercentBJHint=
+
+SetUnitLifeBJ="设置生命值(指定值)"
+SetUnitLifeBJ="设置 ",~单位," 的生命值为 ",~Value
+SetUnitLifeBJHint=
+
+SetUnitManaBJ="设置魔法值(指定值)"
+SetUnitManaBJ="设置 ",~单位," 的魔法值为 ",~Value
+SetUnitManaBJHint=
+
+BlzEndUnitAbilityCooldown="重设技能冷却"
+BlzEndUnitAbilityCooldown="为单位",~单位,",结束技能冷却",~值
+BlzEndUnitAbilityCooldownHint=
+
+BlzSetAbilityTooltip="设置技能提示信息"
+BlzSetAbilityTooltip="为技能",~技能,"设置提示信息为",~值,"，等级为",~值
+BlzSetAbilityTooltipHint=
+
+BlzSetAbilityActivatedTooltip="设置技能提示信息（自动施法启用）"
+BlzSetAbilityActivatedTooltip="为技能",~技能,"设置提示信息（自动施法启用）为",~值,"，等级为",~值
+BlzSetAbilityActivatedTooltipHint=
+
+BlzSetAbilityExtendedTooltip="设置技能扩展提示信息"
+BlzSetAbilityExtendedTooltip="为技能",~技能,"设置扩展提示信息为",~值,"，等级为",~值
+BlzSetAbilityExtendedTooltipHint=
+
+BlzSetAbilityActivatedExtendedTooltip="设置技能扩展提示信息（自动施法启用）"
+BlzSetAbilityActivatedExtendedTooltip="为技能",~技能,"设置扩展提示信息（自动施法启用）为",~值,"，等级为",~值
+BlzSetAbilityActivatedExtendedTooltipHint=
+
+BlzSetAbilityResearchTooltip="设置提示信息（学习）"
+BlzSetAbilityResearchTooltip="为技能",~技能,"设置提示信息（学习）为",~值,"，等级为",~值
+BlzSetAbilityResearchTooltipHint=
+
+BlzSetAbilityResearchExtendedTooltip="设置扩展提示信息（学习）"
+BlzSetAbilityResearchExtendedTooltip="为技能",~技能,"设置扩展提示信息（学习）为",~值,"，等级为",~值
+BlzSetAbilityResearchExtendedTooltipHint=
+
+BlzSetAbilityIcon="设置技能图标"
+BlzSetAbilityIcon="为技能",~技能,"设置图标为",~值
+BlzSetAbilityIconHint=
+
+BlzSetAbilityActivatedIcon="设置技能图标（自动施法启用）"
+BlzSetAbilityActivatedIcon="为技能",~技能,"设置图标（自动施法启用）为",~值
+BlzSetAbilityActivatedIconHint=
+
+BlzSetAbilityPosX="设置技能位置X"
+BlzSetAbilityPosX="为技能",~技能,"设置技能位置X为",~值
+BlzSetAbilityPosXHint=
+
+BlzSetAbilityActivatedPosX="设置技能位置X（自动施法启用）"
+BlzSetAbilityActivatedPosX="为技能",~技能,"设置技能位置X（自动施法启用）为",~值
+BlzSetAbilityActivatedPosXHint=
+
+BlzSetAbilityPosY="设置技能位置Y"
+BlzSetAbilityPosY="为技能",~技能,"设置技能位置Y为",~值
+BlzSetAbilityPosYHint=
+
+BlzSetAbilityActivatedPosY="设置技能位置Y（自动施法启用）"
+BlzSetAbilityActivatedPosY="为技能",~技能,"设置技能位置Y（自动施法启用）为",~值
+BlzSetAbilityActivatedPosYHint=
+
+BlzSetEventDamage="设置单位伤害事件的伤害"
+BlzSetEventDamage="设置单位伤害事件的伤害为",~值
+BlzSetEventDamageHint=
+
+BlzSetItemName="设置名字"
+BlzSetItemName="为物品",~物品,"设置名字为",~值
+BlzSetItemNameHint=
+
+BlzSetItemDescription="设置物品介绍"
+BlzSetItemDescription="为物品",~物品,"设置介绍为",~值
+BlzSetItemDescriptionHint=
+
+BlzSetItemTooltip="设置物品提示"
+BlzSetItemTooltip="为物品",~物品,"设置提示为",~值
+BlzSetItemTooltipHint=
+
+BlzSetItemExtendedTooltip="设置物品扩展提示"
+BlzSetItemExtendedTooltip="为物品",~物品,"设置扩展提示为",~值
+BlzSetItemExtendedTooltipHint=
+
+BlzSetItemIconPath="设置图标路径"
+BlzSetItemIconPath="为图标",~物品,"设置路径为",~值
+BlzSetItemIconPathHint=
+
+BlzSetUnitMaxHP="设置最大生命值"
+BlzSetUnitMaxHP="为",~单位,"设置最大生命值为",~值
+BlzSetUnitMaxHPHint=
+
+BlzSetUnitMaxMana="设置最大法力值"
+BlzSetUnitMaxMana="为",~单位,"设置最大法力值",~值
+BlzSetUnitMaxManaHint=
+
+BlzSetUnitBaseDamage="设置基础伤害"
+BlzSetUnitBaseDamage="设置",~单位,"的基础伤害为",~值,"，武器索引为：",~值
+BlzSetUnitBaseDamageHint=
+
+BlzSetUnitDiceNumber="设置骰子数"
+BlzSetUnitDiceNumber="设置",~单位,"的骰子数为",~值,"，武器索引为：",~值
+BlzSetUnitDiceNumberHint=5
+
+BlzSetUnitDiceSides="设置骰子面数"
+BlzSetUnitDiceSides="设置",~单位,"的骰子面数为",~值,"，武器索引为：",~值
+BlzSetUnitDiceSidesHint=
+
+BlzSetUnitAttackCooldown="设置攻击间隔"
+BlzSetUnitAttackCooldown="设置",~单位,"的攻击间隔为",~值,"，武器索引为：",~值
+BlzSetUnitAttackCooldownHint=
+
+BlzSetUnitName="设置名字"
+BlzSetUnitName="设置",~单位,"的名字为",~值
+BlzSetUnitNameHint=
+
+
+BlzSetHeroProperName="设置英雄成为"
+BlzSetHeroProperName="设置",~单位,"的英雄称谓为",~值
+BlzSetHeroProperNameHint="Set Hero's actual name (e.g. 'Granis Darkhammer' for a Paladin)."
+
+BlzSetUnitArmor="设置护甲"
+BlzSetUnitArmor="设置",~单位,"的护甲值为",~值
+BlzSetUnitArmorHint=
+
+BlzUnitHideAbility="隐藏技能"
+BlzUnitHideAbility="为",~单位,"，技能",~值,"，隐藏技能：",~值
+BlzUnitHideAbilityHint=
+
+BlzUnitDisableAbility="禁用技能"
+BlzUnitDisableAbility="为",~单位,"，技能",~值,"，禁用技能：",~值,"，禁用UI：",~值
+BlzUnitDisableAbilityHint=
+
+BlzUnitCancelTimedLife="取消限时生命"
+BlzUnitCancelTimedLife="取消限时生命",~单位
+BlzUnitCancelTimedLifeHint=
+
+BlzUnitInterruptAttack="打断攻击"
+BlzUnitInterruptAttack="打断",~单位,"的攻击"
+BlzUnitInterruptAttackHint=
+
+BlzSetUnitAbilityCooldown="设置技能冷却"
+BlzSetUnitAbilityCooldown="为单位",~单位,"设置技能",~值,"，等级",~值,"的冷却值为",~值
+BlzSetUnitAbilityCooldownHint=
+
+BlzSetUnitAbilityManaCost="设置技能法力消耗"
+BlzSetUnitAbilityManaCost="为单位",~单位,"设置技能",~值,"，等级",~值,"的法力消耗为",~值
+BlzSetUnitAbilityManaCostHint=
+
+BlzSetSpecialEffectColorByPlayer="按玩家设置特效颜色"
+BlzSetSpecialEffectColorByPlayer="设置特效",~特效,"的颜色为玩家",~玩家
+BlzSetSpecialEffectColorByPlayerHint=
+
+BlzSetSpecialEffectColor="设置特效颜色"
+BlzSetSpecialEffectColor="设置特效",~特效,"颜色为红：",~值,"，绿：",~值,"，蓝：",~值
+BlzSetSpecialEffectColorHint=
+
+BlzSetSpecialEffectAlpha="设置特效透明度"
+BlzSetSpecialEffectAlpha="设置特效",~特效,"透明度为",~值
+BlzSetSpecialEffectAlphaHint=
+
+BlzSetSpecialEffectScale="设置特效缩放"
+BlzSetSpecialEffectScale="设置特效",~特效,"缩放为",~值
+BlzSetSpecialEffectScaleHint=
+
+BlzSetSpecialEffectX="设置特效位置X"
+BlzSetSpecialEffectX="设置特效",~特效,"位置X为",~值
+BlzSetSpecialEffectXHint=
+
+BlzSetSpecialEffectY="设置特效位置Y"
+BlzSetSpecialEffectY="设置特效",~特效,"位置Y为",~值
+BlzSetSpecialEffectYHint=
+
+BlzSetSpecialEffectZ="设置特效位置Z"
+BlzSetSpecialEffectZ="设置特效",~特效,"位置Z为",~值
+BlzSetSpecialEffectZHint=
+
+BlzSetSpecialEffectPositionLoc="按点设置特效位置"
+BlzSetSpecialEffectPositionLoc="设置特效",~特效,"位置为",~点
+BlzSetSpecialEffectPositionLocHint=
+
+BlzSetSpecialEffectPosition="设置特效位置"
+BlzSetSpecialEffectPosition="设置特效",~特效,"位置为X：",~值,"，Y：",~值,"，Z：",~值
+BlzSetSpecialEffectPositionHint=
+
+BlzSpecialEffectClearSubAnimations="清除特效子动画"
+BlzSpecialEffectClearSubAnimations="清除所有的特效子动画：",~特效
+BlzSpecialEffectClearSubAnimationsHint="Clear all sub-animations"
+
+BlzSpecialEffectRemoveSubAnimation="移除特效子动画"
+BlzSpecialEffectRemoveSubAnimation="为特效：",~特效,"，移除子动画："~值
+BlzSpecialEffectRemoveSubAnimationHint="Remove sub-animation from a special effect"
+
+BlzSpecialEffectAddSubAnimation="添加特效子动画"
+BlzSpecialEffectAddSubAnimation="为特效：",~特效,"，添加子动画："~值
+BlzSpecialEffectAddSubAnimationHint="Add sub-animation to a special effect to make a combination with the primary animation when the special effect is played"
+
+BlzPlaySpecialEffect="播放特效动画"
+BlzPlaySpecialEffect="为特效：",~特效,"，播放动画："~值
+BlzPlaySpecialEffectHint="Play Special Effect with Specific Animation (Some animations will only apply to certain special effects)"
+
+// BlzPlaySpecialEffectWithTimeScale="Play Special Effect Animation with Time Scale"
+// BlzPlaySpecialEffectWithTimeScale="Play Special Effect: ",~Effect,", Animation: "~Value,", Time Scale: "~Value
+// BlzPlaySpecialEffectWithTimeScaleHint="Play Special Effect with Specific Animation (Some animations will only apply to certain special effects) with time scale"
+
+BlzSetSpecialEffectHeight="设置特效高度"
+BlzSetSpecialEffectHeight="设置特效",~特效,"高度为",~值
+BlzSetSpecialEffectHeightHint=
+
+BlzSetSpecialEffectOrientation="设置特效朝向"
+BlzSetSpecialEffectOrientation="设置特效",~特效,"朝向为横摇：",~值,"，纵摇：",~值,"，滚摇：",~值
+BlzSetSpecialEffectOrientationHint=
+
+BlzSetSpecialEffectYaw="设置特效横摇"
+BlzSetSpecialEffectYaw="设置特效",~特效,"横摇为：",~值
+BlzSetSpecialEffectYawHint=
+
+BlzSetSpecialEffectPitch="设置特效纵摇"
+BlzSetSpecialEffectPitch="设置特效",~特效,"纵摇为",~值
+BlzSetSpecialEffectPitchHint=
+
+BlzSetSpecialEffectRoll="设置特效滚摇"
+BlzSetSpecialEffectRoll="设置特效",~特效,"滚摇为：",~值
+BlzSetSpecialEffectRollHint=
+
+BlzSetSpecialEffectTimeScale="设置特效时间比例"
+BlzSetSpecialEffectTimeScale="设置特效",~特效,"时间比例为",~值
+BlzSetSpecialEffectTimeScaleHint=
+
+BlzSetSpecialEffectTime="设置特效时间"
+BlzSetSpecialEffectTime="设置特效",~特效,"时间为",~值
+BlzSetSpecialEffectTimeHint=
+
+
+SetUnitInvulnerable="设置无敌/可攻击"
+SetUnitInvulnerable="设置 ",~单位," ",~Invulnerable/Vulnerable
+SetUnitInvulnerableHint=
+
+PauseUnitBJ="暂停/恢复"
+PauseUnitBJ=~Pause/Unpause," ",~单位
+PauseUnitBJHint=
+
+PauseAllUnitsBJ="暂停/恢复所有单位"
+PauseAllUnitsBJ=~Pause/Unpause," 所有单位"
+PauseAllUnitsBJHint="该动作只作用于当前存在于地图的单位. 对于之后创建或复活的单位并不会受到影响."
+
+UnitPauseTimedLifeBJ="暂停/恢复生命周期"
+UnitPauseTimedLifeBJ=~Pause/Unpause," ",~单位," 的生命周期"
+UnitPauseTimedLifeBJHint="只有召唤单位有生命周期."
+
+UnitApplyTimedLifeBJ="设置生命周期"
+UnitApplyTimedLifeBJ="设置 ",~Duration," 秒 ",~Buff Type," 类型的生命周期对 ",~单位
+UnitApplyTimedLifeBJHint=
+
+SetUnitExplodedBJ="设置死亡方式"
+SetUnitExplodedBJ="设置 ",~单位," ",~Explode/Die Normally," 在死亡时"
+SetUnitExplodedBJHint=
+
+UnitSuspendDecayBJ="暂停尸体腐烂 [旧]"
+UnitSuspendDecayBJ=~Suspend/Resume," 尸体腐烂对 ",~单位
+UnitSuspendDecayBJHint="只对已完成死亡动作的尸体有效. 该函数有Bug,不能恢复尸体腐烂状态,请使用新加函数."
+
+UnitResetCooldown="重置技能CD"
+UnitResetCooldown="重置 ",~单位," 的所有技能冷却时间"
+UnitResetCooldownHint="如果要重置单一技能的CD,可以通过删除技能+添加技能+设置技能等级来完成."
+
+UnitSetConstructionProgress="设置建筑建造进度条"
+UnitSetConstructionProgress="设置 ",~Building," 的建造进度条为 ",~Progress,"%"
+UnitSetConstructionProgressHint="只作用于正在建造的建筑."
+
+UnitSetUpgradeProgress="设置建筑升级进度条"
+UnitSetUpgradeProgress="设置 ",~Building," 的升级进度条为 ",~Progress,"%"
+UnitSetUpgradeProgressHint="只作用于正在升级的建筑. 是建筑A升级为建筑B的升级,不是科技的研究."
+
+UnitAddSleepPerm="控制单位睡眠状态"
+UnitAddSleepPerm="使 ",~单位," ",~Sleep/Remain Awake
+UnitAddSleepPermHint="使用该功能前必须用触发为单位添加'一直睡眠'技能."
+
+UnitSetCanSleepBJ="设置单位夜晚睡眠"
+UnitSetCanSleepBJ="设置 ",~单位," ",~Sleep/Remain Awake," 在夜晚"
+UnitSetCanSleepBJHint="只对中立单位有效. 并不影响催眠魔法."
+
+UnitWakeUpBJ="叫醒单位"
+UnitWakeUpBJ="叫醒 ",~单位
+UnitWakeUpBJHint="不影响催眠魔法效果."
+
+UnitGenerateAlarms="设置警报开启/关闭"
+UnitGenerateAlarms="设置警报对 ",~单位," ",~On/Off
+UnitGenerateAlarmsHint="只作用于建筑."
+
+RescueUnitBJ="营救单位"
+RescueUnitBJ="营救 ",~单位," ,改变所属为 ",~Player," 并 ",~Change/Retain Color
+RescueUnitBJHint=
+
+MakeUnitRescuableToForceBJ="设置可否营救(对玩家组)"
+MakeUnitRescuableToForceBJ="设置 ",~单位," ",~Rescuable/Unrescuable," 对 ",~玩家组
+MakeUnitRescuableToForceBJHint=
+
+SetUnitRescueRange="设置营救范围"
+SetUnitRescueRange="设置 ",~单位," 的营救范围为 ",~Range
+SetUnitRescueRangeHint=
+
+SetRescueUnitColorChangeBJ="设置营救颜色(单位)"
+SetRescueUnitColorChangeBJ="设置单位 ",~Change/Retain Color," 当被营救时"
+SetRescueUnitColorChangeBJHint="默认情况单位被营救时会改变颜色. 不影响已经被营救的单位."
+
+SetRescueBuildingColorChangeBJ="设置营救颜色(建筑)"
+SetRescueBuildingColorChangeBJ="设置建筑 ",~Change/Retain Color," 当被营救时"
+SetRescueBuildingColorChangeBJHint="默认建筑被营救时不会改变颜色. 不影响已经被营救的建筑."
+
+SetUnitUseFoodBJ="允许/禁止人口占用"
+SetUnitUseFoodBJ=~Enable/Disable," ",~单位," 的人口占用"
+SetUnitUseFoodBJHint=
+
+SetUnitFacingToFaceUnitTimed="设置单位面向单位"
+SetUnitFacingToFaceUnitTimed="设置 ",~单位," 面向 ",~目标单位," ,使用时间 ",~Time," 秒"
+SetUnitFacingToFaceUnitTimedHint="只是面向当前单位所在点而已. 并不会因为单位位置改变而改变目标位置."
+
+SetUnitFacingToFaceLocTimed="设置单位面向点"
+SetUnitFacingToFaceLocTimed="设置 ",~单位," 面向 ",~点," ,使用时间 ",~Time," 秒"
+SetUnitFacingToFaceLocTimedHint=
+
+SetUnitFacingTimed="设置单位面向角度(指定时间)"
+SetUnitFacingTimed="设置 ",~单位," 的面向角度为 ",~Angle," 度,使用时间 ",~Time," 秒"
+SetUnitFacingTimedHint="面向角度采用角度制,0度为正东方向,90度为正北方向."
+
+SetUnitMoveSpeed="设置移动速度"
+SetUnitMoveSpeed="设置 ",~单位," 的移动速度为 ",~Speed
+SetUnitMoveSpeedHint=
+
+SetUnitPathing="设置碰撞开关"
+SetUnitPathing="设置 ",~单位," ",~On/Off," 碰撞"
+SetUnitPathingHint="关闭碰撞的单位无视障碍物,但其他单位仍视其为障碍物."
+
+SetUnitAcquireRangeBJ="设置主动攻击范围"
+SetUnitAcquireRangeBJ="设置 ",~单位," 的主动攻击范围为 ",~数值
+SetUnitAcquireRangeBJHint=
+
+SetUnitUserData="设置自定义值"
+SetUnitUserData="设置 ",~单位," 的自定义值为 ",~Index
+SetUnitUserDataHint="单位自定义值仅用于触发器. 可用来给单位绑定一个整型数据."
+
+UnitRemoveBuffsBJ="删除魔法效果(指定类别) [旧]"
+UnitRemoveBuffsBJ="删除 ",~Buff Type," 魔法效果从 ",~单位
+UnitRemoveBuffsBJHint=
+
+UnitRemoveBuffsExBJ="删除魔法效果(详细类别) [旧]"
+UnitRemoveBuffsExBJ="删除 ",~Buff Type," ",~Buff Resist," Buff从 ",~单位,"(",~Include/Exclude," 生命周期, ",~Include/Exclude," 光环)"
+UnitRemoveBuffsExBJHint="buff性质选项第4项为无效选项, 仅为兼容而保留."
+
+UnitRemoveBuffBJ="删除指定魔法效果"
+UnitRemoveBuffBJ="删除 ",~魔法效果," 从 ",~单位
+UnitRemoveBuffBJHint=
+
+UnitAddAbilityBJ="添加技能"
+UnitAddAbilityBJ="添加 ",~技能," 给 ",~单位
+UnitAddAbilityBJHint=
+
+UnitRemoveAbilityBJ="删除技能"
+UnitRemoveAbilityBJ="删除 ",~技能," 从 ",~单位
+UnitRemoveAbilityBJHint=
+
+UnitAddTypeBJ="添加类别 [旧]"
+UnitAddTypeBJ="添加 ",~Classification," 类别到 ",~单位
+UnitAddTypeBJHint="并非所有类别都是可以添加的,建议使用新函数."
+
+UnitRemoveTypeBJ="删除类别 [旧]"
+UnitRemoveTypeBJ="删除 ",~Classification," 类别从 ",~单位
+UnitRemoveTypeBJHint="并非所有类别都是可以删除的,建议使用新函数."
+
+IssueTargetOrder="发布命令(指定单位)"
+IssueTargetOrder="对 ",~单位," 发布 ",~Order," 命令到目标: ",~单位
+IssueTargetOrderHint=
+
+IssuePointOrderLoc="发布命令(指定点)"
+IssuePointOrderLoc="对 ",~单位," 发布 ",~Order," 命令到目标点: ",~指定点
+IssuePointOrderLocHint=
+
+IssueTargetDestructableOrder="发布命令(指定可破坏物)"
+IssueTargetDestructableOrder="对 ",~单位," 发布 ",~Order," 命令到目标: ",~可破坏物
+IssueTargetDestructableOrderHint=
+
+IssueTargetItemOrder="发布命令(指定物品)"
+IssueTargetItemOrder="对 ",~单位," 发布 ",~Order," 命令到目标: ",~物品
+IssueTargetItemOrderHint=
+
+IssueImmediateOrder="发布命令(无目标)"
+IssueImmediateOrder="对 ",~单位," 发布 ",~Order," 命令"
+IssueImmediateOrderHint=
+
+IssueBuildOrderByIdLocBJ="发布建造命令(指定点)"
+IssueBuildOrderByIdLocBJ="命令 ",~单位," 建造 ",~单位类型," 在 ",~指定点
+IssueBuildOrderByIdLocBJHint=
+
+IssueTrainOrderByIdBJ="发布训练/升级命令"
+IssueTrainOrderByIdBJ="命令 ",~单位," 建造/升级为 ",~单位类型
+IssueTrainOrderByIdBJHint="该升级是指A单位升级为B单位,而不是科技升级."
+
+IssueUpgradeOrderByIdBJ="发布研究科技命令"
+IssueUpgradeOrderByIdBJ="命令 ",~单位," 研究 ",~Tech-Type
+IssueUpgradeOrderByIdBJHint=
+
+UnitDropItemPointLoc="发布丢弃物品命令(指定点)"
+UnitDropItemPointLoc="命令 ",~单位," 丢弃物品 ",~物品," 到 ",~指定点
+UnitDropItemPointLocHint=
+
+UnitDropItemSlotBJ="移动物品到物品栏"
+UnitDropItemSlotBJ="命令 ",~单位," 移动 ",~物品," 到物品栏第 ",~Index," 格"
+UnitDropItemSlotBJHint="只有当单位持有该物品时才有效."
+
+UnitDropItemTargetBJ="发布给予物品命令"
+UnitDropItemTargetBJ="命令 ",~单位," 把 ",~物品," 给 ",~单位
+UnitDropItemTargetBJHint=
+
+UnitDamagePointLoc="伤害区域 [旧]"
+UnitDamagePointLoc="命令 ",~单位," 在 ",~Seconds," 秒后对半径为 ",~Size," 圆心为 ",~指定点," 的范围造成",~Amount," 点伤害,攻击类型: ",~AttackType," 伤害类型: ",~DamageType
+UnitDamagePointLocHint="该动作不会打断单位动作. 由该动作伤害/杀死单位同样正常触发'受到伤害'和'死亡'单位事件."
+
+UnitDamageTargetBJ="伤害目标 [旧]"
+UnitDamageTargetBJ="命令 ",~单位," 对 ",~Target," 造成 ",~Amount," 点伤害,攻击类型: ",~AttackType," 伤害类型: ",~DamageType
+UnitDamageTargetBJHint="该动作不会打断单位动作. 由该动作伤害/杀死单位同样正常触发'受到伤害'和'死亡'单位事件."
+
+DecUnitAbilityLevelSwapped="降低技能等级"
+DecUnitAbilityLevelSwapped="降低 ",~技能," 等级对 ",~单位
+DecUnitAbilityLevelSwappedHint="单位没有该技能则不做动作. 最低只能降到1级."
+
+IncUnitAbilityLevelSwapped="提升技能等级"
+IncUnitAbilityLevelSwapped="提升 ",~技能," 等级对 ",~单位
+IncUnitAbilityLevelSwappedHint="单位没有该技能则不做动作."
+
+SetUnitAbilityLevelSwapped="设置技能等级"
+SetUnitAbilityLevelSwapped="设置 ",~技能," 等级对 ",~单位," 为 ",~Level
+SetUnitAbilityLevelSwappedHint="单位没有该技能则不做动作."
+
+BlzSetAbilityBooleanFieldBJ="改变技能的布尔类型域"
+BlzSetAbilityBooleanFieldBJ="改变技能: ",~技能,"的布尔类型域: ",~布尔类型域,"的值为",~值
+BlzSetAbilityBooleanFieldBJHint=
+
+BlzSetAbilityIntegerFieldBJ="改变技能的整数类型域"
+BlzSetAbilityIntegerFieldBJ="改变技能: ",~技能,"的整数类型域: ",~整数类型域,"的值为",~值
+BlzSetAbilityIntegerFieldBJHint=
+
+BlzSetAbilityRealFieldBJ="改变技能的实数类型域"
+BlzSetAbilityRealFieldBJ="改变技能: ",~技能,"的实数类型域: ",~实数类型域,"的值为",~值
+BlzSetAbilityRealFieldBJHint=
+
+BlzSetAbilityStringFieldBJ="改变技能的字符串类型域"
+BlzSetAbilityStringFieldBJ="改变技能: ",~技能,"的字符串类型域: ",~字符串类型域,"的值为",~值
+BlzSetAbilityStringFieldBJHint=
+
+BlzSetAbilityBooleanLevelFieldBJ="改变技能随等级改变的布尔类型域"
+BlzSetAbilityBooleanLevelFieldBJ="改变技能: ",~技能,"的随等级改变的布尔类型域: ",~随等级改变的布尔类型域," 在等级为: ",~等级,"的值为",~值
+BlzSetAbilityBooleanLevelFieldBJHint=
+
+BlzSetAbilityIntegerLevelFieldBJ="改变技能随等级改变的整数类型域"
+BlzSetAbilityIntegerLevelFieldBJ="改变技能: ",~技能,"随等级改变的整数类型域: ",~随等级改变的整数类型域," 在等级为: ",~等级,"的值为",~值
+BlzSetAbilityIntegerLevelFieldBJHint=
+
+BlzSetAbilityRealLevelFieldBJ="改变技能随等级改变的实数类型域"
+BlzSetAbilityRealLevelFieldBJ="改变技能: ",~技能,"随等级改变的实数类型域: ",~随等级改变的实数类型域," 在等级为: ",~等级,"的值为",~值
+BlzSetAbilityRealLevelFieldBJHint=
+
+BlzSetAbilityStringLevelFieldBJ="改变技能随等级改变的字符串类型域"
+BlzSetAbilityStringLevelFieldBJ="改变技能: ",~技能,"随等级改变的字符串类型域: ",~随等级改变的字符串类型域," 在等级为: ",~等级,"的值为",~值
+BlzSetAbilityStringLevelFieldBJHint=
+
+BlzSetAbilityBooleanLevelArrayFieldBJ="改变技能随等级改变的布尔数组类型域"
+BlzSetAbilityBooleanLevelArrayFieldBJ="改变技能: ",~技能,"随等级改变的布尔数组类型域: ",~随等级改变的布尔数组类型域," 在等级为: ",~等级," 并且数组索引为: ",~索引值,"的值为",~值
+BlzSetAbilityBooleanLevelArrayFieldBJHint=
+
+BlzSetAbilityIntegerLevelArrayFieldBJ="改变技能随等级改变的整数数组类型域"
+BlzSetAbilityIntegerLevelArrayFieldBJ="改变技能: ",~技能,"随等级改变的整数数组类型域: ",~随等级改变的整数数组类型域," 在等级为: ",~等级," 并且数组索引为: ",~索引值,"的值为",~值
+BlzSetAbilityIntegerLevelArrayFieldBJHint=
+
+BlzSetAbilityRealLevelArrayFieldBJ="改变技能随等级改变的实数数组类型域"
+BlzSetAbilityRealLevelArrayFieldBJ="改变技能: ",~技能,"随等级改变的实数数组类型域: ",~随等级改变的实数数组类型域," 在等级为: ",~等级," 并且数组索引为: ",~索引值,"的值为",~值
+BlzSetAbilityRealLevelArrayFieldBJHint=
+
+BlzSetAbilityStringLevelArrayFieldBJ="改变技能随等级改变的字符串数组类型域"
+BlzSetAbilityStringLevelArrayFieldBJ="改变技能: ",~技能,"随等级改变的字符串数组类型域: ",~随等级改变的字符串数组类型域," 在等级为: ",~等级," 并且数组索引为: ",~索引值,"的值为",~值
+BlzSetAbilityStringLevelArrayFieldBJHint=
+
+BlzAddAbilityBooleanLevelArrayFieldBJ="技能随等级改变的布尔类型域 - 添加值"
+BlzAddAbilityBooleanLevelArrayFieldBJ="对于技能: ",~技能,"随等级改变的布尔数组类型域: ",~随等级改变的布尔数组类型域," 在等级为: ",~等级,", 添加值: ",~值
+BlzAddAbilityBooleanLevelArrayFieldBJHint=
+
+BlzAddAbilityIntegerLevelArrayFieldBJ="技能随等级改变的整数类型域 - 添加值"
+BlzAddAbilityIntegerLevelArrayFieldBJ="对于技能: ",~技能,"随等级改变的整数数组类型域: ",~随等级改变的整数数组类型域," 在等级为: ",~等级,", 添加值: ",~值
+BlzAddAbilityIntegerLevelArrayFieldBJHint=
+
+BlzAddAbilityRealLevelArrayFieldBJ="技能随等级改变的实数类型域 - 添加值"
+BlzAddAbilityRealLevelArrayFieldBJ="对于技能: ",~技能,"随等级改变的实数数组类型域: ",~随等级改变的实数数组类型域," 在等级为: ",~等级,", 添加值: ",~值
+BlzAddAbilityRealLevelArrayFieldBJHint=
+
+BlzAddAbilityStringLevelArrayFieldBJ="技能随等级改变的字符串类型域 - 添加值"
+BlzAddAbilityStringLevelArrayFieldBJ="对于技能: ",~技能,"随等级改变的字符串数组类型域: ",~随等级改变的字符串数组类型域," 在等级为: ",~等级,", 添加值: ",~值
+BlzAddAbilityStringLevelArrayFieldBJHint=
+
+BlzRemoveAbilityBooleanLevelArrayFieldBJ="技能随等级改变的布尔类型域 - 移除值"
+BlzRemoveAbilityBooleanLevelArrayFieldBJ="对于技能: ",~技能,"随等级改变的布尔数组类型域: ",~随等级改变的布尔数组类型域," 在等级为: ",~等级,", 移除值: ",~值
+BlzRemoveAbilityBooleanLevelArrayFieldBJHint=
+
+BlzRemoveAbilityIntegerLevelArrayFieldBJ="技能随等级改变的整数类型域 - 移除值"
+BlzRemoveAbilityIntegerLevelArrayFieldBJ="对于技能: ",~技能,"随等级改变的整数数组类型域: ",~随等级改变的整数数组类型域," 在等级为: ",~等级,", 移除值: ",~值
+BlzRemoveAbilityIntegerLevelArrayFieldBJHint=
+
+BlzRemoveAbilityRealLevelArrayFieldBJ="技能随等级改变的实数类型域 - 移除值"
+BlzRemoveAbilityRealLevelArrayFieldBJ="对于技能: ",~技能,"随等级改变的实数数组类型域: ",~随等级改变的实数数组类型域," 在等级为: ",~等级,", 移除值: ",~值
+BlzRemoveAbilityRealLevelArrayFieldBJHint=
+
+BlzRemoveAbilityStringLevelArrayFieldBJ="技能随等级改变的字符串类型域 - 移除值"
+BlzRemoveAbilityStringLevelArrayFieldBJ="对于技能: ",~技能,"随等级改变的字符串数组类型域: ",~随等级改变的字符串数组类型域," 在等级为: ",~等级,", 移除值: ",~值
+BlzRemoveAbilityStringLevelArrayFieldBJHint=
+
+BlzItemAddAbilityBJ="移除物品技能"
+BlzItemAddAbilityBJ="对于物品: ",~物品,",添加技能:",~技能码
+BlzItemAddAbilityBJHint=
+
+BlzItemRemoveAbilityBJ="添加物品技能"
+BlzItemRemoveAbilityBJ="对于物品: ",~物品,",移除技能:",~技能码
+BlzItemRemoveAbilityBJHint=
+
+BlzSetItemBooleanFieldBJ="改变物品的布尔类型域"
+BlzSetItemBooleanFieldBJ="改变物品: ",~物品,"的布尔类型域: ",~布尔类型域," 的值为: ",~值
+BlzSetItemBooleanFieldBJHint=
+
+BlzSetItemIntegerFieldBJ="改变物品的整数类型域"
+BlzSetItemIntegerFieldBJ="改变物品: ",~物品,"的整数类型域: ",~整数类型域," 的值为: ",~值
+BlzSetItemIntegerFieldBJHint=
+
+BlzSetItemRealFieldBJ="改变物品的实数类型域"
+BlzSetItemRealFieldBJ="改变物品: ",~物品,"的实数类型域: ",~实数类型域," 的值为: ",~值
+BlzSetItemRealFieldBJHint=
+
+BlzSetItemStringFieldBJ="改变物品的字符串类型域"
+BlzSetItemStringFieldBJ="改变物品: ",~物品,"的字符串类型域: ",~字符串类型域," 的值为: ",~值
+BlzSetItemStringFieldBJHint=
+
+BlzSetUnitBooleanFieldBJ="改变单位的布尔类型域"
+BlzSetUnitBooleanFieldBJ="改变单位: ",~单位,"的布尔类型域: ",~布尔类型域," 的值为: ",~值
+BlzSetUnitBooleanFieldBJHint=
+
+BlzSetUnitIntegerFieldBJ="改变单位的整数类型域"
+BlzSetUnitIntegerFieldBJ="改变单位: ",~单位,"的整数类型域: ",~整数类型域," 的值为: ",~值
+BlzSetUnitIntegerFieldBJHint=
+
+BlzSetUnitRealFieldBJ="改变单位的实数类型域"
+BlzSetUnitRealFieldBJ="改变单位: ",~单位,"的实数类型域: ",~实数类型域," 的值为: ",~值
+BlzSetUnitRealFieldBJHint=
+
+BlzSetUnitStringFieldBJ="改变单位的字符串类型域"
+BlzSetUnitStringFieldBJ="改变单位: ",~单位,"的字符串类型域: ",~字符串类型域," 的值为: ",~值
+BlzSetUnitStringFieldBJHint=
+
+BlzSetUnitWeaponBooleanFieldBJ="改变单位武器的布尔类型域"
+BlzSetUnitWeaponBooleanFieldBJ="改变单位: ",~单位,"武器的布尔类型域: ",~布尔类型域,"在索引值:",~索引值," 的值为: ",~值
+BlzSetUnitWeaponBooleanFieldBJHint=
+
+BlzSetUnitWeaponIntegerFieldBJ="改变单位武器的整数类型域"
+BlzSetUnitWeaponIntegerFieldBJ="改变单位: ",~单位,"武器的整数类型域: ",~整数类型域,"在索引值:",~索引值," 的值为: ",~值
+BlzSetUnitWeaponIntegerFieldBJHint=
+
+BlzSetUnitWeaponRealFieldBJ="改变单位武器的实数类型域"
+BlzSetUnitWeaponRealFieldBJ="改变单位: ",~单位,"武器的实数类型域: ",~实数类型域,"在索引值:",~索引值," 的值为: ",~值
+BlzSetUnitWeaponRealFieldBJHint=
+
+BlzSetUnitWeaponStringFieldBJ="改变单位武器的字符串类型域"
+BlzSetUnitWeaponStringFieldBJ="改变单位: ",~单位,"武器的字符串类型域: ",~字符串类型域,"在索引值:",~索引值," 的值为: ",~值
+BlzSetUnitWeaponStringFieldBJHint=
+
+// Unit Group actions
+ForGroupMultiple="选取单位组内单位做动作(多个动作)"
+ForGroupMultiple="选取 ",~单位组," 内所有单位做动作"
+ForGroupMultipleHint="使用'选取单位'来取代相应的单位. 对于单位组内每个单位都会运行一次动作(包括死亡的,不包括隐藏的). 等待不能在组动作中运行."
+
+ForGroup="选取单位组内单位做动作"
+ForGroup="选取 ",~单位组," 内所有单位 ",~做动作
+ForGroupHint="使用'选取单位'来取代相应的单位. 对于单位组内每个单位都会运行一次动作(包括死亡的,不包括隐藏的). 等待不能在组动作中运行."
+
+GroupAddUnitSimple="添加单位"
+GroupAddUnitSimple="添加 ",~单位," 到 ",~单位组
+GroupAddUnitSimpleHint="并不影响单位本身."
+
+GroupAddGroup="添加单位组"
+GroupAddGroup="添加 ",~单位组," 内所有单位到 ",~单位组
+GroupAddGroupHint="并不影响单位本身."
+
+GroupRemoveUnitSimple="移除单位"
+GroupRemoveUnitSimple="把 ",~单位," 从 ",~单位组," 移除"
+GroupRemoveUnitSimpleHint="并不影响单位本身."
+
+GroupRemoveGroup="移除单位组"
+GroupRemoveGroup="把 ",~单位组," 中的单位从 ",~单位组," 移除"
+GroupRemoveGroupHint="并不影响单位本身."
+
+GroupClear="清空单位组"
+GroupClear="清空 ",~单位组," 内所有单位"
+GroupClearHint="并不影响单位本身."
+
+GroupTargetOrder="发布命令(指定单位)"
+GroupTargetOrder="对 ",~单位组," 发布 ",~Order," 命令,目标: ",~单位
+GroupTargetOrderHint="最多只能对单位组中12个单位发布命令."
+
+GroupPointOrderLoc="发布命令(指定点)"
+GroupPointOrderLoc="对 ",~单位组,"发布 ",~Order," 命令,目标: ",~指定点
+GroupPointOrderLocHint="最多只能对单位组中12个单位发布命令."
+
+GroupTargetDestructableOrder="发布命令(指定可破坏物)"
+GroupTargetDestructableOrder="对 ",~单位组,"发布 ",~Order," 命令,目标: ",~可破坏物
+GroupTargetDestructableOrderHint="最多只能对单位组中12个单位发布命令."
+
+GroupTargetItemOrder="发布命令(指定物品)"
+GroupTargetItemOrder="对 ",~单位组,"发布 ",~Order," 命令,目标: ",~物品
+GroupTargetItemOrderHint="最多只能对单位组中12个单位发布命令."
+
+GroupImmediateOrder="发布命令(无目标)"
+GroupImmediateOrder="对 ",~单位组,"发布 ",~Order
+GroupImmediateOrderHint="最多只能对单位组中12个单位发布命令."
+
+GroupTrainOrderByIdBJ="发布发布训练/升级命令"
+GroupTrainOrderByIdBJ="命令 ",~单位组," 训练/升级为 ",~单位类型
+GroupTrainOrderByIdBJHint="最多只能对单位组中12个单位发布命令."
+
+
+// Ubersplat actions
+CreateUbersplatBJ="创建"
+CreateUbersplatBJ="创建一个地面纹理变化在 ",~指定点," ,使用图像: ",~Type," 颜色值:(",~Red,"%, ",~Green,"%, ",~Blue,"%) 透明度",~Transparency,"% (",~Enable/Disable," 暂停状态, ",~Enble/Disable," 跳过出生动画)"
+CreateUbersplatBJHint="颜色格式为(红,绿,蓝). 透明度100%是不可见的. 使用'地面纹理变化 - 设置永久渲染状态' 来显示创建的纹理变化. 暂停状态表示动画播放完毕后是否继续保留该纹理变化."
+
+DestroyUbersplat="删除"
+DestroyUbersplat="删除 ",~Ubersplat
+DestroyUbersplatHint=
+
+ResetUbersplat="重置"
+ResetUbersplat="重置 ",~Ubersplat
+ResetUbersplatHint=
+
+FinishUbersplat="结束"
+FinishUbersplat="结束 ",~Ubersplat
+FinishUbersplatHint="在动画播放完毕时自动清除该地面纹理变化."
+
+ShowUbersplatBJ="显示/隐藏"
+ShowUbersplatBJ=~Show/Hide," ",~Ubersplat
+ShowUbersplatBJHint=
+
+SetUbersplatRender="设置渲染状态"
+SetUbersplatRender="设置 ",~Ubersplat," : ",~Enable/Disable," 渲染状态"
+SetUbersplatRenderHint="未发现有任何作用."
+
+SetUbersplatRenderAlways="设置永久渲染状态"
+SetUbersplatRenderAlways="设置 ",~Ubersplat," : ",~Enable/Disable," 永久渲染状态"
+SetUbersplatRenderAlwaysHint="要显示地面纹理变化则必须开启该项."
+
+
+// Visibility actions
+FogEnableOn="启用战争迷雾"
+FogEnableOn="启用战争迷雾"
+FogEnableOnHint=
+
+FogEnableOff="禁用战争迷雾"
+FogEnableOff="禁用战争迷雾"
+FogEnableOffHint=
+
+FogMaskEnableOn="启用黑色阴影"
+FogMaskEnableOn="启用黑色阴影"
+FogMaskEnableOnHint=
+
+FogMaskEnableOff="禁用黑色阴影"
+FogMaskEnableOff="禁用黑色阴影"
+FogMaskEnableOffHint=
+
+CreateFogModifierRectBJ="创建可见度修正器(矩形区域)"
+CreateFogModifierRectBJ="创建一个状态为 ",~Enabled/Disabled," 的可见度修正器给 ",~Player," ,设置 ",~Visibility State," 在 ",~Region
+CreateFogModifierRectBJHint="会创建可见度修正器."
+
+CreateFogModifierRadiusLocBJ="创建可见度修正器(圆范围)"
+CreateFogModifierRadiusLocBJ="创建一个状态为 ",~Enabled/Disabled," 的可见度修正器给 ",~Player," ,设置 ",~Visibility State," 在圆心为 ",~指定点," 半径为 ",~Radius," 的圆范围"
+CreateFogModifierRadiusLocBJHint="会创建可见度修正器."
+
+FogModifierStart="启用可见度修正器"
+FogModifierStart="启用 ",~Visibility Modifier
+FogModifierStartHint=
+
+FogModifierStop="禁用可见度修正器"
+FogModifierStop="禁用 ",~Visibility Modifier
+FogModifierStopHint=
+
+DestroyFogModifier="删除可见度修正器"
+DestroyFogModifier="删除 ",~Visibility Modifier
+DestroyFogModifierHint=
+
+
+// Obsolete actions
+//AddPerfLogLabel="** AddPerfLogLabel **"
+//AddPerfLogLabel="** AddPerfLogLabel(",~Label,") **"
+//AddPerfLogLabelHint="** This is for debugging purposes only - remove before ship. **"
+
+//Cheat="** Cheat **"
+//Cheat="** Cheat(",~Label,") **"
+//CheatHint="** This is for debugging purposes only - remove before ship. **"
+
+
+
+//***************************************************************************
+[TriggerCallStrings]
+
+// returns boolean
+BlzIsTargetIndicatorEnabled="闪动指示器被启用"
+BlzIsTargetIndicatorEnabled="闪动指示器被启用"
+BlzIsTargetIndicatorEnabledHint="Target Indicator is normally used in cinematic conversation as blinking circles to indicate who's speaking now"
+
+IsDestructableAliveBJ="可破坏物存活"
+IsDestructableAliveBJ=~可破坏物," 是存活的"
+IsDestructableAliveBJHint="建议使用'可破坏物生命>0'来判断."
+
+IsDestructableDeadBJ="可破坏物死亡"
+IsDestructableDeadBJ=~可破坏物," 是死亡的"
+IsDestructableDeadBJHint="建议使用'可破坏物生命<
+IsDestructableInvulnerableBJ="可破坏物无敌"
+IsDestructableInvulnerableBJ=~可破坏物," 是无敌的"
+IsDestructableInvulnerableBJHint=
+
+IsPointBlightedBJ="点被荒芜地表覆盖"
+IsPointBlightedBJ=~指定点," 被荒芜地表覆盖"
+IsPointBlightedBJHint=
+
+IsTerrainPathableBJ="地形通行状态关闭(指定点)"
+IsTerrainPathableBJ=~指定点," 处的 ",~Pathing Type," 通行状态为关闭"
+IsTerrainPathableBJHint="指定类型单位不能通行即通行状态为关闭. 如该点不能造建筑就是'建造'通行状态为关闭. 可使用'环境 - 设置地形通行状态'来改变通行状态."
+
+IsMapFlagSet="地图参数设置"
+IsMapFlagSet=~Map Flag," 已设置"
+IsMapFlagSetHint=
+
+IsCustomCampaignButtonVisibile="自定义战役按钮可见"
+IsCustomCampaignButtonVisibile="自定义战役按钮# ",~Number," 可见"
+IsCustomCampaignButtonVisibileHint=
+
+GetCreepCampFilterState="小地图中立生物显示开启"
+GetCreepCampFilterState="小地图中立生物显示开启"
+GetCreepCampFilterStateHint=
+
+SaveGameExists="游戏存档存在"
+SaveGameExists=~存档文件," 已存在"
+SaveGameExistsHint=
+
+GetStoredBooleanBJ="缓存读取布尔值"
+GetStoredBooleanBJ="从游戏缓存读取布尔值,名称: ",~文字," 类别: ",~Category," 缓存: ",~Game Cache
+GetStoredBooleanBJHint="如果该值不存在则返回false."
+
+HaveStoredValue="缓存项存在"
+HaveStoredValue="名称为 ",~文字," 的 ",~Type," 类缓存项被保存在类别: ",~Category," 缓存: ",~Game Cache
+HaveStoredValueHint=
+
+HaveSavedValue="<1.24> 哈希项存在"
+HaveSavedValue="子索引为 ",~Value," 的 ",~Type," 类数据被保存在主索引为 ",~Value," 的 ",~Hashtable," 中"
+HaveSavedValueHint=
+
+UnitHasItem="持有物品"
+UnitHasItem=~Hero," 拥有 ",~物品
+UnitHasItemHint=
+
+UnitHasItemOfTypeBJ="持有物品(指定类型)"
+UnitHasItemOfTypeBJ=~Hero," 拥有 ",~物品类型
+UnitHasItemOfTypeBJHint=
+
+IsSuspendedXP="经验不可获得"
+IsSuspendedXP=~Hero," 不可获得经验"
+IsSuspendedXPHint="可使用'英雄 - 允许/禁止经验获取'来设置该项."
+
+CheckItemStatus="物品状态检查"
+CheckItemStatus=~物品," 是 ",~Status," 的"
+CheckItemStatusHint=
+
+CheckItemcodeStatus="物品类型状态检查"
+CheckItemcodeStatus=~物品类型," 是 ",~Status," 的"
+CheckItemcodeStatusHint=
+
+IsItemHiddenBJ="物品隐藏"
+IsItemHiddenBJ=~物品," 是隐藏的"
+IsItemHiddenBJHint="单位持有的物品也被认为是隐藏的. 建议使用物品可见
+IsItemOwned="物品被持有"
+IsItemOwned=~物品," 是被持有的"
+IsItemOwnedHint="在物品栏中的物品都是被持有的. 就算单位正处于死亡状态."
+
+RectContainsItem="物品在矩形区域"
+RectContainsItem=~物品," 在 ",~矩形区域
+RectContainsItemHint="单位持有的物品不会被计算在内."
+
+IsItemInvulnerable="物品无敌"
+IsItemInvulnerable=~物品," 是无敌的"
+IsItemInvulnerableHint=
+
+LeaderboardHasPlayerItemBJ="玩家在排行榜"
+LeaderboardHasPlayerItemBJ=~Leaderboard," 中包含 ",~Player
+LeaderboardHasPlayerItemBJHint=
+
+IsMultiboardDisplayed="多面板显示"
+IsMultiboardDisplayed=~Multiboard," 是显示的"
+IsMultiboardDisplayedHint=
+
+IsMultiboardMinimized="多面板最小化"
+IsMultiboardMinimized=~Multiboard," 是最小化的"
+IsMultiboardMinimizedHint=
+
+WaygateIsActiveBJ="传送门激活"
+WaygateIsActiveBJ=~传送门," 处于激活状态"
+WaygateIsActiveBJHint=
+
+IsPlayerFlagSetBJ="玩家参数开启"
+IsPlayerFlagSetBJ=~Player Flag," 为允许,对 ",~Player
+IsPlayerFlagSetBJHint=
+
+IsPlayerAlly="是玩家的盟友"
+IsPlayerAlly=~Player," 是 ",~Player," 的盟友"
+IsPlayerAllyHint="包括中立状态. 单向判断玩家A对玩家B联盟不侵犯,即表示玩家A是玩家B的盟友."
+
+IsPlayerEnemy="是玩家的敌人"
+IsPlayerEnemy=~Player," 是 ",~Player," 的敌人"
+IsPlayerEnemyHint="不包括中立状态. 单向判断玩家A对玩家B敌对侵犯,即表示玩家A是玩家B的盟友.
+
+GetPlayerAlliance="联盟状态设置"
+GetPlayerAlliance=~Player," 对 ",~Player," 开启 ",~Alliance Type
+GetPlayerAllianceHint=
+
+IsPlayerInForce="在玩家组"
+IsPlayerInForce=~Player," 在 ",~玩家组," 中"
+IsPlayerInForceHint=
+
+IsQuestItemCompleted="任务项目完成"
+IsQuestItemCompleted=~Quest Requirement," 已完成"
+IsQuestItemCompletedHint=
+
+IsQuestEnabled="任务激活"
+IsQuestEnabled=~Quest," 已激活"
+IsQuestEnabledHint=
+
+IsQuestCompleted="任务完成"
+IsQuestCompleted=~Quest," 已完成"
+IsQuestCompletedHint=
+
+IsQuestFailed="任务失败"
+IsQuestFailed=~Quest," 失败"
+IsQuestFailedHint=
+
+IsQuestDiscovered="任务被发现"
+IsQuestDiscovered=~Quest," 已被发现"
+IsQuestDiscoveredHint=
+
+IsQuestRequired="是主要任务"
+IsQuestRequired=~Quest," 是主要任务"
+IsQuestRequiredHint=
+
+RectContainsLoc="包含点"
+RectContainsLoc=~矩形区域," 内包含 ",~点
+RectContainsLocHint=
+
+IsTriggerEnabled="触发开启"
+IsTriggerEnabled=~触发," 处于开启状态"
+IsTriggerEnabledHint=
+
+TriggerEvaluate="触发条件成立"
+TriggerEvaluate=~触发," 的条件成立"
+TriggerEvaluateHint=
+
+IsTriggerQueuedBJ="触发在队列中"
+IsTriggerQueuedBJ=~触发," 在队列中"
+IsTriggerQueuedBJHint="可使用'触发器 - 添加到队列'和'触发器 - 移出队列'动作来操作触发队列."
+
+IsTriggerQueueEmptyBJ="触发队列为空"
+IsTriggerQueueEmptyBJ="触发队列为空"
+IsTriggerQueueEmptyBJHint="可使用'触发器 - 添加到队列'和'触发器 - 移出队列'动作来操作触发队列."
+
+IsUnitType="单位类别检查"
+IsUnitType=~单位," 是 ",~Type
+IsUnitTypeHint=
+
+IsUnitIdType="单位类别检查(指定单位类型)"
+IsUnitIdType=~单位类型," 是 ",~Type
+IsUnitIdTypeHint=
+
+IsUnitInGroup="在单位组"
+IsUnitInGroup=~单位," 在 ",~单位组," 中"
+IsUnitInGroupHint=
+
+RectContainsUnit="在矩形区域内"
+RectContainsUnit=~矩形区域," 内存在 ",~单位
+RectContainsUnitHint=
+
+IsUnitAliveBJ="单位存活"
+IsUnitAliveBJ=~单位," 是存活的"
+IsUnitAliveBJHint="实际上该函数是判断单位血量是否>0."
+
+IsUnitDeadBJ="单位死亡"
+IsUnitDeadBJ=~单位," 处于死亡状态"
+IsUnitDeadBJHint="实际上该函数是判断单位血量是否<
+
+IsUnitPausedBJ="单位暂停"
+IsUnitPausedBJ=~单位," 处于暂停状态"
+IsUnitPausedBJHint=
+
+IsUnitHiddenBJ="单位隐藏"
+IsUnitHiddenBJ=~单位," 处于隐藏状态"
+IsUnitHiddenBJHint="可通过'单位 - 隐藏'动作来析藏单位. 运输机,灵魂之球,祭坛中的单位都被认为是隐藏状态."
+
+IsUnitIllusionBJ="单位是镜像"
+IsUnitIllusionBJ=~单位," 是镜像单位"
+IsUnitIllusionBJHint=
+
+UnitCanSleepPerm="允许控制睡眠状态"
+UnitCanSleepPerm="允许控制 "~单位," 的睡眠状态"
+UnitCanSleepPermHint="即该单位拥有'一直睡眠'技能."
+
+UnitCanSleepBJ="允许夜晚睡眠"
+UnitCanSleepBJ=~单位," 会在夜晚进入睡眠"
+UnitCanSleepBJHint="中立生物才会睡眠."
+
+UnitIsSleepingBJ="正在睡眠"
+UnitIsSleepingBJ=~单位," 正在睡眠"
+UnitIsSleepingBJHint="中立生物才会睡眠. 不包括催眠魔法."
+
+DoesUnitGenerateAlarms="开启警报"
+DoesUnitGenerateAlarms=~单位," 处于开启警报状态"
+DoesUnitGenerateAlarmsHint=
+
+IsUnitLoadedBJ="被装载"
+IsUnitLoadedBJ=~单位," 被装载中"
+IsUnitLoadedBJHint="被飞艇,船等有运输功能的单位装载."
+
+IsUnitInTransportBJ="被指定单位装载"
+IsUnitInTransportBJ=~单位," 被 ",~运输机," 装载中"
+IsUnitInTransportBJHint=
+
+IsUnitSelected="被玩家选择"
+IsUnitSelected=~单位," 被 ",~Player," 选择"
+IsUnitSelectedHint=
+
+IsUnitAlly="是玩家的同盟单位"
+IsUnitAlly=~单位," 是 ",~Player," 的同盟单位"
+IsUnitAllyHint="包括中立状态. 单向判断玩家对单位是否为不侵犯状态."
+
+IsUnitEnemy="是玩家的敌对单位"
+IsUnitEnemy=~单位," 是 ",~Player," 的敌对单位"
+IsUnitEnemyHint="不包括中立状态. 单向判断玩家对单位是否为敌对侵犯."
+
+UnitHasBuffBJ="拥有魔法效果"
+UnitHasBuffBJ=~单位," 拥有 ",~魔法效果
+UnitHasBuffBJHint=
+
+IsUnitGroupEmptyBJ="单位组为空"
+IsUnitGroupEmptyBJ=~单位组," 为空"
+IsUnitGroupEmptyBJHint=
+
+IsUnitGroupInRectBJ="单位组中单位在矩形区域内"
+IsUnitGroupInRectBJ=~单位组," 中所有单位在 ",~矩形区域," 内"
+IsUnitGroupInRectBJHint=
+
+IsUnitGroupDeadBJ="单位组中所有单位死亡"
+IsUnitGroupDeadBJ=~单位组," 中所有单位死亡"
+IsUnitGroupDeadBJHint=
+
+IsFogEnabled="战争迷雾开启"
+IsFogEnabled="战争迷雾开启"
+IsFogEnabledHint=
+
+IsFogMaskEnabled="黑色阴影开启"
+IsFogMaskEnabled="黑色阴影开启"
+IsFogMaskEnabledHint=
+
+IsUnitVisible="单位可见"
+IsUnitVisible=~单位," 对 ",~Player," 可见"
+IsUnitVisibleHint=
+
+IsUnitInvisible="单位不可见"
+IsUnitInvisible=~单位," 对 ",~Player," 不可见"
+IsUnitInvisibleHint=
+
+IsUnitFogged="单位在迷雾中"
+IsUnitFogged=~单位," 在 ",~Player," 的迷雾范围内"
+IsUnitFoggedHint="黑色阴影内的单位不被计算在内."
+
+IsUnitMasked="单位在黑色阴影中"
+IsUnitMasked=~单位," 在 ",~Player," 的黑色阴影内"
+IsUnitMaskedHint=
+
+IsLocationVisibleToPlayer="点可见"
+IsLocationVisibleToPlayer=~指定点,"对 ",~Player," 可见"
+IsLocationVisibleToPlayerHint=
+
+IsLocationFoggedToPlayer="点在迷雾中"
+IsLocationFoggedToPlayer=~指定点," 在 ",~Player," 的迷雾范围内"
+IsLocationFoggedToPlayerHint="黑色阴影内的点不被计算在内."
+
+IsLocationMaskedToPlayer="点在黑色阴影中"
+IsLocationMaskedToPlayer=~指定点," 在 ",~Player," 的黑色阴影内"
+IsLocationMaskedToPlayerHint=
+
+BlzIsUnitSelectable="单位能被选择"
+BlzIsUnitSelectable=~单位," 能被选择"
+BlzIsUnitSelectableHint=
+
+BlzIsUnitInvulnerable="单位是无敌的"
+BlzIsUnitInvulnerable=~单位," 是无敌的"
+BlzIsUnitInvulnerableHint=
+
+BlzIsSelectionEnabled="选择被允许"
+BlzIsSelectionEnabled="选择被允许"
+BlzIsSelectionEnabledHint=
+
+BlzIsSelectionCircleEnabled="选择框被启用"
+BlzIsSelectionCircleEnabled="选择框被启用"
+BlzIsSelectionCircleEnabledHint=
+
+BlzIsLastInstanceObjectFunctionSuccessful="最后一次实例函数调用是否成功"
+BlzIsLastInstanceObjectFunctionSuccessful="最后一次实例函数调用是否成功"
+BlzIsLastInstanceObjectFunctionSuccessfulHint=
+
+BlzGetAbilityBooleanField="技能布尔类型域"
+BlzGetAbilityBooleanField="技能: ",~技能,"的布尔类型域: "~布尔类型域
+BlzGetAbilityBooleanFieldHint=
+
+BlzGetAbilityBooleanLevelField="技能随等级改变的布尔类型域"
+BlzGetAbilityBooleanLevelField="技能: ",~技能,"的随等级改变的布尔类型域 ",~随等级改变的布尔类型域,", 在等级为: "~等级
+BlzGetAbilityBooleanLevelFieldHInt=
+
+BlzGetAbilityBooleanLevelArrayField="技能随等级改变的布尔类型域"
+BlzGetAbilityBooleanLevelArrayField="技能: ",~技能,"随等级改变的布尔数组类型域: ",~随等级改变的布尔数组类型域," 在等级为: ",~等级," 并且数组索引为: ",~索引值
+BlzGetAbilityBooleanLevelArrayFieldHint=
+
+BlzSetAbilityBooleanField="改变技能的布尔类型域"
+BlzSetAbilityBooleanField="改变技能: ",~技能,"的布尔类型域: ",~布尔类型域,"的值为",~值
+BlzSetAbilityBooleanFieldHint=
+
+BlzSetAbilityIntegerField="改变技能的整数类型域"
+BlzSetAbilityIntegerField="改变技能: ",~技能,"的整数类型域: ",~整数类型域,"的值为",~值
+BlzSetAbilityIntegerFieldHint=
+
+BlzSetAbilityRealField="改变技能的实数类型域"
+BlzSetAbilityRealField="改变技能: ",~技能,"的实数类型域: ",~实数类型域,"的值为",~值
+BlzSetAbilityRealFieldHint=
+
+BlzSetAbilityStringField="改变技能的字符串类型域"
+BlzSetAbilityStringField="改变技能: ",~技能,"的字符串类型域: ",~字符串类型域,"的值为",~值
+BlzSetAbilityStringFieldHint=
+
+BlzSetAbilityBooleanLevelField="改变技能的随等级改变的布尔类型域"
+BlzSetAbilityBooleanLevelField="改变技能: ",~技能,"的随等级改变的布尔类型域: ",~随等级改变的布尔类型域," 在等级为: ",~等级,"的值为",~值
+BlzSetAbilityBooleanLevelFieldHint=
+
+BlzSetAbilityIntegerLevelField="改变技能随等级改变的整数类型域"
+BlzSetAbilityIntegerLevelField="改变技能: ",~技能,"随等级改变的整数类型域: ",~随等级改变的整数类型域," 在等级为: ",~等级,"的值为",~值
+BlzSetAbilityIntegerLevelFieldHint=
+
+BlzSetAbilityRealLevelField="改变技能随等级改变的实数类型域"
+BlzSetAbilityRealLevelField="改变技能: ",~技能,"随等级改变的实数类型域: ",~随等级改变的实数类型域," 在等级为: ",~等级,"的值为",~值
+BlzSetAbilityRealLevelFieldHint=
+
+BlzSetAbilityStringLevelField="改变技能随等级改变的字符串类型域"
+BlzSetAbilityStringLevelField="改变技能: ",~技能,"随等级改变的字符串类型域: ",~随等级改变的字符串类型域," 在等级为: ",~等级,"的值为",~值
+BlzSetAbilityStringLevelFieldHint=
+
+BlzSetAbilityBooleanLevelArrayField="改变技能随等级改变的布尔数组类型域"
+BlzSetAbilityBooleanLevelArrayField="改变技能: ",~技能,"随等级改变的布尔数组类型域: ",~随等级改变的布尔数组类型域," 在等级为: ",~等级," 并且数组索引为: ",~索引值,"的值为",~值
+BlzSetAbilityBooleanLevelArrayFieldHint=
+
+BlzSetAbilityIntegerLevelArrayField="改变技能随等级改变的整数数组类型域"
+BlzSetAbilityIntegerLevelArrayField="改变技能: ",~技能,"随等级改变的整数数组类型域: ",~随等级改变的整数数组类型域," 在等级为: ",~等级," 并且数组索引为: ",~索引值,"的值为",~值
+BlzSetAbilityIntegerLevelArrayFieldHint=
+
+BlzSetAbilityRealLevelArrayField="改变技能随等级改变的实数数组类型域"
+BlzSetAbilityRealLevelArrayField="改变技能: ",~技能,"随等级改变的实数数组类型域: ",~随等级改变的实数数组类型域," 在等级为: ",~等级," 并且数组索引为: ",~索引值,"的值为",~值
+BlzSetAbilityRealLevelArrayFieldHint=
+
+BlzSetAbilityStringLevelArrayField="改变技能随等级改变的字符串数组类型域"
+BlzSetAbilityStringLevelArrayField="改变技能: ",~技能,"随等级改变的字符串数组类型域: ",~随等级改变的字符串数组类型域," 在等级为: ",~等级," 并且数组索引为: ",~索引值,"的值为",~值
+BlzSetAbilityStringLevelArrayFieldHint=
+
+BlzAddAbilityBooleanLevelArrayField="技能随等级改变的布尔类型域 - 添加值"
+BlzAddAbilityBooleanLevelArrayField="对于技能: ",~技能,"随等级改变的布尔数组类型域: ",~随等级改变的布尔数组类型域," 在等级为: ",~等级,", 添加值: ",~值
+BlzAddAbilityBooleanLevelArrayFieldHint=
+
+BlzAddAbilityIntegerLevelArrayField="技能随等级改变的整数类型域 - 添加值"
+BlzAddAbilityIntegerLevelArrayField="对于技能: ",~技能,"随等级改变的整数数组类型域: ",~随等级改变的整数数组类型域," 在等级为: ",~等级,", 添加值: ",~值
+BlzAddAbilityIntegerLevelArrayFieldHint=
+
+BlzAddAbilityRealLevelArrayField="技能随等级改变的实数类型域 - 添加值"
+BlzAddAbilityRealLevelArrayField="对于技能: ",~技能,"随等级改变的实数数组类型域: ",~随等级改变的实数数组类型域," 在等级为: ",~等级,", 添加值: ",~值
+BlzAddAbilityRealLevelArrayFieldHint=
+
+BlzAddAbilityStringLevelArrayField="技能随等级改变的字符串类型域 - 添加值"
+BlzAddAbilityStringLevelArrayField="对于技能: ",~技能,"随等级改变的字符串数组类型域: ",~随等级改变的字符串数组类型域," 在等级为: ",~等级,", 添加值: ",~值
+BlzAddAbilityStringLevelArrayFieldHint=
+
+BlzRemoveAbilityBooleanLevelArrayField="技能随等级改变的布尔类型域 - 移除值"
+BlzRemoveAbilityBooleanLevelArrayField="对于技能: ",~技能,"随等级改变的布尔数组类型域: ",~随等级改变的布尔数组类型域," 在等级为: ",~等级,", 移除值: ",~值
+BlzRemoveAbilityBooleanLevelArrayFieldHint=
+
+BlzRemoveAbilityIntegerLevelArrayField="技能随等级改变的整数类型域 - 移除值"
+BlzRemoveAbilityIntegerLevelArrayField="对于技能: ",~技能,"随等级改变的整数数组类型域: ",~随等级改变的整数数组类型域," 在等级为: ",~等级,", 移除值: ",~值
+BlzRemoveAbilityIntegerLevelArrayFieldHint=
+
+BlzRemoveAbilityRealLevelArrayField="技能随等级改变的实数类型域 - 移除值"
+BlzRemoveAbilityRealLevelArrayField="对于技能: ",~技能,"随等级改变的实数数组类型域: ",~随等级改变的实数数组类型域," 在等级为: ",~等级,", 移除值: ",~值
+BlzRemoveAbilityRealLevelArrayFieldHint=
+
+BlzRemoveAbilityStringLevelArrayField="技能随等级改变的字符串类型域 - 移除值"
+BlzRemoveAbilityStringLevelArrayField="对于技能: ",~技能,"随等级改变的字符串数组类型域: ",~随等级改变的字符串数组类型域," 在等级为: ",~等级,", 移除值: ",~值
+BlzRemoveAbilityStringLevelArrayFieldHint=
+
+BlzItemAddAbility="物品添加技能"
+BlzItemAddAbility="对于物品: ",~物品,",添加技能: ",~技能码
+BlzItemAddAbilityHint=
+
+BlzItemRemoveAbility="物品移除技能"
+BlzItemRemoveAbility="对于物品: ",~物品,",移除技能: ",~技能码
+BlzItemRemoveAbilityHint=
+
+BlzGetItemBooleanField="物品的布尔类型域"
+BlzGetItemBooleanField="物品: ",~物品,"的布尔类型域: ",~布尔类型域
+BlzGetItemBooleanFieldHint=
+
+BlzSetItemBooleanField="改变物品的布尔类型域"
+BlzSetItemBooleanField="改变物品: ",~物品,"的布尔类型域: ",~布尔类型域," 的值为: ",~值
+BlzSetItemBooleanFieldHint=
+
+BlzSetItemIntegerField="改变物品的整数类型域"
+BlzSetItemIntegerField="改变物品: ",~物品,"的整数类型域: ",~整数类型域," 的值为: ",~值
+BlzSetItemIntegerFieldHint=
+
+BlzSetItemRealField="改变物品的实数类型域"
+BlzSetItemRealField="改变物品: ",~物品,"的实数类型域: ",~实数类型域," 的值为: ",~值
+BlzSetItemRealFieldHint=
+
+BlzSetItemStringField="改变物品的字符串类型域"
+BlzSetItemStringField="改变物品: ",~物品,"的字符串类型域: ",~字符串类型域," 的值为: ",~值
+BlzSetItemStringFieldHint=
+
+BlzGetUnitBooleanField="单位布尔类型域"
+BlzGetUnitBooleanField="单位: ",~单位,"的布尔类型域: ",~布尔类型域
+BlzGetUnitBooleanFieldHint=
+
+BlzSetUnitBooleanField="改变单位的布尔类型域"
+BlzSetUnitBooleanField="改变单位: ",~单位,"的布尔类型域: ",~布尔类型域," 的值为: ",~值
+BlzSetUnitBooleanFieldHint=
+
+BlzSetUnitIntegerField="改变单位的整数类型域"
+BlzSetUnitIntegerField="改变单位: ",~单位,"的整数类型域: ",~整数类型域," 的值为: ",~值
+BlzSetUnitIntegerFieldHint=
+
+BlzSetUnitRealField="改变单位的实数类型域"
+BlzSetUnitRealField="改变单位: ",~单位,"的实数类型域: ",~实数类型域," 的值为: ",~值
+BlzSetUnitRealFieldHint=
+
+BlzSetUnitStringField="改变单位的字符串类型域"
+BlzSetUnitStringField="改变单位: ",~单位,"的字符串类型域: ",~字符串类型域," 的值为: ",~值
+BlzSetUnitStringFieldHint=
+
+BlzGetUnitWeaponBooleanField="单位武器的布尔类型域"
+BlzGetUnitWeaponBooleanField="单位: ",~单位,"武器的布尔类型域: ",~布尔类型域," 在索引值:",~索引值
+BlzGetUnitWeaponBooleanFieldHint=
+
+BlzSetUnitWeaponBooleanField="改变单位武器的布尔类型域"
+BlzSetUnitWeaponBooleanField="改变单位: ",~单位,"武器的布尔类型域: ",~布尔类型域," 在索引值:",~索引值," 的值为: ",~值
+BlzSetUnitWeaponBooleanFieldHint=
+
+BlzSetUnitWeaponIntegerField="改变单位武器的整数类型域"
+BlzSetUnitWeaponIntegerField="改变单位: ",~单位,"武器的整数类型域: ",~整数类型域," 在索引值:",~索引值," 的值为: ",~值
+BlzSetUnitWeaponIntegerFieldHint=
+
+BlzSetUnitWeaponRealField="改变单位武器的实数类型域"
+BlzSetUnitWeaponRealField="改变单位: ",~单位,"武器的实数类型域: ",~实数类型域," 在索引值:",~索引值," 的值为: ",~值
+BlzSetUnitWeaponRealFieldHint=
+
+BlzSetUnitWeaponStringField="改变单位武器的字符串类型域"
+BlzSetUnitWeaponStringField="改变单位: ",~单位,"武器的字符串类型域: ",~字符串类型域," 在索引值:",~索引值," 的值为: ",~值
+BlzSetUnitWeaponStringFieldHint=
+
+// returns integer
+OperatorInt="算术运算"
+OperatorInt=~数值," ",~运算符," ",~数值
+OperatorIntHint=
+
+GetForLoopIndexA="循环整数A [旧]"
+GetForLoopIndexA="循环整数A"
+GetForLoopIndexAHint=
+
+GetForLoopIndexB="循环整数B [旧]"
+GetForLoopIndexB="循环整数B"
+GetForLoopIndexBHint=
+
+StringLength="字符串长度"
+StringLength=~String,的长度
+StringLengthHint=
+
+R2I="转换实数为整数"
+R2I="转换 ",~Real," 为整数"
+R2IHint=
+
+S2I="转换字符串为整数"
+S2I="转换 ",~String," 为整数"
+S2IHint=
+
+BlzS2FourCC="转换字符串为四字符码 (若输入无效则返回0)"
+BlzS2FourCC="FourCC(",~String,")"
+BlzS2FourCCHint="Convert String to Integer FourCC code"
+
+GetElevatorHeight="升降机高度"
+GetElevatorHeight=~升降机," 的高度"
+GetElevatorHeightHint="可以使用'可破坏物 - 设置升降机高度'来设置升降机高度."
+
+GetTerrainCliffLevelBJ="地形悬崖高度(指定点)"
+GetTerrainCliffLevelBJ=~指定点," 处的地形悬崖高度"
+GetTerrainCliffLevelBJHint="悬崖高度:深水区为0, 浅水区为1, 平原为2, 之后每层+1."
+
+GetTerrainVarianceBJ="地形样式(指定点)"
+GetTerrainVarianceBJ=~指定点," 处的地形样式"
+GetTerrainVarianceBJHint=
+
+GetLearnedSkillLevel="学习技能等级"
+GetLearnedSkillLevel="学习技能等级"
+GetLearnedSkillLevelHint="响应'学习技能'单位事件,指代被学习技能的等级. 注意,该值为学习后的等级."
+
+GetPlayers="玩家数量"
+GetPlayers="玩家数量"
+GetPlayersHint="地图编辑器中开启的玩家数量(1-12)."
+
+GetTeams="队伍数量 [废弃]"
+GetTeams="队伍数量"
+GetTeamsHint="该函数有错误."
+
+GetAllyColorFilterState="联盟颜色显示设置"
+GetAllyColorFilterState="联盟颜色显示设置"
+GetAllyColorFilterStateHint="0为不开启. 1为小地图显示. 2为小地图和游戏都显示."
+
+GetTournamentFinishNowRule="比赛结束规则"
+GetTournamentFinishNowRule="比赛结束规则"
+GetTournamentFinishNowRuleHint="1表示游戏开始时间已经超过限定时,无法以平局结束. 其他值表示游戏还在初期阶段,此时退出游戏将以平局结束.."
+
+GetTournamentScore="对战比赛得分"
+GetTournamentScore=~Player," 的当前对战比赛得分"
+GetTournamentScoreHint="对战游戏时如果游戏时间过长,系统将以该值来决定胜负."
+
+BlzGetAbilityPosX="技能位置 - X"
+BlzGetAbilityPosX=~技能,"技能位置的X"
+BlzGetAbilityPosXHint=
+
+BlzGetAbilityActivatedPosX="技能位置 - X (自动施法)"
+BlzGetAbilityActivatedPosX=~技能,"技能位置的X(启用自动施法)"
+BlzGetAbilityActivatedPosXHint=
+
+BlzGetAbilityPosY="技能位置 - Y"
+BlzGetAbilityPosY=~技能,"技能位置的Y"
+BlzGetAbilityPosYHint=
+
+BlzGetAbilityActivatedPosY="技能位置 - Y (自动施法)"
+BlzGetAbilityActivatedPosY=~技能,"技能位置的Y(启用自动施法)"
+BlzGetAbilityActivatedPosYHint=
+
+GetStoredIntegerBJ="缓存读取整数"
+GetStoredIntegerBJ="从游戏缓存读取整数,名称: ",~文字," 类别: ",~Category," 缓存: ",~Game Cache
+GetStoredIntegerBJHint="如果该值不存在则返回0."
+
+GetHeroLevel="英雄等级"
+GetHeroLevel=~英雄," 的英雄等级"
+GetHeroLevelHint=
+
+GetHeroXP="英雄经验值"
+GetHeroXP=~英雄," 的经验值"
+GetHeroXPHint=
+
+GetHeroStatBJ="英雄属性"
+GetHeroStatBJ=~Attribute," 对 ",~英雄," (",~Include/Exclude," 加成)"
+GetHeroStatBJHint=
+
+GetHeroSkillPoints="未分配技能点数"
+GetHeroSkillPoints=~英雄," 的未分配技能点数"
+GetHeroSkillPointsHint=
+
+GetItemLevel="物品等级"
+GetItemLevel=~物品," 的物品等级"
+GetItemLevelHint=
+
+GetItemCharges="使用次数"
+GetItemCharges=~物品," 的使用次数"
+GetItemChargesHint="无限使用物品将返回0."
+
+GetItemUserData="物品自定义值"
+GetItemUserData=~物品," 的自定义值"
+GetItemUserDataHint="可以使用'物品 - 设置自定义值'来设置该值."
+
+LeaderboardGetPlayerIndexBJ="排行榜位置"
+LeaderboardGetPlayerIndexBJ=~Player," 在 ",~Leaderboard," 的排名"
+LeaderboardGetPlayerIndexBJHint=
+
+GetRandomInt="随机整数"
+GetRandomInt="随机整数,最小值: ",~Minimum," 最大值: ",~Maximum
+GetRandomIntHint=
+
+IMinBJ="取较小值"
+IMinBJ="取(",~整数1,", ",~整数2,")中较小值"
+IMinBJHint=
+
+IMaxBJ="取较大值"
+IMaxBJ="取(",~整数1,", ",~整数2,")中较大值"
+IMaxBJHint=
+
+IAbsBJ="绝对值"
+IAbsBJ=~整数," 的绝对值"
+IAbsBJHint=
+
+ISignBJ="符号标志"
+ISignBJ=~整数," 的符号标志"
+ISignBJHint="负数为-1. 非负数为1."
+
+ModuloInteger="模"
+ModuloInteger=~被除数," mod ",~除数
+ModuloIntegerHint="取模计算,例: 12 mod 5 
+MultiboardGetRowCount="行数"
+MultiboardGetRowCount=~Multiboard," 的行数"
+MultiboardGetRowCountHint=
+
+MultiboardGetColumnCount="列数"
+MultiboardGetColumnCount=~Multiboard," 的列数"
+MultiboardGetColumnCountHint=
+
+GetResourceAmount="储金量"
+GetResourceAmount=~金矿," 的储金量"
+GetResourceAmountHint="只对金矿有效."
+
+GetPlayerState="玩家属性"
+GetPlayerState=~Player," ",~Property
+GetPlayerStateHint=
+
+GetPlayerTaxRateBJ="玩家所得税"
+GetPlayerTaxRateBJ=~Resource," 所得税, ",~Player," 交纳给 ",~Player
+GetPlayerTaxRateBJHint="所得税取值范围0-100."
+
+GetPlayerScore="玩家得分"
+GetPlayerScore=~Player," ",~Score
+GetPlayerScoreHint=
+
+GetConvertedPlayerId="玩家索引"
+GetConvertedPlayerId=~Player," 的玩家索引号"
+GetConvertedPlayerIdHint="玩家索引取值1-16."
+
+GetPlayerStructureCount="建筑数量"
+GetPlayerStructureCount=~Player," 拥有的建筑数量(",~Include/Exclude," 未完成的)"
+GetPlayerStructureCountHint=
+
+GetPlayerUnitCount="非建筑单位数量"
+GetPlayerUnitCount=~Player," 拥有的非建筑单位数量(",~Include/Exclude," 未完成的)"
+GetPlayerUnitCountHint=
+
+GetPlayerTechCountSimple="当前科技等级"
+GetPlayerTechCountSimple=~科技," 的当前等级对 ",~Player
+GetPlayerTechCountSimpleHint=
+
+GetPlayerTechMaxAllowedSwap="最大科技等级"
+GetPlayerTechMaxAllowedSwap=~科技," 的最大等级对 ",~Player
+GetPlayerTechMaxAllowedSwapHint=
+
+GetPlayerTeam="玩家队伍 [废弃]"
+GetPlayerTeam=~Player," 所属队伍编号"
+GetPlayerTeamHint="错误函数."
+
+CountPlayersInForceBJ="玩家组中玩家数量"
+CountPlayersInForceBJ=~玩家组," 中的玩家数量"
+CountPlayersInForceBJHint=
+
+BlzGetTriggerPlayerMouseButton="触发鼠标按键"
+BlzGetTriggerPlayerMouseButton="触发鼠标按键"
+BlzGetTriggerPlayerMouseButtonHint=""
+
+CountUnitsInGroup="单位组中单位数量"
+CountUnitsInGroup=~单位组," 中的单位数量"
+CountUnitsInGroupHint=
+
+CountLivingPlayerUnitsOfTypeId="玩家拥有单位数量"
+CountLivingPlayerUnitsOfTypeId=~单位类型," 的数量对 ",~Player
+CountLivingPlayerUnitsOfTypeIdHint=
+
+GetUnitFoodUsed="单位使用人口数量"
+GetUnitFoodUsed=~单位," 使用的人口数量"
+GetUnitFoodUsedHint=
+
+GetUnitFoodMade="单位提供人口数量"
+GetUnitFoodMade=~单位," 提供的人口数量"
+GetUnitFoodMadeHint=
+
+GetFoodUsed="单位使用人口数量(指定单位类型)"
+GetFoodUsed=~单位类型," 使用的人口数量"
+GetFoodUsedHint=
+
+GetFoodMade="单位提供人口数量(指定单位类型)"
+GetFoodMade=~单位类型," 提供的人口数量"
+GetFoodMadeHint=
+
+GetUnitPointValue="单位附加值"
+GetUnitPointValue=~单位," 的附加值"
+GetUnitPointValueHint="单位附加值不可改变. 可以做一些特殊用途. 比如TD地图中的建筑贩卖价格."
+
+GetUnitPointValueByType="单位附加值(指定单位类型)"
+GetUnitPointValueByType=~单位类型," 的附加值"
+GetUnitPointValueByTypeHint=单位附加值不可改变. 可以做一些特殊用途. 比如TD地图中的建筑贩卖价格.
+
+GetUnitUserData="单位自定义值"
+GetUnitUserData=~单位," 的自定义值"
+GetUnitUserDataHint="可使用'单位 - 设置自定义值'来设置该值."
+
+GetUnitLevel="单位等级"
+GetUnitLevel=~单位," 的等级"
+GetUnitLevelHint="对于英雄则会返回其英雄等级."
+
+GetUnitAbilityLevelSwapped="单位技能等级"
+GetUnitAbilityLevelSwapped=~技能," 的等级对 ",~单位
+GetUnitAbilityLevelSwappedHint="如果单位没有该技能,则返回0."
+
+UnitInventoryCount="持有物品数量"
+UnitInventoryCount=~单位," 所持有的物品数量"
+UnitInventoryCountHint=
+
+UnitInventorySizeBJ="物品栏格数"
+UnitInventorySizeBJ=~单位," 的物品栏格数"
+UnitInventorySizeBJHint=
+
+UnitCountBuffsExBJ="拥有Buff数量 [旧]"
+UnitCountBuffsExBJ=~Buff Type," ",~Buff Resist," Buff数量在 ",~单位," 身上(",~Include/Exclude," 生命周期, ",~Include/Exclude," 光环)"
+UnitCountBuffsExBJHint=
+
+BlzGetUnitMaxHP="最大生命值"
+BlzGetUnitMaxHP=~单位，"单位的最大生命值"
+BlzGetUnitMaxHPHint=
+
+BlzGetUnitMaxMana="最大魔法值"
+BlzGetUnitMaxMana=~单位，"单位的最大魔法值"
+BlzGetUnitMaxManaHint=
+
+BlzGetUnitBaseDamage="基础伤害"
+BlzGetUnitBaseDamage=~单位,"单位位于武器索引值",~值,"的基础伤害"
+BlzGetUnitBaseDamageHint=
+
+BlzGetUnitDiceNumber="骰子数量"
+BlzGetUnitDiceNumber=~单位,"单位位于武器索引值",~值,"的伤害骰子数量"
+BlzGetUnitDiceNumberHint=
+
+BlzGetUnitDiceSides="骰子面数"
+BlzGetUnitDiceSides=~单位,"单位位于武器索引值",~值,"的伤害骰子面数"
+BlzGetUnitDiceSidesHint=
+
+GetTriggerEvalCount="触发条件判断次数"
+GetTriggerEvalCount=~Trigger," 的触发条件判断次数"
+GetTriggerEvalCountHint=
+
+GetTriggerExecCount="触发动作运行次数"
+GetTriggerExecCount=~Trigger," 的触发动作运行次数"
+GetTriggerExecCountHint=
+
+QueuedTriggerCountBJ="队列中触发数量"
+QueuedTriggerCountBJ="触发队列中的触发数量"
+QueuedTriggerCountBJHint="可使用'触发器 - 添加到队列'和'触发器 - 移出队列'动作来操作触发队列."
+
+BlzGetUnitAbilityManaCost="单位技能魔法消耗"
+BlzGetUnitAbilityManaCost="单位:",~单位,",技能:",~技能,",等级:",~等级,"的魔法消耗"
+BlzGetUnitAbilityManaCostHint=
+
+BlzGetAbilityManaCost="技能魔法消耗"
+BlzGetAbilityManaCost="技能:",~技能,",等级:",~等级,"的魔法消耗"
+BlzGetAbilityManaCostHint=
+
+BlzGetAbilityIntegerField="技能的整数类型域"
+BlzGetAbilityIntegerField="技能: ",~技能,"的整数类型域: "~整数类型域
+BlzGetAbilityIntegerFieldHint=
+
+BlzGetAbilityIntegerLevelField="技能随等级改变的整数类型域"
+BlzGetAbilityIntegerLevelField="技能: ",~技能,"随等级改变的整数类型域 ",~随等级改变的整数类型域,", 在等级为: "~等级
+BlzGetAbilityIntegerLevelFieldHInt=
+
+BlzGetAbilityIntegerLevelArrayField="技能随等级改变的整数类型域"
+BlzGetAbilityIntegerLevelArrayField="技能: ",~技能,"随等级改变的整数数组类型域: ",~随等级改变的整数数组类型域," 在等级为: ",~等级," 并且数组索引为: ",~索引值
+BlzGetAbilityIntegerLevelArrayFieldHint=
+
+BlzGetUnitIntegerField="Get Unit 整数类型域"
+BlzGetUnitIntegerField="Unit: ",~单位,"的整数类型域: ",~整数类型域
+BlzGetUnitIntegerFieldHint=
+
+BlzGetUnitWeaponIntegerField="单位武器的整数类型域"
+BlzGetUnitWeaponIntegerField="单位: ",~单位,"武器的整数类型域: ",~整数类型域," 在索引值:",~索引值
+BlzGetUnitWeaponIntegerFieldHint=
+
+BlzGetItemIntegerField="物品的整数类型域"
+BlzGetItemIntegerField="物品: ",~物品,"的整数类型域: ",~整数类型域
+BlzGetItemIntegerFieldHint=
+
+BlzBitOr="按位或"
+BlzBitOr=~值1," 按位或 ",~值2
+BlzBitOrHint=Bit Or Operation (x | y)
+
+BlzBitAnd="按位与"
+BlzBitAnd=~值1," 按位与 ",~值2
+BlzBitAndHint=Bit And Operation (x & y)
+
+BlzBitXor="按位异或"
+BlzBitXor=~值1," 按位异或 ",~值2
+BlzBitXorHint=Bit Xor Operation (x ^ y)
+
+// returns real
+OperatorReal="算术运算"
+OperatorReal=~Value," ",~Operator," ",~Value
+OperatorRealHint=
+
+GetLocationX="点的X轴坐标"
+GetLocationX=~点," 的X轴坐标"
+GetLocationXHint=
+
+GetLocationY="点的Y轴坐标"
+GetLocationY=~点," 的Y轴坐标"
+GetLocationYHint=
+
+CameraSetupGetFieldSwap="镜头属性(指定镜头)"
+CameraSetupGetFieldSwap=~Camera Field," 对 ",~镜头
+CameraSetupGetFieldSwapHint=
+
+GetCameraField="镜头属性(当前镜头)"
+GetCameraField="当前镜头的 ",~Camera Field
+GetCameraFieldHint="注意:该函数对各玩家返回值不同,请确定你知道自己在做什么,否则很容易引起掉线."
+
+GetCameraTargetPositionX="当前镜头目标X坐标"
+GetCameraTargetPositionX="当前镜头目标X坐标"
+GetCameraTargetPositionXHint="注意:该函数对各玩家返回值不同,请确定你知道自己在做什么,否则很容易引起掉线."
+
+GetCameraTargetPositionY="当前镜头目标Y坐标"
+GetCameraTargetPositionY="当前镜头目标Y坐标"
+GetCameraTargetPositionYHint="注意:该函数对各玩家返回值不同,请确定你知道自己在做什么,否则很容易引起掉线."
+
+GetCameraTargetPositionZ="当前镜头目标Z坐标"
+GetCameraTargetPositionZ="当前镜头目标Z坐标"
+GetCameraTargetPositionZHint="注意:该函数对各玩家返回值不同,请确定你知道自己在做什么,否则很容易引起掉线."
+
+GetCameraEyePositionX="当前镜头源X坐标"
+GetCameraEyePositionX="当前镜头源X坐标"
+GetCameraEyePositionXHint="注意:该函数对各玩家返回值不同,请确定你知道自己在做什么,否则很容易引起掉线."
+
+GetCameraEyePositionY="当前镜头源Y坐标"
+GetCameraEyePositionY="当前镜头源Y坐标"
+GetCameraEyePositionYHint="注意:该函数对各玩家返回值不同,请确定你知道自己在做什么,否则很容易引起掉线."
+
+GetCameraEyePositionZ="当前镜头源Z坐标"
+GetCameraEyePositionZ="当前镜头源Z坐标"
+GetCameraEyePositionZHint="注意:该函数对各玩家返回值不同,请确定你知道自己在做什么,否则很容易引起掉线."
+
+GetLastTransmissionDurationBJ="最后发言长度 [旧]"
+GetLastTransmissionDurationBJ="最后发言长度"
+GetLastTransmissionDurationBJHint="最后一次使用'电影 - 播送单位消息'动作的单位发言时间."
+
+I2R="转换整数为实数"
+I2R="转换 ",~Integer," 为实数"
+I2RHint=
+
+S2R="转换字符串为实数"
+S2R="转换 ",~String," 为实数"
+S2RHint=
+
+Deg2Rad="转换角度为弧度"
+Deg2Rad="转换角度 ",~Degrees," 为弧度"
+Deg2RadHint=
+
+Rad2Deg="转换弧度为角度"
+Rad2Deg="转换弧度 ",~Radians," 为角度"
+Rad2DegHint=
+
+TimerGetElapsed="逝去时间"
+TimerGetElapsed=~计时器," 的逝去时间"
+TimerGetElapsedHint=
+
+TimerGetRemaining="剩余时间"
+TimerGetRemaining=~计时器," 的剩余时间"
+TimerGetRemainingHint=
+
+TimerGetTimeout="设置时间"
+TimerGetTimeout=~计时器," 设置的时间"
+TimerGetTimeoutHint=
+
+GetDestructableLife="生命值"
+GetDestructableLife=~可破坏物," 的当前生命值"
+GetDestructableLifeHint=
+
+GetDestructableMaxLife="最大生命值"
+GetDestructableMaxLife=~可破坏物," 的最大生命值"
+GetDestructableMaxLifeHint=
+
+GetDestructableOccluderHeight="闭塞高度"
+GetDestructableOccluderHeight=~可破坏物," 的闭塞高度"
+GetDestructableOccluderHeightHint=
+
+GetEventDamage="伤害值"
+GetEventDamage="单位所受伤害"
+GetEventDamageHint="响应'受到伤害'单位事件,指代单位所受伤害."
+
+GetTournamentFinishSoonTimeRemaining="比赛剩余时间"
+GetTournamentFinishSoonTimeRemaining="比赛剩余时间"
+GetTournamentFinishSoonTimeRemainingHint="响应'比赛事件'游戏将要结束. 单位为秒."
+
+GetTimeOfDay="游戏时间"
+GetTimeOfDay="游戏时间"
+GetTimeOfDayHint="游戏中的昼夜时间."
+
+GetTimeOfDayScalePercentBJ="昼夜时间流逝速度"
+GetTimeOfDayScalePercentBJ="昼夜时间流逝速度"
+GetTimeOfDayScalePercentBJHint="百分比数值, 100为默认值."
+
+GetStoredRealBJ="缓存读取实数"
+GetStoredRealBJ="从游戏缓存读取实数,名称: ",~文字," 类别: ",~Category," 缓存: ",~Game Cache
+GetStoredRealBJHint="如果该值不存在则返回0."
+
+LoadIntegerBJ="<1.24> 从哈希表提取整数"
+LoadIntegerBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取整数"
+LoadIntegerBJHint="如果不存在则返回0"
+
+LoadRealBJ="<1.24> 从哈希表提取实数"
+LoadRealBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取实数"
+LoadRealBJHint="如果不存在则返回0.00"
+
+LoadStringBJ="<1.24> 从哈希表提取字符串"
+LoadStringBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取字符串"
+LoadStringBJHint="如果不存在则返回空字符串"
+
+LoadBooleanBJ="<1.24> 从哈希表提取布尔"
+LoadBooleanBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取布尔"
+LoadBooleanBJHint="如果不存在则返回False"
+
+LoadPlayerHandleBJ="<1.24> 从哈希表提取玩家"
+LoadPlayerHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取玩家"
+LoadPlayerHandleBJHint="如果不存在则返回空"
+
+LoadWidgetHandleBJ="<1.24> 从哈希表提取物体"
+LoadWidgetHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取物体"
+LoadWidgetHandleBJHint="如果不存在则返回空"
+
+LoadDestructableHandleBJ="<1.24> 从哈希表提取可破坏物"
+LoadDestructableHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取可破坏物"
+LoadDestructableHandleBJHint="如果不存在则返回空"
+
+LoadItemHandleBJ="<1.24> 从哈希表提取物品"
+LoadItemHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取物品"
+LoadItemHandleBJHint="如果不存在则返回空"
+
+LoadUnitHandleBJ="<1.24> 从哈希表提取单位"
+LoadUnitHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取单位"
+LoadUnitHandleBJHint="如果不存在则返回空"
+
+LoadAbilityHandleBJ="<1.24> 从哈希表提取技能"
+LoadAbilityHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取技能"
+LoadAbilityHandleBJHint="如果不存在则返回空"
+
+LoadTimerHandleBJ="<1.24> 从哈希表提取计时器"
+LoadTimerHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取计时器"
+LoadTimerHandleBJHint="如果不存在则返回空"
+
+///LoadTriggerRegionHandleBJ="Load Region Handle"
+///LoadTriggerRegionHandleBJ="Load ",~Value," of ",~Value," in ",~Hashtable
+///LoadTriggerRegionHandleBJHint="If the label is not found, this function returns NULL."
+
+LoadTriggerHandleBJ="<1.24> 从哈希表提取触发器"
+LoadTriggerHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取触发器"
+LoadTriggerHandleBJHint="如果不存在则返回空"
+
+LoadTriggerConditionHandleBJ="<1.24> 从哈希表提取触发条件"
+LoadTriggerConditionHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取触发条件"
+LoadTriggerConditionHandleBJHint="如果不存在则返回空"
+
+LoadTriggerActionHandleBJ="<1.24> 从哈希表提取触发动作"
+LoadTriggerActionHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取触发动作"
+LoadTriggerActionHandleBJHint="如果不存在则返回空"
+
+LoadTriggerEventHandleBJ="<1.24> 从哈希表提取触发事件"
+LoadTriggerEventHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取触发事件"
+LoadTriggerEventHandleBJHint="如果不存在则返回空"
+
+LoadForceHandleBJ="<1.24> 从哈希表提取玩家组"
+LoadForceHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取玩家组"
+LoadForceHandleBJHint="如果不存在则返回空"
+
+LoadGroupHandleBJ="<1.24> 从哈希表提取单位组"
+LoadGroupHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取单位组"
+LoadGroupHandleBJHint="如果不存在则返回空"
+
+LoadLocationHandleBJ="<1.24> 从哈希表提取点"
+LoadLocationHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取点"
+LoadLocationHandleBJHint="如果不存在则返回空"
+
+LoadRegionHandleBJ="<1.24> 从哈希表提取区域(不规则)"
+LoadRegionHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取区域(不规则)"
+LoadRegionHandleBJHint="如果不存在则返回空"
+
+LoadRectHandleBJ="<1.24> 从哈希表提取区域(矩型)"
+LoadRectHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取区域(矩型)"
+LoadRectHandleBJHint="如果不存在则返回空"
+
+LoadBooleanExprHandleBJ="<1.24> 从哈希表提取布尔表达式"
+LoadBooleanExprHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取布尔表达式"
+LoadBooleanExprHandleBJHint="如果不存在则返回空"
+
+//LoadConditionFuncHandleBJ="Load Conditionfunc Handle"
+//LoadConditionFuncHandleBJ="Load ",~Value," of ",~Value," in ",~Hashtable
+//LoadConditionFuncHandleBJHint="If the label is not found, this function returns NULL."
+
+//LoadFilterFuncHandleBJ="Load Filterfunc Handle"
+//LoadFilterFuncHandleBJ="Load ",~Value," of ",~Value," in ",~Hashtable
+//LoadFilterFuncHandleBJHint="If the label is not found, this function returns NULL."
+
+LoadSoundHandleBJ="<1.24> 从哈希表提取音效"
+LoadSoundHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取音效"
+LoadSoundHandleBJHint="如果不存在则返回空"
+
+//LoadRaceHandleBJ="Load Race Handle"
+//LoadRaceHandleBJ="Load ",~Value," of ",~Value," in ",~Hashtable
+//LoadRaceHandleBJHint="If the label is not found, this function returns NULL."
+
+LoadEffectHandleBJ="<1.24> 从哈希表提取特效"
+LoadEffectHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取特效"
+LoadEffectHandleBJHint="如果不存在则返回空"
+
+LoadUnitPoolHandleBJ="<1.24> 从哈希表提取单位池"
+LoadUnitPoolHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取单位池"
+LoadUnitPoolHandleBJHint="如果不存在则返回空"
+
+LoadItemPoolHandleBJ="<1.24> 从哈希表提取物品池"
+LoadItemPoolHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取物品池"
+LoadItemPoolHandleBJHint="如果不存在则返回空"
+
+LoadQuestHandleBJ="<1.24> 从哈希表提取任务"
+LoadQuestHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取任务"
+LoadQuestHandleBJHint="如果不存在则返回空"
+
+LoadQuestItemHandleBJ="<1.24> 从哈希表提取任务要求"
+LoadQuestItemHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取任务要求"
+LoadQuestItemHandleBJHint="如果不存在则返回空"
+
+LoadDefeatConditionHandleBJ="<1.24> 从哈希表提取失败条件"
+LoadDefeatConditionHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取失败条件"
+LoadDefeatConditionHandleBJHint="如果不存在则返回空"
+
+LoadTimerDialogHandleBJ="<1.24> 从哈希表提取计时器窗口"
+LoadTimerDialogHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取计时器窗口"
+LoadTimerDialogHandleBJHint="如果不存在则返回空"
+
+LoadLeaderboardHandleBJ="<1.24> 从哈希表提取排行榜"
+LoadLeaderboardHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取排行榜"
+LoadLeaderboardHandleBJHint="如果不存在则返回空"
+
+LoadMultiboardHandleBJ="<1.24> 从哈希表提取多面板"
+LoadMultiboardHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取多面板"
+LoadMultiboardHandleBJHint="如果不存在则返回空"
+
+LoadMultiboardItemHandleBJ="<1.24> 从哈希表提取多面板项目"
+LoadMultiboardItemHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取多面板项目"
+LoadMultiboardItemHandleBJHint="如果不存在则返回空"
+
+LoadTrackableHandleBJ="<1.24> 从哈希表提取可追踪对象"
+LoadTrackableHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取可追踪对象"
+LoadTrackableHandleBJHint="如果不存在则返回空"
+
+LoadDialogHandleBJ="<1.24> 从哈希表提取对话框"
+LoadDialogHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取对话框"
+LoadDialogHandleBJHint="如果不存在则返回空"
+
+LoadButtonHandleBJ="<1.24> 从哈希表提取对话框按钮"
+LoadButtonHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取对话框按钮"
+LoadButtonHandleBJHint="如果不存在则返回空"
+
+//LoadVersionHandleBJ="Load Version Handle"
+//LoadVersionHandleBJ="Load ",~Value," of ",~Value," in ",~Hashtable
+//LoadVersionHandleBJHint="If the label is not found, this function returns NULL."
+
+//LoadItemTypeHandleBJ="Load Itemtype Handle"
+//LoadItemTypeHandleBJ="Load ",~Value," of ",~Value," in ",~Hashtable
+//LoadItemTypeHandleBJHint="If the label is not found, this function returns NULL."
+
+LoadTextTagHandleBJ="<1.24> 从哈希表提取漂浮文字"
+LoadTextTagHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取漂浮文字"
+LoadTextTagHandleBJHint="如果不存在则返回空"
+
+LoadLightningHandleBJ="<1.24> 从哈希表提取闪电效果"
+LoadLightningHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取闪电效果"
+LoadLightningHandleBJHint="如果不存在则返回空"
+
+LoadImageHandleBJ="<1.24> 从哈希表提取图象"
+LoadImageHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取图象"
+LoadImageHandleBJHint="如果不存在则返回空"
+
+LoadUbersplatHandleBJ="<1.24> 从哈希表提取地面纹理变化"
+LoadUbersplatHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取地面纹理变化"
+LoadUbersplatHandleBJHint="如果不存在则返回空"
+
+LoadFogStateHandleBJ="<1.24> 从哈希表提取迷雾状态"
+LoadFogStateHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取迷雾状态"
+LoadFogStateHandleBJHint="如果不存在则返回空"
+
+LoadFogModifierHandleBJ="<1.24> 从哈希表提取可见度修正器"
+LoadFogModifierHandleBJ="在子索引 ",~Value," 主索引 ",~Value," 的 ",~Hashtable," 内提取可见度修正器"
+LoadFogModifierHandleBJHint="如果不存在则返回空"
+
+GetItemLifeBJ="生命值"
+GetItemLifeBJ=~物品," 的当前生命值"
+GetItemLifeBJHint=
+
+GetLightningColorRBJ="红颜色值"
+GetLightningColorRBJ=~Lightning," 的红颜色值"
+GetLightningColorRBJHint="取值范围0-1. 可使用'闪电效果 - 改变颜色'动作来改变颜色值."
+
+GetLightningColorGBJ="绿颜色值"
+GetLightningColorGBJ=~Lightning," 的绿颜色值"
+GetLightningColorGBJHint="取值范围0-1. 可使用'闪电效果 - 改变颜色'动作来改变颜色值."
+
+GetLightningColorBBJ="蓝颜色值"
+GetLightningColorBBJ=~Lightning," 的蓝颜色值"
+GetLightningColorBBJHint="取值范围0-1. 可使用'闪电效果 - 改变颜色'动作来改变颜色值."
+
+GetLightningColorABJ="Alpha通道值"
+GetLightningColorABJ=~Lightning," 的Alpha通道值"
+GetLightningColorABJHint="取值范围0-1. Alpha通道值为0是完全透明的. 可使用'闪电效果 - 改变颜色'动作来改变Alpha通道值."
+
+GetRandomReal="随机实数"
+GetRandomReal="随机实数,最小值: ",~Minimum," 最大值: ",~Maximum
+GetRandomRealHint=
+
+GetRandomDirectionDeg="随机角度"
+GetRandomDirectionDeg="随机角度"
+GetRandomDirectionDegHint="0-360的随机实数. 建议直接用随即实数来做."
+
+GetRandomPercentageBJ="随机百分数"
+GetRandomPercentageBJ="随机百分数"
+GetRandomPercentageBJHint="0-100的随机实数. 建议直接用随即实数来做."
+
+DistanceBetweenPoints="两点间距"
+DistanceBetweenPoints=~点," 和 ",~点," 之间的距离"
+DistanceBetweenPointsHint=
+
+AngleBetweenPoints="两点间方向"
+AngleBetweenPoints=~点," 到 ",~点," 的角度"
+AngleBetweenPointsHint="取值-180 - 180."
+
+RMinBJ="取较小值"
+RMinBJ="取(",~实数1,", ",~实数2,")中较小值"
+RMinBJHint=
+
+RMaxBJ="取较大值"
+RMaxBJ="取(",~实数1,", ",~实数2,")中较大值"
+RMaxBJHint=
+
+RAbsBJ="绝对值"
+RAbsBJ=~实数," 的绝对值"
+RAbsBJHint=
+
+RSignBJ="符号标志"
+RSignBJ=~实数," 的符号标志"
+RSignBJHint="负数为-1. 非负数为1."
+
+ModuloReal="模"
+ModuloReal=~被除数," mod ",~除数
+ModuloRealHint="取模计算,例: 9.0 mod 2.5 
+Pow="幂运算"
+Pow=~实数," 的 ",~实数," 次幂"
+PowHint=
+
+SquareRoot="平方根"
+SquareRoot=~实数," 的平方根"
+SquareRootHint=
+
+SinBJ="正弦(角度)"
+SinBJ="Sin(",~Angle,")"
+SinBJHint="采用角度制计算."
+
+CosBJ="余弦(角度)"
+CosBJ="Cos(",~Angle,")"
+CosBJHint="采用角度制计算."
+
+TanBJ="正切(角度)"
+TanBJ="Tan(",~Angle,")"
+TanBJHint="采用角度制计算."
+
+AsinBJ="反正弦(角度)"
+AsinBJ="Asin(",~数值,")"
+AsinBJHint="采用角度制计算. 返回角度取值-90 — 90."
+
+AcosBJ="反余弦(角度)"
+AcosBJ="Acos(",~数值,")"
+AcosBJHint="采用角度制计算. 返回角度取值0 — 180."
+
+AtanBJ="反正切(角度)"
+AtanBJ="Atan(",~数值,")"
+AtanBJHint="采用角度制计算. 返回角度取值-90 — 90."
+
+Atan2BJ="反正切(角度)(Y:X)"
+Atan2BJ="Atan(",~Y," : ",~X,")"
+Atan2BJHint="采用角度制计算. 返回角度取值-90 — 90."
+
+GetPlayerHandicapXPBJ="经验增长率"
+GetPlayerHandicapXPBJ=~Player," 的经验增长率"
+GetPlayerHandicapXPBJHint="百分比数值, 默认值为100."
+
+GetPlayerHandicapBJ="生命障碍"
+GetPlayerHandicapBJ=~Player," 的生命障碍"
+GetPlayerHandicapBJHint="百分比数值, 默认值为100."
+
+BlzGetTriggerPlayerMouseX="触发鼠标位置X"
+BlzGetTriggerPlayerMouseX="鼠标触发事件的鼠标位置X"
+BlzGetTriggerPlayerMouseXHint=
+
+BlzGetTriggerPlayerMouseY="触发鼠标位置Y"
+BlzGetTriggerPlayerMouseY="鼠标触发事件的鼠标位置Y"
+BlzGetTriggerPlayerMouseYHint=
+
+BlzGetTriggerPlayerMousePosition="触发鼠标位置"
+BlzGetTriggerPlayerMousePosition="鼠标触发事件的鼠标位置"
+BlzGetTriggerPlayerMousePositionHint=
+
+GetRectCenterX="中心X坐标"
+GetRectCenterX=~矩形区域," 的中心X坐标"
+GetRectCenterXHint=
+
+GetRectCenterY="中心Y坐标"
+GetRectCenterY=~矩形区域," 的中心Y坐标"
+GetRectCenterYHint=
+
+GetRectMinX="左下角X坐标"
+GetRectMinX=~矩形区域," 的左下角X坐标"
+GetRectMinXHint=
+
+GetRectMinY="左下角Y坐标"
+GetRectMinY=~矩形区域," 的左下角Y坐标"
+GetRectMinYHint=
+
+GetRectMaxX="右上角X坐标"
+GetRectMaxX=~矩形区域," 的右上角X坐标"
+GetRectMaxXHint=
+
+GetRectMaxY="右上角Y坐标"
+GetRectMaxY=~矩形区域," 的右上角Y坐标"
+GetRectMaxYHint=
+
+GetRectWidthBJ="宽度"
+GetRectWidthBJ=~矩形区域," 的宽度"
+GetRectWidthBJHint=
+
+GetRectHeightBJ="高度"
+GetRectHeightBJ=~矩形区域," 的高度"
+GetRectHeightBJHint=
+
+GetSoundDurationBJ="音效长度"
+GetSoundDurationBJ=~音效," 的长度"
+GetSoundDurationBJHint="单位为秒."
+
+GetSoundFileDurationBJ="音乐长度"
+GetSoundFileDurationBJ=~音乐," 的长度"
+GetSoundFileDurationBJHint="单位为秒."
+
+GetUnitStateSwap="属性"
+GetUnitStateSwap=~Property," 对于 ",~单位
+GetUnitStateSwapHint=
+
+GetUnitLifePercent="生命百分比"
+GetUnitLifePercent=~单位," 的生命百分比"
+GetUnitLifePercentHint=
+
+GetUnitManaPercent="魔法百分比"
+GetUnitManaPercent=~单位," 的魔法百分比"
+GetUnitManaPercentHint=
+
+GetUnitFacing="面向角度"
+GetUnitFacing=~单位," 的面向角度"
+GetUnitFacingHint="采用角度制. 0度为正东方向, 90度为正北方向."
+
+GetUnitMoveSpeed="当前移动速度"
+GetUnitMoveSpeed=~单位," 的当前移动速度"
+GetUnitMoveSpeedHint=
+
+GetUnitDefaultMoveSpeed="默认移动速度"
+GetUnitDefaultMoveSpeed=~单位," 的默认移动速度"
+GetUnitDefaultMoveSpeedHint=
+
+GetUnitAcquireRange="当前主动攻击范围"
+GetUnitAcquireRange=~单位," 的当前主动攻击范围"
+GetUnitAcquireRangeHint=
+
+GetUnitDefaultAcquireRange="默认主动攻击范围"
+GetUnitDefaultAcquireRange=~单位," 的默认主动攻击范围"
+GetUnitDefaultAcquireRangeHint=
+
+GetUnitTurnSpeed="当前转身速度"
+GetUnitTurnSpeed=~单位," 的当前转身速度"
+GetUnitTurnSpeedHint="转身速度表示单位改变面向方向时的速度. 数值越小表示转身越慢."
+
+GetUnitDefaultTurnSpeed="默认转身速度"
+GetUnitDefaultTurnSpeed=~单位," 的默认转身速度"
+GetUnitDefaultTurnSpeedHint="转身速度表示单位改变面向方向时的速度. 数值越小表示转身越慢."
+
+GetUnitPropWindowBJ="当前转向角度(角度制)"
+GetUnitPropWindowBJ=~单位," 的当前转向角度"
+GetUnitPropWindowBJHint="单位转身时的转向角度. 数值越大转向幅度越大."
+
+GetUnitDefaultPropWindowBJ="默认转向角度"
+GetUnitDefaultPropWindowBJ=~单位," 的默认转向角度"
+GetUnitDefaultPropWindowBJHint="单位转身时的转向角度. 数值越大转向幅度越大."
+
+GetUnitFlyHeight="当前飞行高度"
+GetUnitFlyHeight=~单位," 的当前飞行高度"
+GetUnitFlyHeightHint="飞行单位可以直接改变飞行高度. 其他单位通过添加/删除 替换为飞行单位的变身技能(如乌鸦形态)之后,也能改变飞行高度."
+
+GetUnitDefaultFlyHeight="默认飞行高度"
+GetUnitDefaultFlyHeight=~单位," 的默认飞行高度"
+GetUnitDefaultFlyHeightHint="飞行单位可以直接改变飞行高度. 其他单位通过添加/删除 替换为飞行单位的变身技能(如乌鸦形态)之后,也能改变飞行高度."
+
+BlzGetUnitAttackCooldown="攻击间隔"
+BlzGetUnitAttackCooldown="单位",~单位,",武器索引值:",~索引值,"的攻击间隔"
+BlzGetUnitAttackCooldownHint=
+
+BlzGetUnitArmor="护甲"
+BlzGetUnitArmor=~单位,"的护甲"
+BlzGetUnitArmorHint=
+
+BlzGetAbilityCooldown="技能冷却时间"
+BlzGetAbilityCooldown="技能:",~技能,",等级:",~等级,"的技能冷却时间"
+BlzGetAbilityCooldownHint=
+
+BlzGetUnitAbilityCooldown="单位的技能冷却时间"
+BlzGetUnitAbilityCooldown="单位:",~单位,"技能:",~技能,",等级:",~等级,"的技能冷却时间"
+BlzGetUnitAbilityCooldownHint=
+
+BlzGetUnitAbilityCooldownRemaining="单位技能的剩余冷却时间"
+BlzGetUnitAbilityCooldownRemaining="单位:",~单位,"技能:",~技能,"的剩余冷却时间"
+BlzGetUnitAbilityCooldownRemainingHint=
+
+BlzGetUnitCollisionSize="碰撞体积"
+BlzGetUnitCollisionSize=~单位,"的碰撞体积"
+BlzGetUnitCollisionSizeHint=
+
+BlzGetLocalUnitZ="位置Z"
+BlzGetLocalUnitZ=~单位,"的位置Z"
+BlzGetLocalUnitZHint=
+
+BlzGetLocalSpecialEffectX="特效位置 - X"
+BlzGetLocalSpecialEffectX="特效:",~特效,"的位置X"
+BlzGetLocalSpecialEffectXHint=
+
+BlzGetLocalSpecialEffectY="特效位置 - Y"
+BlzGetLocalSpecialEffectY="特效:",~特效,"的位置Y"
+BlzGetLocalSpecialEffectYHint=
+
+BlzGetLocalSpecialEffectZ="特效位置 - Z"
+BlzGetLocalSpecialEffectZ="特效:",~特效,"的位置Z"
+BlzGetLocalSpecialEffectZHint=
+
+BlzGetAbilityRealField="技能的实数类型域"
+BlzGetAbilityRealField="技能: ",~技能,"的实数类型域: "~实数类型域
+BlzGetAbilityRealFieldHint=
+
+BlzGetAbilityRealLevelField="技能随等级改变的实数类型域"
+BlzGetAbilityRealLevelField="技能: ",~技能,"随等级改变的实数类型域 ",~随等级改变的实数类型域,", 在等级为: "~等级
+BlzGetAbilityRealLevelFieldHint=
+
+BlzGetAbilityRealLevelArrayField="技能随等级改变的实数类型域"
+BlzGetAbilityRealLevelArrayField="技能: ",~技能,"随等级改变的实数数组类型域: ",~随等级改变的实数数组类型域," 在等级为: ",~等级," 并且数组索引为: ",~索引值
+BlzGetAbilityRealLevelArrayFieldHint=
+
+BlzGetUnitRealField="Get Unit 实数类型域"
+BlzGetUnitRealField="Unit: ",~单位,"的实数类型域: ",~实数类型域
+BlzGetUnitRealFieldHint=
+
+BlzGetUnitWeaponRealField="单位武器的实数类型域"
+BlzGetUnitWeaponRealField="单位:",~单位,"武器的实数类型域: ",~实数类型域," 在索引值:",~索引值
+BlzGetUnitWeaponRealFieldHint=
+
+BlzGetItemRealField="物品的实数类型域"
+BlzGetItemRealField="物品:",~物品,"的实数类型域: ",~实数类型域
+BlzGetItemRealFieldHint=
+
+// returns string
+OperatorString="连接字符串"
+OperatorString=~字符串1," + ",~字符串2
+OperatorStringHint=
+
+SubStringBJ="截取字符串"
+SubStringBJ="截取 ",~字符串," 的 ",~Start," - ",~End," 字节部分"
+SubStringBJHint="例: 截取''Grunts stink''的2 - 4字节部分 
+GetHandleIdBJ="<1.24> 获取对象的h2i值"
+GetHandleIdBJ="转换 ",~Handle," 为整数"
+GetHandleIdBJHint="创建一个对应该handle的临时密钥,可以在哈希表中作为索引号使用.当该handle被彻底销毁时,密钥会被回收."
+
+StringHashBJ="<1.24> 获取字符串的哈希值"
+StringHashBJ="转换 ",~String," 为整数"
+StringHashBJHint="创建一个对应该字符串的永久密钥,可以在哈希表中作为索引号使用"
+
+I2S="转换整数为字符串"
+I2S="转换 ",~Integer," 为字符串"
+I2SHint=
+
+R2S="转换实数为字符串"
+R2S="转换 ",~Real," 为字符串"
+R2SHint=
+
+R2SW="格式转换实数为字符串"
+R2SW="转换 ",~Real," 为字符串,最小宽度: ",~Width," ,小数位数: ",~Precision
+R2SWHint="如: 转换(1.234, 7, 2)后为''   1.23''. 转换(1.234, 2, 5)后为''1.23400''."
+
+OrderId2StringBJ="转换命令ID为字符串"
+OrderId2StringBJ="转换 ",~Order," 为命令字符串"
+OrderId2StringBJHint="如''harvest'', ''move'', ''smart'', ''attack''都是命令字符串."
+
+UnitId2StringBJ="转换单位类型为字符串"
+UnitId2StringBJ="转换 ",~单位类型," 为字符串"
+UnitId2StringBJHint=
+
+BlzFourCC2S="转换四字符码为字符串"
+BlzFourCC2S="String(",~FourCC,")"BlzFourCC2SHint="Convert Integer FourCC code to string"
+
+StringIdentity="本地字符串"
+StringIdentity="本地字符串: ",~文字
+StringIdentityHint="获取GlobalStrings.fdf中定义的字符串."
+
+StringCase="大小写转换"
+StringCase="转换 ",~字符串," 为 ",~Lower/Upper Case," 形式"
+StringCaseHint=
+
+GetDestructableName="可破坏物名字"
+GetDestructableName=~可破坏物," 的名字"
+GetDestructableNameHint=
+
+GetEventPlayerChatString="输入的聊天信息"
+GetEventPlayerChatString="输入的聊天信息"
+GetEventPlayerChatStringHint=
+
+GetEventPlayerChatStringMatched="匹配的聊天信息"
+GetEventPlayerChatStringMatched="匹配的聊天信息"
+GetEventPlayerChatStringMatchedHint=
+
+GetSaveBasicFilename="存档文件名"
+GetSaveBasicFilename="存档文件名"
+GetSaveBasicFilenameHint="响应'游戏 - 保存进度'事件."
+
+GetAbilityName="技能名称"
+GetAbilityName=~技能," 的名称"
+GetAbilityNameHint=
+
+GetAbilityEffectBJ="技能效果路径名"
+GetAbilityEffectBJ=~技能," 的 ",~EffectType," 路径名(序号: ",~Index,")"
+GetAbilityEffectBJHint="返回技能效果的模型路径,不管该效果是否存在.实际上就是技能编辑器中按Ctrl+D看到的文本内容. 该效果有多个模型时,序号表示取哪一个模型,如果该序号对应的文本内容不存在则返回上一序号."
+
+GetAbilitySoundBJ="技能音效名"
+GetAbilitySoundBJ=~技能," 的 ",~SoundType," 名字"
+GetAbilitySoundBJHint="同样,实际上就是技能编辑器中按Ctrl+D看到的文本内容."
+
+BlzGetAbilityTooltip="技能提示信息"
+BlzGetAbilityTooltip="技能",~技能,"的提示信息，等级为",~值
+BlzGetAbilityTooltipHint=
+
+BlzGetAbilityActivatedTooltip="技能提示信息（自动施法启用）"
+BlzGetAbilityActivatedTooltip="技能",~技能,"提示信息（自动施法启用），等级为",~值
+BlzGetAbilityActivatedTooltipHint=
+
+BlzGetAbilityExtendedTooltip="技能扩展提示信息"
+BlzGetAbilityExtendedTooltip="技能",~技能,"扩展提示信息，等级为",~值
+BlzGetAbilityExtendedTooltipHint=
+
+BlzGetAbilityActivatedExtendedTooltip="技能扩展提示信息（自动施法启用）"
+BlzGetAbilityActivatedExtendedTooltip="技能",~技能,"技能扩展提示信息（自动施法启用），等级为",~值
+BlzGetAbilityActivatedExtendedTooltipHint=
+
+BlzGetAbilityResearchTooltip="技能提示信息（学习）"
+BlzGetAbilityResearchTooltip="技能",~技能,"提示信息（学习），等级为",~值
+BlzGetAbilityResearchTooltipHint=
+
+BlzGetAbilityResearchExtendedTooltip="技能扩展提示信息（学习）"
+BlzGetAbilityResearchExtendedTooltip="技能",~技能,"扩展提示信息（学习），等级为",~值
+BlzGetAbilityResearchExtendedTooltipHint=
+
+BlzGetAbilityIcon="技能图标"
+BlzGetAbilityIcon="技能图标",~技能
+BlzGetAbilityIconHint=
+
+BlzGetAbilityActivatedIcon="技能图标（自动施法启用）"
+BlzGetAbilityActivatedIcon="技能图标（自动施法启用）",~技能
+BlzGetAbilityActivatedIconHint=
+
+GetStoredStringBJ="读取字符串"
+GetStoredStringBJ="从游戏缓存读取字符串,名称: ",~文字," 类别: ",~Category," 缓存: ",~Game Cache
+GetStoredStringBJHint="如果该值不存在,则返回空字符串. 注意,空字符串不等于null"
+
+GetHeroProperName="英雄称谓"
+GetHeroProperName=~Hero," 的称谓"
+GetHeroProperNameHint="如圣骑士会返回'无惧的布赞恩'而不是'圣骑士'."
+
+GetItemName="物品名字"
+GetItemName=~物品," 的名字"
+GetItemNameHint=
+
+BlzGetItemDescription="物品介绍"
+BlzGetItemDescription="物品介绍",~物品
+BlzGetItemDescriptionHint=
+
+BlzGetItemTooltip="物品提示信息"
+BlzGetItemTooltip="物品提示信息",~物品
+BlzGetItemTooltipHint=
+
+BlzGetItemExtendedTooltip="物品扩展提示信息"
+BlzGetItemExtendedTooltip="物品扩展提示信息",~物品
+BlzGetItemExtendedTooltipHint=
+
+BlzGetItemIconPath="物品图标"
+BlzGetItemIconPath="物品图标",~物品
+BlzGetItemIconPathHint=
+
+MultiboardGetTitleText="多面板标题"
+MultiboardGetTitleText=~Multiboard," 的标题"
+MultiboardGetTitleTextHint=
+
+GetPlayerName="玩家名字"
+GetPlayerName=~Player," 的名字"
+GetPlayerNameHint=
+
+GetTriggerName="触发名字"
+GetTriggerName="当前触发的名字"
+GetTriggerNameHint=
+
+GetUnitName="单位名字"
+GetUnitName=~单位," 的名字"
+GetUnitNameHint=
+
+BlzGetAbilityStringField="技能字符串字段"
+BlzGetAbilityStringField="技能：",~技能,"的字符串字段"~字符串字段
+BlzGetAbilityStringFieldHint=
+
+BlzGetAbilityStringLevelField="技能字符串等级字段"
+BlzGetAbilityStringLevelField="技能：",~技能,"的字符串字段",~字符串等级字段,"，等级"~等级
+BlzGetAbilityStringLevelFieldHInt=
+
+BlzGetAbilityStringLevelArrayField="技能字符串等级数组字段"
+BlzGetAbilityStringLevelArrayField="技能：",~技能,"的字符串等级数组字段",~字符串等级数组字段,"，等级",~等级,"，索引",~索引
+BlzGetAbilityStringLevelArrayFieldHint=
+
+BlzGetUnitStringField="获取单位字符串字段"
+BlzGetUnitStringField="单位：",~单位,"的字符串字段：",~字符串字段
+BlzGetUnitStringFieldHint=
+
+BlzGetUnitWeaponStringField="获取单位武器字符串字段"
+BlzGetUnitWeaponStringField=单位",~单位,"的武器字符串字段",~字符串字段,"，索引：",~索引
+BlzGetUnitWeaponStringFieldHint=
+
+BlzGetItemStringField="获取物品字符串字段"
+BlzGetItemStringField="物品：",~物品,"的字符串字段",~字符串字段
+BlzGetItemStringFieldHint=
+
+// returns location
+GetRectCenter="矩形区域中心"
+GetRectCenter=~矩形区域," 的中心点"
+GetRectCenterHint="会创建点."
+
+GetRandomLocInRect="矩形区域内随机点"
+GetRandomLocInRect=~矩形区域," 内的随机点"
+GetRandomLocInRectHint="会创建点."
+
+OffsetLocation="坐标位移点"
+OffsetLocation=~指定点," 坐标位移 (",~X,", ",~Y,")处"
+OffsetLocationHint="会创建点."
+
+PolarProjectionBJ="极坐标位移点"
+PolarProjectionBJ="从 "~指定点," 开始,距离 ",~Distance," ,方向为 ",~Angle," 度的位移处"
+PolarProjectionBJHint="会创建点."
+
+CameraSetupGetDestPositionLoc="镜头目标点"
+CameraSetupGetDestPositionLoc=~镜头," 的目标点"
+CameraSetupGetDestPositionLocHint="会创建点."
+
+GetCameraTargetPositionLoc="当前镜头目标点"
+GetCameraTargetPositionLoc="当前镜头目标点"
+GetCameraTargetPositionLocHint="会创建点. 注意:该函数对各玩家返回值不同,请确定你知道自己在做什么,否则很容易引起掉线."
+
+GetCameraEyePositionLoc="当前镜头源位置"
+GetCameraEyePositionLoc="当前镜头源位置"
+GetCameraEyePositionLocHint="会创建点. 注意:该函数对各玩家返回值不同,请确定你知道自己在做什么,否则很容易引起掉线."
+
+Location="坐标点"
+Location="坐标(",~X,", ",~Y,")"
+LocationHint="会创建点."
+
+GetDestructableLoc="可破坏物位置"
+GetDestructableLoc=~可破坏物," 的位置"
+GetDestructableLocHint="会创建点."
+
+GetOrderPointLoc="命令发布点"
+GetOrderPointLoc="命令发布点"
+GetOrderPointLocHint="响应'发布指定点目标命令'单位事件. 会创建点."
+
+GetSpellTargetLoc="技能施放点"
+GetSpellTargetLoc="技能施放点"
+GetSpellTargetLocHint="响应'技能施放'单位事件. 注意技能施放结束将无法捕获该点. 会创建点."
+
+GetItemLoc="物品位置"
+GetItemLoc=~物品," 的位置"
+GetItemLocHint="会创建点."
+
+WaygateGetDestinationLocBJ="传送门目的地"
+WaygateGetDestinationLocBJ=~传送门," 的目的地"
+WaygateGetDestinationLocBJHint="会创建点."
+
+GetPlayerStartLocationLoc="玩家开始位置"
+GetPlayerStartLocationLoc=~Player," 的游戏开始位置"
+GetPlayerStartLocationLocHint="会创建点."
+
+GetUnitLoc="单位位置"
+GetUnitLoc=~单位," 的位置"
+GetUnitLocHint="会创建点."
+
+GetUnitRallyPoint="单位集结点"
+GetUnitRallyPoint=~单位," 的集结点位置"
+GetUnitRallyPointHint="如果单位没有设置集结点,则返回null. 设置自己为集结点可取消集结点设置. 会创建点."
+
+
+// returns rect
+GetCurrentCameraBoundsMapRectBJ="当前可用镜头范围"
+GetCurrentCameraBoundsMapRectBJ="当前可用镜头范围"
+GetCurrentCameraBoundsMapRectBJHint="会创建矩形区域. 注意:该函数对各玩家返回值不同,请确定你知道自己在做什么,否则很容易引起掉线."
+
+GetCameraBoundsMapRect="初始可用镜头范围"
+GetCameraBoundsMapRect="初始可用镜头范围"
+GetCameraBoundsMapRectHint="在地图编辑器的地图属性中设置."
+
+GetPlayableMapRect="可用地图区域 [旧]"
+GetPlayableMapRect="可用地图区域"
+GetPlayableMapRectHint="在地图编辑器的地图属性中设置."
+
+GetEntireMapRect="完整地图区域"
+GetEntireMapRect="完整地图区域"
+GetEntireMapRectHint="在地图编辑器的地图属性中设置. 会创建矩形区域."
+
+OffsetRectBJ="位移创建矩形区域
+OffsetRectBJ="与 ",~矩形区域," 位移 (",~X,", ",~Y,") 坐标之后等价的矩形区域"
+OffsetRectBJHint="会创建矩形区域."
+
+RectFromCenterSizeBJ="新建矩形区域(指定中心点)"
+RectFromCenterSizeBJ="以 ",~指定点," 为中心,宽 ",~数值," ,高 ",~数值," 的矩形区域"
+RectFromCenterSizeBJHint="会创建矩形区域."
+
+Rect="新建矩形区域(指定边角坐标)"
+Rect="左下角为(",~X1,", ",~Y1,"),右上角为(",~X2,", ",~Y2,")的矩形区域"
+RectHint="会创建矩形区域."
+
+RectFromLoc="新建矩形区域(指定边角点)"
+RectFromLoc="左下角为 ",~点1," ,右上角为 ",~点2," 的矩形区域"
+RectFromLocHint="会创建矩形区域."
+
+
+// returns unit
+GetLastCreatedUnit="最后创建的单位 [旧]"
+GetLastCreatedUnit="最后创建的单位"
+GetLastCreatedUnitHint="最后一个使用'单位 - 创建'动作创建的单位."
+
+GetLastRestoredUnitBJ="最后读取的单位 [旧]"
+GetLastRestoredUnitBJ="最后读取的单位"
+GetLastRestoredUnitBJHint="最后一个使用'游戏缓存 - 读取单位'动作创建的单位."
+
+GetLastReplacedUnitBJ="最后替换的单位 [旧]"
+GetLastReplacedUnitBJ="最后替换的单位"
+GetLastReplacedUnitBJHint="最后一个使用'单位 - 替换'替换的单位."
+
+GetLastHauntedGoldMine="最后创建的不死族金矿 [旧]"
+GetLastHauntedGoldMine="最后创建的不死族金矿"
+GetLastHauntedGoldMineHint="最后一个使用'中立建筑 - 创建不死族金矿'创建的不死族金矿."
+
+GetEnumUnit="选取单位"
+GetEnumUnit="选取单位"
+GetEnumUnitHint="使用'选取单位做动作'时, 指代相应的单位."
+
+GetFilterUnit="匹配单位"
+GetFilterUnit="匹配单位"
+GetFilterUnitHint="在'选取单位满足条件'之类功能的条件中,指代被判断单位."
+
+GroupPickRandomUnit="单位组中随机单位"
+GroupPickRandomUnit=~单位组," 中随机选取的一个单位"
+GroupPickRandomUnitHint=
+
+GetAttackedUnitBJ="被攻击单位"
+GetAttackedUnitBJ="被攻击单位"
+GetAttackedUnitBJHint="响应'被攻击'单位事件."
+
+GetAttacker="攻击单位"
+GetAttacker="攻击单位"
+GetAttackerHint="响应'被攻击'单位事件."
+
+GetBuyingUnit="购买者"
+GetBuyingUnit="购买者"
+GetBuyingUnitHint="响应'出售单位','出售物品'或'抵押物品'单位事件."
+
+GetCancelledStructure="被取消的建筑"
+GetCancelledStructure="被取消的建筑"
+GetCancelledStructureHint="响应'取消建造建筑'单位事件."
+
+GetSpellAbilityUnit="施法单位"
+GetSpellAbilityUnit="施法单位"
+GetSpellAbilityUnitHint="响应'施放技能'单位事件."
+
+GetConstructedStructure="完成的建筑"
+GetConstructedStructure="完成的建筑"
+GetConstructedStructureHint="响应'完成建造建筑'单位事件."
+
+GetConstructingStructure="正在建造的建筑"
+GetConstructingStructure="正在建造的建筑"
+GetConstructingStructureHint="响应'开始建造建筑'单位事件."
+
+GetEventDamageSource="伤害来源"
+GetEventDamageSource="伤害来源"
+GetEventDamageSourceHint="响应'受到伤害'单位事件."
+
+GetDecayingUnit="腐化的单位"
+GetDecayingUnit="腐化的单位"
+GetDecayingUnitHint="响应'开始腐化'单位事件."
+
+GetDyingUnit="死亡单位"
+GetDyingUnit="死亡单位"
+GetDyingUnitHint="响应'死亡'单位事件."
+
+GetEnteringUnit="进入的单位"
+GetEnteringUnit="进入的单位"
+GetEnteringUnitHint="响应'单位进入区域'单位事件."
+
+GetManipulatingUnit="操作物品的单位"
+GetManipulatingUnit="操作物品的单位"
+GetManipulatingUnitHint="响应'使用/获得/丢失物品'单位事件."
+
+GetKillingUnitBJ="凶手单位"
+GetKillingUnitBJ="凶手单位"
+GetKillingUnitBJHint="响应'死亡'单位事件. 如果不是被单位所杀(比如负数邪恶光环)则返回null."
+
+GetLearningUnit="学习技能的英雄"
+GetLearningUnit="学习技能的英雄"
+GetLearningUnitHint="响应'学习技能'单位事件."
+
+GetLeavingUnit="离开的单位"
+GetLeavingUnit="离开的单位"
+GetLeavingUnitHint="响应'单位离开区域'单位事件."
+
+GetLevelingUnit="升级的英雄"
+GetLevelingUnit="升级的英雄"
+GetLevelingUnitHint="响应'提升等级'单位事件."
+
+GetLoadedUnitBJ="被装载单位"
+GetLoadedUnitBJ="被装载单位"
+GetLoadedUnitBJHint="响应'被装载'单位事件."
+
+GetOrderedUnit="发布命令的单位"
+GetOrderedUnit="发布命令的单位"
+GetOrderedUnitHint="响应'发布命令'单位事件."
+
+GetChangingUnit="被改变所有者的单位"
+GetChangingUnit="被改变所有者的单位"
+GetChangingUnitHint="响应'改变所有者'单位事件."
+
+GetResearchingUnit="研究科技的单位"
+GetResearchingUnit="研究科技的单位"
+GetResearchingUnitHint="响应'开始/取消/完成科技研究'单位事件."
+
+GetRevivableUnit="可复活英雄"
+GetRevivableUnit="可复活英雄"
+GetRevivableUnitHint="响应'变为可复活的'单位事件."
+
+GetRevivingUnit="复活英雄"
+GetRevivingUnit="复活英雄"
+GetRevivingUnitHint="响应'开始/取消/完成复活'单位事件."
+
+GetSellingUnit="贩卖者"
+GetSellingUnit="贩卖者"
+GetSellingUnitHint="响应'出售单位','出售物品'或'抵押物品'单位事件."
+
+GetSoldUnit="被贩卖单位"
+GetSoldUnit="被贩卖单位"
+GetSoldUnitHint="响应'出售单位'单位事件."
+
+GetSummonedUnit="召唤单位"
+GetSummonedUnit="召唤单位"
+GetSummonedUnitHint="响应'召唤单位'单位事件,指代被召唤单位."
+
+GetSummoningUnit="召唤者"
+GetSummoningUnit="召唤者"
+GetSummoningUnitHint="响应'召唤单位'单位事件."
+
+GetOrderTargetUnit="命令发布目标"
+GetOrderTargetUnit="命令发布目标"
+GetOrderTargetUnitHint="响应'发布指定物体目标命令'单位事件并以单位为目标时."
+
+GetSpellTargetUnit="技能施放目标"
+GetSpellTargetUnit="技能施放目标"
+GetSpellTargetUnitHint="响应'施放技能'单位事件并以单位为目标时. 注意: 技能施放结束将无法捕获施放目标."
+
+GetEventTargetUnit="事件目标单位"
+GetEventTargetUnit="事件目标单位"
+GetEventTargetUnitHint="响应'注意到/获取攻击目标'单位事件,指代目标单位."
+
+GetTrainedUnit="训练单位"
+GetTrainedUnit="训练单位"
+GetTrainedUnitHint="响应'完成训练单位'单位事件,指代被训练单位."
+
+GetTransportUnitBJ="运输单位"
+GetTransportUnitBJ="运输单位"
+GetTransportUnitBJHint="响应'被装载'单位事件.指代作为载体的单位."
+
+GetTriggerUnit="触发单位"
+GetTriggerUnit="触发单位"
+GetTriggerUnitHint=
+
+GetUnitRallyUnit="单位集结点目标"
+GetUnitRallyUnit=~单位," 的集结点目标"
+GetUnitRallyUnitHint="如果指定单位没有设置集结点到单位目标,则返回null."
+
+
+// returns unitcode
+GetUnitTypeId="指定单位的类型"
+GetUnitTypeId=~单位," 的类型"
+GetUnitTypeIdHint=
+
+ChooseRandomCreepBJ="随机中立生物类型"
+ChooseRandomCreepBJ="一个等级 ",~Level," 的随机中立生物类型"
+ChooseRandomCreepBJHint="-1代表所有等级."
+
+ChooseRandomNPBuildingBJ="随机中立建筑类型"
+ChooseRandomNPBuildingBJ="随机中立建筑类型"
+ChooseRandomNPBuildingBJHint=
+
+String2UnitIdBJ="转换字符串为单位类型"
+String2UnitIdBJ="转换 ",~字符串," 为单位类型"
+String2UnitIdBJHint=
+
+GetTrainedUnitType="训练单位类型"
+GetTrainedUnitType="训练单位类型"
+GetTrainedUnitTypeHint="响应'开始/取消/完成训练单位'单位事件, 指代所训练的单位类型."
+
+
+// returns ordercode
+String2OrderIdBJ="转换命令字符串为命令ID"
+String2OrderIdBJ="转换 ",~字符串," 为命令ID"
+String2OrderIdBJHint="如''harvest'', ''move'', ''smart'', ''attack''都是命令字符串."
+
+UnitId2OrderIdBJ="转换单位类型为命令ID"
+UnitId2OrderIdBJ="转换 ",~单位类型," 为命令ID"
+UnitId2OrderIdBJHint=
+
+GetIssuedOrderIdBJ="发布的命令ID"
+GetIssuedOrderIdBJ="发布的命令ID"
+GetIssuedOrderIdBJHint="响应'发布命令'单位事件."
+
+GetUnitCurrentOrder="当前命令ID"
+GetUnitCurrentOrder=~单位," 的当前命令ID."
+GetUnitCurrentOrderHint=
+
+
+// returns destructable
+GetLastCreatedDestructable="最后创建的可破坏物 [旧]"
+GetLastCreatedDestructable="最后创建的可破坏物"
+GetLastCreatedDestructableHint="最后一个使用 '可破坏物 - 创建'动作创建的可破坏物."
+
+RandomDestructableInRectSimpleBJ="矩形区域内的随机可破坏物"
+RandomDestructableInRectSimpleBJ=~矩形区域," 内随机选取一个可破坏物"
+RandomDestructableInRectSimpleBJHint=
+
+RandomDestructableInRectBJ="矩形区域内的随机可破坏物(指定条件)"
+RandomDestructableInRectBJ=~矩形区域," 内满足 ",~条件," 的一个随机可破坏物"
+RandomDestructableInRectBJHint="使用'匹配的可破坏物'来指代条件中用于比较的可破坏物."
+
+GetEnumDestructable="选取的可破坏物"
+GetEnumDestructable="选取的可破坏物"
+GetEnumDestructableHint="使用'选取可破坏物做动作'时, 指代相应的可破坏物."
+
+GetFilterDestructable="匹配的可破坏物"
+GetFilterDestructable="匹配的可破坏物"
+GetFilterDestructableHint="在'选取可破坏物满足条件'之类功能的条件中,指代被判断的可破坏物."
+
+GetDyingDestructable="死亡的可破坏物"
+GetDyingDestructable="死亡的可破坏物"
+GetDyingDestructableHint="响应'可破坏物死亡'事件."
+
+GetOrderTargetDestructable="命令发布目标(可破坏物)"
+GetOrderTargetDestructable="命令发布目标"
+GetOrderTargetDestructableHint="响应'发布指定物体目标命令'单位事件并以可破坏物为目标时."
+
+GetSpellTargetDestructable="技能施放目标(可破坏物)"
+GetSpellTargetDestructable="技能施放目标"
+GetSpellTargetDestructableHint="响应'施放技能'单位事件并以可破坏物为目标时. 注意: 技能施放结束将无法捕获施放目标."
+
+GetUnitRallyDestructable="单位集结点目标"
+GetUnitRallyDestructable=~单位," 的集结点目标"
+GetUnitRallyDestructableHint="如果指定单位没有设置集结点到可破坏物上,则返回null."
+
+
+// returns destructablecode
+GetDestructableTypeId="指定可破坏物的类型"
+GetDestructableTypeId=~可破坏物," 的类型"
+GetDestructableTypeIdHint=
+
+
+// returns item
+GetLastCreatedItem="最后创建的物品 [旧]"
+GetLastCreatedItem="最后创建的物品"
+GetLastCreatedItemHint="最后一个使用'物品 - 创建'或'英雄 - 创建物品给英雄'动作创建的物品."
+
+GetLastRemovedItem="最后丢弃的物品 [旧]"
+GetLastRemovedItem="最后丢弃的物品"
+GetLastRemovedItemHint="最后一个使用'英雄 - 丢弃物品'动作丢弃的物品."
+
+RandomItemInRectSimpleBJ="矩形区域内随机物品"
+RandomItemInRectSimpleBJ=~矩形区域," 内随机选取的一个物品"
+RandomItemInRectSimpleBJHint=
+
+RandomItemInRectBJ="矩形区域内随机物品(指定条件)"
+RandomItemInRectBJ=~矩形区域," 内满足 ",~条件," 的一个随机物品"
+RandomItemInRectBJHint="使用'匹配物品'来指代条件中用于比较的物品."
+
+GetEnumItem="选取物品"
+GetEnumItem="选取物品"
+GetEnumItemHint="使用'选取物品做动作'时, 指代相应的物品."
+
+GetFilterItem="匹配物品"
+GetFilterItem="匹配物品"
+GetFilterItemHint="在'选取物品满足条件'之类功能的条件中,指代被判断单位."
+
+UnitItemInSlotBJ="单位持有物品"
+UnitItemInSlotBJ=~单位," 物品栏第 ",~Index," 格的物品"
+UnitItemInSlotBJHint=
+
+GetItemOfTypeFromUnitBJ="单位持有物品(指定类型)"
+GetItemOfTypeFromUnitBJ=~单位," 所持有的 ",~物品类型
+GetItemOfTypeFromUnitBJHint="建议用循环+判断物品类型会更好些."
+
+GetManipulatedItem="被操作物品"
+GetManipulatedItem="被操作物品"
+GetManipulatedItemHint="响应'使用/得到/丢弃物品'单位事件."
+
+GetSoldItem="被售出物品"
+GetSoldItem="被售出物品"
+GetSoldItemHint="响应'出售物品'或'抵押物品'单位事件."
+
+GetOrderTargetItem="命令发布目标"
+GetOrderTargetItem="命令发布目标"
+GetOrderTargetItemHint="响应'发布指定物体目标命令'单位事件并以物品为目标时."
+
+GetSpellTargetItem="技能施放目标"
+GetSpellTargetItem="技能施放目标"
+GetSpellTargetItemHint="响应施放技能单位事件并以物品为目标时. 注意: 技能施放结束将无法捕获施放目标."
+
+
+// returns itemtype
+GetItemType="指定物品的分类"
+GetItemType=~物品," 的分类"
+GetItemTypeHint=
+
+
+// returns itemcode
+GetItemTypeId="指定物品的类型"
+GetItemTypeId=~物品," 的类型"
+GetItemTypeIdHint=
+
+ChooseRandomItemBJ="随机物品类型"
+ChooseRandomItemBJ="等级 ",~Level," 的随机物品类型"
+ChooseRandomItemBJHint="该功能为ROC版函数,使用旧版等级作为参照对象. -1表示任何等级."
+
+ChooseRandomItemExBJ="随机物品类型(指定分类)"
+ChooseRandomItemExBJ="等级 ",~Level," 的随机 ",~Class," 物品类型"
+ChooseRandomItemExBJHint="该功能为新版函数,使用新版等级作为参照对象. -1表示任何等级."
+
+
+// returns techcode
+GetResearched="被研究科技"
+GetResearched="被研究科技"
+GetResearchedHint="响应'开始/取消/完成科技研究'单位事件."
+
+
+// returns abilcode
+GetSpellAbilityId="施放技能"
+GetSpellAbilityId="施放技能"
+GetSpellAbilityIdHint="响应施放技能单位事件, 指代被施放的技能."
+
+// returns ability
+BlzGetUnitAbility="获取单位技能"
+BlzGetUnitAbility="单位：",~单位,"的技能",~技能代码
+BlzGetUnitAbilityHint=
+
+BlzGetItemAbilityByIndex="按索引获取物品技能"
+BlzGetItemAbilityByIndex="物品：",~物品,"的技能索引：",~索引
+BlzGetItemAbilityByIndexHint=
+
+BlzGetItemAbility="获取物品技能"
+BlzGetItemAbility="物品：",~物品,"的技能",~技能代码BlzGetItemAbilityHint=
+
+// returns heroskillcode
+GetLearnedSkillBJ="学习技能"
+GetLearnedSkillBJ="学习技能"
+GetLearnedSkillBJHint="响应'学习技能'单位事件, 指代被学习的技能. 新函数在'技能'类别中."
+
+
+// returns player
+GetEnumPlayer="选取玩家"
+GetEnumPlayer="选取玩家"
+GetEnumPlayerHint="使用'选取玩家做动作'时, 指代相应的玩家."
+
+GetFilterPlayer="匹配玩家"
+GetFilterPlayer="匹配玩家"
+GetFilterPlayerHint="在'选取玩家满足条件'之类功能的条件中,指代被判断玩家."
+
+GetOwningPlayer="单位所有者"
+GetOwningPlayer=~单位," 的所有者"
+GetOwningPlayerHint=
+
+GetItemPlayer="物品所属玩家"
+GetItemPlayer=~物品," 的所属玩家"
+GetItemPlayerHint="与持有者无关,默认为中立被动玩家."
+
+ForcePickRandomPlayer="玩家组中随机玩家"
+ForcePickRandomPlayer=~玩家组," 中随机抽取的一名玩家."
+ForcePickRandomPlayerHint=
+
+ConvertedPlayer="转换玩家索引号为玩家"
+ConvertedPlayer="玩家 ",~Player Index
+ConvertedPlayerHint="玩家索引号取值1-16."
+
+GetChangingUnitPrevOwner="原所有者"
+GetChangingUnitPrevOwner="原所有者"
+GetChangingUnitPrevOwnerHint="响应'改变所有者'单位事件,指代单位原来的所有者."
+
+GetTriggerPlayer="触发玩家"
+GetTriggerPlayer="触发玩家"
+GetTriggerPlayerHint=
+
+LeaderboardGetIndexedPlayerBJ="所在位置玩家"
+LeaderboardGetIndexedPlayerBJ="第 ",~Position," 位玩家在 ",~Leaderboard," 中"
+LeaderboardGetIndexedPlayerBJHint=
+
+
+// returns group
+GetLastCreatedGroup="最后创建的单位组 [旧]"
+GetLastCreatedGroup="最后创建的单位组"
+GetLastCreatedGroupHint="最后一批通过'单位 - 创建'动作创建的单位."
+
+GetRandomSubGroup="单位组中随机单位"
+GetRandomSubGroup="随机获取 ",~Count," 个单位从 ",~单位组
+GetRandomSubGroupHint="会创建单位组.该函数不能使用set bj_wantDestroyGroup
+GetUnitsInRectAll="矩形区域内的单位"
+GetUnitsInRectAll=~矩形区域," 内的所有单位"
+GetUnitsInRectAllHint="会创建单位组."
+
+GetUnitsInRectOfPlayer="矩形区域内的玩家单位"
+GetUnitsInRectOfPlayer=~矩形区域," 内属于 ",~Player," 的所有单位"
+GetUnitsInRectOfPlayerHint="会创建单位组."
+
+GetUnitsInRectMatching="矩形区域内的单位(指定条件)"
+GetUnitsInRectMatching=~矩形区域," 内满足 ",~条件," 的所有单位"
+GetUnitsInRectMatchingHint="使用'匹配单位'指代条件中用于比较的单位. 会创建单位组."
+
+GetUnitsInRangeOfLocAll="圆范围内单位"
+GetUnitsInRangeOfLocAll="半径为 ",~Radius," 圆心为 ",~指定点," 的圆范围内所有单位"
+GetUnitsInRangeOfLocAllHint="会创建单位组."
+
+GetUnitsInRangeOfLocMatching="圆范围内单位(指定条件)"
+GetUnitsInRangeOfLocMatching="半径为 ",~Radius," 圆心为 ",~指定点," 且满足 ",~条件," 的所有单位"
+GetUnitsInRangeOfLocMatchingHint="使用'匹配单位'指代条件中用于比较的单位. 会创建单位组."
+
+GetUnitsOfPlayerAll="玩家单位"
+GetUnitsOfPlayerAll="属于 ",~Player," 的所有单位"
+GetUnitsOfPlayerAllHint="会创建单位组."
+
+GetUnitsOfPlayerAndTypeId="玩家单位(指定单位类型)"
+GetUnitsOfPlayerAndTypeId="属于 ",~Player," 的所有 ",~单位类型
+GetUnitsOfPlayerAndTypeIdHint="会创建单位组."
+
+GetUnitsOfPlayerMatching="玩家单位(指定条件)"
+GetUnitsOfPlayerMatching="属于 ",~Player," 并满足 ",~条件," 的所有单位"
+GetUnitsOfPlayerMatchingHint="使用'匹配单位'指代条件中用于比较的单位. 会创建单位组."
+
+GetUnitsOfTypeIdAll="所有指定类型单位"
+GetUnitsOfTypeIdAll="所有 ",~单位类型
+GetUnitsOfTypeIdAllHint="会创建单位组."
+
+GetUnitsSelectedAll="玩家选择单位"
+GetUnitsSelectedAll=~Player," 选择的所有单位"
+GetUnitsSelectedAllHint="不能用于触发条件. 会创建单位组."
+
+
+// returns force
+GetPlayersAll="所有玩家 [旧]"
+GetPlayersAll="所有玩家"
+GetPlayersAllHint="包括未使用玩家和中立玩家."
+
+GetPlayersByMapControl="所有指定控制者的玩家"
+GetPlayersByMapControl="所有 ",~Control Type," 控制的玩家"
+GetPlayersByMapControlHint="会创建玩家组."
+
+GetPlayersMatching="所有符合条件的玩家"
+GetPlayersMatching="所有符合 ",~条件," 的玩家"
+GetPlayersMatchingHint="使用'匹配玩家'指代条件中用于比较的玩家,包括未使用玩家和中立玩家. 会创建玩家组."
+
+GetPlayersAllies="玩家的盟友"
+GetPlayersAllies="所有 ",~Player," 的联盟玩家"
+GetPlayersAlliesHint="需要双方互为联盟状态,包括自己,不包括中立玩家. 会创建玩家组."
+
+GetPlayersEnemies="玩家的敌人"
+GetPlayersEnemies="所有 ",~Player," 的敌对玩家"
+GetPlayersEnemiesHint="对其敌对的所有玩家,不包括中立玩家. 会创建玩家组."
+
+GetForceOfPlayer="转换玩家为玩家组"
+GetForceOfPlayer="转换 ",~Player," 为玩家组"
+GetForceOfPlayerHint="会创建玩家组."
+
+
+// returns race
+GetPlayerRace="玩家种族"
+GetPlayerRace=~Player," 的种族"
+GetPlayerRaceHint=
+
+GetUnitRace="单位种族"
+GetUnitRace=~单位," 所属种族"
+GetUnitRaceHint="物体编辑器中设置的单位所属种族."
+
+
+// returns camerasetup
+GetCurrentCameraSetup="玩家当前镜头"
+GetCurrentCameraSetup="玩家当前镜头"
+GetCurrentCameraSetupHint="注意:该函数对各玩家返回值不同,请确定你知道自己在做什么,否则很容易引起掉线. 会创建镜头对象."
+
+
+// returns fogmodifier
+GetLastCreatedFogModifier="最后创建的可见度修正器 [旧]"
+GetLastCreatedFogModifier="最后创建的可见度修正器"
+GetLastCreatedFogModifierHint="最后一个由'可见度 - 创建可见度修正器'动作创建的可见度修正器."
+
+
+// returns trigger
+GetTriggeringTrigger="当前触发"
+GetTriggeringTrigger="当前触发"
+GetTriggeringTriggerHint=
+
+
+// returns gamedifficulty
+GetGameDifficulty="当前游戏难度"
+GetGameDifficulty="当前游戏难度"
+GetGameDifficultyHint=
+
+
+// returns aidifficulty
+GetAIDifficulty="玩家的AI难度"
+GetAIDifficulty=~Player," 的对战AI难度"
+GetAIDifficultyHint="对非AI玩家返回普通难度."
+
+
+// returns gamespeed
+GetGameSpeed="当前游戏速度"
+GetGameSpeed="当前游戏速度"
+GetGameSpeedHint=
+
+
+// returns mapcontrol
+GetPlayerController="玩家控制者"
+GetPlayerController=~Player," 的控制者"
+GetPlayerControllerHint=
+
+
+// returns playercolor
+GetPlayerColor="玩家颜色"
+GetPlayerColor=~Player," 的颜色"
+GetPlayerColorHint=
+
+
+// returns playerslotstate
+GetPlayerSlotState="玩家游戏状态"
+GetPlayerSlotState=~Player," 的游戏状态"
+GetPlayerSlotStateHint=
+
+
+// returns effect
+GetLastCreatedEffectBJ="最后创建的特效 [旧]"
+GetLastCreatedEffectBJ="最后创建的特效"
+GetLastCreatedEffectBJHint="最后一个使用'特殊效果 - 创建特效'动作创建的效果."
+
+
+// returns lightning
+GetLastCreatedLightningBJ="最后创建的闪电效果 [旧]"
+GetLastCreatedLightningBJ="最后创建的闪电效果"
+GetLastCreatedLightningBJHint="最后一个使用'闪电效果 - 创建'动作创建的闪电效果."
+
+
+// returns image
+GetLastCreatedImage="最后创建的图像 [旧]"
+GetLastCreatedImage="最后创建的图像"
+GetLastCreatedImageHint="最后一个使用'图像 - 创建'动作创建的图像."
+
+
+// returns ubersplat
+GetLastCreatedUbersplat="最后创建的地面纹理变化 [旧]"
+GetLastCreatedUbersplat="最后创建的地面纹理变化"
+GetLastCreatedUbersplatHint="最后一个使用'地面纹理 - 创建'动作创建的纹理变化."
+
+
+// returns weathereffect
+GetLastCreatedWeatherEffect="最后创建的天气效果 [旧]"
+GetLastCreatedWeatherEffect="最后创建的天气效果"
+GetLastCreatedWeatherEffectHint="最后一个使用'环境 - 创建天气效果'动作创建的天气效果."
+
+
+// returns terraindeformation
+GetLastCreatedTerrainDeformation="最后创建的地形变化 [旧]"
+GetLastCreatedTerrainDeformation="最后创建的地形变化"
+GetLastCreatedTerrainDeformationHint="最后一个由'环境 - 创建地形变化'动作创建的地形变化."
+
+
+// returns terraintype
+GetTerrainTypeBJ="指定点地形 [旧]"
+GetTerrainTypeBJ=~指定点," 处的地形"
+GetTerrainTypeBJHint=
+
+
+// returns sound
+GetLastPlayedSound="最后播放的音效 [旧]"
+GetLastPlayedSound="最后播放的音效"
+GetLastPlayedSoundHint="最后一个由'声音 - 播放音效'或'电影 - 播放单位消息'动作播放的音效."
+
+
+// returns music
+GetLastPlayedMusic="最后播放的音乐 [旧]"
+GetLastPlayedMusic="最后播放的音乐"
+GetLastPlayedMusicHint="最后一个由'声音 - 播放音乐'动作播放的音乐."
+
+
+// returns quest
+GetLastCreatedQuestBJ="最后创建的任务 [旧]"
+GetLastCreatedQuestBJ="最后创建的任务"
+GetLastCreatedQuestBJHint="最后一个由'任务 - 创建任务'动作创建的任务."
+
+
+// returns questitem
+GetLastCreatedQuestItemBJ="最后创建的任务项目 [旧]"
+GetLastCreatedQuestItemBJ="最后创建的任务项目"
+GetLastCreatedQuestItemBJHint="最后一个由'任务 - 创建任务项目'动作创建的任务项目."
+
+
+// returns defeatcondition
+GetLastCreatedDefeatConditionBJ="最后创建的失败条件 [旧]"
+GetLastCreatedDefeatConditionBJ="最后创建的失败条件"
+GetLastCreatedDefeatConditionBJHint="最后一个由'任务 - 创建失败条件'动作创建的失败条件."
+
+
+// returns dialog
+GetClickedDialogBJ="点击的对话框"
+GetClickedDialogBJ="点击的对话框"
+GetClickedDialogBJHint="响应'对话框 - 点击对话框/按钮'事件."
+
+
+// returns button
+GetLastCreatedButtonBJ="最后创建的对话框按钮 [旧]"
+GetLastCreatedButtonBJ="最后创建的对话框按钮"
+GetLastCreatedButtonBJHint="最后一个由'对话框 - 创建对话框按钮'动作创建的对话框按钮."
+
+GetClickedButtonBJ="点击的对话框按钮"
+GetClickedButtonBJ="点击的对话框按钮"
+GetClickedButtonBJHint="响应'对话框 - 点击对话框/按钮'事件."
+
+
+// returns leaderboard
+GetLastCreatedLeaderboard="最后创建的排行榜 [旧]"
+GetLastCreatedLeaderboard="最后创建的排行榜"
+GetLastCreatedLeaderboardHint="最后一个由'排行榜 - 创建排行榜'动作创建的排行榜."
+
+PlayerGetLeaderboardBJ="玩家使用的排行榜"
+PlayerGetLeaderboardBJ=~Player," 使用的排行榜"
+PlayerGetLeaderboardBJHint="每个玩家只能使用1个排行榜."
+
+
+// returns multiboard
+GetLastCreatedMultiboard="最后创建的多面板 [旧]"
+GetLastCreatedMultiboard="最后创建的多面板"
+GetLastCreatedMultiboardHint="最后一个由'多面板 - 创建多面板'动作创建的多面板."
+
+
+// returns timer
+GetLastCreatedTimerBJ="最后启用的计时器 [旧]"
+GetLastCreatedTimerBJ="最后启用的计时器"
+GetLastCreatedTimerBJHint="最后一个由'计时器 - 启用计时器'动作启用的计时器."
+
+GetExpiredTimer="到期的计时器"
+GetExpiredTimer="到期的计时器"
+GetExpiredTimerHint="响应'时间 - 计时器到期'事件."
+
+
+// returns timerdialog
+GetLastCreatedTimerDialogBJ="最后创建的计时器窗口 [旧]"
+GetLastCreatedTimerDialogBJ="最后创建的计时器窗口"
+GetLastCreatedTimerDialogBJHint="最后一个由'计时器 - 创建计时器窗口'动作创建的计时器窗口."
+
+
+// returns gamecache
+GetLastCreatedGameCacheBJ="最后创建的游戏缓存 [旧]"
+GetLastCreatedGameCacheBJ="最后创建的游戏缓存"
+GetLastCreatedGameCacheBJHint="最后一个由'游戏缓存 - 创建缓存'动作创建的缓存."
+
+
+// returns hashtable
+GetLastCreatedHashtableBJ="最后创建的哈希表"
+GetLastCreatedHashtableBJ="最后创建的哈希表"
+GetLastCreatedHashtableBJHint="能得到通过 '哈希表 - 新建哈希表' 最后一次创建的哈希表"
+
+
+// returns texttag
+GetLastCreatedTextTag="最后创建的漂浮文字 [旧]"
+GetLastCreatedTextTag="最后创建的漂浮文字"
+GetLastCreatedTextTagHint="最后一个由'漂浮文字 - 创建漂浮文字'动作创建的漂浮文字."
+
+
+
+//***************************************************************************
+[AIFunctionStrings]
+// These functions are defined in AIEditorData.txt
+
+// --- Boolean
+
+TownThreatened="基地被攻击"
+TownThreatened="基地被攻击"
+TownThreatenedHint="
+
+TownHasMine="基地有金矿"
+TownHasMine="#",~ID," 基地有金矿"
+
+TownHasHall="基地有主建筑"
+TownHasHall="#",~ID," 基地有主建筑"
+
+CaptainIsHome="攻击指挥官在家"
+CaptainIsHome="攻击指挥官在家"
+
+CaptainIsFull="攻击组准备完毕"
+CaptainIsFull="攻击组准备完毕"
+
+CaptainIsEmpty="攻击组为空"
+CaptainIsEmpty="攻击组为空"
+
+CaptainRetreating="攻击指挥官撤退"
+CaptainRetreating="攻击指挥官撤退"
+
+CaptainAtGoal="攻击指挥官到达目的地"
+CaptainAtGoal="攻击指挥官到达目的地"
+
+CaptainInCombat="指挥官在战斗"
+CaptainInCombat=~Captain Type," 指挥官在战斗"
+
+CreepsOnMap="存在中立生物"
+CreepsOnMap="存在中立生物"
+
+ExpansionNeeded="需要扩张"
+ExpansionNeeded="需要扩张"
+ExpansionNeededHint="当AI需要开分矿时返回True."
+
+// --- Integer
+
+GetUnitCount="单位总数"
+GetUnitCount=~单位类型," 的总数"
+GetUnitCountHint="包括正在建造的单位."
+
+GetUnitCountDone="已完成单位总数"
+GetUnitCountDone="已完成 ",~单位类型," 的总数"
+GetUnitCountDoneHint="不包括包括正在建造的单位."
+
+GetTownUnitCount="单位总数(指定基地)"
+GetTownUnitCount=~单位类型," 的总数在#",~Town," 基地(只取已完成单位: ",~Option,")"
+GetTownUnitCountHint="
+
+GetMinesOwned="拥有金矿数量"
+GetMinesOwned="拥有金矿数量"
+GetMinesOwnedHint="AI玩家正在使用的金矿数量."
+
+GetGoldOwned="未被使用的金矿数量"
+GetGoldOwned="未被使用的金矿数量"
+GetGoldOwnedHint="未被采集保持满储金量的金矿."
+
+TownWithMine="有金矿的基地ID"
+TownWithMine="有金矿的基地ID"
+TownWithMineHint="返回编号最靠前的有金矿的基地"
+
+GetGold="当前黄金资源"
+GetGold="当前黄金资源"
+GetGoldHint="当前AI玩家拥有的黄金资源"
+
+GetWood="当前木材资源"
+GetWood="当前木材资源"
+GetWoodHint="当前AI玩家拥有的木材资源"
+
+GetUnitGoldCost="单位造价(黄金)"
+GetUnitGoldCost="建造 ",~单位类型," 所需黄金"
+
+GetUnitWoodCost="单位造价(木材)"
+GetUnitWoodCost="建造 ",~单位类型," 所需木材"
+
+GetUnitBuildTime="单位建造时间"
+GetUnitBuildTime=~单位类型," 的建造时间"
+GetUnitBuildTimeHint="时间单位为秒."
+
+GetUpgradeLevel="当前科技等级"
+GetUpgradeLevel="当前",~科技," 的等级"
+
+GetUpgradeGoldCost="科技升级花费黄金"
+GetUpgradeGoldCost=~科技," 升级花费黄金"
+
+GetUpgradeWoodCost="科技升级花费木材"
+GetUpgradeWoodCost=~科技," 升级花费木材"
+
+GetNextExpansion="下一个扩张点ID"
+GetNextExpansion="下一个扩张点ID"
+GetNextExpansionHint=
+
+FoodUsed="已使用人口"
+FoodUsed="已使用人口"
+FoodUsedHint="AI玩家的当前人口数"
+
+TotalFoodProduced="可用人口数"
+TotalFoodProduced="可用人口数"
+TotalFoodProducedHint="AI玩家的当前可使用人口数"
+
+GetFoodMade=~单位类型," 提供的人口数量"
+GetFoodMade=~单位类型," 提供的人口数量"
+
+CommandsWaiting="等待命令数量"
+CommandsWaiting="等待命令数量"
+CommandsWaitingHint="命令可以通过触发动作'AI - 发送AI命令'发送给AI玩家."
+
+CheckLastCommand="最后一条命令"
+CheckLastCommand="最后一条发送的命令, ",~Option," 命令"
+CheckLastCommandHint="命令可以通过触发动作'AI - 发送AI命令'发送给AI玩家."
+
+CheckLastCommandData="最后一条命令数据"
+CheckLastCommandData="最后一条发送命令的数据, ",~Option," 命令"
+CheckLastCommandDataHint="命令可以通过触发动作'AI - 发送AI命令'发送给AI玩家."
+
+CaptainGroupSize="攻击组人数"
+CaptainGroupSize="攻击组人数"
+CaptainGroupSizeHint="攻击组当前人数."
+
+CaptainReadinessHP="攻击组生命级别"
+CaptainReadinessHP="攻击组生命级别"
+CaptainReadinessHPHint="生命级别为所有攻击组单位的平均百分比血量,最高为100."
+
+CaptainReadinessMa="攻击魔法级别"
+CaptainReadinessMa="攻击组魔法级别"
+CaptainReadinessMaHint="魔法级别为所有攻击组单位的平均百分比魔法值,最高为100."
+
+CurrentAttackWave="当前攻击波数"
+CurrentAttackWave="当前攻击波数"
+CurrentAttackWaveHint="攻击波数在AI编辑器攻击表中定义."
+
+MeleeDifficulty="对战难度等级"
+MeleeDifficulty="对战难度等级"

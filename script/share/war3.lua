@@ -78,8 +78,15 @@ function m:open(path)
     end
     if ver.major > 1 or ver.minor >= 29 then
         self.casc = casclib.open(path:string())
-        local lg = require 'ffi.language' ()
-        self.name = lg .. '-' .. verStr
+        local lang = require 'ffi.language' ()
+        self.casc_paths = {
+            'war3.w3mod:_locales\\'..lang..'.w3mod:',
+            'war3.w3mod:',
+        }
+        local lg = mpq_language(self:readfile('config.txt'))
+        if lg then
+            self.name = lg .. '-' .. verStr
+        end
     else
         self.mpqs = {}
         for _, mpqname in ipairs {
@@ -113,8 +120,13 @@ function m:readfile(filename)
                 return mpq:load_file(filename)
             end
         end
-    else
-        return self.casc:load_file('war3.w3mod:'..filename)
+    elseif self.casc then
+        for _, path in ipairs(self.casc_paths) do
+            local content = self.casc:load_file(path .. filename)
+            if content then
+                return content
+            end
+        end
     end
 end
 
@@ -126,7 +138,12 @@ function m:extractfile(filename, targetpath)
             end
         end
     elseif self.casc then
-        self.casc:extract('war3.w3mod:'..filename, targetpath)
+        for _, path in ipairs(self.casc_paths) do
+            local suc = self.casc:extract(path .. filename, targetpath)
+            if suc then
+                return suc
+            end
+        end
     end
 end
 
