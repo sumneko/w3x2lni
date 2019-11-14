@@ -97,6 +97,7 @@ return function (w2l, war3ver, version)
             version   = version,
         }
     end
+
     local prebuilt_path = root / 'data' / config.global.data / 'prebuilt' / version
     fs.create_directories(prebuilt_path)
 
