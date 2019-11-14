@@ -46,9 +46,10 @@ end
 
 local function extract_casc(dirs, name)
     local filename = dirs[1] .. name
-    local outpath = output / 'mpq' / dirs[2] / name
+    local outname  = dirs[2] .. name
+    local outpath = output / 'mpq' / outname
     local r = war3:extractfile(filename, outpath)
-    result[name] = r or false
+    result[outname] = r or false
 end
 
 local function report_fail()
