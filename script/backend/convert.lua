@@ -7,6 +7,7 @@ local check_lni_mark = require 'share.check_lni_mark'
 local unpack_setting = require 'backend.unpack_setting'
 local w2l = core()
 local root = require 'backend.w2l_path'
+local fs = require 'bee.filesystem'
 local setting
 local input_ar
 local output_ar

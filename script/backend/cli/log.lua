@@ -1,4 +1,4 @@
-fs = require 'bee.filesystem'
+local fs = require 'bee.filesystem'
 require 'utility'
 local messager = require 'share.messager'
 local root = require 'backend.w2l_path'

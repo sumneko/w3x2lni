@@ -2,6 +2,7 @@ local lang = require 'share.lang'
 local config = require 'share.config'
 local root = require 'backend.w2l_path'
 local convertreal = require 'core.convertreal'
+local fs = require 'bee.filesystem'
 local math_type = math.type
 
 local function sortpairs(t)

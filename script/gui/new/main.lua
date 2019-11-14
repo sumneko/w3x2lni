@@ -3,7 +3,7 @@ local ext = require 'yue-ext'
 local timer = require 'gui.timer'
 local ev = require 'gui.event'
 local ui = require 'gui.new.template'
-fs = require 'bee.filesystem'
+local fs = require 'bee.filesystem'
 
 window = {}
 

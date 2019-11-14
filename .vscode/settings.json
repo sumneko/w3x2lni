@@ -1,7 +1,6 @@
 {
     "Lua.diagnostics.globals": [
         "_W2L_MODE",
-        "fs",
         "_W2L_DIR",
         "w3x2lni",
         "read",

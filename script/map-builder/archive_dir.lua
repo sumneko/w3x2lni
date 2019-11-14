@@ -1,4 +1,5 @@
 local path_filter = require 'map-builder.path_filter'
+local fs = require 'bee.filesystem'
 
 local ignore = {}
 for _, name in ipairs {'.git', '.svn', '.vscode', '.gitignore'} do

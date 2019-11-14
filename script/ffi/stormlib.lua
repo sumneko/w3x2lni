@@ -63,7 +63,7 @@ ffi.cdef[[
 local SFileMpqNumberOfFiles = 36
 
 loaddll 'stormlib'
-fs = require 'bee.filesystem'
+local fs = require 'bee.filesystem'
 local uni = require 'ffi.unicode'
 local stormlib = ffi.load('stormlib')
 

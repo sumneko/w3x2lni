@@ -11,7 +11,7 @@ ffi.cdef[[
 ]]
 
 loaddll 'casclib'
-fs = require 'bee.filesystem'
+local fs = require 'bee.filesystem'
 local uni = require 'ffi.unicode'
 local casclib = ffi.load('casclib')
 

@@ -1,4 +1,4 @@
-fs = require 'bee.filesystem'
+local fs = require 'bee.filesystem'
 local gui = require 'yue.gui'
 local backend = require 'gui.backend'
 local lang = require 'share.lang'

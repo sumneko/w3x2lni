@@ -1,4 +1,4 @@
-fs = require 'bee.filesystem'
+local fs = require 'bee.filesystem'
 local lni = require 'lni'
 local define = require 'share.config_define'
 local root = require 'backend.w2l_path'

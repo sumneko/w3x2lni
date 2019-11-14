@@ -2,6 +2,7 @@ local file_version = require 'ffi.file_version'
 local stormlib = require 'ffi.stormlib'
 local casclib = require 'ffi.casclib'
 local config = require 'share.config'
+local fs = require 'bee.filesystem'
 
 local language_map = {
     [0x00000409] = 'enUS',

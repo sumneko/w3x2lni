@@ -1,5 +1,6 @@
 local config = require 'share.config'
 local root = require 'backend.w2l_path'
+local fs = require 'bee.filesystem'
 
 return function (w2l, war3ver, version, slk)
     local template_path = root / 'template' / version

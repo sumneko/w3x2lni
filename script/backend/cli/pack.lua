@@ -7,6 +7,7 @@ local core = require 'backend.sandbox_core'
 local w2l = core()
 local root = require 'backend.w2l_path'
 local base = require 'backend.base_path'
+local fs = require 'bee.filesystem'
 
 local report = {}
 local messager_report = messager.report

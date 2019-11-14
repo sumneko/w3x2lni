@@ -1,6 +1,7 @@
 local mpq = require 'map-builder.archive_mpq'
 local dir = require 'map-builder.archive_dir'
 local lang = require 'share.lang'
+local fs = require 'bee.filesystem'
 
 local os_clock = os.clock
 

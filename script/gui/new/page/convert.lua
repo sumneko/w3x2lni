@@ -8,7 +8,7 @@ local push_error = require 'gui.push_error'
 local ui = require 'gui.new.template'
 local databinding = require 'gui.new.databinding'
 local ev = require 'gui.event'
-fs = require 'bee.filesystem'
+local fs = require 'bee.filesystem'
 
 local root = fs.current_path()
 local worker

@@ -2,6 +2,7 @@ local unpack_setting = require 'backend.unpack_setting'
 local messager = require 'share.messager'
 local uni = require 'ffi.unicode'
 local root = require 'backend.w2l_path'
+local fs = require 'bee.filesystem'
 
 local function get_command(...)
     local exe = root / 'w2l'

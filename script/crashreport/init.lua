@@ -1,6 +1,7 @@
 local messagebox = require 'ffi.messagebox'
 local lang = require 'share.lang'
 local cl = require 'share.changelog'
+local fs = require 'bee.filesystem'
 
 local root = fs.absolute(fs.path '..')
 local errmessage = io.stdin:read 'a'
