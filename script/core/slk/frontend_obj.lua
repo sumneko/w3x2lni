@@ -112,10 +112,13 @@ return function (w2l_, type, buf, wts_)
     unpack_pos = 1
     local data    = {}
     -- 版本号
-    read_version()
-    -- 默认数据
-    read_chunk(data, type)
-    -- 自定义数据
-    read_chunk(data, type)
-    return data
+    local ver = read_version()
+    if ver == 2 then
+        -- 默认数据
+        read_chunk(data, type)
+        -- 自定义数据
+        read_chunk(data, type)
+        return data
+    end
+    return nil
 end
