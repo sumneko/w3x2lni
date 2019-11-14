@@ -6,6 +6,8 @@
 地图版本
 [WE_VERSION]
 编辑器版本
+[WAR3_VERSION]
+魔兽版本
 [MAP_NAME]
 地图名称
 [AUTHOR_NAME]
@@ -14,6 +16,8 @@
 地图描述
 [PLAYER_DESC]
 推荐玩家
+[SCRIPT_TYPE]
+脚本类型
 [CAMERA]
 镜头
 [CAMERA_BOUND]

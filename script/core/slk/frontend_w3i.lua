@@ -50,10 +50,12 @@ function mt:add_head(chunk, version)
             [lang.w3i.FILE_VERSION] = version,
             [lang.w3i.MAP_VERSION]  = self:unpack 'l',
             [lang.w3i.WE_VERSION]   = self:unpack 'l',
-            [lang.w3i.UNKNOWN_1]    = self:unpack 'l',
-            [lang.w3i.UNKNOWN_2]    = self:unpack 'l',
-            [lang.w3i.UNKNOWN_3]    = self:unpack 'l',
-            [lang.w3i.UNKNOWN_4]    = self:unpack 'f',
+            [lang.w3i.WAR3_VERSION] = {
+                [1] = self:unpack 'l',
+                [2] = self:unpack 'l',
+                [3] = self:unpack 'l',
+                [4] = self:unpack 'l',
+            },
             [lang.w3i.MAP_NAME]     = w2l:load_wts(self.wts, (self:unpack 'z')),
             [lang.w3i.AUTHOR_NAME]  = w2l:load_wts(self.wts, (self:unpack 'z')),
             [lang.w3i.MAP_DESC]     = w2l:load_wts(self.wts, (self:unpack 'z')),
@@ -143,7 +145,8 @@ function mt:add_head(chunk, version)
         }
 
         if version >= 28 then
-            chunk[lang.w3i.MAP][lang.w3i.UNKNOWN_5] = self:unpack 'l'
+            local scriptType = self:unpack 'l'
+            chunk[lang.w3i.MAP][lang.w3i.SCRIPT_TYPE] = scriptType == 0 and 'JASS' or 'Lua'
         end
     elseif version == 18 then
         chunk[lang.w3i.LOADING_SCREEN] = {

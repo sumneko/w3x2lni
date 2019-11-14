@@ -6,6 +6,8 @@ file_version
 map_version
 [WE_VERSION]
 we_version
+[WAR3_VERSION]
+wc3_version
 [MAP_NAME]
 map_name
 [AUTHOR_NAME]
@@ -14,6 +16,8 @@ author_name
 map_desc
 [PLAYER_DESC]
 player_desc
+[SCRIPT_TYPE]
+script_type
 [CAMERA]
 camera
 [CAMERA_BOUND]
