@@ -1,4 +1,5 @@
 local proto = require 'share.protocol'
+local sp = require 'bee.subprocess'
 
 local messager = {}
 function messager.text(text)
@@ -23,7 +24,7 @@ function messager.wait()
     proto.send('wait', '""')
 end
 
-(require 'ffi.filemode')(io.stdout, 'b')
+sp.filemode(io.stdout, 'b')
 io.stdout:setvbuf 'no'
 
 return messager
