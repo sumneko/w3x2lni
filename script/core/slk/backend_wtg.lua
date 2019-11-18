@@ -296,7 +296,7 @@ local function pack_category_in_element()
             , cat.id | 0x02000000
             , cat.name
             , cat.comment
-            , 0
+            , 1
             , (cat.category == 0) and 0 or (cat.category | 0x02000000)
         )
     end
