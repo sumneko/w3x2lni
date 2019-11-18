@@ -41,7 +41,7 @@ local function load_vars(category, dir)
     end
 end
 
-local function load_trigger(trg, id, filename)
+local function load_trigger(trg, id, path)
     local trigger = {
         category = id,
         type = 0,
@@ -50,7 +50,6 @@ local function load_trigger(trg, id, filename)
         run = 0,
         wct = 0,
     }
-    local name = trg[1] or trg[2]
     trigger.name = trg[2]
     for i = 3, #trg do
         local line = trg[i]
@@ -65,8 +64,6 @@ local function load_trigger(trg, id, filename)
             trigger.run = 1
         end
     end
-
-    local path = filename .. '\\' .. name
 
     trigger.trg = w2l:parse_lml(loader(path..'.lml') or '')
     trigger.des = loader(path..'.txt') or ''
@@ -90,7 +87,19 @@ local function load_trigger(trg, id, filename)
     end
 end
 
-local function load_category(dir, parent)
+local function load_var(line, category, path)
+    local var = w2l:parse_lml(loader(path..'.v.lml') or '')
+    local name = line[2]
+    table.insert(var, 1, name)
+    var.category = category
+    wtg.vars[#wtg.vars+1] = var
+
+    local object_id = #wtg.objs + 1
+    wtg.objs[object_id] = var
+    var.id = object_id | 0x06000000
+end
+
+local function load_category(dir, parent, parent_dir)
     local category = {
         comment = 0,
     }
@@ -105,10 +114,16 @@ local function load_category(dir, parent)
         local line = dir[i]
         local k, v = line[1], line[2]
         if v then
-            local path = dir_name .. '\\' .. k
-            if loader(path..'.lml') then
+            local path = parent_dir .. '\\' .. k
+            if loader(path..'.v.lml') then
+                load_var(line, category.id, path)
+            elseif loader(path..'.lml')
+            or     loader(path..'.txt')
+            or     loader(path..'.j') then
+                load_trigger(line, category.id, path)
+            else
+                load_category(line, category.id, path)
             end
-            load_trigger(line, category.id, dir_name)
         else
             if k == lang.lml.COMMENT then
                 category.comment = 1
@@ -133,7 +148,8 @@ local function load_triggers()
     local list_file = w2l:parse_lml(buf)
     for i = 3, #list_file do
         local dir = list_file[i]
-        load_category(dir, 0)
+        local path = dir[1] or dir[2]
+        load_category(dir, 0, path)
     end
 end
 

@@ -78,13 +78,17 @@ local function convert_wtg(w2l)
         elseif version == '1' then
             w2l.frontend_lml = w2l.frontend_lml_v1
         end
+        local filenames = {}
         wtg_data, wct_data = w2l:frontend_lml(function (filename)
             local buf = w2l:file_load('trigger', filename)
             if buf then
-                w2l:file_remove('trigger', filename)
+                filenames[#filenames+1] = filename
             end
             return buf
         end)
+        for _, filename in ipairs(filenames) do
+            w2l:file_remove('trigger', filename)
+        end
         w2l:file_remove('w3x2lni', 'version\\lml')
     end
     w2l.progress:finish()

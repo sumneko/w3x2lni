@@ -132,7 +132,7 @@ local function read_dirs()
                 local var_data = { var.path, var.name }
                 result = var_data
             elseif obj.obj == 'category' then
-                result = { obj.path, false }
+                result = { obj.path, obj.name }
                 unpack(objs[obj.id], result)
             end
             dir_data[#dir_data+1] = result
@@ -177,6 +177,7 @@ local function read_triggers(files, map)
             local id = var.id
             local trgvar = map[id]
             local path = get_trg_path(map, trgvar.category, trgvar.path)
+            table.insert(var, 3, { var[2], false })
             files[path..'.v.lml'] = convert_lml(var)
         end
     end
