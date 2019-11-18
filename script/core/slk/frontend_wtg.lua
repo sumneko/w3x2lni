@@ -155,9 +155,9 @@ local function read_var()
     end
 
     if chunk.format_version then
-        local id = unpack 'L'
+        var.id = unpack 'L'
         var.category = unpack 'L'
-        if chunk.deleted_variables[id] then
+        if chunk.deleted_variables[var.id] then
             -- 既然有git管理，删除掉的变量直接丢掉
             return nil
         end

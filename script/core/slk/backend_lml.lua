@@ -172,6 +172,14 @@ local function read_triggers(files, map)
             end
         end
     end
+    if wtg.format_version then
+        for i, var in ipairs(wtg.vars) do
+            local id = var.id
+            local trgvar = map[id]
+            local path = get_trg_path(map, trgvar.category, trgvar.path)
+            files[path..'.v.lml'] = convert_lml(var)
+        end
+    end
 end
 
 local function convert_vars(vars, id)
@@ -252,7 +260,9 @@ return function (w2l_, wtg_, wct_, wts_)
 
     local map = build_map()
     read_triggers(files, map)
-    read_variables(files, map)
+    if not wtg.format_version then
+        read_variables(files, map)
+    end
 
     return files
 end

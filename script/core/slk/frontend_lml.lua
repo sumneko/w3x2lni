@@ -80,37 +80,40 @@ local function load_trigger(trg, id, filename)
     end
 
     wtg.triggers[#wtg.triggers+1] = trigger
+
+    local object_id = #wtg.objs + 1
+    wtg.objs[object_id] = trigger
+    if trigger.type == 0 then
+        trigger.id = object_id | 0x03000000
+    else
+        trigger.id = object_id | 0x04000000
+    end
 end
 
-local category_id
 local function load_category(dir, parent)
     local category = {
         comment = 0,
     }
     local dir_name = dir[1] or dir[2]
     category.name = dir[2]
-    category_id = category_id + 1
-    category.id = category_id
+    local object_id = #wtg.objs + 1
+    category.id = object_id | 0x02000000
     category.category = parent
+    wtg.objs[object_id] = category
 
     for i = 3, #dir do
         local line = dir[i]
         local k, v = line[1], line[2]
         if v then
-            load_trigger(line, category_id, dir_name)
+            load_trigger(line, category.id, dir_name)
         else
             if k == lang.lml.COMMENT then
                 category.comment = 1
-            elseif k == lang.lml.CHILD then
-                for j = i + 1, #dir do
-                    load_category(dir[j], category_id)
-                end
-                break
             end
         end
     end
 
-    load_vars(category_id, dir_name)
+    load_vars(category.id, dir_name)
 
     wtg.categories[#wtg.categories+1] = category
 end
@@ -118,6 +121,7 @@ end
 local function load_triggers()
     wtg.categories = {}
     wtg.triggers = {}
+    wtg.objs = {}
     wct.triggers = {}
     local buf = loader('catalog.lml')
     if not buf then
@@ -135,8 +139,6 @@ return function (w2l_, loader_)
     wtg = {}
     wct = {}
     loader = loader_
-
-    category_id = 0
 
     load_config()
     load_custom()
