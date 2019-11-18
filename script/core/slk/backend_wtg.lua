@@ -91,7 +91,7 @@ local function pack_category()
     end
 end
 
-local function pack_var(var, id)
+local function pack_var(var)
     local name = var[1]
     local type = var[2]
     local unknow = 1
@@ -121,7 +121,7 @@ local function pack_var(var, id)
 
     if wtg.format_version then
         pack('LL'
-            , id
+            , var.id
             , var.category
         )
     end
@@ -130,7 +130,7 @@ end
 local function pack_vars()
     pack('ll', 2, #wtg.vars)
     for i = 1, #wtg.vars do
-        pack_var(wtg.vars[i], i)
+        pack_var(wtg.vars[i])
     end
 end
 
@@ -261,6 +261,9 @@ local function pack_trigger(trg)
         , trg.des
         , trg.type
     )
+    if wtg.format_version then
+        pack('L', trg.id)
+    end
     pack('llll'
         , trg.enable
         , trg.wct
