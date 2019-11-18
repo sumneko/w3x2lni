@@ -158,6 +158,8 @@ local function read_var()
             -- 既然有git管理，删除掉的变量直接丢掉
             return nil
         end
+    else
+        var.category = 0
     end
 
     return var
@@ -167,9 +169,9 @@ local function read_vars()
     local unknow = unpack 'l'
     assert(unknow == 2, lang.script.UNKNOWN1_ERROR)
     local count = unpack 'l'
-    chunk.vars = { '', false }
+    chunk.vars = {}
     for i = 1, count do
-        chunk.vars[i+2] = read_var()
+        chunk.vars[i] = read_var()
     end
 end
 

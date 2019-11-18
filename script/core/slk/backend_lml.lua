@@ -174,7 +174,6 @@ local function read_dirs(map)
             end
 
             if #cats[dir.id] > 0 then
-                -- TODO
                 dir_data[#dir_data+1] = { lang.lml.CHILD, false }
                 for _, cat in ipairs(cats[dir.id]) do
                     dir_data[#dir_data+1] = unpack(cat)
@@ -219,6 +218,16 @@ local function read_triggers(files, map)
     end
 end
 
+local function convert_vars(vars, id)
+    local tbl = { '', false }
+    for _, var in ipairs(vars) do
+        if var.category == id then
+            tbl[#tbl+1] = var
+        end
+    end
+    return convert_lml(tbl)
+end
+
 local function convert_config(wtg)
     local lines = {}
     local function add(key, value)
@@ -229,6 +238,20 @@ local function convert_config(wtg)
         add('Unknown'..tostring(i), wtg['unknown'..tostring(i)])
     end
     return table.concat(lines, '\r\n')
+end
+
+local function read_variables(files, map)
+    local vars = convert_vars(wtg.vars, 0)
+    if #vars > 0 then
+        files['variable.lml'] = vars
+    end
+    for i, dir in ipairs(wtg.categories) do
+        local vars = convert_vars(wtg.vars, dir.id)
+        if #vars > 0 then
+            local path = get_trg_path(map, dir.category, 'variable.lml')
+            files[path] = vars
+        end
+    end
 end
 
 return function (w2l_, wtg_, wct_, wts_)
@@ -250,19 +273,15 @@ return function (w2l_, wtg_, wct_, wts_)
         files['code.j'] = wct.custom.code
     end
 
-    local vars = convert_lml(wtg.vars)
-    if #vars > 0 then
-        files['variable.lml'] = vars
-    end
-
     local map = compute_path()
-    
+
     local listfile = read_dirs(map)
     if #listfile > 0 then
         files['catalog.lml'] = listfile
     end
 
     read_triggers(files, map)
+    read_variables(files, map)
 
     return files
 end
