@@ -106,9 +106,11 @@ end
 
 local function read_category()
     local category = {}
+    category.obj     = 'category'
     category.id      = unpack 'l'
     category.name    = unpack 'z'
     category.comment = unpack 'l'
+    category.category= 0
 
     if chunk.format_version then
         category.unknown1 = unpack 'l'
@@ -124,6 +126,7 @@ local function read_category()
         chunk.categories = {}
     end
     chunk.categories[#chunk.categories+1] = category
+    return category
 end
 
 local function read_categories()
@@ -152,7 +155,7 @@ local function read_var()
     end
 
     if chunk.format_version then
-        local id = unpack 'L' & 0xffffff
+        local id = unpack 'L'
         var.category = unpack 'L'
         if chunk.deleted_variables[id] then
             -- 既然有git管理，删除掉的变量直接丢掉
@@ -283,11 +286,12 @@ end
 
 local function read_trigger()
     local trigger = {}
+    trigger.obj      = 'trigger'
     trigger.name     = unpack 'z'
     trigger.des      = unpack 'z'
     trigger.type     = unpack 'l'
     if chunk.format_version then
-        trigger.id   = unpack 'L' & 0xffffff
+        trigger.id   = unpack 'L'
     end
     trigger.enable   = unpack 'l'
     trigger.wct      = unpack 'l'
@@ -308,15 +312,17 @@ local function read_trigger()
         chunk.triggers = {}
     end
     chunk.triggers[#chunk.triggers+1] = trigger
+    return trigger
 end
 
 local function read_comment()
     local trigger = {}
+    trigger.obj      = 'trigger'
     trigger.name     = unpack 'z'
     trigger.des      = unpack 'z'
     trigger.type     = unpack 'l'
     if chunk.format_version then
-        trigger.id   = unpack 'L' & 0xffffff
+        trigger.id   = unpack 'L'
     end
     trigger.enable   = unpack 'l'
     trigger.wct      = unpack 'l'
@@ -334,15 +340,17 @@ local function read_comment()
         chunk.triggers = {}
     end
     chunk.triggers[#chunk.triggers+1] = trigger
+    return trigger
 end
 
 local function read_script()
     local trigger = {}
+    trigger.obj      = 'trigger'
     trigger.name     = unpack 'z'
     trigger.des      = unpack 'z'
     trigger.type     = unpack 'l'
     if chunk.format_version then
-        trigger.id   = unpack 'L' & 0xffffff
+        trigger.id   = unpack 'L'
     end
     trigger.enable   = unpack 'l'
     trigger.wct      = unpack 'l'
@@ -360,6 +368,7 @@ local function read_script()
         chunk.triggers = {}
     end
     chunk.triggers[#chunk.triggers+1] = trigger
+    return trigger
 end
 
 local function read_triggers()
@@ -370,24 +379,31 @@ local function read_triggers()
 end
 
 local function read_var_in_element()
-    -- 变量之前就读过了，直接扔掉
-    unpack 'l'
-    unpack 'z'
-    unpack 'l'
+    if not chunk.trgvars then
+        chunk.trgvars = {}
+    end
+    local trgvar = {
+        obj      = 'var',
+        id       = unpack 'L',
+        name     = unpack 'z',
+        category = unpack 'L',
+    }
+    chunk.trgvars[#chunk.trgvars+1] = trgvar
+    return trgvar
 end
 
-local function read_element()
+local function read_element(n)
     local classifier = unpack 'l'
     if classifier == 4 then
-        read_category()
+        return read_category()
     elseif classifier == 8 then
-        read_trigger()
+        return read_trigger()
     elseif classifier == 16 then
-        read_comment()
+        return read_comment()
     elseif classifier == 32 then
-        read_script()
+        return read_script()
     elseif classifier == 64 then
-        read_var_in_element()
+        return read_var_in_element()
     end
 end
 
@@ -400,8 +416,10 @@ local function read_elements()
     chunk.unknown10 = unpack 'l'
     chunk.unknown11 = unpack 'l'
 
+    chunk.sort = {}
     for i = 1, count do
-        read_element()
+        local obj = read_element(i)
+        chunk.sort[obj] = i
     end
 end
 

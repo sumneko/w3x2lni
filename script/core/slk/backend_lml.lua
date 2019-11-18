@@ -84,81 +84,35 @@ local function get_path(path, used, index,  max)
     return path
 end
 
-local function compute_path()
-    if not wtg then
-        return
-    end
-    local dirs = {}
-    local cats = {}
-    local used = {}
-    local map = {}
-    local max = #wtg.categories
-    local index = 0
+local function read_dirs()
+    local objs = {
+        [0] = {}
+    }
     for _, dir in ipairs(wtg.categories) do
-        dirs[dir.id] = {}
-        cats[dir.id] = {}
-        if not dir.category or dir.category == 0 then
-            index = index + 1
-            local path = get_path(dir.name, used, index, max)
-            dir.path = path
-            map[dir.id] = dir
-        end
+        objs[dir.id] = {}
     end
     for _, trg in ipairs(wtg.triggers) do
-        table.insert(dirs[trg.category], trg)
+        table.insert(objs[trg.category], trg)
     end
-    if wtg.format_version then
-        for _, cat in ipairs(wtg.categories) do
-            if cat.category > 0 then
-                table.insert(cats[cat.category], cat)
-            end
-        end
+    for _, cat in ipairs(wtg.categories) do
+        table.insert(objs[cat.category], cat)
     end
-    for _, dir in ipairs(wtg.categories) do
-        local max = #dirs[dir.id]
-        local used = {}
-        for index, trg in ipairs(dirs[dir.id]) do
-            trg.path = get_path(trg.name, used, index, max)
-        end
-    end
-    for _, dir in ipairs(wtg.categories) do
-        local max = #dirs[dir.id]
-        local used = {}
-        for index, cat in ipairs(cats[dir.id]) do
-            cat.path = get_path(cat.name, used, index, max)
-            map[cat.id] = cat
-        end
-    end
-    return map
-end
-
-local function read_dirs(map)
-    local dirs = {}
-    local cats = {}
-    for _, dir in ipairs(wtg.categories) do
-        dirs[dir.id] = {}
-        cats[dir.id] = {}
-    end
-    for _, trg in ipairs(wtg.triggers) do
-        table.insert(dirs[trg.category], trg)
-    end
-    if wtg and wtg.format_version then
-        for _, cat in ipairs(wtg.categories) do
-            if cat.category > 0 then
-                table.insert(cats[cat.category], cat)
-            end
+    if wtg.trgvars then
+        for _, var in ipairs(wtg.trgvars) do
+            table.insert(objs[var.category], var)
         end
     end
     local lml = { '', false }
-    for i, dir in ipairs(wtg.categories) do
-        local function unpack(dir)
-            local filename = map[dir.id].path
-            local dir_data = { filename, dir.name }
-            if dir.comment == 1 then
-                dir_data[#dir_data+1] = { lang.lml.COMMENT, false }
-            end
-
-            for _, trg in ipairs(dirs[dir.id]) do
+    local function unpack(childs, dir_data)
+        table.sort(childs, function (a, b)
+            return wtg.sort[a] < wtg.sort[b]
+        end)
+        local used = {}
+        for i, obj in ipairs(childs) do
+            local result
+            obj.path = get_path(obj.name, used, i, #childs)
+            if obj.obj == 'trigger' then
+                local trg = obj
                 local trg_data = { trg.path, trg.name }
                 if trg.type == 1 then
                     trg_data[#trg_data+1] = { lang.lml.COMMENT }
@@ -172,21 +126,21 @@ local function read_dirs(map)
                 if trg.run == 1 then
                     trg_data[#trg_data+1] = { lang.lml.RUN }
                 end
-                dir_data[#dir_data+1] = trg_data
+                result = trg_data
+            elseif obj.obj == 'var' then
+                local var = obj
+                local var_data = { var.path, var.name }
+                result = var_data
+            elseif obj.obj == 'category' then
+                result = { obj.path, false }
+                unpack(objs[obj.id], result)
             end
-
-            if #cats[dir.id] > 0 then
-                dir_data[#dir_data+1] = { lang.lml.CHILD, false }
-                for _, cat in ipairs(cats[dir.id]) do
-                    dir_data[#dir_data+1] = unpack(cat)
-                end
-            end
-            return dir_data
-        end
-        if not dir.category or dir.category == 0 then
-            lml[#lml+1] = unpack(dir)
+            dir_data[#dir_data+1] = result
         end
     end
+
+    unpack(objs[0], lml)
+
     return convert_lml(lml)
 end
 
@@ -256,6 +210,22 @@ local function read_variables(files, map)
     end
 end
 
+local function build_map()
+    local map = {}
+    for _, trg in ipairs(wtg.triggers) do
+        map[trg.id] = trg
+    end
+    for _, cat in ipairs(wtg.categories) do
+        map[cat.id] = cat
+    end
+    if wtg.trgvars then
+        for _, var in ipairs(wtg.trgvars) do
+            map[var.id] = var
+        end
+    end
+    return map
+end
+
 return function (w2l_, wtg_, wct_, wts_)
     w2l = w2l_
     wtg = wtg_
@@ -275,13 +245,12 @@ return function (w2l_, wtg_, wct_, wts_)
         files['code.j'] = wct.custom.code
     end
 
-    local map = compute_path()
-
-    local listfile = read_dirs(map)
+    local listfile = read_dirs()
     if #listfile > 0 then
         files['catalog.lml'] = listfile
     end
 
+    local map = build_map()
     read_triggers(files, map)
     read_variables(files, map)
 
