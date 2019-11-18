@@ -9,7 +9,8 @@
         "compare_string",
         "compare_dump",
         "compare_value",
-        "window"
+        "window",
+        "packDir"
     ],
     "Lua.runtime.version": "Lua 5.4",
     "files.insertFinalNewline": false

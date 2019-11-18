@@ -38,12 +38,17 @@ local w2l = w3x2lni()
 w2l:set_setting { mode = 'lni' }
 
 local targetfiles = packDir 'trigger'
+local targetfiles2 = {}
+for path, buf in pairs(targetfiles) do
+    path = path:gsub('/', '\\')
+    targetfiles2[path] = buf
+end
 local wtg = read 'war3map.wtg'
 local wct = read 'war3map.wct'
 local wtg_data = w2l:frontend_wtg(wtg)
 local wct_data = w2l:frontend_wct(wct)
 local files = w2l:backend_lml(wtg_data, wct_data)
-assert(equal(files, targetfiles))
+assert(equal(files, targetfiles2))
 
 
 local w2l = w3x2lni()

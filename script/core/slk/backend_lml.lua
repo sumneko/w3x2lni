@@ -149,7 +149,7 @@ local function get_trg_path(map, id, path)
         return path
     end
     local dir = map[id]
-    return get_trg_path(map, dir.category, dir.path .. '/' .. path)
+    return get_trg_path(map, dir.category, dir.path .. '\\' .. path)
 end
 
 local function read_triggers(files, map)
