@@ -43,6 +43,7 @@ end
 
 local function load_trigger(trg, id, path)
     local trigger = {
+        obj = 'trigger',
         category = id,
         type = 0,
         enable = 1,
@@ -90,8 +91,11 @@ end
 local function load_var(line, category, path)
     local var = w2l:parse_lml(loader(path..'.v.lml') or '')
     local name = line[2]
-    table.insert(var, 1, name)
+    var[1] = name
+    var[2] = var[3][1]
+    table.remove(var, 3)
     var.category = category
+    var.obj = 'var'
     wtg.vars[#wtg.vars+1] = var
 
     local object_id = #wtg.objs + 1
@@ -102,6 +106,7 @@ end
 local function load_category(dir, parent, parent_dir)
     local category = {
         comment = 0,
+        obj = 'category',
     }
     local dir_name = dir[1] or dir[2]
     category.name = dir[2]

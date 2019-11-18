@@ -121,8 +121,8 @@ local function pack_var(var, id)
 
     if wtg.format_version then
         pack('LL'
-            , id | 0x06000000
-            , (var.category == 0) and 0 or (var.category | 0x02000000)
+            , id
+            , var.category
         )
     end
 end
@@ -255,19 +255,12 @@ function pack_eca(eca, child_id, eca_type)
     pack_list(eca)
 end
 
-local function pack_trigger(trg, id)
+local function pack_trigger(trg)
     pack('zzl'
         , trg.name
         , trg.des
         , trg.type
     )
-    if wtg.format_version then
-        if wtg.type == 0 then
-            pack('L', id | 0x03000000)
-        else
-            pack('L', id | 0x04000000)
-        end
-    end
     pack('llll'
         , trg.enable
         , trg.wct
@@ -275,8 +268,6 @@ local function pack_trigger(trg, id)
         , trg.run
     )
     if wtg.format_version then
-        pack('L', trg.category | 0x02000000)
-    else
         pack('L', trg.category)
     end
     pack_list(trg.trg, true)
@@ -289,46 +280,40 @@ local function pack_triggers()
     end
 end
 
-local function pack_category_in_element()
-    for _, cat in ipairs(wtg.categories) do
-        pack('llzllL'
-            , 4
-            , cat.id | 0x02000000
-            , cat.name
-            , cat.comment
-            , 1
-            , (cat.category == 0) and 0 or (cat.category | 0x02000000)
-        )
-    end
+local function pack_category_in_element(cat)
+    pack('llzllL'
+        , 4
+        , cat.id
+        , cat.name
+        , cat.comment
+        , 1
+        , cat.category
+    )
 end
 
-local function pack_vars_in_element()
-    for id, var in ipairs(wtg.vars) do
-        pack('LLzL'
-            , 64
-            , id | 0x06000000
-            , var[1]
-            , (var.category == 0) and 0 or (var.category | 0x02000000)
-        )
-    end
+local function pack_var_in_element(var)
+    pack('LLzL'
+        , 64
+        , var.id
+        , var[1]
+        , var.category
+    )
 end
 
-local function pack_triggers_in_element()
-    for id, trg in ipairs(wtg.triggers) do
-        if trg.type == 0 then
-            pack('L', 8)
-        elseif trg.wct then
-            pack('L', 32)
-        else
-            pack('L', 16)
-        end
-        pack_trigger(trg, id)
+local function pack_trigger_in_element(trg)
+    if trg.type == 0 then
+        pack('L', 8)
+    elseif trg.wct then
+        pack('L', 32)
+    else
+        pack('L', 16)
     end
+    pack_trigger(trg)
 end
 
 local function pack_elements()
     pack('Lllzlll'
-        , 1 + #wtg.categories + #wtg.triggers + #wtg.vars
+        , 1 + #wtg.objs
         , wtg.unknown7
         , wtg.unknown8
         , w2l.slk.w3i[lang.w3i.MAP][lang.w3i.MAP_NAME] or 'Unknown'
@@ -336,9 +321,15 @@ local function pack_elements()
         , wtg.unknown10
         , wtg.unknown11
     )
-    pack_category_in_element()
-    pack_vars_in_element()
-    pack_triggers_in_element()
+    for _, obj in ipairs(wtg.objs) do
+        if obj.obj == 'category' then
+            pack_category_in_element(obj)
+        elseif obj.obj == 'var' then
+            pack_var_in_element(obj)
+        elseif obj.obj == 'trigger' then
+            pack_trigger_in_element(obj)
+        end
+    end
 end
 
 return function (w2l_, wtg_, wts_)
