@@ -44,7 +44,44 @@ local function pack(fmt, ...)
 end
 
 local function pack_head()
-    pack('c4l', 'WTG!', 7)
+    pack('c4', 'WTG!')
+    if wtg.format_version then
+        pack('LLLLLL'
+            , 0x80000004
+            , 7
+            , wtg.unknown1
+            , wtg.unknown2
+            , wtg.unknown3
+            , wtg.unknown4
+        )
+    else
+        pack('L', 7)
+    end
+end
+
+local function pack_counts()
+    local trigger_count = 0
+    local comment_count = 0
+    local script_count = 0
+    for _, trg in ipairs(wtg.triggers) do
+        if trg.type == 0 then
+            trigger_count = trigger_count + 1
+        elseif trg.wct == 1 then
+            script_count = script_count + 1
+        else
+            comment_count = comment_count + 1
+        end
+    end
+
+    pack('LL', #wtg.categories, 0)
+    pack('LL', trigger_count, 0)
+    pack('LL', comment_count, 0)
+    pack('LL', script_count, 0)
+    pack('LL', #wtg.vars, 0)
+    pack('LL'
+        , wtg.unknown5
+        , wtg.unknown6
+    )
 end
 
 local function pack_category()
@@ -54,7 +91,7 @@ local function pack_category()
     end
 end
 
-local function pack_var(var)
+local function pack_var(var, id)
     local name = var[1]
     local type = var[2]
     local unknow = 1
@@ -72,13 +109,28 @@ local function pack_var(var)
             value = v
         end
     end
-    pack('zzllllz', name, type, unknow, array, size, default, value)
+    pack('zzllllz'
+        , name
+        , type
+        , unknow
+        , array
+        , size
+        , default
+        , value
+    )
+
+    if wtg.format_version then
+        pack('LL'
+            , id | 0x06000000
+            , (var.category == 0) and 0 or (var.category | 0x02000000)
+        )
+    end
 end
 
 local function pack_vars()
-    pack('ll', 2, #wtg.vars-2)
-    for i = 3, #wtg.vars do
-        pack_var(wtg.vars[i])
+    pack('ll', 2, #wtg.vars)
+    for i = 1, #wtg.vars do
+        pack_var(wtg.vars[i], i)
     end
 end
 
@@ -203,16 +255,25 @@ function pack_eca(eca, child_id, eca_type)
     pack_list(eca)
 end
 
-local function pack_trigger(trg)
-    pack('zzllllll',
-        trg.name,
-        trg.des,
-        trg.type,
-        trg.enable,
-        trg.wct,
-        trg.close,
-        trg.run,
-        trg.category
+local function pack_trigger(trg, id)
+    pack('zzl'
+        , trg.name
+        , trg.des
+        , trg.type
+    )
+    if wtg.format_version then
+        if wtg.type == 0 then
+            pack('L', id | 0x03000000)
+        else
+            pack('L', id | 0x04000000)
+        end
+    end
+    pack('lllll'
+        , trg.enable
+        , trg.wct
+        , trg.close
+        , trg.run
+        , trg.category
     )
     pack_list(trg.trg, true)
 end
@@ -220,8 +281,60 @@ end
 local function pack_triggers()
     pack('l', #wtg.triggers)
     for i = 1, #wtg.triggers do
-        pack_trigger(wtg.triggers[i])
+        pack_trigger(wtg.triggers[i], i)
     end
+end
+
+local function pack_category_in_element()
+    for _, cat in ipairs(wtg.categories) do
+        pack('llzllL'
+            , 4
+            , cat.id | 0x02000000
+            , cat.name
+            , cat.comment
+            , 0
+            , (cat.category == 0) and 0 or (cat.category | 0x02000000)
+        )
+    end
+end
+
+local function pack_vars_in_element()
+    for id, var in ipairs(wtg.vars) do
+        pack('LLzL'
+            , 64
+            , id | 0x06000000
+            , var[1]
+            , (var.category == 0) and 0 or (var.category | 0x02000000)
+        )
+    end
+end
+
+local function pack_triggers_in_element()
+    for id, trg in ipairs(wtg.triggers) do
+        if trg.type == 0 then
+            pack('L', 8)
+        elseif trg.wct then
+            pack('L', 32)
+        else
+            pack('L', 16)
+        end
+        pack_trigger(trg, id)
+    end
+end
+
+local function pack_elements()
+    pack('Lllzlll'
+        , 1 + #wtg.categories + #wtg.triggers + #wtg.vars
+        , wtg.unknown7
+        , wtg.unknown8
+        , w2l.slk.w3i[lang.w3i.MAP][lang.w3i.MAP_NAME] or 'Unknown'
+        , wtg.unknown9
+        , wtg.unknown10
+        , wtg.unknown11
+    )
+    pack_category_in_element()
+    pack_vars_in_element()
+    pack_triggers_in_element()
 end
 
 return function (w2l_, wtg_, wts_)
@@ -232,9 +345,15 @@ return function (w2l_, wtg_, wts_)
     hex = {}
 
     pack_head()
-    pack_category()
-    pack_vars()
-    pack_triggers()
+    if wtg.format_version then
+        pack_counts()
+        pack_vars()
+        pack_elements()
+    else
+        pack_category()
+        pack_vars()
+        pack_triggers()
+    end
 
     return table.concat(hex)
 end

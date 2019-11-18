@@ -83,7 +83,7 @@ local function load_trigger(trg, id, filename)
 end
 
 local category_id
-local function load_category(dir)
+local function load_category(dir, parent)
     local category = {
         comment = 0,
     }
@@ -91,6 +91,7 @@ local function load_category(dir)
     category.name = dir[2]
     category_id = category_id + 1
     category.id = category_id
+    category.category = parent
 
     for i = 3, #dir do
         local line = dir[i]
@@ -102,7 +103,7 @@ local function load_category(dir)
                 category.comment = 1
             elseif k == lang.lml.CHILD then
                 for j = i + 1, #dir do
-                    load_category(dir[j])
+                    load_category(dir[j], category_id)
                 end
                 break
             end
@@ -125,7 +126,7 @@ local function load_triggers()
     local list_file = w2l:parse_lml(buf)
     for i = 3, #list_file do
         local dir = list_file[i]
-        load_category(dir)
+        load_category(dir, 0)
     end
 end
 
