@@ -93,10 +93,12 @@ local function compute_path()
     local used = {}
     local map = {}
     local max = #wtg.categories
-    for index, dir in ipairs(wtg.categories) do
+    local index = 0
+    for _, dir in ipairs(wtg.categories) do
         dirs[dir.id] = {}
         cats[dir.id] = {}
         if not dir.category or dir.category == 0 then
+            index = index + 1
             local path = get_path(dir.name, used, index, max)
             dir.path = path
             map[dir.id] = dir
@@ -182,7 +184,7 @@ local function read_dirs(map)
             return dir_data
         end
         if not dir.category or dir.category == 0 then
-            lml[i+2] = unpack(dir)
+            lml[#lml+1] = unpack(dir)
         end
     end
     return convert_lml(lml)

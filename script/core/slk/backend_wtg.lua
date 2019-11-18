@@ -268,13 +268,17 @@ local function pack_trigger(trg, id)
             pack('L', id | 0x04000000)
         end
     end
-    pack('lllll'
+    pack('llll'
         , trg.enable
         , trg.wct
         , trg.close
         , trg.run
-        , trg.category
     )
+    if wtg.format_version then
+        pack('L', trg.category | 0x02000000)
+    else
+        pack('L', trg.category)
+    end
     pack_list(trg.trg, true)
 end
 
