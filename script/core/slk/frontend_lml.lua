@@ -30,7 +30,7 @@ end
 
 local function load_vars(category, dir)
     if not wtg.vars then
-        wtg.vars = {}
+        wtg.vars = {'', false}
     end
     dir = dir and dir .. '\\' or ''
     local vars = w2l:parse_lml(loader(dir .. 'variable.lml') or '')
@@ -135,8 +135,6 @@ local function load_category(dir, parent, parent_dir)
             end
         end
     end
-
-    load_vars(category.id, dir_name)
 
     wtg.categories[#wtg.categories+1] = category
 end

@@ -77,7 +77,7 @@ local function pack_counts()
     pack('LL', trigger_count, 0)
     pack('LL', comment_count, 0)
     pack('LL', script_count, 0)
-    pack('LL', #wtg.vars, 0)
+    pack('LL', #wtg.vars-2, 0)
     pack('LL'
         , wtg.unknown5
         , wtg.unknown6
@@ -128,8 +128,8 @@ local function pack_var(var)
 end
 
 local function pack_vars()
-    pack('ll', 2, #wtg.vars)
-    for i = 1, #wtg.vars do
+    pack('ll', 2, #wtg.vars-2)
+    for i = 3, #wtg.vars do
         pack_var(wtg.vars[i])
     end
 end
