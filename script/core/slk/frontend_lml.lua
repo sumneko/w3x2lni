@@ -5,6 +5,21 @@ local wtg
 local wct
 local loader
 
+local function load_config()
+    local buf = loader('config.lua')
+    if not buf then
+        return
+    end
+    local tbl = {}
+    load(buf, buf, 't', tbl)()
+    for k, v in pairs(tbl) do
+        k = k:gsub('^%u', string.lower):gsub('%u', function (s)
+            return '_' .. s:lower()
+        end)
+        wtg[k] = v
+    end
+end
+
 local function load_custom()
     wct.custom = {
         comment = loader('code.txt') or '',
@@ -12,8 +27,17 @@ local function load_custom()
     }
 end
 
-local function load_vars()
-    wtg.vars = w2l:parse_lml(loader('variable.lml') or '')
+local function load_vars(category, dir)
+    if not wtg.vars then
+        wtg.vars = {}
+    end
+    dir = dir and dir .. '\\' or ''
+    local vars = w2l:parse_lml(loader(dir .. 'variable.lml') or '')
+    for i = 3, #vars do
+        local var = vars[i]
+        var.category = category
+        wtg.vars[#wtg.vars+1] = var
+    end
 end
 
 local function load_trigger(trg, id, filename)
@@ -45,7 +69,7 @@ local function load_trigger(trg, id, filename)
 
     trigger.trg = w2l:parse_lml(loader(path..'.lml') or '')
     trigger.des = loader(path..'.txt') or ''
-    
+
     local buf = loader(path..'.j')
     if buf then
         trigger.wct = 1
@@ -75,10 +99,17 @@ local function load_category(dir)
         else
             if k == lang.lml.COMMENT then
                 category.comment = 1
+            elseif k == lang.lml.CHILD then
+                for j = i + 1, #dir do
+                    load_category(dir[j])
+                end
+                break
             end
         end
     end
-    
+
+    load_vars(category_id, dir_name)
+
     wtg.categories[#wtg.categories+1] = category
 end
 
@@ -105,8 +136,9 @@ return function (w2l_, loader_)
 
     category_id = 0
 
+    load_config()
     load_custom()
-    load_vars()
+    load_vars(0)
     load_triggers()
 
     return wtg, wct
