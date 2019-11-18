@@ -34,7 +34,7 @@ local function read_triggers()
     chunk.triggers = {}
     local count = unpack 'l'
     for i = 1, count do
-        local size = unpack 'l'
+        local size = unpack 'L'
         if size == 0 then
             chunk.triggers[i] = ''
         else
@@ -46,12 +46,11 @@ end
 local function read_triggers_new()
     chunk.triggers = {}
     while unpack_index <= #wct do
-        local id = unpack 'L'
-        if id == 0 then
+        local size = unpack 'L'
+        if size == 0 then
             chunk.triggers[#chunk.triggers+1] = ''
         else
-            local str = unpack 'z'
-            chunk.triggers[#chunk.triggers+1] = str
+            chunk.triggers[#chunk.triggers+1] = unpack 'z'
         end
     end
 end

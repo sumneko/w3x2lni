@@ -6,6 +6,9 @@ local function pack(fmt, ...)
 end
 
 local function pack_head()
+    if wct.format_version then
+        pack('L', 0x80000004)
+    end
     pack('l', 1)
 end
 
@@ -21,7 +24,9 @@ local function pack_custom()
 end
 
 local function pack_triggers()
-    pack('l', #wct.triggers)
+    if not wct.format_version then
+        pack('l', #wct.triggers)
+    end
     for _, trg in ipairs(wct.triggers) do
         if #trg > 0 then
             -- 这里的字符串长度算上了'\0'，因此要+1
@@ -40,6 +45,6 @@ return function (w2l_, wct_)
     pack_head()
     pack_custom()
     pack_triggers()
-    
+
     return table.concat(hex)
 end

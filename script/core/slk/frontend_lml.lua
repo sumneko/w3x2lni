@@ -18,6 +18,7 @@ local function load_config()
         end)
         wtg[k] = v
     end
+    wct.format_version = wtg.format_version
 end
 
 local function load_custom()
