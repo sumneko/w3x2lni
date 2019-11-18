@@ -10,7 +10,12 @@ local function unpack(fmt)
 end
 
 local function read_head()
-    local ver = unpack 'l'
+    local ver = unpack 'L'
+    if ver > 1 then
+        assert(ver == 0x80000004, lang.script.UNSUPPORTED_WCT)
+        chunk.format_version = ver
+        ver = unpack 'L'
+    end
     assert(ver == 1, lang.script.UNSUPPORTED_WCT)
 end
 
@@ -38,6 +43,19 @@ local function read_triggers()
     end
 end
 
+local function read_triggers_new()
+    chunk.triggers = {}
+    while unpack_index <= #wct do
+        local id = unpack 'L'
+        if id == 0 then
+            chunk.triggers[#chunk.triggers+1] = ''
+        else
+            local str = unpack 'z'
+            chunk.triggers[#chunk.triggers+1] = str
+        end
+    end
+end
+
 return function (w2l, wct_)
     wct = wct_
     unpack_index = 1
@@ -45,7 +63,11 @@ return function (w2l, wct_)
 
     read_head()
     read_custom()
-    read_triggers()
-    
+    if chunk.format_version then
+        read_triggers_new()
+    else
+        read_triggers()
+    end
+
     return chunk
 end
