@@ -105,6 +105,9 @@ local function load_category(dir, parent)
         local line = dir[i]
         local k, v = line[1], line[2]
         if v then
+            local path = dir_name .. '\\' .. k
+            if loader(path..'.lml') then
+            end
             load_trigger(line, category.id, dir_name)
         else
             if k == lang.lml.COMMENT then
