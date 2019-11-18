@@ -11,5 +11,6 @@
         "compare_value",
         "window"
     ],
-    "Lua.runtime.version": "Lua 5.4"
+    "Lua.runtime.version": "Lua 5.4",
+    "files.insertFinalNewline": false
 }
