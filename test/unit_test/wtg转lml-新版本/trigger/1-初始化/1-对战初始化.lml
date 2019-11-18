@@ -1,0 +1,12 @@
+事件
+    MapInitializationEvent
+条件
+动作
+    MeleeStartingVisibility
+    MeleeStartingHeroLimit
+    MeleeGrantHeroItems
+    MeleeStartingResources
+    MeleeClearExcessUnits
+    MeleeStartingUnits
+    MeleeStartingAI
+    MeleeInitVictoryDefeat

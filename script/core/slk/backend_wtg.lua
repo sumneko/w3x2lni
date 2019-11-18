@@ -319,7 +319,7 @@ local function pack_elements()
         , 1 + #wtg.objs
         , wtg.unknown7
         , wtg.unknown8
-        , w2l.slk.w3i[lang.w3i.MAP][lang.w3i.MAP_NAME] or 'Unknown'
+        , w2l.slk and w2l.slk.w3i[lang.w3i.MAP][lang.w3i.MAP_NAME] or 'Unknown'
         , wtg.unknown9
         , wtg.unknown10
         , wtg.unknown11

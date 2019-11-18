@@ -1,0 +1,7 @@
+事件
+    TriggerRegisterPlayerEventEndCinematic
+        预设: Player00
+条件
+动作
+    DisableTrigger
+        函数: GetTriggeringTrigger

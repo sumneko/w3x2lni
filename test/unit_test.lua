@@ -3,6 +3,7 @@ local uni = require 'ffi.unicode'
 local core = require 'backend.sandbox_core'
 local root = require 'backend.w2l_path'
 local config = require 'share.config'
+local fs   = require 'bee.filesystem'
 
 local slk_keys = {
     ['units\\abilitydata.slk']      = {
@@ -330,6 +331,27 @@ end
 
 function mt:read(filename)
     return io.load(self._path / filename)
+end
+
+function mt:dir(filename)
+    return (self._path / filename):list_directory()
+end
+
+function mt:packDir(filename)
+    local base = self._path / filename
+    local packs = {}
+    local function scan(dir)
+        for path in dir:list_directory() do
+            if fs.is_directory(path) then
+                scan(path)
+            else
+                local relative = fs.relative(path, base)
+                packs[relative:string()] = io.load(path)
+            end
+        end
+    end
+    scan(base)
+    return packs
 end
 
 function mt:compare_string(str1, str2)

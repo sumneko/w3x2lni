@@ -1,0 +1,9 @@
+事件
+    TriggerRegisterPlayerEventEndCinematic
+        预设: Player00
+条件
+动作
+    SetPlayerState
+        预设: Player00
+        预设: PlayerStateGold
+        常量: 750

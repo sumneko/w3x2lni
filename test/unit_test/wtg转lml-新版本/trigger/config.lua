@@ -1,0 +1,12 @@
+FormatVersion = 1.31
+Unknown1 = 1
+Unknown2 = 0
+Unknown3 = 0
+Unknown4 = 0
+Unknown5 = 0
+Unknown6 = 0
+Unknown7 = 1
+Unknown8 = 0
+Unknown9 = 0
+Unknown10 = 0
+Unknown11 = -1
