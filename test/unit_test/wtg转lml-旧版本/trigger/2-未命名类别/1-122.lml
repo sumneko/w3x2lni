@@ -1,0 +1,6 @@
+事件
+条件
+    OperatorCompareReal
+        常量: 10
+        预设: OperatorGreaterEq
+        常量: 10
