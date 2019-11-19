@@ -28,15 +28,10 @@ local function load_custom()
     }
 end
 
-local function load_vars(category, dir)
-    if not wtg.vars then
-        wtg.vars = {'', false}
-    end
-    dir = dir and dir .. '\\' or ''
-    local vars = w2l:parse_lml(loader(dir .. 'variable.lml') or '')
+local function load_vars()
+    local vars = w2l:parse_lml(loader('variable.lml') or '')
     for i = 3, #vars do
         local var = vars[i]
-        var.category = category
         wtg.vars[#wtg.vars+1] = var
     end
 end
@@ -161,10 +156,13 @@ return function (w2l_, loader_)
     wtg = {}
     wct = {}
     loader = loader_
+    wtg.vars = {}
 
     load_config()
     load_custom()
-    load_vars(0)
+    if not wtg.format_version then
+        load_vars()
+    end
     load_triggers()
 
     return wtg, wct

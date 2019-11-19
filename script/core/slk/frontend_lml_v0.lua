@@ -14,6 +14,8 @@ end
 
 local function load_vars()
     wtg.vars = w2l:parse_lml(loader('variable.lml') or '')
+    table.remove(wtg.vars, 1)
+    table.remove(wtg.vars, 1)
 end
 
 local function load_trigger(trg, id, filename)

@@ -217,10 +217,6 @@ local function convert_config(wtg)
 end
 
 local function read_variables(files, map)
-    if wtg.format_version then
-        table.remove(wtg.vars, 1)
-        table.remove(wtg.vars, 1)
-    end
     local vars = convert_vars(wtg.vars, 0)
     if #vars > 0 then
         files['variable.lml'] = vars
