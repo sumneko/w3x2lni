@@ -264,15 +264,13 @@ local function pack_trigger(trg)
     if wtg.format_version then
         pack('L', trg.id)
     end
-    pack('llll'
+    pack('lllll'
         , trg.enable
         , trg.wct
         , trg.close
         , trg.run
+        , trg.category
     )
-    if wtg.format_version then
-        pack('L', trg.category)
-    end
     pack_list(trg.trg, true)
 end
 

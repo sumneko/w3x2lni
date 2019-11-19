@@ -36,6 +36,31 @@ local function load_vars()
     end
 end
 
+local function is_trigger(trg, path)
+    for i = 3, #trg do
+        local line = trg[i]
+        local k, v = line[1], line[2]
+        if v then
+            break
+        end
+        if k == lang.lml.COMMENT then
+            return true
+        elseif k == lang.lml.DISABLE then
+            return true
+        elseif k == lang.lml.CLOSE then
+            return true
+        elseif k == lang.lml.RUN then
+            return true
+        end
+    end
+    if loader(path..'.lml')
+    or loader(path..'.j')
+    or loader(path..'.txt') then
+        return true
+    end
+    return false
+end
+
 local function load_trigger(trg, id, path)
     local trigger = {
         obj = 'trigger',
@@ -103,7 +128,7 @@ local function load_category(dir, parent, parent_dir)
         comment = 0,
         obj = 'category',
     }
-    local dir_name = dir[1] or dir[2]
+    --local dir_name = dir[1] or dir[2]
     category.name = dir[2]
     local object_id = #wtg.objs + 1
     category.id = object_id | 0x02000000
@@ -117,9 +142,7 @@ local function load_category(dir, parent, parent_dir)
             local path = parent_dir .. '\\' .. k
             if loader(path..'.v.lml') then
                 load_var(line, category.id, path)
-            elseif loader(path..'.lml')
-            or     loader(path..'.txt')
-            or     loader(path..'.j') then
+            elseif is_trigger(line, path) then
                 load_trigger(line, category.id, path)
             else
                 load_category(line, category.id, path)
