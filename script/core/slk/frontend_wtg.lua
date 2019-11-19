@@ -110,7 +110,6 @@ local function read_category()
     category.id      = unpack 'l'
     category.name    = unpack 'z'
     category.comment = unpack 'l'
-    category.category= 0
 
     if chunk.format_version then
         category.unknown1 = unpack 'l'

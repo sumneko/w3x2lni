@@ -94,19 +94,21 @@ local function read_dirs()
     for _, trg in ipairs(wtg.triggers) do
         table.insert(objs[trg.category], trg)
     end
-    for _, cat in ipairs(wtg.categories) do
-        table.insert(objs[cat.category], cat)
-    end
-    if wtg.trgvars then
+    if wtg.format_version then
+        for _, cat in ipairs(wtg.categories) do
+            table.insert(objs[cat.category], cat)
+        end
         for _, var in ipairs(wtg.trgvars) do
             table.insert(objs[var.category], var)
         end
     end
     local lml = { '', false }
     local function unpack(childs, dir_data)
-        table.sort(childs, function (a, b)
-            return wtg.sort[a] < wtg.sort[b]
-        end)
+        if wtg.sort then
+            table.sort(childs, function (a, b)
+                return wtg.sort[a] < wtg.sort[b]
+            end)
+        end
         local used = {}
         for i, obj in ipairs(childs) do
             local result
@@ -139,16 +141,26 @@ local function read_dirs()
         end
     end
 
-    unpack(objs[0], lml)
+    if wtg.format_version then
+        unpack(objs[0], lml)
+    else
+        local used = {}
+        for i, dir in ipairs(wtg.categories) do
+            dir.path = get_path(dir.name, used, i, #wtg.categories)
+            local cate = { dir.path, dir.name }
+            lml[#lml+1] = cate
+            unpack(objs[dir.id], cate)
+        end
+    end
 
     return convert_lml(lml)
 end
 
 local function get_trg_path(map, id, path)
-    if not id or id == 0 then
+    local dir = map[id]
+    if not dir then
         return path
     end
-    local dir = map[id]
     return get_trg_path(map, dir.category, dir.path .. '\\' .. path)
 end
 
@@ -156,7 +168,6 @@ local function read_triggers(files, map)
     if not wtg then
         return
     end
-    local triggers = {}
     for i, trg in ipairs(wtg.triggers) do
         local path = get_trg_path(map, trg.category, trg.path)
         if trg.wct == 0 and trg.type == 0 then
@@ -223,13 +234,13 @@ end
 
 local function build_map()
     local map = {}
-    for _, trg in ipairs(wtg.triggers) do
-        map[trg.id] = trg
-    end
     for _, cat in ipairs(wtg.categories) do
         map[cat.id] = cat
     end
-    if wtg.trgvars then
+    if wtg.format_version then
+        for _, trg in ipairs(wtg.triggers) do
+            map[trg.id] = trg
+        end
         for _, var in ipairs(wtg.trgvars) do
             map[var.id] = var
         end
