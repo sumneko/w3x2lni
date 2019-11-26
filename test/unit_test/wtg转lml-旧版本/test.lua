@@ -48,7 +48,12 @@ local wct = read 'war3map.wct'
 local wtg_data = w2l:frontend_wtg(wtg)
 local wct_data = w2l:frontend_wct(wct)
 local files = w2l:backend_lml(wtg_data, wct_data)
-assert(equal(files, targetfiles2))
+local files2 = {}
+for path, buf in pairs(files) do
+    path = path:gsub('/', '\\')
+    files2[path] = buf
+end
+assert(equal(files2, targetfiles2))
 
 
 local w2l = w3x2lni()
