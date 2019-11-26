@@ -68,5 +68,7 @@ local targetwct = w2l:backend_wct(wct_data)
 local wtg = read 'war3map.wtg'
 local wct = read 'war3map.wct'
 
+print('targetwct', targetwct)
+print('wct', wct)
 assert(targetwtg:gsub('\r\n', '\n') == wtg:gsub('\r\n', '\n'))
 assert(targetwct:gsub('\r\n', '\n') == wct:gsub('\r\n', '\n'))
