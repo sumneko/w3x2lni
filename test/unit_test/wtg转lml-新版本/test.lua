@@ -1,5 +1,4 @@
 local lang = require 'share.lang'
-local util = require 'share.utility'
 lang:set_lang('zhCN')
 
 --- 递归判断A与B是否相等
@@ -65,21 +64,10 @@ w2l:set_setting { mode = 'obj', data_ui = '${DATA}' }
 local wtg_data, wct_data = w2l:frontend_lml(function (filename)
     return read('trigger/' .. filename)
 end)
-print(util.dump(wtg_data))
 local targetwtg = w2l:backend_wtg(wtg_data)
 local targetwct = w2l:backend_wct(wct_data)
 local wtg = read 'war3map.wtg'
 local wct = read 'war3map.wct'
 
-local function codeDump(hex)
-    local bytes = {string.byte(hex, 1, -1)}
-    for i = 1, #bytes do
-        bytes[i] = ('%02x'):format(bytes[i])
-    end
-    for i = 1, #bytes, 16 do
-        print(table.concat(bytes, ' ', i, math.min(#bytes, i+15)))
-    end
-end
-codeDump(targetwtg)
 assert(targetwtg == wtg)
 assert(targetwct == wct)

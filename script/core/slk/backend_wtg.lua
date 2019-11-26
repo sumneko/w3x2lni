@@ -7,6 +7,8 @@ local hex
 
 local pack_eca
 
+print('EVENT', lang.lml.EVENT)
+
 local CALL     = lang.lml.CALL:match '^(.-)%s*$'
 local DISABLE  = lang.lml.DISABLE:match '^(.-)%s*$'
 local PRESET   = lang.lml.PRESET:match '^(.-)%s*$'
