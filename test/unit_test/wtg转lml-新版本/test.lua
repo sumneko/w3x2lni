@@ -1,4 +1,5 @@
 local lang = require 'share.lang'
+local util = require 'share.utility'
 lang:set_lang('zhCN')
 
 --- 递归判断A与B是否相等
@@ -53,6 +54,8 @@ for path, buf in pairs(files) do
     path = path:gsub('/', '\\')
     files2[path] = buf
 end
+print(util.dump(files2))
+print(util.dump(targetfiles2))
 assert(equal(files2, targetfiles2))
 
 
