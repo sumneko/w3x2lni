@@ -61,14 +61,18 @@ local w2l = w3x2lni()
 w2l:set_setting { mode = 'obj', data_ui = '${DATA}' }
 
 local wtg_data, wct_data = w2l:frontend_lml(function (filename)
-    return read('trigger/' .. filename)
+    local wtg_data, wct_data = w2l:frontend_lml(function (filename)
+        local buf = read('trigger/' .. filename)
+        if buf then
+            buf = buf:gsub('\r\n', '\n')
+        end
+        return buf
+    end)
 end)
 local targetwtg = w2l:backend_wtg(wtg_data)
 local targetwct = w2l:backend_wct(wct_data)
-local wtg = read 'war3map.wtg'
-local wct = read 'war3map.wct'
+local wtg = read 'war3map.wtg':gsub('\r\n', '\n')
+local wct = read 'war3map.wct':gsub('\r\n', '\n')
 
-print('targetwct', targetwct)
-print('wct', wct)
 assert(targetwtg:gsub('\r\n', '\n') == wtg:gsub('\r\n', '\n'))
 assert(targetwct:gsub('\r\n', '\n') == wct:gsub('\r\n', '\n'))
