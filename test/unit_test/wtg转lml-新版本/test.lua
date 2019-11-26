@@ -60,10 +60,12 @@ assert(equal(files2, targetfiles2))
 
 
 local w2l = w3x2lni()
-w2l:set_setting { mode = 'obj',  data_ui = '${DATA}' }
+w2l:set_setting { mode = 'obj', data_ui = '${DATA}' }
 
 local wtg_data, wct_data = w2l:frontend_lml(function (filename)
-    return read('trigger/' .. filename)
+    local buf = read('trigger/' .. filename)
+    print('read', filename, buf and #buf or buf)
+    return buf
 end)
 local targetwtg = w2l:backend_wtg(wtg_data)
 local targetwct = w2l:backend_wct(wct_data)
