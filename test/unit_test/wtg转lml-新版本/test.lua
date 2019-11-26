@@ -65,18 +65,8 @@ local wtg_data, wct_data = w2l:frontend_lml(function (filename)
 end)
 local targetwtg = w2l:backend_wtg(wtg_data)
 local targetwct = w2l:backend_wct(wct_data)
-local function codeDump(hex)
-    local bytes = {string.byte(hex, 1, -1)}
-    for i = 1, #bytes do
-        bytes[i] = ('%02x'):format(bytes[i])
-    end
-    for i = 1, #bytes, 16 do
-        print(table.concat(bytes, ' ', i, math.min(#bytes, i+15)))
-    end
-end
-codeDump(targetwtg)
 local wtg = read 'war3map.wtg'
 local wct = read 'war3map.wct'
 
-assert(targetwtg == wtg)
-assert(targetwct == wct)
+assert(targetwtg:gsub('\r\n', '\n') == wtg:gsub('\r\n', '\n'))
+assert(targetwct:gsub('\r\n', '\n') == wct:gsub('\r\n', '\n'))
