@@ -76,7 +76,7 @@ local function codeDump(hex)
         bytes[i] = ('%02x'):format(bytes[i])
     end
     for i = 1, #bytes, 16 do
-        print(table.concat(bytes, ' ', i, math.min(#bytes, i+16)))
+        print(table.concat(bytes, ' ', i, math.min(#bytes, i+15)))
     end
 end
 codeDump(targetwtg)
