@@ -365,6 +365,7 @@ function mt:set_setting(setting)
     choose('data')
     choose('data_meta')
     choose('data_wes')
+    choose('data_ui')
     dir = default[setting.mode]
     choose('read_slk', toboolean)
     choose('find_id_times', math.tointeger)
