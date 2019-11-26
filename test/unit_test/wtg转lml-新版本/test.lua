@@ -65,9 +65,20 @@ w2l:set_setting { mode = 'obj',  data_ui = '${DATA}' }
 local wtg_data, wct_data = w2l:frontend_lml(function (filename)
     return read('trigger/' .. filename)
 end)
-local targetwtg = w2l:backend_wtg(wtg_data):gsub('\r\n', '\n')
-local targetwct = w2l:backend_wct(wct_data):gsub('\r\n', '\n')
-local wtg = read 'war3map.wtg' :gsub('\r\n', '\n')
-local wct = read 'war3map.wct' :gsub('\r\n', '\n')
+local targetwtg = w2l:backend_wtg(wtg_data)
+local targetwct = w2l:backend_wct(wct_data)
+local wtg = read 'war3map.wtg'
+local wct = read 'war3map.wct'
+
+local function codeDump(hex)
+    local bytes = {string.byte(hex, 1, -1)}
+    for i = 1, #bytes do
+        bytes[i] = ('%02x'):format(bytes[i])
+    end
+    for i = 1, #bytes, 16 do
+        print(table.concat(bytes, ' ', i, math.min(#bytes, i+16)))
+    end
+end
+codeDump(targetwtg)
 assert(targetwtg == wtg)
 assert(targetwct == wct)
