@@ -271,7 +271,6 @@ function mt:w3x2lni()
         for k, v in pairs(data) do
             setting[k] = v
         end
-        setting['data_ui'] = '${DATA}'
         set_setting(self, setting)
     end
     w2l:set_setting()

@@ -35,7 +35,7 @@ end
 
 
 local w2l = w3x2lni()
-w2l:set_setting { mode = 'lni' }
+w2l:set_setting { mode = 'lni',  data_ui = '${DATA}'}
 
 local targetfiles = packDir 'trigger'
 local targetfiles2 = {}
