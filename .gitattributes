@@ -1,4 +1,4 @@
 data/* linguist-vendored
-*.lml -text
-*.txt -text
-*.j -text
+*.lml text eol=crlf
+*.txt text eol=crlf
+*.j text eol=crlf
