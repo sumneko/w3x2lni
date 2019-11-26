@@ -63,10 +63,9 @@ local w2l = w3x2lni()
 w2l:set_setting { mode = 'obj', data_ui = '${DATA}' }
 
 local wtg_data, wct_data = w2l:frontend_lml(function (filename)
-    local buf = read('trigger/' .. filename)
-    print('read', filename, buf and #buf or buf)
-    return buf
+    return read('trigger/' .. filename)
 end)
+print(util.dump(wtg_data))
 local targetwtg = w2l:backend_wtg(wtg_data)
 local targetwct = w2l:backend_wct(wct_data)
 local wtg = read 'war3map.wtg'
