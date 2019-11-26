@@ -1,5 +1,4 @@
 local lang = require 'share.lang'
-lang:set_lang('zhCN')
 
 --- 递归判断A与B是否相等
 ---@param a any

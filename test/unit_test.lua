@@ -4,6 +4,8 @@ local core = require 'backend.sandbox_core'
 local root = require 'backend.w2l_path'
 local config = require 'share.config'
 local fs   = require 'bee.filesystem'
+local lang = require 'share.lang'
+lang:set_lang('zhCN')
 
 local slk_keys = {
     ['units\\abilitydata.slk']      = {
