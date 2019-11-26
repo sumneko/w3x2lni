@@ -40,7 +40,6 @@ local targetfiles = packDir 'trigger'
 local targetfiles2 = {}
 for path, buf in pairs(targetfiles) do
     path = path:gsub('/', '\\')
-    print(path, #buf)
     targetfiles2[path] = buf
 end
 local wtg = read 'war3map.wtg'
@@ -51,7 +50,6 @@ local files = w2l:backend_lml(wtg_data, wct_data)
 local files2 = {}
 for path, buf in pairs(files) do
     path = path:gsub('/', '\\')
-    print(path, #buf)
     files2[path] = buf
 end
 assert(equal(files2, targetfiles2))
