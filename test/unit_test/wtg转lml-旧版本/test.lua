@@ -1,5 +1,4 @@
-local lang = require 'share.lang'
-lang:set_lang('zhCN')
+local util = require 'share.utility'
 
 --- 递归判断A与B是否相等
 ---@param a any
@@ -41,7 +40,6 @@ local targetfiles = packDir 'trigger'
 local targetfiles2 = {}
 for path, buf in pairs(targetfiles) do
     path = path:gsub('/', '\\')
-    buf = buf:gsub('\r\n', '\n')
     targetfiles2[path] = buf
 end
 local wtg = read 'war3map.wtg'
@@ -52,7 +50,6 @@ local files = w2l:backend_lml(wtg_data, wct_data)
 local files2 = {}
 for path, buf in pairs(files) do
     path = path:gsub('/', '\\')
-    buf = buf:gsub('\r\n', '\n')
     files2[path] = buf
 end
 assert(equal(files2, targetfiles2))
@@ -62,18 +59,12 @@ local w2l = w3x2lni()
 w2l:set_setting { mode = 'obj', data_ui = '${DATA}' }
 
 local wtg_data, wct_data = w2l:frontend_lml(function (filename)
-    local wtg_data, wct_data = w2l:frontend_lml(function (filename)
-        local buf = read('trigger/' .. filename)
-        if buf then
-            buf = buf:gsub('\r\n', '\n')
-        end
-        return buf
-    end)
+    return read('trigger/' .. filename)
 end)
 local targetwtg = w2l:backend_wtg(wtg_data)
 local targetwct = w2l:backend_wct(wct_data)
-local wtg = read 'war3map.wtg':gsub('\r\n', '\n')
-local wct = read 'war3map.wct':gsub('\r\n', '\n')
+local wtg = read 'war3map.wtg'
+local wct = read 'war3map.wct'
 
-assert(targetwtg:gsub('\r\n', '\n') == wtg:gsub('\r\n', '\n'))
-assert(targetwct:gsub('\r\n', '\n') == wct:gsub('\r\n', '\n'))
+assert(targetwtg == wtg)
+assert(targetwct == wct)

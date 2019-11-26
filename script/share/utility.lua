@@ -431,4 +431,23 @@ function m.viewString(str, quo)
     end
 end
 
+function m.lines(buf)
+    local lines = {}
+    local current = 1
+    while true do
+        local pos = buf:find('[\r\n]', current)
+        if not pos then
+            lines[#lines+1] = buf:sub(current)
+            break
+        end
+        lines[#lines+1] = buf:sub(current, pos-1)
+        if buf:sub(current, pos, pos+1) == '\r\n' then
+            current = pos + 2
+        else
+            current = pos + 1
+        end
+    end
+    return lines
+end
+
 return m
