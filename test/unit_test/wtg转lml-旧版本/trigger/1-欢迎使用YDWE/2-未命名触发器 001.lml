@@ -3,5 +3,8 @@
         预设: Player00
 条件
 动作
-    ExecuteFunc
-        常量: Test
+    CommandAI
+        预设: Player00
+        常量: 0
+        数组: Public
+            常量: 1
