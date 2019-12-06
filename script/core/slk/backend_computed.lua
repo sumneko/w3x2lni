@@ -74,7 +74,9 @@ local function computed_value(slk, str, name, field)
         w2l.messager.report(lang.report.COMPUTED_TEXT_FAILED, 5, ('%s %s %s'):format(get_displayname_by_id(slk, name)), ('%s: <%s>'):format(field, str))
         return
     end
-    key = key:lower()
+    if key then
+        key = key:lower()
+    end
     local res = switch(key) {
         mindmg1 = function ()
             return (get_value(o, 'dmgplus1') or 0) + (get_value(o, 'dice1') or 0)
