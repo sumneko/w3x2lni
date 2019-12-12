@@ -340,7 +340,7 @@ int __cdecl wmain(int argc, wchar_t* argv[])
 			}
 		}
 		execute_crashreport(L"CLI", error, silent);
-		proto.message_error(error);
+		fprintf(stderr, "%s\n", error.c_str());
 		return EXIT_FAILURE;
 	}
 	return EXIT_SUCCESS;
