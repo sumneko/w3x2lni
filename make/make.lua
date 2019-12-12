@@ -102,13 +102,8 @@ local function unit_test()
         error('运行失败：\n')
     end
     print('正在单元测试...')
-    while true do
-        local line = process.stdout:read 'l'
-        if line then
-            print(line)
-        else
-            break
-        end
+    for line in process.stdout:lines() do
+        print(line)
     end
     local err = process.stderr:read 'a'
     local exit_code = process:wait()
