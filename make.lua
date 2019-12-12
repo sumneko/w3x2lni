@@ -99,6 +99,9 @@ lm:shared_library 'lni' {
 lm:build 'ffi_dynasm' {
     '$luamake', 'lua', 'make/ffi_dynasm.lua',
     output = "3rd/bee.lua/3rd/luaffi/src/call_x86.h",
+    deps = {
+        'lua',
+    }
 }
 
 lm:phony {

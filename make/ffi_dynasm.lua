@@ -6,7 +6,7 @@ local bee = CWD / '3rd' / 'bee.lua'
 
 local function dynasm(output, input, flags)
     local process = assert(sp.spawn {
-        bee / 'make' / 'lua.exe',
+        CWD / 'build' / 'msvc' / 'bin' / 'lua.exe',
         bee / '3rd' / 'luaffi' / 'src' / 'dynasm' / 'dynasm.lua',
         '-LNE',
         flags or {},
