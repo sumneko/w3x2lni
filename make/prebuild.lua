@@ -46,8 +46,8 @@ local function main()
     makefile(w2l, { major = 1, minor = 27 }, 'Custom')
 
     config.global.data = "zhCN-1.24.4"
-    maketemplate(w2l, 'Melee',  slk_melee)
-    maketemplate(w2l, 'Custom', slk_custom)
+    maketemplate(w2l, { major = 1, minor = 24 }, 'Melee',  slk_melee)
+    maketemplate(w2l, { major = 1, minor = 24 }, 'Custom', slk_custom)
 
     -- 生成技能命令映射
     --local skill_data = w2l:parse_lni(io.load(w2l.template / 'ability.ini'), 'ability.ini')

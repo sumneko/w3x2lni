@@ -13,11 +13,11 @@ return function ()
 
     w2l.messager.text(lang.report.CREATE_TEMPLATE:format(mpq, 'Melee'))
     w2l.progress:start(0.5)
-    maketemplate(w2l, 'Melee')
+    maketemplate(w2l, { major = 1, minor = 24 }, 'Melee')
     w2l.progress:finish()
 
     w2l.messager.text(lang.report.CREATE_TEMPLATE:format(mpq, 'Custom'))
     w2l.progress:start(1.0)
-    maketemplate(w2l, 'Custom')
+    maketemplate(w2l, { major = 1, minor = 24 }, 'Custom')
     w2l.progress:finish()
 end
