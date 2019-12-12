@@ -4,11 +4,11 @@ int __stdcall wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCm
 {
 	pipe err;
 	if (!err.open('r')) {
-		return -1;
+		return EXIT_FAILURE;
 	}
 
 	if (!execute_lua(L"GUI", nullptr, &err)) {
-		return -1;
+		return EXIT_FAILURE;
 	}
 
 	char msg[2048];
@@ -27,6 +27,7 @@ int __stdcall wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCm
 	if (pos) {
 		msg[pos] = 0;
 		execute_crashreport(L"GUI", msg, false);
+		return EXIT_FAILURE;
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

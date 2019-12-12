@@ -300,14 +300,14 @@ int __cdecl wmain(int argc, wchar_t* argv[])
 
 	pipe out, err;
 	if (!out.open('r')) {
-		return -1;
+		return EXIT_FAILURE;
 	}
 	if (!err.open('r')) {
-		return -1;
+		return EXIT_FAILURE;
 	}
 
 	if (!execute_lua(L"CLI", &out, &err)) {
-		return -1;
+		return EXIT_FAILURE;
 	}
 
 	protocol proto;
@@ -341,6 +341,7 @@ int __cdecl wmain(int argc, wchar_t* argv[])
 		}
 		execute_crashreport(L"CLI", error, silent);
 		proto.message_error(error);
+		return EXIT_FAILURE;
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }
