@@ -61,7 +61,7 @@ end
 local function computed_value(slk, str, name, field)
     -- TODO: 魔兽计算这个太特殊了，我想我放弃完全模拟了
     local id, key, per = table.unpack(split(str))
-    if not id then
+    if not id or not key then
         w2l.messager.report(lang.report.COMPUTED_TEXT_FAILED, 5, ('%s %s %s'):format(get_displayname_by_id(slk, name)), ('%s: <%s>'):format(field, str))
         return
     end
@@ -74,9 +74,7 @@ local function computed_value(slk, str, name, field)
         w2l.messager.report(lang.report.COMPUTED_TEXT_FAILED, 5, ('%s %s %s'):format(get_displayname_by_id(slk, name)), ('%s: <%s>'):format(field, str))
         return
     end
-    if key then
-        key = key:lower()
-    end
+    key = key:lower()
     local res = switch(key) {
         mindmg1 = function ()
             return (get_value(o, 'dmgplus1') or 0) + (get_value(o, 'dice1') or 0)
