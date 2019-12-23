@@ -1,7 +1,5 @@
 name: build
-
 on: [push, pull_request]
-
 jobs:
   build:
     runs-on: windows-latest
@@ -10,22 +8,9 @@ jobs:
       with:
         ref: refs/heads/master
         submodules : recursive
-    - uses: ilammy/msvc-dev-cmd@v1
+    - uses: actboy168/setup-luamake@master
       with:
         arch: x86
-    - name: Init
-      run: |
-        choco install -y ninja
-        refreshenv
-    - name: Compile luamake
-      run: |
-        git clone https://github.com/actboy168/luamake.git
-        cd luamake
-        git submodule update --init --recursive
-        tools\ninja -f ninja\msvc.ninja
-        cd ..
-    - name: Compile
-      run: |
-        .\luamake\luamake
-        .\luamake\luamake lua make\make.lua ci
+    - run: luamake
+    - run: luamake lua make/make.lua ci
 
