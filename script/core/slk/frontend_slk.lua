@@ -76,10 +76,10 @@ local function slk_private(table, slk)
     end
 end
 
-local function slk_update_level(table, slk, update_level)
+local function slk_update_level(table, slk, txt, level_key)
     for name in pairs(slk) do
         local obj = table[name]
-        obj._max_level = obj[update_level]
+        obj._max_level = obj[level_key] or (tonumber(txt[name] and txt[name][level_key])) or 1
         if not obj._max_level or obj._max_level == 0 then
             obj._max_level = 1
         elseif obj._max_level and obj._max_level > 10000 then
@@ -243,7 +243,7 @@ return function(w2l_, loader)
     local count = 0
     w2l.progress:start(0.3)
     for _, filename in pairs(w2l.info.txt) do
-        w2l:parse_txt(loader(filename), filename, txt)
+        w2l:parse_txt(loader(filename) or '', filename, txt)
     end
     for _, filename in pairs(w2l.info.misc) do
         w2l:parse_txt(loader(filename), filename, misc)
@@ -259,21 +259,17 @@ return function(w2l_, loader)
         datas[type] = {}
         if w2l.info.slk[type] then
             for i, filename in ipairs(w2l.info.slk[type]) do
-                local update_level
                 local keys = {}
                 local meta = {}
                 for _, key in ipairs(keydata[filename]) do
                     keys[#keys+1] = key
                     meta[#meta+1] = metadata[type][key]
-                    if key == level_key then
-                        update_level = level_key
-                    end
                 end
                 local slk = w2l:parse_slk(loader(filename))
                 slk_read(datas[type], slk, keys, meta)
                 slk_private(datas[type], slk)
-                if update_level then
-                    slk_update_level(datas[type], slk, update_level)
+                if level_key then
+                    slk_update_level(datas[type], slk, txt, level_key)
                 end
             end
         end

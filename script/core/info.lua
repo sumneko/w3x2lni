@@ -90,6 +90,8 @@ return {
         
         'units\\itemstrings.txt',
         'units\\itemfunc.txt',
+
+        'doodads\\doodadskins.txt',
     },
     misc = {
         'ui\\miscdata.txt',

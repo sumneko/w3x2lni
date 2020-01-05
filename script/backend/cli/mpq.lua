@@ -80,6 +80,7 @@ local function extract()
             extract_mpq(dir .. 'Units\\UnitMetaData.slk')
             extract_mpq(dir .. 'Units\\MiscMetaData.slk')
             extract_mpq(dir .. 'Doodads\\DoodadMetaData.slk')
+            extract_mpq(dir .. 'Doodads\\DoodadSkins.txt')
             extract_mpq(dir .. 'UI\\UnitEditorData.txt')
             for type, slks in pairs(w2l.info.slk) do
                 for _, name in ipairs(slks) do
@@ -107,6 +108,7 @@ local function extract()
             extract_casc(dirs, 'Units\\UnitMetaData.slk')
             extract_casc(dirs, 'Units\\MiscMetaData.slk')
             extract_casc(dirs, 'Doodads\\DoodadMetaData.slk')
+            extract_casc(dirs, 'Doodads\\DoodadSkins.txt')
             extract_casc(dirs, 'UI\\UnitEditorData.txt')
             for type, slks in pairs(w2l.info.slk) do
                 for _, name in ipairs(slks) do
