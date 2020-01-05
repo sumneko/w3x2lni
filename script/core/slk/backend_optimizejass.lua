@@ -41,7 +41,7 @@ end
 return function (w2l)
     local common   = w2l:file_load('map', 'common.j')   or w2l:file_load('scripts', 'common.j')   or w2l:mpq_load('scripts\\common.j')
     local blizzard = w2l:file_load('map', 'blizzard.j') or w2l:file_load('scripts', 'blizzard.j') or w2l:mpq_load('scripts\\blizzard.j')
-    local war3map  = w2l:file_load('map', 'war3map.j')  or w2l:file_load('scripts', 'war3map.j')
+    local war3map  = w2l:file_load('map', 'war3map.j')  or w2l:file_load('scripts', 'war3map.j')  or w2l:file_load('map', 'scripts\\war3map.j')
     if not war3map then
         w2l.messager.report(lang.report.ERROR, 1, lang.report.NO_JASS)
         return
