@@ -5,7 +5,7 @@ ffi.cdef[[
     bool CascOpenStorage(const wchar_t* szParams, unsigned long dwLocaleMask, uint32_t* phStorage);
     bool CascCloseStorage(uint32_t* hStorage);
     bool CascOpenFile(uint32_t hStorage, const char* szFileName, unsigned long dwLocaleFlags, unsigned long dwOpenFlags, uint32_t* PtrFileHandle);
-    unsigned long CascGetFileSize(uint32_t hFile, unsigned long* pdwFileSizeHigh);
+    long CascGetFileSize(uint32_t hFile, long* pdwFileSizeHigh);
     bool CascReadFile(uint32_t hFile, void* lpBuffer, unsigned long dwToRead, unsigned long* pdwRead);
     bool CascCloseFile(uint32_t hFile);
 ]]
@@ -22,7 +22,7 @@ function rfile:size()
     if self.handle == 0 then
         return 0
     end
-    local size_hi = ffi.new('unsigned long[1]', 0)
+    local size_hi = ffi.new('long[1]', 0)
     local size_lo = casclib.CascGetFileSize(self.handle, size_hi)
     return size_lo | (size_hi[0] << 32)
 end
@@ -33,6 +33,9 @@ function rfile:read(n)
     end
     if not n then
         n = self:size()
+    end
+    if n < 0 then
+        return nil
     end
     local buf = ffi.new('char[?]', n)
     local pread = ffi.new('unsigned long[1]', 0)
@@ -100,7 +103,7 @@ end
 
 function archive:has_file(name)
     local file <close> = self:open_file(name)
-    return file ~= nil
+    return file ~= nil and file:size() >= 0
 end
 
 function archive:load_file(name)
