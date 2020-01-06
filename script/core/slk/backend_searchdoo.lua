@@ -27,7 +27,12 @@ return function(w2l)
         end
     else
         for i = 1, n do
-            local id = unpack 'c4lfffffffbbl'
+            local id = unpack 'c4lfffffff'
+            -- TODO TM暴雪改了文件格式不改版本号的
+            if unpack_buf:sub(unpack_pos, unpack_pos+3) == id then
+                unpack_pos = unpack_pos + 4
+            end
+            unpack 'bbl'
             destructable[id] = true
             for j = 1, unpack 'l' do
                 -- 因为会生成jass代码，所以这部分引用我们可以不分析
