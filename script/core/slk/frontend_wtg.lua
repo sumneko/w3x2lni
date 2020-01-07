@@ -335,9 +335,6 @@ local function read_comment()
         return nil
     end
 
-    if not chunk.triggers then
-        chunk.triggers = {}
-    end
     chunk.triggers[#chunk.triggers+1] = trigger
     return trigger
 end
@@ -363,9 +360,6 @@ local function read_script()
         return nil
     end
 
-    if not chunk.triggers then
-        chunk.triggers = {}
-    end
     chunk.triggers[#chunk.triggers+1] = trigger
     return trigger
 end
@@ -378,9 +372,6 @@ local function read_triggers()
 end
 
 local function read_var_in_element()
-    if not chunk.trgvars then
-        chunk.trgvars = {}
-    end
     local trgvar = {
         obj      = 'var',
         id       = unpack 'L',
@@ -416,6 +407,8 @@ local function read_elements()
     chunk.unknown11 = unpack 'l'
 
     chunk.sort = {}
+    chunk.trgvars = {}
+    chunk.triggers = {}
     for i = 1, count do
         local obj = read_element(i)
         chunk.sort[obj] = i
