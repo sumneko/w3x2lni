@@ -123,7 +123,7 @@ function mt:pairs()
             return next_one()
         end
         local ext = lname:match '[^%.]+$'
-        if ext == 'mdx' or ext == 'mdl' or ext == 'blp' or ext == 'tga' then
+        if ext == 'mdx' or ext == 'mdl' or ext == 'blp' or ext == 'tga' or ext == 'dds' then
             type = 'resource'
         elseif ext == 'mp3' or ext == 'wav' then
             type = 'sound'
