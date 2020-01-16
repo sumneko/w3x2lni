@@ -291,11 +291,22 @@ local function fix_globals()
     end
 end
 
+local function can_be_any_executed(func)
+    if not executed_any then
+        return false
+    end
+    -- 带有参数的函数不可能被 execute
+    if func.args then
+        return false
+    end
+    return true
+end
+
 local function mark_executed_used(func)
     if func.used then
         return
     end
-    if executed_any then
+    if can_be_any_executed(func) then
         mark_function(func)
         return
     end
@@ -316,6 +327,9 @@ local function mark_executed_confuse(func)
     if func.native then
         return
     end
+    if can_be_any_executed(func) then
+        return
+    end
     for head in pairs(executes) do
         if name:sub(1, #head) == head then
             func.confused = confuse2(head) .. name:sub(#head+1)
@@ -333,7 +347,7 @@ local function mark_executed()
     for _, func in ipairs(jass.functions) do
         mark_executed_used(func)
     end
-    if not executed_any and confuse1 then
+    if confuse1 then
         for _, func in ipairs(jass.functions) do
             mark_executed_confuse(func)
         end
