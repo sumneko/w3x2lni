@@ -368,6 +368,9 @@ local function can_use(name)
         if func.file ~= 'war3map.j' then
             return false
         end
+        if not func.confused then
+            return false
+        end
         return true
     end
     local var, type = get_var(name)
@@ -397,7 +400,7 @@ local function init_confuser(confused, confusion)
     if #chars < 3 then
         report(lang.report.CONFUSE_JASS, lang.report.CONFUSED_FAILED, lang.report.NEED_3_CHARS)
     end
-    
+
     confusion = table.concat(chars)
 
     local count = 0
@@ -437,9 +440,9 @@ return function (ast, _state, config, _report)
     state = _state
 
     init_confuser(config.confused, config.confusion)
-    mark_globals()
     mark_function(get_function 'config')
     mark_function(get_function 'main')
     mark_executed()
+    mark_globals()
     fix_globals()
 end
