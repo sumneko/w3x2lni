@@ -137,6 +137,7 @@ function mt:add_head(data)
     self:value(lang.w3i.SOUND)
     self:value(lang.w3i.LIGHT)
     self:value(lang.w3i.WATER_COLOR)
+    self:value(lang.w3i.UNKNOWN_10)
 
     return data
 end
@@ -155,6 +156,7 @@ function mt:add_player(data)
         self:value(lang.w3i.START_POSITION)
         self:value(lang.w3i.ALLY_LOW_FLAG)
         self:value(lang.w3i.ALLY_HIGH_FLAG)
+        self:value(lang.w3i.UNKNOWN_11)
     end
 end
 
