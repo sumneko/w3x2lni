@@ -45,6 +45,7 @@ function mt:read_head(data, version)
     data.des        = self:get(lang.w3i.MAP_DESC)
     data.player_rec = self:get(lang.w3i.PLAYER_DESC)
     data.script_type= self:get(lang.w3i.SCRIPT_TYPE)
+    data.unknown_10 = self:get(lang.w3i.UNKNOWN_10)
 
     self:current(lang.w3i.CAMERA)
     for i = 1, 8 do
@@ -286,6 +287,10 @@ function mt:add_head(data, version)
         if version >= 28 then
             self:add('l', data.script_type:lower() == 'lua' and 1 or 0)
         end
+
+        if version >= 31 then
+          self:add('i8', data.unknown_10)
+        end
     elseif version == 18 then
         self:add('lzzz', data.loading_screen_id, data.loading_screen_text, data.loading_screen_title, data.loading_screen_subtitle)
 
@@ -302,7 +307,7 @@ function mt:add_player(data)
         --player.ally_low_flag = player.ally_low_flag | ((1 << data.player_count) - 1)
         --player.ally_high_flag = player.ally_high_flag | ((1 << data.player_count) - 1)
 
-        self:add('llllzffLL', player.id, player.type, player.race, player.start_position, player.name, player.start_x, player.start_y, player.ally_low_flag, player.ally_high_flag)
+        self:add('llllzffLLi8', player.id, player.type, player.race, player.start_position, player.name, player.start_x, player.start_y, player.ally_low_flag, player.ally_high_flag, player.unknown_11)
     end
 end
 
@@ -330,7 +335,7 @@ end
 
 function mt:add_tech(data)
     self:add('l', data.tech_count)
-    
+
     for i = 1, data.tech_count do
         local tech = data.techs[i]
 
@@ -347,7 +352,7 @@ function mt:add_randomgroup(data)
         self:add('lz', group.id, group.name)
 
         self:add('l', group.position_count)
-        
+
         for i = 1, group.position_count do
             self:add('l', group.positions[i])
         end
@@ -407,7 +412,7 @@ return function (self, data, wts)
         tbl:read_tech(data)
         tbl:read_randomgroup(data)
         tbl:read_randomitem(data)
-    
+
         tbl:add_head(data, version)
         tbl:add_player(data)
         tbl:add_force(data)
@@ -422,7 +427,7 @@ return function (self, data, wts)
         tbl:read_upgrade(data)
         tbl:read_tech(data)
         tbl:read_randomgroup(data)
-    
+
         tbl:add_head(data, version)
         tbl:add_player(data)
         tbl:add_force(data)

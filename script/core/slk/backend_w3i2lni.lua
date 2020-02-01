@@ -76,6 +76,7 @@ function mt:add_head(data)
     self:value(lang.w3i.MAP_DESC)
     self:value(lang.w3i.PLAYER_DESC)
     self:value(lang.w3i.SCRIPT_TYPE)
+    self:value(lang.w3i.UNKNOWN_10)
 
     self:title(lang.w3i.CAMERA, data)
     self:value(lang.w3i.CAMERA_BOUND)
@@ -137,7 +138,6 @@ function mt:add_head(data)
     self:value(lang.w3i.SOUND)
     self:value(lang.w3i.LIGHT)
     self:value(lang.w3i.WATER_COLOR)
-    self:value(lang.w3i.UNKNOWN_10)
 
     return data
 end

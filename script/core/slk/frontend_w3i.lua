@@ -151,7 +151,7 @@ function mt:add_head(chunk, version)
 
         -- Unknown 8 bytes added in 1.32
         if version >= 31 then
-            chunk[lang.w3i.ENVIRONMENT][lang.w3i.UNKNOWN_10] = self:unpack 'i8'
+            chunk[lang.w3i.MAP][lang.w3i.UNKNOWN_10] = self:unpack 'i8'
         end
     elseif version == 18 then
         chunk[lang.w3i.LOADING_SCREEN] = {
