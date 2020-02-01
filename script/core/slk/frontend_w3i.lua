@@ -144,14 +144,14 @@ function mt:add_head(chunk, version)
             [lang.w3i.WATER_COLOR] = pack(self:unpack 'BBBB'),
         }
 
-        -- Unknown 8 bytes added in 1.32
-        if version >= 31 then
-            chunk[lang.w3i.ENVIRONMENT][lang.w3i.UNKNOWN_10] = self:unpack 'i8'
-        end
-
         if version >= 28 then
             local scriptType = self:unpack 'l'
             chunk[lang.w3i.MAP][lang.w3i.SCRIPT_TYPE] = scriptType == 0 and 'JASS' or 'Lua'
+        end
+
+        -- Unknown 8 bytes added in 1.32
+        if version >= 31 then
+            chunk[lang.w3i.ENVIRONMENT][lang.w3i.UNKNOWN_10] = self:unpack 'i8'
         end
     elseif version == 18 then
         chunk[lang.w3i.LOADING_SCREEN] = {
