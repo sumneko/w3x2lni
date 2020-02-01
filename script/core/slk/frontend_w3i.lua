@@ -147,6 +147,10 @@ function mt:add_head(chunk, version)
         if version >= 28 then
             local scriptType = self:unpack 'l'
             chunk[lang.w3i.MAP][lang.w3i.SCRIPT_TYPE] = scriptType == 0 and 'JASS' or 'Lua'
+
+            if version >= 31 then
+                self:unpack 'i8' -- Unknown added in 1.32
+            end
         end
     elseif version == 18 then
         chunk[lang.w3i.LOADING_SCREEN] = {
@@ -165,7 +169,7 @@ function mt:add_head(chunk, version)
     end
 end
 
-function mt:add_player(chunk)
+function mt:add_player(chunk, version)
     chunk[lang.w3i.PLAYER] = {
         [lang.w3i.PLAYER_COUNT] = self:unpack 'l',
     }
@@ -181,6 +185,10 @@ function mt:add_player(chunk)
             [lang.w3i.ALLY_LOW_FLAG]      = unpack_flag(self:unpack 'L'),
             [lang.w3i.ALLY_HIGH_FLAG]     = unpack_flag(self:unpack 'L'),
         }
+
+        if version >= 31 then
+            self:unpack 'i8' -- Unknown added in 1.32
+        end
     end
 end
 
@@ -317,7 +325,7 @@ return function (w2l_, content, wts)
     local version = tbl:get_version(data)
     if version >= 25 then
         tbl:add_head(data, version)
-        tbl:add_player(data)
+        tbl:add_player(data, version)
         tbl:add_force(data)
         tbl:add_upgrade(data)
         tbl:add_tech(data)
@@ -325,7 +333,7 @@ return function (w2l_, content, wts)
         tbl:add_randomitem(data)
     elseif version == 18 then
         tbl:add_head(data, version)
-        tbl:add_player(data)
+        tbl:add_player(data, version)
         tbl:add_force(data)
         tbl:add_upgrade(data)
         tbl:add_tech(data)
