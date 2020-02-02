@@ -151,7 +151,8 @@ function mt:add_head(chunk, version)
 
         -- Unknown 8 bytes added in 1.32
         if version >= 31 then
-            chunk[lang.w3i.MAP][lang.w3i.UNKNOWN_10] = self:unpack 'i8'
+            chunk[lang.w3i.MAP][lang.w3i.UNKNOWN_10] = self:unpack 'l'
+            chunk[lang.w3i.MAP][lang.w3i.UNKNOWN_11] = self:unpack 'l'
         end
     elseif version == 18 then
         chunk[lang.w3i.LOADING_SCREEN] = {
@@ -188,7 +189,9 @@ function mt:add_player(chunk, version)
         }
 
         if version >= 31 then
-            chunk[lang.w3i.PLAYER..i][lang.w3i.UNKNOWN_11] = self:unpack 'i8' -- Unknown added in 1.32
+            -- Unknown added in 1.32
+            chunk[lang.w3i.PLAYER..i][lang.w3i.UNKNOWN_12] = self:unpack 'l'
+            chunk[lang.w3i.PLAYER..i][lang.w3i.UNKNOWN_13] = self:unpack 'l'
         end
     end
 end

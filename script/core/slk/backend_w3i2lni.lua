@@ -77,6 +77,7 @@ function mt:add_head(data)
     self:value(lang.w3i.PLAYER_DESC)
     self:value(lang.w3i.SCRIPT_TYPE)
     self:value(lang.w3i.UNKNOWN_10)
+    self:value(lang.w3i.UNKNOWN_11)
 
     self:title(lang.w3i.CAMERA, data)
     self:value(lang.w3i.CAMERA_BOUND)

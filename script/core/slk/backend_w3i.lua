@@ -46,6 +46,7 @@ function mt:read_head(data, version)
     data.player_rec = self:get(lang.w3i.PLAYER_DESC)
     data.script_type= self:get(lang.w3i.SCRIPT_TYPE)
     data.unknown_10 = self:get(lang.w3i.UNKNOWN_10)
+    data.unknown_11 = self:get(lang.w3i.UNKNOWN_11)
 
     self:current(lang.w3i.CAMERA)
     for i = 1, 8 do
@@ -139,6 +140,8 @@ function mt:read_player(data)
         player.start_y        = self:get(lang.w3i.START_POSITION)[2]
         player.ally_low_flag  = pack_flag(self:get(lang.w3i.ALLY_LOW_FLAG))
         player.ally_high_flag = pack_flag(self:get(lang.w3i.ALLY_HIGH_FLAG))
+        player.unknown_12     = self:get(lang.w3i.UNKNOWN_12)
+        player.unknown_13     = self:get(lang.w3i.UNKNOWN_13)
     end
 end
 
@@ -289,7 +292,8 @@ function mt:add_head(data, version)
         end
 
         if version >= 31 then
-          self:add('i8', data.unknown_10)
+            self:add('l', data.unknown_10)
+            self:add('l', data.unknown_11)
         end
     elseif version == 18 then
         self:add('lzzz', data.loading_screen_id, data.loading_screen_text, data.loading_screen_title, data.loading_screen_subtitle)
@@ -307,7 +311,7 @@ function mt:add_player(data)
         --player.ally_low_flag = player.ally_low_flag | ((1 << data.player_count) - 1)
         --player.ally_high_flag = player.ally_high_flag | ((1 << data.player_count) - 1)
 
-        self:add('llllzffLLi8', player.id, player.type, player.race, player.start_position, player.name, player.start_x, player.start_y, player.ally_low_flag, player.ally_high_flag, player.unknown_11)
+        self:add('llllzffLLll', player.id, player.type, player.race, player.start_position, player.name, player.start_x, player.start_y, player.ally_low_flag, player.ally_high_flag, player.unknown_12, player.unknown_13)
     end
 end
 
