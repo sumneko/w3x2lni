@@ -19,6 +19,9 @@ local errors
 local Extends, Type, Integers, Code, Var
 
 local function pushErrors(str, level, type)
+    if #errors >= 100 then
+        return
+    end
     local err = {
         jass = jass,
         file = file,
