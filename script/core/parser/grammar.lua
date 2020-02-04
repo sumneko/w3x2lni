@@ -95,6 +95,7 @@ EXITWHEN    <-  Sp 'exitwhen' Cut
 LOCAL       <-  Sp 'local' Cut
 TRUE        <-  Sp 'true' Cut
 FALSE       <-  Sp 'false' Cut
+DEBUG       <-  Sp 'debug' Cut
 ]]
 
 grammar 'Esc' [[
@@ -252,7 +253,8 @@ Action      <-  (
             ->  Action
 Actions     <-  (Nl / Action)*
 
-ACall       <-  (CALL Name^SYNTAX_ERROR PL ACallArgs? PR^ERROR_MISS_PR)
+-- Are you kidding me Blizzard?
+ACall       <-  (DEBUG? CALL Name^SYNTAX_ERROR PL ACallArgs? PR^ERROR_MISS_PR)
             ->  ACall
 ACallArgs   <-  Exp (COMMA Exp)*
 
