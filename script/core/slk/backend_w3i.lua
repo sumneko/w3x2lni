@@ -302,7 +302,7 @@ function mt:add_head(data, version)
     end
 end
 
-function mt:add_player(data)
+function mt:add_player(data, version)
     self:add('l', data.player_count)
 
     for i = 1, data.player_count do
@@ -311,7 +311,11 @@ function mt:add_player(data)
         --player.ally_low_flag = player.ally_low_flag | ((1 << data.player_count) - 1)
         --player.ally_high_flag = player.ally_high_flag | ((1 << data.player_count) - 1)
 
-        self:add('llllzffLLll', player.id, player.type, player.race, player.start_position, player.name, player.start_x, player.start_y, player.ally_low_flag, player.ally_high_flag, player.unknown_12, player.unknown_13)
+        if version >= 31 then
+            self:add('llllzffLLll', player.id, player.type, player.race, player.start_position, player.name, player.start_x, player.start_y, player.ally_low_flag, player.ally_high_flag, player.unknown_12, player.unknown_13)
+        else
+            self:add('llllzffLL', player.id, player.type, player.race, player.start_position, player.name, player.start_x, player.start_y, player.ally_low_flag, player.ally_high_flag)
+        end
     end
 end
 
@@ -418,7 +422,7 @@ return function (self, data, wts)
         tbl:read_randomitem(data)
 
         tbl:add_head(data, version)
-        tbl:add_player(data)
+        tbl:add_player(data, version)
         tbl:add_force(data)
         tbl:add_upgrade(data)
         tbl:add_tech(data)
@@ -433,7 +437,7 @@ return function (self, data, wts)
         tbl:read_randomgroup(data)
 
         tbl:add_head(data, version)
-        tbl:add_player(data)
+        tbl:add_player(data, version)
         tbl:add_force(data)
         tbl:add_upgrade(data)
         tbl:add_tech(data)
