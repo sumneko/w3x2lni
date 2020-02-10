@@ -15,6 +15,7 @@ local P = lpeg.P
 local R = lpeg.R
 local C = lpeg.C
 local Cs = lpeg.Cs
+local Ct = lpeg.Ct
 
 local nl1  = P'\r\n' + S'\r\n'
 local com  = P'//' * (1-nl1)^0
@@ -28,8 +29,8 @@ local wst  = quo * ('TRIGSTR_' * num^3 / fwts) * quo
 local mtch = C(nl) + Cs(wst) + C(str)
 local any  = C((1 - mtch)^1)
 
-local pjass = (mtch + any)^0 / function(...)
-    return table.concat {...}
+local pjass = Ct((mtch + any)^0) / function(t)
+    return table.concat(t)
 end
 
 local function convert_wts(name)
