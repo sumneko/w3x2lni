@@ -12,8 +12,6 @@ local pairs = pairs
 
 local mt = {}
 
-local keydata
-
 local function load_file(path)
     local f = io.open(path)
     if f then
@@ -56,17 +54,24 @@ function mt:metadata()
 end
 
 function mt:keydata()
-    if not keydata then
-        keydata = lni(assert(self:data_load('prebuilt\\keydata.ini')))
+    if not self.cache_keydata then
+        self.cache_keydata = lni(assert(self:data_load('prebuilt\\keydata.ini')))
     end
     -- 兼容旧版lni
-    if keydata.root then
-        for k, v in pairs(keydata.root) do
-            keydata[k] = v
+    if self.cache_keydata.root then
+        for k, v in pairs(self.cache_keydata.root) do
+            self.cache_keydata[k] = v
         end
-        keydata.root = nil
+        self.cache_keydata.root = nil
     end
-    return keydata
+    return self.cache_keydata
+end
+
+function mt:slktitle()
+    if not self.cache_slktitle then
+        self.cache_slktitle = lni(assert(self:data_load('prebuilt\\slktitle.ini')))
+    end
+    return self.cache_slktitle
 end
 
 function mt:get_editstring(source)
