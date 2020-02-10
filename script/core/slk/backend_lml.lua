@@ -39,7 +39,7 @@ end
 
 local function lml_key(str)
     if type(str) == 'string' then
-        if find(str:match '^%s*(.-)%s*$', "[%s%:%'%c]") then
+        if find(str:match '^[ \t]*(.-)[ \t]*$', "[%s%:%'%c]") then
             str = format("'%s'", gsub(str, "'", "''"))
         end
     end
