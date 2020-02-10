@@ -6,6 +6,7 @@ local makefile = require 'prebuilt.makefile'
 local maketemplate = require 'prebuilt.maketemplate'
 local prebuilt_metadata = require 'prebuilt.metadata'
 local prebuilt_keydata = require 'prebuilt.keydata'
+local prebuilt_slktitle = require 'prebuilt.slktitle'
 local prebuilt_search = require 'prebuilt.search'
 local proto = require 'share.protocol'
 local lang = require 'share.lang'
@@ -249,8 +250,10 @@ return function ()
     w2l.cache_metadata = w2l:parse_lni(io.load(output / 'prebuilt' / 'metadata.ini'))
     fs.create_directories(output / 'prebuilt')
     local keydata = prebuilt_keydata(w2l, loader)
+    local slktitle = prebuilt_slktitle(w2l, loader)
     local search = prebuilt_search(w2l, loader)
     io.save(output / 'prebuilt' / 'keydata.ini', keydata)
+    io.save(output / 'prebuilt' / 'slktitle.ini', slktitle)
     io.save(output / 'prebuilt' / 'search.ini', search)
     w2l.cache_metadata = nil
 
