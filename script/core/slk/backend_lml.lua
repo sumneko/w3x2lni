@@ -6,15 +6,11 @@ local wct
 local wts
 
 local type = type
-local tonumber = tonumber
-local pairs = pairs
 local ipairs = ipairs
 local find = string.find
 local gsub = string.gsub
 local format = string.format
 local rep = string.rep
-local buf
-local lml_table
 
 local sp_rep = setmetatable({}, {
     __index = function (self, k)
@@ -46,21 +42,21 @@ local function lml_key(str)
     return str
 end
 
-local function lml_value(v, sp)
+local function lml_value(buf, v, sp)
     if v[2] then
         buf[#buf+1] = format('%s%s: %s\r\n', sp_rep[sp], lml_key(v[1]), lml_string(v[2]))
     else
         buf[#buf+1] = format('%s%s\r\n', sp_rep[sp], lml_string(v[1]))
     end
     for i = 3, #v do
-        lml_value(v[i], sp+4)
+        lml_value(buf, v[i], sp+4)
     end
 end
 
 local function convert_lml(tbl)
-    buf = {}
+    local buf = {}
     for i = 3, #tbl do
-        lml_value(tbl[i], 0)
+        lml_value(buf, tbl[i], 0)
     end
     return table.concat(buf)
 end
