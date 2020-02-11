@@ -378,6 +378,12 @@ local function read_var_in_element()
         name     = unpack 'z',
         category = unpack 'L',
     }
+
+    -- 删除掉的触发直接丢掉
+    if chunk.deleted_variables and chunk.deleted_variables[trgvar.id & 0xffffff] then
+        return nil
+    end
+
     chunk.trgvars[#chunk.trgvars+1] = trgvar
     return trgvar
 end
