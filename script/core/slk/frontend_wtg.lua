@@ -303,7 +303,7 @@ local function read_trigger()
     read_ecas(trigger.trg, count, false, {lang.lml.EVENT, lang.lml.CONDITION, lang.lml.ACTION})
 
     -- 删除掉的触发直接丢掉
-    if chunk.deleted_triggers and chunk.deleted_triggers[trigger.id] then
+    if chunk.deleted_triggers and chunk.deleted_triggers[trigger.id & 0xffffff] then
         return nil
     end
 
@@ -331,7 +331,7 @@ local function read_comment()
     local count = unpack 'l'
 
     -- 删除掉的触发直接丢掉
-    if chunk.deleted_comments and chunk.deleted_comments[trigger.id] then
+    if chunk.deleted_comments and chunk.deleted_comments[trigger.id & 0xffffff] then
         return nil
     end
 
@@ -356,7 +356,7 @@ local function read_script()
     local count = unpack 'l'
 
     -- 删除掉的触发直接丢掉
-    if chunk.deleted_scripts and chunk.deleted_scripts[trigger.id] then
+    if chunk.deleted_scripts and chunk.deleted_scripts[trigger.id & 0xffffff] then
         return nil
     end
 
