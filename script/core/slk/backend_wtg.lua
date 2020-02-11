@@ -304,7 +304,7 @@ end
 local function pack_trigger_in_element(trg)
     if trg.type == 0 then
         pack('L', 8)
-    elseif trg.wct then
+    elseif trg.wct == 1 then
         pack('L', 32)
     else
         pack('L', 16)

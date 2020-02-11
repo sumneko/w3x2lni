@@ -81,23 +81,6 @@ local function get_path(path, used, index,  max)
 end
 
 local function read_dirs()
-    local objs = {
-        [0] = {}
-    }
-    for _, dir in ipairs(wtg.categories) do
-        objs[dir.id] = {}
-    end
-    for _, trg in ipairs(wtg.triggers) do
-        table.insert(objs[trg.category], trg)
-    end
-    if wtg.format_version then
-        for _, cat in ipairs(wtg.categories) do
-            table.insert(objs[cat.category], cat)
-        end
-        for _, var in ipairs(wtg.trgvars) do
-            table.insert(objs[var.category], var)
-        end
-    end
     local lml = { '', false }
     local function unpack(childs, dir_data)
         if wtg.sort then
@@ -134,15 +117,24 @@ local function read_dirs()
                 if obj.comment == 1 then
                     result[#result+1] = { lang.lml.COMMENT }
                 end
-                unpack(objs[obj.id], result)
+                unpack(obj.childs, result)
             end
             dir_data[#dir_data+1] = result
         end
     end
 
     if wtg.format_version then
-        unpack(objs[0], lml)
+        unpack(wtg.root.childs, lml)
     else
+        local objs = {
+            [0] = {}
+        }
+        for _, dir in ipairs(wtg.categories) do
+            objs[dir.id] = {}
+        end
+        for _, trg in ipairs(wtg.triggers) do
+            table.insert(objs[trg.category], trg)
+        end
         local used = {}
         for i, dir in ipairs(wtg.categories) do
             dir.path = get_path(dir.name, used, i, #wtg.categories)

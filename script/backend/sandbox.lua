@@ -52,6 +52,7 @@ local function sandbox_env(loadlua, openfile, loaded)
 
     _E.io = {
         open = openfile,
+        __open = io.open,
     }
 
     local function searchpath(name, path)

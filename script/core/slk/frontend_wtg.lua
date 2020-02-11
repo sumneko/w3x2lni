@@ -114,10 +114,11 @@ local function read_category()
     if chunk.format_version then
         category.unknown1 = unpack 'l'
         category.category = unpack 'L'
+        category.childs = {}
 
         -- 删除掉的目录直接丢掉
         if chunk.deleted_categories[category.id] then
-            return
+            return nil
         end
     end
 
@@ -125,6 +126,7 @@ local function read_category()
         chunk.categories = {}
     end
     chunk.categories[#chunk.categories+1] = category
+
     return category
 end
 
@@ -390,17 +392,39 @@ end
 
 local function read_element(n)
     local classifier = unpack 'l'
+    local ele
     if classifier == 4 then
-        return read_category()
+        ele = read_category()
     elseif classifier == 8 then
-        return read_trigger()
+        ele = read_trigger()
     elseif classifier == 16 then
-        return read_comment()
+        ele = read_comment()
     elseif classifier == 32 then
-        return read_script()
+        ele = read_script()
     elseif classifier == 64 then
-        return read_var_in_element()
+        ele = read_var_in_element()
     end
+    if not ele then
+        return nil
+    end
+
+    -- 新版本中，需要根据顺序手动构造目录结构
+    -- WTF Blizzard, the ids between different categories
+    -- can be same, so what's the meaning of this id?
+    while true do
+        local parent = chunk.cate_stack[#chunk.cate_stack]
+        if parent.id == ele.category then
+            parent.childs[#parent.childs+1] = ele
+            if classifier == 4 then
+                chunk.cate_stack[#chunk.cate_stack+1] = ele
+            end
+            break
+        end
+        assert(parent.id ~= 0)
+        chunk.cate_stack[#chunk.cate_stack] = nil
+    end
+
+    return ele
 end
 
 local function read_elements()
@@ -415,6 +439,8 @@ local function read_elements()
     chunk.sort = {}
     chunk.trgvars = {}
     chunk.triggers = {}
+    chunk.root = { id = 0, childs = {} }
+    chunk.cate_stack = { chunk.root }
     for i = 1, count do
         local obj = read_element(i)
         chunk.sort[obj] = i
