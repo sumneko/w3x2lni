@@ -38,7 +38,8 @@ local function read_triggers()
         if size == 0 then
             chunk.triggers[i] = ''
         else
-            chunk.triggers[i] = unpack 'z'
+            chunk.triggers[i] = unpack unpack('c'..(size-1))
+            unpack('c1')
         end
     end
 end
@@ -50,7 +51,8 @@ local function read_triggers_new()
         if size == 0 then
             chunk.triggers[#chunk.triggers+1] = ''
         else
-            chunk.triggers[#chunk.triggers+1] = unpack 'z'
+            chunk.triggers[#chunk.triggers+1] = unpack('c'..(size-1))
+            unpack('c1')
         end
     end
 end

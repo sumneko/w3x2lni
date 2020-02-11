@@ -31,7 +31,8 @@ local function pack_triggers()
         if #trg > 0 then
             -- 这里的字符串长度算上了'\0'，因此要+1
             pack('l', #trg+1)
-            pack('z', trg)
+            pack('c'..#trg, trg)
+            pack('c1', '\0')
         else
             pack('l', 0)
         end

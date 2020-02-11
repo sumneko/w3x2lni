@@ -131,6 +131,9 @@ local function read_dirs()
                 result = var_data
             elseif obj.obj == 'category' then
                 result = { obj.path, obj.name }
+                if obj.comment == 1 then
+                    result[#result+1] = { lang.lml.COMMENT }
+                end
                 unpack(objs[obj.id], result)
             end
             dir_data[#dir_data+1] = result
@@ -164,7 +167,8 @@ local function read_triggers(files, map)
     if not wtg then
         return
     end
-    for i, trg in ipairs(wtg.triggers) do
+    local wct_index = 0
+    for _, trg in ipairs(wtg.triggers) do
         local path = get_trg_path(map, trg.category, trg.path)
         if trg.wct == 0 and trg.type == 0 then
             files[path..'.lml'] = convert_lml(trg.trg)
@@ -172,8 +176,16 @@ local function read_triggers(files, map)
         if #trg.des > 0 then
             files[path..'.txt'] = trg.des
         end
+        -- 在新格式下，只有type = 0的触发器，才会与wct对齐
+        if wtg.format_version then
+            if trg.type == 0 then
+                wct_index = wct_index + 1
+            end
+        else
+            wct_index = wct_index + 1
+        end
         if trg.wct == 1 then
-            local buf = wct.triggers[i]
+            local buf = wct.triggers[wct_index]
             if #buf > 0 then
                 files[path..'.j'] = buf
             end

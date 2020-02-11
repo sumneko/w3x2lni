@@ -96,6 +96,12 @@ local function load_trigger(trg, id, path)
     else
         wct.triggers[#wct.triggers+1] = ''
     end
+    if wct.format_version then
+        if trigger.type ~= 0 then
+            -- 在新格式下，只有type = 0的触发器，才会与wct对齐
+            wct.triggers[#wct.triggers] = nil
+        end
+    end
 
     wtg.triggers[#wtg.triggers+1] = trigger
 
