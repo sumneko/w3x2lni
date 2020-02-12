@@ -1,0 +1,530 @@
+// Vengeance
+[Avng]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Researchbuttonpos=0,0
+Order=Vengeance
+Orderon=Vengeanceon
+Orderoff=Vengeanceoff
+
+[Bvng]
+
+// Mana Flare
+[Amfl]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Order=manaflareon
+Unorder=manaflareoff
+
+[Bmfl]
+
+[Bmfa]
+Missilespeed=1000
+MissileHoming=1
+
+// Phase Shift
+[Apsh]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Orderon=phaseshifton
+Orderoff=phaseshiftoff
+Order=phaseshift
+
+[Bpsh]
+
+// Ethereal
+[Aetl]
+Buttonpos=2,2
+
+// Sphere
+[Asp1]
+Missilespeed=1400
+
+// Sphere
+[Asp2]
+Missilespeed=1400
+
+// Sphere
+[Asp3]
+Missilespeed=1400
+
+// Sphere
+[Asp4]
+Missilespeed=1400
+
+// Sphere
+[Asp5]
+Missilespeed=1400
+
+// Sphere
+[Asp6]
+Missilespeed=1400
+
+// Night Elf Build
+[AEbu]
+Buttonpos=0,2
+Order=nightelfbuild
+
+// Grab Tree
+[Agra]
+Buttonpos=1,2
+Order=grabtree
+
+// Hardened Skin
+[Assk]
+Requires=Rehs
+Buttonpos=2,2
+
+// Resistant Skin
+[Arsk]
+Buttonpos=3,2
+Requires=Rers
+
+// Taunt
+[Atau]
+Buttonpos=0,2
+Order=taunt
+
+[Btau]
+
+// Blink
+[AEbl]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=blink
+// Art to play at the new coordinate
+// Art to leave behind at old coordinate
+
+// Fan of Knives
+[AEfk]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=fanofknives
+Missilespeed=700
+
+// Shadow Strike
+[AEsh]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Missilespeed=1200
+MissileHoming=1
+Order=shadowstrike
+
+// Shadow Strike Non Stack Buff
+[BEsh]
+
+// Shadow Strike Stack Buff
+[BEsi]
+
+// Spirit of Vengeance
+[AEsv]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Missilespeed=700
+Order=spiritofvengeance
+
+[BEsv]
+
+// Cargo Load entangled mine
+[Slo2]
+Buttonpos=0,2
+Order=load
+
+// Impaling Bolt - see unitfunc
+//[Aimp]
+
+// Moon Glaive
+[Amgl]
+Requires=Remg
+Buttonpos=1,2
+
+// Moon Glaive
+[Amgr]
+Buttonpos=1,2
+
+// Slow poison
+[Aspo]
+Buttonpos=1,2
+
+// Slow Poison Non Stack Buff
+[Bspo]
+Spelldetail=2
+
+// Slow Poison Stack Buff
+[Bssd]
+Spelldetail=2
+
+// Shadow Meld passive nighttime cloaking ability, with its "Hide" button
+[Ashm]
+Buttonpos=2,1
+Order=ambush
+
+// Shadow Meld (Item) passive cloaking ability, with its "Hide" button
+[AIhm]
+Buttonpos=2,1
+Order=ambush
+
+// Shadow Meld passive nighttime cloaking ability, with its "Hide" button
+[Ahid]
+Buttonpos=2,1
+Order=ambush
+
+// instant
+[Sshm]
+Buttonpos=2,1
+Order=ambush
+
+// Sentinel
+[Aesn]
+Requires=Resc
+Buttonpos=0,2
+MissileSpeed=1500
+Order=sentinel
+
+// Sentinel (no research)
+[Aesr]
+Buttonpos=0,2
+MissileSpeed=1500
+Order=sentinel
+
+[XEsn]
+
+// Eat Tree
+[Aeat]
+Buttonpos=0,2
+Order=eattree
+
+// Moon pool mana battery
+[Ambt]
+Buttonpos=0,0
+Unbuttonpos=0,0
+// One for each normal race, and a special one for demons and their corrupted moon well.
+Order=recharge
+
+// Wisp Harvest
+[Awha]
+Buttonpos=3,1
+UnButtonpos=3,1
+Order=harvest
+
+// Wisp Harvest (Invulnerable)
+[Awh2]
+Buttonpos=3,1
+UnButtonpos=3,1
+Order=harvest
+
+// Detonate
+[Adtn]
+// no longer requires anything...4-5-2002 Pardo
+Buttonpos=1,2
+Order=detonate
+
+// Wisp Healing
+[Awhe]
+Buttonpos=2,2
+Unbuttonpos=2,2
+Requires=Rewh
+Order=wispheal
+Orderon=wisphealon
+Orderoff=wisphealoff
+
+// Entangle
+[Aent]
+Buttonpos=1,2
+Order=entangle
+
+// Entangled Gold Mine Cargo
+[Aenc]
+Buttonpos=1,2
+Unbuttonpos=0,2
+
+// Root
+[Aroo]
+Buttonpos=3,2
+Unbuttonpos=3,2
+Order=root
+Unorder=unroot
+
+// Bear Form
+[Abrf]
+Buttonpos=3,2
+Unbuttonpos=3,2
+Requires=Redc
+Requiresamount=2
+Order=bearform
+Unorder=unbearform
+
+// Crow Form
+[Arav]
+Buttonpos=3,2
+Unbuttonpos=3,2
+Requires=Redt
+Order=ravenform
+Unorder=unravenform
+
+// Auto-Dispel Magic
+[Aadm]
+Requires=Resi
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=autodispel
+Orderon=autodispelon
+Orderoff=autodispeloff
+
+// Spell Immunity
+[Amim]
+Buttonpos=2,2
+
+// Ultravision
+[Ault]
+Requires=Reuv
+
+//Elune's Grace
+[Aegr]
+Buttonpos=1,2
+
+// Couple
+[Acoa]
+Buttonpos=0,2
+Requires=ehip
+
+// Couple (Archer)
+[Aco2]
+Requires=ehip
+Buttonpos=0,2
+
+[Acoh]
+Buttonpos=0,2
+Requires=ehip
+
+// Couple (Hippo)
+[Aco3]
+Buttonpos=0,2
+Requires=ehip
+
+// Decouple
+[Adec]
+Buttonpos=0,2
+Order=decouple
+
+// Corrosive Breath
+[Acor]
+Buttonpos=0,2
+Requires=Recb
+Missilespeed=1000
+Order=corrosivebreath
+
+[Bcor]
+
+// Mana Burn
+[AEmb]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=manaburn
+
+// Immolation
+[AEim]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Researchbuttonpos=1,0
+Order=immolation
+Unorder=unimmolation
+
+[BEim]
+
+// Evasion
+[AEev]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+
+// Metamorphosis
+[AEme]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=metamorphosis
+
+// Illidan Metamorphosis
+[AEIl]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=metamorphosis
+
+// Evil Illidan Metamorphosis
+[AEvi]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=metamorphosis
+
+[BEme]
+
+// Entangling Roots
+[AEer]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=entanglingroots
+
+[BEer]
+
+// Force of Nature
+[AEfn]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=forceofnature
+
+[BEfn]
+
+// Thorns Aura
+[AEah]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+
+[BEah]
+Spelldetail=2
+
+// Tranquility
+[AEtq]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=tranquility
+
+// Tranquility life regeneration
+[AEtr]
+
+[XEtq]
+
+// Scout
+[AEst]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+MissileSpeed=650
+Order=scout
+
+// Searing Arrows
+[AHfa]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Researchbuttonpos=1,0
+Missilespeed=1500
+MissileHoming=1
+Order=flamingarrows
+Unorder=unflamingarrows
+
+// Trueshot Aura
+[AEar]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+
+[BEar]
+Spelldetail=2
+
+// Starfall
+[AEsf]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=starfall
+
+// Starfall life drain
+[AEsd]
+
+[XEsf]
+
+// beefy starfall - campaign spell
+[AEsb]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=starfall
+
+// Faerie Fire
+[Afae]
+Buttonpos=0,2
+Unbuttonpos=0,2
+order=faeriefire
+orderon=faeriefireon
+orderoff=faeriefireoff
+
+// Faerie Fire (storm crow form)
+[Afa2]
+Requires=Reec
+Buttonpos=0,2
+Unbuttonpos=0,2
+order=faeriefire
+orderon=faeriefireon
+orderoff=faeriefireoff
+
+[Bfae]
+Spelldetail=1
+
+// Cyclone
+[Acyc]
+Buttonpos=1,2
+Requires=Redt
+Requiresamount=2
+order=cyclone
+
+[Bcyc]
+
+[Bcy2]
+
+// Rejuvenation
+[Arej]
+Buttonpos=1,2
+Requires=Redc
+order=rejuvination
+
+[Brej]
+
+// Renew
+[Aren]
+Buttonpos=1,1
+Unbuttonpos=1,1
+Order=renew
+Orderon=renewon
+Orderoff=renewoff
+
+// Roar
+[Aroa]
+Buttonpos=0,2
+Order=roar
+
+// Roar (bear form)
+[Ara2]
+Requires=Reeb
+Buttonpos=0,2
+Order=roar
+
+[Broa]
+Spelldetail=1
+
+// Lightning attack
+[Alit]
+Missilespeed=1500
+
+// tree of life upgrade ability
+[Atol]
+
+// used by creep ability
+[Bbar]
+
+// 'damaged' attachment effect, small
+[Xfns]
+
+// medium
+[Xfnm]
+
+// large
+[Xfnl]
+
+//Passive - nightelf improved bows (Reib)
+[Aeib]
+Buttonpos=2,2
+Requires=Reib
+
+//Passive - nightelf marksmanship (Remk)
+[Aemk]
+Buttonpos=3,2
+Requires=Remk
+
+//Passive - nightelf well spring (Rews)
+[Aews]
+Buttonpos=1,0
+Requires=Rews

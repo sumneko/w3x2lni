@@ -1,0 +1,83 @@
+//Allied building
+[Aall]
+
+//purchase item
+[Apit]
+
+//Burrow Detection (Fliers)
+[Abdt]
+
+[Amou]
+Buttonpos=1,1
+Unbuttonpos=1,1
+Order=mount
+Unorder=dismount
+
+[AHer]
+
+[Amov]
+
+[Ahar]
+Buttonpos=3,1
+UnButtonpos=3,1
+Order=harvest
+
+[Ahrl]
+Order=harvest
+// Lumber Harvest uses button art and position from the [Ahar] Harvest ability.
+
+[Aawa]
+Order=awaken
+
+[Arev]
+Order=revive
+
+[Aque]
+Order=revive
+
+// passive 'detector' ability
+[Adet]
+Buttonpos=0,2
+
+[Adt1]
+Buttonpos=0,2
+
+[Adta]
+Buttonpos=0,0
+
+[Xbdt]
+
+[Bdet]
+
+[Bvul]
+
+[Bspe]
+
+[Bfro]
+
+// peon/peasant repair ability
+[Arep]
+Buttonpos=1,1
+Unbuttonpos=1,1
+Order=repair
+Orderon=repairon
+Orderoff=repairoff
+
+// Stun buff
+[BSTN]
+
+// Pause buff
+[BPSE]
+
+[ARal]
+Buttonpos=3,1
+
+[AEpa]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Researchbuttonpos=1,0
+Missilespeed=1500
+MissileHoming=1
+Order=poisonarrowstarg
+Orderon=poisonarrows
+Orderoff=unpoisonarrows

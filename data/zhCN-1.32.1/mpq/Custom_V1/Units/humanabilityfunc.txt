@@ -1,0 +1,391 @@
+// Aerial Shackles
+[Amls]
+Buttonpos=0,2
+Order=magicleash
+
+// Aerial Shackles Caster
+[Bmlc]
+
+// Aerial Shackles Target
+[Bmlt]
+
+// area of effect detection (scry)
+[AHta]
+Requires=Rhse
+ButtonPos=0,2
+
+// Feedback
+[Afbk]
+Buttonpos=3,2
+
+// Feedback
+[Afbt]
+Buttonpos=3,2
+
+
+// Control Magic
+[Acmg]
+Requires=Rhss
+Buttonpos=1,2
+Order=controlmagic
+
+[Bcmg]
+
+// Siphon Mana
+[AHdr]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+
+[Bdbb]
+
+[Bdbl]
+
+[Bdbm]
+
+// Drain Life & Mana (Caster)
+// This buff isn't ever visible on the info card.
+[Bdcb]
+
+// Drain Life (Caster)
+// This buff isn't ever visible on the info card.
+[Bdcl]
+
+// Drain Mana (Caster)
+// This buff isn't ever visible on the info card.
+[Bdcm]
+
+// Drain Life & Mana (Target)
+// This buff isn't ever visible on the info card.
+[Bdtb]
+
+// Drain Life (Target)
+// This buff isn't ever visible on the info card.
+[Bdtl]
+
+// Drain Mana (Target)
+// This buff isn't ever visible on the info card.
+[Bdtm]
+
+// Flak Cannons
+[Aflk]
+Buttonpos=2,2
+Requires=Rhfc
+
+// Frag Shards
+[Afsh]
+Buttonpos=1,2
+Requires=Rhfs
+
+// Rocket Attack
+[Aroc]
+Requires=Rhrt
+Buttonpos=0,2
+Missilespeed=900
+MissileHoming=1
+
+// Magic Defense
+[Amdf]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Order=magicdefense
+Unorder=magicundefense
+
+// Human Build
+[AHbu]
+Buttonpos=0,2
+Order=humanbuild
+
+// Sphere
+[Asph]
+Missilespeed=1400
+
+// Spell Steal
+[Asps]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=spellsteal
+Orderon=spellstealon
+Orderoff=spellstealoff
+Missilespeed=1000
+MissileHoming=1
+
+// Cloud of Fog
+[Aclf]
+Requires=Rhcd
+Buttonpos=1,2
+Order=cloudoffog
+
+[Bclf]
+
+[Xclf]
+
+// Flame Strike
+[AHfs]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=flamestrike
+// Beware art
+// Impact art
+
+[BHfs]
+// Burning art
+
+[XHfs]
+// AOE Burn art
+
+// Banish
+[AHbn]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=banish
+
+[BHbn]
+
+// Summon Phoenix
+[AHpx]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=summonphoenix
+
+// Phoenix (morph)
+[Aphx]
+
+// Phoenix (progress bar)
+[Bphx]
+
+// Phoenix Fire
+[Apxf]
+Buttonpos=0,2
+Missilespeed=900
+MissileHoming=1
+
+// Phoenix Fire
+[Bpxf]
+
+// Flying Machine Bombs
+[Agyb]
+Requires=Rhgb
+Buttonpos=1,2
+
+// Storm Hammers
+[Asth]
+Requires=Rhhb
+Buttonpos=0,2
+
+// flying machine detection
+[Agyv]
+Buttonpos=0,2
+
+// Defend
+[Adef]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Requires=Rhde
+Order=defend
+Unorder=undefend
+
+// Flare
+[Afla]
+Buttonpos=0,2
+Requires=Rhfl
+Order=flare
+
+[Xfla]
+
+// Magic Sentry (passive)
+[Adts]
+Buttonpos=2,1
+Requires=Rhse
+
+// Inner Fire
+[Ainf]
+Buttonpos=2,2
+Unbuttonpos=2,2
+Requires=Rhpt
+Requiresamount=2
+Order=innerfire
+Orderon=innerfireon
+Orderoff=innerfireoff
+
+// example of multiple attachment
+[Binf]
+Spelldetail=1
+
+// Dispel Magic
+[Adis]
+Buttonpos=1,2
+Requires=Rhpt
+Order=dispel
+
+// Heal
+[Ahea]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=heal
+Orderon=healon
+Orderoff=healoff
+
+[Bhea]
+Spelldetail=1
+
+[BNhe]
+Spelldetail=1
+
+// Slow
+[Aslo]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=slow
+Orderon=slowon
+Orderoff=slowoff
+
+[Bslo]
+Spelldetail=1
+
+// Invisibility
+[Aivs]
+Buttonpos=1,2
+Requires=Rhst
+Order=invisibility
+
+[Binv]
+
+// Polymorph art notes:
+// - When Polymorph is cast on an air unit, the "poof" [Aply] Specialart
+//   is played on the targeted unit, and the "falling sheep" [Aply] Effectart
+//   is played on ground under the targeted unit.
+// - When cast on a ground unit, [Bply] Specialart is played on the ground
+//   under the unit when it turns into a sheep, and [Bply] Effectart is played
+//   on the ground under the unit when it turns back into the original unit.
+
+[Aply]
+Buttonpos=2,2
+Requires=Rhst
+Requiresamount=2
+Order=polymorph
+
+[Bply]
+
+// Blizzard
+[AHbz]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=blizzard
+
+[BHbd]
+
+[XHbz]
+
+// Summon Water Elemental
+[AHwe]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=waterelemental
+
+[BHwe]
+
+// Brilliance Aura
+[AHab]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+
+[BHab]
+Spelldetail=2
+
+// Mass Teleport
+[AHmt]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+// Shouldn't show art at targeted coordinate, so don't use Effectart.
+// The targeted unit shouldn't show an effect, so there is no Targetart.
+Order=massteleport
+
+// Storm Bolt
+[AHtb]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missilespeed=1000
+MissileHoming=1
+Order=thunderbolt
+
+[BHtb]
+
+// Thunder Clap
+[AHtc]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=thunderclap
+
+[BHtc]
+
+// Bash
+[AHbh]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Order=bash
+
+[BHbh]
+
+// Avatar
+[AHav]
+Buttonpos=3,2
+Unbuttonpos=3,2
+Researchbuttonpos=3,0
+Order=avatar
+
+[BHav]
+
+// Holy Light
+[AHhb]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=holybolt
+
+// Divine Shield
+[AHds]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Researchbuttonpos=1,0
+Order=divineshield
+Unorder=undivineshield
+
+[BHds]
+
+// Devotion Aura
+[AHad]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+
+[BHad]
+Spelldetail=2
+
+// Resurrection
+[AHre]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=resurrection
+
+// Militia
+[Amil]
+Buttonpos=1,2
+Unbuttonpos=2,2
+Order=militia
+Unorder=militiaoff
+
+[Bmil]
+
+// Militia Conversion
+[Amic]
+Buttonpos=1,2
+Unbuttonpos=2,2
+Order=townbellon
+Unorder=townbelloff
+
+// 'damaged' attachment effect, small
+[Xfhs]
+
+// medium
+[Xfhm]
+
+// large
+[Xfhl]

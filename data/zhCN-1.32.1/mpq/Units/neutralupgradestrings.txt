@@ -1,0 +1,11 @@
+// Non-race-specific upgrades
+// glyph of fortification
+[Rgfo]
+Name=强固雕文,强固雕文,强固雕文
+EditorSuffix=(升级1),(升级2),(升级3)
+
+// glyph of ultravision
+[Rguv]
+Name=夜视雕文
+EditorSuffix= (升级)
+

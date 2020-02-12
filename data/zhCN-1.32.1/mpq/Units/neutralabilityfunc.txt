@@ -1,0 +1,1591 @@
+//-----------------------------------------------------------------------------
+// FIRELORD
+//-----------------------------------------------------------------------------
+
+// Incinerate
+[ANic]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+order=incinerate
+Missilespeed=1000
+MissileHoming=1
+
+// Incinerate (Arrow)
+[ANia]
+Buttonpos=2,2
+Unbuttonpos=2,2
+Researchbuttonpos=2,0
+order=incineratearrow
+orderon=incineratearrowon
+orderoff=incineratearrowon
+Missilespeed=1000
+MissileHoming=1
+
+[BNic]
+
+// Soul Burn
+[ANso]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+order=soulburn
+
+[BNso]
+
+// Summon Lava Spawn
+[ANlm]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+order=slimemonster
+
+[BNlm]
+// SpecialArt is used when the lava monster splits, and is played on the source
+Missilespeed=200
+MissileHoming=1
+
+// Volcano
+[ANvc]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+order=volcano
+
+[BNvc]
+
+[XNvc]
+Missilespeed=400
+MissileHoming=1
+
+//-----------------------------------------------------------------------------
+// TINKER
+//-----------------------------------------------------------------------------
+
+// Summon Factory 0
+[ANsy]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missilespeed=1000
+MissileHoming=1
+Order=summonfactory
+
+// Summon Factory 1
+[ANs1]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missilespeed=1000
+MissileHoming=1
+Order=summonfactory
+
+// Summon Factory 2
+[ANs2]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missilespeed=1000
+MissileHoming=1
+Order=summonfactory
+
+// Summon Factory 3
+[ANs3]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missilespeed=1000
+MissileHoming=1
+Order=summonfactory
+
+[BNfy]
+
+// Cluster Rockets 0
+[ANcs]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=clusterrockets
+Missilespeed=700
+MissileHoming=1
+
+// Cluster Rockets 1
+[ANc1]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=clusterrockets
+Missilespeed=700
+MissileHoming=1
+
+// Cluster Rockets 2
+[ANc2]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=clusterrockets
+Missilespeed=700
+MissileHoming=1
+
+// Cluster Rockets 3
+[ANc3]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=clusterrockets
+Missilespeed=700
+MissileHoming=1
+
+[BNcs]
+
+[XNcs]
+
+// Engineering Upgrade
+[ANeg]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Order=engineeringupgrade
+
+[BNeg]
+
+// Robo-Goblin 0
+[ANrg]
+Buttonpos=3,2
+Unbuttonpos=3,2
+Researchbuttonpos=3,0
+Order=robogoblin
+Unorder=unrobogoblin
+
+// Robo-Goblin 1
+[ANg1]
+Buttonpos=3,2
+Unbuttonpos=3,2
+Researchbuttonpos=3,0
+Order=robogoblin
+Unorder=unrobogoblin
+
+// Robo-Goblin 2
+[ANg2]
+Buttonpos=3,2
+Unbuttonpos=3,2
+Researchbuttonpos=3,0
+Order=robogoblin
+Unorder=unrobogoblin
+
+// Robo-Goblin 3
+[ANg3]
+Buttonpos=3,2
+Unbuttonpos=3,2
+Researchbuttonpos=3,0
+Order=robogoblin
+Unorder=unrobogoblin
+
+// Demolish 0
+[ANde]
+Buttonpos=1,1
+Order=demolish
+
+// Demolish 1
+[ANd1]
+Buttonpos=1,1
+Order=demolish
+
+// Demolish 2
+[ANd2]
+Buttonpos=1,1
+Order=demolish
+
+// Demolish 3
+[ANd3]
+Buttonpos=1,1
+Order=demolish
+
+// Factory 0
+[ANfy]
+Buttonpos=0,2
+
+// Factory 1
+[ANf1]
+Buttonpos=0,2
+
+// Factory 2
+[ANf2]
+Buttonpos=0,2
+
+// Factory 3
+[ANf3]
+Buttonpos=0,2
+
+[BNcg]
+
+//-----------------------------------------------------------------------------
+// ALCHEMIST
+//-----------------------------------------------------------------------------
+
+// Healing Spray
+[ANhs]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missilespeed=700
+Order=healingspray
+
+[BNhs]
+
+[XNhs]
+
+// Acid Bomb
+[ANab]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Missilespeed=700
+MissileHoming=1
+order=acidbomb
+
+[BNab]
+
+// Chemical Rage
+[ANcr]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+order=chemicalrage
+
+[BNcr]
+
+// Transmute
+[ANtm]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Missilespeed=700
+MissileHoming=1
+order=transmute
+
+[BNtm]
+
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+
+
+//glyph of foritifaciton
+[AIgf]
+
+//Glyph of Ultravision
+[AIgu]
+
+//slow on tornado
+[Aasl]
+
+//tornado damage
+[Atdg]
+
+//Tornado Spin
+[Atsp]
+
+//Tornado Wander
+[Atwa]
+
+
+//spawn skeleton
+[Asod]
+
+
+
+
+// Orb of Annihilation
+[ANak]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Missilespeed=1500
+MissileHoming=1
+
+// Blink (beastmaster bear)
+[ANbl]
+Buttonpos=0,2
+Order=blink
+// Art to play at the new coordinate
+// Art to leave behind at old coordinate
+
+// Burrow (Barbed Arachnathid)
+[Abu5]
+Buttonpos=3,2
+Unbuttonpos=3,2
+Order=burrow
+Unorder=unburrow
+
+// Parasite (Eredar)
+[ACpa]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Missilespeed=1900
+Orderon=parasiteon
+Orderoff=parasiteoff
+Order=parasite
+
+// Siphon Mana (Creep)
+[ACsm]
+Buttonpos=2,2
+
+// Banish
+[ACbn]
+Buttonpos=1,2
+Order=banish
+
+// Devour Magic (Creep)
+[ACde]
+Buttonpos=0,2
+Missilespeed=1500
+MissileHoming=1
+
+// Chain Dispel
+[Ache]
+Buttonpos=1,2
+Missilespeed=900
+MissileHoming=1
+
+
+
+// Hardened Skin
+[Ansk]
+Buttonpos=2,2
+
+// Mana Shield
+[ANms]
+Buttonpos=2,2
+Unbuttonpos=2,2
+Researchbuttonpos=2,0
+Orderon=manashieldon
+Orderoff=manashieldoff
+
+[BNms]
+
+// Rain of Fire
+[ANrf]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=rainoffire
+
+// Rain of Fire (creep, greater)
+[ACrg]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=rainoffire
+
+[BNrd]
+
+[XErf]
+
+// Frost Arrows
+[ANfa]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Researchbuttonpos=1,0
+Missilespeed=1500
+MissileHoming=1
+
+// Cold Arrows
+[AHca]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Researchbuttonpos=1,0
+Missilespeed=1500
+MissileHoming=1
+
+// Cold Arrow Buff (Non-Stacking)
+[BHca]
+
+// Cold Arrow Buff (Stacking)
+[Bcsd]
+
+// Cold Arrow Buff (Stack Info)
+[Bcsi]
+
+// Cleaving Attack
+[ANca]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+
+// Cleaving Attack (creep)
+[ACce]
+Buttonpos=1,2
+
+// Howl of Terror
+[ANht]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=howlofterror
+
+[BNht]
+
+// Howl of Terror
+[Acht]
+Buttonpos=0,2
+Order=howlofterror
+
+// Doom
+[ANdo]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=doom
+
+[BNdo]
+
+[BNdi]
+// no buffart, this is not displayed
+
+// Earth, Storm, and Fire
+[ANef]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=elementalfury
+Missilespeed=150
+
+[BNef]
+// Effectart on birth
+// Specialart on death
+
+// Wind Walk (Creep)
+[ANwk]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=windwalk
+
+// Taunt (neutral)
+[ANta]
+Buttonpos=0,2
+Order=taunt
+
+// Life Drain
+[ANdr]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+
+// Life Drain(Creep)
+[ACdr]
+Buttonpos=0,2
+
+// Unit Inventory (2 slot)
+// undead
+[Aiun]
+Requires=Rupm
+
+// orc
+[Aion]
+Requires=Ropm
+
+// human
+[Aihn]
+Requires=Rhpm
+
+// night elf
+[Aien]
+Requires=Repm
+
+// Summon Grizzly
+[ANsg]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=summongrizzly
+
+[BNsg]
+
+// Summon Quillbeast
+[ANsq]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=summonquillbeast
+
+[BNsq]
+
+// Summon War Eagle
+[ANsw]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Order=summonwareagle
+
+[BNsw]
+
+// Stampede
+[ANst]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Missilespeed=500
+//#LINENOBETA
+Order=stampede
+
+// Hex  (Creep)
+[AChx]
+Buttonpos=1,2
+Order=hex
+
+// Entangling Roots Seaweed Version (Creep)
+[Aenw]
+Buttonpos=0,2
+Order=entanglingroots
+
+// Healing Wave (creep)
+[AChV]
+Buttonpos=0,2
+Order=healingwave
+
+// Silence (Creep)
+[ACsi]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=silence
+
+// Mana Shield(Creep)
+[ACmf]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Order=manashield
+
+// Shadow Strike
+[ACss]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Missilespeed=1200
+MissileHoming=1
+Order=shadowstrike
+
+// Frost Bolt
+[ACcb]
+Buttonpos=0,2
+Missilespeed=1000
+MissileHoming=1
+Order=thunderbolt
+
+// Breath of Frost (creep)
+[ACbf]
+Buttonpos=0,2
+Missilespeed=1050
+Order=breathoffire
+
+[BCbf]
+
+// Breath of Fire (creep)
+[ACbc]
+Buttonpos=0,2
+Missilespeed=1050
+Order=breathoffire
+
+// Flame Strike
+[ACfs]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=flamestrike
+// Beware art
+// Impact art
+
+// Flame Strike (improved creep)
+[ANfs]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=flamestrike
+// Beware art
+// Impact art
+
+// Impale
+[ACmp]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=impale
+
+// Neutral Build
+[ANbu]
+Buttonpos=0,2
+Order=build
+
+// Inventory
+[AInv]
+
+// Thorns
+[ANth]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Researchbuttonpos=1,0
+Order=Thornyshield
+Unorder=Unthornyshield
+
+// Thorns, dragon turtle, 2,2 button pos
+[ANt2]
+Buttonpos=2,2
+Researchbuttonpos=1,0
+Order=Thornyshield
+
+
+// Mind Rot
+[ANmr]
+Buttonpos=0,2
+Order=mindrot
+
+[BNmr]
+
+// Preservation
+[ANpr]
+
+// Pulverize (sea giant)
+[ACpv]
+Buttonpos=0,2
+
+// Spell Shield
+[ANss]
+
+// Breath of Fire
+[ANbf]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missilespeed=1050
+Order=breathoffire
+
+[BNbf]
+
+// Drunken Brawler
+[ANdb]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+
+// Drunken Haze
+[ANdh]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Missilespeed=1500
+Order=drunkenhaze
+
+[BNdh]
+
+// Silence
+[ANsi]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=silence
+
+[BNsi]
+
+// Black Arrow
+[ANba]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Researchbuttonpos=1,0
+Missilespeed=1050
+MissileHoming=1
+Orderon=blackarrowon
+Orderoff=blackarrowoff
+Order=blackarrow
+
+[BNba]
+
+[BNdm]
+
+// Black Arrow
+[ACbk]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Missilespeed=1050
+MissileHoming=1
+Orderon=blackarrowon
+Orderoff=blackarrowoff
+Order=blackarrow
+
+// Charm (Creep)
+[ACch]
+Buttonpos=3,2
+Order=charm
+
+// Charm
+[ANch]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=charm
+
+[BNch]
+//disabled because charm is now permanent
+
+// Monsoon
+[ANmo]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=monsoon
+
+[ANmd]
+
+[BNmo]
+
+[XNmo]
+
+// creep monsoon
+[ACmo]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=monsoon
+
+// Watery Minion
+[ANwm]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Order=wateryminion
+
+[BNwm]
+
+// watery minion makrura
+[Aslp]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Order=wateryminion
+
+// Tornado
+[ANto]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=tornado
+
+// Tornado - Slow Aura
+[Basl]
+
+// Tornado - Spin
+[Btsp]
+
+[XNto]
+
+[BNto]
+
+// Healing Ward (Creep)
+[AChw]
+Buttonpos=0,2
+Order=healingward
+
+// Rejuvenation (Furbolg)
+[ACr2]
+Buttonpos=0,2
+order=rejuvination
+
+// magic immunity (creep)
+[ACmi]
+Buttonpos=2,2
+
+// Magic Immunity (Archimonde)
+[ACm2]
+Buttonpos=1,1
+
+// Magic Immunity (Dragons)
+[ACm3]
+Buttonpos=1,2
+
+// creep polymorph
+[ACpy]
+Buttonpos=2,2
+Order=polymorph
+
+// creep possession
+[ACps]
+Buttonpos=2,2
+Missilespeed=1500
+MissileHoming=1
+Order=possession
+
+// creep purge
+[ACpu]
+Buttonpos=0,2
+Order=purge
+
+// general detect invis
+[Adtg]
+Buttonpos=0,2
+
+// general detect invis
+[ANtr]
+Buttonpos=0,2
+
+// Revenge
+[Arng]
+
+// Dark Conversion
+[ANdc]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Order=darkconversion
+
+[BNdc]
+
+// Dark Conversion (Fast)
+[SNdc]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Order=darkconversion
+
+// Soul Preservation
+[ANsl]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=soulpreservation
+
+[BNsl]
+
+// Inferno (Tichondrius)
+[SNin]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=inferno
+
+// Dark Portal
+[ANdp]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+
+// Rain of Chaos
+[ANrc]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+
+// Rain of Chaos (modified button pos)
+[ANr3]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+
+// Finger of Death
+[ANfd]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+
+// Finger of Pain
+[ACfd]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+
+// Finger of Pain
+[ACf3]
+Buttonpos=2,1
+Researchbuttonpos=0,1
+
+// Finger of Death
+[Afod]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+
+// Cargo Hold Death
+[Achd]
+
+[Bchd]
+
+// permanent immolation
+[ANpi]
+Buttonpos=0,2
+
+// Permanent immolation buff
+[BNpi]
+
+[Apig]
+Buttonpos=0,2
+
+[Bpig]
+
+// Bunker
+[Abun]
+
+[Sbtl]
+Buttonpos=0,2
+Order=battlestations
+
+// Cargo Hold
+[Acar]
+
+// Cargo Load
+[Aloa]
+Buttonpos=0,2
+Order=load
+
+// Cargo Unload
+[Adro]
+Buttonpos=1,2
+Order=unload
+
+[Sdro]
+Buttonpos=1,2
+Order=unload
+
+// Cargo Unload (Instant)
+[Adri]
+Buttonpos=1,2
+Order=unload
+
+// Neutral Spell
+[AAns]
+Buttonpos=0,0
+
+// Reveal
+[Andt]
+Buttonpos=0,0
+
+// Currently Unused
+// Neutral G2L Exchange
+[ANgl]
+Buttonpos=0,2
+
+// Currently Unused
+// Neutral L2G Exchange
+[ANlg]
+Buttonpos=0,0
+
+// persistent life regeneration, per unit
+[ANrl]
+
+// persistent mana regeneration, per unit
+[ANrm]
+
+// cargo hold meat wagon
+[Sch2]
+
+// cargo hold transport
+[Sch3]
+
+// cargo hold tank
+[Sch4]
+
+// cargo hold ship
+[Sch5]
+
+// 'select hero to use' ability for neutral buildings
+[Aneu]
+Buttonpos=0,0
+Unbuttonpos=3,2
+
+// select any unit
+[Ane2]
+Buttonpos=0,0
+Unbuttonpos=3,2
+
+// 'select hero to use' ability for allied buildings
+[Aall]
+Buttonpos=0,0
+Unbuttonpos=3,2
+
+// expand view ability
+//[ANex]
+
+// Inferno
+[ANin]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=inferno
+
+// Spy
+[ANsp]
+Buttonpos=0,0
+
+// Kaboom!
+[Asds]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=selfdestruct
+
+// Kaboom! (clockwerk, level 1)
+[Asdg]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=selfdestruct
+
+// Kaboom! (clockwerk, level 2)
+[Asd2]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=selfdestruct
+
+// Kaboom! (clockwerk, level 3)
+[Asd3]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=selfdestruct
+
+// Medivh Crow Form
+[Amrf]
+Buttonpos=3,2
+Unbuttonpos=3,2
+Order=ravenform
+Unorder=unravenform
+
+// Neutral Unit Healing
+[Anhe]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=heal
+Orderon=healon
+Orderoff=healoff
+
+// Creep slow
+[ACsw]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=slow
+Orderon=slowon
+Orderoff=slowoff
+
+// Creep Thunder Clap
+[ACtc]
+Buttonpos=1,2
+Order=creepthunderclap
+
+[BCtc]
+
+// Creep Thunder Clap (Thunder Lizard)
+[ACt2]
+Buttonpos=0,2
+Order=creepthunderclap
+
+// Creep Storm Bolt
+[ACtb]
+Buttonpos=0,2
+Missilespeed=1000
+Order=creepthunderbolt
+
+// creep bloodlust (B hotkey version)
+[ACbb]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=bloodlust
+OrderOn=bloodluston
+OrderOff=bloodlustoff
+
+// Quill Beast Frenzy (beastmaster)
+[Afzy]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=frenzy
+OrderOn=frenzyon
+OrderOff=frenzyoff
+
+[Bfzy]
+Spelldetail=1
+
+// creep bloodlust
+[ACbl]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=bloodlust
+OrderOn=bloodluston
+OrderOff=bloodlustoff
+
+// creep cannibalize
+[ACcn]
+Buttonpos=0,2
+Order=cannibalize
+
+// Dragon Creep Devour
+[ACdv]
+Buttonpos=0,2
+Order=creepdevour
+
+// demon reincarnation
+[ANrn]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+
+// Creep Firebolt
+[ANfb]
+Buttonpos=0,2
+Missilespeed=1000
+MissileHoming=1
+
+// spawn spiderlings on death
+[Assp]
+
+// spawn spiders on death
+[Aspd]
+
+// spawn hydra on death
+[Aspy]
+
+// spawn hydra hatchling on death
+[Aspt]
+
+[AOac]
+Buttonpos=0,2
+
+[ACac]
+Buttonpos=0,2
+
+[BOac]
+SpellDetail=1
+
+[Btlf]
+
+[ACad]
+Buttonpos=3,2
+Order=animatedead
+
+[ACrn]
+Buttonpos=3,2
+
+// demon mana burn
+[Ambd]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=manaburn
+
+// version 2 mana burn
+[Amnb]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=manaburn
+
+// version 2 mana burn
+[Ambb]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=manaburn
+
+// creep sleep
+[ACsl]
+Buttonpos=1,2
+Order=sleep
+
+// Sleep always
+[Asla]
+
+// creeps sleeping
+[ACsp]
+Order=creepsleep
+
+// creep brilliance aura
+[ACba]
+Buttonpos=2,2
+
+// creep trueshot aura
+[ACat]
+Buttonpos=2,2
+
+// anti magic shell
+[ACam]
+Buttonpos=1,2
+Requires=Ruba
+Order=antimagicshell
+
+// creep bash
+[ACbh]
+Buttonpos=2,2
+Order=bash
+
+// beastmaster bash
+[ANbh]
+Buttonpos=1,2
+Order=bash
+
+// beastmaster maul
+[ANb2]
+Buttonpos=1,2
+Order=bash
+
+// creep blizzard
+[ACbz]
+Buttonpos=0,2
+Order=blizzard
+
+// creep carrion swarm
+[ACca]
+Buttonpos=0,2
+Missilespeed=1100
+Order=carrionswarm
+
+// creep chain lightning
+[ACcl]
+Buttonpos=0,2
+Missilespeed=1500
+Order=chainlightning
+
+// creep cold arrows
+[ACcw]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Missilespeed=1500
+MissileHoming=1
+
+// creep cripple
+[ACcr]
+Buttonpos=2,2
+order=cripple
+
+// creep critical strike
+[ACct]
+Buttonpos=2,2
+
+// creep curse
+[ACcs]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=curse
+Orderon=curseon
+Orderoff=curseoff
+
+// creep cyclone
+[ACcy]
+Buttonpos=1,2
+order=cyclone
+
+// cenarius' cyclone
+[SCc1]
+Buttonpos=1,1
+order=cyclone
+
+// creep death coil
+[ACdc]
+Buttonpos=0,2
+Missilespeed=1100
+MissileHoming=1
+Order=deathcoil
+
+// creep divine shield
+[ACds]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Order=divineshield
+Unorder=undivineshield
+
+// creep entangling roots
+[Aenr]
+Buttonpos=0,2
+Order=entanglingroots
+
+// creep evasion
+[ACev]
+Buttonpos=2,2
+
+// creep evasion 100%
+[ACes]
+Buttonpos=2,2
+
+// creep faerie fire
+[ACff]
+Buttonpos=0,2
+Unbuttonpos=0,2
+order=faeriefire
+orderon=faeriefireon
+orderoff=faeriefireoff
+
+// creep feral spirit
+[ACsf]
+Buttonpos=2,2
+Order=spiritwolf
+
+// creep spirit pig
+[ACs9]
+Buttonpos=1,2
+Order=spiritwolf
+
+// creep fire bolt
+[ACfb]
+Buttonpos=0,2
+Missilespeed=1000
+MissileHoming=1
+
+// creep force of nature
+[ACfr]
+Buttonpos=1,2
+Order=forceofnature
+
+// creep frost armor (old)
+[ACfa]
+Buttonpos=1,2
+Order=frostarmor
+
+// creep frost armor (new, autocast)
+[ACf2]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Order=frostarmor
+Orderon=frostarmoron
+Orderoff=frostarmoroff
+
+// creep frost nova
+[ACfn]
+Buttonpos=0,2
+Order=frostnova
+
+// archimonde's ghoul's lumber
+[Ahr2]
+Buttonpos=3,1
+UnButtonpos=3,1
+Order=harvest
+
+// goblin shredders lumber
+[Ahr3]
+Buttonpos=3,1
+UnButtonpos=3,1
+Order=harvest
+
+// creep heal normal
+[Anh1]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=heal
+Orderon=healon
+Orderoff=healoff
+
+// creep heal high
+[Anh2]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=heal
+Orderon=healon
+Orderoff=healoff
+
+// creep immolation
+[ACim]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Order=immolation
+Unorder=unimmolation
+
+// creep inner fire
+[ACif]
+Buttonpos=2,2
+Unbuttonpos=2,2
+Order=innerfire
+Orderon=innerfireon
+Orderoff=innerfireoff
+
+// creep lightning shield
+[ACls]
+Buttonpos=1,2
+Order=lightningshield
+
+// burrow load
+[Sloa]
+Buttonpos=0,2
+Order=load
+
+// ship load
+[Slo3]
+Buttonpos=0,2
+Order=load
+
+// creep rain of fire
+[ACrf]
+Buttonpos=3,2
+Order=rainoffire
+
+// creep raise dead
+[ACrd]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=raisedead
+Orderon=raisedeadon
+Orderoff=raisedeadoff
+
+// creep rejuvenation
+[ACrj]
+Buttonpos=1,2
+order=rejuvination
+
+// human repair
+[Ahrp]
+Buttonpos=1,1
+Unbuttonpos=1,1
+Order=repair
+Orderon=repairon
+Orderoff=repairoff
+
+// creep roar
+[ACro]
+Buttonpos=0,2
+Order=roar
+
+// skeletal orc champion roar
+[ACr1]
+Buttonpos=0,2
+Order=roar
+
+// root Ancients
+[Aro1]
+Buttonpos=3,2
+Unbuttonpos=3,2
+Order=root
+Unorder=unroot
+
+// root ancient protector
+[Aro2]
+Buttonpos=3,2
+Unbuttonpos=3,2
+Order=root
+Unorder=unroot
+
+// creep searing arrows
+[ACsa]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Missilespeed=1500
+MissileHoming=1
+Order=flamingarrows
+Unorder=unflamingarrows
+
+// sell items
+[Asid]
+
+// sell units
+[Asud]
+
+// creep shockwave
+[ACsh]
+Buttonpos=0,2
+Missilespeed=1050
+Order=shockwave
+
+// trap shockwave
+[ACst]
+Buttonpos=0,2
+Missilespeed=1050
+Order=shockwave
+
+// creep thorns aura
+[ACah]
+Buttonpos=2,2
+
+// creep unholy aura
+[ACua]
+Buttonpos=2,2
+
+// creep unholy frenzy
+[ACuf]
+Buttonpos=1,2
+Order=unholyfrenzy
+
+// vampiric attack
+[SCva]
+
+// creep vampiric aura
+[ACvp]
+Buttonpos=2,2
+
+// generic creep war stomp
+[Awrs]
+Buttonpos=1,2
+Order=stomp
+
+// hydra creep war stomp
+[Awrh]
+Buttonpos=1,2
+Order=stomp
+
+// Sea Giant creep war stomp
+[Awrg]
+Buttonpos=1,2
+Order=stomp
+
+// creep devotion aura
+[ACav]
+Buttonpos=2,2
+
+// creep envenomed spears
+[ACvs]
+Buttonpos=0,2
+
+// creep web
+[ACwb]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Missilespeed=1500
+MissileHoming=1
+Order=web
+Orderon=webon
+Orderoff=weboff
+
+// mana regeneration aura
+[Aarm]
+
+[Barm]
+Spelldetail=1
+
+// life regeneration aura creep
+[ACnr]
+
+// imparts ANrl, life regeneration, on nearby units, this ability is on Fountain of Life (nmoo)
+[ANre]
+
+// super death and decay
+[SNdd]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=deathanddecay
+
+// dispel magic
+[Adsm]
+Buttonpos=0,2
+Order=dispel
+
+// creep auto-dispel
+[ACdm]
+Requires=Resi
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=autodispel
+Orderon=autodispelon
+Orderoff=autodispeloff
+
+// creep auto-dispel (button pos 1,2)
+[ACd2]
+Requires=Resi
+Buttonpos=1,2
+Unbuttonpos=1,2
+Order=autodispel
+Orderon=autodispelon
+Orderoff=autodispeloff
+
+// super earthquake
+[SNeq]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=earthquake
+
+// endurance aura
+[SCae]
+Buttonpos=2,2
+
+// ensnare
+[ACen]
+Buttonpos=0,2
+Requires=Roen
+Missilespeed=1500
+MissileHoming=1
+Order=ensnare
+
+// Crushing Wave
+[ACcv]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missilespeed=1100
+Order=carrionswarm
+
+// Crushing Wave (Dragon Turtle, 1,2 UI position)
+[ACc2]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Missilespeed=1100
+Order=carrionswarm
+
+// Crushing Wave (Lesser Version)
+[ACc3]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Missilespeed=1100
+Order=carrionswarm
+
+// summon sea elemental
+[ACwe]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=waterelemental
+
+// neutral interact
+[Anei]
+Buttonpos=3,2
+
+// permanent flyer immolation
+[Apmf]
+Buttonpos=0,2
+
+// Neutral Resistant Skin
+[ACrk]
+Buttonpos=3,2
+
+
+// Neutral Resistant Skin (altered button pos)
+[ACsk]
+Buttonpos=3,1
+
+
+// Forked Lightning
+[ANfl]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=forkedlightning
+
+// Forked Lightning
+[ACfl]
+Buttonpos=0,2
+Order=forkedlightning
+
+[BIhm]

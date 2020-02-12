@@ -1,0 +1,250 @@
+// Attribute Bonus
+[Aamk]
+Buttonpos=1,1
+Researchbuttonpos=3,1
+Order=attributemodskill
+
+// Feral Spirit
+[ACs7]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=spiritwolf
+
+// Serpent Ward (Tentacles)
+[ACtn]
+Buttonpos=0,2
+Order=Serpentward
+
+
+// Avatar (garithos)
+[ANav]
+Buttonpos=3,2
+Unbuttonpos=3,2
+Researchbuttonpos=3,0
+Order=avatar
+
+//naga harvest
+[ANha]
+Buttonpos=3,1
+UnButtonpos=3,1
+Order=harvest
+
+// Shockwave
+[ANsh]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Missilespeed=1050
+Order=shockwave
+
+// Spirit Beast
+[ACs8]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=spiritwolf
+
+// Reincarnation (akama)
+[ANr2]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+
+// Feedback
+[Afbb]
+Buttonpos=1,2
+
+// Naga Build
+[AGbu]
+Buttonpos=0,2
+Order=nagabuild
+
+// Cyclone (naga)
+[Acny]
+Buttonpos=2,2
+Requires=Rnsw
+Requiresamount=2
+order=cyclone
+
+// Submerge
+[Asb1]
+Requires=Rnsb
+Buttonpos=3,2
+Unbuttonpos=3,2
+Order=submerge
+Unorder=unsubmerge
+
+// Submerge
+[Asb2]
+Buttonpos=3,2
+Unbuttonpos=3,2
+Order=submerge
+Unorder=unsubmerge
+
+// Submerge
+[Asb3]
+Requires=Rnsb
+Buttonpos=3,2
+Unbuttonpos=3,2
+Order=submerge
+Unorder=unsubmerge
+
+// Ensnare (Naga)
+[ANen]
+Buttonpos=0,2
+Requires=Rnen
+Missilespeed=1500
+MissileHoming=1
+Order=ensnare
+
+// Auto-Dispel Magic
+[Andm]
+Requires=Rnsi
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=autodispel
+Orderon=autodispelon
+Orderoff=autodispeloff
+
+// Frost Armor (Autocast, Naga)
+[ACfu]
+Requires=Rnsw
+Buttonpos=1,2
+Unbuttonpos=1,2
+Order=frostarmor
+Orderon=frostarmoron
+Orderoff=frostarmoroff
+
+// Parasite
+[ANpa]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Missilespeed=1200
+MissileHoming=1
+Orderon=parasiteon
+Orderoff=parasiteoff
+Order=parasite
+
+[BNpa]
+
+[BNpm]
+
+// naga summoner null aoe roar
+[Ahnl]
+Buttonpos=3,2
+Order=roar
+
+// Channel
+[ANcl]
+Buttonpos=2,0
+Order=channel
+
+//orc campaign hero stuff
+
+// War Stomp (Cairn)
+[AOw2]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=stomp
+
+// Shockwave (Cairne)
+[AOs2] 
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missilespeed=1050
+Order=shockwave
+
+// Endurance Aura (Cairne)
+[AOr2]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+
+// Reincarnation (Cairne)
+[AOr3]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+
+// Healing Wave (rokhan)
+[ANhw]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=healingwave
+
+// Hex (rokhan)
+[ANhx]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=hex
+
+// Serpent Ward (rokhan)
+[Arsw]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Order=Serpentward
+
+// Voodoo Spirits (rokhan)
+[AOls]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=Locustswarm
+
+// Summon Quillbeast (Rexxar)
+[Arsq]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=summonquillbeast
+
+// Stampede (Rexxar)
+[Arsp]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Missilespeed=500
+Order=stampede
+
+// Battle Roar
+[ANbr]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Order=battleroar
+
+[BNbr]
+Spelldetail=1
+
+// Summon Grizzly (campaign)
+[Arsg]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=spiritwolf
+
+// Storm Bolt (campaign)
+[ANsb]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Missilespeed=1000
+MissileHoming=1
+Order=thunderbolt
+
+// Breath of Fire (Chen)
+[ANcf]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missilespeed=1050
+Order=breathoffire
+
+// Drunken Brawler (Chen)
+[Acdb]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+
+// Drunken Haze (Chen)
+[Acdh]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Missilespeed=1500
+Order=drunkenhaze
+
+// Earth, Storm, and Fire (Chen)
+[Acef]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=elementalfury
+Missilespeed=150
+
+// Voodoo Spirits (Rokhan)

@@ -1,0 +1,510 @@
+// Replenish Life & Mana
+[Arpb]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=replenish
+Orderon=replenishon
+Orderoff=replenishoff
+
+[Brpb]
+
+// Replenish Life (Obsidian Statue)
+[Arpl]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=replenishlife
+Orderon=replenishlifeon
+Orderoff=replenishlifeoff
+
+[Brpl]
+
+// Spirit Touch (Obsidian Statue)
+[Arpm]
+Buttonpos=1,2
+Unbuttonpos=1,2
+//#LINENOBETA
+Order=replenishmana
+Orderon=replenishmanaon
+Orderoff=replenishmanaoff
+
+[Brpm]
+
+// Exhume Corpses
+[Aexh]
+Buttonpos=3,2
+Requires=Ruex
+
+// Moon pool mana battery
+[Amb2]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Order=recharge
+
+// Destroyer Form
+[Aave]
+Buttonpos=3,2
+Unbuttonpos=3,2
+Order=sphinxform
+Unorder=unsphinxform
+Requires=Rusp
+
+// Orb of Death
+[Afak]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Missilespeed=1500
+MissileHoming=1
+
+// Devour Magic
+[Advm]
+Buttonpos=0,2
+Missilespeed=1200
+MissileHoming=1
+
+// Blight-like Regeneration Aura (to be renamed)
+[Aabr]
+Buttonpos=2,2
+
+[Babr]
+Spelldetail=2
+
+// Absorb Mana
+[Aabs]
+Buttonpos=0,2
+Missilespeed=1500
+MissileHoming=1
+Order=absorbmana
+
+// Undead Build
+[AUbu]
+Buttonpos=0,2
+Order=undeadbuild
+
+// Burrow
+[Abur]
+Requires=Rubu
+Buttonpos=3,2
+Unbuttonpos=3,2
+Order=burrow
+Unorder=unburrow
+
+// Burrow (lvl 2 scarab)
+[Abu2]
+Buttonpos=3,2
+Unbuttonpos=3,2
+Order=burrow
+Unorder=unburrow
+
+// Burrow (lvl 3 scarab)
+[Abu3]
+Buttonpos=3,2
+Unbuttonpos=3,2
+Order=burrow
+Unorder=unburrow
+
+
+// Impale
+[AUim]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=impale
+
+[BUim]
+
+// Thorny Shield
+[AUts]
+//Unart=ReplaceableTextures\CommandButtons\BTNThornyShieldOff.blp
+Buttonpos=1,2
+Unbuttonpos=1,2
+Researchbuttonpos=1,0
+// This ability is now passive...
+//Order=Thornyshield
+//Unorder=Unthornyshield
+ 
+[BUts]
+
+// Carrion Scarabs
+[AUcb]
+Buttonpos=2,2
+Unbuttonpos=2,2
+Researchbuttonpos=2,0
+Order=Carrionscarabs
+Orderon=Carrionscarabson
+Orderoff=Carrionscarabsoff
+
+[BUcb]
+
+// Locust Swarm
+[AUls]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=Locustswarm
+
+// Buff on locust
+[BUlo]
+
+// Meat Wagon Cargo Hold
+[Amtc]
+
+// True Sight
+[Atru]
+Buttonpos=0,2
+
+// Acolyte Harvest
+[Aaha]
+Buttonpos=3,1
+UnButtonpos=3,1
+Order=harvest
+
+// Ghoul Harvest
+[Ahrl]
+Buttonpos=3,1
+UnButtonpos=3,1
+Order=harvest
+
+// Unsummon
+[Auns]
+Buttonpos=1,2
+Order=unsummon
+
+[Buns]
+
+// Haunted Gold Mine - Manages the ring of acolytes that is formed around a
+// haunted gold mine. This ability has no UI, and shouldn't be exposed to
+// scripts or the map editor. It is only here to specify art paths.
+[Abgm]
+
+// Graveyard
+[Agyd]
+SpecialArt=Abilities\Spells\Undead\Graveyard\GraveMarker.mdl
+
+// Sacrifice (Acolyte's button)
+[Alam]
+Buttonpos=3,2
+Requires=usap
+Order=sacrifice
+
+// Sacrifice (Sacrificial Pit's button)
+[Asac]
+Buttonpos=0,0
+Order=sacrifice
+
+// Cannibalize
+[Acan]
+Requires=Ruac
+Buttonpos=0,2
+Order=cannibalize
+
+// Cannibalize (abomination)
+[Acn2]
+Requires=Ruac
+Buttonpos=0,2
+Order=cannibalize
+
+// Spider Attack
+[Aspa]
+// Uses missile art and speed from the unit's attack.
+
+[Bspa]
+
+// Web
+[Aweb]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Requires=Ruwb
+Missilespeed=1500
+MissileHoming=1
+Order=web
+Orderon=webon
+Orderoff=weboff
+
+// Web buff on ground units
+[Bweb]
+
+// Web buff on air units
+[Bwea]
+
+// Stone Form
+[Astn]
+Requires=Rusf
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=stoneform
+Unorder=unstoneform
+
+// Load corpse
+[Amel]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=loadcorpse
+
+// Unload corpse
+[Amed]
+Buttonpos=1,2
+Order=unloadcorpse
+
+// Disease Cloud
+[Aapl]
+Buttonpos=1,2
+Requires=Rupc
+
+[Aap1]
+Buttonpos=1,2
+Requires=Rupc
+
+[Aap2]
+Buttonpos=0,2
+Requires=Rupc
+
+[Aap3]
+Buttonpos=1,2
+Requires=Rupc
+
+[Aap4]
+Buttonpos=1,2
+Requires=Rupc
+
+[Bapl]
+Spelldetail=2
+
+// Disease Cloud
+[Apts]
+Buttonpos=2,2
+Requires=Rupc
+
+// Frost Breath
+[Afrb]
+
+// Frost Attack
+[Afra]
+Buttonpos=0,2
+
+
+// Frost Attack (1,2) button pos
+[Afr2]
+Buttonpos=1,2
+
+
+// Freezing Breath
+[Afrz]
+Buttonpos=0,2
+Requires=Rufb
+Missilespeed=900
+MissileHoming=1
+Order=freezingbreath
+
+[Bfrz]
+
+// Raise Dead
+[Arai]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=raisedead
+Orderon=raisedeadon
+Orderoff=raisedeadoff
+
+[Brai]
+
+// Unholy Frenzy
+[Auhf]
+Buttonpos=1,2
+Requires=Rune
+Order=unholyfrenzy
+
+// Unholy Frenzy (Warlock)
+[Suhf]
+Buttonpos=1,2
+Order=unholyfrenzy
+
+[Buhf]
+
+// Curse
+[Acrs]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=curse
+Orderon=curseon
+Orderoff=curseoff
+
+[Bcrs]
+Spelldetail=1
+
+// Anti-magic Shell
+[Aams]
+Buttonpos=1,2
+Requires=Ruba
+Order=antimagicshell
+
+// Anti-magic Shell
+[Aam2]
+Buttonpos=1,2
+Requires=Ruba
+Order=antimagicshell
+
+[Bams]
+
+[Bam2]
+
+// Possession
+[Apos]
+Buttonpos=2,2
+SpecialArt=
+Requires=Ruba
+Requiresamount=2
+Missilespeed=1500
+MissileHoming=1
+Order=possession
+
+// Possession
+[Aps2]
+Buttonpos=2,2
+SpecialArt=
+Requires=Ruba
+Requiresamount=2
+Missilespeed=1500
+MissileHoming=1
+Order=possession
+
+[Bpos]
+
+// Buff for looping caster art.
+[Bpoc]
+
+// Death Coil
+[AUdc]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missilespeed=1100
+MissileHoming=1
+Order=deathcoil
+
+// Death Pact
+[AUdp]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=deathpact
+
+// (this is the shield on the caster.)
+// unused these days
+[BUdp]
+
+// Animate Dead
+[AUan]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=animatedead
+
+[BUan]
+
+// Carrion Swarm
+[AUcs]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missilespeed=1100
+Order=carrionswarm
+
+// Sleep
+[AUsl]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=sleep
+
+[BUsl]
+
+// Sleep stun buff
+[BUst]
+
+// Sleep pause buff
+[BUsp]
+
+// Vampiric Aura
+[AUav]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+
+[BUav]
+Spelldetail=2
+
+// Frost Nova
+[AUfn]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=frostnova
+
+// Frost Armor
+[AUfa]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=frostarmor
+
+// Frost Armor (Autocast)
+[AUfu]
+Buttonpos=1,2
+Unbuttonpos=1,2
+Researchbuttonpos=1,0
+Order=frostarmor
+Orderon=frostarmoron
+Orderoff=frostarmoroff
+
+[BUfa]
+Spelldetail=1
+
+// Dark Ritual
+[AUdr]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Order=darkritual
+
+// Death And Decay
+[AUdd]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=deathanddecay
+
+[XUdd]
+
+[BUdd]
+
+// Cripple
+[Acri]
+Requires=Rune
+Requiresamount=2
+Buttonpos=2,2
+order=cripple
+
+// Cripple (Warlock)
+[Scri]
+Buttonpos=2,2
+order=cripple
+
+[Bcri]
+
+// Restore
+[Arst]
+Buttonpos=1,1
+Unbuttonpos=1,1
+Order=restoration
+Orderon=restorationon
+Orderoff=restorationoff
+
+// Unholy Aura
+[AUau]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+
+[BUau]
+Spelldetail=2
+
+[AUin]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=inferno
+
+// 'damaged' attachment effect, small
+[Xfus]
+
+// medium
+[Xfum]
+
+// large
+[Xful]

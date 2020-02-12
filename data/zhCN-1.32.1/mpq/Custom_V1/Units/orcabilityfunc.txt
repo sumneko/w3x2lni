@@ -1,0 +1,414 @@
+// Balls of Fire
+[Abof]
+Buttonpos=0,2
+Missilespeed=900
+Requires=Robf
+
+[Bbof]
+
+[Xbof]
+
+// Berserk
+[Absk]
+Buttonpos=0,2
+Order=berserk
+
+[Bbsk]
+
+// Berserker Upgrade
+[Sbsk]
+Requires=Robk
+
+// Reinforced Burrows Upgrade
+[Arbr]
+
+// Ancestral Spirit
+[Aast]
+Requires=Rowt
+Requiresamount=2
+Buttonpos=2,2
+
+// Disenchant
+[Adch]
+Requires=Rowt
+Requiresamount=1
+Buttonpos=1,2
+
+// Disenchant (new)
+[Adcn]
+Requires=Rowt
+Requiresamount=1
+Buttonpos=1,2
+
+// Corporeal Form
+[Acpf]
+Buttonpos=3,2
+Unbuttonpos=3,2
+//#LINENOBETA
+Order=corporealform
+Unorder=uncorporealform
+
+// Ethereal Form
+[Aetf]
+Buttonpos=3,2
+Unbuttonpos=3,2
+//#LINENOBETA
+Order=etherealform
+Unorder=unetherealform
+
+// Spirit Link
+[Aspl]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=spiritlink
+
+[Bspl]
+
+// Pack Mule
+[Apak]
+Requires=Ropm
+
+// Liquid Fire
+[Aliq]
+Buttonpos=1,2
+Requires=Rolf
+
+[Bliq]
+
+[Mliq]
+Missilespeed=900
+
+// Unstable Concoction
+[Auco]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=unstableconcoction
+Orderon=unstableconcoctionon
+Orderoff=unstableconcoctionoff
+
+// Orc Build
+[AObu]
+Buttonpos=0,2
+Order=orcbuild
+
+// Healing Wave
+[AOhw]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=healingwave
+
+// Hex
+[AOhx]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=hex
+
+[BOhx]
+
+// Serpent Ward
+[AOsw]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Order=ward
+
+// Voodoo
+[AOvd]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=voodoo
+
+[BOvd]
+
+[BOvc]
+
+// Warlock Firebolt
+[Awfb]
+Buttonpos=0,2
+Missilespeed=1000
+MissileHoming=1
+
+// Chaos conversion
+[Acha]
+Requires=Roch
+
+[Achl]
+Requires=Roch
+
+[Sca1]
+Requires=Roch
+
+[Sca2]
+Requires=Roch
+
+[Sca3]
+Requires=Roch
+
+[Sca4]
+Requires=Roch
+
+[Sca5]
+Requires=Roch
+
+[Sca6]
+Requires=Roch
+
+// battle stations, load all peons into a bunker
+[Abtl]
+Buttonpos=0,2
+Order=battlestations
+
+// stand down, send peons back to work
+[Astd]
+Buttonpos=1,2
+Order=standdown
+
+// Ensnare
+[Aens]
+Buttonpos=0,2
+Requires=Roen
+Missilespeed=1500
+MissileHoming=1
+Order=ensnare
+
+// Ensnare buff
+[Bens]
+
+// Ensnare buff on ground units
+[Beng]
+
+// Ensnare buff on air units
+[Bena]
+
+// Totem Smash, Pulverize, whatnot
+[Awar]
+Buttonpos=0,2
+Requires=Rows
+
+// Devour
+[Adev]
+Buttonpos=0,2
+Order=devour
+
+// Devour buff
+[Bdvv]
+
+// Purge (classic)
+[Aprg]
+Buttonpos=0,2
+Order=purge
+
+// Purge (expansion melee)
+[Apg2]
+Buttonpos=0,2
+Order=purge
+
+
+[Bprg]
+
+// Lightning Shield
+[Alsh]
+Buttonpos=1,2
+Requires=Rost
+Order=lightningshield
+
+[Blsh]
+
+// Bloodlust
+[Ablo]
+Buttonpos=2,2
+Unbuttonpos=2,2
+Requires=Rost
+Requiresamount=2
+Order=bloodlust
+OrderOn=bloodluston
+OrderOff=bloodlustoff
+
+[Bblo]
+Spelldetail=1
+
+// Sentry Ward
+[Aeye]
+Buttonpos=0,2
+Order=evileye
+
+[Beye]
+
+// Stasis Trap spell
+[Asta]
+Buttonpos=1,2
+Requires=Rowd
+Order=stasistrap
+
+// Stasis Trap trigger buff
+[Bstt]
+
+// Stasis Trap effect buff
+[Bsta]
+
+// Healing Ward
+[Ahwd]
+Buttonpos=2,2
+Requires=Rowd
+Requiresamount=2
+Order=healingward
+
+[Bhwd]
+
+// Healing Ward Regeneration Aura
+[Aoar]
+
+[Boar]
+Spelldetail=2
+
+// Envenomed Spears
+[Aven]
+Buttonpos=0,2
+Requires=Rovs
+
+// Poison Sting
+[Apoi]
+Buttonpos=0,0
+Missilespeed=1500
+MissileHoming=1
+
+// Poison Sting (Orb of Venom)
+[Apo2]
+Buttonpos=0,0
+MissileHoming=1
+
+// Poison Sting Non Stack Buff
+[Bpoi]
+Spelldetail=2
+
+// Poison Sting Stack Buff
+[Bpsd]
+Spelldetail=2
+
+// Venom Non Stack Buff
+[BIpb]
+Spelldetail=2
+
+// Venom Stack Buff
+[BIpd]
+Spelldetail=2
+
+// Tracking (Passive)
+[Anit]
+Requires=Ronv
+
+// Pillage (Passive)
+[Asal]
+Requires=Ropg
+Buttonpos=1,2
+
+
+// Pillage (Passive 1,1)
+[Asa2]
+Requires=Ropg
+Buttonpos=1,1
+
+// Spiked Barricades (Passive)
+[Aspi]
+
+// War Drums Aura
+[Aakb]
+Buttonpos=1,2
+
+[Bakb]
+Spelldetail=2
+
+// Wind Walk
+[AOwk]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Order=windwalk
+
+[BOwk]
+
+// Mirror Image
+[AOmi]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Missilespeed=1000
+Order=mirrorimage
+
+[BOmi]
+
+// Critical Strike
+[AOcr]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+
+// Bladestorm
+[AOww]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=whirlwind
+
+// Chain Lightning
+[AOcl]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missilespeed=1500
+Order=chainlightning
+
+// Far Sight
+[AOfs]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=farsight
+
+// Earthquake
+[AOeq]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+Order=earthquake
+
+[BOeq]
+
+[XOeq]
+
+// Shockwave
+[AOsh]
+Buttonpos=0,2
+Researchbuttonpos=0,0
+Missilespeed=1050
+Order=shockwave
+
+// Endurance Aura
+[AOae]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+
+[BOae]
+Spelldetail=2
+
+// Reincarnation
+[AOre]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+
+// Feral Spirit
+[AOsf]
+Buttonpos=2,2
+Researchbuttonpos=2,0
+Order=spiritwolf
+
+[BOsf]
+
+// War Stomp (Chieftan)
+[AOws]
+Buttonpos=1,2
+Researchbuttonpos=1,0
+Order=stomp
+
+[BOws]
+
+// 'damaged' attachment effect, small
+[Xfos]
+
+// medium
+[Xfom]
+
+// large
+[Xfol]
