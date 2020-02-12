@@ -57,7 +57,8 @@ return {
         'units\\nightelfunitfunc.txt',
         'units\\orcunitfunc.txt',
         'units\\undeadunitfunc.txt',
-        
+        'units\\unitskin.txt',
+
         'units\\campaignabilitystrings.txt',
         'units\\commonabilitystrings.txt',
         'units\\humanabilitystrings.txt',
@@ -74,7 +75,7 @@ return {
         'units\\orcabilityfunc.txt',
         'units\\undeadabilityfunc.txt',
         'units\\itemabilityfunc.txt',
-        
+
         'units\\campaignupgradestrings.txt',
         'units\\neutralupgradestrings.txt',
         'units\\nightelfupgradestrings.txt',
@@ -87,7 +88,7 @@ return {
         'units\\nightelfupgradefunc.txt',
         'units\\orcupgradefunc.txt',
         'units\\undeadupgradefunc.txt',
-        
+
         'units\\itemstrings.txt',
         'units\\itemfunc.txt',
 
