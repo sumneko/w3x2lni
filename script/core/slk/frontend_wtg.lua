@@ -122,9 +122,6 @@ local function read_category()
         end
     end
 
-    if not chunk.categories then
-        chunk.categories = {}
-    end
     chunk.categories[#chunk.categories+1] = category
 
     return category
@@ -173,7 +170,6 @@ local function read_vars()
     local unknow = unpack 'l'
     assert(unknow == 2, lang.script.UNKNOWN1_ERROR)
     local count = unpack 'l'
-    chunk.vars = {}
     for i = 1, count do
         chunk.vars[i] = read_var()
     end
@@ -438,7 +434,6 @@ local function read_elements()
 
     chunk.sort = {}
     chunk.trgvars = {}
-    chunk.triggers = {}
     chunk.root = { id = 0, childs = {} }
     chunk.cate_stack = { chunk.root }
     for i = 1, count do
@@ -452,7 +447,11 @@ return function (w2l_, wtg_)
     wtg = wtg_
     state = w2l:frontend_trg()
     unpack_index = 1
-    chunk = {}
+    chunk = {
+        categories = {},
+        triggers = {},
+        vars = {},
+    }
 
     read_head()
     if chunk.format_version then
