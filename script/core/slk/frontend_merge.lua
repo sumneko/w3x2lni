@@ -106,8 +106,7 @@ local function copy_obj(a, b)
         end
     end
     for k, v in pairs(b) do
-        -- 不应该会有等级数据
-        assert(type(v) ~= 'table')
+        -- txt中读取出来的数据有等级
         c[k] = v
     end
     return c
