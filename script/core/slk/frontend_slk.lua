@@ -60,7 +60,13 @@ local function slk_read_data(obj, key, meta, data)
         end
         obj[key] = t
     else
-        obj[key] = slk_to_type(meta.type, data[meta.field])
+        if meta.profile then
+            if data[meta.field] then
+                obj[key] = slk_to_type(meta.type, data[meta.field])
+            end
+        else
+            obj[key] = slk_to_type(meta.type, data[meta.field])
+        end
     end
 end
 
@@ -88,7 +94,7 @@ local function slk_update_level(table, slk, txt, level_key)
     end
 end
 
-local function slk_read(table, slk, keys, meta, update_level)
+local function slk_read(table, slk, keys, meta)
     for name, data in pairs(slk) do
         if not table[name] then
             table[name] = {
