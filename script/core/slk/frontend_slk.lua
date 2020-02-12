@@ -265,9 +265,11 @@ return function(w2l_, loader)
                     keys[#keys+1] = key
                     meta[#meta+1] = metadata[type][key]
                 end
-                for _, key in ipairs(keydata[type]) do
-                    keys[#keys+1] = key
-                    meta[#meta+1] = metadata[type][key]
+                if keydata[type] then
+                    for _, key in ipairs(keydata[type]) do
+                        keys[#keys+1] = key
+                        meta[#meta+1] = metadata[type][key]
+                    end
                 end
                 local slk = w2l:parse_slk(loader(filename))
                 slk_read(datas[type], slk, keys, meta)
