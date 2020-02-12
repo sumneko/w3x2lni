@@ -206,7 +206,10 @@ local function txt_read(table, txt, used, keys, meta)
         txt[lname] = nil
         used[lname] = txt_data
         for i = 1, #keys do
-            txt_read_data(lname, obj, keys[i], meta[i], txt_data)
+            local key = keys[i]
+            if not obj[key] then
+                txt_read_data(lname, obj, key, meta[i], txt_data)
+            end
         end
     end
 end
