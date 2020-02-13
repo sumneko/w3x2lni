@@ -85,6 +85,9 @@ end
 local function copy_obj(a, b)
     local c = {}
     local lv = tonumber(b._max_level or a._max_level)
+    if lv and lv > 100 then
+        lv = 100
+    end
     if b._code and a._code ~= b._code then
         w2l.messager.report(lang.report.INVALID_OBJECT_DATA, 6, lang.report.ABILITY_CODE_ERROR:format(b._id, b._code), lang.report.DEFAULT_IS:format(a._code))
         return nil
@@ -115,6 +118,9 @@ end
 local function fill_obj(a)
     local c = {}
     local lv = a._max_level
+    if lv and lv > 100 then
+        lv = 100
+    end
     for k, v in pairs(a) do
         if type(v) == 'table' then
             c[k] = fill_and_copy(v, lv)
