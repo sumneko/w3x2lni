@@ -47,6 +47,9 @@ end
 
 local function slk_read_data(obj, key, meta, data)
     if meta['repeat'] then
+        if meta.profile and not data[meta.field..'1'] then
+            return
+        end
         local type = meta.type
         local t = {}
         if slk_type == 'doodad' then
@@ -60,13 +63,10 @@ local function slk_read_data(obj, key, meta, data)
         end
         obj[key] = t
     else
-        if meta.profile then
-            if data[meta.field] then
-                obj[key] = slk_to_type(meta.type, data[meta.field])
-            end
-        else
-            obj[key] = slk_to_type(meta.type, data[meta.field])
+        if meta.profile and not data[meta.field] then
+            return
         end
+        obj[key] = slk_to_type(meta.type, data[meta.field])
     end
 end
 
@@ -109,7 +109,7 @@ local function slk_read(table, slk, keys, meta)
         if slk_type == 'unit' and not obj._name then
             obj._name = data.name  -- 单位的反slk可以用name作为线索
         end
-        
+
         for i = 1, #keys do
             slk_read_data(obj, keys[i], meta[i], data)
         end
