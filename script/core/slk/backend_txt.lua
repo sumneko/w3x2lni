@@ -359,7 +359,7 @@ return function(w2l_, slk, report_, obj)
     remove_unuse_object = w2l.setting.remove_unuse_object
     local txt = {}
     local list = {}
-    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade'} do
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad'} do
         list[type] = {}
         object = obj[type]
         update_constant(type)
@@ -368,7 +368,7 @@ return function(w2l_, slk, report_, obj)
         end
     end
     local r = {}
-    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade'} do
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad'} do
         update_constant(type)
         local str = {}
         table_sort(list[type])
