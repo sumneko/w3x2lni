@@ -85,10 +85,18 @@ end
 local function slk_update_level(table, slk, txt, level_key)
     for name in pairs(slk) do
         local obj = table[name]
-        obj._max_level = obj[level_key] or (tonumber(txt[name] and txt[name][level_key])) or 1
+        obj._max_level = obj[level_key]
+        if not obj._max_level then
+            local lname = name:lower()
+            local txt_obj = txt[lname]
+            if txt_obj and txt_obj[level_key] then
+                obj._max_level = tonumber(txt_obj[level_key][1])
+            end
+        end
         if not obj._max_level or obj._max_level == 0 then
             obj._max_level = 1
-        elseif obj._max_level and obj._max_level > 10000 then
+        end
+        if obj._max_level and obj._max_level > 10000 then
             w2l.messager.report(lang.report.OTHER, 9, lang.report.OBJECT_LEVEL_TOO_HIGHT:format(name, obj._max_level), lang.report.OBJECT_LEVEL_TOO_HIGHT_HINT)
         end
     end
@@ -258,7 +266,7 @@ return function(w2l_, loader)
         w2l:parse_txt(loader(filename), filename, misc)
     end
     w2l.progress:finish()
-    
+
     local count = 0
     w2l.progress:start(1)
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
@@ -306,7 +314,7 @@ return function(w2l_, loader)
     -- 和底板进行差异对比，来自C文件的数据在slk时将底板当做空白处理。
     datas.misc = {}
     slk_misc(datas.misc, misc, txt)
-    
+
     w2l.progress:finish()
 
     -- 给剩下的txt设置等级
