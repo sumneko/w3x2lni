@@ -9,6 +9,7 @@ local output = {
     upgrade = 'units\\campaignupgradestrings.txt',
     item    = 'units\\itemstrings.txt',
     txt     = 'units\\itemabilitystrings.txt',
+    doodad  = 'doodads\\doodadskins.txt',
 }
 
 local function to_lni(w2l, slk)
@@ -269,7 +270,7 @@ local function to_slk(w2l, slk)
         w2l:file_save('map', filename, '')
     end
     local txt = w2l:backend_txt(slk, report, object)
-    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade'} do
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad'} do
         w2l:file_save('map', output[type], txt[type])
     end
 
