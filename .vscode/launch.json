@@ -37,7 +37,13 @@
             ],
             "arg": [
                 //"lni", "D:/maps/44.w3x"
-                "obj", "D:/maps/44", "D:/maps/44_obj.w3x"
+                //"obj", "D:/maps/44", "D:/maps/44_obj.w3x"
+                "mpq", "E:\\Warcraft III"
+                //"mpq", "D:\\Warcraft III 1.24"
+                //"slk", "D:/maps/55.w3x"
+                //"lni", "D:\\maps\\Dota-Classic.w3x"
+                //"slk", "D:\\Github\\Dota-Classic", "D:/maps/slk.w3x"
+                //"slk", "D:/maps/DotA.w3x"
             ]
         },
         {

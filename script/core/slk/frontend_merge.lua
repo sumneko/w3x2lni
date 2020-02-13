@@ -68,7 +68,7 @@ local function fill_and_merge(a, b, lv, meta)
         end
     else
         for i = 1, lv do
-            c[i] = b[i] or a[i] 
+            c[i] = b[i] or a[i]
         end
     end
     if not is_remove_exceeds_level then
