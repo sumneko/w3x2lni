@@ -24,9 +24,6 @@ local function format_value(val)
 end
 
 local function add_data(lines, key, data)
-    if key:find '[^%w_]' then
-        key = ('%q'):format(key)
-    end
     local len = 0
     for k in pairs(data) do
         if k > len then
@@ -83,10 +80,7 @@ end
 
 local function make_marked_ids(slk)
     local marked = {}
-    local type_list = {'ability', 'buff', 'unit', 'item', 'upgrade'}
-    if w2l.setting.slk_doodad then
-        type_list[#type_list+1] = 'doodad'
-    end
+    local type_list = {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad'}
     for _, type in ipairs(type_list) do
         if slk[type] then
             for name, obj in pairs(slk[type]) do
