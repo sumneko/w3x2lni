@@ -207,12 +207,10 @@ local function txt_read_data(name, obj, key, meta, txt)
     end
 end
 
-local function txt_read(table, txt, used, keys, meta)
+local function txt_read(table, txt, keys, meta)
     for name, obj in pairs(table) do
         local lname = string_lower(name)
-        local txt_data = txt[lname] or used[lname]
-        txt[lname] = nil
-        used[lname] = txt_data
+        local txt_data = txt[lname]
         for i = 1, #keys do
             local key = keys[i]
             if not obj[key] then
@@ -243,6 +241,34 @@ local function slk_misc(table, misc, txt)
     end
 end
 
+local function clean_txt(datas, txt)
+    local keys = {}
+    local used = {}
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable', 'misc'} do
+        if keydata[type] then
+            for _, key in ipairs(keydata[type]) do
+                local meta = metadata[type][key]
+                keys[meta.key] = true
+            end
+        end
+        for name in pairs(datas[type]) do
+            used[name:lower()] = true
+        end
+    end
+    for lname, obj in pairs(txt) do
+        if used[lname] then
+            for key in pairs(obj) do
+                if keys[key] then
+                    obj[key] = nil
+                end
+            end
+            if not next(obj) then
+                txt[lname] = nil
+            end
+        end
+    end
+end
+
 local function txt_set_level(txt)
     for _, obj in pairs(txt) do
         obj._max_level = 1
@@ -255,9 +281,7 @@ return function(w2l_, loader)
     keydata = w2l:keydata()
     local datas = {}
     local txt = {}
-    local used = {}
     local misc = {}
-    local count = 0
     w2l.progress:start(0.3)
     for _, filename in pairs(w2l.info.txt) do
         w2l:parse_txt(loader(filename) or '', filename, txt)
@@ -303,11 +327,12 @@ return function(w2l_, loader)
                 keys[#keys+1] = key
                 meta[#meta+1] = metadata[type][key]
             end
-            txt_read(datas[type], txt, used, keys, meta)
+            txt_read(datas[type], txt, keys, meta)
         end
         count = count + 1
         w2l.progress(count / 8)
     end
+
     -- 特殊处理misc
     -- misc的底板来自3个文件，但其中AB文件我们永远不会生成，C文件在slk后会变成空白文件。
     -- 作为差异的war3mapmisc.txt需要根据数据来源来清理重复数据，其中来自AB文件的数据总是
@@ -317,6 +342,7 @@ return function(w2l_, loader)
 
     w2l.progress:finish()
 
+    clean_txt(datas, txt)
     -- 给剩下的txt设置等级
     txt_set_level(txt)
 
