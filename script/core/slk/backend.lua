@@ -282,7 +282,7 @@ local function to_slk(w2l, slk)
         end
     end
 
-    local content = w2l:backend_extra_txt(slk['txt'])
+    local content = w2l:backend_extra_txt(slk['txt'], slk)
     if content then
         w2l:file_save('map', output['txt'], content)
     end
