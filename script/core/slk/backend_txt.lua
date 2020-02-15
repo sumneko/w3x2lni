@@ -171,18 +171,52 @@ local function add_data(obj, meta, value, keyval)
     end
 end
 
-local function create_keyval(obj)
+local function add_extra_data(keyval, key, data)
+    local len = 0
+    for k in pairs(data) do
+        if k > len then
+            len = k
+        end
+    end
+    if len == 0 then
+        return
+    end
+    keyval[#keyval+1] = {key, get_index_data(3, data, len)}
+end
+
+local function sortpairs(tbl)
+    local keys = {}
+    for k in pairs(tbl) do
+        keys[#keys+1] = k
+    end
+    table.sort(keys)
+    local i = 0
+    return function ()
+        i = i + 1
+        local k = keys[i]
+        return k, tbl[k]
+    end
+end
+
+local function create_keyval(obj, txt_obj)
     local keyval = {}
     for _, key in ipairs(keys) do
         if key ~= 'editorsuffix' and key ~= 'editorname' then
             add_data(obj, metadata[key], obj[key], keyval)
         end
     end
+    if txt_obj then
+        for k, v in sortpairs(txt_obj) do
+            if k:sub(1, 1) ~= '_' then
+                add_extra_data(keyval, k, v)
+            end
+        end
+    end
     return keyval
 end
 
-local function stringify_obj(str, obj)
-    local keyval = create_keyval(obj)
+local function stringify_obj(str, obj, txt_obj)
+    local keyval = create_keyval(obj, txt_obj)
     if #keyval == 0 then
         return
     end
@@ -318,20 +352,6 @@ local function prebuild_merge(obj, a, b)
     end
 end
 
-local function sortpairs(tbl)
-    local keys = {}
-    for k in pairs(tbl) do
-        keys[#keys+1] = k
-    end
-    table.sort(keys)
-    local i = 0
-    return function ()
-        i = i + 1
-        local k = keys[i]
-        return k, tbl[k]
-    end
-end
-
 local function prebuild(type, input, output, list)
     for name, obj in sortpairs(input) do
         local r = prebuild_obj(name, obj)
@@ -377,7 +397,8 @@ return function(w2l_, slk, report_, obj)
         local str = {}
         table_sort(list[type])
         for _, name in ipairs(list[type]) do
-            stringify_obj(str, txt[name:lower()])
+            local lname = name:lower()
+            stringify_obj(str, txt[lname], slk['txt'][lname])
         end
         r[type] = table_concat(str, '\r\n')
     end
