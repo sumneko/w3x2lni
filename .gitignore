@@ -8,3 +8,6 @@
 /script/share/gitlog.lua
 /*.w3x
 /*.exe
+.vscode/.BROWSE.C_CPP.DB
+.vscode/.BROWSE.C_CPP.DB-wal
+.vscode/.BROWSE.C_CPP.DB-shm
