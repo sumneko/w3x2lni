@@ -294,9 +294,8 @@ local function mark_doo(w2l, slk)
     end
     for name in pairs(destructable) do
         current_root = {name, lang.report.REFERENCE_BY_PLACING}
-        if not mark_known_type(slk, 'destructable', name) then
-            mark_known_type(slk, 'doodad', name)
-        end
+        mark_known_type(slk, 'destructable', name)
+        mark_known_type(slk, 'doodad', name)
     end
     for name in pairs(doodad) do
         current_root = {name, lang.report.REFERENCE_BY_PLACING}
