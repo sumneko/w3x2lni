@@ -78,33 +78,10 @@ local function add_chunk(lines, tbl)
     end
 end
 
-local function make_marked_ids(slk)
-    local marked = {}
-    local type_list = {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad'}
-    for _, type in ipairs(type_list) do
-        if slk[type] then
-            for name, obj in pairs(slk[type]) do
-                if obj._mark then
-                    marked[name:lower()] = true
-                end
-            end
-        end
-    end
-    return marked
-end
-
 return function (w2l_, tbl, slk)
     w2l = w2l_
     if not tbl then
         return
-    end
-    if w2l.setting.remove_unuse_object then
-        local marked = make_marked_ids(slk)
-        for lname in pairs(tbl) do
-            if not marked[lname] then
-                tbl[lname] = nil
-            end
-        end
     end
     local lines = {}
 
