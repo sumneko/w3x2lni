@@ -271,7 +271,9 @@ local function to_slk(w2l, slk)
     end
     local txt = w2l:backend_txt(slk, report, object)
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad'} do
-        w2l:file_save('map', output[type], txt[type])
+        if txt[type] then
+            w2l:file_save('map', output[type], txt[type])
+        end
     end
 
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable', 'doodad', 'misc'} do
