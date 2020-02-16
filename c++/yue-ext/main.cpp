@@ -123,6 +123,8 @@ int register_window(lua_State* L) {
 	std::wstring name = checkwstring(L, 1);
 	gL = L;
 	gW = ::FindWindowW(L"Yue_0", name.c_str());
+	::ChangeWindowMessageFilterEx(gW, WM_DROPFILES, MSGFLT_ALLOW, nullptr);
+  	::ChangeWindowMessageFilterEx(gW, 0x0049, MSGFLT_ALLOW, nullptr); 
 	winhook::start(gW);
 	return 0;
 }
