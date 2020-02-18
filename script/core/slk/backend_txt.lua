@@ -51,7 +51,7 @@ local function to_type(tp, value)
         if not value then
             return
         end
-        if value:find(',', nil, false) then
+        if tostring(value):find(',', nil, false) then
             value = '"' .. value .. '"'
         end
         return value
