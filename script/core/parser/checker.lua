@@ -817,6 +817,9 @@ function parser.Global(constant, type, array, name, exp)
         name = name,
         _set = true,
     }
+    if exp then
+        checkSet(global, 'global', array, exp)
+    end
     globals[name] = global
     return global
 end

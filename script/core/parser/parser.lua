@@ -833,6 +833,9 @@ function parser.Global(constant, type, array, name, exp)
         [1] = exp,
         _set = true,
     }
+    if exp then
+        checkSet(global, 'global', array, exp)
+    end
     globals[name] = global
     ast.globals[#ast.globals+1] = global
     return global
