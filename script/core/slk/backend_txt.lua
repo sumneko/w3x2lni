@@ -370,7 +370,7 @@ end
 
 local function update_constant(type)
     metadata = w2l:metadata()[type]
-    keys = w2l:keydata()[type]
+    keys = w2l:keydata()[type] or {}
 end
 
 return function(w2l_, slk, report_, obj)
