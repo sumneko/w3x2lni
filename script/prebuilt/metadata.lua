@@ -266,15 +266,15 @@ local function find_id(used_id, source_id)
     return id
 end
 
-local function copy_reforge_meta(source, used_id, mask)
+local function copy_reforge_meta(source, used_id, mask, name)
     local t = {}
     for k, v in pairs(source) do
         t[k] = v
     end
     t['id'] = find_id(used_id, t['id'])
-    t['cantempty'] = nil
     t['key'] = t['key'] .. mask
     t['field'] = t['field'] .. mask
+    t['reforge'] = name
     return t
 end
 
@@ -286,8 +286,8 @@ local function add_reforge_special(metas, tbl)
         end
         for name, meta in sortpairs(metas) do
             if tbl[meta.id] and tbl[meta.id].category == 'art' then
-                metas[name..':hd'] = copy_reforge_meta(meta, used_id, ':hd')
-                metas[name..':sd'] = copy_reforge_meta(meta, used_id, ':sd')
+                metas[name..':hd'] = copy_reforge_meta(meta, used_id, ':hd', name)
+                metas[name..':sd'] = copy_reforge_meta(meta, used_id, ':sd', name)
             end
         end
     end
