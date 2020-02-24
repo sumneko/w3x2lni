@@ -75,7 +75,7 @@ function mt:slktitle()
 end
 
 function mt:isreforge()
-    return self:data_load('prebuilt\\reforge.ini') ~= nil
+    return not not self:data_load('prebuilt\\reforge.ini')
 end
 
 function mt:get_editstring(source)
