@@ -290,6 +290,11 @@ return function(w2l_, loader)
     for _, filename in pairs(w2l.info.txt) do
         w2l:parse_txt(loader(filename) or '', filename, txt)
     end
+    if w2l:isreforge() then
+        for _, filename in pairs(w2l.info.reforge) do
+            w2l:parse_txt(loader(filename) or '', filename, txt)
+        end
+    end
     for _, filename in pairs(w2l.info.misc) do
         w2l:parse_txt(loader(filename), filename, misc)
     end

@@ -269,6 +269,11 @@ local function to_slk(w2l, slk)
     for _, filename in ipairs(w2l.info.txt) do
         w2l:file_save('map', filename, '')
     end
+    if w2l:isreforge() then
+        for _, filename in ipairs(w2l.info.reforge) do
+            w2l:file_save('map', filename, '')
+        end
+    end
     local txt = w2l:backend_txt(slk, report, object)
     for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad'} do
         if txt[type] then

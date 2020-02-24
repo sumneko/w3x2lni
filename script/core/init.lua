@@ -74,6 +74,10 @@ function mt:slktitle()
     return self.cache_slktitle
 end
 
+function mt:isreforge()
+    return self:data_load('prebuilt\\reforge.ini') ~= nil
+end
+
 function mt:get_editstring(source)
     local str = source:upper()
     if str:sub(1, 9) ~= 'WESTRING_' then

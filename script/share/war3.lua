@@ -121,6 +121,9 @@ function m:open(path)
             self.name = lg .. '-' .. verStr
         end
     end
+    if ver.major > 1 or ver.minor >= 32 then
+        self.reforge = true
+    end
     self.ver = ver
     return true
 end

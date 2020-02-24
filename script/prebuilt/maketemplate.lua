@@ -2,10 +2,10 @@ local config = require 'share.config'
 local root = require 'backend.w2l_path'
 local fs = require 'bee.filesystem'
 
-return function (w2l, war3ver, version, slk)
+return function (w2l, war3, version, slk)
     local template_path = root / 'template' / version
 
-    if war3ver.major > 1 or war3ver.minor >= 29 then
+    if war3.casc then
         w2l:set_setting
         {
             data      = config.global.data,

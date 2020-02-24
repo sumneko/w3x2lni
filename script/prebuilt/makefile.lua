@@ -76,10 +76,10 @@ local function writer(t)
     return table.concat(f, '\r\n')
 end
 
-return function (w2l, war3ver, version)
+return function (w2l, war3, version)
     w2l.messager.text(lang.script.CONVERT_ONE .. version)
 
-    if war3ver.major > 1 or war3ver.minor >= 29 then
+    if war3.casc then
         w2l:set_setting
         {
             data      = config.global.data,

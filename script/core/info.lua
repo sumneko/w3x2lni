@@ -57,7 +57,6 @@ return {
         'units\\nightelfunitfunc.txt',
         'units\\orcunitfunc.txt',
         'units\\undeadunitfunc.txt',
-        'units\\unitskin.txt',
 
         'units\\campaignabilitystrings.txt',
         'units\\commonabilitystrings.txt',
@@ -75,7 +74,6 @@ return {
         'units\\orcabilityfunc.txt',
         'units\\undeadabilityfunc.txt',
         'units\\itemabilityfunc.txt',
-        'units\\abilityskin.txt',
 
         'units\\campaignupgradestrings.txt',
         'units\\neutralupgradestrings.txt',
@@ -89,16 +87,19 @@ return {
         'units\\nightelfupgradefunc.txt',
         'units\\orcupgradefunc.txt',
         'units\\undeadupgradefunc.txt',
-        'units\\upgradeskin.txt',
 
         'units\\itemstrings.txt',
         'units\\itemfunc.txt',
-        'units\\itemskin.txt',
 
         'units\\destructableskin.txt',
+    },
+    reforge = {
+        'units\\unitskin.txt',
         'units\\unitweaponsskin.txt',
+        'units\\abilityskin.txt',
         'units\\upgradeskin.txt',
-
+        'units\\itemskin.txt',
+        'units\\upgradeskin.txt',
         'doodads\\doodadskins.txt',
     },
     misc = {

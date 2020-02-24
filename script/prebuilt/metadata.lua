@@ -3,7 +3,7 @@ local lang = require 'share.lang'
 local w2l
 local slk = w3xparser.slk
 local fixer
-local ver
+local war3
 local codemapped
 
 local concat_types = {
@@ -279,7 +279,7 @@ local function copy_reforge_meta(source, used_id, mask, name)
 end
 
 local function add_reforge_special(metas, tbl)
-    if ver.major > 1 or ver.minor >= 32 then
+    if war3.reforge then
         local used_id = {}
         for _, meta in pairs(metas) do
             used_id[meta.id] = true
@@ -380,10 +380,10 @@ local function get_typedefine(w2l, loader)
     return t
 end
 
-return function(w2l_, fixer_, ver_, loader)
+return function(w2l_, fixer_, war3_, loader)
     w2l = w2l_
     fixer = fixer_
-    ver = ver_
+    war3 = war3_
 
     codemapped = get_codemapped(w2l, loader)
     typedefine = get_typedefine(w2l, loader)

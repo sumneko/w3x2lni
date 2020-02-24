@@ -91,6 +91,9 @@ local function extract()
             for _, name in ipairs(w2l.info.txt) do
                 extract_mpq(dir .. name)
             end
+            for _, name in ipairs(w2l.info.reforge) do
+                extract_mpq(dir .. name)
+            end
         end
     else
         for _, dirs in ipairs {
@@ -119,6 +122,9 @@ local function extract()
             for _, name in ipairs(w2l.info.txt) do
                 extract_casc(dirs, name)
             end
+            for _, name in ipairs(w2l.info.reforge) do
+                extract_casc(dirs, name)
+            end
         end
     end
     -- TODO: 应该放在上面的循环中？
@@ -129,9 +135,9 @@ local function extract()
     extract_file(output, 'UI\\TriggerStrings.txt')
 end
 
-local function create_metadata(w2l, ver)
+local function create_metadata(w2l, war3)
     local defined_meta = w2l:parse_lni(io.load(root / 'script' / 'core' / 'defined' / 'metadata.ini'))
-    local meta = prebuilt_metadata(w2l, defined_meta, ver, function (name)
+    local meta = prebuilt_metadata(w2l, defined_meta, war3, function (name)
         return io.load(output / 'mpq' / name)
     end)
     fs.create_directories(output / 'prebuilt')
@@ -244,17 +250,20 @@ return function ()
     w2l.messager.text(lang.script.EXPORT_MPQ)
     extract()
     report_fail()
-    create_metadata(w2l, war3.ver)
+    create_metadata(w2l, war3)
     w2l.progress:finish()
 
     w2l.cache_metadata = w2l:parse_lni(io.load(output / 'prebuilt' / 'metadata.ini'))
     fs.create_directories(output / 'prebuilt')
-    local keydata = prebuilt_keydata(w2l, war3.ver, loader)
+    local keydata = prebuilt_keydata(w2l, war3, loader)
     local slktitle = prebuilt_slktitle(w2l, loader)
     local search = prebuilt_search(w2l, loader)
     io.save(output / 'prebuilt' / 'keydata.ini', keydata)
     io.save(output / 'prebuilt' / 'slktitle.ini', slktitle)
     io.save(output / 'prebuilt' / 'search.ini', search)
+    if war3.reforge then
+        io.save(output / 'prebuilt' / 'reforge.ini', '')
+    end
     w2l.cache_metadata = nil
 
     io.save(output / 'version', table.concat(data_version, '\r\n'))
@@ -262,16 +271,16 @@ return function ()
     config.global.data = war3.name
 
     w2l.progress:start(0.4)
-    local slk = makefile(w2l, war3.ver, 'Melee')
+    local slk = makefile(w2l, war3, 'Melee')
     w2l.progress:finish()
     w2l.progress:start(0.65)
-    maketemplate(w2l, war3.ver, 'Melee', slk)
+    maketemplate(w2l, war3, 'Melee', slk)
     w2l.progress:finish()
     w2l.progress:start(0.75)
-    local slk = makefile(w2l, war3.ver, 'Custom')
+    local slk = makefile(w2l, war3, 'Custom')
     w2l.progress:finish()
     w2l.progress:start(1.0)
-    maketemplate(w2l, war3.ver, 'Custom', slk)
+    maketemplate(w2l, war3, 'Custom', slk)
     w2l.progress:finish()
 
     local clock = os.clock()
