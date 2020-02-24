@@ -148,7 +148,6 @@ end
 
 local function txt_read_data(name, obj, key, meta, txt)
     if meta.reforge and (not txt or not txt[meta.key]) then
-        obj[key] = obj[meta.reforge]
         return
     end
     if meta.index then
