@@ -102,6 +102,16 @@ return {
         'units\\upgradeskin.txt',
         'doodads\\doodadskins.txt',
     },
+    txt_out = {
+        unit    = 'units\\campaignunitstrings.txt',
+        ability = 'units\\campaignabilitystrings.txt',
+        buff    = 'units\\commonabilitystrings.txt',
+        upgrade = 'units\\campaignupgradestrings.txt',
+        item    = 'units\\itemstrings.txt',
+        txt     = 'units\\itemabilitystrings.txt',
+        doodad  = 'units\\orcunitfunc.txt',
+        destructable = 'units\\orcunitstrings.txt',
+    },
     misc = {
         'ui\\miscdata.txt',
         'units\\miscdata.txt',

@@ -2,16 +2,6 @@ local lang = require 'lang'
 local os_clock = os.clock
 local w2l
 
-local output = {
-    unit    = 'units\\campaignunitstrings.txt',
-    ability = 'units\\campaignabilitystrings.txt',
-    buff    = 'units\\commonabilitystrings.txt',
-    upgrade = 'units\\campaignupgradestrings.txt',
-    item    = 'units\\itemstrings.txt',
-    txt     = 'units\\itemabilitystrings.txt',
-    doodad  = 'doodads\\doodadskins.txt',
-}
-
 local function to_lni(w2l, slk)
     --转换物编
     local count = 0
@@ -275,9 +265,9 @@ local function to_slk(w2l, slk)
         end
     end
     local txt = w2l:backend_txt(slk, report, object)
-    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad'} do
+    for _, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'destructable', 'doodad'} do
         if txt[type] then
-            w2l:file_save('map', output[type], txt[type])
+            w2l:file_save('map', w2l.info.txt_out[type], txt[type])
         end
     end
 
@@ -291,7 +281,7 @@ local function to_slk(w2l, slk)
 
     local content = w2l:backend_extra_txt(slk['txt'], slk)
     if content then
-        w2l:file_save('map', output['txt'], content)
+        w2l:file_save('map', w2l.info.txt_out['txt'], content)
     end
 
     if report.n > 0 then

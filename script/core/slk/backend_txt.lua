@@ -382,6 +382,7 @@ return function(w2l_, slk, report_, obj)
     local type_list = {'ability', 'buff', 'unit', 'item', 'upgrade'}
     if w2l.setting.slk_doodad then
         type_list[#type_list+1] = 'doodad'
+        type_list[#type_list+1] = 'destructable'
     end
     for _, type in ipairs(type_list) do
         list[type] = {}
