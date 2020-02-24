@@ -275,7 +275,6 @@ local function copy_reforge_meta(source, used_id, mask, name)
     t['key'] = t['key'] .. mask
     t['field'] = t['field'] .. mask
     t['reforge'] = name
-    t['cantempty'] = nil
     return t
 end
 
