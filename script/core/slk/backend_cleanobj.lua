@@ -38,8 +38,8 @@ end
 
 local function is_same(a, b, meta)
     if meta and meta.type ~= 3 then
-        a = wtonumber(a)
-        b = wtonumber(b)
+        a = a and wtonumber(a)
+        b = b and wtonumber(b)
     end
     return a == b
 end
