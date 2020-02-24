@@ -75,6 +75,7 @@ return {
         'units\\orcabilityfunc.txt',
         'units\\undeadabilityfunc.txt',
         'units\\itemabilityfunc.txt',
+        'units\\abilityskin.txt',
 
         'units\\campaignupgradestrings.txt',
         'units\\neutralupgradestrings.txt',
@@ -88,9 +89,15 @@ return {
         'units\\nightelfupgradefunc.txt',
         'units\\orcupgradefunc.txt',
         'units\\undeadupgradefunc.txt',
+        'units\\upgradeskin.txt',
 
         'units\\itemstrings.txt',
         'units\\itemfunc.txt',
+        'units\\itemskin.txt',
+
+        'units\\destructableskin.txt',
+        'units\\unitweaponsskin.txt',
+        'units\\upgradeskin.txt',
 
         'doodads\\doodadskins.txt',
     },
