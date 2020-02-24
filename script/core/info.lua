@@ -109,7 +109,7 @@ return {
         upgrade = 'units\\campaignupgradestrings.txt',
         item    = 'units\\itemstrings.txt',
         txt     = 'units\\itemabilitystrings.txt',
-        doodad  = 'units\\orcunitfunc.txt',
+        doodad  = 'doodads\\doodadskins.txt',
         destructable = 'units\\orcunitstrings.txt',
     },
     misc = {
