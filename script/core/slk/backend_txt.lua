@@ -22,14 +22,14 @@ local keys
 local remove_unuse_object
 local object
 
-local function to_type(tp, value)
+local function to_type(tp, value, reforge)
     if tp == 0 then
         if not value then
             return nil
         end
         local value = tostring(math_floor(value))
         if value == '0' then
-            return nil
+            return reforge and 0 or nil
         end
         return value
     elseif tp == 1 or tp == 2 then
@@ -43,8 +43,11 @@ local function to_type(tp, value)
             value = value:gsub('0+$', '')
         end
         value = value:gsub('%.$', '')
-        if value == '' or value == '0' then
+        if value == '' then
             return nil
+        end
+        if value == '0' then
+            return reforge and 0 or nil
         end
         return value
     elseif tp == 3 then
@@ -91,7 +94,7 @@ local function add_data(obj, meta, value, keyval)
         if meta.index == 1 then
             local value = get_index_data(meta.type, {obj[meta.key..'_1'], obj[meta.key..'_2']}, 2)
             if not value then
-                if meta.cantempty then
+                if meta.cantempty and not meta.reforge then
                     value = ','
                 else
                     return
@@ -157,10 +160,10 @@ local function add_data(obj, meta, value, keyval)
         end
         value = get_index_data(meta.type, value, #value)
     else
-        value = to_type(meta.type, value)
+        value = to_type(meta.type, value, meta.reforge)
     end
     if not value or value == '' then
-        if meta.cantempty then
+        if meta.cantempty and not meta.reforge then
             value = ','
         else
             return
@@ -201,7 +204,8 @@ end
 local function create_keyval(obj, txt_obj)
     local keyval = {}
     for _, key in ipairs(keys) do
-        if key ~= 'editorsuffix' and key ~= 'editorname' then
+        if key ~= 'editorsuffix'
+        and key ~= 'editorname' then
             add_data(obj, metadata[key], obj[key], keyval)
         end
     end
