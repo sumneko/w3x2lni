@@ -261,17 +261,48 @@ local function check_string(s)
     return type(s) == 'string' and s:find(',', nil, false) and s:find('"', nil, false)
 end
 
+local function is_same(a, b)
+    local tp1 = type(a)
+    local tp2 = type(b)
+    if tp1 ~= tp2 then
+        return false
+    end
+    if tp1 == 'table' then
+        local used = {}
+        for k, v in pairs(a) do
+            if not is_same(v, b[k]) then
+                return false
+            end
+            used[k] = true
+        end
+        for k in pairs(b) do
+            if not used[k] then
+                return false
+            end
+        end
+        return true
+    else
+        return a == b
+    end
+end
+
 local function prebuild_data(obj, key, r)
     if not obj[key] then
         return
     end
     local name = obj._id
+    local meta = metadata[key]
+    if meta.reforge then
+        if is_same(obj[key], obj[meta.reforge]) then
+            return
+        end
+    end
     if type(obj[key]) == 'table' then
         object[name][key] = {}
         local t = {}
         for k, v in pairs(obj[key]) do
             if check_string(v) then
-                report_failed(obj, metadata[key].field, lang.report.TEXT_CANT_ESCAPE_IN_TXT, v)
+                report_failed(obj, meta.field, lang.report.TEXT_CANT_ESCAPE_IN_TXT, v)
                 object[name][key][k] = v
             else
                 t[k] = v
@@ -283,7 +314,7 @@ local function prebuild_data(obj, key, r)
         r[key] = t
     else
         if check_string(obj[key]) then
-            report_failed(obj, metadata[key].field, lang.report.TEXT_CANT_ESCAPE_IN_TXT, obj[key])
+            report_failed(obj, meta.field, lang.report.TEXT_CANT_ESCAPE_IN_TXT, obj[key])
             object[name][key] = obj[key]
         else
             r[key] = obj[key]

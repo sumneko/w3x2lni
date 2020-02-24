@@ -79,6 +79,13 @@ local function update_obj(name, type, obj, data)
             new_obj._max_level = 1
         end
     end
+    if w2l:isreforge() then
+        for k, meta in pairs(metadata[type]) do
+            if not new_obj[k] and meta.reforge then
+                new_obj[k] = new_obj[meta.reforge]
+            end
+        end
+    end
     return new_obj
 end
 
