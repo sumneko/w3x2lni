@@ -2,6 +2,7 @@ local type = type
 
 local w2l
 local metadata
+local slk_type
 
 local function update_obj(ttype, name, obj, data)
     local parent = obj._parent
@@ -21,7 +22,7 @@ local function update_obj(ttype, name, obj, data)
         end
     end
     if w2l:isreforge() then
-        for k, meta in pairs(metadata[type]) do
+        for k, meta in pairs(metadata[slk_type]) do
             if not obj[k] and meta.reforge then
                 obj[k] = obj[meta.reforge]
             end
@@ -39,6 +40,7 @@ end
 
 return function(w2l_, type, lni, data)
     w2l = w2l_
+    slk_type = type
     if type == 'txt' then
         for _, obj in pairs(lni) do
             update_txt(obj)
