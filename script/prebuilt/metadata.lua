@@ -285,7 +285,9 @@ local function add_reforge_special(metas, tbl)
             used_id[meta.id] = true
         end
         for name, meta in sortpairs(metas) do
-            if tbl[meta.id] and tbl[meta.id].category == 'art' then
+            if tbl[meta.id]
+            and tbl[meta.id].category == 'art'
+            and tbl[meta.id].slk == 'Profile' then
                 metas[name..':hd'] = copy_reforge_meta(meta, used_id, ':hd', name)
                 metas[name..':sd'] = copy_reforge_meta(meta, used_id, ':sd', name)
             end

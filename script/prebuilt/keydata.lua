@@ -78,7 +78,8 @@ local function create_keydata(w2l, type, keydata)
             end
             table.insert(keydata[filename], key)
             if war3.reforge then
-                if meta.category == 'art' then
+                if meta.category == 'art'
+                and meta.slk == 'Profile' then
                     table.insert(keydata[filename], key .. ':hd')
                     table.insert(keydata[filename], key .. ':sd')
                 end
