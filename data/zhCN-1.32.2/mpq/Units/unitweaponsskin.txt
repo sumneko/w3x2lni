@@ -3004,9 +3004,9 @@ launchSwimZ=0
 showUI1=1
 showUI2=1
 launchZ=60
-launchZ:hd=65
+launchZ:hd=100
 projectileVisOffsetX:hd=0
-projectileVisOffsetY:hd=50
+projectileVisOffsetY:hd=100
 
 [nitt]
 impactSwimZ=0
@@ -7622,6 +7622,7 @@ launchZ=220
 skinnableID=nggg
 impactSwimZ=0
 impactZ=100
+weapType1=RockHeavyBash
 launchSwimZ=0
 showUI1=1
 showUI2=1

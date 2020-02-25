@@ -369,3 +369,6 @@ PingColor=255,0,255,0
 PingAttackColor=255,255,0,0
 PingAdvisorColor=255,255,255,0
 PingWaypointColor=255,255,255,255
+
+[Cinematics]
+CinematicPanelAddedShowTime=0.75
