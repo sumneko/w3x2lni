@@ -21,19 +21,24 @@ local function update_obj(ttype, name, obj, data)
             end
         end
     end
-    if w2l:isreforge() then
-        for k, meta in pairs(metadata[slk_type]) do
-            if not obj[k] and meta.reforge then
-                obj[k] = obj[meta.reforge]
-            end
-        end
-    end
 end
 
 local function update_txt(obj)
     for k, v in pairs(obj) do
         if type(v) ~= 'table' then
             obj[k] = {v}
+        end
+    end
+end
+
+local function update_reforge(lni)
+    if w2l:isreforge() then
+        for name, obj in pairs(lni) do
+            for k, meta in pairs(metadata[slk_type]) do
+                if not obj[k] and meta.reforge then
+                    obj[k] = obj[meta.reforge]
+                end
+            end
         end
     end
 end
@@ -47,11 +52,12 @@ return function(w2l_, type, lni, data)
         end
         return
     end
+    metadata = w2l:metadata()
+    update_reforge(lni)
     local has_level = w2l.info.key.max_level[type]
     if not has_level then
         return
     end
-    metadata = w2l:metadata()
     for name, obj in pairs(lni) do
         update_obj(type, name, obj, data)
     end
