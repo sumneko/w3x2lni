@@ -13,5 +13,6 @@
         "packDir"
     ],
     "Lua.runtime.version": "Lua 5.4",
+    "Lua.workspace.maxPreload": 3000,
     "files.insertFinalNewline": false
 }
