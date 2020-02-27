@@ -480,13 +480,16 @@ local function checkSet(var, source, array, exp)
             parserError(lang.parser.ERROR_NO_INDEX:format(name) .. exploitText)
         end
     end
-    if source ~= 'global' and var.constant then
+    if var.constant and state.currentFunction then
         parserError(lang.parser.ERROR_SET_CONSTANT:format(name))
     end
     if source == 'global' and state.currentFunction then
         if state.currentFunction.constant then
             parserError(lang.parser.ERROR_SET_IN_CONSTANT:format(name))
         end
+    end
+    if not exp.vtype then
+        parserError(lang.parser.ERROR_SET_TYPE:format(name, var.type, 'nothing') .. exploitText)
     end
     if not isExtends(exp.vtype, var.type) then
         parserError(lang.parser.ERROR_SET_TYPE:format(name, var.type, exp.vtype) .. exploitText)
