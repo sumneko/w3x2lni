@@ -146,9 +146,21 @@ local function txt_to_type(tp, value)
     end
 end
 
+local function copy(t)
+    if type(t) == 'table' then
+        local nt = {}
+        for k, v in pairs(t) do
+            nt[k] = v
+        end
+        return nt
+    else
+        return t
+    end
+end
+
 local function txt_read_data(name, obj, key, meta, txt)
     if meta.reforge and (not txt or not txt[meta.key]) then
-        obj[key] = obj[meta.reforge]
+        obj[key] = copy(obj[meta.reforge])
         return
     end
     if meta.index then
