@@ -22,6 +22,10 @@
 不能比较[%s]与[%s]是否相等。
 [ERROR_COMPARE]
 不能比较[%s]与[%s]的大小。
+[ERROR_AND]
+不能对[%s]与[%s]做 and 操作。
+[ERROR_OR]
+不能对[%s]与[%s]做 or 操作。
 [UNKNOWN_EXP]
 解析未定义的表达式类型:
 [UNKNOWN_EXP_TYPE]
@@ -166,6 +170,10 @@
 应该用 set 而不是 call 来赋值变量。
 [ERROR_CONSTANT_LOCAL]
 局部变量不能是常量。
+[ERROR_CONDITION_TYPE]
+用于条件判断的表达式必须是 boolean 类型。
+[ERROR_NOT_TYPE]
+not 后的表达式必须是 boolean 类型。
 [WARNING_REDEFINE_VAR]
 (注意，变量[%s]已在[%s]第[%d]行被重定义。)
 [WARNING_REDEFINED_TO]

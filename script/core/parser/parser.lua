@@ -324,10 +324,16 @@ local function getCompare(t1, t2)
 end
 
 local function getAnd(t1, t2)
+    if t1 ~= 'boolean' or t2 ~= 'boolean' then
+        parserError(lang.parser.ERROR_AND:format(t1, t2))
+    end
     return 'boolean'
 end
 
 local function getOr(t1, t2)
+    if t1 ~= 'boolean' or t2 ~= 'boolean' then
+        parserError(lang.parser.ERROR_OR:format(t1, t2))
+    end
     return 'boolean'
 end
 
@@ -367,7 +373,10 @@ end
 local function getUnary(op, exp)
     local t = exp.vtype
     if op == 'not' then
-        return t
+        if t ~= 'boolean' then
+            parserError(lang.parser.ERROR_NOT_TYPE)
+        end
+        return 'boolean'
     end
 end
 
@@ -1044,6 +1053,9 @@ function parser.IfStart()
 end
 
 function parser.If(file, line, condition, ...)
+    if condition.vtype ~= 'boolean' then
+        parserError(lang.parser.ERROR_CONDITION_TYPE)
+    end
     return {
         file = file,
         line = line,
@@ -1063,6 +1075,9 @@ function parser.ElseifStart()
 end
 
 function parser.Elseif(file, line, condition, ...)
+    if condition.vtype ~= 'boolean' then
+        parserError(lang.parser.ERROR_CONDITION_TYPE)
+    end
     return {
         file = file,
         line = line,

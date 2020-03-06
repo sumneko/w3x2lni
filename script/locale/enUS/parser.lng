@@ -22,6 +22,10 @@ Attempt to perform negative operations to [%s].
 Attempt to judgment [%s] with [%s].
 [ERROR_COMPARE]
 Attempt to compare [%s] with [%s].
+[ERROR_AND]
+Attempt to do "and" with [%s] and [%s].
+[ERROR_OR]
+Attempt to do "or" with [%s] and [%s].
 [UNKNOWN_EXP]
 Attempt to parse unknown exp.
 [UNKNOWN_EXP_TYPE]
@@ -166,6 +170,10 @@ Should use 'call' instead of 'set' to call a function.
 Should use 'set' instead or 'call' to assign variable.
 [ERROR_CONSTANT_LOCAL]
 Attemp to define a local as constant.
+[ERROR_CONDITION_TYPE]
+Condition should be boolean.
+[ERROR_NOT_TYPE]
+Exp after 'not' should be boolean.
 [WARNING_REDEFINE_VAR]
 (Caution, variable [%s] has magic redefined in [%s] line [%s].)
 [WARNING_REDEFINED_TO]
