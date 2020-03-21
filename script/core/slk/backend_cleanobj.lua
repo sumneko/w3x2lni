@@ -223,6 +223,20 @@ local function clean_misc(type, t)
     end
 end
 
+local function clean_txt_keys(slk)
+    for i, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
+        local metas = metadata[type]
+        for id in pairs(slk[type]) do
+            local txtObj = slk.txt[id:lower()]
+            if txtObj then
+                for _, meta in pairs(metas) do
+                    txtObj[meta.key] = nil
+                end
+            end
+        end
+    end
+end
+
 return function (w2l_, slk)
     w2l = w2l_
     keydata = w2l:keydata()
@@ -244,5 +258,8 @@ return function (w2l_, slk)
     end
     local type = 'misc'
     clean_misc(type, slk[type])
+
+    clean_txt_keys(slk)
+
     w2l.progress(1)
 end
