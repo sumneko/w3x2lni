@@ -123,7 +123,9 @@ function mt:pairs()
             return next_one()
         end
         local ext = lname:match '[^%.]+$'
-        if ext == 'mdx' or ext == 'mdl' or ext == 'blp' or ext == 'tga' or ext == 'dds' or ext == 'tif' then
+        if dir == 'w3x2lni' then
+            type = 'w3x2lni'
+        elseif ext == 'mdx' or ext == 'mdl' or ext == 'blp' or ext == 'tga' or ext == 'dds' or ext == 'tif' then
             type = 'resource'
         elseif ext == 'mp3' or ext == 'wav' then
             type = 'sound'
@@ -131,8 +133,6 @@ function mt:pairs()
             type = 'map'
         elseif dir == 'scripts' then
             type = 'scripts'
-        elseif dir == 'w3x2lni' then
-            type = 'w3x2lni'
         else
             type = 'map'
         end
