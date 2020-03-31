@@ -226,11 +226,18 @@ end
 local function clean_txt_keys(slk)
     for i, type in ipairs {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'destructable'} do
         local metas = metadata[type]
+        local removeKeys = {}
+        for _, meta in pairs(metas) do
+            removeKeys[meta.key] = true
+        end
         for id in pairs(slk[type]) do
             local txtObj = slk.txt[id:lower()]
             if txtObj then
-                for _, meta in pairs(metas) do
-                    txtObj[meta.key] = nil
+                for k in pairs(txtObj) do
+                    local originKey = k:match '^(.-)%:'
+                    if removeKeys[originKey] then
+                        txtObj[k] = nil
+                    end
                 end
             end
         end
