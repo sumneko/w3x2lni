@@ -948,7 +948,7 @@ function parser.Return()
     local func = state.currentFunction
     if func then
         local t1 = func.vtype
-        if t1 then
+        if t1 ~= 'nothing' then
             parserError(lang.parser.ERROR_MISS_RETURN:format(func.name, t1))
         end
     end
