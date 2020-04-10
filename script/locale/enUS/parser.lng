@@ -130,6 +130,8 @@ Function [%s] needs nothing, but passed [%d] args.
 Attemp to index variable [%s].
 [ERROR_NO_INDEX]
 Missing index for array [%s].
+[ERROR_INDEX_TYPE]
+Index of variable [%s] should be integer, but used [%s].
 [ERROR_SET_CONSTANT]
 Attemp to assign constant [%s].
 [ERROR_SET_IN_CONSTANT]

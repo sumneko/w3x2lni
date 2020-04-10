@@ -130,6 +130,8 @@
 变量[%s]不需要索引。
 [ERROR_NO_INDEX]
 数组变量[%s]缺少索引。
+[ERROR_INDEX_TYPE]
+数组变量[%s]的索引必须是 integer ，但你使用的是[%s]。
 [ERROR_SET_CONSTANT]
 无法给常量[%s]赋值。
 [ERROR_SET_IN_CONSTANT]

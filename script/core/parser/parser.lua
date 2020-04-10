@@ -454,7 +454,7 @@ local function checkCall(func, call)
     end
 end
 
-local function checkSet(var, source, array, exp)
+local function checkSet(var, source, array, index, exp)
     -- 如果是马甲变量，就不再检查更多错误
     if source == 'dummy' then
         return
@@ -468,6 +468,11 @@ local function checkSet(var, source, array, exp)
     else
         if var.array then
             parserError(lang.parser.ERROR_NO_INDEX:format(name) .. exploitText)
+        end
+    end
+    if index then
+        if not isExtends(index.vtype, 'integer') then
+            parserError(lang.parser.ERROR_INDEX_TYPE:format(name, index.vtype) .. exploitText)
         end
     end
     if var.constant and state.currentFunction then
@@ -846,7 +851,7 @@ function parser.Global(constant, type, array, name, exp)
         _set = true,
     }
     if exp then
-        checkSet(global, 'global', array, exp)
+        checkSet(global, 'global', array, nil, exp)
     end
     globals[name] = global
     ast.globals[#ast.globals+1] = global
@@ -949,7 +954,7 @@ function parser.Set(name, ...)
     local var, source = getVar(name)
     if select('#', ...) == 1 then
         local exp = ...
-        checkSet(var, source, false, exp)
+        checkSet(var, source, false, nil, exp)
         var._set = true
         return {
             type = 'set',
@@ -958,7 +963,7 @@ function parser.Set(name, ...)
         }
     else
         local index, exp = ...
-        checkSet(var, source, true, exp)
+        checkSet(var, source, true, index, exp)
         return {
             type = 'seti',
             name = name,
@@ -991,7 +996,7 @@ function parser.ReturnExp(exp)
         end
         local t1 = func.vtype
         local t2 = exp.vtype
-        if t1 then
+        if t1 ~= 'nothing' then
             if t1 == 'real' and t2 == 'integer' then
                 parserWarning(lang.parser.ERROR_RETURN_INTEGER_AS_REAL:format(func.name, t1, t2) .. exploitText)
             elseif not isExtends(t2, t1) then
@@ -1219,7 +1224,7 @@ function parser.FunctionEnd(m)
         args[k] = nil
     end
     finishRB()
-    if func.returns and state.returnTimes[1] > 0 then
+    if func.returns ~= 'nothing' and state.returnTimes[1] > 0 then
         if state.returnAny then
             parserError(lang.parser.ERROR_RETURN_IN_ALL:format(func.name, func.returns))
         else
@@ -1278,6 +1283,7 @@ return function (jass_, file_, option_)
         state = {}
         option.state = state
         state.types = {
+            nothing = {type = 'type'},
             null    = {type = 'type'},
             handle  = {type = 'type'},
             code    = {type = 'type'},
