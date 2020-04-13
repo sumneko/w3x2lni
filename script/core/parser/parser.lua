@@ -239,7 +239,11 @@ local function Integer(neg, int, str)
         int = - int
     end
     if not int or int > 0x7fffffff or int < -0x80000000 then
-        int = 0
+        if neg == '' then
+            int = 0x7fffffff
+        else
+            int = -0x80000000
+        end
         parserWarning(lang.parser.WARNING_INTEGER_OVERFLOW:format(str))
     end
     return Integers[int]
