@@ -192,3 +192,5 @@ not 后的表达式必须是 boolean 类型。
 在定义全局变量时使用[%s]会导致魔兽崩溃。
 [WARNING_NULL_NATIVE_IN_GLOBAL]
 在定义全局变量时[%s]会返回空值。
+[WARNING_INTEGER_OVERFLOW]
+整数[%s]超出了表示范围[-2147483648, 2147483647]。

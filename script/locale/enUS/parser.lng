@@ -192,3 +192,5 @@ Global [%s] has magic --> defined local used same name in [%s] line [%s].
 Call [%s] in globals will make WC3 crash.
 [WARNING_NULL_NATIVE_IN_GLOBAL]
 Call [%s] in globals will return null.
+[WARNING_INTEGER_OVERFLOW]
+Integer [%s] overflow [-2147483648, 2147483647].

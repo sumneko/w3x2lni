@@ -260,6 +260,14 @@ local static = {
     },
 }
 
+local function Integer(neg, int, str)
+    if not int or int > 0x7fffffff or int < -0x80000000 then
+        int = 0
+        parserWarning(lang.parser.WARNING_INTEGER_OVERFLOW:format(str))
+    end
+    return static.INTEGER
+end
+
 local function getOp(t1, t2)
     if (t1 == 'integer' or t1 == 'real') and (t2 == 'integer' or t2 == 'real') then
         if t1 == 'real' or t2 == 'real' then
@@ -646,15 +654,18 @@ function parser.Real(str)
 end
 
 function parser.Integer8(neg, str)
-    return static.INTEGER
+    local int = tonumber(str, 8)
+    return Integer(neg, int, str)
 end
 
 function parser.Integer10(neg, str)
-    return static.INTEGER
+    local int = tointeger(str)
+    return Integer(neg, int, str)
 end
 
 function parser.Integer16(neg, str)
-    return static.INTEGER
+    local int = tointeger('0x'..str)
+    return Integer(neg, int, str)
 end
 
 function parser.Integer256(neg, str)
@@ -663,7 +674,7 @@ function parser.Integer256(neg, str)
             parserError(lang.parser.ERROR_INT256_ESC)
         end
     end
-    return static.INTEGER
+    return Integer(neg, 0, str)
 end
 
 function parser.Code(name, pl)

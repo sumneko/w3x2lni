@@ -234,9 +234,13 @@ local static = {
     },
 }
 
-local function Integer(neg, int)
+local function Integer(neg, int, str)
     if neg ~= '' then
         int = - int
+    end
+    if not int or int > 0x7fffffff or int < -0x80000000 then
+        int = 0
+        parserWarning(lang.parser.WARNING_INTEGER_OVERFLOW:format(str))
     end
     return Integers[int]
 end
@@ -640,17 +644,17 @@ end
 
 function parser.Integer8(neg, str)
     local int = tonumber(str, 8)
-    return Integer(neg, int)
+    return Integer(neg, int, str)
 end
 
 function parser.Integer10(neg, str)
     local int = tointeger(str)
-    return Integer(neg, int)
+    return Integer(neg, int, str)
 end
 
 function parser.Integer16(neg, str)
     local int = tointeger('0x'..str)
-    return Integer(neg, int)
+    return Integer(neg, int, str)
 end
 
 function parser.Integer256(neg, str)
