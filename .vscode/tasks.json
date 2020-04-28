@@ -41,6 +41,9 @@
         {
             "label": "编译C++代码",
             "command": "luamake",
+            "args": [
+                "rebuild"
+            ],
             "presentation": {
                 "panel": "new",
                 "clear": true
