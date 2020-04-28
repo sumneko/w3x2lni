@@ -234,7 +234,7 @@ local function clean_txt_keys(slk)
             local txtObj = slk.txt[id:lower()]
             if txtObj then
                 for k in pairs(txtObj) do
-                    local originKey = k:match '^(.-)%:'
+                    local originKey = k:match '^([^:]+)'
                     if removeKeys[originKey] then
                         txtObj[k] = nil
                     end

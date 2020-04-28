@@ -173,7 +173,7 @@ local function remove_unuse(w2l, slk)
             mustuse[type][id] = true
         end
     end
-    
+
     local total_custom = 0
     local total_origin = 0
     local unuse_custom = 0
@@ -368,7 +368,7 @@ return function (w2l_, slk)
     w2l.progress:start(0.5)
     w2l:backend_cleanobj(slk)
     w2l.progress:finish()
-    
+
     w2l.progress:start(0.7)
     w2l.messager.text(lang.script.CONVERT_OBJ)
     if w2l.setting.mode == 'lni' then
