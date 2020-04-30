@@ -260,10 +260,13 @@ local static = {
     },
 }
 
-local function Integer(neg, int, str)
+local function Integer(neg, int, str, base)
     if not int or int > 0x7fffffff or int < -0x80000000 then
-        int = 0
-        parserWarning(lang.parser.WARNING_INTEGER_OVERFLOW:format(str))
+        -- 认为只有10进制数字才会犯整数边界的错误
+        if base == 10 then
+            int = 0
+            parserWarning(lang.parser.WARNING_INTEGER_OVERFLOW:format(str))
+        end
     end
     return static.INTEGER
 end
@@ -655,17 +658,17 @@ end
 
 function parser.Integer8(neg, str)
     local int = tonumber(str, 8)
-    return Integer(neg, int, str)
+    return Integer(neg, int, str, 8)
 end
 
 function parser.Integer10(neg, str)
     local int = tointeger(str)
-    return Integer(neg, int, str)
+    return Integer(neg, int, str, 10)
 end
 
 function parser.Integer16(neg, str)
     local int = tointeger('0x'..str)
-    return Integer(neg, int, str)
+    return Integer(neg, int, str, 16)
 end
 
 function parser.Integer256(neg, str)
@@ -674,7 +677,7 @@ function parser.Integer256(neg, str)
             parserError(lang.parser.ERROR_INT256_ESC)
         end
     end
-    return Integer(neg, 0, str)
+    return Integer(neg, 0, str, 256)
 end
 
 function parser.Code(name, pl)
