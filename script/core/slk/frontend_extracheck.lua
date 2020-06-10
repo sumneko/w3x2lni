@@ -20,7 +20,9 @@ local function check_order_id()
         if skill._code == 'ANcl' then
             check_skill_order(skill, skill.dataf, lang.report.ERROR_ORDER_IN_ANcl)
         elseif skill._code == 'Aspb' then
-            check_skill_order(skill, skill.datae, lang.report.ERROR_ORDER_IN_Aspb)
+            if skill.datae ~= 'spellbook' then
+                check_skill_order(skill, skill.datae, lang.report.ERROR_ORDER_IN_Aspb)
+            end
         end
     end
 end
