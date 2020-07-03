@@ -46,9 +46,9 @@ function mt:save(w3i, w3f, w2l, args)
     local count = 0
     for name, buf in pairs(self) do
         if args.clear_time then
-            self.handle:save_file(name, buf, 0)
+            self:save_file(name, buf, 0)
         else
-            self.handle:save_file(name, buf)
+            self:save_file(name, buf)
         end
         count = count + 1
         if os_clock() - clock > 0.1 then
