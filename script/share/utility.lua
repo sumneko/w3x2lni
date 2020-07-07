@@ -13,6 +13,7 @@ local mathType     = math.type
 local mathCeil     = math.ceil
 local getmetatable = getmetatable
 local mathAbs      = math.abs
+local mathRandom   = math.random
 local ioOpen       = io.open
 
 _ENV = nil
@@ -76,6 +77,7 @@ function m.dump(tbl, option)
     end
     local lines = {}
     local mark = {}
+    local keyList = {}
     lines[#lines+1] = '{'
     local function unpack(tbl, tab)
         mark[tbl] = (mark[tbl] or 0) + 1
@@ -88,19 +90,27 @@ function m.dump(tbl, option)
             integerFormat = ('[%%0%dd]'):format(mathCeil(width))
         end
         for key in pairs(tbl) do
-            if type(key) == 'string' then
-                if not key:match('^[%a_][%w_]*$')
-                or RESERVED[key]
-                or option['longStringKey']
-                then
-                    keymap[key] = ('[%q]'):format(key)
-                else
-                    keymap[key] = ('%s'):format(key)
+            if option.formatKey then
+                local care, result = option.formatKey(key, keyList)
+                if care then
+                    keymap[key] = result
                 end
-            elseif isInteger(key) then
-                keymap[key] = integerFormat:format(key)
-            else
-                keymap[key] = ('["<%s>"]'):format(tostring(key))
+            end
+            if not keymap[key] then
+                if type(key) == 'string' then
+                    if not key:match('^[%a_][%w_]*$')
+                    or RESERVED[key]
+                    or option['longStringKey']
+                    then
+                        keymap[key] = ('[%q]'):format(key)
+                    else
+                        keymap[key] = ('%s'):format(key)
+                    end
+                elseif isInteger(key) then
+                    keymap[key] = integerFormat:format(key)
+                else
+                    keymap[key] = ('["<%s>"]'):format(tostring(key))
+                end
             end
             keys[#keys+1] = key
             if option['alignment'] then
@@ -142,7 +152,9 @@ function m.dump(tbl, option)
                     lines[#lines+1] = ('%s%s%s,'):format(TAB[tab+1], keyWord, option['loop'] or '"<Loop>"')
                 else
                     lines[#lines+1] = ('%s%s{'):format(TAB[tab+1], keyWord)
+                    keyList[#keyList+1] = key
                     unpack(value, tab+1)
+                    keyList[#keyList] = nil
                     lines[#lines+1] = ('%s},'):format(TAB[tab+1])
                 end
             elseif tp == 'string' then
@@ -395,35 +407,46 @@ end
 local esc = {
     ["'"]  = [[\']],
     ['"']  = [[\"]],
-    ['\r'] = [[\r]],
-    ['\n'] = '\\\n',
+    ['\r'] = [[\\r]],
+    ['\n'] = [[\\n]],
+    ['\\'] = [[\\]],
 }
 
 function m.viewString(str, quo)
     if not quo then
-        if not str:find("'", 1, true) and str:find('"', 1, true) then
+        if str:find('[\r\n]') then
+            quo = '[['
+        elseif not str:find("'", 1, true) and str:find('"', 1, true) then
             quo = "'"
         else
             quo = '"'
         end
     end
     if quo == "'" then
-        return quo .. str:gsub([=[['\r\n]]=], esc) .. quo
+        str = str:gsub('[\000-\008\011-\012\014-\031\127]', function (char)
+            return ('\\%03d'):format(char:byte())
+        end)
+        return quo .. str:gsub("['\r\n\\]", esc) .. quo
     elseif quo == '"' then
-        return quo .. str:gsub([=[["\r\n]]=], esc) .. quo
+        str = str:gsub('[\000-\008\011-\012\014-\031\127]', function (char)
+            return ('\\%03d'):format(char:byte())
+        end)
+        return quo .. str:gsub('["\r\n\\]', esc) .. quo
     else
         if str:find '\r' then
-            return m.viewString(str)
+            return m.viewString(str, '"')
         end
         local eqnum = #quo - 2
         local fsymb = ']' .. ('='):rep(eqnum) .. ']'
         if not str:find(fsymb, 1, true) then
+            str = str:gsub('[\000-\008\011-\012\014-\031\127]', '')
             return quo .. str .. fsymb
         end
         for i = 0, 10 do
             local fsymb = ']' .. ('='):rep(i) .. ']'
             if not str:find(fsymb, 1, true) then
                 local ssymb = '[' .. ('='):rep(i) .. '['
+                str = str:gsub('[\000-\008\011-\012\014-\031\127]', '')
                 return ssymb .. str .. fsymb
             end
         end
@@ -431,23 +454,77 @@ function m.viewString(str, quo)
     end
 end
 
-function m.lines(buf)
-    local lines = {}
-    local current = 1
-    while true do
-        local pos = buf:find('[\r\n]', current)
-        if not pos then
-            lines[#lines+1] = buf:sub(current)
-            break
-        end
-        lines[#lines+1] = buf:sub(current, pos-1)
-        if buf:sub(current, pos, pos+1) == '\r\n' then
-            current = pos + 2
+function m.viewLiteral(v)
+    local tp = type(v)
+    if tp == 'nil' then
+        return 'nil'
+    elseif tp == 'string' then
+        return m.viewString(v)
+    elseif tp == 'boolean' then
+        return tostring(v)
+    elseif tp == 'number' then
+        if isInteger(v) then
+            return tostring(v)
         else
-            current = pos + 1
+            return formatNumber(v)
         end
     end
-    return lines
+    return nil
+end
+
+function m.revertTable(t)
+    local len = #t
+    if len <= 1 then
+        return t
+    end
+    for x = 1, len // 2 do
+        local y = len - x + 1
+        t[x], t[y] = t[y], t[x]
+    end
+    return t
+end
+
+function m.randomSortTable(t, max)
+    local len = #t
+    if len <= 1 then
+        return t
+    end
+    if not max or max > len then
+        max = len
+    end
+    for x = 1, max do
+        local y = mathRandom(len)
+        t[x], t[y] = t[y], t[x]
+    end
+    return t
+end
+
+function m.tableMultiRemove(t, index)
+    local mark = {}
+    for i = 1, #index do
+        local v = index[i]
+        mark[v] = true
+    end
+    local offset = 0
+    local me = 1
+    local len = #t
+    while true do
+        local it = me + offset
+        if it > len then
+            for i = me, len do
+                t[i] = nil
+            end
+            break
+        end
+        if mark[it] then
+            offset = offset + 1
+        else
+            if me ~= it then
+                t[me] = t[it]
+            end
+            me = me + 1
+        end
+    end
 end
 
 return m
