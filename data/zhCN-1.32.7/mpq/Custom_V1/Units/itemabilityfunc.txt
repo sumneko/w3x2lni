@@ -1,0 +1,783 @@
+// Rune of the Watcher
+[APwt]
+Buttonpos=0,2
+Order=evileye
+
+// glyph of fortification
+[AIgf]
+
+// glyph of ultravision
+[AIgu]
+
+// Blink (item)
+[AIbk]
+Buttonpos=1,2
+Order=blink
+// Art to play at the new coordinate
+// Art to leave behind at old coordinate
+
+// One time permanent strength gain ability, usually on a Tome
+[AIsm]
+
+[AInm]
+
+// One time permanent agility gain ability, usually on a tome
+[AIam]
+
+[AIgm]
+
+// short duration single target speed bonus
+[AIsp]
+
+// continuous Attack Bonus
+[AIat]
+
+[AIt6]
+
+[AIt9]
+
+[AItc]
+
+[AItf]
+
+// item cyclone
+[AIcy]
+order=cyclone
+
+// continuous Defense Bonus
+[AIde]
+
+[AId1]
+
+[AId5]
+
+[AId8]
+
+[AId7]
+
+[AId0]
+
+// area of effect damage of destructables
+[AIdm]
+
+// One time permanent hero experience gain, usually on a tome
+[AIem]
+
+[AIe2]
+
+// Cloud of Fog
+[AIfg]
+Order=cloudoffog
+
+// Flag ability
+[AIfl]
+
+// human flag
+[AIfm]
+
+// night elf flag
+[AIfn]
+
+// orc flag
+[AIfo]
+
+// undead flag
+[AIfe]
+
+// One time permanent hero level gain, usually on a tome
+[AIlm]
+
+// One time permanent intelligence gain, usually on a Tome
+[AIim]
+
+[AItm]
+
+// One time permanent agi/int/str gain
+[AIxm]
+
+// single shot one target healing (potions, typically)
+[AIhe]
+
+// single shot group area effect healing (scrolls, typically)
+[AIha]
+
+[AIhb]
+
+// single shot group area effect healing (powerup, lesser)
+[APh1]
+
+// single shot group area effect healing (powerup)
+[APh2]
+
+// single shot group area effect healing (powerup, greater)
+[APh3]
+
+// short duration single target invisibility (potion)
+[AIvi]
+
+// continuous invisibility (ring)
+[AIpi]
+
+// short duration single target invulnerability (potion)
+// brings up the invulnerability buff from CommonAbility
+[AIvu]
+
+[AIvl]
+
+// single shot one target mana regain (potions, typically)
+[AIma]
+
+// single shot group area effect mana regain (scrolls, typically)
+[AImr]
+
+// single shot group area effect mana regain (rune)
+[APmr]
+
+// single shot group area effect mana regain (rune, greater)
+[APmg]
+
+// single shot one target life/mana restore (potion)
+[AIre]
+
+// single shot group area effect life/mana restore (scroll)
+[AIra]
+
+// single shot group area effect life/mana restore (rune)
+[APra]
+
+// area of effect application of a defensive buff (scroll of protection)
+[AIda]
+
+// area of effect application of a defensive buff (scroll of protection) (with healing)
+[AIdb]
+
+// buff that AIda applies
+[Bdef]
+Spelldetail=1
+
+// area of effect detection (crystal ball)
+[AIta]
+
+// area of effect application of a detected buff (dust of appearance)
+[AItb]
+
+[Bdet]
+
+// continuous Mana regeneration (ring)
+[AIrm]
+
+[AIfi]
+Missilespeed=900
+MissileHoming=1
+
+// Illusion generator
+[AIil]
+
+[BIil]
+
+// Dispel effect (powerup)
+[APdi]
+// Effectart, if specified, will play at the targeted x,y
+// Targetart, if specified, will play on affected units in the area-of-effect.
+
+// Dispel effect
+[AIdi]
+// Effectart, if specified, will play at the targeted x,y
+// Targetart, if specified, will play on affected units in the area-of-effect.
+
+// dispel w/ cooldown
+[AIds]
+// Effectart, if specified, will play at the targeted x,y
+// Targetart, if specified, will play on affected units in the area-of-effect.
+
+// Hero attacks get fire damage bonus, persistent, Orb of Fire
+[AIfb]
+
+// Hero attacks get lightning damage bonus, persistent, Orb of Lightning
+[AIll]
+
+// Hero attacks get lightning damage bonus, persistent, Orb of Lightning
+[AIlb]
+
+// Hero attacks get frost damage bonus, persistent, Orb of Frost
+[AIob]
+
+// Hero attacks get poison damage bonus, persistent, Orb of Venom
+[AIpb]
+
+// Hero attacks get corruption damage bonus, persistent, Orb of Corruption
+[AIcb]
+
+[BIcb]
+
+// Hero attacks get defilement/BA damage bonus, persistent, Orb of Defilement
+[AIdf]
+
+// Hero sight range increase, persistent, Telescope
+[AIsi]
+
+// Soul Gem Hero soul theft ability
+[AIso]
+
+// Soul Gem Hero soul-carying ability - remove this to release the soul
+[Asou]
+
+// caster buff for AIso
+[BIsv]
+
+// daystone/nightstone
+[AIto]
+
+// magical acorn (tree restorer)
+[AIga]
+
+// reincarnation (ankh)
+[AIrc]
+
+// recall (amulet)
+[AIrt]
+// Play the same effect on all recalled units. Since the targeted unit
+// will already play this effect, don't also play Targetart on that unit.
+
+// teleport for items
+[AIte]
+// Shouldn't show art at targeted coordinate, so don't use Effectart.
+
+// town portal (scroll)
+[AItp]
+// Shouldn't show art at targeted coordinate, so don't use Effectart.
+
+// scepter of mastery, command ability
+[AIco]
+
+// scepter of avarice, transmute ability
+[AIts]
+Missilespeed=700
+MissileHoming=1
+order=transmute
+
+// figurine unit summon ability - red drake
+[AIfd]
+
+[BFig]
+
+// blue drake
+[AIbd]
+
+// furbolg
+[AIff]
+
+// furbolg tracker
+[AIut]
+
+// rock golem
+[AIfr]
+
+// doom guard
+[AIfu]
+
+// felhound
+[AIfh]
+
+// skeleton
+[AIfs]
+
+// Frost Revenant
+[AIir]
+
+// Ursa Warrior
+[AIuw]
+
+// Blue Dragonspawn Overseer
+[AIes]
+
+// infernal
+[AIin]
+Order=inferno
+
+// place goblin land mine
+[AIpm]
+
+// permanent mana bonus
+[AImn]
+
+// temporary max mana bonus
+[AImm]
+
+[AImb]
+
+[AImz]
+
+[AImv]
+
+[AIbm]
+
+[AI2m]
+
+// temporary attack speed increase
+[AIas]
+
+[AIsx]
+
+//improved attack speed
+[AIs2]
+
+// vampiric life steal ability
+[AIva]
+// target art played on hero carrying item
+// special art played on hero when ability fires
+
+// cloak of flames
+[AIcf]
+
+// Cloak of flames immolation buff
+[BIcf]
+
+// regen
+[Arel]
+
+// regen lesser
+[Arll]
+
+[AIs6]
+
+[AIa6]
+
+[AIaz]
+
+[AIms]
+
+[AIi6]
+
+[AIx2]
+
+[AIx5]
+
+[AIh1]
+
+[AIh2]
+
+// item healing wards
+[AIhw]
+Order=healingward
+
+// item sentry wards
+[AIsw]
+Order=evileye
+
+[AIv1]
+
+[AIv2]
+
+[AIm1]
+
+[AIm2]
+
+[AIuv]
+
+[AIls]
+Order=lightningshield
+
+// item roar
+[AIrr]
+Order=roar
+
+// item evasion
+[AIev]
+
+// item magic immunity
+[AImx]
+
+[AIa2]
+
+[AId2]
+
+[AId3]
+
+[AId4]
+
+[AIl2]
+
+[AIi2]
+
+[AIan]
+Order=animatedead
+
+[AIrs]
+Order=resurrection
+
+[APrl]
+Order=resurrection
+
+[APrr]
+Order=resurrection
+
+[AIrx]
+Order=resurrection
+
+// One time permanent attack damage gain
+[AIaa]
+
+// One time permanent life gain
+[AImi]
+
+[AImh]
+
+[AIpx]
+
+[AIa1]
+
+[AIx1]
+
+[AIs1]
+
+[AIi1]
+
+// Flying Carpet
+[AIfc]
+
+// Brilliance Aura (Item)
+[AIba]
+
+// Devotion Aura (Item)
+[AIad]
+
+// Command Aura (Item)
+[AIcd]
+
+// War Drums Aura (Item)
+[AIwd]
+
+// Trueshot Aura (Item)
+[AIar]
+
+// Endurance Aura (Item)
+[AIae]
+
+// Unholy Aura (Item)
+[AIau]
+
+// Vampiric Aura (Item)
+[AIav]
+
+// Healing Salve
+[AIrl]
+
+// Clarity Potion
+[AIpr]
+
+[AIpl]
+
+// Generic Rejuv scroll/potion base uberalias
+[AIp1]
+
+
+[AIp2]
+
+[AIp3]
+
+[AIp4]
+
+[AIp5]
+
+[AIp6]
+
+
+// Scroll of Regeneration
+[AIsl]
+
+// Regeneration (Life)
+[BIrl]
+
+// Regeneration (Mana)
+[BIrm]
+
+
+// Regeneration (Life & Mana)
+[BIrg]
+
+// One time permanent gold gain
+[AIgo]
+
+// One time permanent lumber gain
+[AIlu]
+
+// Flare Gun
+[AIfa]
+
+// Potion of Omniscience
+[AIrv]
+
+
+// Wand of Neutralization
+[AIdc]
+Missilespeed=900
+MissileHoming=1
+
+// Spider Silk
+[AIwb]
+Missilespeed=1500
+MissileHoming=1
+
+// Monster Lure
+[AImo]
+
+// Random Item
+[AIri]
+
+// Blight Placement
+[Ablp]
+
+// mana steal
+[Aste]
+
+// Change TOD
+[AIct]
+
+// Vampiric Potion
+[AIpv]
+
+[BIpv]
+
+// Spell Damage Reduction
+[AIsr]
+
+// Build Tiny Castle
+[AIbl]
+
+// Build Tiny Altar
+[AIbh]
+
+// Build Tiny Great Hall
+[AIbg]
+
+// Build Tiny Scout Tower
+[AIbt]
+
+// Shadowsight
+[Ashs]
+
+[Bshs]
+// Don't show any buff art.
+
+// Tome of Retraining
+[Aret]
+
+// Staff of Teleportation
+[AImt]
+// Shouldn't show art at targeted coordinate, so don't use Effectart.
+// The targeted unit shouldn't show an effect, so there is no Targetart.
+
+// Staff of Preservation
+[ANpr]
+
+// Mechanical Critter
+[Amec]
+
+// Spell Shield
+[ANss]
+
+// Spell Shield (AOE)
+[ANse]
+
+[Bnss]
+
+// Spell book
+[Aspb]
+
+// Raise Dead
+[AIrd]
+
+// Staff of Sanctuary
+[ANsa]
+
+[BNsa]
+
+// Scroll of Haste
+[AIsa]
+// target art will be taken care of by buff Bspe, in commonabilityfunc
+
+// Rune of Speed
+[APsa]
+// target art will be taken care of by buff Bspe, in commonabilityfunc
+
+// Orb of Slow
+[AIsb]
+MissileHoming=1
+
+[AIos]
+Order=slow
+
+// Orb of Darkness
+[ANbs]
+Buttonpos=1,2
+Missilespeed=1050
+MissileHoming=1
+Order=blackarrow
+
+// Spirit Link (AOE)
+[Aspp]
+Buttonpos=0,2
+Unbuttonpos=0,2
+Order=spiritlinkaoe
+
+// Rebirth
+[AIrb]
+
+[BIrb]
+
+// Dark Summoning
+[AUds]
+Buttonpos=3,2
+Researchbuttonpos=3,0
+// leaving art
+// arrival art
+Missilespeed=1500
+Order=darksummoning
+
+// anti-magic shield
+[AIxs]
+Order=antimagicshell
+
+[Aami]
+Order=antimagicshell
+
+// item divine shield
+[AIdv]
+Order=divineshield
+
+// item silence
+[AIse]
+Order=silence
+
+// item purge
+[AIpg]
+Order=purge
+
+// item purge (shamanistic totem)
+[AIps]
+Order=purge
+
+//#RESTNOBETA
+[AItg]
+
+[AIth]
+
+[AIti]
+
+[AItj]
+
+[AItk]
+
+[AItl]
+
+[AItn]
+
+[AItx]
+
+[AIh3]
+
+[AIhx]
+
+// orcish battle standard
+[AIfx]
+
+// Hero attacks get fire damage bonus, persistent, Orb of Gul'dan
+[AIgd]
+
+// tiny blacksmith
+[AIbb]
+
+// tiny lumber mill
+[AIbr]
+
+// tiny farm
+[AIbf]
+
+// tiny barracks
+[AIbs]
+
+[AIdn]
+
+// campaign item reanimation
+[AInd]
+Order=animatedead
+
+// item unholy frenzy
+[AIuf]
+Order=unholyfrenzy
+
+// item control magic
+[AIcm]
+Order=spellsteal
+Missilespeed=1000
+MissileHoming=1
+
+// item death finger
+[AIfz]
+
+// item death pact
+[AIdp]
+Order=deathpact
+
+// item defend
+[AIdd]
+Order=defend
+
+// item Bash
+[AIbx]
+Order=bash
+
+// item watery minion
+[AIwm]
+Order=wateryminion
+
+// item summon troll headhunter
+[AIsh]
+Order=spiritwolf
+
+[BIsh]
+// buffart not shown
+
+// item regen aura
+[AIgx]
+
+// item holy light
+[AIhl]
+Order=holybolt
+
+// item slow poison
+[AIsz]
+
+// penguin squeek
+[AIpz]
+
+// item fire bonus
+[AIfw]
+
+// item cold bonus
+[AIft]
+
+// item lightning bonus
+[AIlx]
+
+// purge part of lightning orb
+[AIlp]
+
+// item critical strike
+[AIcs]
+
+// item chain lightning
+[AIcl]
+Missilespeed=1500
+Order=chainlightning
+
+// item berserk
+[AIxk]
+order=berserk
+
+// Ritual Dagger
+[AIdg]
+
+// Ritual Dagger (Regen)
+[AIg2]
