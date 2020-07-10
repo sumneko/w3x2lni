@@ -80,6 +80,13 @@ local function war3_ver (input)
             return ('%d.%d.%d'):format(ver.major, ver.minor, ver.revision), ver
         end
     end
+    local exe_path = input / '_retail_' / 'x86_64' / 'Warcraft III.exe'
+    if fs.exists(exe_path) then
+        local ver = file_version(exe_path:string())
+        if ver.major > 1 or ver.minor >= 29 then
+            return ('%d.%d.%d'):format(ver.major, ver.minor, ver.revision), ver
+        end
+    end
     local dll_path = input / 'Game.dll'
     if fs.exists(dll_path) then
         local ver = file_version(dll_path:string())
