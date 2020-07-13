@@ -69,6 +69,7 @@ lm:shared_library 'stormlib' {
         '!stormlib/src/adpcm/adpcm_old.cpp',
         '!stormlib/src/zlib/compress.c',
         '!stormlib/src/pklib/crc32.c',
+        '!stormlib/src/wdk/*',
     },
     defines = {
         '_UNICODE',
