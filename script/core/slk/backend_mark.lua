@@ -32,12 +32,14 @@ local mustuse =  {
         -- 移动
         'Amov',
         -- 开火
-        'Afir','Afih','Afio','Afin','Afiu'
+        'Afir','Afih','Afio','Afin','Afiu',
+        -- 命令光环
+        'ACac',
     },
     buff = {
         'BPSE','BSTN','Btlf','Bdet',
         'Bvul','Bspe','Bfro','Bsha',
-        'Btrv','Xbdt','Xbli','Xdis', 
+        'Btrv','Xbdt','Xbli','Xdis',
         -- 建筑物伤害
         'Xfhs','Xfhm','Xfhl',
         'Xfos','Xfom','Xfol',

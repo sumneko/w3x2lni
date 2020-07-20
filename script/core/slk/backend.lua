@@ -243,6 +243,12 @@ local function to_slk(w2l, slk)
             end
         end
     end
+    -- 一些特殊处理
+    for id, obj in pairs(slk.ability) do
+        if id ~= 'ACac' and obj._parent == 'ACac' then
+            obj._keep_obj = true
+        end
+    end
     for _, type in ipairs(slk_list) do
         local data = slk[type]
         object[type] = {}
