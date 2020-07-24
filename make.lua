@@ -1,5 +1,7 @@
 local lm = require 'luamake'
 
+lm.arch = 'x64'
+
 lm:import '3rd/bee.lua/make.lua'
 
 lm.rootdir = 'c++/'

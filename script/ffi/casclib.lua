@@ -2,12 +2,12 @@ local ffi = require 'ffi'
 local loaddll = require 'ffi.loaddll'
 
 ffi.cdef[[
-    bool CascOpenStorage(const wchar_t* szParams, unsigned long dwLocaleMask, uint32_t* phStorage);
-    bool CascCloseStorage(uint32_t* hStorage);
-    bool CascOpenFile(uint32_t hStorage, const char* szFileName, unsigned long dwLocaleFlags, unsigned long dwOpenFlags, uint32_t* PtrFileHandle);
-    long CascGetFileSize(uint32_t hFile, long* pdwFileSizeHigh);
-    bool CascReadFile(uint32_t hFile, void* lpBuffer, unsigned long dwToRead, unsigned long* pdwRead);
-    bool CascCloseFile(uint32_t hFile);
+    bool CascOpenStorage(const wchar_t* szParams, unsigned long dwLocaleMask, uint64_t* phStorage);
+    bool CascCloseStorage(uint64_t* hStorage);
+    bool CascOpenFile(uint64_t hStorage, const char* szFileName, unsigned long dwLocaleFlags, unsigned long dwOpenFlags, uint64_t* PtrFileHandle);
+    long CascGetFileSize(uint64_t hFile, long* pdwFileSizeHigh);
+    bool CascReadFile(uint64_t hFile, void* lpBuffer, unsigned long dwToRead, unsigned long* pdwRead);
+    bool CascCloseFile(uint64_t hFile);
 ]]
 
 loaddll 'casclib'
@@ -94,7 +94,7 @@ function archive:open_file(name)
     if self.handle == 0 then
         return nil
     end
-    local phandle = ffi.new('uint32_t[1]', 0)
+    local phandle = ffi.new('uint64_t[1]', 0)
     if not casclib.CascOpenFile(self.handle, name, 0, 0, phandle) then
         return nil
     end
@@ -124,7 +124,7 @@ archive.__close = archive.close
 local m = {}
 function m.open(path)
     local wpath = uni.u2w(path)
-    local phStorage = ffi.new('uint32_t[1]', 0)
+    local phStorage = ffi.new('uint64_t[1]', 0)
     if not casclib.CascOpenStorage(wpath, 0, phStorage) then
         return nil
     end

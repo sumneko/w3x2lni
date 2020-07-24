@@ -17,25 +17,25 @@ ffi.cdef[[
         unsigned long dwMaxFileCount; // File limit for the MPQ
     };
     
-    bool SFileCreateArchive2(const wchar_t* szMpqName, struct SFILE_CREATE_MPQ* pCreateInfo, uint32_t* phMpq);
-    bool SFileOpenArchive(const wchar_t* szMpqName, unsigned long dwPriority, unsigned long dwFlags, uint32_t* phMpq);
-    bool SFileCompactArchive(uint32_t hMpq, const wchar_t* szListFile, bool bReserved);
-    bool SFileCloseArchive(uint32_t hMpq);
-    bool SFileAddFileEx(uint32_t hMpq, const wchar_t* szFileName, const char* szArchivedName, unsigned long dwFlags, unsigned long dwCompression, unsigned long dwCompressionNext);
-    bool SFileExtractFile(uint32_t hMpq, const char* szToExtract, const wchar_t* szExtracted, unsigned long dwSearchScope);
-    bool SFileHasFile(uint32_t hMpq, const char* szFileName);
-    bool SFileSetMaxFileCount(uint32_t hMpq, unsigned long dwMaxFileCount);
+    bool SFileCreateArchive2(const wchar_t* szMpqName, struct SFILE_CREATE_MPQ* pCreateInfo, uint64_t* phMpq);
+    bool SFileOpenArchive(const wchar_t* szMpqName, unsigned long dwPriority, unsigned long dwFlags, uint64_t* phMpq);
+    bool SFileCompactArchive(uint64_t hMpq, const wchar_t* szListFile, bool bReserved);
+    bool SFileCloseArchive(uint64_t hMpq);
+    bool SFileAddFileEx(uint64_t hMpq, const wchar_t* szFileName, const char* szArchivedName, unsigned long dwFlags, unsigned long dwCompression, unsigned long dwCompressionNext);
+    bool SFileExtractFile(uint64_t hMpq, const char* szToExtract, const wchar_t* szExtracted, unsigned long dwSearchScope);
+    bool SFileHasFile(uint64_t hMpq, const char* szFileName);
+    bool SFileSetMaxFileCount(uint64_t hMpq, unsigned long dwMaxFileCount);
     
-    bool SFileCreateFile(uint32_t hMpq, const char* szArchivedName, unsigned long long FileTime, unsigned long dwFileSize, unsigned long lcLocale, unsigned long dwFlags, uint32_t* phFile);
-    bool SFileWriteFile(uint32_t hFile, const void* pvData, unsigned long dwSize, unsigned long dwCompression);
-    bool SFileFinishFile(uint32_t hFile);
-    bool SFileOpenFileEx(uint32_t hMpq, const char* szFileName, unsigned long dwSearchScope, uint32_t* phFile);
-    bool SFileReadFile(uint32_t hFile, void* lpBuffer, unsigned long dwToRead, unsigned long* pdwRead, void* lpOverlapped);
-    unsigned long SFileGetFileSize(uint32_t hFile, unsigned long* pdwFileSizeHigh);
-    bool SFileCloseFile(uint32_t hFile);
-    bool SFileRemoveFile(uint32_t hMpq, const char* szFileName, unsigned long dwSearchScope);
+    bool SFileCreateFile(uint64_t hMpq, const char* szArchivedName, unsigned long long FileTime, unsigned long dwFileSize, unsigned long lcLocale, unsigned long dwFlags, uint64_t* phFile);
+    bool SFileWriteFile(uint64_t hFile, const void* pvData, unsigned long dwSize, unsigned long dwCompression);
+    bool SFileFinishFile(uint64_t hFile);
+    bool SFileOpenFileEx(uint64_t hMpq, const char* szFileName, unsigned long dwSearchScope, uint64_t* phFile);
+    bool SFileReadFile(uint64_t hFile, void* lpBuffer, unsigned long dwToRead, unsigned long* pdwRead, void* lpOverlapped);
+    unsigned long SFileGetFileSize(uint64_t hFile, unsigned long* pdwFileSizeHigh);
+    bool SFileCloseFile(uint64_t hFile);
+    bool SFileRemoveFile(uint64_t hMpq, const char* szFileName, unsigned long dwSearchScope);
 
-    bool SFileGetFileInfo(uint32_t hMpqOrFile, int InfoClass, void * pvFileInfo, unsigned long cbFileInfo, unsigned long* pcbLengthNeeded);
+    bool SFileGetFileInfo(uint64_t hMpqOrFile, int InfoClass, void * pvFileInfo, unsigned long cbFileInfo, unsigned long* pcbLengthNeeded);
 
     unsigned long SFileGetLocale();
 
@@ -187,7 +187,7 @@ function archive:open_file(name)
     if self.handle == 0 then
         return nil
     end
-    local phandle = ffi.new('uint32_t[1]', 0)
+    local phandle = ffi.new('uint64_t[1]', 0)
     if not stormlib.SFileOpenFileEx(self.handle, name, 0, phandle) then
         return nil
     end
@@ -201,7 +201,7 @@ function archive:create_file(name, size, filetime)
     if not filetime then
         filetime = current_filetime()
     end
-    local phandle = ffi.new('uint32_t[1]', 0)
+    local phandle = ffi.new('uint64_t[1]', 0)
     if not stormlib.SFileCreateFile(self.handle, name, filetime, size, stormlib.SFileGetLocale(), 0x00000200 | 0x80000000, phandle) then
         return nil
     end
@@ -238,7 +238,7 @@ function archive:number_of_files()
     if self.handle == 0 then
         return 0
     end
-    local pinfo = ffi.new('uint32_t[1]', 0)
+    local pinfo = ffi.new('uint64_t[1]', 0)
     if not stormlib.SFileGetFileInfo(self.handle, SFileMpqNumberOfFiles, pinfo, 4, nil) then
         return 0
     end
@@ -248,7 +248,7 @@ end
 local m = {}
 function m.open(path, readonly, filecount)
     local wpath = uni.u2w(path:string())
-    local phandle = ffi.new('uint32_t[1]', 0)
+    local phandle = ffi.new('uint64_t[1]', 0)
     local flag = 0
     if readonly then
         flag = 0x100
@@ -263,7 +263,7 @@ function m.open(path, readonly, filecount)
 end
 function m.create(path, filecount, encrypt)
     local wpath = uni.u2w(path:string())
-    local phandle = ffi.new('uint32_t[1]', 0)
+    local phandle = ffi.new('uint64_t[1]', 0)
     local info = ffi.new('struct SFILE_CREATE_MPQ')
     info.cbSize = ffi.sizeof('struct SFILE_CREATE_MPQ')
     info.dwMpqVersion   = 0 --MPQ_FORMAT_VERSION_1
