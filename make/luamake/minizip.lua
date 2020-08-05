@@ -1,24 +1,24 @@
 local ffi = require 'ffi'
 ffi.cdef[[
-    typedef unsigned int zipFile;
+    typedef void* zipFile;
 
     /* tm_zip contain date/time info */
     struct tm_zip
     {
-        uint32_t tm_sec;            /* seconds after the minute - [0,59] */
-        uint32_t tm_min;            /* minutes after the hour - [0,59] */
-        uint32_t tm_hour;           /* hours since midnight - [0,23] */
-        uint32_t tm_mday;           /* day of the month - [1,31] */
-        uint32_t tm_mon;            /* months since January - [0,11] */
-        uint32_t tm_year;           /* years - [1980..2044] */
+        unsigned int tm_sec;            /* seconds after the minute - [0,59] */
+        unsigned int tm_min;            /* minutes after the hour - [0,59] */
+        unsigned int tm_hour;           /* hours since midnight - [0,23] */
+        unsigned int tm_mday;           /* day of the month - [1,31] */
+        unsigned int tm_mon;            /* months since January - [0,11] */
+        unsigned int tm_year;           /* years - [1980..2044] */
     };
 
     struct zip_fileinfo
     {
-        tm_zip      tmz_date;       /* date in understandable format           */
-        uint32_t    dosDate;        /* if dos_date == 0, tmu_date is used      */
-        uint32_t    internal_fa;    /* internal file attributes        2 bytes */
-        uint32_t    external_fa;    /* external file attributes        4 bytes */
+        tm_zip           tmz_date;       /* date in understandable format           */
+        unsigned long    dosDate;        /* if dos_date == 0, tmu_date is used      */
+        unsigned long    internal_fa;    /* internal file attributes        2 bytes */
+        unsigned long    external_fa;    /* external file attributes        4 bytes */
     };
 
     enum {
