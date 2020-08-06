@@ -238,7 +238,7 @@ function archive:number_of_files()
     if self.handle == 0 then
         return 0
     end
-    local pinfo = ffi.new('uint64_t[1]', 0)
+    local pinfo = ffi.new('uint32_t[1]', 0)
     if not stormlib.SFileGetFileInfo(self.handle, SFileMpqNumberOfFiles, pinfo, 4, nil) then
         return 0
     end
