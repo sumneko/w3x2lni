@@ -2,17 +2,17 @@ local fs = require 'bee.filesystem'
 local sp = require 'bee.subprocess'
 
 local CWD = fs.current_path()
-local bee = CWD / '3rd' / 'bee.lua'
+local ffi = CWD / '3rd' / 'ffi'
 
 local function dynasm(output, input, flags)
     local process = assert(sp.spawn {
         CWD / 'build' / 'msvc' / 'bin' / 'lua.exe',
-        bee / '3rd' / 'luaffi' / 'src' / 'dynasm' / 'dynasm.lua',
+        ffi / 'src' / 'dynasm' / 'dynasm.lua',
         '-LNE',
         flags or {},
         '-o',
-        bee / '3rd' / 'luaffi' / 'src' / output,
-        bee / '3rd' / 'luaffi' / 'src' / input
+        ffi / 'src' / output,
+        ffi / 'src' / input
     })
     assert(process:wait())
 end
