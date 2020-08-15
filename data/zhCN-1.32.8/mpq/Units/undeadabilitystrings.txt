@@ -326,6 +326,8 @@ Ubertip="用疾病之云感染周围的敌方生命单位，每秒对其造成<A
 
 // Disease Cloud
 [Aap2]
+Ubertip="用疾病之云感染周围的敌方生命单位，每秒对其造成<Aap2,DataB1>点伤害。|n持续<Aap2,DataA1>秒。"
+Tip=疾病之云
 Name=疾病之云
 EditorSuffix=(瘟疫结界)
 
