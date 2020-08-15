@@ -1972,7 +1972,8 @@ Specialart=Objects\Spawnmodels\Orc\OrcSmallDeathExplode\OrcSmallDeathExplode.mdl
 // tuskarr trapper
 [ntkt]
 Buttonpos=1,0
-Missileart=abilities\weapons\TuskarSpear\TuskarTrapperSpear.mdl
+Missileart=abilities\weapons\TuskarSpear\TuskarSpear.mdl
+Missileart:hd=abilities\weapons\TuskarSpear\TuskarTrapperSpear.mdl
 Missilearc=0.15
 Missilespeed=1200
 Specialart=Objects\Spawnmodels\Orc\OrcSmallDeathExplode\OrcSmallDeathExplode.mdl

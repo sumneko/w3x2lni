@@ -22,3 +22,6 @@
 [submodule "casclib"]
 	path = 3rd/casclib
 	url = https://github.com/ladislav-zezula/CascLib
+[submodule "3rd/ffi"]
+	path = 3rd/ffi
+	url = https://github.com/actboy168/luaffi
