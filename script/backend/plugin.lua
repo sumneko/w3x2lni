@@ -9,7 +9,7 @@ local function load_plugins(source, callback, loadfile)
         for name in config:gmatch '[^\r\n]+' do
             local ok, res = xpcall(function()
                 local buf = loadfile(name .. '.lua')
-                return assert(load(buf, ('@plugin\\'..name..'.lua'), 't', _ENV))()
+                return assert(load(buf, ('@..\\plugin\\'..name..'.lua'), 't', _ENV))()
             end, debug.traceback)
             if ok then
                 if not res.info then
