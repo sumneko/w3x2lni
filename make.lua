@@ -75,6 +75,9 @@ lm:shared_library 'stormlib' {
         '_UNICODE',
         'UNICODE'
     },
+    links = {
+        'user32',
+    },
     ldflags = '/DEF:3rd/stormlib/stormlib_dll/stormlib.def'
 }
 
