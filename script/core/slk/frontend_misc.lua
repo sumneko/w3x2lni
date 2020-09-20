@@ -47,10 +47,12 @@ end
 local function convert(data)
     local misc = {}
     for name, meta in pairs(metadata) do
-        if meta.type == 'misc' then
-            local lname = name:lower()
-            misc[name] = add_obj(name, data[lname], meta)
+        if w2l.info.metadata[name] then
+            goto CONTINUE
         end
+        local lname = name:lower()
+        misc[name] = add_obj(name, data[lname], meta)
+        ::CONTINUE::
     end
     return misc
 end
