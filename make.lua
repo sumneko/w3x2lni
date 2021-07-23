@@ -16,6 +16,9 @@ lm:executable 'w3x2lni' {
 
 lm:executable 'w2l' {
     deps = 'lua54',
+    includes = {
+        "../3rd/bee.lua/3rd/lua"
+    },
     sources = {
         'w3x2lni/main_cli.cpp',
         'w3x2lni/common.cpp',
@@ -28,6 +31,7 @@ lm:executable 'w2l' {
 
 lm:lua_dll 'yue-ext' {
     deps = 'lua54',
+    export_luaopen = "off",
     sources = {
         'yue-ext/main.cpp',
         'unicode.cpp',
