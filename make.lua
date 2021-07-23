@@ -26,7 +26,7 @@ lm:executable 'w2l' {
     crt = 'static'
 }
 
-lm:shared_library 'yue-ext' {
+lm:lua_dll 'yue-ext' {
     deps = 'lua54',
     sources = {
         'yue-ext/main.cpp',
@@ -41,7 +41,7 @@ lm:shared_library 'yue-ext' {
 
 lm.rootdir = '3rd/'
 
-lm:shared_library 'lml' {
+lm:lua_dll 'lml' {
     deps = 'lua54',
     sources = {
         'lml/src/LmlParse.cpp',
@@ -49,7 +49,7 @@ lm:shared_library 'lml' {
     }
 }
 
-lm:shared_library 'w3xparser' {
+lm:lua_dll 'w3xparser' {
     deps = 'lua54',
     sources = {
         'w3xparser/src/real.cpp',
@@ -57,18 +57,16 @@ lm:shared_library 'w3xparser' {
     }
 }
 
-lm:shared_library 'lpeglabel' {
+lm:lua_dll 'lpeglabel' {
     deps = 'lua54',
     sources = 'lpeglabel/*.c',
-    undefs = "NDEBUG",
-    ldflags = '/EXPORT:luaopen_lpeglabel'
+    visibility = 'default',
 }
 
 lm:shared_library 'stormlib' {
     sources = {
         'stormlib/src/*.cpp',
         'stormlib/src/*.c',
-        '!stormlib/src/adpcm/adpcm_old.cpp',
         '!stormlib/src/zlib/compress.c',
         '!stormlib/src/pklib/crc32.c',
         '!stormlib/src/wdk/*',
@@ -95,7 +93,7 @@ lm:shared_library 'casclib' {
     ldflags = '/DEF:3rd/casclib/src/CascLib.def'
 }
 
-lm:shared_library 'lni' {
+lm:lua_dll 'lni' {
     deps = 'lua54',
     sources = {
         'lni/src/main.cpp',
@@ -115,7 +113,7 @@ lm:phony {
     output = "3rd/ffi/src/call.c",
 }
 
-lm:shared_library 'ffi' {
+lm:lua_dll 'ffi' {
     deps = {
         'lua54',
         'ffi_dynasm'
