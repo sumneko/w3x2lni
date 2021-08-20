@@ -82,7 +82,7 @@ lm:shared_library 'stormlib' {
     links = {
         'user32',
     },
-    ldflags = '/DEF:3rd/stormlib/stormlib_dll/stormlib.def'
+    ldflags = '/DEF:3rd/stormlib/src/DllMain.def',
 }
 
 lm:shared_library 'casclib' {
@@ -94,7 +94,7 @@ lm:shared_library 'casclib' {
         '_UNICODE',
         'UNICODE'
     },
-    ldflags = '/DEF:3rd/casclib/src/CascLib.def'
+    ldflags = '/DEF:3rd/casclib/src/DllMain.def',
 }
 
 lm:lua_dll 'lni' {
