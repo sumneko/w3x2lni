@@ -1,5 +1,6 @@
 local fs = require 'bee.filesystem'
 local sp = require 'bee.subprocess'
+local msvc = require 'msvc'
 
 local CWD = fs.current_path()
 
@@ -42,5 +43,4 @@ setIcon(CWD / 'w3x2lni.exe')
 setIcon(CWD / 'w2l.exe')
 setIcon(output / 'w3x2lni-lua.exe')
 
-local msvc_crt = dofile 'make/msvc_crt.lua'
-msvc_crt('x86', output)
+msvc.copy_vcrt('x86', output)
