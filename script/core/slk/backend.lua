@@ -167,6 +167,7 @@ local function remove_unuse(w2l, slk)
         doodad = {},
         destructable = {},
         misc = {},
+        txt = {},
     }
     for type, list in pairs(slk.mustuse) do
         for _, id in ipairs(list) do
