@@ -1,5 +1,5 @@
 package.path = 'script/?.lua;make/luamake/?.lua;'..package.path
-package.cpath = 'make/luamake/?.dll'
+package.cpath = 'bin/?.dll;make/luamake/?.dll'
 
 local fs = require 'bee.filesystem'
 local subprocess = require 'bee.subprocess'
@@ -69,7 +69,7 @@ local function copy_files(input)
         else
             fs.create_directories((release_path / name):parent_path())
             if filter(name) then
-                local suc, err = pcall(fs.copy_file, root / name, release_path / name, true)
+                local suc, err = pcall(fs.copy_file, root / name, release_path / name, fs.copy_options.overwrite_existing)
                 if not suc then
                     error(('复制文件失败：[%s] -> [%s]\n%s'):format(root / name, release_path / name, err))
                 end
@@ -179,6 +179,8 @@ local function make_zhCN()
     copy_files('data/zhCN-1.24.4')
     copy_files('script')
     copy_files('config.ini')
+    copy_files('LICENSE.txt')
+    copy_files('README.md')
     copy_files('w3x2lni.exe')
     copy_files('w2l.exe')
     command('config', 'global.data=zhCN-1.24.4')

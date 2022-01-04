@@ -1,9 +1,9 @@
 return function(path)
-    require "bee"
     local sp = require "bee.subprocess"
-    local process = assert(sp.shell {
-        "git", "log", "-n", "1",
-        stdout = true
+    local process = assert(sp.spawn {
+        "cmd", "/c", "git", "log", "-n", "1",
+        stdout = true,
+        searchPath = true,
     })
     assert(process:wait() == 0)
     local lines = {}

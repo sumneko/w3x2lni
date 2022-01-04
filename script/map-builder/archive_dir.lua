@@ -92,7 +92,7 @@ function mt:flush()
 end
 
 function mt:extract(name, path)
-    return fs.copy_file(self.path / esced_name(name), path, true)
+    return fs.copy_file(self.path / esced_name(name), path, fs.copy_options.overwrite_existing)
 end
 
 function mt:has_file(name)
