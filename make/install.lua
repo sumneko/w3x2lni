@@ -4,7 +4,7 @@ local msvc = require 'msvc'
 
 local CWD = fs.current_path()
 
-local bindir = CWD / 'build' / 'msvc' / 'bin'
+local bindir = CWD / 'build' / 'bin'
 local make = CWD / 'make' / 'luamake'
 
 fs.copy_file(bindir / 'ffi.dll', make / 'ffi.dll', fs.copy_options.overwrite_existing)
