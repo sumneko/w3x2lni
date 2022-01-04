@@ -6,7 +6,7 @@ local ffi = CWD / '3rd' / 'ffi'
 
 local function dynasm(output, input, flags)
     local process = assert(sp.spawn {
-        CWD / 'build' / 'msvc' / 'bin' / 'lua.exe',
+        CWD / 'build' / 'bin' / 'lua.exe',
         ffi / 'src' / 'dynasm' / 'dynasm.lua',
         '-LNE',
         flags or {},

@@ -54,6 +54,9 @@ local mustuse =  {
         'QuestIndicatorTimeout',
         'SelectionCircle',
         'HERO',
+    },
+    txt = {
+        'anei',
     }
 }
 

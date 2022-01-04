@@ -41,7 +41,7 @@ local function scan_dir(dir, callback)
     if not fs.exists(dir) then
         return
     end
-    for path in dir:list_directory() do
+    for path in fs.pairs(dir) do
         if not ignore[path:filename():string()] then
             if fs.is_directory(path) then
                 scan_dir(path, callback)
@@ -92,7 +92,7 @@ function mt:flush()
 end
 
 function mt:extract(name, path)
-    return fs.copy_file(self.path / esced_name(name), path, true)
+    return fs.copy_file(self.path / esced_name(name), path, fs.copy_options.overwrite_existing)
 end
 
 function mt:has_file(name)
