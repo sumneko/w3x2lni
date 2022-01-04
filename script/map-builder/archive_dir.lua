@@ -41,7 +41,7 @@ local function scan_dir(dir, callback)
     if not fs.exists(dir) then
         return
     end
-    for path in dir:list_directory() do
+    for path in fs.pairs(dir) do
         if not ignore[path:filename():string()] then
             if fs.is_directory(path) then
                 scan_dir(path, callback)
