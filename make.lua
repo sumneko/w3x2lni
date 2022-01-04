@@ -1,12 +1,12 @@
 local lm = require 'luamake'
 
 lm.arch = 'x86'
+lm.EXE  = 'lua'
 
 lm:import '3rd/bee.lua/make.lua'
 
-lm.rootdir = 'c++/'
-
 lm:executable 'w3x2lni' {
+    rootdir = 'c++',
     sources = {
         'w3x2lni/main_gui.cpp',
         'w3x2lni/common.cpp',
@@ -15,6 +15,7 @@ lm:executable 'w3x2lni' {
 }
 
 lm:executable 'w2l' {
+    rootdir = 'c++',
     deps = 'lua54',
     includes = {
         "../3rd/bee.lua/3rd/lua"
@@ -30,6 +31,7 @@ lm:executable 'w2l' {
 }
 
 lm:lua_dll 'yue-ext' {
+    rootdir = 'c++',
     deps = 'lua54',
     export_luaopen = "off",
     sources = {
@@ -43,9 +45,9 @@ lm:lua_dll 'yue-ext' {
     }
 }
 
-lm.rootdir = '3rd/'
 
 lm:lua_dll 'lml' {
+    rootdir = '3rd',
     deps = 'lua54',
     sources = {
         'lml/src/LmlParse.cpp',
@@ -54,6 +56,7 @@ lm:lua_dll 'lml' {
 }
 
 lm:lua_dll 'w3xparser' {
+    rootdir = '3rd',
     deps = 'lua54',
     sources = {
         'w3xparser/src/real.cpp',
@@ -62,18 +65,37 @@ lm:lua_dll 'w3xparser' {
 }
 
 lm:lua_dll 'lpeglabel' {
+    rootdir = '3rd',
     deps = 'lua54',
     sources = 'lpeglabel/*.c',
     visibility = 'default',
 }
 
 lm:shared_library 'stormlib' {
+    rootdir = '3rd',
     sources = {
         'stormlib/src/*.cpp',
         'stormlib/src/*.c',
+        'stormlib/src/zlib/*.c',
         '!stormlib/src/zlib/compress.c',
-        '!stormlib/src/pklib/crc32.c',
-        '!stormlib/src/wdk/*',
+        'stormlib/src/jenkins/*.c',
+        'stormlib/src/sparse/*.cpp',
+        'stormlib/src/adpcm/*.cpp',
+        'stormlib/src/bzip2/*.c',
+        'stormlib/src/huffman/*.cpp',
+        'stormlib/src/pklib/*.c',
+        'stormlib/src/libtomcrypt/src/hashes/*.c',
+        'stormlib/src/libtomcrypt/src/misc/*.c',
+        'stormlib/src/libtomcrypt/src/math/*.c',
+        'stormlib/src/libtomcrypt/src/pk/rsa/*.c',
+        'stormlib/src/libtomcrypt/src/pk/ecc/*.c',
+        'stormlib/src/libtomcrypt/src/pk/asn1/*.c',
+        'stormlib/src/libtomcrypt/src/pk/pkcs1/*.c',
+        'stormlib/src/libtommath/*.c',
+        'stormlib/src/lzma/C/*.c',
+        --'!stormlib/src/zlib/compress.c',
+        --'!stormlib/src/pklib/crc32.c',
+        --'!stormlib/src/wdk/*',
     },
     defines = {
         '_UNICODE',
@@ -86,9 +108,14 @@ lm:shared_library 'stormlib' {
 }
 
 lm:shared_library 'casclib' {
+    rootdir = '3rd',
     sources = {
         'casclib/src/*.cpp',
         'casclib/src/*.c',
+        'casclib/src/common/*.cpp',
+        'casclib/src/md5/*.cpp',
+        'casclib/src/jenkins/*.c',
+        'casclib/src/zlib/*.c',
     },
     defines = {
         '_UNICODE',
@@ -98,6 +125,7 @@ lm:shared_library 'casclib' {
 }
 
 lm:lua_dll 'lni' {
+    rootdir = '3rd',
     deps = 'lua54',
     sources = {
         'lni/src/main.cpp',
@@ -118,6 +146,7 @@ lm:phony {
 }
 
 lm:lua_dll 'ffi' {
+    rootdir = '3rd',
     deps = {
         'lua54',
         'ffi_dynasm'
@@ -130,6 +159,7 @@ lm:lua_dll 'ffi' {
 }
 
 lm:shared_library 'minizip' {
+    rootdir = '3rd',
     includes = {
         'zlib',
     },
