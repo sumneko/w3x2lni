@@ -80,7 +80,7 @@ end
 
 local function make_marked_ids(slk)
     local marked = {}
-    local type_list = {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad'}
+    local type_list = {'ability', 'buff', 'unit', 'item', 'upgrade', 'doodad', 'txt'}
     for _, type in ipairs(type_list) do
         if slk[type] then
             for name, obj in pairs(slk[type]) do
