@@ -11,6 +11,7 @@ lm:executable 'w3x2lni' {
         'w3x2lni/main_gui.cpp',
         'w3x2lni/common.cpp',
     },
+    ldflags = '/largeaddressaware',
     crt = 'static'
 }
 
@@ -26,7 +27,7 @@ lm:executable 'w2l' {
         'unicode.cpp',
     },
     links = "delayimp",
-    ldflags = '/DELAYLOAD:lua54.dll',
+    ldflags = {'/DELAYLOAD:lua54.dll','/largeaddressaware'},
     crt = 'static'
 }
 
