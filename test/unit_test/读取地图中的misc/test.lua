@@ -14,4 +14,4 @@ w2l:backend()
 
 assert(w2l.slk.misc.Misc.agiattackspeedbonus == '0.0123456789   ')
 assert(w2l.slk.misc.HERO.name == '两个英雄')
-assert(w2l.slk.misc.FontHeights.tooltipname == '0.015')
+assert(w2l.slk.misc.FontHeights.tooltipname == '0.015', w2l.slk.misc.FontHeights.tooltipname)
