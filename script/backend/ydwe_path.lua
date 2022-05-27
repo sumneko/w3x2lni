@@ -1,5 +1,6 @@
 return function()
     local fs = require 'bee.filesystem'
+    do return end
     local f = io.popen([[reg query "HKEY_CURRENT_USER\SOFTWARE\Classes\YDWEMap\shell\run_war3\command"]], 'r')
     if not f then
         return
