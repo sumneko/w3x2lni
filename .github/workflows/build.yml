@@ -12,5 +12,17 @@ jobs:
       with:
         arch: x86
     - run: luamake
-    - run: luamake lua make/make.lua ci
-
+    - run: ./bin/w3x2lni-lua.exe make/make.lua ci
+    - uses: actions/upload-artifact@v2
+      with:
+        name: w3x2lni
+        path: |
+          bin
+          data
+          script
+          template
+          config.ini
+          LICENSE.txt
+          README.md
+          w2l.exe
+          w3x2lni.exe

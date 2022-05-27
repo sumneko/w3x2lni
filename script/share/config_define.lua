@@ -95,7 +95,7 @@ end
 local function get_langs()
     local locale = root / 'script' / 'locale'
     local list = {}
-    for dir in locale:list_directory() do
+    for dir in fs.pairs(locale) do
         if fs.is_directory(dir) then
             list[#list+1] = dir:filename():string()
         end
@@ -168,7 +168,7 @@ end
 local function get_datas()
     local locale = root / 'data'
     local list = {}
-    for dir in locale:list_directory() do
+    for dir in fs.pairs(locale) do
         if is_valid_data(dir) then
             list[#list+1] = dir:filename():string()
         end

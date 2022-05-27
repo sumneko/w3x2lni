@@ -14,9 +14,8 @@
     "tasks": [
         {
             "label": "发布中文版",
-            "command": "chcp 65001 && luamake",
+            "command": "chcp 65001 && bin\\w3x2lni-lua",
             "args": [
-                "lua",
                 "make\\make.lua",
                 "zhCN"
             ],
@@ -27,9 +26,8 @@
         },
         {
             "label": "发布英文版",
-            "command": "chcp 65001 && luamake",
+            "command": "chcp 65001 && bin\\w3x2lni-lua",
             "args": [
-                "lua",
                 "make\\make.lua",
                 "enUS"
             ],

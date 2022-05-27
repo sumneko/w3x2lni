@@ -336,14 +336,14 @@ function mt:read(filename)
 end
 
 function mt:dir(filename)
-    return (self._path / filename):list_directory()
+    return fs.pairs(self._path / filename)
 end
 
 function mt:packDir(filename)
     local base = self._path / filename
     local packs = {}
     local function scan(dir)
-        for path in dir:list_directory() do
+        for path in fs.pairs(dir) do
             if fs.is_directory(path) then
                 scan(path)
             else
@@ -414,7 +414,7 @@ else
         mark[name] = true
     end
     local count = 0
-    for path in test_dir:list_directory() do
+    for path in fs.pairs(test_dir) do
         local name = path:stem():string()
         if mark[name] then
             print(('已跳过[%s]'):format(name))

@@ -16,7 +16,7 @@ end
 
 local function load_plugins()
     local plugins = {}
-    for path in plugin_path:list_directory() do
+    for path in fs.pairs(plugin_path) do
         if not fs.is_directory(path) and path:extension():string() == '.lua' then
             local ok, res = pcall(load_one_plugin, path)
             if ok then
