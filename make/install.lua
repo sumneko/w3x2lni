@@ -1,7 +1,5 @@
 local fs = require 'bee.filesystem'
 local sp = require 'bee.subprocess'
-local msvc = require 'msvc'
-
 local CWD = fs.current_path()
 
 local bindir = CWD / 'build' / 'bin'
@@ -12,7 +10,6 @@ fs.copy_file(bindir / 'minizip.dll', make / 'minizip.dll', fs.copy_options.overw
 
 local output = CWD / 'bin'
 
-fs.remove_all(output)
 fs.create_directories(output)
 fs.copy_file(CWD / 'make' / 'yue.dll', output / 'yue.dll', fs.copy_options.overwrite_existing)
 fs.copy_file(bindir / 'bee.dll', output / 'bee.dll', fs.copy_options.overwrite_existing)
@@ -42,5 +39,3 @@ end
 setIcon(CWD / 'w3x2lni.exe')
 setIcon(CWD / 'w2l.exe')
 setIcon(output / 'w3x2lni-lua.exe')
-
-msvc.copy_vcrt('x86', output)

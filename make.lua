@@ -2,6 +2,8 @@ local lm = require 'luamake'
 
 lm.arch = 'x86'
 lm.EXE  = 'lua'
+lm.c    = lm.compiler == 'msvc' and 'c89' or 'c11'
+lm.cxx  = 'c++17'
 
 lm:import '3rd/bee.lua/make.lua'
 
@@ -185,6 +187,10 @@ lm:shared_library 'minizip' {
     }
 }
 
+lm:msvc_copy_vcrt 'copy_vcrt' {
+    output = 'bin',
+}
+
 lm:build 'install' {
     '$luamake', 'lua', 'make/install.lua',
     deps = {
@@ -201,6 +207,7 @@ lm:build 'install' {
         'lni',
         'ffi',
         'minizip',
+        'copy_vcrt',
     }
 }
 
