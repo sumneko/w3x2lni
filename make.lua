@@ -187,9 +187,9 @@ lm:shared_library 'minizip' {
     }
 }
 
-lm:msvc_copy_vcrt 'copy_vcrt' {
-    output = 'bin',
-}
+--lm:msvc_copy_vcrt 'copy_vcrt' {
+--    output = 'bin',
+--}
 
 lm:build 'install' {
     '$luamake', 'lua', 'make/install.lua',
@@ -207,7 +207,7 @@ lm:build 'install' {
         'lni',
         'ffi',
         'minizip',
-        'copy_vcrt',
+        --'copy_vcrt',
     }
 }
 
