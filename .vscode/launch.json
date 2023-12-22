@@ -13,7 +13,6 @@
             "luaexe": "${workspaceRoot}\\bin\\w3x2lni-lua.exe",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
-            "consoleCoding": "utf8",
             "program": "${workspaceRoot}\\script\\gui\\new\\main.lua"
         },
         {
@@ -27,7 +26,6 @@
             "luaexe": "${workspaceRoot}\\bin\\w3x2lni-lua.exe",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
-            "consoleCoding": "utf8",
             "program": "${workspaceRoot}\\script\\backend\\init.lua",
             "sourceCoding": "utf8",
             "stopOnEntry": false,
@@ -37,8 +35,8 @@
             ],
             "arg": [
                 //"lni", "D:/maps/44.w3x"
-                //"obj", "D:/maps/44", "D:/maps/44_obj.w3x"
-                "mpq", "E:\\Warcraft III"
+                "obj", "D:\\War3Maps\\RWBY 5.2.5_slk_obj\\RWBY 5.2.5_slk.w3x", "D:\\War3Maps\\RWBY 5.2.5_slk_obj\\test_obj.w3x"
+                //"mpq", "E:\\Warcraft III"
                 //"mpq", "D:\\Warcraft III 1.24 CN"
                 //"slk", "D:/maps/55.w3x"
                 //"lni", "D:\\maps\\Dota-Classic.w3x"
@@ -58,7 +56,6 @@
             "luaexe": "${workspaceRoot}\\bin\\w3x2lni-lua.exe",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
-            "consoleCoding": "utf8",
             "program": "${workspaceRoot}\\test\\unit_test.lua",
             "sourceCoding": "utf8",
             "arg0": [],
@@ -75,7 +72,6 @@
             "luaexe": "${workspaceRoot}\\bin\\w3x2lni-lua.exe",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
-            "consoleCoding": "utf8",
             "program": "${workspaceRoot}\\script\\gui\\mini.lua",
             "sourceCoding": "utf8",
             "arg": [
@@ -87,7 +83,6 @@
             "name": "TestAttach",
             "type": "lua",
             "request": "attach",
-            "consoleCoding": "utf8",
             "processName" : "w3x2lni-lua.exe"
         },
         {
@@ -101,7 +96,6 @@
             "luaexe": "${workspaceRoot}\\bin\\w3x2lni-lua.exe",
             "path": ".\\?.lua;.\\?\\init.lua",
             "cpath": "${workspaceRoot}\\bin\\?.dll;",
-            "consoleCoding": "utf8",
             "program": "${workspaceRoot}\\make\\prebuild.lua",
             "sourceCoding": "utf8",
         },

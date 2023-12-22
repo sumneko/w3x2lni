@@ -61,7 +61,7 @@ local function to_type(tp, value, reforge)
     end
 end
 
-local function get_index_data(tp, l, n)
+local function get_index_data(tp, l, n, cantcut)
     local null
     for i = n, 1, -1 do
         local v = to_type(tp, l[i])
@@ -75,7 +75,7 @@ local function get_index_data(tp, l, n)
     if #l == 0 then
         return
     end
-    if tp == 3 then
+    if not cantcut and tp == 3 then
         for i = #l, 2, -1 do
             if l[i] == l[i-1] then
                 l[i] = nil
@@ -92,7 +92,7 @@ local function add_data(obj, meta, value, keyval)
     if meta.index then
         -- TODO: 有点奇怪的写法
         if meta.index == 1 then
-            local value = get_index_data(meta.type, {obj[meta.key..'_1'], obj[meta.key..'_2']}, 2)
+            local value = get_index_data(meta.type, {obj[meta.key..'_1'], obj[meta.key..'_2']}, 2, true)
             if not value then
                 if meta.cantempty and not meta.reforge then
                     value = ','
@@ -158,7 +158,7 @@ local function add_data(obj, meta, value, keyval)
         if #value == 0 then
             return
         end
-        value = get_index_data(meta.type, value, #value)
+        value = get_index_data(meta.type, value, #value, meta.cantcut)
     else
         value = to_type(meta.type, value, meta.reforge)
     end

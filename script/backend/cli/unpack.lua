@@ -147,7 +147,7 @@ end
 
 local function remove(path)
     if fs.is_directory(path) then
-        for c in path:list_directory() do
+        for c in fs.pairs(path) do
             remove(c)
         end
     end

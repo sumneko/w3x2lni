@@ -1,2 +1,8 @@
 [Misc]
 AgiAttackSpeedBonus=0.0123456789   //123
+
+[HERO]
+Name=两个英雄
+
+[FontHeights]
+ToolTipName=0.015

@@ -2,7 +2,7 @@ local fs = require 'bee.filesystem'
 local minizip = require 'minizip'
 
 local function for_directory(path, func, leaf)
-    for file in (leaf and (path / leaf) or path):list_directory() do
+    for file in fs.pairs(leaf and (path / leaf) or path) do
         local leaf = (leaf and (leaf / file:filename()) or file:filename())
         if fs.is_directory(file) then
             for_directory(path, func, leaf)

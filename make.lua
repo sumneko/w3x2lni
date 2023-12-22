@@ -1,33 +1,42 @@
 local lm = require 'luamake'
 
-lm.arch = 'x64'
+lm.arch = 'x86'
+lm.EXE  = 'lua'
+lm.c    = lm.compiler == 'msvc' and 'c89' or 'c11'
+lm.cxx  = 'c++17'
 
 lm:import '3rd/bee.lua/make.lua'
 
-lm.rootdir = 'c++/'
-
 lm:executable 'w3x2lni' {
+    rootdir = 'c++',
     sources = {
         'w3x2lni/main_gui.cpp',
         'w3x2lni/common.cpp',
     },
+    ldflags = '/largeaddressaware',
     crt = 'static'
 }
 
 lm:executable 'w2l' {
+    rootdir = 'c++',
     deps = 'lua54',
+    includes = {
+        "../3rd/bee.lua/3rd/lua"
+    },
     sources = {
         'w3x2lni/main_cli.cpp',
         'w3x2lni/common.cpp',
         'unicode.cpp',
     },
     links = "delayimp",
-    ldflags = '/DELAYLOAD:lua54.dll',
+    ldflags = {'/DELAYLOAD:lua54.dll','/largeaddressaware'},
     crt = 'static'
 }
 
-lm:shared_library 'yue-ext' {
+lm:lua_dll 'yue-ext' {
+    rootdir = 'c++',
     deps = 'lua54',
+    export_luaopen = "off",
     sources = {
         'yue-ext/main.cpp',
         'unicode.cpp',
@@ -39,9 +48,9 @@ lm:shared_library 'yue-ext' {
     }
 }
 
-lm.rootdir = '3rd/'
 
-lm:shared_library 'lml' {
+lm:lua_dll 'lml' {
+    rootdir = '3rd',
     deps = 'lua54',
     sources = {
         'lml/src/LmlParse.cpp',
@@ -49,7 +58,8 @@ lm:shared_library 'lml' {
     }
 }
 
-lm:shared_library 'w3xparser' {
+lm:lua_dll 'w3xparser' {
+    rootdir = '3rd',
     deps = 'lua54',
     sources = {
         'w3xparser/src/real.cpp',
@@ -57,42 +67,68 @@ lm:shared_library 'w3xparser' {
     }
 }
 
-lm:shared_library 'lpeglabel' {
+lm:lua_dll 'lpeglabel' {
+    rootdir = '3rd',
     deps = 'lua54',
     sources = 'lpeglabel/*.c',
-    undefs = "NDEBUG",
-    ldflags = '/EXPORT:luaopen_lpeglabel'
+    visibility = 'default',
 }
 
 lm:shared_library 'stormlib' {
+    rootdir = '3rd',
     sources = {
         'stormlib/src/*.cpp',
         'stormlib/src/*.c',
-        '!stormlib/src/adpcm/adpcm_old.cpp',
+        'stormlib/src/zlib/*.c',
         '!stormlib/src/zlib/compress.c',
-        '!stormlib/src/pklib/crc32.c',
-        '!stormlib/src/wdk/*',
+        'stormlib/src/jenkins/*.c',
+        'stormlib/src/sparse/*.cpp',
+        'stormlib/src/adpcm/*.cpp',
+        'stormlib/src/bzip2/*.c',
+        'stormlib/src/huffman/*.cpp',
+        'stormlib/src/pklib/*.c',
+        'stormlib/src/libtomcrypt/src/hashes/*.c',
+        'stormlib/src/libtomcrypt/src/misc/*.c',
+        'stormlib/src/libtomcrypt/src/math/*.c',
+        'stormlib/src/libtomcrypt/src/pk/rsa/*.c',
+        'stormlib/src/libtomcrypt/src/pk/ecc/*.c',
+        'stormlib/src/libtomcrypt/src/pk/asn1/*.c',
+        'stormlib/src/libtomcrypt/src/pk/pkcs1/*.c',
+        'stormlib/src/libtommath/*.c',
+        'stormlib/src/lzma/C/*.c',
+        --'!stormlib/src/zlib/compress.c',
+        --'!stormlib/src/pklib/crc32.c',
+        --'!stormlib/src/wdk/*',
     },
     defines = {
         '_UNICODE',
         'UNICODE'
     },
-    ldflags = '/DEF:3rd/stormlib/stormlib_dll/stormlib.def'
+    links = {
+        'user32',
+    },
+    ldflags = '/DEF:3rd/stormlib/src/DllMain.def',
 }
 
 lm:shared_library 'casclib' {
+    rootdir = '3rd',
     sources = {
         'casclib/src/*.cpp',
         'casclib/src/*.c',
+        'casclib/src/common/*.cpp',
+        'casclib/src/md5/*.cpp',
+        'casclib/src/jenkins/*.c',
+        'casclib/src/zlib/*.c',
     },
     defines = {
         '_UNICODE',
         'UNICODE'
     },
-    ldflags = '/DEF:3rd/casclib/src/CascLib.def'
+    ldflags = '/DEF:3rd/casclib/src/DllMain.def',
 }
 
-lm:shared_library 'lni' {
+lm:lua_dll 'lni' {
+    rootdir = '3rd',
     deps = 'lua54',
     sources = {
         'lni/src/main.cpp',
@@ -112,7 +148,8 @@ lm:phony {
     output = "3rd/ffi/src/call.c",
 }
 
-lm:shared_library 'ffi' {
+lm:lua_dll 'ffi' {
+    rootdir = '3rd',
     deps = {
         'lua54',
         'ffi_dynasm'
@@ -125,6 +162,7 @@ lm:shared_library 'ffi' {
 }
 
 lm:shared_library 'minizip' {
+    rootdir = '3rd',
     includes = {
         'zlib',
     },
@@ -149,6 +187,10 @@ lm:shared_library 'minizip' {
     }
 }
 
+--lm:msvc_copy_vcrt 'copy_vcrt' {
+--    output = 'bin',
+--}
+
 lm:build 'install' {
     '$luamake', 'lua', 'make/install.lua',
     deps = {
@@ -165,6 +207,7 @@ lm:build 'install' {
         'lni',
         'ffi',
         'minizip',
+        --'copy_vcrt',
     }
 }
 
