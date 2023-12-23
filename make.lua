@@ -1,6 +1,5 @@
 local lm = require 'luamake'
 
-lm.arch = 'x64'
 lm.EXE  = 'lua'
 lm.c    = lm.compiler == 'msvc' and 'c89' or 'c11'
 lm.cxx  = 'c++17'
@@ -137,14 +136,14 @@ lm:lua_dll 'lni' {
 
 lm:build 'ffi_dynasm' {
     '$luamake', 'lua', 'make/ffi_dynasm.lua',
-    output = "3rd/ffi/src/call_x86.h",
+    output = "3rd/ffi/src/call_x64.h",
     deps = {
         'lua',
     }
 }
 
 lm:phony {
-    input = "3rd/ffi/src/call_x86.h",
+    input = "3rd/ffi/src/call_x64.h",
     output = "3rd/ffi/src/call.c",
 }
 
