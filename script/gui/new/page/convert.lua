@@ -224,7 +224,7 @@ local function lni()
                 text = lang.ui.EXTRA_CHECK,
                 tip = lang.ui.EXTRA_CHECK_HINT,
                 bind = {
-                    value = 'config.slk.extra_check'
+                    value = 'config.lni.extra_check'
                 }
             }
         }
@@ -300,7 +300,10 @@ local function obj()
         font = { size = 18 },
         checkbox {
             text = lang.ui.READ_SLK,
-            tip = lang.ui.READ_SLK_HINT
+            tip = lang.ui.READ_SLK_HINT,
+            bind = {
+                value = 'config.obj.read_slk'
+            }
         },
         ui.tree {
             text = lang.ui.ADVANCED,
@@ -312,7 +315,7 @@ local function obj()
                 text = lang.ui.EXTRA_CHECK,
                 tip = lang.ui.EXTRA_CHECK_HINT,
                 bind = {
-                    value = 'config.slk.extra_check'
+                    value = 'config.obj.extra_check'
                 }
             }
         }
