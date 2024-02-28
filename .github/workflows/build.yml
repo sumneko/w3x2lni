@@ -4,16 +4,15 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
       with:
-        ref: refs/heads/master
         submodules : recursive
     - uses: actboy168/setup-luamake@master
       with:
         arch: x86
     - run: luamake
     - run: ./bin/w3x2lni-lua.exe make/make.lua ci
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: w3x2lni
         path: |
