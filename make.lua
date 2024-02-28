@@ -136,7 +136,7 @@ lm:lua_dll 'lni' {
 }
 
 lm:build 'ffi_dynasm' {
-    '$luamake', 'lua', 'make/ffi_dynasm.lua',
+    args = { '$luamake', 'lua', 'make/ffi_dynasm.lua' },
     outputs = "3rd/ffi/src/call_x86.h",
     deps = {
         'lua',
