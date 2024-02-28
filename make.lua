@@ -137,15 +137,15 @@ lm:lua_dll 'lni' {
 
 lm:build 'ffi_dynasm' {
     '$luamake', 'lua', 'make/ffi_dynasm.lua',
-    output = "3rd/ffi/src/call_x86.h",
+    outputs = "3rd/ffi/src/call_x86.h",
     deps = {
         'lua',
     }
 }
 
 lm:phony {
-    input = "3rd/ffi/src/call_x86.h",
-    output = "3rd/ffi/src/call.c",
+    inputs = "3rd/ffi/src/call_x86.h",
+    outputs = "3rd/ffi/src/call.c",
 }
 
 lm:lua_dll 'ffi' {
@@ -187,12 +187,13 @@ lm:shared_library 'minizip' {
     }
 }
 
---lm:msvc_copy_vcrt 'copy_vcrt' {
---    output = 'bin',
---}
+lm:msvc_copydll 'copy_vcrt' {
+    type = 'vcrt',
+    output = 'bin',
+}
 
 lm:build 'install' {
-    '$luamake', 'lua', 'make/install.lua',
+    args = { '$luamake', 'lua', 'make/install.lua' },
     deps = {
         'w3x2lni',
         'w2l',
@@ -207,7 +208,7 @@ lm:build 'install' {
         'lni',
         'ffi',
         'minizip',
-        --'copy_vcrt',
+        'copy_vcrt',
     }
 }
 
