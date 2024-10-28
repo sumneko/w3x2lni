@@ -94,6 +94,9 @@ local function read_version()
 end
 
 local function read_chunk(chunk, type)
+    if unpack_pos > #unpack_buf then
+        return
+    end
     local count = unpack 'l'
     for i = 1, count do
         local obj = read_obj(chunk, type)
