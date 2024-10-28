@@ -1,5 +1,7 @@
 local lm = require 'luamake'
 
+lm.lua_source = lm.lua_src
+
 lm.arch = 'x86'
 lm.EXE  = 'lua'
 lm.c    = lm.compiler == 'msvc' and 'c89' or 'c11'
