@@ -540,7 +540,7 @@ return function (ast, _state, _report, _messager)
     report = _report
     state = _state
     messager = _messager
-    
+
     add_globals()
     add_functions()
 

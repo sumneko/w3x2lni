@@ -100,9 +100,14 @@ local function mark_locals(locals)
             mark_exp(loc[1])
             if has_call then
                 loc.used = true
-                if confuse1 then
-                    loc.confused = confuse1(loc.name)
-                end
+            end
+        end
+        if loc.exploited then
+            loc.used = true
+        end
+        if loc.used then
+            if confuse1 then
+                loc.confused = confuse1(loc.name)
             end
         end
     end

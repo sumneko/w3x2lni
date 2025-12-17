@@ -898,6 +898,7 @@ function parser.LocalDef(type, array, name)
     local gvar = state.exploit[name] or state.globals[name]
     if gvar then
         state.exploit[name] = loc
+        loc.exploited = true
         local reDef = {}
         if gvar.type ~= type then
             reDef[#reDef+1] = lang.parser.WARNING_REDEFINED_TO:format(type)
@@ -1008,7 +1009,7 @@ function parser.ReturnExp(exp)
         local t1 = func.vtype
         local t2 = exp.vtype
         if t1 ~= 'nothing' then
-            if t1 == 'real' and t2 == 'integer' then
+            if t1 == 'real' and t2 == 'integer' and exp.value ~= 0 then
                 parserWarning(lang.parser.ERROR_RETURN_INTEGER_AS_REAL:format(func.name, t1, t2) .. exploitText)
             elseif not isExtends(t2, t1) then
                 parserRB(lang.parser.ERROR_RETURN_TYPE:format(func.name, t1, t2) .. exploitText)

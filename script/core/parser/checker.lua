@@ -246,10 +246,6 @@ local static = {
     RETURN = {
         type = 'return',
     },
-    INTEGER = {
-        type = 'integer',
-        vtype = 'integer',
-    },
     REAL = {
         type = 'real',
         vtype = 'real',
@@ -261,15 +257,23 @@ local static = {
 }
 
 local function Integer(neg, int, str, base)
+    if neg ~= '' then
+        int = - int
+    end
     if not int or int > 0x7fffffff or int < -0x80000000 then
         -- 认为只有10进制数字才会犯整数边界的错误
         if base == 10 then
-            int = 0
-            parserWarning(lang.parser.WARNING_INTEGER_OVERFLOW:format(str))
+            if neg == '' then
+                int = 0x7fffffff
+            else
+                int = -0x80000000
+            end
+            parserWarning(lang.parser.WARNING_INTEGER_OVERFLOW:format(str, int))
         end
     end
-    return static.INTEGER
+    return Integers[int]
 end
+
 
 local function getOp(t1, t2)
     if (t1 == 'integer' or t1 == 'real') and (t2 == 'integer' or t2 == 'real') then
@@ -672,10 +676,16 @@ function parser.Integer16(neg, str)
 end
 
 function parser.Integer256(neg, str)
-    if #str == 4 then
+    local int
+    if #str == 1 then
+        int = stringByte(str)
+    elseif #str == 4 then
         if str:find('\\', 1, true) then
             parserError(lang.parser.ERROR_INT256_ESC)
         end
+        int = stringUnpack('>I4', str)
+    else
+        int = 0
     end
     return Integer(neg, 0, str, 256)
 end
@@ -979,7 +989,7 @@ function parser.ReturnExp(exp)
         local t1 = func.vtype
         local t2 = exp.vtype
         if t1 ~= 'nothing' then
-            if t1 == 'real' and t2 == 'integer' then
+            if t1 == 'real' and t2 == 'integer' and exp.value ~= 0 then
                 parserWarning(lang.parser.ERROR_RETURN_INTEGER_AS_REAL:format(func.name, t1, t2) .. exploitText)
             elseif not isExtends(t2, t1) then
                 parserRB(lang.parser.ERROR_RETURN_TYPE:format(func.name, t1, t2) .. exploitText)
