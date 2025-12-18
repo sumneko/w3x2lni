@@ -14,6 +14,12 @@ local function insert_line(str)
     lines[#lines+1] = str
 end
 
+local function add_types()
+    for _, obj in ipairs(jass.types) do
+        insert_line(([[type %s extends %s]]):format(obj.name, obj.extends))
+    end
+end
+
 local function get_integer(exp)
     local int = exp.value
     if int >= 1000000 then
@@ -541,6 +547,7 @@ return function (ast, _state, _report, _messager)
     state = _state
     messager = _messager
 
+    add_types()
     add_globals()
     add_functions()
 
