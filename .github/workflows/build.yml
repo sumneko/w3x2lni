@@ -25,3 +25,33 @@ jobs:
           README.md
           w2l.exe
           w3x2lni.exe
+
+    - name: Set version from tag
+      if: startsWith(github.ref, 'refs/tags/')
+      id: version
+      shell: pwsh
+      run: |
+        $ErrorActionPreference = 'Stop'
+        $version = $env:GITHUB_REF_NAME
+        echo "version=$version" >> $env:GITHUB_OUTPUT
+        echo "VERSION=$version" >> $env:GITHUB_ENV
+
+    - name: Create release zip
+      if: startsWith(github.ref, 'refs/tags/')
+      shell: pwsh
+      run: |
+        $ErrorActionPreference = 'Stop'
+        $paths = @('bin','data','script','template','config.ini','LICENSE.txt','README.md','w2l.exe','w3x2lni.exe')
+        $dest = "w3x2lni-$env:VERSION.zip"
+        if (Test-Path $dest) { Remove-Item $dest -Force }
+        Compress-Archive -Path $paths -DestinationPath $dest -Force
+
+    - name: Publish release assets
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        tag_name: ${{ steps.version.outputs.version }}
+        name: ${{ steps.version.outputs.version }}
+        generate_release_notes: true
+        files: |
+          w3x2lni-${{ steps.version.outputs.version }}.zip
